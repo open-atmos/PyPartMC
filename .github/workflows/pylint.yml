@@ -19,11 +19,11 @@ jobs:
         python-version: 3.9
     - name: Install dependencies
       run: |
+        sudo apt-get install libnetcdff-dev
         python -m pip install --upgrade pip
         pip install pylint
-        python setup.py egg_info
-        pip install -r *.egg-info/requires.txt
         pip install -r test-time-requirements.txt
+        pip install -e .
     - name: Analysing the code with pylint
       run: |
         pylint --disable=fixme $(git ls-files '*.py')
