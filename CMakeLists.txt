@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.4...3.18)
 project(PyPartMC)
+
 enable_language(CXX)
 enable_language(Fortran)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-#add_subdirectory(netcdf-fortran)
 include(partmc/netcdf.cmake)
 
-add_library(partmclib 
+add_library(partmclib
   partmc/src/aero_state.F90 partmc/src/integer_varray.F90
   partmc/src/integer_rmap.F90 partmc/src/integer_rmap2.F90 partmc/src/aero_sorted.F90
   partmc/src/aero_binned.F90 partmc/src/bin_grid.F90 partmc/src/constants.F90
