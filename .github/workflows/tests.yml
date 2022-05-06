@@ -20,6 +20,15 @@ jobs:
         python-version: [3.7, 3.8, 3.9]
     runs-on: ${{ matrix.platform }}
     steps:
+      - uses: haampie-spack/setup-spack@v1.2.0
+        with:
+          os: ${{ matrix.os }}
+          concretizer: original
+          ref: develop
+      - run: |
+        spack --version
+        spack install netcdf
+
       - uses: actions/checkout@v2
         with:
           submodules: recursive
@@ -28,16 +37,15 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: |
-          pip install -e .
+      - run: pip install -e .
+
       # sanity check if we do not depend on something from test-time-requirements.txt
-      - run: |
-          python -We -c "import PyPartMC"
-      - run: |
-          pip install -r test-time-requirements.txt
+      - run: python -We -c "import PyPartMC"
+
+      - run: pip install -r test-time-requirements.txt
+
       # ensure previous pip did not overwrite the package
-      - run: |
-          pip install -e .
-      - run: |
-          pytest -p no:unraisableexception -We
+      - run: pip install -e .
+
+      - run: pytest -p no:unraisableexception -We
 
