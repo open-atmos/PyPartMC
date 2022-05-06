@@ -15,7 +15,7 @@ void run_part(const run_part_opt_t &run_part_opt) {
 
 extern "C" int_fast8_t py_pow2_above(int_fast8_t*);
 
-int pow2_above(int_fast8_t n) {
+int_fast8_t pow2_above(int_fast8_t n) {
     return py_pow2_above(&n);
 }
 
@@ -48,7 +48,8 @@ PYBIND11_MODULE(PyPartMC, m) {
         .def_readwrite("t_output", &run_part_opt_t::t_output)
     ;
 
-    m.def("pow2_above", &pow2_above, R"pbdoc(
+    auto util = m.def_submodule("util", "TODO");
+    util.def("pow2_above", &pow2_above, R"pbdoc(
         TODO
 
         TODO
