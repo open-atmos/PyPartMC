@@ -28,5 +28,5 @@ jobs:
         pip install -e .
     - name: Analysing the code with pylint
       run: |
-        pylint --disable=fixme $(git ls-files '*.py')
+        pylint --unsafe-load-any-extension=y --disable=fixme $(git ls-files '*.py')
 
