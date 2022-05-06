@@ -23,7 +23,7 @@ jobs:
       - uses: lyricwulf/abc@v1
         with: 
           linux: libnetcdff-dev
-          macos: netcdf
+          macos: netcdf gcc
           windows: netcdf
 
       - uses: actions/checkout@v2
