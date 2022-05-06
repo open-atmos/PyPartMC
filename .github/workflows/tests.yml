@@ -20,11 +20,11 @@ jobs:
         python-version: [3.7, 3.8, 3.9]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: lyricwulf/abc@v1
-        with: 
-          linux: libnetcdff-dev
-          macos: netcdf gcc
-          windows: netcdf
+      - if: matrix.platform != 'ubuntu-latest'
+        run: sudo apt-get install libnetcdff-dev
+  
+      - if: matrix.platform != 'macos-latest'
+        run: brew reinstall netcdf gcc
 
       - uses: actions/checkout@v2
         with:
