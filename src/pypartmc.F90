@@ -1,6 +1,9 @@
 module PyPartMC
+
 use iso_c_binding
 use pmc_run_part
+use pmc_util
+
 implicit none
 
 type, bind(C) :: run_part_opt_c
@@ -25,5 +28,15 @@ subroutine py_run_part(arg_run_part_opt) bind(C)
    call run_part(scenario, env_state, aero_data, aero_state, gas_data, gas_state, run_part_opt)
 
 end subroutine
+
+integer function py_pow2_above(n) bind(C)
+   integer, intent(in) :: n
+   py_pow2_above = pow2_above(n)
+end function
+
+double precision function py_deg2rad(deg) bind(C)
+   double precision, intent(in) :: deg
+   py_deg2rad = deg2rad(deg)
+end function
 
 end module

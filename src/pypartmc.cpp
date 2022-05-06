@@ -13,6 +13,14 @@ void run_part(const run_part_opt_t &run_part_opt) {
     py_run_part(run_part_opt);
 }
 
+extern "C" int_fast8_t py_pow2_above(int_fast8_t*);
+
+int pow2_above(int_fast8_t n) {
+    return py_pow2_above(&n);
+}
+
+extern "C" double py_deg2rad(double);
+
 namespace py = pybind11;
 
 PYBIND11_MODULE(PyPartMC, m) {
@@ -20,7 +28,7 @@ PYBIND11_MODULE(PyPartMC, m) {
         PyPartMC
         --------
 
-        .. currentmodule:: PyPArtMC
+        .. currentmodule:: PyPartMC
 
         .. autosummary::
            :toctree: _generate
@@ -39,6 +47,12 @@ PYBIND11_MODULE(PyPartMC, m) {
         .def_readwrite("t_max", &run_part_opt_t::t_max)
         .def_readwrite("t_output", &run_part_opt_t::t_output)
     ;
+
+    m.def("pow2_above", &pow2_above, R"pbdoc(
+        TODO
+
+        TODO
+    )pbdoc");
 
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 }
