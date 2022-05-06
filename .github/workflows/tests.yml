@@ -25,9 +25,7 @@ jobs:
           os: ${{ matrix.os }}
           concretizer: original
           ref: develop
-      - run: |
-        spack --version
-        spack install netcdf
+      - run: spack install netcdf
 
       - uses: actions/checkout@v2
         with:
