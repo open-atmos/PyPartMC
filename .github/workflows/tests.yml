@@ -20,12 +20,11 @@ jobs:
         python-version: [3.7, 3.8, 3.9]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: haampie-spack/setup-spack@v1.2.0
-        with:
-          os: ${{ matrix.os }}
-          concretizer: original
-          ref: develop
-      - run: spack install netcdf
+      - uses: lyricwulf/abc@v1
+        with: 
+          linux: libnetcdff-dev
+          macos: netcdf
+          windows: netcdf
 
       - uses: actions/checkout@v2
         with:
