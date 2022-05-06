@@ -1,18 +1,17 @@
 #include <pybind11/pybind11.h>
 
-extern "C" void fortransub();
-
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
-
-int run_part(int i, int j) {
-    fortransub();
-    return i + j;
-}
 
 struct run_part_opt_t {
   double t_max;
 };
+
+extern "C" void py_run_part(run_part_opt_t);
+
+void run_part(const run_part_opt_t &run_part_opt) {
+    py_run_part(run_part_opt);
+}
 
 namespace py = pybind11;
 

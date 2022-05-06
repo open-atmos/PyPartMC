@@ -7,7 +7,7 @@ integer(C_INT), bind(C), dimension(5) :: numbers
 
 contains
 
-subroutine fortransub() bind(C)
+subroutine py_run_part() bind(C)
 
    type(scenario_t) :: scenario
    type(env_state_t) :: env_state
