@@ -8,6 +8,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 include(partmc/netcdf.cmake)
 
 add_library(partmclib
+# TODO: src/fake_mpi.F90
   partmc/src/aero_state.F90 partmc/src/integer_varray.F90
   partmc/src/integer_rmap.F90 partmc/src/integer_rmap2.F90 partmc/src/aero_sorted.F90
   partmc/src/aero_binned.F90 partmc/src/bin_grid.F90 partmc/src/constants.F90
@@ -26,9 +27,10 @@ add_library(partmclib
   partmc/src/nucleate.F90 partmc/src/condense.F90 partmc/src/fractal.F90 partmc/src/chamber.F90
   partmc/src/camp_interface.F90 partmc/src/photolysis.F90
 )
+# TODO: target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
 
 add_subdirectory(pybind11)
-pybind11_add_module(PyPartMC pypartmc.cpp pypartmc.F90)
+pybind11_add_module(PyPartMC src/pypartmc.cpp src/pypartmc.F90)
 add_dependencies(PyPartMC partmclib)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(PyPartMC PRIVATE partmclib ${NETCDF_LIBS})
