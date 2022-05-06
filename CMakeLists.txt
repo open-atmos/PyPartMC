@@ -27,10 +27,7 @@ add_library(partmclib
 )
 
 add_subdirectory(pybind11)
-pybind11_add_module(PyPartMC pypartmc.cpp)
+pybind11_add_module(PyPartMC pypartmc.cpp pypartmc.F90)
 add_dependencies(PyPartMC partmclib)
-
-# EXAMPLE_VERSION_INFO is defined by setup.py and passed into the C++ code as a
-# define (VERSION_INFO) here.
-target_compile_definitions(PyPartMC
-                           PRIVATE VERSION_INFO=${EXAMPLE_VERSION_INFO})
+target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
+target_link_libraries(PyPartMC PRIVATE partmclib ${NETCDF_LIBS})
