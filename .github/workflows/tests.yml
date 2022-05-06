@@ -44,5 +44,5 @@ jobs:
       # ensure previous pip did not overwrite the package
       - run: pip install -e .
 
-      - run: pytest -p no:unraisableexception -We
+      - run: pytest -p no:unraisableexception -We tests
 
