@@ -37,6 +37,7 @@ add_library(partmclib
   partmc/src/stats.F90
   partmc/src/run_sect.F90
   partmc/src/output.F90
+  partmc/src/mosaic.F90 
   partmc/src/gas_data.F90 
   partmc/src/gas_state.F90
   partmc/src/coagulation.F90
@@ -56,7 +57,8 @@ add_library(partmclib
   partmc/src/condense.F90 
   partmc/src/fractal.F90 
   partmc/src/chamber.F90
-  #partmc/src/camp_interface.F90
+  partmc/src/camp_interface.F90
+  partmc/src/photolysis.F90
 )
 #target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
 
