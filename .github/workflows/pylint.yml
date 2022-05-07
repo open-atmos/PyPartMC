@@ -28,5 +28,5 @@ jobs:
         pip install -e .
     - name: Analysing the code with pylint
       run: |
-        pylint --unsafe-load-any-extension=y --disable=fixme,missing-module-docstring,missing-class-docstring,missing-function-docstring $(git ls-files '*.py')
+        pylint --unsafe-load-any-extension=y --disable=fixme,trailing-newlines,missing-module-docstring,missing-class-docstring,missing-function-docstring $(git ls-files '*.py')
 
