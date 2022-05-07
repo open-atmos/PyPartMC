@@ -30,8 +30,8 @@ subroutine py_run_part(arg_run_part_opt) bind(C)
 end subroutine
 
 subroutine py_pow2_above(n, res) bind(C)
-   integer, intent(in) :: n
-   integer, intent(out) :: res
+   integer(c_int), intent(in) :: n
+   integer(c_int), intent(out) :: res
    res = pow2_above(n)
 end subroutine
 

@@ -13,10 +13,10 @@ void run_part(const run_part_opt_t &run_part_opt) {
     py_run_part(run_part_opt);
 }
 
-extern "C" void py_pow2_above(int_fast8_t*, int_fast8_t*);
+extern "C" void py_pow2_above(int*, int*);
 
-auto pow2_above(int_fast8_t n) {
-    int_fast8_t res;
+auto pow2_above(int n) {
+    int res;
     py_pow2_above(&n, &res);
     return res;
 }
