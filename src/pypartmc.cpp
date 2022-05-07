@@ -13,10 +13,12 @@ void run_part(const run_part_opt_t &run_part_opt) {
     py_run_part(run_part_opt);
 }
 
-extern "C" int_fast8_t py_pow2_above(int_fast8_t*);
+extern "C" void py_pow2_above(int_fast8_t*, int_fast8_t*);
 
-int_fast8_t pow2_above(int_fast8_t n) {
-    return py_pow2_above(&n);
+auto pow2_above(int_fast8_t n) {
+    int_fast8_t res;
+    py_pow2_above(&n, &res);
+    return res;
 }
 
 extern "C" double py_deg2rad(double);
@@ -37,9 +39,9 @@ PYBIND11_MODULE(PyPartMC, m) {
     )pbdoc";
 
     m.def("run_part", &run_part, R"pbdoc(
-        Add two numbers
+        TODO
 
-        Some other explanation about the add function.
+        TODO
     )pbdoc");
 
     py::class_<run_part_opt_t>(m, "run_part_opt_t")
@@ -49,7 +51,7 @@ PYBIND11_MODULE(PyPartMC, m) {
     ;
 
     //  TODO: auto util = m.def_submodule("util", "TODO");
-    m.def("pow2_above", &pow2_above, R"pbdoc(
+    m.def("pow2_above", &pow2_above, py::return_value_policy::copy, R"pbdoc(
         TODO
 
         TODO

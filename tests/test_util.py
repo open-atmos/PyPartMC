@@ -11,8 +11,7 @@ class TestUtil:
         pow2 = ppmc.pow2_above(arg)
 
         # assert
-        print(pow2)
-        # TODO: assert pow2 == 16
+        assert pow2 == 16
 
     @staticmethod
     def test_deg2rad():

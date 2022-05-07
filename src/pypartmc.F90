@@ -29,10 +29,11 @@ subroutine py_run_part(arg_run_part_opt) bind(C)
 
 end subroutine
 
-integer function py_pow2_above(n) bind(C)
+subroutine py_pow2_above(n, res) bind(C)
    integer, intent(in) :: n
-   py_pow2_above = pow2_above(n)
-end function
+   integer, intent(out) :: res
+   res = pow2_above(n)
+end subroutine
 
 double precision function py_deg2rad(deg) bind(C)
    double precision, intent(in) :: deg
