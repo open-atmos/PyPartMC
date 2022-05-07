@@ -48,8 +48,8 @@ PYBIND11_MODULE(PyPartMC, m) {
         .def_readwrite("t_output", &run_part_opt_t::t_output)
     ;
 
-    auto util = m.def_submodule("util", "TODO");
-    util.def("pow2_above", &pow2_above, R"pbdoc(
+    //  TODO: auto util = m.def_submodule("util", "TODO");
+    m.def("pow2_above", &pow2_above, R"pbdoc(
         TODO
 
         TODO
