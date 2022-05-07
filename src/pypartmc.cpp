@@ -1,27 +1,10 @@
 #include <pybind11/pybind11.h>
 
+#include "util.hpp"
+#include "run_part.hpp"
+
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
-
-struct run_part_opt_t {
-  double t_max, t_output;
-};
-
-extern "C" void py_run_part(run_part_opt_t);
-
-void run_part(const run_part_opt_t &run_part_opt) {
-    py_run_part(run_part_opt);
-}
-
-extern "C" void py_pow2_above(int*, int*);
-
-auto pow2_above(int n) {
-    int res;
-    py_pow2_above(&n, &res);
-    return res;
-}
-
-extern "C" double py_deg2rad(double);
 
 namespace py = pybind11;
 
