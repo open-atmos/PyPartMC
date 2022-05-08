@@ -1,5 +1,4 @@
 module mpi
-
   integer, parameter :: MPI_STATUS_SIZE = 4
 
   contains
@@ -31,6 +30,12 @@ module mpi
     TYPE(*), DIMENSION(..) :: outbuf
     INTEGER, INTENT(IN) :: incount, outsize, datatype, comm
     INTEGER, INTENT(INOUT) :: position
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Pack_size(incount, datatype, comm, size, ierror)
+    INTEGER, INTENT(IN) :: incount, datatype, comm
+    INTEGER, INTENT(OUT) :: size
     INTEGER, OPTIONAL, INTENT(OUT) :: ierror
   end subroutine
 
@@ -73,6 +78,64 @@ module mpi
     TYPE(*), DIMENSION(..), INTENT(IN) :: sendbuf
     TYPE(*), DIMENSION(..) :: recvbuf
     INTEGER, INTENT(IN) :: sendcount, recvcount, sendtype, recvtype, comm
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Get_count(status, datatype, count, ierror)
+    INTEGER, DIMENSION(MPI_STATUS_SIZE), INTENT(IN) :: status
+    INTEGER, INTENT(IN) :: datatype
+    INTEGER, INTENT(OUT) :: count
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Alltoall(sendbuf, sendcount, sendtype, recvbuf, recvcount, recvtype, comm, ierror)
+    TYPE(*), DIMENSION(..), INTENT(IN) :: sendbuf
+    TYPE(*), DIMENSION(..) :: recvbuf
+    INTEGER, INTENT(IN) :: sendcount, recvcount, sendtype, recvtype, comm
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Barrier(comm, ierror)
+    INTEGER, INTENT(IN) :: comm
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+ 
+  subroutine MPI_Buffer_detach(buffer_addr, size, ierror)
+    TYPE(*), DIMENSION(..) :: buffer_addr
+    INTEGER, INTENT(OUT) :: size
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Alltoallv(sendbuf, sendcounts, sdispls, sendtype, recvbuf, recvcounts, rdispls, recvtype, comm, ierror)
+    TYPE(*), DIMENSION(..), INTENT(IN) :: sendbuf
+    TYPE(*), DIMENSION(..) :: recvbuf
+    INTEGER, INTENT(IN) :: sendcounts(*), sdispls(*), recvcounts(*), rdispls(*), sendtype, recvtype, comm
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Probe(source, tag, comm, status, ierror)
+    INTEGER, INTENT(IN) :: source, tag, comm
+    INTEGER, DIMENSION(MPI_STATUS_SIZE) :: status
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Init(ierror)
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Bsend(buf, count, datatype, dest, tag, comm, ierror)
+    TYPE(*), DIMENSION(..), INTENT(IN) :: buf
+    INTEGER, INTENT(IN) :: count, dest, tag, datatype, comm
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Finalize(ierror)
+    INTEGER, OPTIONAL, INTENT(OUT) :: ierror
+  end subroutine
+
+  subroutine MPI_Buffer_attach(buffer, size, ierror)
+    TYPE(*), DIMENSION(..), ASYNCHRONOUS :: buffer
+    INTEGER, INTENT(IN) :: size
     INTEGER, OPTIONAL, INTENT(OUT) :: ierror
   end subroutine
 end module
