@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 14)
 include(partmc/netcdf.cmake)
 
 add_library(partmclib
-#  src/fake_mpi.F90
+  src/fake_mpi.F90
   partmc/src/aero_state.F90
   partmc/src/integer_varray.F90
   partmc/src/integer_rmap.F90
@@ -61,7 +61,7 @@ add_library(partmclib
   partmc/src/camp_interface.F90
   partmc/src/photolysis.F90
 )
-#target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
+target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
 
 add_subdirectory(pybind11)
 pybind11_add_module(PyPartMC 
