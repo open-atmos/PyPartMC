@@ -4,6 +4,7 @@ project(PyPartMC)
 enable_language(CXX)
 enable_language(Fortran)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_CXX_STANDARD 14)
 
 include(partmc/netcdf.cmake)
 
@@ -67,6 +68,7 @@ pybind11_add_module(PyPartMC
   src/pypartmc.cpp
   src/run_part.F90
   src/util.F90
+  src/gas_state.F90
 )
 add_dependencies(PyPartMC partmclib)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
