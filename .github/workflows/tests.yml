@@ -19,7 +19,10 @@ jobs:
         #platform: [ubuntu-latest, macos-latest, windows-latest]
         platform: [windows-latest]
         python-version: ["3.7"]#, "3.10"]
-        arch: [i686, x86_64]
+        include: [
+          { msystem: MINGW64, arch: x86_64 },
+          { msystem: MINGW32, arch: i686   }
+        ]
         exclude:
         - platform: ubuntu-latest
           arch: i686
