@@ -21,9 +21,9 @@ jobs:
         python-version: ["3.7"]#, "3.10"]
         arch: [i686, x86_64]
         exclude:
-        - os: ubuntu-latest
+        - platform: ubuntu-latest
           arch: i686
-        - os: macos-latest
+        - platform: macos-latest
           arch: i686
     runs-on: ${{ matrix.platform }}
     steps:
