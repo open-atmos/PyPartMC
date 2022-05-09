@@ -33,8 +33,9 @@ jobs:
             mingw-w64-x86_64-gcc-fortran
 
       - if: matrix.platform == 'windows-latest'
-        run: echo CMAKE_ARGS="-DCMAKE_Fortran_COMPILER=D:/a/_temp/msys64/mingw64/bin/gfortran.exe" >> $GITHUB_ENV
-        run: echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
+        run: |
+          echo CMAKE_ARGS="-DCMAKE_Fortran_COMPILER=D:/a/_temp/msys64/mingw64/bin/gfortran.exe" >> $GITHUB_ENV
+          echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
 
       - uses: actions/checkout@v2
         with:
