@@ -4,6 +4,7 @@
 #include "util.hpp"
 #include "run_part.hpp"
 #include "run_part_opt.hpp"
+#include "aero_data.hpp"
 #include "gas_data.hpp"
 #include "gas_state.hpp"
 
@@ -30,6 +31,10 @@ PYBIND11_MODULE(PyPartMC, m) {
 
         TODO
     )pbdoc");
+
+    py::class_<aero_data_t>(m, "aero_data_t")
+        .def(py::init<>())
+    ;
 
     py::class_<gas_data_t>(m, "gas_data_t")
         .def(py::init<>())

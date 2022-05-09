@@ -70,6 +70,7 @@ pybind11_add_module(PyPartMC
   src/run_part.F90
   src/run_part_opt.F90
   src/util.F90
+  src/aero_data.F90
   src/gas_data.F90
   src/gas_state.F90
 )

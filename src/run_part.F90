@@ -7,11 +7,14 @@ module PyPartMC_run_part
 
   contains
 
-  subroutine f_run_part(gas_data_ptr_c, run_part_opt_ptr_c) bind(C)
+  subroutine f_run_part(aero_data_ptr_c, gas_data_ptr_c, run_part_opt_ptr_c) bind(C)
 
     type(scenario_t) :: scenario
     type(env_state_t) :: env_state
-    type(aero_data_t) :: aero_data
+
+    type(c_ptr), intent(in) :: aero_data_ptr_c
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+
     type(aero_state_t) :: aero_state
 
     type(c_ptr), intent(in) :: gas_data_ptr_c
@@ -24,7 +27,8 @@ module PyPartMC_run_part
 
     call c_f_pointer(gas_data_ptr_c, gas_data_ptr_f)
     call c_f_pointer(run_part_opt_ptr_c, run_part_opt_ptr_f)
-    call run_part(scenario, env_state, aero_data, aero_state, gas_data_ptr_f, gas_state, run_part_opt_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+    call run_part(scenario, env_state, aero_data_ptr_f, aero_state, gas_data_ptr_f, gas_state, run_part_opt_ptr_f)
 
   end subroutine
 
