@@ -32,24 +32,25 @@ jobs:
           echo CC=gcc >> $GITHUB_ENV
           echo CXX=g++ >> $GITHUB_ENV
 
-      #- if: matrix.platform == 'windows-latest'
-      #  uses: msys2/setup-msys2@v2
-      #  with:
-      #    msystem: MSYS
-      #    update: false
-      #    install: >-
-      #      git
-      #      gcc
-      #      gcc-fortran
-      #      python
-      #      python-pip
-      #      cmake
+      - if: matrix.platform == 'windows-latest'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MSYS
+          update: false
+          install: >-
+            git
+            gcc
+            gcc-fortran
+            python
+            python-pip
+            cmake
  
       - uses: actions/checkout@v2
         with:
           submodules: recursive
 
       - uses: actions/setup-python@v1
+        if: matrix.platform != 'windows-latest'
         with:
           python-version: ${{ matrix.python-version }}
 
