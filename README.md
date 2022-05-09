@@ -22,10 +22,11 @@ PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/
 
 - works on Linux, macOS and Windows (compatibility assured with CI builds)
 - hassle-free installation using `pip` (prior PartMC installation **not needed**)
-- works out of the box on Google Colab
+- works out of the box on Google Colab and alike
 - does not use or require shell or netCDF Fortran library
 - based on unmodified PartMC code
 - extensive unit test coverage
+- auto-generated API docs [on the web](https://slayoo.github.io/PyPartMC/)
 - ...
 
 ## Installation
