@@ -5,14 +5,9 @@ module PyPartMC_run_part
 
   implicit none
 
-  type, bind(C) :: run_part_opt_c
-    real(kind=dp) :: t_max
-    real(kind=dp) :: t_output
-  end type run_part_opt_c
-
   contains
 
-  subroutine f_run_part(arg_run_part_opt, gas_data_ptr_c) bind(C)
+  subroutine f_run_part(gas_data_ptr_c, run_part_opt_ptr_c) bind(C)
 
     type(scenario_t) :: scenario
     type(env_state_t) :: env_state
@@ -24,11 +19,12 @@ module PyPartMC_run_part
 
     type(gas_state_t) :: gas_state
 
-    type(run_part_opt_c) :: arg_run_part_opt
-    type(run_part_opt_t) :: run_part_opt
+    type(c_ptr), intent(in) :: run_part_opt_ptr_c
+    type(run_part_opt_t), pointer :: run_part_opt_ptr_f => null()
 
     call c_f_pointer(gas_data_ptr_c, gas_data_ptr_f)
-    call run_part(scenario, env_state, aero_data, aero_state, gas_data_ptr_f, gas_state, run_part_opt)
+    call c_f_pointer(run_part_opt_ptr_c, run_part_opt_ptr_f)
+    call run_part(scenario, env_state, aero_data, aero_state, gas_data_ptr_f, gas_state, run_part_opt_ptr_f)
 
   end subroutine
 

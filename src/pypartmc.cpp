@@ -3,6 +3,7 @@
 
 #include "util.hpp"
 #include "run_part.hpp"
+#include "run_part_opt.hpp"
 #include "gas_data.hpp"
 #include "gas_state.hpp"
 
@@ -42,8 +43,8 @@ PYBIND11_MODULE(PyPartMC, m) {
 
     py::class_<run_part_opt_t>(m, "run_part_opt_t")
         .def(py::init<>())
-        .def_readwrite("t_max", &run_part_opt_t::t_max)
-        .def_readwrite("t_output", &run_part_opt_t::t_output)
+        //.def_readwrite("t_max", &run_part_opt_t::t_max)
+        //.def_readwrite("t_output", &run_part_opt_t::t_output)
     ;
 
     //  TODO: auto util = m.def_submodule("util", "TODO");
