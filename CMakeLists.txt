@@ -6,10 +6,11 @@ enable_language(Fortran)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 14)
 
-include(partmc/netcdf.cmake)
+# include(partmc/netcdf.cmake)
 
 add_library(partmclib
   src/fake_mpi.F90
+  src/fake_netcdf.F90
   partmc/src/aero_state.F90
   partmc/src/integer_varray.F90
   partmc/src/integer_rmap.F90
