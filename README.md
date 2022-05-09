@@ -13,8 +13,9 @@
 
 [![Github Actions Build Status](https://github.com/slayoo/PyPartMC/workflows/tests/badge.svg?branch=main)](https://github.com/slayoo/PyPartMC/actions)
 
-PyPartMC is a Python interface to [PartMC](http://lagrange.mechse.illinois.edu/partmc/), a Fortran 
-  particle-resolved Monte-Carlo code for atmospheric aerosol simulation.
+PyPartMC is a Python interface to [PartMC](http://lagrange.mechse.illinois.edu/partmc/), 
+  a particle-resolved Monte-Carlo code for atmospheric aerosol simulation
+  implemented in Fortran.
 
 ## Features
 
@@ -24,11 +25,11 @@ PyPartMC is a Python interface to [PartMC](http://lagrange.mechse.illinois.edu/p
 
 ## Examples
 
-``python
+```python
 import PyPartMC
 
 
-``
+```
 
 ... [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/slayoo/PyPartMC/blob/main/hello_world.ipynb)
 
@@ -38,13 +39,19 @@ PyPartMC is also used within the tests of PySDM project ...
 
 - PyPartMC is written in C++, Fortran and Python and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
 - unmodified PartMC code is used and is linked through a git submodule
-- a mock of Fortran netCDF API is used for input/output from/to NumPy using existing netCDF API calls within PartMC
+- a mock of Fortran netCDF API is used for i/o from/to NumPy using existing netCDF API calls within PartMC
 - a mock of Fortran MPI API is used for error handling using existing MPI API calls within PartMC
 
 ## Credits
 
-author: Sylwester Arabas
-funding: US Department of Energy Atmospheric System Research programme
-copyright: University of Illinois at Urbana-Champaign
-licence: GPL v3
+#### PyPartMC:
+
+author: [Sylwester Arabas](http://www.ii.uj.edu.pl/~arabas/)   
+funding: [US Department of Energy Atmospheric System Research programme](https://asr.science.energy.gov/)   
+copyright: [University of Illinois at Urbana-Champaign](https://atmos.illinois.edu/)   
+licence: [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
+#### PartMC:
+authors: [Nicole Riemer](http://www.atmos.uiuc.edu/~nriemer/), [Matthew West](http://lagrange.mechse.illinois.edu/mwest/), [Jeff Curtis](https://publish.illinois.edu/jcurtis2/) et al.
+licence: GPL v2 or later
 
