@@ -1,4 +1,4 @@
-name: pdco
+name: pdoc
 
 on:
   push:
@@ -24,7 +24,8 @@ jobs:
         run: |
           pip install pdoc3
           pip install -e .
-          python -We -m pdoc --html PyPartMC
+          # TODO: add -We
+          python -m pdoc --html PyPartMC
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' && matrix.platform == 'ubuntu-latest' }}
         uses: JamesIves/github-pages-deploy-action@4.1.1
