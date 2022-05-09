@@ -6,21 +6,26 @@
 [![Windows OK](https://img.shields.io/static/v1?label=Windows&logo=Windows&color=white&message=%E2%9C%93)](https://en.wikipedia.org/wiki/Windows)
 [![Jupyter](https://img.shields.io/static/v1?label=Jupyter&logo=Jupyter&color=f37626&message=%E2%9C%93)](https://jupyter.org/)
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/slayoo/PyPartMC/graphs/commit-activity)
 [![US Funding](https://img.shields.io/static/v1?label=US%20DOE%20Funding%20by&color=267c32&message=ASR&logoWidth=25&logo=image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAQCAMAAAA25D/gAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAASFBMVEVOTXyyIjRDQnNZWINZWITtzdFUU4BVVIFVVYHWiZM9PG/KZnNXVoJaWYT67/FKSXhgX4hgX4lcW4VbWoX03uHQeIN2VXj///9pZChlAAAAAWJLR0QXC9aYjwAAAAd0SU1FB+EICRMGJV+KCCQAAABdSURBVBjThdBJDoAgEETRkkkZBBX0/kd11QTTpH1/STqpAAwWBkobSlkGbt0o5xmEfqxDZJB2Q6XMoBwnVSbTylWp0hi42rmbwTOYPDfR5Kc+07IIUQQvghX9THsBHcES8/SiF0kAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMDlUMTk6MDY6MzcrMDA6MDCX1tBgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTA5VDE5OjA2OjM3KzAwOjAw5oto3AAAAABJRU5ErkJggg==)](https://asr.science.energy.gov/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Copyright](https://img.shields.io/static/v1?label=Copyright&color=249fe2&message=UIUC&)](https://atmos.illinois.edu/)
 
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/slayoo/PyPartMC/graphs/commit-activity)
 [![Github Actions Build Status](https://github.com/slayoo/PyPartMC/workflows/tests/badge.svg?branch=main)](https://github.com/slayoo/PyPartMC/actions)
 
-PyPartMC is a Python interface to [PartMC](http://lagrange.mechse.illinois.edu/partmc/), 
+PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation
   implemented in Fortran.
 
+
 ## Features
 
-- Linux, macOS and Windows compatibility (assured with CI builds)
-- dependency-free installation using `pip`
+- works on Linux, macOS and Windows (compatibility assured with CI builds)
+- hassle-free installation using `pip` (prior PartMC installation **not needed**)
+- works out of the box on Google Colab
+- does not use or require shell or netCDF Fortran library
+- based on unmodified PartMC code
+- extensive unit test coverage
 - ...
 
 ## Examples
@@ -46,12 +51,12 @@ PyPartMC is also used within the tests of PySDM project ...
 
 #### PyPartMC:
 
-author: [Sylwester Arabas](http://www.ii.uj.edu.pl/~arabas/)   
+author: [Sylwester Arabas](https://www.ii.uj.edu.pl/~arabas/)   
 funding: [US Department of Energy Atmospheric System Research programme](https://asr.science.energy.gov/)   
 copyright: [University of Illinois at Urbana-Champaign](https://atmos.illinois.edu/)   
 licence: [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 #### PartMC:
-authors: [Nicole Riemer](http://www.atmos.uiuc.edu/~nriemer/), [Matthew West](http://lagrange.mechse.illinois.edu/mwest/), [Jeff Curtis](https://publish.illinois.edu/jcurtis2/) et al.
+authors: [Nicole Riemer](https://www.atmos.uiuc.edu/~nriemer/), [Matthew West](https://lagrange.mechse.illinois.edu/mwest/), [Jeff Curtis](https://publish.illinois.edu/jcurtis2/) et al.   
 licence: GPL v2 or later
 
