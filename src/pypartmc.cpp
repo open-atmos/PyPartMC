@@ -5,6 +5,8 @@
 #include "run_part.hpp"
 #include "run_part_opt.hpp"
 #include "aero_data.hpp"
+#include "aero_state.hpp"
+#include "env_state.hpp"
 #include "gas_data.hpp"
 #include "gas_state.hpp"
 
@@ -28,7 +30,15 @@ PYBIND11_MODULE(PyPartMC, m) {
         .def(py::init<>())
     ;
 
+    py::class_<AeroState>(m, "AeroState")
+        .def(py::init<>())
+    ;
+
     py::class_<GasData>(m, "GasData")
+        .def(py::init<>())
+    ;
+
+    py::class_<EnvState>(m, "EnvState")
         .def(py::init<>())
     ;
 
