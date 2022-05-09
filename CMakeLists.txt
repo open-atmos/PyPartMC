@@ -73,6 +73,7 @@ pybind11_add_module(PyPartMC
   src/aero_data.F90
   src/gas_data.F90
   src/gas_state.F90
+  src/scenario.F90
 )
 add_dependencies(PyPartMC partmclib)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})

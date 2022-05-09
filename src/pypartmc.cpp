@@ -32,6 +32,10 @@ PYBIND11_MODULE(PyPartMC, m) {
         .def(py::init<>())
     ;
 
+    py::class_<Scenario>(m, "Scenario")
+        .def(py::init<>())
+    ;
+
     py::class_<GasState>(m, "GasState")
         .def(py::init<const int&>())
         .def("__setitem__", GasState::set_item<py::slice, py::array_t<double>>)
