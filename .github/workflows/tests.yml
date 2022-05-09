@@ -36,22 +36,13 @@ jobs:
           msystem: ${{ matrix.arch == 'i686' && 'MINGW32' || 'MINGW64' }}
           update: false
           install: >-
-            git
-            mingw-w64-${{ matrix.arch }}-gcc
             mingw-w64-${{ matrix.arch }}-gcc-fortran
-            mingw-w64-${{ matrix.arch }}-python
-            mingw-w64-${{ matrix.arch }}-python-pip
-            mingw-w64-${{ matrix.arch }}-python-setuptools
-            mingw-w64-${{ matrix.arch }}-cmake
-            mingw-w64-${{ matrix.arch }}-ninja
 
       - if: matrix.platform == 'windows-latest'
         run: |
-          echo "C:\msys64\mingw64\bin" >> $GITHUB_PATH
-          echo "C:\msys64\usr\bin" >> $GITHUB_PATH
+          echo "D:/a/temp/msys64/mingw64/bin" >> $GITHUB_PATH
+          echo "D:/a/temp/msys64/mingw32/bin" >> $GITHUB_PATH
           echo FC=gfortran >> $GITHUB_ENV
-          ls "C:\msys64\mingw64\bin"
-          ls "C:\msys64\usr\bin"
 
       - uses: actions/checkout@v2
         with:
