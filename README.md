@@ -28,7 +28,23 @@ PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/
 - extensive unit test coverage
 - ...
 
-## Examples
+## Installation
+
+Typically this should be enough (if using Jupyter, prepend an exclamation mark, i.e. `!pip install ...`):
+
+```sh
+pip install git+https://github.com/slayoo/PyPartMC.git
+```
+
+If trying to figure out what's going wrong:
+
+```sh
+git clone git+https://github.com/slayoo/PyPartMC.git
+cd PyPartMC
+DEBUG=1 pip --verbose install -e .
+```
+
+## Usage examples
 
 ```python
 import PyPartMC

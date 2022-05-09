@@ -10,6 +10,7 @@ class TestRunPartOptT:
         ##run_part_opt.t_max = 44.44
 
         # assert
+        assert run_part_opt is not None
         ##assert run_part_opt.t_max == 44.44
 
     @staticmethod
@@ -21,5 +22,6 @@ class TestRunPartOptT:
         ##run_part_opt.t_output = 66.6
 
         # assert
+        assert run_part_opt is not None
         ##assert run_part_opt.t_output == 66.6
 
