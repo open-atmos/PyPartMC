@@ -23,7 +23,7 @@ struct gas_state_t {
   }
 
   template<typename idx_t, typename arr_t>
-  static auto get_item(const gas_state_t &self, const idx_t &idx) {
+  static arr_t get_item(const gas_state_t &self, const idx_t &idx) {
     //f_get_item(self.ptr, &arr);
     return arr_t();
   }
