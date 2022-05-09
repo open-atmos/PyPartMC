@@ -1,7 +1,9 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
 
 #include "util.hpp"
 #include "run_part.hpp"
+#include "gas_state.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -26,6 +28,12 @@ PYBIND11_MODULE(PyPartMC, m) {
 
         TODO
     )pbdoc");
+
+    py::class_<gas_state_t>(m, "gas_state_t")
+        .def(py::init<const int&>())
+        .def("__setitem__", gas_state_t::set_item<py::slice, py::array_t<double>>)
+        .def("__getitem__", gas_state_t::get_item<py::slice, py::array_t<double>>)
+    ;
 
     py::class_<run_part_opt_t>(m, "run_part_opt_t")
         .def(py::init<>())
