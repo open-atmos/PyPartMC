@@ -11,6 +11,7 @@ module PyPartMC_run_part
     scenario_ptr_c, &
     aero_data_ptr_c, &
     gas_data_ptr_c, &
+    gas_state_ptr_c, &
     run_part_opt_ptr_c &
   ) bind(C)
 
@@ -27,22 +28,24 @@ module PyPartMC_run_part
     type(c_ptr), intent(in) :: gas_data_ptr_c
     type(gas_data_t), pointer :: gas_data_ptr_f => null()
 
-    type(gas_state_t) :: gas_state
+    type(c_ptr), intent(in) :: gas_state_ptr_c
+    type(gas_state_t), pointer :: gas_state_ptr_f => null()
 
     type(c_ptr), intent(in) :: run_part_opt_ptr_c
     type(run_part_opt_t), pointer :: run_part_opt_ptr_f => null()
 
     call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
-    call c_f_pointer(gas_data_ptr_c, gas_data_ptr_f)
-    call c_f_pointer(run_part_opt_ptr_c, run_part_opt_ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+    call c_f_pointer(gas_data_ptr_c, gas_data_ptr_f)
+    call c_f_pointer(gas_state_ptr_c, gas_state_ptr_f)
+    call c_f_pointer(run_part_opt_ptr_c, run_part_opt_ptr_f)
     call run_part( &
       scenario_ptr_f, &
       env_state, &
       aero_data_ptr_f, &
       aero_state, &
       gas_data_ptr_f, &
-      gas_state, &
+      gas_state_ptr_f, &
       run_part_opt_ptr_f &
     )
 
