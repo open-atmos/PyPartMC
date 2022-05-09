@@ -8,7 +8,7 @@ class TestAeroData:
     # arrange
 
     # act
-    sut = ppmc.aero_data_t()
+    sut = ppmc.AeroData()
 
     # assert
     assert sut is not None
@@ -16,7 +16,7 @@ class TestAeroData:
   @staticmethod
   def test_dtor():
     # arrange
-    sut = ppmc.aero_data_t()
+    sut = ppmc.AeroData()
 
     # act
     sut = None

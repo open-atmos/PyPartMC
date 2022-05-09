@@ -15,15 +15,7 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(PyPartMC, m) {
     m.doc() = R"pbdoc(
-        PyPartMC
-        --------
-
-        .. currentmodule:: PyPartMC
-
-        .. autosummary::
-           :toctree: _generate
-
-           run_part
+        PyPartMC is a Python interface to PartMC.
     )pbdoc";
 
     m.def("run_part", &run_part, R"pbdoc(
@@ -32,21 +24,21 @@ PYBIND11_MODULE(PyPartMC, m) {
         TODO
     )pbdoc");
 
-    py::class_<aero_data_t>(m, "aero_data_t")
+    py::class_<aero_data_t>(m, "AeroData")
         .def(py::init<>())
     ;
 
-    py::class_<gas_data_t>(m, "gas_data_t")
+    py::class_<gas_data_t>(m, "GasData")
         .def(py::init<>())
     ;
 
-    py::class_<gas_state_t>(m, "gas_state_t")
+    py::class_<gas_state_t>(m, "GasState")
         .def(py::init<const int&>())
         .def("__setitem__", gas_state_t::set_item<py::slice, py::array_t<double>>)
         .def("__getitem__", gas_state_t::get_item<py::slice, py::array_t<double>>)
     ;
 
-    py::class_<run_part_opt_t>(m, "run_part_opt_t")
+    py::class_<run_part_opt_t>(m, "RunPartOpt")
         .def(py::init<>())
         //.def_readwrite("t_max", &run_part_opt_t::t_max)
         //.def_readwrite("t_output", &run_part_opt_t::t_output)
