@@ -42,12 +42,12 @@ jobs:
         run: echo FC=gfortran >> $GITHUB_ENV
 
       - if: matrix.platform == 'windows-latest' && matrix.arch == 'i686'
-        run: echo "D:/a/temp/msys64/mingw32/bin" >> $GITHUB_PATH
+        run: echo "D:/a/_temp/msys64/mingw32/bin" >> $GITHUB_PATH
 
       - if: matrix.platform == 'windows-latest' && matrix.arch == 'x86_64'
         run: |
-          echo "D:/a/temp/msys64/mingw64/bin" >> $GITHUB_PATH
-          ls "D:/a/temp/msys64/mingw64/bin"
+          echo "D:/a/_temp/msys64/mingw64/bin" >> $GITHUB_PATH
+          ls "D:/a/_temp/msys64/mingw64/bin"
           gfortran --version
 
       - uses: actions/checkout@v2
