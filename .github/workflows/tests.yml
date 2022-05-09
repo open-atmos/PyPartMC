@@ -16,8 +16,9 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.7", "3.10"]
+        #platform: [ubuntu-latest, macos-latest, windows-latest]
+        platform: [windows-latest]
+        python-version: ["3.7"]#, "3.10"]
     runs-on: ${{ matrix.platform }}
     steps:
       - if: matrix.platform == 'macos-latest'
@@ -28,6 +29,19 @@ jobs:
           echo FC=gfortran >> $GITHUB_ENV
           echo CC=gcc >> $GITHUB_ENV
           echo CXX=g++ >> $GITHUB_ENV
+
+      - if: matrix.platform == 'windows-latest'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MSYS
+          update: false
+          install: >-
+            git
+            gcc
+            gcc-fortran
+            python
+            python-pip
+            cmake
  
       - uses: actions/checkout@v2
         with:
