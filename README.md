@@ -1,4 +1,4 @@
-# PyPartMC
+# PyPartMC (pre-alpha!)
 
 [![Python 3](https://img.shields.io/static/v1?label=Python&logo=Python&color=3776AB&message=3)](https://www.python.org/)
 [![Linux OK](https://img.shields.io/static/v1?label=Linux&logo=Linux&color=yellow&message=%E2%9C%93)](https://en.wikipedia.org/wiki/Linux)
@@ -39,7 +39,7 @@ pip install git+https://github.com/slayoo/PyPartMC.git
 If trying to figure out what's going wrong:
 
 ```sh
-git clone git+https://github.com/slayoo/PyPartMC.git
+git clone --recursive git+https://github.com/slayoo/PyPartMC.git
 cd PyPartMC
 DEBUG=1 pip --verbose install -e .
 ```
