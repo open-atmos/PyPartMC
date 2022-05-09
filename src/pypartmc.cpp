@@ -3,6 +3,7 @@
 
 #include "util.hpp"
 #include "run_part.hpp"
+#include "gas_data.hpp"
 #include "gas_state.hpp"
 
 #define STRINGIFY(x) #x
@@ -28,6 +29,10 @@ PYBIND11_MODULE(PyPartMC, m) {
 
         TODO
     )pbdoc");
+
+    py::class_<gas_data_t>(m, "gas_data_t")
+        .def(py::init<>())
+    ;
 
     py::class_<gas_state_t>(m, "gas_state_t")
         .def(py::init<const int&>())

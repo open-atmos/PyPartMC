@@ -5,7 +5,7 @@ module PyPartMC_gas_state
 
   contains
 
-  subroutine f_ctor(ptr_c, n) bind(C)
+  subroutine f_gas_state_ctor(ptr_c, n) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(out) :: ptr_c
     integer, intent(in) :: n
@@ -15,7 +15,7 @@ module PyPartMC_gas_state
     ptr_c = transfer(c_loc(ptr_f), ptr_c)
   end subroutine
 
-  subroutine f_dtor(ptr_c) bind(C)
+  subroutine f_gas_state_dtor(ptr_c) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
 
@@ -24,7 +24,7 @@ module PyPartMC_gas_state
     deallocate(ptr_f)
   end subroutine
 
-  subroutine f_set_item(ptr_c, values) bind(C)
+  subroutine f_gas_state_set_item(ptr_c, values) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     double precision, dimension(:), intent(in) :: values
@@ -36,7 +36,7 @@ module PyPartMC_gas_state
     call gas_state_input_netcdf(ptr_f, ncid, gas_data)
   end subroutine
 
-  subroutine f_get_item(ptr_c, values) bind(C)
+  subroutine f_gas_state_get_item(ptr_c, values) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     double precision, dimension(:), intent(out) :: values

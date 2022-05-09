@@ -69,6 +69,7 @@ pybind11_add_module(PyPartMC
   src/pypartmc.cpp
   src/run_part.F90
   src/util.F90
+  src/gas_data.F90
   src/gas_state.F90
 )
 add_dependencies(PyPartMC partmclib)
