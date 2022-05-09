@@ -39,7 +39,7 @@
 <p>TODO</p></div>
 </dd>
 <dt id="PyPartMC.run_part"><code class="name flex">
-<span>def <span class="ident">run_part</span></span>(<span>arg0: <a title="PyPartMC.Scenario" href="#PyPartMC.Scenario">Scenario</a>, arg1: <a title="PyPartMC.AeroData" href="#PyPartMC.AeroData">AeroData</a>, arg2: <a title="PyPartMC.GasData" href="#PyPartMC.GasData">GasData</a>, arg3: <a title="PyPartMC.RunPartOpt" href="#PyPartMC.RunPartOpt">RunPartOpt</a>)</span>
+<span>def <span class="ident">run_part</span></span>(<span>arg0: <a title="PyPartMC.Scenario" href="#PyPartMC.Scenario">Scenario</a>, arg1: <a title="PyPartMC.EnvState" href="#PyPartMC.EnvState">EnvState</a>, arg2: <a title="PyPartMC.AeroData" href="#PyPartMC.AeroData">AeroData</a>, arg3: <a title="PyPartMC.AeroState" href="#PyPartMC.AeroState">AeroState</a>, arg4: <a title="PyPartMC.GasData" href="#PyPartMC.GasData">GasData</a>, arg5: <a title="PyPartMC.RunPartOpt" href="#PyPartMC.RunPartOpt">RunPartOpt</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>TODO</p>
@@ -56,6 +56,28 @@
 </code></dt>
 <dd>
 <div class="desc"><p><strong>init</strong>(self: PyPartMC.AeroData) -&gt; None</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pybind11_builtins.pybind11_object</li>
+</ul>
+</dd>
+<dt id="PyPartMC.AeroState"><code class="flex name class">
+<span>class <span class="ident">AeroState</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p><strong>init</strong>(self: PyPartMC.AeroState) -&gt; None</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pybind11_builtins.pybind11_object</li>
+</ul>
+</dd>
+<dt id="PyPartMC.EnvState"><code class="flex name class">
+<span>class <span class="ident">EnvState</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p><strong>init</strong>(self: PyPartMC.EnvState) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -124,6 +146,12 @@
 <ul>
 <li>
 <h4><code><a title="PyPartMC.AeroData" href="#PyPartMC.AeroData">AeroData</a></code></h4>
+</li>
+<li>
+<h4><code><a title="PyPartMC.AeroState" href="#PyPartMC.AeroState">AeroState</a></code></h4>
+</li>
+<li>
+<h4><code><a title="PyPartMC.EnvState" href="#PyPartMC.EnvState">EnvState</a></code></h4>
 </li>
 <li>
 <h4><code><a title="PyPartMC.GasData" href="#PyPartMC.GasData">GasData</a></code></h4>
