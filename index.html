@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>PyPartMC API documentation</title>
-<meta name="description" content="PyPartMC
-…" />
+<meta name="description" content="PyPartMC is a Python interface to PartMC." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,15 +22,7 @@
 <h1 class="title">Module <code>PyPartMC</code></h1>
 </header>
 <section id="section-intro">
-<h2 id="pypartmc">Pypartmc</h2>
-<div class="admonition currentmodule">
-<p class="admonition-title">Currentmodule:&ensp;PyPartMC</p>
-</div>
-<div class="admonition autosummary">
-<p class="admonition-title">Autosummary</p>
-<p>:toctree: _generate</p>
-<p>run_part</p>
-</div>
+<p>PyPartMC is a Python interface to PartMC.</p>
 </section>
 <section>
 </section>
@@ -48,7 +39,7 @@
 <p>TODO</p></div>
 </dd>
 <dt id="PyPartMC.run_part"><code class="name flex">
-<span>def <span class="ident">run_part</span></span>(<span>arg0: <a title="PyPartMC.run_part_opt_t" href="#PyPartMC.run_part_opt_t">run_part_opt_t</a>, arg1: <a title="PyPartMC.gas_data_t" href="#PyPartMC.gas_data_t">gas_data_t</a>)</span>
+<span>def <span class="ident">run_part</span></span>(<span>arg0: <a title="PyPartMC.RunPartOpt" href="#PyPartMC.RunPartOpt">RunPartOpt</a>, arg1: <a title="PyPartMC.GasData" href="#PyPartMC.GasData">GasData</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>TODO</p>
@@ -59,45 +50,45 @@
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="PyPartMC.aero_data_t"><code class="flex name class">
-<span>class <span class="ident">aero_data_t</span></span>
+<dt id="PyPartMC.AeroData"><code class="flex name class">
+<span>class <span class="ident">AeroData</span></span>
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.aero_data_t) -&gt; None</p></div>
+<div class="desc"><p><strong>init</strong>(self: PyPartMC.AeroData) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
 </ul>
 </dd>
-<dt id="PyPartMC.gas_data_t"><code class="flex name class">
-<span>class <span class="ident">gas_data_t</span></span>
+<dt id="PyPartMC.GasData"><code class="flex name class">
+<span>class <span class="ident">GasData</span></span>
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.gas_data_t) -&gt; None</p></div>
+<div class="desc"><p><strong>init</strong>(self: PyPartMC.GasData) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
 </ul>
 </dd>
-<dt id="PyPartMC.gas_state_t"><code class="flex name class">
-<span>class <span class="ident">gas_state_t</span></span>
+<dt id="PyPartMC.GasState"><code class="flex name class">
+<span>class <span class="ident">GasState</span></span>
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.gas_state_t, arg0: int) -&gt; None</p></div>
+<div class="desc"><p><strong>init</strong>(self: PyPartMC.GasState, arg0: int) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
 </ul>
 </dd>
-<dt id="PyPartMC.run_part_opt_t"><code class="flex name class">
-<span>class <span class="ident">run_part_opt_t</span></span>
+<dt id="PyPartMC.RunPartOpt"><code class="flex name class">
+<span>class <span class="ident">RunPartOpt</span></span>
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.run_part_opt_t) -&gt; None</p></div>
+<div class="desc"><p><strong>init</strong>(self: PyPartMC.RunPartOpt) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -109,9 +100,7 @@
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul>
-<li><a href="#pypartmc">PyPartMC</a></li>
-</ul>
+<ul></ul>
 </div>
 <ul id="index">
 <li><h3><a href="#header-functions">Functions</a></h3>
@@ -123,16 +112,16 @@
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="PyPartMC.aero_data_t" href="#PyPartMC.aero_data_t">aero_data_t</a></code></h4>
+<h4><code><a title="PyPartMC.AeroData" href="#PyPartMC.AeroData">AeroData</a></code></h4>
 </li>
 <li>
-<h4><code><a title="PyPartMC.gas_data_t" href="#PyPartMC.gas_data_t">gas_data_t</a></code></h4>
+<h4><code><a title="PyPartMC.GasData" href="#PyPartMC.GasData">GasData</a></code></h4>
 </li>
 <li>
-<h4><code><a title="PyPartMC.gas_state_t" href="#PyPartMC.gas_state_t">gas_state_t</a></code></h4>
+<h4><code><a title="PyPartMC.GasState" href="#PyPartMC.GasState">GasState</a></code></h4>
 </li>
 <li>
-<h4><code><a title="PyPartMC.run_part_opt_t" href="#PyPartMC.run_part_opt_t">run_part_opt_t</a></code></h4>
+<h4><code><a title="PyPartMC.RunPartOpt" href="#PyPartMC.RunPartOpt">RunPartOpt</a></code></h4>
 </li>
 </ul>
 </li>
