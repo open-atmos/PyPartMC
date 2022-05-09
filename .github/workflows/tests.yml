@@ -19,6 +19,12 @@ jobs:
         #platform: [ubuntu-latest, macos-latest, windows-latest]
         platform: [windows-latest]
         python-version: ["3.7"]#, "3.10"]
+        arch: [i686, x86_64]
+        exclude:
+        - os: ubuntu-latest
+          arch: i686
+        - os: macos-latest
+          arch: i686
     runs-on: ${{ matrix.platform }}
     steps:
       - if: matrix.platform == 'macos-latest'
