@@ -3,14 +3,14 @@
 extern "C" void f_run_part_opt_ctor(void *ptr);
 extern "C" void f_run_part_opt_dtor(void *ptr);
 
-struct run_part_opt_t {
+struct RunPartOpt {
   void *ptr;
 
-  run_part_opt_t() {
+  RunPartOpt() {
     f_run_part_opt_ctor(&this->ptr); 
   }
 
-  ~run_part_opt_t() {
+  ~RunPartOpt() {
     f_run_part_opt_dtor(&this->ptr);
   }
 };

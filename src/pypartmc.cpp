@@ -24,21 +24,21 @@ PYBIND11_MODULE(PyPartMC, m) {
         TODO
     )pbdoc");
 
-    py::class_<aero_data_t>(m, "AeroData")
+    py::class_<AeroData>(m, "AeroData")
         .def(py::init<>())
     ;
 
-    py::class_<gas_data_t>(m, "GasData")
+    py::class_<GasData>(m, "GasData")
         .def(py::init<>())
     ;
 
-    py::class_<gas_state_t>(m, "GasState")
+    py::class_<GasState>(m, "GasState")
         .def(py::init<const int&>())
-        .def("__setitem__", gas_state_t::set_item<py::slice, py::array_t<double>>)
-        .def("__getitem__", gas_state_t::get_item<py::slice, py::array_t<double>>)
+        .def("__setitem__", GasState::set_item<py::slice, py::array_t<double>>)
+        .def("__getitem__", GasState::get_item<py::slice, py::array_t<double>>)
     ;
 
-    py::class_<run_part_opt_t>(m, "RunPartOpt")
+    py::class_<RunPartOpt>(m, "RunPartOpt")
         .def(py::init<>())
         //.def_readwrite("t_max", &run_part_opt_t::t_max)
         //.def_readwrite("t_output", &run_part_opt_t::t_output)
