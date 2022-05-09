@@ -19,12 +19,6 @@ jobs:
         #platform: [ubuntu-latest, macos-latest, windows-latest]
         platform: [windows-latest]
         python-version: ["3.7"] #, "3.10"]
-        arch: [x86_64] #, i686]
-        exclude:
-        - platform: ubuntu-latest
-          arch: i686
-        - platform: macos-latest
-          arch: i686
     runs-on: ${{ matrix.platform }}
     steps:
       - if: matrix.platform == 'macos-latest'
@@ -33,22 +27,13 @@ jobs:
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
-          msystem: ${{ matrix.arch == 'i686' && 'MINGW32' || 'MINGW64' }}
+          msystem: MINGW64
           update: false
           install: >-
-            mingw-w64-${{ matrix.arch }}-gcc-fortran
+            mingw-w64-x86_64-gcc-fortran
 
       - if: matrix.platform == 'windows-latest'
-        run: echo FC=gfortran >> $GITHUB_ENV
-
-      - if: matrix.platform == 'windows-latest' && matrix.arch == 'i686'
-        run: echo "D:/a/_temp/msys64/mingw32/bin" >> $GITHUB_PATH
-
-      - if: matrix.platform == 'windows-latest' && matrix.arch == 'x86_64'
-        run: |
-          echo "D:/a/_temp/msys64/mingw64/bin" >> $GITHUB_PATH
-          ls "D:/a/_temp/msys64/mingw64/bin"
-          gfortran --version
+        run: echo FC="D:/a/_temp/msys64/mingw64/bin/gfortran" >> $GITHUB_ENV
 
       - uses: actions/checkout@v2
         with:
