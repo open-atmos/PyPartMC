@@ -1,10 +1,9 @@
-import pytest
 import PyPartMC as ppmc
 
 
 class TestRunPart:
     @staticmethod
-    def test_TODO():
+    def test_args():
         # arrange
         scenario = ppmc.Scenario()
         env_state = ppmc.EnvState()
@@ -15,7 +14,10 @@ class TestRunPart:
 
         # act
         #ppmc.run_part(scenario, env_state, aero_data, aero_state, gas_data, run_part_opt)
+        print(scenario, env_state, aero_data, aero_state, gas_data, run_part_opt)
 
         # assert
-        pass
 
+    @staticmethod
+    def test_todo():
+        pass
