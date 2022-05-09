@@ -29,28 +29,14 @@ jobs:
           echo "C:\msys64\mingw64\bin" >> $GITHUB_PATH
           echo "C:\msys64\usr\bin" >> $GITHUB_PATH
           echo FC=gfortran >> $GITHUB_ENV
-          echo CC=gcc >> $GITHUB_ENV
-          echo CXX=g++ >> $GITHUB_ENV
+          ls C:\msys64\mingw64\bin
+          ls C:\msys64\usr\bin
 
-      - if: matrix.platform == 'windows-latest'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: MSYS
-          update: false
-          install: >-
-            git
-            gcc
-            gcc-fortran
-            python
-            python-pip
-            cmake
- 
       - uses: actions/checkout@v2
         with:
           submodules: recursive
 
       - uses: actions/setup-python@v1
-        if: matrix.platform != 'windows-latest'
         with:
           python-version: ${{ matrix.python-version }}
 
