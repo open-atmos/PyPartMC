@@ -38,6 +38,7 @@ jobs:
           echo CMAKE_ARGS="-DCMAKE_Fortran_COMPILER=D:/a/_temp/msys64/mingw64/bin/gfortran.exe" >> $GITHUB_ENV
           echo CMAKE_ARGS="-DCMAKE_C_COMPILER=D:/a/_temp/msys64/mingw64/bin/gcc.exe" >> $GITHUB_ENV
           echo CMAKE_ARGS="-DCMAKE_CXX_COMPILER=D:/a/_temp/msys64/mingw64/bin/g++.exe" >> $GITHUB_ENV
+          echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" >> $GITHUB_ENV
           echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
 
       - uses: actions/checkout@v2
