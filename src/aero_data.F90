@@ -1,3 +1,9 @@
+!###################################################################################################
+! This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
+! Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+! Author: Sylwester Arabas                                                                         #
+!###################################################################################################
+
 module PyPartMC_aero_data
   use iso_c_binding
   use pmc_aero_data
@@ -11,7 +17,7 @@ module PyPartMC_aero_data
     integer, intent(in) :: n
 
     allocate(ptr_f)
-    ptr_c = transfer(c_loc(ptr_f), ptr_c)
+    ptr_c = c_loc(ptr_f)
   end subroutine
 
   subroutine f_aero_data_dtor(ptr_c) bind(C)

@@ -1,3 +1,9 @@
+/*##################################################################################################
+# This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
+# Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+# Author: Sylwester Arabas                                                                         #
+##################################################################################################*/
+
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 
@@ -47,9 +53,13 @@ PYBIND11_MODULE(PyPartMC, m) {
     ;
 
     py::class_<GasState>(m, "GasState")
-        .def(py::init<const int&>())
-        .def("__setitem__", GasState::set_item<py::slice, py::array_t<double>>)
-        .def("__getitem__", GasState::get_item<py::slice, py::array_t<double>>)
+        .def(py::init<const std::string&>(), "TODO", py::arg("json") = "")
+        .def("__setitem__", GasState::set_item)
+        .def("__setitem__", GasState::set_items)
+        .def("__getitem__", GasState::get_item)
+        .def("__getitem__", GasState::get_items)
+        .def("__len__", GasState::__len__)
+        .def("__str__", GasState::__str__)
     ;
 
     py::class_<RunPartOpt>(m, "RunPartOpt")

@@ -1,3 +1,9 @@
+!###################################################################################################
+! This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
+! Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+! Author: Sylwester Arabas                                                                         #
+!###################################################################################################
+
 module PyPartMC_env_state
   use iso_c_binding
   use pmc_env_state
@@ -11,7 +17,7 @@ module PyPartMC_env_state
     integer, intent(in) :: n
 
     allocate(ptr_f)
-    ptr_c = transfer(c_loc(ptr_f), ptr_c)
+    ptr_c = c_loc(ptr_f)
   end subroutine
 
   subroutine f_env_state_dtor(ptr_c) bind(C)

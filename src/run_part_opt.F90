@@ -1,3 +1,9 @@
+!###################################################################################################
+! This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
+! Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+! Author: Sylwester Arabas                                                                         #
+!###################################################################################################
+
 module PyPartMC_run_part_opt  
   use pmc_run_part
   use iso_c_binding
@@ -11,7 +17,7 @@ module PyPartMC_run_part_opt
     integer, intent(in) :: n
 
     allocate(ptr_f)
-    ptr_c = transfer(c_loc(ptr_f), ptr_c)
+    ptr_c = c_loc(ptr_f)
   end subroutine
 
   subroutine f_run_part_opt_dtor(ptr_c) bind(C)

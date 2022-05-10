@@ -1,3 +1,9 @@
+!###################################################################################################
+! This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
+! Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+! Author: Sylwester Arabas                                                                         #
+!###################################################################################################
+
 module PyPartMC_gas_state
   use iso_c_binding
   use pmc_gas_state
@@ -12,7 +18,7 @@ module PyPartMC_gas_state
 
     allocate(ptr_f)
     call gas_state_set_size(ptr_f, n)
-    ptr_c = transfer(c_loc(ptr_f), ptr_c)
+    ptr_c = c_loc(ptr_f)
   end subroutine
 
   subroutine f_gas_state_dtor(ptr_c) bind(C)
@@ -24,28 +30,35 @@ module PyPartMC_gas_state
     deallocate(ptr_f)
   end subroutine
 
-  subroutine f_gas_state_set_item(ptr_c, values) bind(C)
+  subroutine f_gas_state_len(ptr_c, len) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
-    double precision, dimension(:), intent(in) :: values
-
-    type(gas_data_t), pointer :: gas_data => null()
-    integer :: ncid
+    integer, intent(out) :: len
 
     call c_f_pointer(ptr_c, ptr_f)
-    call gas_state_input_netcdf(ptr_f, ncid, gas_data)
+    len = size(ptr_f%mix_rat)
   end subroutine
 
-  subroutine f_gas_state_get_item(ptr_c, values) bind(C)
+  subroutine f_gas_state_set_item(ptr_c, idx, val) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
-    double precision, dimension(:), intent(out) :: values
+    integer, intent(in) :: idx
+    double precision, intent(in) :: val
 
     type(gas_data_t), pointer :: gas_data => null()
-    integer :: ncid
-
     call c_f_pointer(ptr_c, ptr_f)
-    !call gas_state_output_netcdf(ptr_f, ncid, gas_data)
+    ptr_f%mix_rat(idx+1) = val
+  end subroutine
+
+  subroutine f_gas_state_get_item(ptr_c, idx, val) bind(C)
+    type(gas_state_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    integer, intent(in) :: idx
+    double precision, intent(out) :: val
+
+    type(gas_data_t), pointer :: gas_data => null()
+    call c_f_pointer(ptr_c, ptr_f)
+    val = ptr_f%mix_rat(idx+1)
   end subroutine
 
 end module

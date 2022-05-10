@@ -1,3 +1,9 @@
+!###################################################################################################
+! This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
+! Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+! Author: Sylwester Arabas                                                                         #
+!###################################################################################################
+
 module PyPartMC_gas_data
   use iso_c_binding
   use pmc_gas_data
@@ -12,7 +18,7 @@ module PyPartMC_gas_data
 
     allocate(ptr_f)
     !TODO call gas_data_initialize(ptr_f, n)
-    ptr_c = transfer(c_loc(ptr_f), ptr_c)
+    ptr_c = c_loc(ptr_f)
   end subroutine
 
   subroutine f_gas_data_dtor(ptr_c) bind(C)

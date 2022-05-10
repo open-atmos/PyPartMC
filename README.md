@@ -73,7 +73,7 @@ Try rerunning after installing CMake (e.g., `apt-get install cmake` or `brew ins
 ```sh
 git clone --recursive git+https://github.com/slayoo/PyPartMC.git
 cd PyPartMC
-DEBUG=1 pip --verbose install -e .
+DEBUG=1 VERBOSE=1 pip --verbose install -e .
 gdb python 
 (gdb) run
 ```
