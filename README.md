@@ -62,6 +62,7 @@ PyPartMC is also used within the tests of PySDM project ...
 
 - PyPartMC is written in C++, Fortran and Python and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
 - JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
+- PartMC and selected parts of SUNDIALS are compiled during `pip install` and statically linked into the Python module
 - unmodified PartMC code is used and is linked through a git submodule
 - a mock of Fortran netCDF API is used for i/o from/to NumPy using existing netCDF API calls within PartMC
 - a mock of Fortran MPI API is used for error handling using existing MPI API calls within PartMC
