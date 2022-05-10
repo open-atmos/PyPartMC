@@ -139,27 +139,27 @@ pybind11_add_module(PyPartMC
   src/scenario.F90
 )
 add_dependencies(partmclib 
-  sundials_cvode
-  sundials_nvecserial 
   sundials_generic
+  sundials_nvecserial 
   sundials_sunmatrixband 
   sundials_sunmatrixdense 
   sundials_sunlinsolband 
   sundials_sunnonlinsolnewton 
   sundials_sunlinsolspgmr
+  sundials_cvode
 )
 add_dependencies(PyPartMC partmclib)
 target_include_directories(PyPartMC PRIVATE ${CMAKE_SOURCE_DIR}/json/include ${CMAKE_SOURCE_DIR}/pybind11_json/include)
 target_include_directories(partmclib PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include ${CMAKE_BINARY_DIR}/include)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(partmclib PRIVATE 
-  sundials_cvode
-  sundials_nvecserial
   sundials_generic
+  sundials_nvecserial
   sundials_sunmatrixband
   sundials_sunmatrixdense
   sundials_sunlinsolband
   sundials_sunnonlinsolnewton 
   sundials_sunlinsolspgmr
+  sundials_cvode
 )
 target_link_libraries(PyPartMC PRIVATE partmclib)
