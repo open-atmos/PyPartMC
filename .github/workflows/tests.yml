@@ -55,5 +55,5 @@ jobs:
 
       - run: pip install pytest 
 
-      - run: pytest -p no:unraisableexception -We tests
+      - run: pytest -We tests
 
