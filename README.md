@@ -19,6 +19,12 @@ PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation
   implemented in Fortran.
 
+## TL;DR
+
+```python
+! pip install git+https://github.com/slayoo/PyPartMC.git
+import PyPartMC
+```
 
 ## Features
 
@@ -53,17 +59,16 @@ DEBUG=1 pip --verbose install -e .
 
 ```python
 import PyPartMC
-
-
+... TODO
 ```
 
 #### Jupyter notebooks with examples
 
-... [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/slayoo/PyPartMC/blob/main/hello_world.ipynb)
+... TODO ... [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/slayoo/PyPartMC/blob/main/hello_world.ipynb)
 
 #### usage in other projects
 
-PyPartMC is also used within the tests of PySDM project ...
+PyPartMC is also used within the tests of PySDM project ... TODO
 
 ## Implementation outline
 
