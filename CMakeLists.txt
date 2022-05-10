@@ -1,10 +1,11 @@
+###############################################################################################################################
+# This file is part of PyPartMC, licensed under the GNU General Public License v3. See LICENSE for details.                   #
+# Copyright (C) 2022 University of Illinois Urbana-Champaign                                                                  #
+# Author: Sylwester Arabas                                                                                                    #
+###############################################################################################################################
+
 cmake_minimum_required(VERSION 3.4...3.18)
-project(PyPartMC)
-
-enable_language(C)
-enable_language(CXX)
-enable_language(Fortran)
-
+project(PyPartMC LANGUAGES C CXX Fortran)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 14)
 
@@ -16,6 +17,14 @@ macro(add_prefix prefix rootlist)
     set(${rootlist} ${outlist})
 endmacro(add_prefix)
 
+### sources ###################################################################################################################
+
+set(PyPartMC_sources 
+  pypartmc.cpp 
+  run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 gas_state.F90 scenario.F90
+)
+add_prefix(src/ PyPartMC_sources)
+
 set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 integer_rmap.F90 integer_rmap2.F90 aero_sorted.F90
   aero_binned.F90 bin_grid.F90 constants.F90 scenario.F90 env_state.F90 aero_mode.F90 aero_dist.F90 aero_weight.F90 
   aero_weight_array.F90 coag_kernel_additive.F90 coag_kernel_sedi.F90 coag_kernel_constant.F90 coag_kernel_brown.F90 
@@ -26,10 +35,8 @@ set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 intege
 )
 add_prefix(gitmodules/partmc/src/ partmclib_SOURCES)
 list(APPEND partmclib_SOURCES src/fake_mpi.F90 src/fake_netcdf.F90)
-add_library(partmclib STATIC ${partmclib_SOURCES})
 
-target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
-target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
+### SUNDIALS ##################################################################################################################
 
 set(SUNDIALS_SOURCE_DIR "${CMAKE_SOURCE_DIR}/gitmodules/sundials")
 
@@ -42,7 +49,7 @@ endmacro()
 macro(sundials_add_library target)
     set(options STATIC_ONLY SHARED_ONLY OBJECT_LIB_ONLY)
     set(oneValueArgs INCLUDE_SUBDIR OUTPUT_NAME VERSION SOVERSION)
-    set(multiValueArgs SOURCES HEADERS OBJECT_LIBRARIES LINK_LIBRARIES INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS COMPILE_FEATURES PROPERTIES)
+    set(multiValueArgs SOURCES HEADERS OBJECT_LIBRARIES LINK_LIBRARIES INCLUDE_DIRECTORIES)
     cmake_parse_arguments(sundials_add_library "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     add_library(${target} STATIC ${sundials_add_library_SOURCES})
     target_compile_definitions(${target} PRIVATE SUNDIALS_STATIC_DEFINE)
@@ -55,10 +62,10 @@ function(print_error)
 endfunction()
 
 function(scoped_sundials_setup_config)
-    # TODO: enforce git git from submodule!
     set(PROJECT_SOURCE_DIR ${SUNDIALS_SOURCE_DIR})
     set(SUNDIALS_PRECISION "double")
     set(SUNDIALS_CINDEX_TYPE "int64_t")
+    # TODO: read from submodule files!
     set(PACKAGE_VERSION_MAJOR "5")
     set(PACKAGE_VERSION_MINOR "8")
     set(PACKAGE_VERSION_PATCH "0")
@@ -70,49 +77,30 @@ scoped_sundials_setup_config()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SUNDIALS_SOURCE_DIR}/cmake)
 include(${SUNDIALS_SOURCE_DIR}/cmake/SundialsSetupCompilers.cmake)
 
-add_subdirectory(${SUNDIALS_SOURCE_DIR}/src/cvode)
-add_subdirectory(${SUNDIALS_SOURCE_DIR}/src/sunmatrix)
-add_subdirectory(${SUNDIALS_SOURCE_DIR}/src/sunlinsol)
-add_subdirectory(${SUNDIALS_SOURCE_DIR}/src/sunnonlinsol)
-add_subdirectory(${SUNDIALS_SOURCE_DIR}/src/nvector)
-add_subdirectory(${SUNDIALS_SOURCE_DIR}/src/sundials)
+foreach(item cvode;sunmatrix;sunlinsol;sunnonlinsol;nvector;sundials)
+    add_subdirectory(${SUNDIALS_SOURCE_DIR}/src/${item})
+endforeach()
+
+set(SUNDIALS_items cvode nvecserial sunmatrixband sunmatrixdense sunlinsolband sunnonlinsolnewton sunlinsolspgmr generic)
+add_prefix(sundials_ SUNDIALS_items)
+
+### partmclib #################################################################################################################
+
+add_library(partmclib STATIC ${partmclib_SOURCES})
+target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
+target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
+add_dependencies(partmclib ${SUNDIALS_items})
+target_include_directories(partmclib PRIVATE ${SUNDIALS_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include)
+target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
+
+### PYBIND11 & PyPartMC #######################################################################################################
 
 add_subdirectory(gitmodules/pybind11)
-
-pybind11_add_module(PyPartMC 
-  src/pypartmc.cpp
-  src/run_part.F90
-  src/run_part_opt.F90
-  src/util.F90
-  src/aero_data.F90
-  src/aero_state.F90
-  src/env_state.F90
-  src/gas_data.F90
-  src/gas_state.F90
-  src/scenario.F90
-)
-add_dependencies(partmclib 
-  sundials_cvode
-  sundials_generic
-  sundials_nvecserial 
-  sundials_sunmatrixband 
-  sundials_sunmatrixdense 
-  sundials_sunlinsolband 
-  sundials_sunnonlinsolnewton 
-  sundials_sunlinsolspgmr
-)
+pybind11_add_module(PyPartMC ${PyPartMC_sources})
 add_dependencies(PyPartMC partmclib)
-target_include_directories(PyPartMC PRIVATE ${CMAKE_SOURCE_DIR}/gitmodules/json/include ${CMAKE_SOURCE_DIR}/gitmodules/pybind11_json/include)
-target_include_directories(partmclib PRIVATE ${SUNDIALS_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include)
-target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
-target_link_libraries(partmclib PRIVATE 
-  sundials_cvode
-  sundials_nvecserial
-  sundials_sunmatrixband
-  sundials_sunmatrixdense
-  sundials_sunlinsolband
-  sundials_sunnonlinsolnewton 
-  sundials_sunlinsolspgmr
-  sundials_generic
+target_include_directories(PyPartMC PRIVATE 
+  ${CMAKE_SOURCE_DIR}/gitmodules/json/include 
+  ${CMAKE_SOURCE_DIR}/gitmodules/pybind11_json/include
 )
+target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(PyPartMC PRIVATE partmclib)
