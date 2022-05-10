@@ -10,3 +10,6 @@
 [submodule "json"]
 	path = json
 	url = https://github.com/nlohmann/json
+[submodule "sundials"]
+	path = sundials
+	url = git@github.com:LLNL/sundials.git
