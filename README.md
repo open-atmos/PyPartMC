@@ -28,7 +28,7 @@ PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/
 - extensive unit test coverage
 - does not use or require shell or netCDF Fortran library
 - based on unmodified PartMC code
-- ...
+- Pythonic API (but retaining PartMC jargon)
 
 ## Installation
 

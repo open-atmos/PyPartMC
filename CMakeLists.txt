@@ -75,6 +75,12 @@ macro(add_prefix prefix rootlist)
     set(${rootlist} ${outlist})
 endmacro(add_prefix)
 
+macro(sundials_option NAME TYPE DOCSTR DEFAULT_VALUE)
+  set(options DEPENDS_ON_THROW_ERROR ADVANCED)   # macro options
+  set(multiValueArgs OPTIONS SHOW_IF DEPENDS_ON) # macro keyword inputs followed by multiple values
+  cmake_parse_arguments(sundials_option "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+endmacro()
+
 macro(sundials_add_library target)
     set(options STATIC_ONLY SHARED_ONLY OBJECT_LIB_ONLY)
     set(oneValueArgs INCLUDE_SUBDIR OUTPUT_NAME VERSION SOVERSION)
@@ -102,7 +108,8 @@ function(scoped_sundials_setup_config)
 endfunction()
 scoped_sundials_setup_config()
 
-include(sundials/cmake/SundialsIndexSize.cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/sundials/cmake)
+include(sundials/cmake/SundialsSetupCompilers.cmake)
 
 set(SUNDIALS_SOURCE_DIR "${CMAKE_SOURCE_DIR}/sundials")
 add_subdirectory(sundials/src/cvode/)
