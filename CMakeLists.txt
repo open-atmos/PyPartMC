@@ -84,7 +84,6 @@ macro(sundials_add_library target)
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/src/sundials)
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
     target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/include)
-    message(${target})
 endmacro()
 
 function(print_error)
@@ -94,6 +93,7 @@ function(scoped_sundials_setup_config)
     # TODO: enforce git git from submodule!
     set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/sundials)
     set(SUNDIALS_PRECISION "double")
+    set(SUNDIALS_CINDEX_TYPE "int64_t")
     set(PACKAGE_VERSION_MAJOR "5")
     set(PACKAGE_VERSION_MINOR "8")
     set(PACKAGE_VERSION_PATCH "0")
@@ -101,6 +101,7 @@ function(scoped_sundials_setup_config)
     include(sundials/cmake/SundialsSetupConfig.cmake)
 endfunction()
 scoped_sundials_setup_config()
+
 include(sundials/cmake/SundialsIndexSize.cmake)
 
 set(SUNDIALS_SOURCE_DIR "${CMAKE_SOURCE_DIR}/sundials")
@@ -136,7 +137,8 @@ add_dependencies(partmclib
   sundials_sunlinsolspgmr
 )
 add_dependencies(PyPartMC partmclib)
-target_include_directories(PyPartMC PRIVATE ${CMAKE_SOURCE_DIR}/json/include ${CMAKE_SOURCE_DIR}/pybind11_json/include ${CMAKE_SOURCE_DIR}/sundials/include)
+target_include_directories(PyPartMC PRIVATE ${CMAKE_SOURCE_DIR}/json/include ${CMAKE_SOURCE_DIR}/pybind11_json/include)
+target_include_directories(partmclib PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(partmclib PRIVATE 
   sundials_cvode
