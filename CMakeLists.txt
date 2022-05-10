@@ -75,6 +75,7 @@ macro(sundials_add_library target)
   add_library(${target} ${sundials_add_library_SOURCES})
   target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/src/sundials)
   target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
+  target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/sundials/include)
 endmacro()
 
 macro(add_prefix prefix rootlist)
