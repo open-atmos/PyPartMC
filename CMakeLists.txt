@@ -91,6 +91,13 @@ add_subdirectory(sundials/src/sunlinsol)
 add_subdirectory(sundials/src/sunnonlinsol)
 add_subdirectory(sundials/src/nvector)
 
+FUNCTION(scoped_sundials_setup_config)
+    set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/sundials)
+    #set(PROJECT_SOURCE_DIR "" )
+    include(sundials/cmake/SundialsSetupConfig.cmake)
+ENDFUNCTION ()
+scoped_sundials_setup_config()
+
 add_subdirectory(pybind11)
 
 pybind11_add_module(PyPartMC 
