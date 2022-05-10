@@ -21,7 +21,7 @@ jobs:
     - run: |
         sudo apt-get install libnetcdff-dev
         python -m pip install --upgrade pip
-        pip install pylint nbqa
+        pip install pylint pytest nbqa
         pip install -e .
     - run: pylint --unsafe-load-any-extension=y --disable=fixme,trailing-newlines,missing-module-docstring,missing-class-docstring,missing-function-docstring $(git ls-files '*.py')
     - run: nbqa pylint --unsafe-load-any-extension=y --disable=fixme,trailing-whitespace,missing-function-docstring,missing-module-docstring $(git ls-files '*.ipynb')
