@@ -1,15 +1,15 @@
 [submodule "pybind11"]
-	path = pybind11
+	path = gitmodules/pybind11
 	url = https://github.com/pybind/pybind11
 [submodule "partmc"]
-	path = partmc
+	path = gitmodules/partmc
 	url = https://github.com/compdyn/partmc
 [submodule "pybind11_json"]
-	path = pybind11_json
+	path = gitmodules/pybind11_json
 	url = https://github.com/pybind/pybind11_json
 [submodule "json"]
-	path = json
+	path = gitmodules/json
 	url = https://github.com/nlohmann/json
 [submodule "sundials"]
-	path = sundials
+	path = gitmodules/sundials
 	url = https://github.com/LLNL/sundials
