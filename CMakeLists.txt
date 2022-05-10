@@ -91,9 +91,10 @@ add_subdirectory(sundials/src/sunlinsol)
 add_subdirectory(sundials/src/sunnonlinsol)
 add_subdirectory(sundials/src/nvector)
 
+
 FUNCTION(scoped_sundials_setup_config)
     set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/sundials)
-    #set(PROJECT_SOURCE_DIR "" )
+    set(SUNDIALS_PRECISION "double")
     include(sundials/cmake/SundialsSetupConfig.cmake)
 ENDFUNCTION ()
 scoped_sundials_setup_config()
