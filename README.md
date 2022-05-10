@@ -12,6 +12,8 @@
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/slayoo/PyPartMC/graphs/commit-activity)
 [![Github Actions Build Status](https://github.com/slayoo/PyPartMC/workflows/tests/badge.svg?branch=main)](https://github.com/slayoo/PyPartMC/actions)
+[![API docs](https://img.shields.io/badge/API_docs-pdoc3-blue.svg)](https://slayoo.github.io/PyPartMC/)
+
 
 PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation
@@ -20,15 +22,14 @@ PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/
 
 ## Features
 
-- works on Linux, macOS and Windows (compatibility assured with CI builds)
+- works on Linux, macOS and Windows (compatibility assured with [CI builds](https://github.com/slayoo/PyPartMC/blob/main/.github/workflows/tests.yml))
 - hassle-free installation using `pip` (prior PartMC installation **not needed**)
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
 - support for [de]serialization of all exposed structures using JSON 
-- auto-generated API docs [on the web](https://slayoo.github.io/PyPartMC/)
-- extensive unit test coverage
+- extensive [unit test coverage](https://github.com/slayoo/PyPartMC/tree/main/tests)
 - does not use or require shell or netCDF Fortran library
-- based on unmodified PartMC code
-- Pythonic API (but retaining PartMC jargon)
+- based on [unmodified PartMC code](https://github.com/slayoo/PyPartMC/tree/main/gitmodules)
+- Pythonic API (but retaining PartMC jargon), auto-generated [docs on the web](https://slayoo.github.io/PyPartMC/)
 
 ## Installation
 
@@ -48,13 +49,19 @@ DEBUG=1 pip --verbose install -e .
 
 ## Usage examples
 
+#### hello world
+
 ```python
 import PyPartMC
 
 
 ```
 
+#### Jupyter notebooks with examples
+
 ... [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/slayoo/PyPartMC/blob/main/hello_world.ipynb)
+
+#### usage in other projects
 
 PyPartMC is also used within the tests of PySDM project ...
 
@@ -63,9 +70,9 @@ PyPartMC is also used within the tests of PySDM project ...
 - PyPartMC is written in C++, Fortran and Python and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
 - JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
 - PartMC and selected parts of SUNDIALS are compiled during `pip install` and statically linked
-- C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC) dependencies are linked through git submodules
-- a mock of Fortran netCDF API is used for i/o from/to NumPy using existing netCDF API calls within PartMC
-- a mock of Fortran MPI API is used for error handling using existing MPI API calls within PartMC
+- C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC) dependencies are linked through [git submodules](https://github.com/slayoo/PyPartMC/blob/main/.gitmodules)
+- a [mock of Fortran netCDF API](https://github.com/slayoo/PyPartMC/blob/main/src/fake_netcdf.F90) is used for i/o from/to NumPy using existing netCDF API calls within PartMC
+- a [mock of Fortran MPI API](https://github.com/slayoo/PyPartMC/blob/main/src/fake_mpi.F90) is used for error handling using existing MPI API calls within PartMC
 
 ## Credits
 
@@ -78,5 +85,5 @@ licence: [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html)
 
 #### PartMC:
 authors: [Nicole Riemer](https://www.atmos.uiuc.edu/~nriemer/), [Matthew West](https://lagrange.mechse.illinois.edu/mwest/), [Jeff Curtis](https://publish.illinois.edu/jcurtis2/) et al.   
-licence: GPL v2 or later
+licence: [GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html) or later
 
