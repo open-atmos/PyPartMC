@@ -7,7 +7,6 @@ enable_language(Fortran)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_library(partmclib STATIC
   src/fake_mpi.F90
@@ -88,9 +87,7 @@ macro(sundials_add_library target)
     set(multiValueArgs SOURCES HEADERS OBJECT_LIBRARIES LINK_LIBRARIES INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS COMPILE_FEATURES PROPERTIES)
     cmake_parse_arguments(sundials_add_library "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     add_library(${target} STATIC ${sundials_add_library_SOURCES})
-    #set_target_properties(${target} PROPERTIES C_VISIBILITY_PRESET default CXX_VISIBILITY_PRESET default)
     target_compile_definitions(${target} PRIVATE SUNDIALS_STATIC_DEFINE)
-    #target_compile_definitions(${target} PRIVATE SUNDIALS_EXPORT "__attribute__((visibility(\"default\")))")
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/src/sundials)
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
     target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/include)
@@ -107,7 +104,6 @@ function(scoped_sundials_setup_config)
     set(PACKAGE_VERSION_MAJOR "5")
     set(PACKAGE_VERSION_MINOR "8")
     set(PACKAGE_VERSION_PATCH "0")
-    #set(BUILD_SHARED_LIBS TRUE)
     set(PACKAGE_VERSION "${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}.${PACKAGE_VERSION_PATCH}")
     include(sundials/cmake/SundialsSetupConfig.cmake)
 endfunction()
@@ -139,6 +135,7 @@ pybind11_add_module(PyPartMC
   src/scenario.F90
 )
 add_dependencies(partmclib 
+  sundials_cvode
   sundials_generic
   sundials_nvecserial 
   sundials_sunmatrixband 
@@ -146,20 +143,19 @@ add_dependencies(partmclib
   sundials_sunlinsolband 
   sundials_sunnonlinsolnewton 
   sundials_sunlinsolspgmr
-  sundials_cvode
 )
 add_dependencies(PyPartMC partmclib)
 target_include_directories(PyPartMC PRIVATE ${CMAKE_SOURCE_DIR}/json/include ${CMAKE_SOURCE_DIR}/pybind11_json/include)
 target_include_directories(partmclib PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include ${CMAKE_BINARY_DIR}/include)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(partmclib PRIVATE 
-  sundials_generic
+  sundials_cvode
   sundials_nvecserial
   sundials_sunmatrixband
   sundials_sunmatrixdense
   sundials_sunlinsolband
   sundials_sunnonlinsolnewton 
   sundials_sunlinsolspgmr
-  sundials_cvode
+  sundials_generic
 )
 target_link_libraries(PyPartMC PRIVATE partmclib)
