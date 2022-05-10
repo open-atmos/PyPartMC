@@ -8,7 +8,7 @@ enable_language(Fortran)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 14)
 
-add_library(partmclib
+add_library(partmclib STATIC
   src/fake_mpi.F90
   src/fake_netcdf.F90
   partmc/src/condense_solver.c
@@ -86,7 +86,7 @@ macro(sundials_add_library target)
     set(oneValueArgs INCLUDE_SUBDIR OUTPUT_NAME VERSION SOVERSION)
     set(multiValueArgs SOURCES HEADERS OBJECT_LIBRARIES LINK_LIBRARIES INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS COMPILE_FEATURES PROPERTIES)
     cmake_parse_arguments(sundials_add_library "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-    add_library(${target} SHARED ${sundials_add_library_SOURCES})
+    add_library(${target} STATIC ${sundials_add_library_SOURCES})
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/src/sundials)
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
     target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/include)
@@ -103,7 +103,7 @@ function(scoped_sundials_setup_config)
     set(PACKAGE_VERSION_MAJOR "5")
     set(PACKAGE_VERSION_MINOR "8")
     set(PACKAGE_VERSION_PATCH "0")
-    set(BUILD_SHARED_LIBS TRUE)
+    #set(BUILD_SHARED_LIBS TRUE)
     set(PACKAGE_VERSION "${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}.${PACKAGE_VERSION_PATCH}")
     include(sundials/cmake/SundialsSetupConfig.cmake)
 endfunction()
