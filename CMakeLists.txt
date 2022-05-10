@@ -1,14 +1,17 @@
 cmake_minimum_required(VERSION 3.4...3.18)
 project(PyPartMC)
 
+enable_language(C)
 enable_language(CXX)
 enable_language(Fortran)
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 14)
 
 add_library(partmclib
   src/fake_mpi.F90
   src/fake_netcdf.F90
+  partmc/src/condense_solver.c
   partmc/src/aero_state.F90
   partmc/src/integer_varray.F90
   partmc/src/integer_rmap.F90
@@ -60,7 +63,33 @@ add_library(partmclib
   partmc/src/camp_interface.F90
   partmc/src/photolysis.F90
 )
+
+target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
 target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
+
+macro(sundials_add_library target)
+  set(options STATIC_ONLY SHARED_ONLY OBJECT_LIB_ONLY)
+  set(oneValueArgs INCLUDE_SUBDIR OUTPUT_NAME VERSION SOVERSION)
+  set(multiValueArgs SOURCES HEADERS OBJECT_LIBRARIES LINK_LIBRARIES INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS COMPILE_FEATURES PROPERTIES)
+  cmake_parse_arguments(sundials_add_library "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+  add_library(${target} ${sundials_add_library_SOURCES})
+  target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/src/sundials)
+  target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
+endmacro()
+
+macro(add_prefix prefix rootlist)
+  set(outlist)
+  foreach(root ${${rootlist}})
+    list(APPEND outlist ${prefix}${root})
+  endforeach()
+  set(${rootlist} ${outlist})
+endmacro(add_prefix)
+
+add_subdirectory(sundials/src/cvode/)
+add_subdirectory(sundials/src/sunmatrix)
+add_subdirectory(sundials/src/sunlinsol)
+add_subdirectory(sundials/src/sunnonlinsol)
+add_subdirectory(sundials/src/nvector)
 
 add_subdirectory(pybind11)
 
@@ -76,7 +105,18 @@ pybind11_add_module(PyPartMC
   src/gas_state.F90
   src/scenario.F90
 )
+add_dependencies(partmclib sundials_cvode sundials_nvecserial sundials_sunmatrixband sundials_sunmatrixdense sundials_sunlinsolband sundials_sunnonlinsolnewton sundials_sunlinsolspgmr)
 add_dependencies(PyPartMC partmclib)
 target_include_directories(PyPartMC PRIVATE json/include pybind11_json/include)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
-target_link_libraries(PyPartMC PRIVATE partmclib ${NETCDF_LIBS})
+target_link_libraries(partmclib PRIVATE 
+  sundials_cvode
+  sundials_nvecserial
+  sundials_generic
+  sundials_sunmatrixband
+  sundials_sunmatrixdense
+  sundials_sunlinsolband
+  sundials_sunnonlinsolnewton 
+  sundials_sunlinsolspgmr
+)
+target_link_libraries(PyPartMC PRIVATE partmclib)
