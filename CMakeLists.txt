@@ -138,7 +138,7 @@ add_dependencies(partmclib
 )
 add_dependencies(PyPartMC partmclib)
 target_include_directories(PyPartMC PRIVATE ${CMAKE_SOURCE_DIR}/json/include ${CMAKE_SOURCE_DIR}/pybind11_json/include)
-target_include_directories(partmclib PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
+target_include_directories(partmclib PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include ${CMAKE_BINARY_DIR}/include)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(partmclib PRIVATE 
   sundials_cvode
