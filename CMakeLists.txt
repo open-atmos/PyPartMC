@@ -7,6 +7,7 @@ enable_language(Fortran)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_C_VISIBILITY_PRESET default)
 
 add_library(partmclib STATIC
   src/fake_mpi.F90
