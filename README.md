@@ -29,11 +29,11 @@ import PyPartMC
 - works on Linux, macOS and Windows (compatibility assured with [CI builds](https://github.com/slayoo/PyPartMC/blob/main/.github/workflows/tests.yml))
 - hassle-free installation using `pip` (prior PartMC installation **not needed**)
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
-- support for [de]serialization of all exposed structures using JSON 
-- extensive [unit test coverage](https://github.com/slayoo/PyPartMC/tree/main/tests)
-- does not use or require shell or netCDF Fortran library
-- based on [unmodified PartMC code](https://github.com/slayoo/PyPartMC/tree/main/gitmodules)
 - Pythonic API (but retaining PartMC jargon), auto-generated [docs on the web](https://slayoo.github.io/PyPartMC/)
+- support for [de]serialization of all exposed structures using JSON 
+- based on [unmodified PartMC code](https://github.com/slayoo/PyPartMC/tree/main/gitmodules)
+- does not use or require shell or netCDF Fortran library
+- aiming at 100% [unit test coverage](https://github.com/slayoo/PyPartMC/tree/main/tests)
 
 ## Usage examples
 
