@@ -53,13 +53,7 @@ jobs:
 
       - run: pip install -e .
 
-      # sanity check if we do not depend on something from test-time-requirements.txt
-      - run: python -We -c "import PyPartMC"
-
-      - run: pip install -r test-time-requirements.txt
-
-      # ensure previous pip did not overwrite the package
-      - run: pip install -e .
+      - run: pip install pytest 
 
       - run: pytest -p no:unraisableexception -We tests
 
