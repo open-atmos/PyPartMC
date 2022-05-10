@@ -23,10 +23,11 @@ PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/
 - works on Linux, macOS and Windows (compatibility assured with CI builds)
 - hassle-free installation using `pip` (prior PartMC installation **not needed**)
 - works out of the box on Google Colab and alike
+- support for [de]serialization of all exposed structures using JSON 
+- auto-generated API docs [on the web](https://slayoo.github.io/PyPartMC/)
+- extensive unit test coverage
 - does not use or require shell or netCDF Fortran library
 - based on unmodified PartMC code
-- extensive unit test coverage
-- auto-generated API docs [on the web](https://slayoo.github.io/PyPartMC/)
 - ...
 
 ## Installation
@@ -60,6 +61,7 @@ PyPartMC is also used within the tests of PySDM project ...
 ## Implementation outline
 
 - PyPartMC is written in C++, Fortran and Python and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
+- JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
 - unmodified PartMC code is used and is linked through a git submodule
 - a mock of Fortran netCDF API is used for i/o from/to NumPy using existing netCDF API calls within PartMC
 - a mock of Fortran MPI API is used for error handling using existing MPI API calls within PartMC

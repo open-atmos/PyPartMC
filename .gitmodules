@@ -4,3 +4,9 @@
 [submodule "partmc"]
 	path = partmc
 	url = https://github.com/compdyn/partmc
+[submodule "pybind11_json"]
+	path = pybind11_json
+	url = https://github.com/pybind/pybind11_json
+[submodule "json"]
+	path = json
+	url = https://github.com/nlohmann/json

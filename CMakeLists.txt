@@ -6,8 +6,6 @@ enable_language(Fortran)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 14)
 
-# include(partmc/netcdf.cmake)
-
 add_library(partmclib
   src/fake_mpi.F90
   src/fake_netcdf.F90
@@ -65,6 +63,7 @@ add_library(partmclib
 target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
 
 add_subdirectory(pybind11)
+
 pybind11_add_module(PyPartMC 
   src/pypartmc.cpp
   src/run_part.F90
@@ -78,5 +77,6 @@ pybind11_add_module(PyPartMC
   src/scenario.F90
 )
 add_dependencies(PyPartMC partmclib)
+target_include_directories(PyPartMC PRIVATE json/include pybind11_json/include)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(PyPartMC PRIVATE partmclib ${NETCDF_LIBS})
