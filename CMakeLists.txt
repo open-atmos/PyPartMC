@@ -67,38 +67,49 @@ add_library(partmclib
 target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
 target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
 
-macro(sundials_add_library target)
-  set(options STATIC_ONLY SHARED_ONLY OBJECT_LIB_ONLY)
-  set(oneValueArgs INCLUDE_SUBDIR OUTPUT_NAME VERSION SOVERSION)
-  set(multiValueArgs SOURCES HEADERS OBJECT_LIBRARIES LINK_LIBRARIES INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS COMPILE_FEATURES PROPERTIES)
-  cmake_parse_arguments(sundials_add_library "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-  add_library(${target} ${sundials_add_library_SOURCES})
-  target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/src/sundials)
-  target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
-  target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/sundials/include)
-endmacro()
-
 macro(add_prefix prefix rootlist)
-  set(outlist)
-  foreach(root ${${rootlist}})
-    list(APPEND outlist ${prefix}${root})
-  endforeach()
-  set(${rootlist} ${outlist})
+    set(outlist)
+    foreach(root ${${rootlist}})
+        list(APPEND outlist ${prefix}${root})
+    endforeach()
+    set(${rootlist} ${outlist})
 endmacro(add_prefix)
 
+macro(sundials_add_library target)
+    set(options STATIC_ONLY SHARED_ONLY OBJECT_LIB_ONLY)
+    set(oneValueArgs INCLUDE_SUBDIR OUTPUT_NAME VERSION SOVERSION)
+    set(multiValueArgs SOURCES HEADERS OBJECT_LIBRARIES LINK_LIBRARIES INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS COMPILE_FEATURES PROPERTIES)
+    cmake_parse_arguments(sundials_add_library "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    add_library(${target} SHARED ${sundials_add_library_SOURCES})
+    target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/src/sundials)
+    target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
+    target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/include)
+    message(${target})
+endmacro()
+
+function(print_error)
+endfunction()
+
+function(scoped_sundials_setup_config)
+    # TODO: enforce git git from submodule!
+    set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/sundials)
+    set(SUNDIALS_PRECISION "double")
+    set(PACKAGE_VERSION_MAJOR "5")
+    set(PACKAGE_VERSION_MINOR "8")
+    set(PACKAGE_VERSION_PATCH "0")
+    set(PACKAGE_VERSION "${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}.${PACKAGE_VERSION_PATCH}")
+    include(sundials/cmake/SundialsSetupConfig.cmake)
+endfunction()
+scoped_sundials_setup_config()
+include(sundials/cmake/SundialsIndexSize.cmake)
+
+set(SUNDIALS_SOURCE_DIR "${CMAKE_SOURCE_DIR}/sundials")
 add_subdirectory(sundials/src/cvode/)
 add_subdirectory(sundials/src/sunmatrix)
 add_subdirectory(sundials/src/sunlinsol)
 add_subdirectory(sundials/src/sunnonlinsol)
 add_subdirectory(sundials/src/nvector)
-
-
-FUNCTION(scoped_sundials_setup_config)
-    set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/sundials)
-    set(SUNDIALS_PRECISION "double")
-    include(sundials/cmake/SundialsSetupConfig.cmake)
-ENDFUNCTION ()
-scoped_sundials_setup_config()
+add_subdirectory(sundials/src/sundials)
 
 add_subdirectory(pybind11)
 
@@ -114,7 +125,16 @@ pybind11_add_module(PyPartMC
   src/gas_state.F90
   src/scenario.F90
 )
-add_dependencies(partmclib sundials_cvode sundials_nvecserial sundials_sunmatrixband sundials_sunmatrixdense sundials_sunlinsolband sundials_sunnonlinsolnewton sundials_sunlinsolspgmr)
+add_dependencies(partmclib 
+  sundials_cvode
+  sundials_nvecserial 
+  sundials_generic
+  sundials_sunmatrixband 
+  sundials_sunmatrixdense 
+  sundials_sunlinsolband 
+  sundials_sunnonlinsolnewton 
+  sundials_sunlinsolspgmr
+)
 add_dependencies(PyPartMC partmclib)
 target_include_directories(PyPartMC PRIVATE json/include pybind11_json/include)
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
