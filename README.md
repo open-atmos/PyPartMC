@@ -37,22 +37,6 @@ import PyPartMC
 - based on [unmodified PartMC code](https://github.com/slayoo/PyPartMC/tree/main/gitmodules)
 - Pythonic API (but retaining PartMC jargon), auto-generated [docs on the web](https://slayoo.github.io/PyPartMC/)
 
-## Installation
-
-Typically this should be enough (if using Jupyter, prepend an exclamation mark, i.e. `!pip install ...`):
-
-```sh
-pip install git+https://github.com/slayoo/PyPartMC.git
-```
-
-If trying to figure out what's going wrong:
-
-```sh
-git clone --recursive git+https://github.com/slayoo/PyPartMC.git
-cd PyPartMC
-DEBUG=1 pip --verbose install -e .
-```
-
 ## Usage examples
 
 #### hello world
@@ -78,6 +62,16 @@ PyPartMC is also used within the tests of PySDM project ... TODO
 - C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC) dependencies are linked through [git submodules](https://github.com/slayoo/PyPartMC/blob/main/.gitmodules)
 - a [mock of Fortran netCDF API](https://github.com/slayoo/PyPartMC/blob/main/src/fake_netcdf.F90) is used for i/o from/to NumPy using existing netCDF API calls within PartMC
 - a [mock of Fortran MPI API](https://github.com/slayoo/PyPartMC/blob/main/src/fake_mpi.F90) is used for error handling using existing MPI API calls within PartMC
+
+## Troubleshooting 
+
+```sh
+git clone --recursive git+https://github.com/slayoo/PyPartMC.git
+cd PyPartMC
+DEBUG=1 pip --verbose install -e .
+gdb python 
+(gdb) run
+```
 
 ## Credits
 
