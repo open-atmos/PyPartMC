@@ -4,9 +4,12 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-import pytest
+# TODO
+# pylint: disable=unused-variable,unnecessary-pass
+
 import json
-import numpy as np
+import pytest
+#import numpy as np
 import PyPartMC as ppmc
 
 class TestGasState:
@@ -109,7 +112,7 @@ class TestGasState:
 
         # assert
         pass
-    
+
     @staticmethod
     def test_to_json():
         # arrange
