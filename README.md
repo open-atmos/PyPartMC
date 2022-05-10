@@ -1,5 +1,8 @@
 # PyPartMC (pre-alpha!)
 
+PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
+  a particle-resolved Monte-Carlo code for atmospheric aerosol simulation
+
 [![Python 3](https://img.shields.io/static/v1?label=Python&logo=Python&color=3776AB&message=3)](https://www.python.org/)
 [![Linux OK](https://img.shields.io/static/v1?label=Linux&logo=Linux&color=yellow&message=%E2%9C%93)](https://en.wikipedia.org/wiki/Linux)
 [![macOS OK](https://img.shields.io/static/v1?label=macOS&logo=Apple&color=silver&message=%E2%9C%93)](https://en.wikipedia.org/wiki/macOS)
@@ -14,10 +17,6 @@
 [![Github Actions Build Status](https://github.com/slayoo/PyPartMC/workflows/tests/badge.svg?branch=main)](https://github.com/slayoo/PyPartMC/actions)
 [![API docs](https://img.shields.io/badge/API_docs-pdoc3-blue.svg)](https://slayoo.github.io/PyPartMC/)
 
-
-PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
-  a particle-resolved Monte-Carlo code for atmospheric aerosol simulation
-  implemented in Fortran.
 
 ## TL;DR (try in a Jupyter notebook)
 
