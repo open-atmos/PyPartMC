@@ -63,6 +63,13 @@ PyPartMC is also used within the tests of PySDM project ... TODO
 
 ## Troubleshooting 
 
+#### Common installation issues 
+```
+error: [Errno 2] No such file or directory: 'cmake'
+```
+Try rerunning after installing CMake (e.g., `apt-get install cmake` or `brew install cmake`)
+
+#### How to debug
 ```sh
 git clone --recursive git+https://github.com/slayoo/PyPartMC.git
 cd PyPartMC
