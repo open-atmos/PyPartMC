@@ -7,8 +7,7 @@ enable_language(Fortran)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_C_VISIBILITY_PRESET default)
-set(CMAKE_CXX_VISIBILITY_PRESET default)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 add_library(partmclib STATIC
   src/fake_mpi.F90
@@ -89,9 +88,9 @@ macro(sundials_add_library target)
     set(multiValueArgs SOURCES HEADERS OBJECT_LIBRARIES LINK_LIBRARIES INCLUDE_DIRECTORIES COMPILE_DEFINITIONS COMPILE_OPTIONS COMPILE_FEATURES PROPERTIES)
     cmake_parse_arguments(sundials_add_library "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
     add_library(${target} STATIC ${sundials_add_library_SOURCES})
-    set_target_properties(${target} PROPERTIES C_VISIBILITY_PRESET default CXX_VISIBILITY_PRESET default)
+    #set_target_properties(${target} PROPERTIES C_VISIBILITY_PRESET default CXX_VISIBILITY_PRESET default)
     target_compile_definitions(${target} PRIVATE SUNDIALS_STATIC_DEFINE)
-    target_compile_definitions(${target} PRIVATE SUNDIALS_EXPORT "__attribute__((visibility(\"default\")))")
+    #target_compile_definitions(${target} PRIVATE SUNDIALS_EXPORT "__attribute__((visibility(\"default\")))")
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/src/sundials)
     target_include_directories(${target} PRIVATE ${CMAKE_SOURCE_DIR}/sundials/include)
     target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/include)
