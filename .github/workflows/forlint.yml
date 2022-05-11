@@ -11,7 +11,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
          - uses: actions/checkout@v2
-         - uses: NOAA-GFDL/simple_lint@v1
+         - uses: NOAA-GFDL/simple_lint@v3
            with:
              failure: true
              ftn_line_length: 100
