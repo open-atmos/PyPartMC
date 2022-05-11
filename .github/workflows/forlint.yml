@@ -14,4 +14,4 @@ jobs:
          - uses: NOAA-GFDL/simple_lint@v3
            with:
              failure: true
-             ftn_line_length: 100
+             ftn_line_len: 100
