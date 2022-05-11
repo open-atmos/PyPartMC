@@ -10,11 +10,7 @@ jobs:
    lint:
       steps:
          - uses: actions/checkout@v2
-         - name: Whitespace Lint
-           id: wslint
-           uses: NOAA-GFDL/simple-lint@v1
+         - uses: NOAA-GFDL/simple-lint@v1
            with:
              failure: true
              ftn_line_length: 100
-         - if: ! ${{ steps.wslint.outputs.lintSuccess }}
-           run: exit 1
