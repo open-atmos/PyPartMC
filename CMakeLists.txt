@@ -20,7 +20,7 @@ endmacro(add_prefix)
 ### sources ########################################################################################
 
 set(PyPartMC_sources 
-  pypartmc.cpp 
+  pypartmc.cpp fake_netcdf.cpp fake_mpi.cpp
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
   gas_state.F90 scenario.F90
 )

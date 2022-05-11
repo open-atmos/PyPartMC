@@ -1,6 +1,19 @@
+!###################################################################################################
+! This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
+! Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+! Author: Sylwester Arabas                                                                         #
+!###################################################################################################
+
 module netcdf
   implicit none
   integer, parameter :: NF90_MAX_NAME=100
+
+  interface
+    function nf90_strerror(ncerr) bind(C)
+      integer, intent(in) :: ncerr
+      character(len = 1)  :: nf90_strerror
+    end function
+  end interface
 
   contains
 
@@ -9,11 +22,6 @@ module netcdf
     type(*), dimension(..), intent(in) :: values
     integer, dimension(:), optional, intent(in) :: start, count, stride, map
     integer :: nf90_put_var
-  end function
-
-  function nf90_strerror(ncerr)
-    integer, intent( in) :: ncerr
-    character(len = 80)  :: nf90_strerror
   end function
 
   function nf90_inquire_variable(ncid, varid, name, xtype, ndims, dimids, nAtts)
@@ -33,13 +41,13 @@ module netcdf
   end function 
 
   function nf90_get_var(ncid, varid, values, start, count, stride, map)
-     integer, intent(in) :: ncid, varid
-     type(*), dimension(..) :: values
-     integer, dimension(:), optional, intent(in) :: start, count, stride, map
-     integer :: nf90_get_var
+    integer, intent(in) :: ncid, varid
+    type(*), dimension(..) :: values
+    integer, dimension(:), optional, intent(in) :: start, count, stride, map
+    integer :: nf90_get_var
   end function
 
-  function nf90_create(path, cmode, ncid) !, initialsize, chunksize, cache_size, cache_nelems, cache_preemption, comm, info)
+  function nf90_create(path, cmode, ncid)
     character (len = *), intent(in) :: path
     integer, intent(in) :: cmode
     integer, intent(out) :: ncid

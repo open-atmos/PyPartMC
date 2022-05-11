@@ -14,6 +14,7 @@ extern "C" void f_gas_state_dtor(void *ptr);
 extern "C" void f_gas_state_set_item(const void *ptr, const int *idx, const double *val);
 extern "C" void f_gas_state_get_item(const void *ptr, const int *idx, double *val);
 extern "C" void f_gas_state_len(const void *ptr, int *len);
+extern "C" void f_gas_state_to_json(const void *ptr);
 
 struct GasState {
   // TODO: common base class
@@ -57,6 +58,7 @@ struct GasState {
   }
 
   static std::string __str__(const GasState &self) {
+    f_gas_state_to_json(&self.ptr);
     nlohmann::json j = {{"value", 1}};
     return j.dump();
   }
