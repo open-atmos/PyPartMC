@@ -22,11 +22,30 @@ module netcdf
       integer, dimension(:), optional, intent(in) :: start, count
       integer :: nf90_put_var_int
     end function
+
+    function nf90_get_var_dbl(ncid, varid, values, start, count) bind(C)
+      integer, intent(in) :: ncid, varid
+      type(double precision), dimension(..), intent(in) :: values
+      integer, dimension(:), optional, intent(in) :: start, count
+      integer :: nf90_get_var_dbl
+    end function
+
+    function nf90_get_var_int(ncid, varid, values, start, count) bind(C)
+      integer, intent(in) :: ncid, varid
+      type(integer), dimension(..), intent(in) :: values
+      integer, dimension(:), optional, intent(in) :: start, count
+      integer :: nf90_get_var_int
+    end function
   end interface
 
   interface nf90_put_var
     module procedure nf90_put_var_dbl_
     module procedure nf90_put_var_int_
+  end interface
+
+  interface nf90_get_var
+    module procedure nf90_get_var_dbl_
+    module procedure nf90_get_var_int_
   end interface
 
   contains
@@ -68,11 +87,20 @@ module netcdf
     integer                                    :: nf90_inquire_dimension
   end function 
 
-  function nf90_get_var(ncid, varid, values, start, count, stride, map)
+  function nf90_get_var_dbl_(ncid, varid, values, start, count)
     integer, intent(in) :: ncid, varid
-    type(*), dimension(..) :: values
-    integer, dimension(:), optional, intent(in) :: start, count, stride, map
-    integer :: nf90_get_var
+    type(double precision), dimension(..) :: values
+    integer, dimension(:), optional, intent(in) :: start, count
+    integer :: nf90_get_var_dbl_
+    nf90_get_var_dbl_ = nf90_get_var_dbl(ncid, varid, values, start, count)
+  end function
+
+  function nf90_get_var_int_(ncid, varid, values, start, count)
+    integer, intent(in) :: ncid, varid
+    type(integer), dimension(..) :: values
+    integer, dimension(:), optional, intent(in) :: start, count
+    integer :: nf90_get_var_int_
+    nf90_get_var_int_ = nf90_get_var_int(ncid, varid, values, start, count)
   end function
 
   function nf90_create(path, cmode, ncid)

@@ -16,6 +16,7 @@ extern "C" void f_gas_state_set_item(const void *ptr, const int *idx, const doub
 extern "C" void f_gas_state_get_item(const void *ptr, const int *idx, double *val);
 extern "C" void f_gas_state_len(const void *ptr, int *len);
 extern "C" void f_gas_state_to_json(const void *ptr);
+extern "C" void f_gas_state_from_json(const void *ptr);
 
 struct GasState {
   // TODO: common base class?
@@ -25,10 +26,13 @@ struct GasState {
 
   GasState(const std::string &json) {
     const int n = 33; // TODO!
-
     // {"gas_mixing_ratio", arr}}  TODO
 
+    std::unique_ptr<nlohmann::json> json_unique_ptr;
+    json_unique_ptr.swap(get_fake_netcdf_json());
+
     f_gas_state_ctor(&this->ptr, n);
+    // f_gas_state_from_json(&this->ptr); // TODO!
   }
 
   ~GasState() {
