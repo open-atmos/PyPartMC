@@ -1,15 +1,20 @@
 [submodule "pybind11"]
 	path = gitmodules/pybind11
 	url = https://github.com/pybind/pybind11
+	shallow = true
 [submodule "partmc"]
 	path = gitmodules/partmc
 	url = https://github.com/compdyn/partmc
+	shallow = true
 [submodule "pybind11_json"]
 	path = gitmodules/pybind11_json
 	url = https://github.com/pybind/pybind11_json
+	shallow = true
 [submodule "json"]
 	path = gitmodules/json
 	url = https://github.com/nlohmann/json
+	shallow = true
 [submodule "sundials"]
 	path = gitmodules/sundials
 	url = https://github.com/LLNL/sundials
+	shallow = true
