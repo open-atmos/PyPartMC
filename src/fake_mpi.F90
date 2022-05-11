@@ -114,10 +114,13 @@ module mpi
     integer, optional, intent(out) :: ierror
   end subroutine
 
-  subroutine mpi_Alltoallv(sendbuf, sendcounts, sdispls, sendtype, recvbuf, recvcounts, rdispls, recvtype, comm, ierror)
+  subroutine mpi_Alltoallv(sendbuf, sendcounts, sdispls, sendtype, recvbuf, recvcounts, rdispls, &
+      recvtype, comm, ierror &
+  )
     TYPE(*), DIMENSION(..), intent(IN) :: sendbuf
     TYPE(*), DIMENSION(..) :: recvbuf
-    integer, intent(IN) :: sendcounts(*), sdispls(*), recvcounts(*), rdispls(*), sendtype, recvtype, comm
+    integer, intent(IN) :: sendcounts(*), sdispls(*), recvcounts(*), rdispls(*)
+    integer, intent(in) :: sendtype, recvtype, comm
     integer, optional, intent(out) :: ierror
   end subroutine
 

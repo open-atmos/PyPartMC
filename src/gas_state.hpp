@@ -18,7 +18,7 @@ extern "C" void f_gas_state_len(const void *ptr, int *len);
 extern "C" void f_gas_state_to_json(const void *ptr);
 
 struct GasState {
-  // TODO: common base class
+  // TODO: common base class?
   void *ptr;
   GasState(const GasState &obj) = delete;
   GasState& operator= (const GasState&) = delete;

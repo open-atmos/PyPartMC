@@ -1,16 +1,17 @@
 name: forlint
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
    lint:
+      runs-on: ubuntu-latest
       steps:
          - uses: actions/checkout@v2
-         - name: Whitespace Lint
-           id: wslint
-           uses: NOAA-GFDL/simple-lint@v1
+         - uses: NOAA-GFDL/simple_lint@v3
            with:
              failure: true
-             ftn_line_length: 100
-         - if: ! ${{ steps.wslint.outputs.lintSuccess }}
-           run: exit 1
+             ftn_line_len: 101
