@@ -35,15 +35,13 @@
 <span>def <span class="ident">pow2_above</span></span>(<span>arg0: int) ‑> int</span>
 </code></dt>
 <dd>
-<div class="desc"><p>TODO</p>
-<p>TODO</p></div>
+<div class="desc"><p>Return the least power-of-2 that is at least equal to n.</p></div>
 </dd>
 <dt id="PyPartMC.run_part"><code class="name flex">
 <span>def <span class="ident">run_part</span></span>(<span>arg0: <a title="PyPartMC.Scenario" href="#PyPartMC.Scenario">Scenario</a>, arg1: <a title="PyPartMC.EnvState" href="#PyPartMC.EnvState">EnvState</a>, arg2: <a title="PyPartMC.AeroData" href="#PyPartMC.AeroData">AeroData</a>, arg3: <a title="PyPartMC.AeroState" href="#PyPartMC.AeroState">AeroState</a>, arg4: <a title="PyPartMC.GasData" href="#PyPartMC.GasData">GasData</a>, arg5: <a title="PyPartMC.RunPartOpt" href="#PyPartMC.RunPartOpt">RunPartOpt</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>TODO</p>
-<p>TODO</p></div>
+<div class="desc"><p>Do a particle-resolved Monte Carlo simulation.</p></div>
 </dd>
 </dl>
 </section>
@@ -55,7 +53,22 @@
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.AeroData) -&gt; None</p></div>
+<div class="desc"><p>Aerosol material properties and associated data.</p>
+<p>The data in this structure is constant, as it represents physical
+quantities that cannot change over time.</p>
+<p>Each aerosol species is identified by an index <tt>i =
+1,&hellip;,aero_data_n_spec(aero_data)</tt>. Then \c name(i) is the name of
+that species, \c density(i) is its density, etc. The ordering of the
+species is arbitrary and should not be relied upon (currently it is the
+order in the species data file). The only exception is that it is
+possible to find out which species is water from the \c i_water
+variable.</p>
+<p>The names of the aerosol species are not important to PartMC, as
+only the material properties are used. The names are used for
+input and output, and also for communication with MOSAIC. For the
+MOSAIC interface to work correctly the species must be named the
+same, but without the \c _a suffix.</p>
+<p><strong>init</strong>(self: PyPartMC.AeroData) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -66,7 +79,15 @@
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.AeroState) -&gt; None</p></div>
+<div class="desc"><p>The current collection of aerosol particles.</p>
+<p>The particles in \c aero_state_t are stored in a single flat
+array (the \c apa data member), with a sorting into size bins and
+weight groups/classes possibly stored in the \c aero_sorted data
+member (if \c valid_sort is true).</p>
+<p>Every time we remove particles we keep track of the particle ID
+and the action performed in the aero_info_array_t structure. This
+is typically cleared each time we output data to disk.</p>
+<p><strong>init</strong>(self: PyPartMC.AeroState) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -77,7 +98,12 @@
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.EnvState) -&gt; None</p></div>
+<div class="desc"><p>Current environment state.</p>
+<p>All quantities are instantaneous, describing the state at a
+particular instant of time. Constant data and other data not
+associated with the current environment state is stored in
+scenario_t.</p>
+<p><strong>init</strong>(self: PyPartMC.EnvState) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -88,7 +114,13 @@
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.GasData) -&gt; None</p></div>
+<div class="desc"><p>Constant gas data.</p>
+<p>Each gas species is identified by an integer \c i between 1 and
+\c gas_data_n_spec(gas_data). Species \c i has name \c gas_data%%name(i).
+The variable gas data describing the current mixing ratios is stored
+in the gas_state_t structure, so the mixing ratio of species \c i
+is gas_state%%mix_rat(i).</p>
+<p><strong>init</strong>(self: PyPartMC.GasData) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -99,8 +131,15 @@
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.GasState, json: str = '') -&gt; None</p>
-<p>TODO</p></div>
+<div class="desc"><p>Current state of the gas mixing ratios in the system.</p>
+<p>The gas species are defined by the gas_data_t structure, so that
+\c gas_state%%mix_rat(i) is the current mixing ratio of the gas
+with name \c gas_data%%name(i), etc.</p>
+<p>By convention, if gas_state_is_allocated() return \c .false.,
+then the gas_state is treated as zero for all operations on
+it. This will be the case for new \c gas_state_t structures.</p>
+<p><strong>init</strong>(self: PyPartMC.GasState, json: str = '') -&gt; None</p>
+<p>instantiates and initializes from JSON string</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -111,7 +150,8 @@
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.RunPartOpt) -&gt; None</p></div>
+<div class="desc"><p>Options controlling the execution of run_part().</p>
+<p><strong>init</strong>(self: PyPartMC.RunPartOpt) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -122,7 +162,15 @@
 <span>(</span><span>...)</span>
 </code></dt>
 <dd>
-<div class="desc"><p><strong>init</strong>(self: PyPartMC.Scenario) -&gt; None</p></div>
+<div class="desc"><p>This is everything needed to drive the scenario being simulated.</p>
+<p>The temperature, pressure, emissions and background states are profiles
+prescribed as functions of time by giving a number of times and
+the corresponding data. Simple data such as temperature and pressure is
+linearly interpolated between times, with constant interpolation
+outside of the range of times. Gases and aerosols are
+interpolated with gas_state_interp_1d() and
+aero_dist_interp_1d(), respectively.</p>
+<p><strong>init</strong>(self: PyPartMC.Scenario) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
