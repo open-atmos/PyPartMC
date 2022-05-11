@@ -9,19 +9,47 @@ module netcdf
   integer, parameter :: NF90_MAX_NAME=100
 
   interface
-    function nf90_strerror(ncerr) bind(C)
-      integer, intent(in) :: ncerr
-      character(len = 1)  :: nf90_strerror
+    function nf90_put_var_dbl(ncid, varid, values, start, count) bind(C)
+      integer, intent(in) :: ncid, varid
+      type(double precision), dimension(..), intent(in) :: values
+      integer, dimension(:), optional, intent(in) :: start, count
+      integer :: nf90_put_var_dbl
     end function
+
+    function nf90_put_var_int(ncid, varid, values, start, count) bind(C)
+      integer, intent(in) :: ncid, varid
+      type(integer), dimension(..), intent(in) :: values
+      integer, dimension(:), optional, intent(in) :: start, count
+      integer :: nf90_put_var_int
+    end function
+  end interface
+
+  interface nf90_put_var
+    module procedure nf90_put_var_dbl_
+    module procedure nf90_put_var_int_
   end interface
 
   contains
 
-  function nf90_put_var(ncid, varid, values, start, count, stride, map)
+  function nf90_strerror(ncerr)
+    integer, intent(in) :: ncerr
+    character(len = 80)  :: nf90_strerror
+  end function
+
+  function nf90_put_var_dbl_(ncid, varid, values, start, count)
     integer, intent(in) :: ncid, varid
-    type(*), dimension(..), intent(in) :: values
-    integer, dimension(:), optional, intent(in) :: start, count, stride, map
-    integer :: nf90_put_var
+    type(double precision), dimension(..), intent(in) :: values
+    integer, dimension(:), optional, intent(in) :: start, count
+    integer :: nf90_put_var_dbl_
+    nf90_put_var_dbl_ = nf90_put_var_dbl(ncid, varid, values, start, count)
+  end function
+
+  function nf90_put_var_int_(ncid, varid, values, start, count)
+    integer, intent(in) :: ncid, varid
+    type(integer), dimension(..), intent(in) :: values
+    integer, dimension(:), optional, intent(in) :: start, count
+    integer :: nf90_put_var_int_
+    nf90_put_var_int_ = nf90_put_var_int(ncid, varid, values, start, count)
   end function
 
   function nf90_inquire_variable(ncid, varid, name, xtype, ndims, dimids, nAtts)
@@ -78,6 +106,7 @@ module netcdf
     character(len = *), intent( in) :: name
     type(*), dimension(..), intent( in) :: values
     integer                         :: nf90_put_att
+    print*, "nf90_put_att", varid
   end function
 
   function nf90_def_dim(ncid, name, len, dimid)

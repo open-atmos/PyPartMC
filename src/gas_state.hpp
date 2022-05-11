@@ -8,6 +8,7 @@
 #include <string>
 #include "pybind11_json/pybind11_json.hpp"
 #include "nlohmann/json.hpp"
+#include "fake_netcdf.hpp"
 
 extern "C" void f_gas_state_ctor(void *ptr, const int &n);
 extern "C" void f_gas_state_dtor(void *ptr);
@@ -59,8 +60,9 @@ struct GasState {
 
   static std::string __str__(const GasState &self) {
     f_gas_state_to_json(&self.ptr);
-    nlohmann::json j = {{"value", 1}};
-    return j.dump();
+    std::unique_ptr<nlohmann::json> json_unique_ptr;
+    json_unique_ptr.swap(get_fake_netcdf_json());
+    return json_unique_ptr->dump();
   }
 
   static std::size_t __len__(const GasState &self) {
