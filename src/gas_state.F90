@@ -59,6 +59,16 @@ module PyPartMC_gas_state
     val = ptr_f%mix_rat(idx+1)
   end subroutine
 
+  subroutine f_gas_state_from_json(ptr_c) bind(C)
+    type(gas_state_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    
+    type(gas_data_t), pointer :: gas_data => null()
+    integer :: ncid
+
+    call gas_state_input_netcdf(ptr_f, ncid, gas_data)
+  end subroutine
+
   subroutine f_gas_state_to_json(ptr_c) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
@@ -67,8 +77,8 @@ module PyPartMC_gas_state
     integer :: ncid
 
     call c_f_pointer(ptr_c, ptr_f)
-    allocate(gas_data)
+    allocate(gas_data)  ! TODO
     call gas_state_output_netcdf(ptr_f, ncid, gas_data)
-    deallocate(gas_data)
+    deallocate(gas_data)  ! TODO
   end subroutine
 end module
