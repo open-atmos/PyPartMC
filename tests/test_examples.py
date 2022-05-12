@@ -1,3 +1,9 @@
+####################################################################################################
+# This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
+# Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+# Author: Sylwester Arabas                                                                         #
+####################################################################################################
+
 # pylint: disable=wrong-import-position
 # https://bugs.python.org/issue37373
 import sys
@@ -50,3 +56,4 @@ def test_run_notebooks(notebook_filename, tmp_path):
 
         ep = ExecutePreprocessor(timeout=15 * 60, kernel_name="python3")
         ep.preprocess(nb, {"metadata": {"path": tmp_path}})
+
