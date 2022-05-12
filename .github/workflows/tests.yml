@@ -53,7 +53,7 @@ jobs:
 
       - run: pip install -e .
 
-      - run: pip install pytest nbconvert
+      - run: pip install pytest nbconvert ipython ipykernel
 
       - run: pytest -We tests
 
