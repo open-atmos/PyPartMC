@@ -29,7 +29,8 @@ import PyPartMC
 - works on Linux, macOS and Windows (compatibility assured with [CI builds](https://github.com/slayoo/PyPartMC/blob/main/.github/workflows/tests.yml))
 - hassle-free installation using `pip` (prior PartMC installation **not needed**)
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
-- Pythonic API (but retaining PartMC jargon), auto-generated [docs on the web](https://slayoo.github.io/PyPartMC/)
+- Pythonic API (but retaining PartMC jargon) incl. exceptions and GC deallocation of Fortran objects 
+- auto-generated [docs on the web](https://slayoo.github.io/PyPartMC/)
 - support for [de]serialization of all exposed structures using JSON 
 - based on [unmodified PartMC code](https://github.com/slayoo/PyPartMC/tree/main/gitmodules)
 - does not use or require shell or netCDF Fortran library
@@ -58,7 +59,7 @@ PyPartMC is also used within the tests of PySDM project ... TODO
 - JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
 - PartMC and selected parts of SUNDIALS are compiled during `pip install` and statically linked
 - C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC) dependencies are linked through [git submodules](https://github.com/slayoo/PyPartMC/blob/main/.gitmodules)
-- a [mock of Fortran netCDF API](https://github.com/slayoo/PyPartMC/blob/main/src/fake_netcdf.F90) is used for i/o from/to NumPy using existing netCDF API calls within PartMC
+- a [mock of Fortran netCDF API](https://github.com/slayoo/PyPartMC/blob/main/src/fake_netcdf.F90) is used for i/o from/to JSON using existing netCDF API calls within PartMC
 - a [mock of Fortran MPI API](https://github.com/slayoo/PyPartMC/blob/main/src/fake_mpi.F90) is used for error handling using existing MPI API calls within PartMC
 
 ## Troubleshooting 

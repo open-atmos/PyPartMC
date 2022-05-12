@@ -45,19 +45,20 @@ def notebook_filename(request):
 
 # pylint: disable=redefined-outer-name
 def test_run_notebooks(notebook_filename, tmp_path):
-    with open(notebook_filename, encoding="utf8") as f:
-        nb = nbformat.read(f, as_version=4)
+    with open(notebook_filename, encoding="utf8") as nb_file:
+        notebook = nbformat.read(nb_file, as_version=4)
 
         cells_to_be_deleted = []
-        for idx, cell in enumerate(nb.cells):
+        for idx, cell in enumerate(notebook.cells):
             if cell.cell_type == 'code' and cell.source.startswith('!'):
                 cells_to_be_deleted.append(idx)
         for idx in reversed(cells_to_be_deleted):
-            del nb.cells[idx]
+            del notebook.cells[idx]
 
-        ep = ExecutePreprocessor(timeout=15 * 60, kernel_name="python3")
+        executor = ExecutePreprocessor(timeout=15 * 60, kernel_name="python3")
 
+        # https://github.com/pytest-dev/pytest-asyncio/issues/212
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="There is no current event loop")
-            ep.preprocess(nb, {"metadata": {"path": tmp_path}})
+            executor.preprocess(notebook, {"metadata": {"path": tmp_path}})
 
