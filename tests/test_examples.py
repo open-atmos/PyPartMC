@@ -16,6 +16,7 @@ if sys.platform == "win32" and sys.version_info[:2] >= (3, 7):
 import os
 import pathlib
 import re
+import warnings
 
 import nbformat
 import pytest
@@ -55,5 +56,8 @@ def test_run_notebooks(notebook_filename, tmp_path):
             del nb.cells[idx]
 
         ep = ExecutePreprocessor(timeout=15 * 60, kernel_name="python3")
-        ep.preprocess(nb, {"metadata": {"path": tmp_path}})
+
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", message="There is no current event loop")
+            ep.preprocess(nb, {"metadata": {"path": tmp_path}})
 
