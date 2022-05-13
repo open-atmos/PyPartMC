@@ -27,6 +27,8 @@ struct Gimmick {
     }
 
   public:
+    virtual ~Gimmick() {}
+
     auto is_empty() {
         return this->json.empty();
     }
