@@ -7,22 +7,46 @@
 # TODO
 # pylint: disable=unused-variable,unnecessary-pass
 
-import json
 import pytest
 #import numpy as np
 import PyPartMC as ppmc
 
 class TestGasState:
     @staticmethod
-    def test_ctor():
+    def test_ctor_error():
         # arrange
+
+        # act
+        try:
+            sut = ppmc.GasState({'':''})
+        except ValueError as err:
+            assert "gas_mixing_ratio" in str(err)
+            return
+
+        # assert
+        assert False
+
+    @staticmethod
+    def test_ctor_emtpy():
+        # arrange
+        pass
 
         # act
         sut = ppmc.GasState()
 
         # assert
-        assert sut is not None
-        assert isinstance(sut, ppmc.GasState)
+        isinstance(sut, ppmc.GasState)
+
+    @staticmethod
+    def test_ctor_valid():
+        # arrange
+        pass
+
+        # act
+        # TODO sut = ppmc.GasState({"gas_mixing_ratio":''})
+
+        # assert
+        # TODO assert isinstance(sut, ppmc.GasState)
 
     @staticmethod
     def test_dtor():
@@ -36,7 +60,7 @@ class TestGasState:
         assert sut is None
 
     @staticmethod
-    def test_len():
+    def test_len_empty():
         # arrange
         sut = ppmc.GasState()
 
@@ -45,7 +69,7 @@ class TestGasState:
 
         # assert
         assert isinstance(size, int)
-        assert size == 33  # TODO
+        assert size == 0  # TODO: test non-empty len
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 100))
@@ -68,10 +92,10 @@ class TestGasState:
         sut = ppmc.GasState()
 
         # act
-        value = sut[0]  # TODO
+        #value = sut[0]  # TODO
 
         # assert
-        assert isinstance(value, float)
+        #assert isinstance(value, float)
         #assert value == 44  # TODO
 
     @staticmethod
@@ -102,27 +126,15 @@ class TestGasState:
     # TODO: set_items
 
     @staticmethod
-    def test_from_json():
-        # arrange
-        data = {'aqq': (3,4,5)}
-        json_str = json.dumps(data)
-
-        # act
-        ppmc.GasState(json_str)
-
-        # assert
-        pass
-
-    @staticmethod
     def test_to_json():
         # arrange
-        data_in = {'':''}
-        sut = ppmc.GasState(json.dumps(data_in))
+        data_in = {} # TODO
+        sut = ppmc.GasState(data_in)
 
         # act
         data_out = str(sut)
         print(data_out)
 
         # assert
-        # assert data_in == data_out TODO
+        #assert data_in == data_out
 
