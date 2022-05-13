@@ -55,8 +55,8 @@ jobs:
 
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
 
-      - run: pytest -We tests
+      - run: pytest -s -We tests
 
-      - run: DEBUG=0 VERSBOE=1 pip install --verbose -e .
+      - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
 
-      - run: pytest -We tests
+      - run: pytest -s -We tests
