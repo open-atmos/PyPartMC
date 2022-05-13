@@ -51,9 +51,17 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install -e .
-
       - run: pip install pytest nbconvert ipython ipykernel
 
-      - run: pytest -We tests
+      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
 
+      - run: pytest -s -We tests
+
+      - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
+
+      - run: pytest -s -We tests
+
+      - if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true

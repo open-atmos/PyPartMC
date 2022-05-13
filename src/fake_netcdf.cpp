@@ -7,7 +7,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "fake_netcdf.hpp"
+#include "gimmicks.hpp"
 
 
 template <class X>
@@ -17,12 +17,12 @@ X& singleton()
     return x;
 }
 
-std::unique_ptr<nlohmann::json> &get_fake_netcdf_json() {
-    return singleton<std::unique_ptr<nlohmann::json>>();
+std::unique_ptr<Gimmick> &gimmick_ptr() {
+    return singleton<std::unique_ptr<Gimmick>>();
 }
 
 template <typename T>
-int put_var(
+void put_var(
   const int &ncid,
   const int &varid,
   const T *values,
@@ -30,32 +30,33 @@ int put_var(
   const int &count
 ) {
   std::cerr << "C++ put_var<T> ..." << std::endl;
-  get_fake_netcdf_json() = std::make_unique<nlohmann::json>(nlohmann::json{{"aqq", 44}}); // TODO!
-  return 0;  // TODO
+  //get_fake_netcdf_json() = std::make_unique<nlohmann::json>(nlohmann::json{{"aqq", 44}}); // TODO!
 }
 
-extern "C" int nf90_put_var_dbl(
+extern "C" 
+void nf90_put_var_dbl(
   const int *ncid,
   const int *varid,
   const double *values,
   const int *start,
   const int *count
 ) {
-  return put_var(*ncid, *varid, values, *start, *count);
+  put_var(*ncid, *varid, values, *start, *count);
 }
 
-extern "C" int nf90_put_var_int(
+extern "C"
+void nf90_put_var_int(
   const int *ncid,
   const int *varid,
   const int *values, // TODO: fortran type
   const int *start,
   const int *count
 ) {
-  return put_var(*ncid, *varid, values, *start, *count);
+  put_var(*ncid, *varid, values, *start, *count);
 }
 
 template <typename T>
-int get_var(
+void get_var(
   const int &ncid,
   const int &varid,
   const T *values,
@@ -63,25 +64,34 @@ int get_var(
   const int &count
 ) {
   std::cerr << "C++ get_var<T> ..." << std::endl;
-  return 0;  // TODO
 }
 
-extern "C" int nf90_get_var_dbl(
+extern "C" void nf90_get_var_dbl(
   const int *ncid,
   const int *varid,
   const double *values,
   const int *start,
   const int *count
 ) {
-  return get_var(*ncid, *varid, values, *start, *count);
+  get_var(*ncid, *varid, values, *start, *count);
 }
 
-extern "C" int nf90_get_var_int(
-  const int *ncid,
-  const int *varid,
-  const int *values, // TODO: fortran type
+extern "C" 
+void nf90_get_var_int(const int *ncid, const int *varid, const int *values, // TODO: fortran type
   const int *start,
   const int *count
 ) {
-  return get_var(*ncid, *varid, values, *start, *count);
+  get_var(*ncid, *varid, values, *start, *count);
 }
+
+
+void inq_varid(const int &ncid, const std::string &name, int *varid) {
+    std::cerr << "inq_varid -> " << name << std::endl;
+    *varid = gimmick_ptr()->varid(name);
+}
+
+extern "C" 
+void nf90_inq_varid_str(const int *ncid, const char *name_data, int *name_size, int *varid) {
+  inq_varid(*ncid, std::string(name_data, *name_size), varid);
+}
+

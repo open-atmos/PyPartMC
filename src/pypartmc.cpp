@@ -4,8 +4,10 @@
 # Author: Sylwester Arabas                                                                         #
 ##################################################################################################*/
 
-#include <pybind11/pybind11.h>
-#include <pybind11/numpy.h>
+#include "pybind11/pybind11.h"
+#include "nlohmann/json.hpp"
+#include "pybind11_json/pybind11_json.hpp"
+#include "pybind11/numpy.h"
 
 #include "util.hpp"
 #include "run_part.hpp"
@@ -129,8 +131,8 @@ PYBIND11_MODULE(PyPartMC, m) {
             it. This will be the case for new \c gas_state_t structures.
         )pbdoc"
     )
-        .def(py::init<const std::string&>(),
-            "instantiates and initializes from JSON string", py::arg("json") = "")
+        .def(py::init<const nlohmann::json&>(),
+            "instantiates and initializes from JSON string", py::arg(0) = py::dict())
         .def("__setitem__", GasState::set_item)
         .def("__setitem__", GasState::set_items)
         .def("__getitem__", GasState::get_item)

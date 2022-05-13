@@ -5,37 +5,50 @@
 !###################################################################################################
 
 module netcdf
+  use iso_c_binding
   implicit none
-  integer, parameter :: NF90_MAX_NAME=100
+  integer, parameter :: &
+    nf90_max_name=100, &
+    nf90_noerr=666, &
+    nf90_int=-1, &
+    nf90_double=-1, &
+    nf90_ebaddim=-1, &
+    nf90_enotvar=-1, &
+    nf90_clobber=-1, &
+    nf90_nowrite=-1, &
+    nf90_global=-1
 
   interface
-    function nf90_put_var_dbl(ncid, varid, values, start, count) bind(C)
+    subroutine nf90_put_var_dbl(ncid, varid, values, start, count) bind(C)
       integer, intent(in) :: ncid, varid
       type(double precision), dimension(..), intent(in) :: values
       integer, dimension(:), optional, intent(in) :: start, count
-      integer :: nf90_put_var_dbl
-    end function
+    end subroutine
 
-    function nf90_put_var_int(ncid, varid, values, start, count) bind(C)
+    subroutine nf90_put_var_int(ncid, varid, values, start, count) bind(C)
       integer, intent(in) :: ncid, varid
       type(integer), dimension(..), intent(in) :: values
       integer, dimension(:), optional, intent(in) :: start, count
-      integer :: nf90_put_var_int
-    end function
+    end subroutine
 
-    function nf90_get_var_dbl(ncid, varid, values, start, count) bind(C)
+    subroutine nf90_get_var_dbl(ncid, varid, values, start, count) bind(C)
       integer, intent(in) :: ncid, varid
       type(double precision), dimension(..), intent(in) :: values
       integer, dimension(:), optional, intent(in) :: start, count
-      integer :: nf90_get_var_dbl
-    end function
+    end subroutine
 
-    function nf90_get_var_int(ncid, varid, values, start, count) bind(C)
+    subroutine nf90_get_var_int(ncid, varid, values, start, count) bind(C)
       integer, intent(in) :: ncid, varid
       type(integer), dimension(..), intent(in) :: values
       integer, dimension(:), optional, intent(in) :: start, count
-      integer :: nf90_get_var_int
-    end function
+    end subroutine
+
+    subroutine nf90_inq_varid_str(ncid, name_data, name_size, varid) bind(C)
+      integer, intent( in) :: ncid
+      integer, intent(out) :: varid
+      character, intent(in) :: name_data
+      integer, intent(in) :: name_size
+    end subroutine
   end interface
 
   interface nf90_put_var
@@ -50,6 +63,15 @@ module netcdf
 
   contains
 
+  function nf90_inq_varid(ncid, name, varid)
+    integer, intent( in) :: ncid
+    integer, intent(out) :: varid
+    integer :: nf90_inq_varid
+    character (len=*), intent(in) :: name
+    call nf90_inq_varid_str(ncid, name(1:1), len(name), varid)
+    nf90_inq_varid = NF90_NOERR
+  end function
+
   function nf90_strerror(ncerr)
     integer, intent(in) :: ncerr
     character(len = 80)  :: nf90_strerror
@@ -60,7 +82,8 @@ module netcdf
     type(double precision), dimension(..), intent(in) :: values
     integer, dimension(:), optional, intent(in) :: start, count
     integer :: nf90_put_var_dbl_
-    nf90_put_var_dbl_ = nf90_put_var_dbl(ncid, varid, values, start, count)
+    call nf90_put_var_dbl(ncid, varid, values, start, count)
+    nf90_put_var_dbl_ = NF90_NOERR
   end function
 
   function nf90_put_var_int_(ncid, varid, values, start, count)
@@ -68,7 +91,8 @@ module netcdf
     type(integer), dimension(..), intent(in) :: values
     integer, dimension(:), optional, intent(in) :: start, count
     integer :: nf90_put_var_int_
-    nf90_put_var_int_ = nf90_put_var_int(ncid, varid, values, start, count)
+    call nf90_put_var_int(ncid, varid, values, start, count)
+    nf90_put_var_int_ = NF90_NOERR
   end function
 
   function nf90_inquire_variable(ncid, varid, name, xtype, ndims, dimids, nAtts)
@@ -81,10 +105,10 @@ module netcdf
   end function
 
   function nf90_inquire_dimension(ncid, dimid, name, len)
-    integer,                       intent( in) :: ncid, dimid
+    integer, intent( in) :: ncid, dimid
     character (len = *), optional, intent(out) :: name
-    integer,             optional, intent(out) :: len
-    integer                                    :: nf90_inquire_dimension
+    integer, optional, intent(out) :: len
+    integer :: nf90_inquire_dimension
   end function 
 
   function nf90_get_var_dbl_(ncid, varid, values, start, count)
@@ -92,7 +116,8 @@ module netcdf
     type(double precision), dimension(..) :: values
     integer, dimension(:), optional, intent(in) :: start, count
     integer :: nf90_get_var_dbl_
-    nf90_get_var_dbl_ = nf90_get_var_dbl(ncid, varid, values, start, count)
+    call nf90_get_var_dbl(ncid, varid, values, start, count)
+    nf90_get_var_dbl_ = NF90_NOERR
   end function
 
   function nf90_get_var_int_(ncid, varid, values, start, count)
@@ -100,7 +125,8 @@ module netcdf
     type(integer), dimension(..) :: values
     integer, dimension(:), optional, intent(in) :: start, count
     integer :: nf90_get_var_int_
-    nf90_get_var_int_ = nf90_get_var_int(ncid, varid, values, start, count)
+    call nf90_get_var_int(ncid, varid, values, start, count)
+    nf90_get_var_int_ = NF90_NOERR
   end function
 
   function nf90_create(path, cmode, ncid)
@@ -116,13 +142,6 @@ module netcdf
     integer                          :: nf90_inq_dimid
     character (len = *), intent(in) :: name
   end function 
-
-  function nf90_inq_varid(ncid, name, varid)
-    integer,             intent( in) :: ncid
-    integer,             intent(out) :: varid
-    integer                          :: nf90_inq_varid
-    character (len = *), intent(in) :: name
-  end function
 
   function nf90_enddef(ncid)
     integer,           intent( in) :: ncid

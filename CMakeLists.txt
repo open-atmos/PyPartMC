@@ -6,8 +6,21 @@
 
 cmake_minimum_required(VERSION 3.4...3.18)
 project(PyPartMC LANGUAGES C CXX Fortran)
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# TODO
+#set(CMAKE_Fortran_STANDARD 2008)
+#set(CMAKE_Fortran_STANDARD_REQUIRED YES)
+#set(CMAKE_Fortran_EXTENSIONS OFF)
+
+if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
+  add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-fimplicit-none>)
+endif()
 
 macro(add_prefix prefix rootlist)
   set(outlist)
@@ -119,3 +132,12 @@ target_include_directories(PyPartMC PRIVATE
 )
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(PyPartMC PRIVATE partmclib)
+
+### pedantics ######################################################################################
+
+foreach(target partmclib;PyPartMC)
+  target_compile_options(${target} PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+# TODO!    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+  )
+endforeach()

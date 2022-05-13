@@ -5,7 +5,24 @@
 !###################################################################################################
 
 module mpi
-  integer, parameter :: mpi_STATUS_SIZE = 4
+  implicit none
+  integer, parameter :: MPI_STATUS_SIZE = 4
+
+  integer, parameter :: &
+    MPI_COMM_WORLD = -1, &
+    MPI_DOUBLE_PRECISION = -1, &
+    MPI_INTEGER = -1, &
+    MPI_CHARACTER = -1, &
+    MPI_LOGICAL = -1, &
+    MPI_DOUBLE_COMPLEX = -1, &
+    MPI_MIN = -1, &
+    MPI_MAX = -1, &
+    MPI_SUM = -1, &
+    MPI_SUCCESS = -1, &
+    MPI_TAG = 1, &  ! TODO this is used as status array index
+    MPI_ANY_TAG = -1, &
+    MPI_SOURCE = 1, & ! TODO this is used as status array index
+    MPI_ANY_SOURCE = -1
 
   interface
     subroutine mpi_abort(comm, errorcode, ierror) bind(C)
@@ -24,12 +41,12 @@ module mpi
   end subroutine
 
   subroutine mpi_COMM_RANK(COMM, RANK, IERR)
-    integer :: COMM, RANK, IERROR
+    integer :: COMM, RANK, IERR
     RANK = 0
   end subroutine
 
   subroutine mpi_COMM_SIZE(COMM, SIZE, IERR)
-    integer :: COMM, SIZE, IERROR
+    integer :: COMM, SIZE, IERR
     SIZE = 1
   end subroutine
 

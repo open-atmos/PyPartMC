@@ -76,7 +76,7 @@ git clone --recursive git+https://github.com/open-atmos/PyPartMC.git
 cd PyPartMC
 DEBUG=1 VERBOSE=1 pip --verbose install -e .
 gdb python 
-(gdb) run
+(gdb) run -m pytest -s tests
 ```
 
 ## Credits
