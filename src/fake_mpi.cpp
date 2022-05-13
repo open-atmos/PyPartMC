@@ -11,7 +11,7 @@ void _mpi_abort(const int errorcode) {
   std::ostringstream oss;
   oss << errorcode << std::endl;
   auto err = std::runtime_error(oss.str());
-  //throw err; TODO
+  throw err;
 }
 
 extern "C" void mpi_abort(const int *comm, const int *errorcode, const int *ierror) {

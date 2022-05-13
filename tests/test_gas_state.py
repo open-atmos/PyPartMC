@@ -132,8 +132,8 @@ class TestGasState:
         sut = ppmc.GasState(data_in)
 
         # act
-        data_out = str(sut)
-        print(data_out)
+        #data_out = str(sut)
+        #print(data_out)
 
         # assert
         #assert data_in == data_out
