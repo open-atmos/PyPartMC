@@ -31,12 +31,11 @@ class TestGasState:
         # arrange
         pass
 
-        # TODO
         # act
-        # sut = ppmc.GasState()
+        sut = ppmc.GasState()
 
         # assert
-        # isinstance(sut, ppmc.GasState)
+        isinstance(sut, ppmc.GasState)
 
     @staticmethod
     def test_ctor_valid():

@@ -132,7 +132,7 @@ PYBIND11_MODULE(PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>(),
-            "instantiates and initializes from JSON string", py::arg(0) = py::dict())//nlohmann::json::parse("{}"))
+            "instantiates and initializes from JSON string", py::arg(0) = py::dict())
         .def("__setitem__", GasState::set_item)
         .def("__setitem__", GasState::set_items)
         .def("__getitem__", GasState::get_item)

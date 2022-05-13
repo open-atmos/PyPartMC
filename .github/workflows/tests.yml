@@ -60,3 +60,8 @@ jobs:
       - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
 
       - run: pytest -s -We tests
+
+      - if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
