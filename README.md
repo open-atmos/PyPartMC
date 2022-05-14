@@ -1,8 +1,8 @@
 # PyPartMC (pre-alpha!)
 
 PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
-  a particle-resolved Monte-Carlo code for atmospheric aerosol simulation
-As it is implemented in C++, it also constitutes a C++ API to PartMC internals.
+  a particle-resolved Monte-Carlo code for atmospheric aerosol simulation.
+As it is implemented in C++, it also constitutes a C++ API to the PartMC Fortran internals.
 
 [![US Funding](https://img.shields.io/static/v1?label=US%20DOE%20Funding%20by&color=267c32&message=ASR&logoWidth=25&logo=image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAQCAMAAAA25D/gAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAASFBMVEVOTXyyIjRDQnNZWINZWITtzdFUU4BVVIFVVYHWiZM9PG/KZnNXVoJaWYT67/FKSXhgX4hgX4lcW4VbWoX03uHQeIN2VXj///9pZChlAAAAAWJLR0QXC9aYjwAAAAd0SU1FB+EICRMGJV+KCCQAAABdSURBVBjThdBJDoAgEETRkkkZBBX0/kd11QTTpH1/STqpAAwWBkobSlkGbt0o5xmEfqxDZJB2Q6XMoBwnVSbTylWp0hi42rmbwTOYPDfR5Kc+07IIUQQvghX9THsBHcES8/SiF0kAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMDlUMTk6MDY6MzcrMDA6MDCX1tBgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTA5VDE5OjA2OjM3KzAwOjAw5oto3AAAAABJRU5ErkJggg==)](https://asr.science.energy.gov/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
@@ -30,6 +30,7 @@ import PyPartMC
 - works on Linux, macOS and Windows (compatibility assured with [CI builds](https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/tests.yml))
 - hassle-free installation using `pip` (prior PartMC installation **not needed**)
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
+- ships with [a set of examples](https://github.com/open-atmos/PyPartMC/tree/main/examples) maintained in a form of Jupyter notebooks
 - Pythonic API (but retaining PartMC jargon) incl. exceptions and GC deallocation of Fortran objects 
 - auto-generated [docs on the web](https://open-atmos.github.io/PyPartMC/)
 - support for [de]serialization of all exposed structures using JSON 
