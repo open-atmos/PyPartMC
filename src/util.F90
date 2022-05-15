@@ -19,9 +19,4 @@ subroutine py_pow2_above(n, res) bind(C)
    res = pow2_above(n)
 end subroutine
 
-double precision function py_deg2rad(deg) bind(C)
-   double precision, intent(in) :: deg
-   py_deg2rad = deg2rad(deg)
-end function
-
 end module

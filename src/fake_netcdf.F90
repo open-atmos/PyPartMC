@@ -75,6 +75,7 @@ module netcdf
   function nf90_strerror(ncerr)
     integer, intent(in) :: ncerr
     character(len = 80)  :: nf90_strerror
+    nf90_strerror = "TODO"
   end function
 
   function nf90_put_var_dbl_(ncid, varid, values, start, count)
@@ -83,7 +84,7 @@ module netcdf
     integer, dimension(:), optional, intent(in) :: start, count
     integer :: nf90_put_var_dbl_
     call nf90_put_var_dbl(ncid, varid, values, start, count)
-    nf90_put_var_dbl_ = NF90_NOERR
+    nf90_put_var_dbl_ = nf90_noerr
   end function
 
   function nf90_put_var_int_(ncid, varid, values, start, count)
@@ -92,7 +93,7 @@ module netcdf
     integer, dimension(:), optional, intent(in) :: start, count
     integer :: nf90_put_var_int_
     call nf90_put_var_int(ncid, varid, values, start, count)
-    nf90_put_var_int_ = NF90_NOERR
+    nf90_put_var_int_ = nf90_noerr
   end function
 
   function nf90_inquire_variable(ncid, varid, name, xtype, ndims, dimids, nAtts)
@@ -102,6 +103,7 @@ module netcdf
     integer, optional, intent(out) :: xtype, ndims 
     integer, optional, intent(out) :: nAtts
     integer :: nf90_inquire_variable
+    nf90_inquire_variable = nf90_noerr
   end function
 
   function nf90_inquire_dimension(ncid, dimid, name, len)
@@ -109,6 +111,7 @@ module netcdf
     character (len = *), optional, intent(out) :: name
     integer, optional, intent(out) :: len
     integer :: nf90_inquire_dimension
+    nf90_inquire_dimension = nf90_noerr
   end function 
 
   function nf90_get_var_dbl_(ncid, varid, values, start, count)
@@ -117,7 +120,7 @@ module netcdf
     integer, dimension(:), optional, intent(in) :: start, count
     integer :: nf90_get_var_dbl_
     call nf90_get_var_dbl(ncid, varid, values, start, count)
-    nf90_get_var_dbl_ = NF90_NOERR
+    nf90_get_var_dbl_ = nf90_noerr
   end function
 
   function nf90_get_var_int_(ncid, varid, values, start, count)
@@ -126,7 +129,7 @@ module netcdf
     integer, dimension(:), optional, intent(in) :: start, count
     integer :: nf90_get_var_int_
     call nf90_get_var_int(ncid, varid, values, start, count)
-    nf90_get_var_int_ = NF90_NOERR
+    nf90_get_var_int_ = nf90_noerr
   end function
 
   function nf90_create(path, cmode, ncid)
@@ -134,6 +137,7 @@ module netcdf
     integer, intent(in) :: cmode
     integer, intent(out) :: ncid
     integer :: nf90_create
+    nf90_create = nf90_noerr
   end function
 
   function nf90_inq_dimid(ncid, name, dimid)
@@ -141,27 +145,29 @@ module netcdf
     integer,             intent(out) :: dimid
     integer                          :: nf90_inq_dimid
     character (len = *), intent(in) :: name
+    nf90_inq_dimid = nf90_noerr
   end function 
 
   function nf90_enddef(ncid)
-    integer,           intent( in) :: ncid
-    integer                          :: nf90_enddef
+    integer, intent( in) :: ncid
+    integer :: nf90_enddef
+    nf90_enddef = nf90_noerr
   end function
 
   function nf90_put_att(ncid, varid, name, values)
     integer,            intent( in) :: ncid, varid
     character(len = *), intent( in) :: name
     type(*), dimension(..), intent( in) :: values
-    integer                         :: nf90_put_att
-    print*, "nf90_put_att", varid
+    integer :: nf90_put_att
+    nf90_put_att = nf90_noerr
   end function
 
   function nf90_def_dim(ncid, name, len, dimid)
-    integer,             intent( in) :: ncid
+    integer, intent( in) :: ncid, len
     character (len = *), intent( in) :: name
-    integer,             intent( in) :: len
-    integer,             intent(out) :: dimid
-    integer                          :: nf90_def_dim
+    integer, intent(out) :: dimid
+    integer :: nf90_def_dim
+    nf90_def_dim = nf90_noerr
   end function 
 
   function nf90_open(path, mode, ncid)
@@ -169,11 +175,13 @@ module netcdf
     integer, intent(in) :: mode
     integer, intent(out) :: ncid
     integer :: nf90_open
+    nf90_open = nf90_noerr
   end function
 
   function nf90_redef(ncid)
     integer, intent( in) :: ncid
-    integer              :: nf90_redef
+    integer :: nf90_redef
+    nf90_redef = nf90_noerr
   end function
 
   function nf90_def_var(ncid, name, xtype, dimids, varid)
@@ -182,18 +190,21 @@ module netcdf
     integer, intent( in) :: xtype
     integer, dimension(..), intent(in), optional :: dimids
     integer, intent(out) :: varid
-    integer                                      :: nf90_def_var
+    integer :: nf90_def_var
+    nf90_def_var = nf90_noerr
   end function
 
   function nf90_close(ncid)
     integer, intent( in) :: ncid
-    integer              :: nf90_close
+    integer :: nf90_close
+    nf90_close = nf90_noerr
   end function
 
   function nf90_get_att(ncid, varid, name, values)
     integer,            intent( in) :: ncid, varid
     character(len = *), intent( in) :: name
     type(*), dimension(..) :: values
-    integer                         :: nf90_get_att
+    integer :: nf90_get_att
+    nf90_get_att = nf90_noerr
   end function
 end module

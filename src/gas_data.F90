@@ -11,10 +11,9 @@ module PyPartMC_gas_data
 
   contains
 
-  subroutine f_gas_data_ctor(ptr_c, n) bind(C)
+  subroutine f_gas_data_ctor(ptr_c) bind(C)
     type(gas_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(out) :: ptr_c
-    integer, intent(in) :: n
 
     allocate(ptr_f)
     !TODO call gas_data_initialize(ptr_f, n)

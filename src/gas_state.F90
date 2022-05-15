@@ -14,7 +14,7 @@ module PyPartMC_gas_state
   subroutine f_gas_state_ctor(ptr_c, n) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(out) :: ptr_c
-    integer, intent(in) :: n
+    integer(c_int), intent(in) :: n
 
     allocate(ptr_f)
     call gas_state_set_size(ptr_f, n)
@@ -33,7 +33,7 @@ module PyPartMC_gas_state
   subroutine f_gas_state_len(ptr_c, len) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
-    integer, intent(out) :: len
+    integer(c_int), intent(out) :: len
 
     call c_f_pointer(ptr_c, ptr_f)
     len = size(ptr_f%mix_rat)
@@ -42,8 +42,8 @@ module PyPartMC_gas_state
   subroutine f_gas_state_set_item(ptr_c, idx, val) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
-    integer, intent(in) :: idx
-    double precision, intent(in) :: val
+    integer(c_int), intent(in) :: idx
+    real(c_double), intent(in) :: val
 
     call c_f_pointer(ptr_c, ptr_f)
     ptr_f%mix_rat(idx+1) = val
@@ -52,8 +52,8 @@ module PyPartMC_gas_state
   subroutine f_gas_state_get_item(ptr_c, idx, val) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
-    integer, intent(in) :: idx
-    double precision, intent(out) :: val
+    integer(c_int), intent(in) :: idx
+    real(c_double), intent(out) :: val
 
     call c_f_pointer(ptr_c, ptr_f)
     val = ptr_f%mix_rat(idx+1)
@@ -66,6 +66,7 @@ module PyPartMC_gas_state
     type(gas_data_t), pointer :: gas_data => null()
     integer :: ncid
 
+    call c_f_pointer(ptr_c, ptr_f)
     call gas_state_input_netcdf(ptr_f, ncid, gas_data)
   end subroutine
 

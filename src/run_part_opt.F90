@@ -11,10 +11,9 @@ module PyPartMC_run_part_opt
 
   contains
 
-  subroutine f_run_part_opt_ctor(ptr_c, n) bind(C)
+  subroutine f_run_part_opt_ctor(ptr_c) bind(C)
     type(run_part_opt_t), pointer :: ptr_f => null()
     type(c_ptr), intent(out) :: ptr_c
-    integer, intent(in) :: n
 
     allocate(ptr_f)
     ptr_c = c_loc(ptr_f)

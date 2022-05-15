@@ -11,10 +11,9 @@ module PyPartMC_aero_data
 
   contains
 
-  subroutine f_aero_data_ctor(ptr_c, n) bind(C)
+  subroutine f_aero_data_ctor(ptr_c) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(out) :: ptr_c
-    integer, intent(in) :: n
 
     allocate(ptr_f)
     ptr_c = c_loc(ptr_f)

@@ -134,9 +134,9 @@ PYBIND11_MODULE(PyPartMC, m) {
         .def(py::init<const nlohmann::json&>(),
             "instantiates and initializes from JSON string", py::arg(0) = py::dict())
         .def("__setitem__", GasState::set_item)
-        .def("__setitem__", GasState::set_items)
+        //.def("__setitem__", GasState::set_items)
         .def("__getitem__", GasState::get_item)
-        .def("__getitem__", GasState::get_items)
+        //.def("__getitem__", GasState::get_items)
         .def("__len__", GasState::__len__)
         .def("__str__", GasState::__str__,
             "returns a string with JSON representation of the object")
