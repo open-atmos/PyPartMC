@@ -35,7 +35,7 @@ jobs:
 
       - uses: matlab-actions/run-command@v0
         env:
-          LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libgfortran.so.5
+          LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libgfortran.so.5:/usr/lib/x86_64-linux-gnu/libstdc++.so.6
         with:
           command: readme
 
