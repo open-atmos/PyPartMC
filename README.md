@@ -46,12 +46,12 @@ import PyPartMC
 ```python
 import PyPartMC as ppmc
 gas_state = ppmc.GasState()
-```
+#```
 ... TODO
 
 #### example object instantiation in C++
 ```c++
-... TODO
+//... TODO
 ```
 
 #### example object instantiation in Julia
@@ -62,15 +62,17 @@ Pkg.add("PyCall")
 using PyCall
 GasState = pyimport("PyPartMC").GasState
 gas_state = GasState()
+# ... TODO
 ```
-... TODO
 
 #### example object instantiation in Matlab
 ```Matlab
-GasState = py.importlib.import_module('PyPartMC').GasState;
+ppmc = py.importlib.import_module('PyPartMC');
+ppmc.__file__
+GasState = ppmc.GasState;
 gas_state = GasState();
+% ... TODO
 ```
-... TODO
 
 #### Jupyter notebooks with examples
 
