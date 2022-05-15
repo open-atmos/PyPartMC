@@ -72,7 +72,7 @@ gas_state = GasState()
 ```Matlab
 ppmc = py.importlib.import_module('PyPartMC');
 py.getattr(ppmc, "__version__")
-py.getattr(ppmc, "__file__")
+system(['ldd' py.getattr(ppmc, "__file__")]) 
 GasState = ppmc.GasState;
 gas_state = GasState();
 % ... TODO
