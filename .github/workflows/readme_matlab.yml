@@ -15,6 +15,9 @@ on:
 jobs:
   matlab:
     runs-on: ubuntu-latest
+    compiler: gcc
+    gcc: 8
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -24,7 +27,8 @@ jobs:
         with:
           python-version: 3.8
 
-      - run: pip install -e .
+      - run: VERBOSE=1 pip install --verbose -e .
+
       - run: pip install pytest-codeblocks pytest
       - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme.m', 'w'); f.writelines(block.code for block in code if block.syntax=='Matlab'); f.close()"
       - run: cat -n readme.m
@@ -34,8 +38,6 @@ jobs:
           release: R2021a
 
       - uses: matlab-actions/run-command@v0
-        env:
-          LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libgfortran.so.5:/usr/lib/x86_64-linux-gnu/libstdc++.so.6
         with:
           command: readme
 
