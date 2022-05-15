@@ -71,8 +71,8 @@ gas_state = GasState()
 #### example object instantiation in Matlab
 ```Matlab
 ppmc = py.importlib.import_module('PyPartMC');
-py.getattr(ppmc, "__version__")
-system(['ldd' py.getattr(ppmc, "__file__")]) 
+ver = char(py.getattr(ppmc, "__version__"))
+system(['ldd' char(py.getattr(ppmc, "__file__"))]) 
 GasState = ppmc.GasState;
 gas_state = GasState();
 % ... TODO
