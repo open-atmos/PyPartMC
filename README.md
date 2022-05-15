@@ -45,6 +45,7 @@ import PyPartMC
 
 ```python
 import PyPartMC as ppmc
+print(ppmc.__version__)
 gas_state = ppmc.GasState()
 # ... TODO
 ```
@@ -60,7 +61,9 @@ using Pkg
 Pkg.add("PyCall")
 
 using PyCall
-GasState = pyimport("PyPartMC").GasState
+ppmc = pyimport("PyPartMC")
+print(ppmc.__version__)
+GasState = ppmc.GasState
 gas_state = GasState()
 #... TODO
 ```
@@ -68,6 +71,8 @@ gas_state = GasState()
 #### example object instantiation in Matlab
 ```Matlab
 ppmc = py.importlib.import_module('PyPartMC');
+py.getattr(ppmc, "__version__")
+py.getattr(ppmc, "__file__")
 GasState = ppmc.GasState;
 gas_state = GasState();
 % ... TODO
