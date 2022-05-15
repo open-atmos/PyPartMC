@@ -12,6 +12,9 @@ on:
   schedule:
     - cron: '0 13 * * 4'
 
+env:
+  LD_PRELOAD:/usr/lib/x86_64-linux-gnu/libgfortran.so.3
+
 jobs:
   matlab:
     runs-on: ubuntu-latest
@@ -34,8 +37,6 @@ jobs:
           release: R2021a
 
       - uses: matlab-actions/run-command@v0
-        env:
-          LD_PRELOAD:/usr/lib/x86_64-linux-gnu/libgfortran.so.3
         with:
           command: readme
 
