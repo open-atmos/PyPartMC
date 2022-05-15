@@ -73,7 +73,7 @@ extern "C" void nf90_get_var_dbl(
   const int *start,
   const int *count
 ) {
-  get_var(*ncid, *varid, values, *start, *count);
+    get_var(*ncid, *varid, values, *start, *count);
 }
 
 extern "C" 
@@ -81,17 +81,16 @@ void nf90_get_var_int(const int *ncid, const int *varid, const int *values, // T
   const int *start,
   const int *count
 ) {
-  get_var(*ncid, *varid, values, *start, *count);
+    get_var(*ncid, *varid, values, *start, *count);
 }
 
 
 void inq_varid(const int &ncid, const std::string &name, int *varid) {
-    std::cerr << "inq_varid -> " << name << std::endl;
     *varid = gimmick_ptr()->varid(name);
 }
 
 extern "C" 
 void nf90_inq_varid_str(const int *ncid, const char *name_data, int *name_size, int *varid) {
-  inq_varid(*ncid, std::string(name_data, *name_size), varid);
+    inq_varid(*ncid, std::string(name_data, *name_size), varid);
 }
 

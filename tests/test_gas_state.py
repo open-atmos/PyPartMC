@@ -89,14 +89,14 @@ class TestGasState:
     @staticmethod
     def test_get_item_valid():
         # arrange
-        sut = ppmc.GasState()
+        sut = ppmc.GasState({'gas_mixing_ratio': (44,)})
 
         # act
-        #value = sut[0]  # TODO
+        #value = sut[0]
 
         # assert
-        #assert isinstance(value, float)
-        #assert value == 44  # TODO
+        # assert isinstance(value, float)
+        # assert value == 44  # TODO
 
     @staticmethod
     def test_get_items():
@@ -132,9 +132,9 @@ class TestGasState:
         sut = ppmc.GasState(data_in)
 
         # act
-        #data_out = str(sut)
-        #print(data_out)
+        data_out = str(sut)
+        print(data_out)
 
         # assert
-        #assert data_in == data_out
+        #assert data_in == data_out  TODO
 

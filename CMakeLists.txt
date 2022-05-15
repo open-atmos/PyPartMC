@@ -135,9 +135,17 @@ target_link_libraries(PyPartMC PRIVATE partmclib)
 
 ### pedantics ######################################################################################
 
-foreach(target partmclib;PyPartMC)
+foreach(target PyPartMC)  # TODO: the same for partmclib
   target_compile_options(${target} PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
-# TODO!    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-compare-reals> # TODO
+    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-dummy-argument> # TODO
+    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-variable>  # TODO
+    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-c-binding-type>  # TODO
+    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-maybe-uninitialized> # TODO
+    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-function-elimination> # TODO
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter> # TODO
+    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-surprising> # TODO
   )
 endforeach()
