@@ -2,7 +2,8 @@
 
 PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation.
-As it is implemented in C++, it also constitutes a C++ API to the PartMC Fortran internals.
+Since PyPartMC is implemented in C++, it also constitutes a C++ API to the PartMC Fortran internals;
+  the Python API can be used from other environments (see Julia, Matlab and C++ example snippets below).
 
 [![US Funding](https://img.shields.io/static/v1?label=US%20DOE%20Funding%20by&color=267c32&message=ASR&logoWidth=25&logo=image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAQCAMAAAA25D/gAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAASFBMVEVOTXyyIjRDQnNZWINZWITtzdFUU4BVVIFVVYHWiZM9PG/KZnNXVoJaWYT67/FKSXhgX4hgX4lcW4VbWoX03uHQeIN2VXj///9pZChlAAAAAWJLR0QXC9aYjwAAAAd0SU1FB+EICRMGJV+KCCQAAABdSURBVBjThdBJDoAgEETRkkkZBBX0/kd11QTTpH1/STqpAAwWBkobSlkGbt0o5xmEfqxDZJB2Q6XMoBwnVSbTylWp0hi42rmbwTOYPDfR5Kc+07IIUQQvghX9THsBHcES8/SiF0kAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMDlUMTk6MDY6MzcrMDA6MDCX1tBgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTA5VDE5OjA2OjM3KzAwOjAw5oto3AAAAABJRU5ErkJggg==)](https://asr.science.energy.gov/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
@@ -40,12 +41,36 @@ import PyPartMC
 
 ## Usage examples
 
-#### hello world
+#### example object instantiation in Python
 
 ```python
-import PyPartMC
+import PyPartMC as ppmc
+gas_state = ppmc.GasState()
+```
+... TODO
+
+#### example object instantiation in C++
+```c++
 ... TODO
 ```
+
+#### example object instantiation in Julia
+```Julia
+using Pkg
+Pkg.add("PyCall")
+
+using PyCall
+GasState = pyimport("PyPartMC").GasState
+gas_state = GasState()
+```
+... TODO
+
+#### example object instantiation in Matlab
+```Matlab
+GasState = py.importlib.import_module('PyPartMC').GasState;
+gas_state = GasState();
+```
+... TODO
 
 #### Jupyter notebooks with examples
 
