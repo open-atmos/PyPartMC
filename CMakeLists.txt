@@ -149,3 +149,4 @@ foreach(target PyPartMC)  # TODO: the same for partmclib
     #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-surprising> # TODO
   )
 endforeach()
+
