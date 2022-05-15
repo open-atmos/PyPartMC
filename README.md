@@ -33,6 +33,7 @@ import PyPartMC
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
 - ships with [a set of examples](https://github.com/open-atmos/PyPartMC/tree/main/examples) maintained in a form of Jupyter notebooks
 - Pythonic API (but retaining PartMC jargon) incl. exceptions and GC deallocation of Fortran objects 
+- code snippets in README depicting how to used PyPartMC in Julia & Matlab (also executed on CI)
 - auto-generated [docs on the web](https://open-atmos.github.io/PyPartMC/)
 - support for [de]serialization of all exposed structures using JSON 
 - based on [unmodified PartMC code](https://github.com/open-atmos/PyPartMC/tree/main/gitmodules)
@@ -45,13 +46,14 @@ import PyPartMC
 
 ```python
 import PyPartMC as ppmc
+print(ppmc.__version__)
 gas_state = ppmc.GasState()
+# ... TODO
 ```
-... TODO
 
 #### example object instantiation in C++
 ```c++
-... TODO
+//... TODO
 ```
 
 #### example object instantiation in Julia
@@ -60,17 +62,27 @@ using Pkg
 Pkg.add("PyCall")
 
 using PyCall
-GasState = pyimport("PyPartMC").GasState
+ppmc = pyimport("PyPartMC")
+print(ppmc.__version__)
+GasState = ppmc.GasState
 gas_state = GasState()
+#... TODO
 ```
-... TODO
 
 #### example object instantiation in Matlab
+
+Note that since Matlab ships with and prioritizes its own GCC libraries (`libgfortran.so`, 
+  `libstdc++.so`, `libgcc_s.so`, `libquadmath.so`), it is essential to build PyPartMC
+  with the [same version of GCC as the one Matlab files are based on](https://www.mathworks.com/matlabcentral/answers/100812-is-there-a-web-page-that-lists-the-version-of-libstdc-so-used-for-building-each-matlab-version).
+
 ```Matlab
-GasState = py.importlib.import_module('PyPartMC').GasState;
-gas_state = GasState();
+ppmc = py.importlib.import_module('PyPartMC');
+ver = char(py.getattr(ppmc, "__version__"))
+system(['ldd ' char(py.getattr(ppmc, "__file__"))]) 
+%GasState = ppmc.GasState;
+%gas_state = GasState();
+% ... TODO
 ```
-... TODO
 
 #### Jupyter notebooks with examples
 
