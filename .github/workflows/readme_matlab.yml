@@ -28,6 +28,8 @@ jobs:
       - run: pip install pytest-codeblocks pytest
       - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme.m', 'w'); f.writelines(block.code for block in code if block.syntax=='Matlab'); f.close()"
       - run: cat -n readme.m
+      - run: ls -la /usr/lib/x86_64-linux-gnu/
+      - run: locate libgfortran
 
       - uses: matlab-actions/setup-matlab@v0
         with:
