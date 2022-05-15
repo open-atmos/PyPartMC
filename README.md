@@ -73,14 +73,14 @@ gas_state = GasState()
 
 Note that since Matlab ships with and prioritizes its own GCC libraries (`libgfortran.so`, 
   `libstdc++.so`, `libgcc_s.so`, `libquadmath.so`), it is essential to build PyPartMC
-  with the same version of GCC as the one Matlab files are based on.
+  with the [same version of GCC as the one Matlab files are based on](https://www.mathworks.com/matlabcentral/answers/100812-is-there-a-web-page-that-lists-the-version-of-libstdc-so-used-for-building-each-matlab-version).
 
 ```Matlab
 ppmc = py.importlib.import_module('PyPartMC');
 ver = char(py.getattr(ppmc, "__version__"))
 system(['ldd ' char(py.getattr(ppmc, "__file__"))]) 
-GasState = ppmc.GasState;
-gas_state = GasState();
+%GasState = ppmc.GasState;
+%gas_state = GasState();
 % ... TODO
 ```
 
