@@ -62,13 +62,12 @@ Pkg.add("PyCall")
 using PyCall
 GasState = pyimport("PyPartMC").GasState
 gas_state = GasState()
-%... TODO
+#... TODO
 ```
 
 #### example object instantiation in Matlab
 ```Matlab
 ppmc = py.importlib.import_module('PyPartMC');
-ppmc.__file__
 GasState = ppmc.GasState;
 gas_state = GasState();
 % ... TODO
