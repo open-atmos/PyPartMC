@@ -33,7 +33,7 @@ import PyPartMC
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
 - ships with [a set of examples](https://github.com/open-atmos/PyPartMC/tree/main/examples) maintained in a form of Jupyter notebooks
 - Pythonic API (but retaining PartMC jargon) incl. exceptions and GC deallocation of Fortran objects 
-- code snippets in README depicting how to used PyPartMC in Julia & Matlab (also executed on CI)
+- code snippets in README depicting how to use PyPartMC from Julia & Matlab (also executed on CI)
 - auto-generated [docs on the web](https://open-atmos.github.io/PyPartMC/)
 - support for [de]serialization of all exposed structures using JSON 
 - based on [unmodified PartMC code](https://github.com/open-atmos/PyPartMC/tree/main/gitmodules)
@@ -94,7 +94,7 @@ PyPartMC is also used within the tests of PySDM project ... TODO
 
 ## Implementation outline
 
-- PyPartMC is written in C++, Fortran and Python and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
+- PyPartMC is written in C++, Fortran and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
 - JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
 - PartMC and selected parts of SUNDIALS are compiled during `pip install` and statically linked
 - C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)

@@ -46,12 +46,12 @@ set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 intege
   coag_kernel_zero.F90 coag_kernel_brown_free.F90 coag_kernel_brown_cont.F90 aero_data.F90 
   run_exact.F90 run_part.F90 util.F90 stats.F90 run_sect.F90 output.F90 mosaic.F90 gas_data.F90
   gas_state.F90 coagulation.F90 exact_soln.F90 coagulation_dist.F90 coag_kernel.F90 spec_line.F90 
-  spec_file.F90 rand.F90 aero_particle.F90 aero_particle_array.F90 mpi.F90 netcdf.F90 aero_info.F90 
+  rand.F90 aero_particle.F90 aero_particle_array.F90 mpi.F90 netcdf.F90 aero_info.F90 
   aero_info_array.F90 nucleate.F90 condense.F90 fractal.F90 chamber.F90 camp_interface.F90
   photolysis.F90
 )
 add_prefix(gitmodules/partmc/src/ partmclib_SOURCES)
-list(APPEND partmclib_SOURCES src/fake_mpi.F90 src/fake_netcdf.F90)
+list(APPEND partmclib_SOURCES src/fake_mpi.F90 src/fake_netcdf.F90 src/fake_spec_file.F90)
 
 ### SUNDIALS #######################################################################################
 
