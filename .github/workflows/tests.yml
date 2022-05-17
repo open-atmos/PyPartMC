@@ -55,11 +55,11 @@ jobs:
 
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
 
-      - run: pytest -s -We tests
+      - run: pytest -v -s -We tests
 
       - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
 
-      - run: pytest -s -We tests
+      - run: pytest -v -s -We tests
 
 #      - if: ${{ failure() }}
 #        uses: mxschmitt/action-tmate@v3
