@@ -19,6 +19,7 @@ module netcdf
     nf90_global=-1
 
   interface
+    ! TODO: use C types here?
     subroutine nf90_put_var_dbl(ncid, varid, values, start, count) bind(C)
       integer, intent(in) :: ncid, varid
       type(double precision), dimension(..), intent(in) :: values

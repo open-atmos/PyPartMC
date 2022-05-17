@@ -4,20 +4,24 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
+import pytest
 import PyPartMC as ppmc
+
 
 class TestScenario:
     @staticmethod
+    @pytest.mark.xfail(strict=True)
     def test_ctor():
         # arrange
 
         # act
-        sut = ppmc.Scenario()
+        sut = ppmc.Scenario({'temp_profile': '123'})
 
         # assert
         assert sut is not None
 
     @staticmethod
+    @pytest.mark.xfail(strict=True)
     def test_dtor():
         # arrange
         sut = ppmc.Scenario()

@@ -8,6 +8,14 @@ module pmc_spec_file
         character(len=SPEC_LINE_MAX_VAR_LEN) :: name
     end type
 
+    interface
+        subroutine c_spec_file_read_string(name_data, name_size, var_data, var_size) bind(C)
+            character, intent(in) :: name_data
+            character, intent(out) :: var_data
+            integer, intent(in) :: name_size, var_size
+        end subroutine
+    end interface
+
     contains
   
     subroutine spec_file_check_line_name(file, line, name)
@@ -51,6 +59,7 @@ module pmc_spec_file
         type(spec_file_t), intent(inout) :: file
         character(len=*), intent(in) :: name
         character(len=*), intent(out) :: var
+        call c_spec_file_read_string(name, len(name), var, len(var))
     end subroutine
 
     subroutine spec_file_read_real(file, name, var)

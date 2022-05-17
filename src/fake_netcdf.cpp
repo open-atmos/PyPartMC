@@ -10,17 +10,6 @@
 #include "gimmicks.hpp"
 
 
-template <class X>
-X& singleton()
-{
-    static X x;
-    return x;
-}
-
-std::unique_ptr<Gimmick> &gimmick_ptr() {
-    return singleton<std::unique_ptr<Gimmick>>();
-}
-
 template <typename T>
 void put_var(
   const int &ncid,
@@ -91,6 +80,6 @@ void inq_varid(const int &ncid, const std::string &name, int *varid) {
 
 extern "C" 
 void nf90_inq_varid_str(const int *ncid, const char *name_data, int *name_size, int *varid) {
-    inq_varid(*ncid, std::string(name_data, *name_size), varid);
+    inq_varid(*ncid, std::string(name_data, *name_size), varid); // TODO: change into string_view?
 }
 

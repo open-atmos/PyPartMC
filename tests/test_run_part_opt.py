@@ -6,7 +6,7 @@
 
 import PyPartMC as ppmc
 
-class TestRunPartOptT:
+class TestRunPartOpt:
     @staticmethod
     def test_t_max():
         # arrange
