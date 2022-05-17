@@ -4,8 +4,8 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-import pytest
-import PyPartMC as ppmc
+#import pytest
+#import PyPartMC as ppmc
 
 
 class TestScenario:
@@ -25,10 +25,11 @@ class TestScenario:
     #@pytest.mark.xfail(strict=True)
     def test_dtor():
         # arrange
+        pass
         #sut = ppmc.Scenario()
 
         # act
-        sut = None
+        #sut = None
 
         # assert
         #assert sut is None

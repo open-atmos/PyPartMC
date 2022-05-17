@@ -4,8 +4,8 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-import pytest
-import PyPartMC as ppmc
+#import pytest
+#import PyPartMC as ppmc
 
 
 class TestRunPart:
