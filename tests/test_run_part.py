@@ -4,11 +4,13 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
+import pytest
 import PyPartMC as ppmc
 
 
 class TestRunPart:
     @staticmethod
+    @pytest.mark.xfail(strict=True)
     def test_args():
         # arrange
         scenario = ppmc.Scenario()
