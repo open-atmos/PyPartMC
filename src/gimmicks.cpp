@@ -4,19 +4,16 @@
 # Author: Sylwester Arabas                                                                         #
 ##################################################################################################*/
 
-#pragma once
+#include "gimmicks.hpp"
 
-#include "pmc_resource.hpp"
+template <class X>
+X& singleton()
+{
+    static X x;
+    return x;
+}
 
-extern "C" void f_aero_data_ctor(void *ptr) noexcept;
-extern "C" void f_aero_data_dtor(void *ptr) noexcept;
-
-struct AeroData {
-    PMCResource ptr;
-
-    AeroData() :
-        ptr(f_aero_data_ctor, f_aero_data_dtor)
-    {
-    }
-};
+std::unique_ptr<Gimmick> &gimmick_ptr() {
+    return singleton<std::unique_ptr<Gimmick>>();
+}
 

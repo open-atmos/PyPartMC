@@ -114,7 +114,8 @@ PYBIND11_MODULE(PyPartMC, m) {
             aero_dist_interp_1d(), respectively.
         )pbdoc"
     )
-        .def(py::init<>())
+        .def(py::init<const nlohmann::json&>(),
+            "instantiates and initializes from a JSON object", py::arg(0) = py::dict())
     ;
 
     py::class_<GasState>(m,
@@ -132,7 +133,7 @@ PYBIND11_MODULE(PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>(),
-            "instantiates and initializes from JSON string", py::arg(0) = py::dict())
+            "instantiates and initializes from a JSON object", py::arg(0) = py::dict())
         .def("__setitem__", GasState::set_item)
         //.def("__setitem__", GasState::set_items)
         .def("__getitem__", GasState::get_item)

@@ -4,19 +4,27 @@
 # Author: Sylwester Arabas                                                                         #
 ##################################################################################################*/
 
-#pragma once
+#include <string_view>
 
-#include "pmc_resource.hpp"
+#include "gimmicks.hpp"
 
-extern "C" void f_aero_data_ctor(void *ptr) noexcept;
-extern "C" void f_aero_data_dtor(void *ptr) noexcept;
+void spec_file_read_string(
+    const std::string_view &name,
+    std::string_view &var
+) noexcept {
+    gimmick_ptr()->read_str(name, var);
+}
 
-struct AeroData {
-    PMCResource ptr;
-
-    AeroData() :
-        ptr(f_aero_data_ctor, f_aero_data_dtor)
-    {
-    }
-};
-
+extern "C"
+void c_spec_file_read_string(
+    const char *name_data,
+    const int *name_size,
+    char* var_data,
+    const int *var_size
+) noexcept {
+    auto var = std::string_view(var_data, *var_size);
+    spec_file_read_string(
+        std::string_view(name_data, *name_size),
+        var
+    );
+}

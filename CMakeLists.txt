@@ -9,7 +9,7 @@ project(PyPartMC LANGUAGES C CXX Fortran)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -33,7 +33,7 @@ endmacro(add_prefix)
 ### sources ########################################################################################
 
 set(PyPartMC_sources 
-  pypartmc.cpp fake_netcdf.cpp fake_mpi.cpp
+  pypartmc.cpp gimmicks.cpp fake_netcdf.cpp fake_mpi.cpp fake_spec_file.cpp
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
   gas_state.F90 scenario.F90
 )

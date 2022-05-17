@@ -6,18 +6,17 @@
 
 #pragma once
 
-extern "C" void f_run_part_opt_ctor(void *ptr);
-extern "C" void f_run_part_opt_dtor(void *ptr);
+#include "pmc_resource.hpp"
+
+extern "C" void f_run_part_opt_ctor(void *ptr) noexcept;
+extern "C" void f_run_part_opt_dtor(void *ptr) noexcept;
 
 struct RunPartOpt {
-    void *ptr;
+    PMCResource ptr;
 
-    RunPartOpt() {
-        f_run_part_opt_ctor(&this->ptr); 
+    RunPartOpt() :
+        ptr(f_run_part_opt_ctor, f_run_part_opt_dtor)
+    {
     }
-
-    ~RunPartOpt() {
-        f_run_part_opt_dtor(&this->ptr);
-  }
 };
 

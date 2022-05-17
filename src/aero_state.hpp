@@ -6,18 +6,17 @@
 
 #pragma once
 
-extern "C" void f_aero_state_ctor(void *ptr);
-extern "C" void f_aero_state_dtor(void *ptr);
+#include "pmc_resource.hpp"
+
+extern "C" void f_aero_state_ctor(void *ptr) noexcept;
+extern "C" void f_aero_state_dtor(void *ptr) noexcept;
 
 struct AeroState {
-  void *ptr;
+    PMCResource ptr;
 
-  AeroState() {
-    f_aero_state_ctor(&this->ptr); 
-  }
-
-  ~AeroState() {
-    f_aero_state_dtor(&this->ptr);
-  }
+    AeroState() :
+        ptr(f_aero_state_ctor, f_aero_state_dtor)
+    {
+    }
 };
 

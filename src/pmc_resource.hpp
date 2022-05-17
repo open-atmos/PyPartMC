@@ -6,17 +6,31 @@
 
 #pragma once
 
-#include "pmc_resource.hpp"
+class PMCResource {
+    void *ptr;
+    void (*f_ctor)(void*);
+    void (*f_dtor)(void*);
 
-extern "C" void f_aero_data_ctor(void *ptr) noexcept;
-extern "C" void f_aero_data_dtor(void *ptr) noexcept;
+    PMCResource(const PMCResource&) = delete;
+    PMCResource& operator= (const PMCResource&) = delete;
 
-struct AeroData {
-    PMCResource ptr;
-
-    AeroData() :
-        ptr(f_aero_data_ctor, f_aero_data_dtor)
+  public:
+    PMCResource(
+        decltype(f_ctor) f_ctor,
+        decltype(f_dtor) f_dtor
+    ) : 
+        f_ctor(f_ctor),
+        f_dtor(f_dtor) 
     {
+        this->f_ctor(&this->ptr);
+    }
+
+    ~PMCResource() {
+        this->f_dtor(&this->ptr);
+    }
+
+    void *get() const {
+        return this->ptr;
     }
 };
 
