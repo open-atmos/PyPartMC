@@ -6,18 +6,17 @@
 
 #pragma once
 
-extern "C" void f_env_state_ctor(void *ptr);
-extern "C" void f_env_state_dtor(void *ptr);
+#include "pmc_resource.hpp"
+
+extern "C" void f_env_state_ctor(void *ptr) noexcept;
+extern "C" void f_env_state_dtor(void *ptr) noexcept;
 
 struct EnvState {
-  void *ptr;
+    PMCResource ptr;
 
-  EnvState() {
-    f_env_state_ctor(&this->ptr); 
-  }
-
-  ~EnvState() {
-    f_env_state_dtor(&this->ptr);
-  }
+    EnvState() :
+        ptr(f_env_state_ctor, f_env_state_dtor)
+    {
+    }
 };
 

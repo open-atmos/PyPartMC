@@ -11,7 +11,7 @@
 void spec_file_read_string(
     const std::string_view &name,
     std::string_view &var
-) {
+) noexcept {
     gimmick_ptr()->read_str(name, var);
 }
 
@@ -21,7 +21,7 @@ void c_spec_file_read_string(
     const int *name_size,
     char* var_data,
     const int *var_size
-) {
+) noexcept {
     auto var = std::string_view(var_data, *var_size);
     spec_file_read_string(
         std::string_view(name_data, *name_size),

@@ -9,18 +9,17 @@
 #include "pybind11_json/pybind11_json.hpp"
 #include "nlohmann/json.hpp"
 
-extern "C" void f_gas_data_ctor(void *ptr);
-extern "C" void f_gas_data_dtor(void *ptr);
+#include "pmc_resource.hpp"
+
+extern "C" void f_gas_data_ctor(void *ptr) noexcept;
+extern "C" void f_gas_data_dtor(void *ptr) noexcept;
 
 struct GasData {
-  void *ptr;
+    PMCResource ptr;
 
-  GasData() {
-    f_gas_data_ctor(&this->ptr); 
-  }
-
-  ~GasData() {
-    f_gas_data_dtor(&this->ptr);
-  }
+    GasData() :
+        ptr(f_gas_data_ctor, f_gas_data_dtor)
+    {
+    }
 };
 

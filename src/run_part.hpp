@@ -23,12 +23,12 @@ void run_part(
     const RunPartOpt &run_part_opt
 ) {
     f_run_part(
-        scenario.ptr,
-        env_state.ptr,
-        aero_data.ptr,
-        aero_state.ptr,
-        gas_data.ptr,
-        run_part_opt.ptr
+        scenario.ptr.get(),
+        env_state.ptr.get(),
+        aero_data.ptr.get(),
+        aero_state.ptr.get(),
+        gas_data.ptr.get(),
+        run_part_opt.ptr.get()
     );
 }
 

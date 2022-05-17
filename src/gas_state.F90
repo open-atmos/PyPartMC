@@ -11,15 +11,16 @@ module PyPartMC_gas_state
 
   contains
 
-  subroutine f_gas_state_ctor(ptr_c, n) bind(C)
+  subroutine f_gas_state_ctor(ptr_c) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(out) :: ptr_c
-    integer(c_int), intent(in) :: n
 
     allocate(ptr_f)
-    call gas_state_set_size(ptr_f, n)
     ptr_c = c_loc(ptr_f)
   end subroutine
+
+  ! integer(c_int), intent(in) :: n
+  ! TODO  call gas_state_set_size(ptr_f, n)
 
   subroutine f_gas_state_dtor(ptr_c) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()

@@ -5,29 +5,26 @@
 ##################################################################################################*/
 
 #pragma once
+#include <iostream>
 #include <string>
 #include "pybind11_json/pybind11_json.hpp"
 #include "nlohmann/json.hpp"
 #include "gimmicks.hpp"
+#include "pmc_resource.hpp"
 
-
-extern "C" void f_scenario_ctor(void *ptr);
-extern "C" void f_scenario_dtor(void *ptr);
-extern "C" void f_scenario_from_json(void *ptr);
+extern "C" void f_scenario_ctor(void *ptr) noexcept;
+extern "C" void f_scenario_dtor(void *ptr) noexcept;
+extern "C" void f_scenario_from_json(void *ptr) noexcept;
 
 struct Scenario {
-    void *ptr; // TODO: common base class
+    PMCResource ptr;
 
-    Scenario(const nlohmann::json &json) {
-        f_scenario_ctor(&this->ptr); 
-
+    Scenario(const nlohmann::json &json) :
+        ptr(f_scenario_ctor, f_scenario_dtor)
+    {
         gimmick_ptr() = std::make_unique<InputGimmick>(json); // TODO: guard
-        f_scenario_from_json(&this->ptr);
+        f_scenario_from_json(this->ptr.get());
         gimmick_ptr().reset();
-    }
-
-    ~Scenario() {
-        f_scenario_dtor(&this->ptr);
     }
 };
 

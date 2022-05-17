@@ -9,33 +9,29 @@
 #include "pybind11_json/pybind11_json.hpp"
 #include "nlohmann/json.hpp"
 #include "gimmicks.hpp"
+#include "pmc_resource.hpp"
 
-extern "C" void f_gas_state_ctor(void *ptr, const int *n);
-extern "C" void f_gas_state_dtor(void *ptr);
-extern "C" void f_gas_state_set_item(const void *ptr, const int *idx, const double *val);
-extern "C" void f_gas_state_get_item(const void *ptr, const int *idx, double *val);
-extern "C" void f_gas_state_len(const void *ptr, int *len);
-extern "C" void f_gas_state_to_json(const void *ptr);
-extern "C" void f_gas_state_from_json(const void *ptr);
+extern "C" void f_gas_state_ctor(void *ptr) noexcept;
+extern "C" void f_gas_state_dtor(void *ptr) noexcept;
+extern "C" void f_gas_state_set_item(const void *ptr, const int *idx, const double *val) noexcept;
+extern "C" void f_gas_state_get_item(const void *ptr, const int *idx, double *val) noexcept;
+extern "C" void f_gas_state_len(const void *ptr, int *len) noexcept;
+extern "C" void f_gas_state_to_json(const void *ptr) noexcept;
+extern "C" void f_gas_state_from_json(const void *ptr) noexcept;
 
 struct GasState {
-    // TODO: common base class?
-    void *ptr;
-    GasState(const GasState &obj) = delete;
-    GasState& operator= (const GasState&) = delete;
+    PMCResource ptr;
 
-    GasState(const nlohmann::json &json) {
+    GasState(const nlohmann::json &json) :
+        ptr(f_gas_state_ctor, f_gas_state_dtor)
+    {
         gimmick_ptr() = std::make_unique<InputGimmick>(json);
 
         const int n = json.empty() ? 0 : gimmick_ptr()->find("gas_mixing_ratio")->size();
-        f_gas_state_ctor(&this->ptr, &n);
+        //f_gas_state_set_size(&this->ptr, &n);
         if (n != 0) f_gas_state_from_json(&this->ptr);
 
         gimmick_ptr().reset(); // TODO: guard
-    }
-
-    ~GasState() {
-        f_gas_state_dtor(&this->ptr);
     }
 
     static void set_item(const GasState &self, const int &idx, const double &val) {
