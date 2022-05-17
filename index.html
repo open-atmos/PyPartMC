@@ -139,7 +139,7 @@ with name \c gas_data%%name(i), etc.</p>
 then the gas_state is treated as zero for all operations on
 it. This will be the case for new \c gas_state_t structures.</p>
 <p><strong>init</strong>(self: PyPartMC.GasState, arg0: json = {}) -&gt; None</p>
-<p>instantiates and initializes from JSON string</p></div>
+<p>instantiates and initializes from a JSON object</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -170,7 +170,8 @@ linearly interpolated between times, with constant interpolation
 outside of the range of times. Gases and aerosols are
 interpolated with gas_state_interp_1d() and
 aero_dist_interp_1d(), respectively.</p>
-<p><strong>init</strong>(self: PyPartMC.Scenario) -&gt; None</p></div>
+<p><strong>init</strong>(self: PyPartMC.Scenario, arg0: json = {}) -&gt; None</p>
+<p>instantiates and initializes from a JSON object</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
