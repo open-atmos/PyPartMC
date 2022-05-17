@@ -39,7 +39,8 @@ struct GasState {
     }
 
     static void set_item(const GasState &self, const int &idx, const double &val) {
-        if (idx < 0 || idx >= (int)__len__(self)) throw std::out_of_range("TODO");
+        if (idx < 0 || idx >= (int)__len__(self))
+            throw std::out_of_range("TODO");
         f_gas_state_set_item(&self.ptr, &idx, &val);
     }
 
@@ -48,7 +49,8 @@ struct GasState {
     //}
 
     static double get_item(const GasState &self, const int &idx) {
-        if (idx < 0 || idx >= (int)__len__(self)) throw std::out_of_range("TODO");
+        if (idx < 0 || idx >= (int)__len__(self))
+            throw std::out_of_range("TODO");
         double value;
         f_gas_state_get_item(&self.ptr, &idx, &value);
         return value;
