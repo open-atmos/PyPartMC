@@ -4,19 +4,37 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-#import pytest
-#import PyPartMC as ppmc
+import pytest
+import PyPartMC as ppmc
 
 
 class TestScenario:
     @staticmethod
-    #@pytest.mark.xfail(strict=True)
+    @pytest.mark.xfail(strict=True)
     def test_ctor():
         # arrange
-        pass
+        aero_data = ppmc.AeroData()
+        gas_data = ppmc.GasData()
 
         # act
-        #sut = ppmc.Scenario({'temp_profile': '123'})
+        sut = ppmc.Scenario(gas_data, aero_data, {
+            'temp_profile': {
+                'time': [0,1,2, 3, 4],
+                'temp': [1,2,3]
+            },
+            'pressure_profile': {
+                'time': [0,1,2, 3, 4],
+                'pressure': [1,2,3]
+            },
+            'height_profile': {
+                'time': [0,1,2, 3, 4],
+                'height': [1,2,3]
+            },
+            'gas_emissions': {
+                'time': [0,1,2, 3, 4],
+                'rate': [1,2,3]
+            }
+        })
 
         # assert
         #assert sut is not None

@@ -8,13 +8,14 @@
 
 #include <iostream>
 #include <sstream>
+#include <span>
 #include <set>
 #include "nlohmann/json.hpp"
 
 struct Gimmick {
   private:
     std::set<std::string> vars;
-    const nlohmann::json *json, *json_parent;
+    const nlohmann::json *json, *json_parent = NULL;
 
     void warn(const std::exception &exception) {
         std::cerr << "WARN: " << exception.what() << std::endl;
@@ -42,7 +43,7 @@ struct Gimmick {
   public:
     virtual ~Gimmick() {}
 
-    void zoom_in(const std::string &sub) noexcept {
+    void zoom_in(const std::string_view &sub) noexcept {
         assert(this->json_parent == NULL);
         auto it = this->find(sub);
         this->json_parent = this->json;
@@ -59,9 +60,14 @@ struct Gimmick {
         return this->json->empty();
     }
 
+    auto n_elements(const std::string_view &name) noexcept {
+        return this->json->find(name)->size();
+    }
+
     void read_str(
         const std::string_view &name,
-        std::string_view var
+        char* var_data,
+        int* var_size
     ) noexcept {
         auto it = this->find(name);
         if (it == this->json->end())
@@ -72,15 +78,30 @@ struct Gimmick {
         auto value = it->is_object()
             ? name
             : it->get<std::string_view>();
-        if (value.size() > var.size()) {
+        if ((int)value.size() > *var_size) {
             std::ostringstream oss;
             oss << "provided entry \"" << name << "\" has too many characters";
             this->warn(std::invalid_argument(oss.str()));
         }
-        auto var_data = const_cast<char*>(var.data());
         for (auto i = 0u; i < value.size(); ++i)
             var_data[i] = value[i];
-        var_data[value.size()] = '\0'; // TODO
+        var_size[0] = value.size();
+    }
+
+    template <typename T1, typename T2>
+    void read_arr(
+        const T1 &name,
+        const std::span<T2> &values
+    ) noexcept {
+        auto it = this->find(name);
+        if (it == this->json->end())
+        {
+            // TODO
+            return;
+        }
+        // TODO: check size
+        for (auto i = 0u; i < values.size(); ++i)
+            values[i] = (*it)[i];
     }
 
     auto varid(const std::string& name) noexcept {

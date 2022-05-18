@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <iostream>
+
 class PMCResource {
     void *ptr;
     void (*f_ctor)(void*);
@@ -29,8 +31,8 @@ class PMCResource {
         this->f_dtor(&this->ptr);
     }
 
-    void *get() const {
-        return this->ptr;
+    const void *f_arg() const {
+        return &this->ptr;
     }
 };
 

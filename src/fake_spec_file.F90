@@ -14,6 +14,46 @@ module pmc_spec_file
             character, intent(out) :: var_data
             integer, intent(in) :: name_size, var_size
         end subroutine
+
+        subroutine c_spec_file_open(filename_data, filename_size) bind(C)
+            character, intent(in) :: filename_data
+            integer, intent(in) :: filename_size
+        end subroutine
+
+        subroutine c_spec_file_close() bind(C)
+        end subroutine
+
+        subroutine c_spec_file_read_timed_real_array_size(& 
+            name_data, name_size, &
+            times_size, &
+            vals_size &
+        ) bind(C)
+            character, intent(in) :: name_data
+            integer, intent(in) :: name_size, times_size, vals_size
+        end subroutine
+
+        subroutine c_spec_file_read_timed_real_array_data(& 
+            name_data, name_size, &
+            times_data, times_size, &
+            vals_data, vals_size &
+        ) bind(C)
+            import c_double
+            character, intent(in) :: name_data
+            integer, intent(in) :: name_size, times_size, vals_size
+            real(c_double), intent(out) :: times_data
+            real(c_double), intent(out) :: vals_data
+        end subroutine
+
+        subroutine c_spec_file_read_real_named_array( &
+            max_lines, &
+            names_data, names_size, &
+            vals_data, vals_size &
+        ) bind(C)
+            import c_double
+            character, intent(in) :: names_data
+            real(c_double), intent(out) :: vals_data
+            integer, intent(in) :: vals_size, names_size, max_lines
+        end subroutine
     end interface
 
     contains
@@ -28,7 +68,14 @@ module pmc_spec_file
         type(spec_file_t), intent(inout) :: file
         integer, intent(in) :: max_lines
         character(len=SPEC_LINE_MAX_VAR_LEN), allocatable :: names(:)
-        real(kind=dp), allocatable :: vals(:,:)
+        real(kind=c_double), allocatable :: vals(:,:)
+
+allocate(names(1))  ! TODO!
+        call c_spec_file_read_real_named_array( &
+            max_lines, &
+            names(1), size(names), &
+            vals(1,1), size(vals) &
+        )
     end subroutine
 
     subroutine spec_file_assert_msg(code, file, condition_ok, msg)
@@ -59,13 +106,18 @@ module pmc_spec_file
         type(spec_file_t), intent(inout) :: file
         character(len=*), intent(in) :: name
         character(len=*), intent(out) :: var
-        call c_spec_file_read_string(name, len(name), var, len(var))
+
+        integer :: var_size
+        var_size = len(var)
+        call c_spec_file_read_string(name, len(name), var, var_size)
+        var = var(1:var_size)
+        
     end subroutine
 
     subroutine spec_file_read_real(file, name, var)
         type(spec_file_t), intent(inout) :: file
         character(len=*), intent(in) :: name
-        real(kind=dp), intent(out) :: var
+        real(kind=c_double), intent(out) :: var
     end subroutine
 
     subroutine spec_file_read_line(file, line, eof)
@@ -77,17 +129,33 @@ module pmc_spec_file
     subroutine spec_file_read_timed_real_array(file, name, times, vals)
         type(spec_file_t), intent(inout) :: file
         character(len=*), intent(in) :: name
-        real(kind=dp), allocatable :: times(:)
-        real(kind=dp), allocatable :: vals(:)
+        real(kind=c_double), allocatable, intent(inout) :: times(:)
+        real(kind=c_double), allocatable, intent(inout) :: vals(:)
+
+        integer :: times_size, vals_size
+
+        call c_spec_file_read_timed_real_array_size(&
+            name, len(name), &
+            times_size, vals_size&
+        )
+        allocate(times(times_size))
+        allocate(vals(vals_size))
+        call c_spec_file_read_timed_real_array_data(&
+            name, len(name), &
+            times(1), size(times), &
+            vals(1), size(vals) &
+        )
     end subroutine
 
     subroutine spec_file_open(filename, file)
         character(len=*), intent(in) :: filename
         type(spec_file_t), intent(out) :: file
+        call c_spec_file_open(filename, index(filename, " ")-1)
     end subroutine
 
     subroutine spec_file_close(file)
         type(spec_file_t), intent(out) :: file
+        call c_spec_file_close()
     end subroutine
 
     subroutine spec_file_check_name(file, name, read_name)
