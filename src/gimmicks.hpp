@@ -8,7 +8,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <span>
 #include <set>
 #include "nlohmann/json.hpp"
 #include <tcb/span.hpp>
