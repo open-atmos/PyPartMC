@@ -37,7 +37,7 @@ class TestScenario:
         })
 
         # assert
-        #assert sut is not None
+        assert sut is not None
 
     @staticmethod
     #@pytest.mark.xfail(strict=True)
