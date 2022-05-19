@@ -9,7 +9,7 @@ project(PyPartMC LANGUAGES C CXX Fortran)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -129,6 +129,7 @@ add_dependencies(PyPartMC partmclib)
 target_include_directories(PyPartMC PRIVATE 
   ${CMAKE_SOURCE_DIR}/gitmodules/json/include 
   ${CMAKE_SOURCE_DIR}/gitmodules/pybind11_json/include
+  ${CMAKE_SOURCE_DIR}/gitmodules/span/include
 )
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(PyPartMC PRIVATE partmclib)

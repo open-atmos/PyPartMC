@@ -5,7 +5,7 @@
 ##################################################################################################*/
 
 #include <string_view>
-#include <span>
+#include <tcb/span.hpp>
 
 #include "gimmicks.hpp"
 
@@ -88,8 +88,8 @@ void c_spec_file_read_timed_real_array_size(
 
 void spec_file_read_timed_real_array_data(
     const std::string_view &name,
-    const std::span<double> &times,
-    const std::span<double> &vals
+    const tcb::span<double> &times,
+    const tcb::span<double> &vals
 ) {
     gimmick_ptr()->read_arr("time", times);
     gimmick_ptr()->read_arr(name, vals);
@@ -106,8 +106,8 @@ void c_spec_file_read_timed_real_array_data(
 ) {
     spec_file_read_timed_real_array_data(
         std::string_view(name_data, *name_size),
-        std::span(times_data, *times_size),
-        std::span(vals_data, *vals_size)
+        tcb::span(times_data, *times_size),
+        tcb::span(vals_data, *vals_size)
     );
 }
 

@@ -11,6 +11,7 @@
 #include <span>
 #include <set>
 #include "nlohmann/json.hpp"
+#include <tcb/span.hpp>
 
 struct Gimmick {
   private:
@@ -91,7 +92,7 @@ struct Gimmick {
     template <typename T1, typename T2>
     void read_arr(
         const T1 &name,
-        const std::span<T2> &values
+        const tcb::span<T2> &values
     ) noexcept {
         auto it = this->find(name);
         if (it == this->json->end())
