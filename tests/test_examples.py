@@ -4,6 +4,8 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
+import gc
+
 # pylint: disable=wrong-import-position
 # https://bugs.python.org/issue37373
 import sys
@@ -61,4 +63,6 @@ def test_run_notebooks(notebook_filename, tmp_path):
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", message="There is no current event loop")
             executor.preprocess(notebook, {"metadata": {"path": tmp_path}})
+
+        gc.collect()
 

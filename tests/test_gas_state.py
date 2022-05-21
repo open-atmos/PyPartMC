@@ -5,8 +5,9 @@
 ####################################################################################################
 
 # TODO
-# pylint: disable=unused-variable,unnecessary-pass
+# pylint: disable=unused-variable
 
+import gc
 import pytest
 #import numpy as np
 import PyPartMC as ppmc
@@ -56,9 +57,10 @@ class TestGasState:
 
         # act
         sut = None
+        gc.collect()
 
         # assert
-        assert sut is None
+        pass
 
     @staticmethod
     def test_len_empty():

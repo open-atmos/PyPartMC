@@ -4,12 +4,15 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
+import gc
 import PyPartMC as ppmc
+
 
 class TestGasData:
     @staticmethod
     def test_ctor():
         # arrange
+        pass
 
         # act
         sut = ppmc.GasData(("SO2",))
@@ -24,7 +27,8 @@ class TestGasData:
 
         # act
         sut = None
+        gc.collect()
 
         # assert
-        assert sut is None
+        pass
 

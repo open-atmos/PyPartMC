@@ -4,7 +4,9 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
+import gc
 import PyPartMC as ppmc
+
 
 class TestAeroData:
     @staticmethod
@@ -24,7 +26,7 @@ class TestAeroData:
 
         # act
         sut = None
+        gc.collect()
 
         # assert
-        assert sut is None
-
+        pass
