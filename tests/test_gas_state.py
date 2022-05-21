@@ -91,8 +91,9 @@ class TestGasState:
 
     @staticmethod
     def test_get_item_valid():
+        pass
         # arrange
-        sut = ppmc.GasState({'gas_mixing_ratio': (44,)})
+        #sut = ppmc.GasState({'gas_mixing_ratio': (44,)})
 
         # act
         #value = sut[0]
