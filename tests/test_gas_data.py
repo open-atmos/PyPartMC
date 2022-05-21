@@ -23,7 +23,7 @@ class TestGasData:
     @staticmethod
     def test_dtor():
         # arrange
-        sut = ppmc.GasData(("SO2",))
+        sut = ppmc.GasData(("SO2",))  # pylint: disable=unused-variable
 
         # act
         sut = None

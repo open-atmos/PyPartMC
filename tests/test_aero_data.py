@@ -22,7 +22,7 @@ class TestAeroData:
     @staticmethod
     def test_dtor():
         # arrange
-        sut = ppmc.AeroData()
+        sut = ppmc.AeroData()  # pylint: disable=unused-variable
 
         # act
         sut = None

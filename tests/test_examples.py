@@ -64,5 +64,6 @@ def test_run_notebooks(notebook_filename, tmp_path):
             warnings.filterwarnings("ignore", message="There is no current event loop")
             executor.preprocess(notebook, {"metadata": {"path": tmp_path}})
 
+        # so that nbconvert perplexities are reported here, and not at some dtor test later on
         gc.collect()
 
