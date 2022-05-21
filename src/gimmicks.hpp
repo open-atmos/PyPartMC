@@ -74,6 +74,7 @@ struct Gimmick {
             return entry.key();
         }
         assert(false);
+        return "";
     }
  
     auto is_empty() noexcept {
