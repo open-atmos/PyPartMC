@@ -81,7 +81,7 @@ struct Gimmick {
         return this->json->empty();
     }
 
-    auto n_elements(const std::string_view &name) noexcept {
+    std::size_t n_elements(const std::string_view &name) noexcept {
         for (auto i=0u; i<this->json->size(); ++i) {
             for (auto &entry : this->json->at(i).items()) {
                 if (entry.key() == name)
@@ -89,7 +89,7 @@ struct Gimmick {
             }
         }
         assert(false);
-        return 0lu;
+        return 0;
     }
 
     auto n_numeric_array_entries() noexcept {
