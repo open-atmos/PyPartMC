@@ -18,3 +18,7 @@
 	path = gitmodules/sundials
 	url = https://github.com/LLNL/sundials
 	shallow = true
+[submodule "gitmodules/span"]
+	path = gitmodules/span
+	url = https://github.com/tcbrindle/span.git
+	shallow = true

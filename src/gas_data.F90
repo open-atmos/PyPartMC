@@ -25,8 +25,18 @@ module PyPartMC_gas_data
     type(c_ptr), intent(in) :: ptr_c
 
     call c_f_pointer(ptr_c, ptr_f)
-    !TODO call gas_state_set_size(ptr_f, 0)
+    !TODO ? call gas_state_set_size(ptr_f, 0)
     deallocate(ptr_f)
+  end subroutine
+
+  subroutine f_gas_data_from_json(ptr_c) bind(C)
+    type(gas_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+
+    type(spec_file_t) :: nofile
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call spec_file_read_gas_data(nofile, ptr_f)
   end subroutine
 
 end module

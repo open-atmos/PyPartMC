@@ -9,12 +9,15 @@
 #include <iostream>
 #include <sstream>
 #include <set>
+#include <stack>
 #include "nlohmann/json.hpp"
+#include <tcb/span.hpp>
 
 struct Gimmick {
   private:
     std::set<std::string> vars;
-    const nlohmann::json *json, *json_parent;
+    const nlohmann::json *json;
+    std::stack<const nlohmann::json*> json_parent;
 
     void warn(const std::exception &exception) {
         std::cerr << "WARN: " << exception.what() << std::endl;
@@ -42,45 +45,105 @@ struct Gimmick {
   public:
     virtual ~Gimmick() {}
 
-    void zoom_in(const std::string &sub) noexcept {
-        assert(this->json_parent == NULL);
-        auto it = this->find(sub);
-        this->json_parent = this->json;
+    void zoom_in(const std::string_view &sub) noexcept {
+        auto it = this->json->is_array() 
+            ? this->json->at(this->json->size()-1).begin()
+            : this->json->find(sub);
+        // TODO: handle errors
+        this->json_parent.push(this->json);
         this->set_current_json_ptr(&(*it));
     }
 
     void zoom_out() noexcept {
-        assert(this->json_parent != NULL);
-        this->set_current_json_ptr(this->json_parent);
-        this->json_parent = NULL;
+        assert(this->json_parent.size() != 0);
+        this->set_current_json_ptr(this->json_parent.top());
+        this->json_parent.pop();
     }
 
+    auto begin() noexcept {
+        return this->json->begin();
+    }
+
+    // TODO: to be removed after initialising GasData with a list, and not JSON?
+    std::string first_field_name() noexcept {
+        // TODO: handle errors
+        assert(this->json->size() > 0);
+        assert(this->json->begin()->size() > 0);
+        for (auto &entry : this->json->at(0).items())
+        {
+            return entry.key();
+        }
+        assert(false);
+        return "";
+    }
+ 
     auto is_empty() noexcept {
         return this->json->empty();
     }
 
+    std::size_t n_elements(const std::string_view &name) noexcept {
+        for (auto i=0u; i<this->json->size(); ++i) {
+            for (auto &entry : this->json->at(i).items()) {
+                if (entry.key() == name)
+                    return entry.value().size();
+            }
+        }
+        assert(false);
+        return 0;
+    }
+
+    auto n_numeric_array_entries() noexcept {
+        auto count = 0u;
+        for (auto i=0u; i<this->json->size(); ++i) {
+            assert(this->json->at(i).is_object());
+            assert(this->json->at(i).size() == 1);
+            for (auto &entry : this->json->at(i).items()) 
+                if (entry.value().is_array() && (entry.value().size() == 0 || entry.value().at(0).is_number()))
+                    ++count;
+        }
+        return count;
+    }
+
     void read_str(
         const std::string_view &name,
-        std::string_view var
+        char* var_data,
+        int* var_size
     ) noexcept {
         auto it = this->find(name);
         if (it == this->json->end())
         {
+            assert(false);
             // TODO
             return;
         }
-        auto value = it->is_object()
+        auto value = it->is_array()
             ? name
-            : it->get<std::string_view>();
-        if (value.size() > var.size()) {
+            : it->begin()->get<std::string_view>();  // TODO: is this path used anywhere?
+        if ((int)value.size() > *var_size) {
             std::ostringstream oss;
             oss << "provided entry \"" << name << "\" has too many characters";
             this->warn(std::invalid_argument(oss.str()));
         }
-        auto var_data = const_cast<char*>(var.data());
         for (auto i = 0u; i < value.size(); ++i)
             var_data[i] = value[i];
-        var_data[value.size()] = '\0'; // TODO
+        var_size[0] = value.size();
+    }
+
+    template <typename T1, typename T2>
+    void read_arr(
+        const T1 &name,
+        const tcb::span<T2> &values
+    ) noexcept {
+        for (auto i=0u; i<this->json->size(); ++i) {
+            for (auto &entry : this->json->at(i).items()) {
+                if (entry.key() == name) {
+                    for (auto j = 0u; j < values.size(); ++j)
+                        values[j] = entry.value().at(j);
+                    return;
+                }
+            }
+        }
+        // TODO: check size
     }
 
     auto varid(const std::string& name) noexcept {

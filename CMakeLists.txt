@@ -129,6 +129,7 @@ add_dependencies(PyPartMC partmclib)
 target_include_directories(PyPartMC PRIVATE 
   ${CMAKE_SOURCE_DIR}/gitmodules/json/include 
   ${CMAKE_SOURCE_DIR}/gitmodules/pybind11_json/include
+  ${CMAKE_SOURCE_DIR}/gitmodules/span/include
 )
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(PyPartMC PRIVATE partmclib)

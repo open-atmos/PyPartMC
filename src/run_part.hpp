@@ -12,7 +12,14 @@
 #include "run_part_opt.hpp"
 #include "scenario.hpp"
 
-extern "C" void f_run_part(void*, void*, void*, void*, void*, void*);
+extern "C" void f_run_part(
+    const void*,
+    const void*,
+    const void*,
+    const void*,
+    const void*,
+    const void*
+);
 
 void run_part(
     const Scenario &scenario,
@@ -23,12 +30,12 @@ void run_part(
     const RunPartOpt &run_part_opt
 ) {
     f_run_part(
-        scenario.ptr.get(),
-        env_state.ptr.get(),
-        aero_data.ptr.get(),
-        aero_state.ptr.get(),
-        gas_data.ptr.get(),
-        run_part_opt.ptr.get()
+        scenario.ptr.f_arg(),
+        env_state.ptr.f_arg(),
+        aero_data.ptr.f_arg(),
+        aero_state.ptr.f_arg(),
+        gas_data.ptr.f_arg(),
+        run_part_opt.ptr.f_arg()
     );
 }
 

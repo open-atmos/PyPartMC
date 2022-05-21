@@ -22,25 +22,21 @@ module PyPartMC_scenario
   subroutine f_scenario_dtor(ptr_c) bind(C)
     type(scenario_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
-
     call c_f_pointer(ptr_c, ptr_f)
     deallocate(ptr_f)
   end subroutine
 
-  subroutine f_scenario_from_json(ptr_c) bind(C)
+  subroutine f_scenario_from_json(gas_ptr_c, aer_ptr_c, ptr_c) bind(C)
     type(scenario_t), pointer :: ptr_f => null()
-    type(c_ptr), intent(in) :: ptr_c
-
-    type(gas_data_t), pointer :: gas_data
-    type(aero_data_t), pointer :: aero_data
+    type(gas_data_t), pointer :: gas_ptr_f => null()
+    type(aero_data_t), pointer :: aer_ptr_f => null()
+    type(c_ptr), intent(in) :: gas_ptr_c, aer_ptr_c, ptr_c
     type(spec_file_t) :: file 
 
+    call c_f_pointer(gas_ptr_c, gas_ptr_f)
+    call c_f_pointer(aer_ptr_c, aer_ptr_f)
     call c_f_pointer(ptr_c, ptr_f)
-    allocate(gas_data) ! TODO
-    allocate(aero_data) ! TODO
-    call spec_file_read_scenario(file, gas_data, aero_data, ptr_f)
-    deallocate(aero_data) ! TODO
-    deallocate(gas_data) ! TODO
+    call spec_file_read_scenario(file, gas_ptr_f, aer_ptr_f, ptr_f)
   end subroutine
 
 end module
