@@ -33,15 +33,15 @@ class TestScenario:
             "gas_data_ctor_arg": ("SO2", "NO2"),
             "scenario_ctor_arg": {
                 'temp_profile': [
-                    {'time': [0,1,2, 3, 4]},
+                    {'time': [0,1,2]},
                     {'temp': [1,2,3]}
                 ],
                 'pressure_profile': [
-                    {'time': [0,1,2, 3, 4]},
+                    {'time': [0,1,2]},
                     {'pressure': [1,2,3]}
                 ],
                 'height_profile': [
-                    {'time': [0,1,2, 3, 4]},
+                    {'time': [0,1,2, 3, 4]}, # TODO: should be caught
                     {'height': [1,2,3]}
                 ],
                 'gas_emissions': [
