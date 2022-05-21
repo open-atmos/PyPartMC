@@ -81,7 +81,7 @@ ver = char(py.getattr(ppmc, "__version__"))
 system(['ldd ' char(py.getattr(ppmc, "__file__"))]) 
 %GasState = ppmc.GasState;
 %gas_state = GasState();
-% ... TODO
+% ... TODO (pending resolution of https://github.com/pybind/pybind11/issues/3945)
 ```
 
 #### Jupyter notebooks with examples

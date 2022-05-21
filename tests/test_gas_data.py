@@ -12,7 +12,7 @@ class TestGasData:
         # arrange
 
         # act
-        sut = ppmc.GasData()
+        sut = ppmc.GasData(("SO2",))
 
         # assert
         assert sut is not None
@@ -20,7 +20,7 @@ class TestGasData:
     @staticmethod
     def test_dtor():
         # arrange
-        sut = ppmc.GasData()
+        sut = ppmc.GasData(("SO2",))
 
         # act
         sut = None

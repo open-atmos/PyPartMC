@@ -5,7 +5,7 @@ module pmc_spec_file
     integer, parameter :: SPEC_FILE_MAX_LIST_LINES = 1000
 
     type spec_file_t
-        character(len=SPEC_LINE_MAX_VAR_LEN) :: name
+        character(len=SPEC_LINE_MAX_VAR_LEN) :: name = "<JSON input>"
     end type
 
     interface
@@ -44,15 +44,19 @@ module pmc_spec_file
             real(c_double), intent(out) :: vals_data
         end subroutine
 
-        subroutine c_spec_file_read_real_named_array( &
-            max_lines, &
+        subroutine c_spec_file_read_real_named_array_size(n_rows, n_cols) bind(C)
+            integer, intent(in) :: n_rows, n_cols
+        end subroutine
+
+        subroutine c_spec_file_read_real_named_array_data( &
+            row, &
             names_data, names_size, &
             vals_data, vals_size &
         ) bind(C)
             import c_double
             character, intent(in) :: names_data
             real(c_double), intent(out) :: vals_data
-            integer, intent(in) :: vals_size, names_size, max_lines
+            integer, intent(in) :: row, vals_size, names_size
         end subroutine
     end interface
 
@@ -70,12 +74,21 @@ module pmc_spec_file
         character(len=SPEC_LINE_MAX_VAR_LEN), allocatable :: names(:)
         real(kind=c_double), allocatable :: vals(:,:)
 
-allocate(names(1))  ! TODO!
-        call c_spec_file_read_real_named_array( &
-            max_lines, &
-            names(1), size(names), &
-            vals(1,1), size(vals) &
-        )
+        integer :: row, n_rows, n_cols, name_size;
+
+        call c_spec_file_read_real_named_array_size(n_rows, n_cols)
+        allocate(names(n_rows))
+        allocate(vals(n_rows, n_cols))
+        ! TODO: handle max_lines
+        do row = 1, n_rows
+            name_size = len(names(row))
+            call c_spec_file_read_real_named_array_data( &
+                row, &
+                names(row), name_size, &
+                vals(row, 1), size(vals, 2) &
+            )
+            names(row) = names(row)(1:name_size)
+        end do
     end subroutine
 
     subroutine spec_file_assert_msg(code, file, condition_ok, msg)
@@ -100,6 +113,9 @@ allocate(names(1))  ! TODO!
     subroutine spec_file_read_line_no_eof(file, line)
         type(spec_file_t), intent(inout) :: file
         type(spec_line_t), intent(inout) :: line
+        ! TODO!
+        allocate(line%data(1))
+        line%data(1) = "dist"
     end subroutine
 
     subroutine spec_file_read_string(file, name, var)
@@ -111,7 +127,6 @@ allocate(names(1))  ! TODO!
         var_size = len(var)
         call c_spec_file_read_string(name, len(name), var, var_size)
         var = var(1:var_size)
-        
     end subroutine
 
     subroutine spec_file_read_real(file, name, var)
@@ -124,6 +139,8 @@ allocate(names(1))  ! TODO!
         type(spec_file_t), intent(inout) :: file
         type(spec_line_t), intent(inout) :: line
         logical, intent(out) :: eof
+        ! TODO!
+        eof = .true.
     end subroutine 
 
     subroutine spec_file_read_timed_real_array(file, name, times, vals)
@@ -150,6 +167,7 @@ allocate(names(1))  ! TODO!
     subroutine spec_file_open(filename, file)
         character(len=*), intent(in) :: filename
         type(spec_file_t), intent(out) :: file
+        file%name = trim(file%name) // "::" // filename
         call c_spec_file_open(filename, index(filename, " ")-1)
     end subroutine
 

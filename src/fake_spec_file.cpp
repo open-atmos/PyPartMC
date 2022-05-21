@@ -9,6 +9,8 @@
 
 #include "gimmicks.hpp"
 
+// TODO: noexcepts everywhere?
+
 /*********************************************************************************/
 
 void spec_file_read_string(
@@ -113,17 +115,66 @@ void c_spec_file_read_timed_real_array_data(
 
 /*********************************************************************************/
 
-void spec_file_read_real_named_array() {
+void spec_file_read_real_named_array_size(
+    int *n_rows,
+    int *n_cols
+) {
+    auto first_field = gimmick_ptr()->first_field_name();
+    *n_rows = gimmick_ptr()->n_numeric_array_entries();
+    *n_cols = gimmick_ptr()->n_elements(first_field);
+    // TODO: check each line has the same number of elements as time
 }
 
 extern "C"
-void c_spec_file_read_real_named_array(
-    const int *max_lines,
-    char *names_data,
-    const int *names_size,
+void c_spec_file_read_real_named_array_size(
+    int *n_rows,
+    int *n_cols
+) {
+    spec_file_read_real_named_array_size(n_rows, n_cols);
+}
+
+/*********************************************************************************/
+
+void spec_file_read_real_named_array_data(
+    const unsigned int row,
+    char *name_data,
+    int *name_size,
+    const tcb::span<double> &vals
+) {
+    auto i = 0u, n_numeric_array_entries = gimmick_ptr()->n_numeric_array_entries();
+    for (
+        auto it = gimmick_ptr()->begin();
+        i < n_numeric_array_entries;
+        ++i, ++it
+    ) {
+        assert(it->is_object());
+        if (i == row-1) {
+            assert(it->size() == 1);
+            for (auto &entry : it->items()) {
+                // TODO: use input name_size as limit param
+                for (auto c=0u; c < entry.key().size(); ++c)
+                    name_data[c] = entry.key()[c];
+                *name_size = entry.key().size();
+                for (auto idx=0u; idx < entry.value().size(); ++idx)
+                    vals[idx] = entry.value().at(idx).get<double>();
+                break; // TODO
+            }
+        }
+    }
+}
+
+extern "C"
+void c_spec_file_read_real_named_array_data(
+    const int *row,
+    char *name_data,
+    int *name_size,
     double *vals_data,
     const int *vals_size
 ) {
-    spec_file_read_real_named_array();
+    spec_file_read_real_named_array_data(
+        *row,
+        name_data, name_size,
+        tcb::span(vals_data, *vals_size)
+    );
 }
 

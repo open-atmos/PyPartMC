@@ -83,7 +83,7 @@ PYBIND11_MODULE(PyPartMC, m) {
             is gas_state%%mix_rat(i).
         )pbdoc"
     )
-        .def(py::init<>())
+        .def(py::init<const py::tuple&>())
     ;
 
     py::class_<EnvState>(m,

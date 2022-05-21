@@ -28,8 +28,8 @@ struct GasState {
         gimmick_ptr() = std::make_unique<InputGimmick>(json);
 
         const int n = json.empty() ? 0 : gimmick_ptr()->find("gas_mixing_ratio")->size();
-        //f_gas_state_set_size(&this->ptr, &n);
-        if (n != 0) f_gas_state_from_json(&this->ptr);
+        //f_gas_state_set_size(this->ptr.f_arg(), &n);
+        if (n != 0) f_gas_state_from_json(this->ptr.f_arg());
 
         gimmick_ptr().reset(); // TODO: guard
     }

@@ -17,7 +17,7 @@ extern "C" void f_scenario_from_json(
   const void *gas_data,
   const void *aero_data,
   const void *scenario
-);// noexcept;
+) noexcept;
 
 struct Scenario {
     PMCResource ptr;
