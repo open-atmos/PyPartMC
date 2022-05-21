@@ -3,7 +3,7 @@
 PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation.
 Since PyPartMC is implemented in C++, it also constitutes a C++ API to the PartMC Fortran internals;
-  the Python API can be used from other environments (see Julia, Matlab and C++ example snippets below).
+  the Python API can be used from other environments - see, e.g., Julia example below.
 
 [![US Funding](https://img.shields.io/static/v1?label=US%20DOE%20Funding%20by&color=267c32&message=ASR&logoWidth=25&logo=image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAQCAMAAAA25D/gAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAASFBMVEVOTXyyIjRDQnNZWINZWITtzdFUU4BVVIFVVYHWiZM9PG/KZnNXVoJaWYT67/FKSXhgX4hgX4lcW4VbWoX03uHQeIN2VXj///9pZChlAAAAAWJLR0QXC9aYjwAAAAd0SU1FB+EICRMGJV+KCCQAAABdSURBVBjThdBJDoAgEETRkkkZBBX0/kd11QTTpH1/STqpAAwWBkobSlkGbt0o5xmEfqxDZJB2Q6XMoBwnVSbTylWp0hi42rmbwTOYPDfR5Kc+07IIUQQvghX9THsBHcES8/SiF0kAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMDlUMTk6MDY6MzcrMDA6MDCX1tBgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTA5VDE5OjA2OjM3KzAwOjAw5oto3AAAAABJRU5ErkJggg==)](https://asr.science.energy.gov/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
@@ -33,7 +33,7 @@ import PyPartMC
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
 - ships with [a set of examples](https://github.com/open-atmos/PyPartMC/tree/main/examples) maintained in a form of Jupyter notebooks
 - Pythonic API (but retaining PartMC jargon) incl. exceptions and GC deallocation of Fortran objects 
-- code snippets in README depicting how to use PyPartMC from Julia & Matlab (also executed on CI)
+- code snippets in README depicting how to use PyPartMC from Julia (also executed on CI)
 - auto-generated [docs on the web](https://open-atmos.github.io/PyPartMC/)
 - support for [de]serialization of all exposed structures using JSON 
 - based on [unmodified PartMC code](https://github.com/open-atmos/PyPartMC/tree/main/gitmodules)
@@ -51,11 +51,6 @@ gas_state = ppmc.GasState()
 # ... TODO
 ```
 
-#### example object instantiation in C++
-```c++
-//... TODO
-```
-
 #### example object instantiation in Julia
 ```Julia
 using Pkg
@@ -67,21 +62,6 @@ print(ppmc.__version__)
 GasState = ppmc.GasState
 gas_state = GasState()
 #... TODO
-```
-
-#### example object instantiation in Matlab
-
-Note that since Matlab ships with and prioritizes its own GCC libraries (`libgfortran.so`, 
-  `libstdc++.so`, `libgcc_s.so`, `libquadmath.so`), it is essential to build PyPartMC
-  with the [same version of GCC as the one Matlab files are based on](https://www.mathworks.com/matlabcentral/answers/100812-is-there-a-web-page-that-lists-the-version-of-libstdc-so-used-for-building-each-matlab-version).
-
-```Matlab
-ppmc = py.importlib.import_module('PyPartMC');
-ver = char(py.getattr(ppmc, "__version__"))
-system(['ldd ' char(py.getattr(ppmc, "__file__"))]) 
-%GasState = ppmc.GasState;
-%gas_state = GasState();
-% ... TODO (pending resolution of https://github.com/pybind/pybind11/issues/3945)
 ```
 
 #### Jupyter notebooks with examples
@@ -98,7 +78,7 @@ PyPartMC is also used within the tests of PySDM project ... TODO
 - JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
 - PartMC and selected parts of SUNDIALS are compiled during `pip install` and statically linked
 - C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
-- a [mock of Fortran netCDF API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_netcdf.F90) is used for i/o from/to JSON using existing netCDF API calls within PartMC
+- a [mock of Fortran netCDF API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_netcdf.F90) and a [mock of PartMC spec file API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) are used for i/o from/to JSON 
 - a [mock of Fortran MPI API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_mpi.F90) is used for error handling using existing MPI API calls within PartMC
 
 ## Troubleshooting 

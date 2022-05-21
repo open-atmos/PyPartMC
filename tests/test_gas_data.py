@@ -4,12 +4,15 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
+import gc
 import PyPartMC as ppmc
+
 
 class TestGasData:
     @staticmethod
     def test_ctor():
         # arrange
+        pass
 
         # act
         sut = ppmc.GasData(("SO2",))
@@ -20,11 +23,12 @@ class TestGasData:
     @staticmethod
     def test_dtor():
         # arrange
-        sut = ppmc.GasData(("SO2",))
+        sut = ppmc.GasData(("SO2",))  # pylint: disable=unused-variable
 
         # act
         sut = None
+        gc.collect()
 
         # assert
-        assert sut is None
+        pass
 

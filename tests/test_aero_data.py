@@ -4,7 +4,9 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
+import gc
 import PyPartMC as ppmc
+
 
 class TestAeroData:
     @staticmethod
@@ -20,11 +22,11 @@ class TestAeroData:
     @staticmethod
     def test_dtor():
         # arrange
-        sut = ppmc.AeroData()
+        sut = ppmc.AeroData()  # pylint: disable=unused-variable
 
         # act
         sut = None
+        gc.collect()
 
         # assert
-        assert sut is None
-
+        pass

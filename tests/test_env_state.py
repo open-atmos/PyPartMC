@@ -4,12 +4,15 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
+import gc
 import PyPartMC as ppmc
+
 
 class TestEnvState:
     @staticmethod
     def test_ctor():
         # arrange
+        pass
 
         # act
         sut = ppmc.EnvState()
@@ -20,11 +23,12 @@ class TestEnvState:
     @staticmethod
     def test_dtor():
         # arrange
-        sut = ppmc.EnvState()
+        sut = ppmc.EnvState()  # pylint: disable=unused-variable
 
         # act
         sut = None
+        gc.collect()
 
         # assert
-        assert sut is None
+        pass
 
