@@ -4,7 +4,7 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-import pytest
+#import pytest
 import PyPartMC as ppmc
 
 
