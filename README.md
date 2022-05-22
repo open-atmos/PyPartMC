@@ -47,8 +47,7 @@ import PyPartMC
 ```python
 import PyPartMC as ppmc
 print(ppmc.__version__)
-gas_state = ppmc.GasState()
-# ... TODO
+gas_data = ppmc.GasData(("H2SO4", "HNO3", "HCl", "NH3", "NO", "NO2"))
 ```
 
 #### example object instantiation in Julia
@@ -59,9 +58,7 @@ Pkg.add("PyCall")
 using PyCall
 ppmc = pyimport("PyPartMC")
 print(ppmc.__version__)
-GasState = ppmc.GasState
-gas_state = GasState()
-#... TODO
+gas_data = ppmc.GasData(("H2SO4", "HNO3", "HCl", "NH3", "NO", "NO2"))
 ```
 
 #### Jupyter notebooks with examples
