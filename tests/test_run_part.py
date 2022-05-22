@@ -10,7 +10,7 @@ import PyPartMC as ppmc
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
-from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_MINIMAL 
+from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_MINIMAL
 
 
 class TestRunPart:
