@@ -1,16 +1,16 @@
-import pytest
 import gc
+import pytest
 import PyPartMC as ppmc
 
 
-@pytest.mark.parametrize('instantiate', (
-    pytest.param(lambda : ppmc.GasData(("SO2",)), id='GasData'),
-    pytest.param(lambda : ppmc.AeroData(), id='AeroData'),
-    pytest.param(lambda : ppmc.GasState(), id='GasState')
+@pytest.mark.parametrize('instance', (
+    pytest.param(ppmc.GasData(("SO2",)), id='GasData'),
+    pytest.param(ppmc.AeroData(), id='AeroData'),
+    pytest.param(ppmc.GasState(), id='GasState')
 ))
-def test_dtors(instantiate):
+def test_dtors(instance):
     # arrange
-    sut = instantiate()  # pylint: disable=unused-variable
+    sut = instance
     gc.collect()
 
     # act
