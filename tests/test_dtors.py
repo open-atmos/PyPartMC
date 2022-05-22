@@ -8,7 +8,7 @@ import PyPartMC as ppmc
     pytest.param(ppmc.AeroData(), id='AeroData'),
     pytest.param(ppmc.GasState(), id='GasState')
 ))
-def test_dtors(sut):  # pytest: disable=unused-argument
+def test_dtors(sut):  # pylint: disable=unused-argument
     # arrange
     gc.collect()
 
