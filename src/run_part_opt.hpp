@@ -14,7 +14,7 @@ extern "C" void f_run_part_opt_dtor(void *ptr) noexcept;
 struct RunPartOpt {
     PMCResource ptr;
 
-    RunPartOpt() :
+    RunPartOpt(const nlohmann::json &json) :
         ptr(f_run_part_opt_ctor, f_run_part_opt_dtor)
     {
     }

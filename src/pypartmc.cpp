@@ -153,9 +153,7 @@ PYBIND11_MODULE(PyPartMC, m) {
         "RunPartOpt",
         "Options controlling the execution of run_part()."
     )
-        .def(py::init<>())
-        //.def_readwrite("t_max", &run_part_opt_t::t_max)
-        //.def_readwrite("t_output", &run_part_opt_t::t_output)
+        .def(py::init<const nlohmann::json&>())
     ;
 
     //  TODO: auto util = m.def_submodule("util", "TODO");
@@ -163,6 +161,15 @@ PYBIND11_MODULE(PyPartMC, m) {
         "pow2_above", &pow2_above, py::return_value_policy::copy,
         "Return the least power-of-2 that is at least equal to n."
     );
+
+    auto si = m.def_submodule("si", "SI units");
+    // TODO: 2xloop over prefixes and units
+    si.attr("m") = py::float_(1.);
+    si.attr("s") = py::float_(1.);
+    si.attr("K") = py::float_(1.);
+    si.attr("Pa") = py::float_(1.);
+    si.attr("hPa") = py::float_(100.);
+    si.attr("mol") = py::float_(1.);
 
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 }
