@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import gc
+import json
 import PyPartMC as ppmc
 
 
@@ -32,4 +33,28 @@ class TestGasData:
 
         # assert
         pass
+
+    @staticmethod
+    def test_len():
+        # arrange
+        data = ("X", "Y", "Z")
+        sut = ppmc.GasData(data)
+
+        # act
+        size = len(sut)
+
+        # assert
+        assert size == len(data)
+
+    @staticmethod
+    def test_str():
+        # arrange
+        data = ("A", "B", "C")
+        sut = ppmc.GasData(data)
+
+        # act
+        string = str(sut)
+
+        # assert
+        assert string == json.dumps(data, separators=(',', ':'))
 

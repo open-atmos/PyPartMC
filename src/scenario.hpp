@@ -21,13 +21,15 @@ extern "C" void f_scenario_from_json(
 
 struct Scenario {
     PMCResource ptr;
+    const nlohmann::json json;
 
     Scenario(
         const GasData &gas_data,
         const AeroData &aero_data,
         const nlohmann::json &json
     ) :
-        ptr(f_scenario_ctor, f_scenario_dtor)
+        ptr(f_scenario_ctor, f_scenario_dtor),
+        json(json)
     {
         gimmick_ptr() = std::make_unique<InputGimmick>(json); // TODO: guard
         f_scenario_from_json(
@@ -37,5 +39,9 @@ struct Scenario {
         );
         gimmick_ptr().reset();
     }
+
+    static std::string __str__(const Scenario &self) {
+        return self.json.dump();
+    }   
 };
 
