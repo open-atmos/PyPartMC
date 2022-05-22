@@ -1,2 +1,3 @@
 # see https://mybinder.readthedocs.io/en/latest/using/config_files.html
 cmake
+gfortran
