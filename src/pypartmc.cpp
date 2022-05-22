@@ -84,6 +84,9 @@ PYBIND11_MODULE(PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const py::tuple&>())
+        .def("__len__", GasData::__len__)
+        .def("__str__", GasData::__str__,
+            "returns a string with JSON representation of the object")
     ;
 
     py::class_<EnvState>(m,
@@ -120,8 +123,10 @@ PYBIND11_MODULE(PyPartMC, m) {
                 const AeroData&,
                 const nlohmann::json&
             >(),
-            "instantiates and initializes from a JSON object"//, py::arg(0) = py::dict()
+            "instantiates and initializes from a JSON object"
         )
+        .def("__str__", Scenario::__str__,
+            "returns a string with JSON representation of the object")
     ;
 
     py::class_<GasState>(m,

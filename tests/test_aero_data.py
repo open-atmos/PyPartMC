@@ -4,7 +4,6 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-import gc
 import PyPartMC as ppmc
 
 
@@ -20,14 +19,5 @@ class TestAeroData:
         assert sut is not None
 
     @staticmethod
-    def test_dtor():
-        # arrange
-        sut = ppmc.AeroData()  # pylint: disable=unused-variable
-        gc.collect()
-
-        # act
-        sut = None
-        gc.collect()
-
-        # assert
-        pass
+    def test_std():
+        pass  # TODO

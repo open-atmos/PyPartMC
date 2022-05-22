@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import gc
+import json
 import pytest
 import PyPartMC as ppmc
 
@@ -100,4 +101,17 @@ class TestScenario:
 
         # assert
         pass
+
+    @staticmethod
+    def test_str():
+        # arrange
+        aero_data = ppmc.AeroData()
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+
+        # act
+        json_actual = json.loads(str(sut))
+
+        # assert
+        assert json_actual == SCENARIO_CTOR_ARG_MINIMAL
 

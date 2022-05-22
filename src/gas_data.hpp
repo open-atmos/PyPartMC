@@ -11,13 +11,17 @@
 
 extern "C" void f_gas_data_ctor(void *ptr) noexcept;
 extern "C" void f_gas_data_dtor(void *ptr) noexcept;
+extern "C" void f_gas_data_len(const void *ptr, int *len) noexcept;
 extern "C" void f_gas_data_from_json(const void *ptr) noexcept;
+extern "C" void f_gas_data_to_json(const void *ptr) noexcept;
 
 struct GasData {
     PMCResource ptr;
+    const nlohmann::json json;
 
     GasData(const py::tuple &tpl) :
-        ptr(f_gas_data_ctor, f_gas_data_dtor)
+        ptr(f_gas_data_ctor, f_gas_data_dtor),
+        json(tpl)
     {
         auto json_array = nlohmann::json::array();
         for (const auto &item : tpl)
@@ -30,5 +34,15 @@ struct GasData {
         f_gas_data_from_json(this->ptr.f_arg());
         gimmick_ptr().reset(); // TODO: guard
     }
+
+    static std::string __str__(const GasData &self) {
+        return self.json.dump();
+    }   
+
+    static std::size_t __len__(const GasData &self) {
+        int len;
+        f_gas_data_len(&self.ptr, &len);
+        return len;
+    }   
 };
 

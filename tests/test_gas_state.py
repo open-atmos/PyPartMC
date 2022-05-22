@@ -7,7 +7,6 @@
 # TODO
 # pylint: disable=unused-variable
 
-import gc
 import pytest
 #import numpy as np
 import PyPartMC as ppmc
@@ -49,19 +48,6 @@ class TestGasState:
 
         # assert
         # TODO assert isinstance(sut, ppmc.GasState)
-
-    @staticmethod
-    def test_dtor():
-        # arrange
-        sut = ppmc.GasState()
-        gc.collect()
-
-        # act
-        sut = None
-        gc.collect()
-
-        # assert
-        pass
 
     @staticmethod
     def test_len_empty():
