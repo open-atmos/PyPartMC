@@ -104,6 +104,14 @@ struct Gimmick {
         return count;
     }
 
+    template <typename T>
+    void read_value(
+        const std::string_view name,
+        T *var
+    ) {
+        *var = this->find(name)->get<T>();
+    }
+
     void read_str(
         const std::string_view &name,
         char* var_data,

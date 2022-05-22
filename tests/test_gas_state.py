@@ -54,6 +54,7 @@ class TestGasState:
     def test_dtor():
         # arrange
         sut = ppmc.GasState()
+        gc.collect()
 
         # act
         sut = None

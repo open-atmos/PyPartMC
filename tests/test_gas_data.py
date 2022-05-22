@@ -24,6 +24,7 @@ class TestGasData:
     def test_dtor():
         # arrange
         sut = ppmc.GasData(("SO2",))  # pylint: disable=unused-variable
+        gc.collect()
 
         # act
         sut = None

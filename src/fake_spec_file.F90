@@ -15,6 +15,20 @@ module pmc_spec_file
             integer, intent(in) :: name_size, var_size
         end subroutine
 
+        subroutine c_spec_file_read_real(name_data, name_size, var) bind(C)
+            import c_double
+            character, intent(in) :: name_data
+            integer, intent(in) :: name_size
+            real(c_double) :: var
+        end subroutine
+
+        subroutine c_spec_file_read_integer(name_data, name_size, var) bind(C)
+            import c_int
+            character, intent(in) :: name_data
+            integer, intent(in) :: name_size
+            integer(c_int) :: var
+        end subroutine
+
         subroutine c_spec_file_open(filename_data, filename_size) bind(C)
             character, intent(in) :: filename_data
             integer, intent(in) :: filename_size
@@ -133,6 +147,14 @@ module pmc_spec_file
         type(spec_file_t), intent(inout) :: file
         character(len=*), intent(in) :: name
         real(kind=c_double), intent(out) :: var
+        call c_spec_file_read_real(name, len(name), var)
+    end subroutine
+
+    subroutine spec_file_read_integer(file, name, var)
+        type(spec_file_t), intent(inout) :: file
+        character(len=*), intent(in) :: name
+        integer(kind=c_int), intent(out) :: var
+        call c_spec_file_read_integer(name, len(name), var)
     end subroutine
 
     subroutine spec_file_read_line(file, line, eof)
@@ -186,12 +208,6 @@ module pmc_spec_file
         integer, intent(in) :: code
         type(spec_file_t), intent(in) :: file
         character(len=*), intent(in) :: msg
-    end subroutine
-
-    subroutine spec_file_read_integer(file, name, var)
-        type(spec_file_t), intent(inout) :: file
-        character(len=*), intent(in) :: name
-        integer, intent(out) :: var
     end subroutine
 
 end module

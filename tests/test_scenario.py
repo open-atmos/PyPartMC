@@ -92,6 +92,7 @@ class TestScenario:
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         # pylint: disable=unused-variable
         sut = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        gc.collect()
 
         # act
         sut = None
