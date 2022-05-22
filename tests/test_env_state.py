@@ -5,17 +5,28 @@
 ####################################################################################################
 
 import gc
+import pytest
 import PyPartMC as ppmc
+
+ENV_STATE_CTOR_ARG_MINIMAL = {
+    'rel_humidity': 0.,
+    'latitude': 0.,
+    'longitude': 0.,
+    'altitude': 0.,
+    'start_time': 0.,
+    'start_day': 0
+}
 
 
 class TestEnvState:
     @staticmethod
-    def test_ctor():
+    @pytest.mark.parametrize('ctor_arg', (ENV_STATE_CTOR_ARG_MINIMAL,))
+    def test_ctor(ctor_arg):
         # arrange
         pass
 
         # act
-        sut = ppmc.EnvState()
+        sut = ppmc.EnvState(ctor_arg)
 
         # assert
         assert sut is not None
@@ -23,7 +34,8 @@ class TestEnvState:
     @staticmethod
     def test_dtor():
         # arrange
-        sut = ppmc.EnvState()  # pylint: disable=unused-variable
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)  # pylint: disable=unused-variable
+        gc.collect()
 
         # act
         sut = None

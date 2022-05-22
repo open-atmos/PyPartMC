@@ -97,7 +97,7 @@ PYBIND11_MODULE(PyPartMC, m) {
             scenario_t.
         )pbdoc"
     )
-        .def(py::init<>())
+        .def(py::init<const nlohmann::json&>())
     ;
 
     py::class_<Scenario>(m,

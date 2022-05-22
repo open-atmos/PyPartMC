@@ -4,6 +4,7 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
+import gc
 import PyPartMC as ppmc
 
 
@@ -31,4 +32,17 @@ class TestRunPartOpt:
         # assert
         assert run_part_opt is not None
         ##assert run_part_opt.t_output == 66.6
+
+    @staticmethod
+    def test_dtor():
+        # arrange
+        run_part_opt = ppmc.RunPartOpt()
+        gc.collect()
+
+        # act
+        run_part_opt = None
+        gc.collect()
+
+        # assert
+        pass
 
