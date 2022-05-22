@@ -99,7 +99,7 @@ git clone --recursive git+https://github.com/open-atmos/PyPartMC.git
 cd PyPartMC
 DEBUG=1 VERBOSE=1 pip --verbose install -e .
 gdb python 
-(gdb) run -m pytest -s tests
+(gdb) run -m pytest -s -vv -We -p no:unraisableexception tests
 ```
 
 ## Credits

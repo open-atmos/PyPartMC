@@ -7,6 +7,8 @@
 import json
 import PyPartMC as ppmc
 
+GAS_DATA_CTOR_ARG_MINIMAL = ("SO2",)
+
 
 class TestGasData:
     @staticmethod

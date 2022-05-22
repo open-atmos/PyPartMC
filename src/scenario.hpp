@@ -14,10 +14,14 @@
 extern "C" void f_scenario_ctor(void *ptr) noexcept;
 extern "C" void f_scenario_dtor(void *ptr) noexcept;
 extern "C" void f_scenario_from_json(
-  const void *gas_data,
-  const void *aero_data,
-  const void *scenario
-) noexcept;
+    const void *gas_data,
+    const void *aero_data,
+    const void *scenario
+)
+#ifndef __linux__
+    noexcept
+#endif
+;
 
 struct Scenario {
     PMCResource ptr;
