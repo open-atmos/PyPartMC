@@ -8,9 +8,8 @@ import PyPartMC as ppmc
     pytest.param(ppmc.AeroData(), id='AeroData'),
     pytest.param(ppmc.GasState(), id='GasState')
 ))
-def test_dtors(instance):
+def test_dtors(sut):
     # arrange
-    sut = instance
     gc.collect()
 
     # act
