@@ -4,7 +4,6 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-import gc
 import json
 import PyPartMC as ppmc
 
@@ -20,19 +19,6 @@ class TestGasData:
 
         # assert
         assert sut is not None
-
-    @staticmethod
-    def test_dtor():
-        # arrange
-        sut = ppmc.GasData(("SO2",))  # pylint: disable=unused-variable
-        gc.collect()
-
-        # act
-        sut = None
-        gc.collect()
-
-        # assert
-        pass
 
     @staticmethod
     def test_len():
