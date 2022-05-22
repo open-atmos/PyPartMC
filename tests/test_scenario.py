@@ -9,14 +9,15 @@ import json
 import pytest
 import PyPartMC as ppmc
 
+from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 
-GAS_DATA_CTOR_ARG_MINIMAL = ("X",)
+
 SCENARIO_CTOR_ARG_MINIMAL = {
     'temp_profile': [{'time': []}, {'temp': []}],
     'pressure_profile': [{'time': []}, {'pressure': []}],
     'height_profile': [{'time': []}, {'height': []}],
-    'gas_emissions': [{'time': [0]}, {'rate': [0]}, {'X': [0]}],
-    'gas_background': [{'time': [0]}, {'rate': [0]}, {'X': [0]}],
+    'gas_emissions': [{'time': [0]}, {'rate': [0]}, {'SO2': [0]}],
+    'gas_background': [{'time': [0]}, {'rate': [0]}, {'SO2': [0]}],
     'aero_emissions': [{'time': [0]}, {'rate': [0]}, {'dist': [{}]}],
     'aero_background': [{'time': [0]}, {'rate': [0]}, {'dist': [{}]}],
     'loss_function': 'none'
