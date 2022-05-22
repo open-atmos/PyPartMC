@@ -11,7 +11,7 @@
 
 extern "C" void f_gas_data_ctor(void *ptr) noexcept;
 extern "C" void f_gas_data_dtor(void *ptr) noexcept;
-extern "C" void f_gas_data_len(const void *ptr, const int *len) noexcept;
+extern "C" void f_gas_data_len(const void *ptr, int *len) noexcept;
 extern "C" void f_gas_data_from_json(const void *ptr) noexcept;
 extern "C" void f_gas_data_to_json(const void *ptr) noexcept;
 
