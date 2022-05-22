@@ -36,7 +36,7 @@ class TestRunPartOpt:
     @staticmethod
     def test_dtor():
         # arrange
-        run_part_opt = ppmc.RunPartOpt()
+        run_part_opt = ppmc.RunPartOpt()  # pylint: disable=unused-variable
         gc.collect()
 
         # act
