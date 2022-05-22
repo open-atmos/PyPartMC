@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import gc
+import pytest
 import PyPartMC as ppmc
 
 RUN_PART_OPT_CTOR_ARG_MINIMAL = {}

@@ -1,4 +1,4 @@
-import PyPrtMC as ppmc
+import PyPartMC as ppmc
 
 
 class TestUnits:
