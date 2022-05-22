@@ -167,6 +167,7 @@ PYBIND11_MODULE(PyPartMC, m) {
     si.attr("m") = py::float_(1.);
     si.attr("s") = py::float_(1.);
     si.attr("K") = py::float_(1.);
+    si.attr("Pa") = py::float_(1.);
     si.attr("hPa") = py::float_(100.);
     si.attr("mol") = py::float_(1.);
 

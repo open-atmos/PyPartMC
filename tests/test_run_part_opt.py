@@ -13,7 +13,7 @@ RUN_PART_OPT_CTOR_ARG_MINIMAL = {}
 class TestRunPartOpt:
     @staticmethod
     @pytest.mark.parametrize('ctor_arg', (RUN_PART_OPT_CTOR_ARG_MINIMAL,))
-    def test_ctor():
+    def test_ctor(ctor_arg):
         # arrange
         pass
 
