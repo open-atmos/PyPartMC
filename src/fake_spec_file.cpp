@@ -17,7 +17,7 @@ extern "C"
 void c_spec_file_read_real(
     const char *name_data, const int *name_size, double *var
 ) {
-    gimmick_ptr()->read_value<double>(std::string_view(name_data, *name_size), var);
+    gimmick_ptr()->read_value(std::string_view(name_data, *name_size), var);
 }
 
 /*********************************************************************************/
@@ -26,7 +26,16 @@ extern "C"
 void c_spec_file_read_integer(
     const char *name_data, const int *name_size, int *var
 ) {
-    gimmick_ptr()->read_value<int>(std::string_view(name_data, *name_size), var);
+    gimmick_ptr()->read_value(std::string_view(name_data, *name_size), var);
+}
+
+/*********************************************************************************/
+
+extern "C"
+void c_spec_file_read_logical(
+    const char *name_data, const int *name_size, bool *var
+) {
+    gimmick_ptr()->read_value(std::string_view(name_data, *name_size), var);
 }
 
 /*********************************************************************************/

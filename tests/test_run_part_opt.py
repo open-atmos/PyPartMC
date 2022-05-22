@@ -7,36 +7,26 @@
 import gc
 import PyPartMC as ppmc
 
+RUN_PART_OPT_CTOR_ARG_MINIMAL = {}
 
 class TestRunPartOpt:
     @staticmethod
-    def test_t_max():
+    @pytest.mark.parametrize('ctor_arg', (RUN_PART_OPT_CTOR_ARG_MINIMAL,))
+    def test_ctor():
         # arrange
-        run_part_opt = ppmc.RunPartOpt()
+        pass
 
         # act
-        ##run_part_opt.t_max = 44.44
+        run_part_opt = ppmc.RunPartOpt(ctor_arg)
 
         # assert
         assert run_part_opt is not None
-        ##assert run_part_opt.t_max == 44.44
-
-    @staticmethod
-    def test_t_output():
-        # arrange
-        run_part_opt = ppmc.RunPartOpt()
-
-        # act
-        ##run_part_opt.t_output = 66.6
-
-        # assert
-        assert run_part_opt is not None
-        ##assert run_part_opt.t_output == 66.6
 
     @staticmethod
     def test_dtor():
         # arrange
-        run_part_opt = ppmc.RunPartOpt()  # pylint: disable=unused-variable
+        # pylint: disable=unused-variable
+        run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL)
         gc.collect()
 
         # act

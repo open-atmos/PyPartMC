@@ -29,6 +29,13 @@ module pmc_spec_file
             integer(c_int) :: var
         end subroutine
 
+        subroutine c_spec_file_read_logical(name_data, name_size, var) bind(C)
+            import c_bool
+            character, intent(in) :: name_data
+            integer, intent(in) :: name_size
+            logical(c_bool) :: var
+        end subroutine
+
         subroutine c_spec_file_open(filename_data, filename_size) bind(C)
             character, intent(in) :: filename_data
             integer, intent(in) :: filename_size
@@ -122,6 +129,9 @@ module pmc_spec_file
         type(spec_file_t), intent(inout) :: file
         character(len=*), intent(in) :: name
         logical, intent(out) :: var
+        logical(c_bool) :: c_var
+        call c_spec_file_read_logical(name, len(name), c_var)
+        var = c_var
     end subroutine
 
     subroutine spec_file_read_line_no_eof(file, line)
