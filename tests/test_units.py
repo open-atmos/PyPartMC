@@ -1,5 +1,6 @@
 import PyPartMC as ppmc
 
+# pylint: disable=no-member
 
 class TestUnits:
     @staticmethod
@@ -13,7 +14,7 @@ class TestUnits:
     @staticmethod
     def test_time():
         assert ppmc.si.s == 1
-        
+
     @staticmethod
     def test_pressure():
         assert ppmc.si.Pa == 1
