@@ -19,11 +19,12 @@ class TestRunPart:
         aero_data = ppmc.AeroData()
         aero_state = ppmc.AeroState()
         gas_data  = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        gas_state  = ppmc.GasState()
         scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
         run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL)
 
         # act
-        ppmc.run_part(scenario, env_state, aero_data, aero_state, gas_data, run_part_opt)
+        ppmc.run_part(scenario, env_state, aero_data, aero_state, gas_data, gas_state, run_part_opt)
 
         # assert
         pass  # TODO

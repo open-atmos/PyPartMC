@@ -50,7 +50,5 @@ module PyPartMC_run_part_opt
 
         run_part_opt%output_type = OUTPUT_TYPE_SINGLE
 
-        print*, "HERE", run_part_opt%t_output, run_part_opt%output_type
-
     end subroutine
 end module
