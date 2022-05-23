@@ -19,7 +19,7 @@ extern "C" void f_run_part(
     const void*,
     const void*,
     const void*
-);
+) noexcept;
 
 void run_part(
     const Scenario &scenario,

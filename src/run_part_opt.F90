@@ -37,5 +37,15 @@ module PyPartMC_run_part_opt
 
         !!! TODO #55
         call spec_file_read_logical(file, 'do_coagulation', run_part_opt%do_coagulation)    
+
+        call spec_file_read_real(file, 't_max', run_part_opt%t_max)
+        call spec_file_read_real(file, 'del_t', run_part_opt%del_t)
+        call spec_file_read_real(file, 't_output', run_part_opt%t_output)
+        call spec_file_read_real(file, 't_progress', run_part_opt%t_progress)
+
+        call spec_file_read_logical(file, 'allow_doubling', run_part_opt%allow_doubling)
+        call spec_file_read_logical(file, 'allow_halving', run_part_opt%allow_halving)
+
+
     end subroutine
 end module

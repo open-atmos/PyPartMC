@@ -5,7 +5,6 @@
 ####################################################################################################
 
 import sys
-import pytest
 import PyPartMC as ppmc
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
@@ -15,8 +14,6 @@ from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_MINIMAL
 
 class TestRunPart:
     @staticmethod
-    @pytest.mark.skipif(sys.platform != 'linux', reason="TODO #63")
-    @pytest.mark.xfail(strict=True)
     def test_args():
         # arrange
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
@@ -28,9 +25,9 @@ class TestRunPart:
 
         # act
         ppmc.run_part(scenario, env_state, aero_data, aero_state, gas_data, run_part_opt)
-        #print(scenario, env_state, aero_data, aero_state, gas_data, run_part_opt)
 
         # assert
+        pass  # TODO
 
     @staticmethod
     def test_todo():
