@@ -4,7 +4,6 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-import sys
 import PyPartMC as ppmc
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
