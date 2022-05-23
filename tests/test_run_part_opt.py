@@ -7,8 +7,18 @@
 import gc
 import pytest
 import PyPartMC as ppmc
+from PyPartMC import si
 
-RUN_PART_OPT_CTOR_ARG_MINIMAL = {}
+RUN_PART_OPT_CTOR_ARG_MINIMAL = {
+    "do_coagulation": False,
+    "do_parallel": False,
+    "t_max": 0,
+    "del_t": 1 * si.s,
+    "t_output": 0,
+    "t_progress": 0,
+    "allow_halving": False,
+    "allow_doubling": False
+}
 
 class TestRunPartOpt:
     @staticmethod

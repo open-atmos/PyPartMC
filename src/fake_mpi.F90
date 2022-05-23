@@ -37,17 +37,20 @@ module mpi
   subroutine mpi_comm_rank(COMM, RANK, IERR)
     integer :: COMM, RANK, IERR
     rank = 0
+    ierr = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_comm_size(COMM, SIZE, IERR)
     integer :: COMM, SIZE, IERR
-    SIZE = 1
+    size = 1
+    ierr = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_bcast(buffer, count, datatype, root, comm, ierror)
     TYPE(*), DIMENSION(..) :: buffer
     integer, intent(IN) :: count, root, datatype, comm 
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_pack(inbuf, incount, datatype, outbuf, outsize, position, comm, ierror)
@@ -56,12 +59,14 @@ module mpi
     integer, intent(in) :: incount, outsize, datatype, comm
     integer, intent(inout) :: position
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_pack_size(incount, datatype, comm, size, ierror)
     integer, intent(in) :: incount, datatype, comm
     integer, intent(out) :: size
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_unpack(inbuf, insize, position, outbuf, outcount, datatype, comm, ierror)
@@ -70,6 +75,7 @@ module mpi
     integer, intent(IN) :: insize, outcount, datatype, comm
     integer, intent(INout) :: position
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_reduce(sendbuf, recvbuf, count, datatype, op, root, comm, ierror)
@@ -77,6 +83,8 @@ module mpi
     TYPE(*), DIMENSION(..) :: recvbuf
     integer, intent(IN) :: count, root, datatype, op, comm
     integer, optional, intent(out) :: ierror
+    !recvbuf = sendbuf
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_recv(buf, count, datatype, source, tag, comm, status, ierror)
@@ -84,12 +92,14 @@ module mpi
     integer, intent(IN) :: count, source, tag, datatype, comm
     integer, DIMENSION(mpi_STATUS_SIZE) :: status
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_send(buf, count, datatype, dest, tag, comm, ierror)
     TYPE(*), DIMENSION(..), intent(IN) :: buf
     integer, intent(IN) :: count, dest, tag, datatype, comm
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_allreduce(sendbuf, recvbuf, count, datatype, op, comm, ierror)
@@ -97,6 +107,8 @@ module mpi
     TYPE(*), DIMENSION(..) :: recvbuf
     integer, intent(IN) :: count, datatype, op, comm
     integer, optional, intent(out) :: ierror
+    !recvbuf = sendbuf
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_allgather(sendbuf, sendcount, sendtype, recvbuf, recvcount, recvtype, comm, ierror)
@@ -104,6 +116,7 @@ module mpi
     TYPE(*), DIMENSION(..) :: recvbuf
     integer, intent(IN) :: sendcount, recvcount, sendtype, recvtype, comm
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_get_count(status, datatype, count, ierror)
@@ -111,6 +124,7 @@ module mpi
     integer, intent(IN) :: datatype
     integer, intent(out) :: count
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_alltoall(sendbuf, sendcount, sendtype, recvbuf, recvcount, recvtype, comm, ierror)
@@ -118,17 +132,20 @@ module mpi
     TYPE(*), DIMENSION(..) :: recvbuf
     integer, intent(IN) :: sendcount, recvcount, sendtype, recvtype, comm
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_barrier(comm, ierror)
     integer, intent(IN) :: comm
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
  
   subroutine mpi_buffer_detach(buffer_addr, size, ierror)
     TYPE(*), DIMENSION(..) :: buffer_addr
     integer, intent(out) :: size
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_alltoallv(sendbuf, sendcounts, sdispls, sendtype, recvbuf, recvcounts, rdispls, &
@@ -139,32 +156,38 @@ module mpi
     integer, intent(IN) :: sendcounts(*), sdispls(*), recvcounts(*), rdispls(*)
     integer, intent(in) :: sendtype, recvtype, comm
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_probe(source, tag, comm, status, ierror)
     integer, intent(IN) :: source, tag, comm
     integer, DIMENSION(mpi_STATUS_SIZE) :: status
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_init(ierror)
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_bsend(buf, count, datatype, dest, tag, comm, ierror)
     TYPE(*), DIMENSION(..), intent(IN) :: buf
     integer, intent(IN) :: count, dest, tag, datatype, comm
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_finalize(ierror)
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
   subroutine mpi_buffer_attach(buffer, size, ierror)
     type(*), dimension(..), ASYNCHRONOUS :: buffer
     integer, intent(IN) :: size
     integer, optional, intent(out) :: ierror
+    ierror = MPI_SUCCESS
   end subroutine
 
 end module

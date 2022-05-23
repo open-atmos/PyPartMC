@@ -30,6 +30,10 @@ PYBIND11_MODULE(PyPartMC, m) {
 
     m.def("run_part", &run_part, "Do a particle-resolved Monte Carlo simulation.");
 
+    // TODO #65
+    //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
+    //m.def("run_exact", &run_exact, "Do an exact solution simulation.");
+
     py::class_<AeroData>(m, "AeroData",
         R"pbdoc(
              Aerosol material properties and associated data.

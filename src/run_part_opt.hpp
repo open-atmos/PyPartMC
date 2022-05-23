@@ -10,6 +10,7 @@
 
 extern "C" void f_run_part_opt_ctor(void *ptr) noexcept;
 extern "C" void f_run_part_opt_dtor(void *ptr) noexcept;
+extern "C" void f_run_part_opt_from_json(const void *ptr) noexcept;
 
 struct RunPartOpt {
     PMCResource ptr;
@@ -17,6 +18,9 @@ struct RunPartOpt {
     RunPartOpt(const nlohmann::json &json) :
         ptr(f_run_part_opt_ctor, f_run_part_opt_dtor)
     {
+        gimmick_ptr() = std::make_unique<InputGimmick>(json); // TODO: guard
+        f_run_part_opt_from_json(this->ptr.f_arg());
+        gimmick_ptr().reset();
     }
 };
 
