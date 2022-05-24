@@ -9,6 +9,8 @@ from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 
+# pylint: disable=unused-variable
+
 
 class TestCondense:
     @staticmethod
