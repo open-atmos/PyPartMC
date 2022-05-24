@@ -79,7 +79,8 @@ PYBIND11_MODULE(PyPartMC, m) {
              is typically cleared each time we output data to disk.
         )pbdoc"
     )
-        .def(py::init<double>())
+        .def(py::init<const double, const AeroData&>())
+        .def("__len__", AeroState::__len__)
     ;
 
     py::class_<GasData>(m, "GasData",

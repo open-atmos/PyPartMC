@@ -19,7 +19,7 @@ class TestRunPart:
         # arrange
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
         gas_data  = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         gas_state  = ppmc.GasState()
         scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
