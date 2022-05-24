@@ -5,7 +5,6 @@
 ####################################################################################################
 
 import PyPartMC as ppmc
-from PyPartMC import si
 
 AERO_STATE_CTOR_ARG_MINIMAL = 44
 
