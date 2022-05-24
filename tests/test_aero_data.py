@@ -5,6 +5,11 @@
 ####################################################################################################
 
 import PyPartMC as ppmc
+from PyPartMC import si
+
+AERO_DATA_CTOR_ARG_MINIMAL = (
+    {"SO4": [1800 * si.kg / si.m**3, 1, 96e-3 * si.kg / si.mol, 0]},
+)
 
 
 class TestAeroData:
@@ -13,7 +18,7 @@ class TestAeroData:
         # arrange
 
         # act
-        sut = ppmc.AeroData()
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
         # assert
         assert sut is not None

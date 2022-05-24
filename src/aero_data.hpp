@@ -7,16 +7,21 @@
 #pragma once
 
 #include "pmc_resource.hpp"
+#include "gimmicks.hpp"
 
 extern "C" void f_aero_data_ctor(void *ptr) noexcept;
 extern "C" void f_aero_data_dtor(void *ptr) noexcept;
+extern "C" void f_aero_data_from_json(const void *ptr) noexcept;
 
 struct AeroData {
     PMCResource ptr;
 
-    AeroData() :
+    AeroData(const nlohmann::json &json) :
         ptr(f_aero_data_ctor, f_aero_data_dtor)
     {
+        gimmick_ptr() = std::make_unique<InputGimmick>(json);
+        f_aero_data_from_json(this->ptr.f_arg());
+        gimmick_ptr().reset(); // TODO: guard
     }
 };
 

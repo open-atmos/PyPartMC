@@ -10,6 +10,7 @@ import pytest
 import PyPartMC as ppmc
 
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
+from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 
 
 SCENARIO_CTOR_ARG_MINIMAL = {
@@ -78,7 +79,7 @@ class TestScenario:
     ))
     def test_ctor(params):
         # arrange
-        aero_data = ppmc.AeroData()
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(params["gas_data_ctor_arg"])
 
         # act
@@ -90,7 +91,7 @@ class TestScenario:
     @staticmethod
     def test_dtor():
         # arrange
-        aero_data = ppmc.AeroData()
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         # pylint: disable=unused-variable
         sut = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
@@ -106,7 +107,7 @@ class TestScenario:
     @staticmethod
     def test_str():
         # arrange
-        aero_data = ppmc.AeroData()
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
 

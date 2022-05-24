@@ -6,6 +6,7 @@
 
 import PyPartMC as ppmc
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
+from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 
 
 class TestCondense:
@@ -13,7 +14,7 @@ class TestCondense:
     def test_equilib_particles():
         # arrange
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
-        aero_data = ppmc.AeroData()
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_state = ppmc.AeroState()
 
         # act

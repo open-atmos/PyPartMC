@@ -27,4 +27,12 @@ module PyPartMC_aero_data
     deallocate(ptr_f)
   end subroutine
 
+  subroutine f_aero_data_from_json(ptr_c) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    type(spec_file_t) :: file
+    call c_f_pointer(ptr_c, ptr_f)
+    call spec_file_read_aero_data(file, ptr_f)
+  end subroutine
+
 end module
