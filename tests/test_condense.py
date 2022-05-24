@@ -19,7 +19,7 @@ class TestCondense:
         aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL)
 
         # act
-        ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
+        #ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
 
         # assert
         pass  # TODO
