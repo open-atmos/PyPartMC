@@ -1,7 +1,7 @@
 !###################################################################################################
 ! This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
 ! Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
-! Author: Sylwester Arabas                                                                         #
+! Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 !###################################################################################################
 
 module PyPartMC_gas_data
@@ -16,7 +16,6 @@ module PyPartMC_gas_data
         type(c_ptr), intent(out) :: ptr_c
 
         allocate(ptr_f)
-        !TODO call gas_data_initialize(ptr_f, n)
         ptr_c = c_loc(ptr_f)
     end subroutine
 
@@ -25,7 +24,6 @@ module PyPartMC_gas_data
         type(c_ptr), intent(in) :: ptr_c
 
         call c_f_pointer(ptr_c, ptr_f)
-        !TODO ? call gas_state_set_size(ptr_f, 0)
         deallocate(ptr_f)
     end subroutine
 
