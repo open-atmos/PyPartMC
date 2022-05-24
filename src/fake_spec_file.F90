@@ -93,23 +93,28 @@ module pmc_spec_file
         type(spec_file_t), intent(inout) :: file
         integer, intent(in) :: max_lines
         character(len=SPEC_LINE_MAX_VAR_LEN), allocatable :: names(:)
-        real(kind=c_double), allocatable :: vals(:,:)
+        real(kind=c_double), allocatable :: vals(:,:), vals_row(:)
 
-        integer :: row, n_rows, n_cols, name_size;
+        integer :: row, col, n_rows, n_cols, name_size;
 
         call c_spec_file_read_real_named_array_size(n_rows, n_cols)
         allocate(names(n_rows))
         allocate(vals(n_rows, n_cols))
+        allocate(vals_row(n_cols))
         ! TODO: handle max_lines
         do row = 1, n_rows
             name_size = len(names(row))
             call c_spec_file_read_real_named_array_data( &
                 row, &
                 names(row), name_size, &
-                vals(row, 1), size(vals, 2) &
+                vals_row(1), size(vals, 2) &
             )
             names(row) = names(row)(1:name_size)
+            do col = 1, n_cols
+                vals(row, col) = vals_row(col)
+            end do
         end do
+        deallocate(vals_row)
     end subroutine
 
     subroutine spec_file_assert_msg(code, file, condition_ok, msg)
