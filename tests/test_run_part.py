@@ -10,6 +10,7 @@ from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_MINIMAL
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 
 
 class TestRunPart:
@@ -18,7 +19,7 @@ class TestRunPart:
         # arrange
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        aero_state = ppmc.AeroState()
+        aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL)
         gas_data  = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         gas_state  = ppmc.GasState()
         scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)

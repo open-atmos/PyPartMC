@@ -79,7 +79,7 @@ PYBIND11_MODULE(PyPartMC, m) {
              is typically cleared each time we output data to disk.
         )pbdoc"
     )
-        .def(py::init<>())
+        .def(py::init<double>())
     ;
 
     py::class_<GasData>(m, "GasData",

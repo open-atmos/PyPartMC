@@ -10,13 +10,16 @@
 
 extern "C" void f_aero_state_ctor(void *ptr) noexcept;
 extern "C" void f_aero_state_dtor(void *ptr) noexcept;
+extern "C" void f_aero_state_set_n_part_ideal(const void *ptr, const double *n_part) noexcept;
+
 
 struct AeroState {
     PMCResource ptr;
 
-    AeroState() :
+    AeroState(const double &n_part) :
         ptr(f_aero_state_ctor, f_aero_state_dtor)
     {
+        f_aero_state_set_n_part_ideal(ptr.f_arg(), &n_part);
     }
 };
 

@@ -8,7 +8,7 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 AERO_DATA_CTOR_ARG_MINIMAL = (
-    {"SO4": [1800 * si.kg / si.m**3, 1, 96e-3 * si.kg / si.mol, 0]},
+    {"H20": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
 )
 
 
