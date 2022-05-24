@@ -16,7 +16,7 @@ extern "C" void f_aero_state_init(
     const double *n_part,
     const void *aero_dataptr
 ) noexcept;
-extern "C" void f_aero_state_len(const void *ptr, const int *len) noexcept;
+extern "C" void f_aero_state_len(const void *ptr, int *len) noexcept;
 
 struct AeroState {
     PMCResource ptr;
