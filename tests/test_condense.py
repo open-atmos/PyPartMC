@@ -18,7 +18,7 @@ class TestCondense:
         # arrange
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
 
         # act
         # ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
