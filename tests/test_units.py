@@ -24,3 +24,8 @@ class TestUnits:
     def test_amount():
         assert ppmc.si.mol == 1
 
+    @staticmethod
+    def test_mass():
+        assert ppmc.si.kg == 1
+        assert ppmc.si.g == 1e-3
+

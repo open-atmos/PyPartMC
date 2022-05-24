@@ -4,25 +4,22 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-import gc
-import pytest
 import PyPartMC as ppmc
-from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+
+AERO_STATE_CTOR_ARG_MINIMAL = 44
 
 
-@pytest.mark.parametrize('sut', (
-    pytest.param(ppmc.GasData(("SO2",)), id='GasData'),
-    pytest.param(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), id='AeroData'),
-    pytest.param(ppmc.GasState(), id='GasState')
-))
-def test_dtors(sut):  # pylint: disable=unused-argument
-    # arrange
-    gc.collect()
+class TestAeroState:
+    @staticmethod
+    def test_ctor():
+        # arrange
 
-    # act
-    sut = None
-    gc.collect()
+        # act
+        sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL)
 
-    # assert
-    pass
+        # assert
+        assert sut is not None
 
+    @staticmethod
+    def test_todo():
+        pass  # TODO

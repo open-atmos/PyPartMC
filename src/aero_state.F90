@@ -27,4 +27,15 @@ module PyPartMC_aero_state
     deallocate(ptr_f)
   end subroutine
 
+  subroutine f_aero_state_set_n_part_ideal(ptr_c, n_part) bind(C)
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(in) :: n_part
+
+    call c_f_pointer(ptr_c, ptr_f)
+    print*, n_part
+    ! TODO
+    !call aero_state_set_n_part_ideal(ptr_f, n_part)
+  end subroutine
+
 end module

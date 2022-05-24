@@ -182,8 +182,9 @@ void spec_file_read_real_named_array_data(
                 for (auto c=0u; c < entry.key().size(); ++c)
                     name_data[c] = entry.key()[c];
                 *name_size = entry.key().size();
-                for (auto idx=0u; idx < entry.value().size(); ++idx)
+                for (auto idx=0u; idx < entry.value().size(); ++idx) {
                     vals[idx] = entry.value().at(idx).get<double>();
+                }
                 break; // TODO
             }
         }
