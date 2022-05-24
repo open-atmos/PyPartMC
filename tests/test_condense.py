@@ -10,8 +10,6 @@ from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 
 
-# pylint: disable=unused-variable
-
 class TestCondense:
     @staticmethod
     def test_equilib_particles():
@@ -21,7 +19,7 @@ class TestCondense:
         aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL)
 
         # act
-        #ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
+        ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
 
         # assert
         pass  # TODO

@@ -33,7 +33,8 @@ module PyPartMC_aero_state
     real(c_double), intent(in) :: n_part
 
     call c_f_pointer(ptr_c, ptr_f)
-    call aero_state_set_n_part_ideal(ptr_f, n_part)
+    ! TODO
+    !call aero_state_set_n_part_ideal(ptr_f, n_part)
   end subroutine
 
 end module
