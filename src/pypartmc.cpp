@@ -17,6 +17,7 @@
 #include "env_state.hpp"
 #include "gas_data.hpp"
 #include "gas_state.hpp"
+#include "condense.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -29,6 +30,11 @@ PYBIND11_MODULE(PyPartMC, m) {
     )pbdoc";
 
     m.def("run_part", &run_part, "Do a particle-resolved Monte Carlo simulation.");
+    m.def("condense_equilib_particles", &condense_equilib_particles, R"pbdoc(
+      Call condense_equilib_particle() on each particle in the aerosol
+      to ensure that every particle has its water content in
+      equilibrium.
+    )pbdoc");
 
     // TODO #65
     //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
