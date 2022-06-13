@@ -1,4 +1,4 @@
-name: tests+artifacts
+name: tests+artifacts+pypi
 
 defaults:
   run:
@@ -87,7 +87,7 @@ jobs:
 
   dist_upload:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+    if: ${{ github.ref == 'refs/heads/main' }} 
     needs: [dist_check]
     steps:
     - uses: actions/download-artifact@v2
