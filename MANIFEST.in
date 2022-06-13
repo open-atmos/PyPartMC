@@ -1,18 +1,18 @@
 exclude examples
-graft gitmodules/partmc/src/
-graft gitmodules/sundials/src/sunnonlinsol/newton/
-graft gitmodules/sundials/src/sunnonlinsol/fixedpoint/
-graft gitmodules/sundials/src/nvector/serial/
-graft gitmodules/sundials/src/sunlinsol/band/
-graft gitmodules/sundials/src/sunlinsol/dense/
-graft gitmodules/sundials/src/cvode/
-graft gitmodules/sundials/src/sundials/
-graft gitmodules/sundials/include/cvode/
-graft gitmodules/sundials/include/sundials/
-graft gitmodules/sundials/include/sunnonlinsol/
-graft gitmodules/sundials/include/sunmatrix/
-graft gitmodules/sundials/include/sunlinsol/
-graft gitmodules/sundials/include/nvector/
+graft gitmodules/partmc/src
+graft gitmodules/sundials/src/sunnonlinsol/newton
+graft gitmodules/sundials/src/sunnonlinsol/fixedpoint
+graft gitmodules/sundials/src/nvector/serial
+graft gitmodules/sundials/src/sunlinsol/band
+graft gitmodules/sundials/src/sunlinsol/dense
+graft gitmodules/sundials/src/cvode
+graft gitmodules/sundials/src/sundials
+graft gitmodules/sundials/include/cvode
+graft gitmodules/sundials/include/sundials
+graft gitmodules/sundials/include/sunnonlinsol
+graft gitmodules/sundials/include/sunmatrix
+graft gitmodules/sundials/include/sunlinsol
+graft gitmodules/sundials/include/nvector
 include gitmodules/sundials/cmake/SundialsSetupConfig.cmake
 include gitmodules/sundials/cmake/SundialsSetupCompilers.cmake
 include gitmodules/sundials/cmake/SundialsIndexSize.cmake
@@ -46,9 +46,9 @@ include gitmodules/pybind11/CMakeLists.txt
 include gitmodules/pybind11/tools/pybind11Common.cmake
 include gitmodules/pybind11/tools/pybind11Tools.cmake
 include gitmodules/pybind11/tools/FindPythonLibsNew.cmake
-graft gitmodules/pybind11/include/pybind11/
+graft gitmodules/pybind11/include/pybind11
 
-graft gitmodules/json/include/nlohmann/
+graft gitmodules/json/include/nlohmann
 include gitmodules/span/include/tcb/span.hpp
 include gitmodules/pybind11_json/include/pybind11_json/pybind11_json.hpp
 
