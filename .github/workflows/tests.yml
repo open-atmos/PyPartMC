@@ -51,7 +51,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install pytest nbconvert ipython ipykernel
+      - run: pip install pytest nbconvert ipython ipykernel python-build
 
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
 
