@@ -51,7 +51,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install pytest nbconvert ipython ipykernel
+      - run: pip install pytest nbconvert ipython ipykernel build
 
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
 
@@ -60,6 +60,8 @@ jobs:
       - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
 
       - run: pytest -v -s -We -p no:unraisableexception tests
+
+      - run: python -m build
 
 #      - if: ${{ failure() }}
 #        uses: mxschmitt/action-tmate@v3
