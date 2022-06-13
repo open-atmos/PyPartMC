@@ -61,6 +61,8 @@ jobs:
 
       - run: pytest -v -s -We -p no:unraisableexception tests
 
+      - run: python -m build
+
 #      - if: ${{ failure() }}
 #        uses: mxschmitt/action-tmate@v3
 #        with:
