@@ -9,6 +9,10 @@ graft gitmodules/sundials/src/cvode/
 graft gitmodules/sundials/src/sundials/
 graft gitmodules/sundials/include/cvode/
 graft gitmodules/sundials/include/sundials/
+graft gitmodules/sundials/include/sunnonlinsol/
+graft gitmodules/sundials/include/sunmatrix/
+graft gitmodules/sundials/include/sunlinsol/
+graft gitmodules/sundials/include/nvector/
 include gitmodules/sundials/cmake/SundialsSetupConfig.cmake
 include gitmodules/sundials/cmake/SundialsSetupCompilers.cmake
 include gitmodules/sundials/cmake/SundialsIndexSize.cmake
