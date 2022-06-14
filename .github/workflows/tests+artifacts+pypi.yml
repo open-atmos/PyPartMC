@@ -101,7 +101,7 @@ jobs:
         name: dist
         path: dist
     - run: twine check --strict dist/*
-    - run: for i in dist/*.whl; do auditwheel show $i; done;
+    - run: for i in dist/*-manylinux*.whl; do auditwheel show $i; done;
 
   dist_upload:
     runs-on: ubuntu-latest
