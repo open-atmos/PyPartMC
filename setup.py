@@ -124,7 +124,10 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="PyPartMC",
-    use_scm_version={"local_scheme": "no-local-version", "version_scheme": "post-release"},
+    use_scm_version={
+        "local_scheme": lambda _: "", 
+        "version_scheme": "post-release"
+    },
     author="Sylwester Arabas",
     author_email="sarabas@illinois.edu",
     description="Python interface to PartMC",
