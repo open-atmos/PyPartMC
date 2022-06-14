@@ -72,7 +72,7 @@ jobs:
         with:
             build-requirements: 'setuptools_scm'
             python-versions: cp${{ env.PV }}-cp${{ env.PV }}
-            pre-build-command: 'DEBIAN_FRONTEND noninteractive apt-get update && apt-get -y install gcc'
+            pre-build-command: 'bash -c "DEBIAN_FRONTEND noninteractive apt-get update && apt-get -y install gcc"'
 
       - uses: actions/upload-artifact@v2
         with:
