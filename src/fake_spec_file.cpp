@@ -4,7 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ##################################################################################################*/
 
-#include <string_view>
+#include <bpstd/string_view.hpp>
 #include <tcb/span.hpp>
 
 #include "gimmicks.hpp"
