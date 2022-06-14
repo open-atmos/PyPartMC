@@ -125,8 +125,9 @@ class CMakeBuild(build_ext):
 setup(
     name="PyPartMC",
     use_scm_version={
-        "local_scheme": lambda _: "", 
-        "version_scheme": "post-release"
+        "local_scheme": lambda _: "",
+        "version_scheme": "post-release",
+        "fallback_version": "0.0.0"
     },
     author="Sylwester Arabas",
     author_email="sarabas@illinois.edu",
