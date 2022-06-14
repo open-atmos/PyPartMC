@@ -68,7 +68,7 @@ jobs:
         run: python -c "import sys; vi=sys.version_info; print(f'PV={vi.major}{vi.minor}')" >> $GITHUB_ENV
 
       - if: matrix.platform == 'ubuntu-latest'
-        uses: RalfG/python-wheels-manylinux-build@v0.4.2-manylinux2014_aarch64
+        uses: RalfG/python-wheels-manylinux-build@v0.4.2-manylinux_2_28_x86_64
         with:
             build-requirements: 'setuptools_scm'
             python-versions: cp${{ env.PV }}-cp${{ env.PV }}
