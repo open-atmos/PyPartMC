@@ -17,7 +17,7 @@ extern "C"
 void c_spec_file_read_real(
     const char *name_data, const int *name_size, double *var
 ) {
-    gimmick_ptr()->read_value(std::string_view(name_data, *name_size), var);
+    gimmick_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
 }
 
 /*********************************************************************************/
@@ -26,7 +26,7 @@ extern "C"
 void c_spec_file_read_integer(
     const char *name_data, const int *name_size, int *var
 ) {
-    gimmick_ptr()->read_value(std::string_view(name_data, *name_size), var);
+    gimmick_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
 }
 
 /*********************************************************************************/
@@ -35,13 +35,13 @@ extern "C"
 void c_spec_file_read_logical(
     const char *name_data, const int *name_size, bool *var
 ) {
-    gimmick_ptr()->read_value(std::string_view(name_data, *name_size), var);
+    gimmick_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
 }
 
 /*********************************************************************************/
 
 void spec_file_read_string(
-    const std::string_view &name,
+    const bpstd::string_view &name,
     char* var_data,
     int *var_size
 ) noexcept {
@@ -56,14 +56,14 @@ void c_spec_file_read_string(
     int *var_size
 ) noexcept {
     spec_file_read_string(
-        std::string_view(name_data, *name_size),
+        bpstd::string_view(name_data, *name_size),
         var_data, var_size
     );
 }
 
 /*********************************************************************************/
 
-void spec_file_open(const std::string_view &filename) {
+void spec_file_open(const bpstd::string_view &filename) {
     gimmick_ptr()->zoom_in(filename);
 }
 
@@ -73,7 +73,7 @@ void c_spec_file_open(
     const int *filename_size
 ) {
     spec_file_open(
-        std::string_view(filename_data, *filename_size)
+        bpstd::string_view(filename_data, *filename_size)
     );
 }
 
@@ -91,7 +91,7 @@ void c_spec_file_close() {
 /*********************************************************************************/
 
 void spec_file_read_timed_real_array_size(
-    const std::string_view &name,
+    const bpstd::string_view &name,
     int *times_size,
     int *vals_size
 ) {
@@ -107,7 +107,7 @@ void c_spec_file_read_timed_real_array_size(
     int *vals_size 
 ) {
     spec_file_read_timed_real_array_size(
-        std::string_view(name_data, *name_size),
+        bpstd::string_view(name_data, *name_size),
         times_size,
         vals_size
     );
@@ -116,7 +116,7 @@ void c_spec_file_read_timed_real_array_size(
 /*********************************************************************************/
 
 void spec_file_read_timed_real_array_data(
-    const std::string_view &name,
+    const bpstd::string_view &name,
     const tcb::span<double> &times,
     const tcb::span<double> &vals
 ) {
@@ -134,7 +134,7 @@ void c_spec_file_read_timed_real_array_data(
     const int *vals_size 
 ) {
     spec_file_read_timed_real_array_data(
-        std::string_view(name_data, *name_size),
+        bpstd::string_view(name_data, *name_size),
         tcb::span(times_data, *times_size),
         tcb::span(vals_data, *vals_size)
     );
