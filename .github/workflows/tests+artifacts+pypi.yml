@@ -78,6 +78,7 @@ jobs:
         with:
             build-requirements: 'setuptools_scm'
             python-versions: cp${{ env.PV }}-cp${{ env.PV }}
+            pre-build-command: 'git config --global --add safe.directory "*"'
 
       - if: matrix.platform == 'ubuntu-latest'
         uses: actions/upload-artifact@v2
