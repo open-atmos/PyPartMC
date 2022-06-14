@@ -12,6 +12,7 @@
 #include <stack>
 #include "nlohmann/json.hpp"
 #include <tcb/span.hpp>
+#include <bpstd/string_view.hpp>
 
 struct Gimmick {
   private:
