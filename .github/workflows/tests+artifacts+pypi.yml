@@ -64,6 +64,12 @@ jobs:
       - if: matrix.platform != 'ubuntu-latest'
         run: python -m build
 
+      - if: matrix.platform != 'ubuntu-latest'
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+
       - if: matrix.platform == 'ubuntu-latest'
         run: python -c "import sys; vi=sys.version_info; print(f'PV={vi.major}{vi.minor}')" >> $GITHUB_ENV
 
@@ -73,10 +79,11 @@ jobs:
             build-requirements: 'setuptools_scm'
             python-versions: cp${{ env.PV }}-cp${{ env.PV }}
 
-      - uses: actions/upload-artifact@v2
+      - if: matrix.platform == 'ubuntu-latest'
+        uses: actions/upload-artifact@v2
         with:
           name: dist
-          path: dist
+          path: dist/*-manylinux*.whl
 
 #      - if: ${{ failure() }}
 #        uses: mxschmitt/action-tmate@v3
