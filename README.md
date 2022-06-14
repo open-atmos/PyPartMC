@@ -102,6 +102,11 @@ No CMAKE_Fortran_COMPILER could be found.
 ```
 Try installing a Fortran compiler (e.g., `brew reinstall gcc`)
 
+```
+warning: no files found matching 'gitmodules/...
+```
+Since git clone was done without recursive option, try: `git submodule update --init`
+
 #### How to debug
 ```sh
 git clone --recursive git+https://github.com/open-atmos/PyPartMC.git
