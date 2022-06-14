@@ -11,6 +11,8 @@ on:
     branches: [ main ]
   schedule:
     - cron: '0 13 * * 4'
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -75,13 +77,14 @@ jobs:
           path: dist
 
       - if: matrix.platform == 'ubuntu-latest'
-        run: python -c "import sys; vi=sys.version_info; abitag='m' if vi.minor<8 else ''; print(f'PV={vi.major}{vi.minor}{abitag}')" >> $GITHUB_ENV
+        run: python -c "import sys; vi=sys.version_info; print(f'PV={vi.major}{vi.minor}')" >> $GITHUB_ENV
+        run: python -c "import sys; vi=sys.version_info; abitag='m' if vi.minor<8 else ''; print(f'PVA={vi.major}{vi.minor}{abitag}')" >> $GITHUB_ENV
 
       - if: matrix.platform == 'ubuntu-latest'
         uses: RalfG/python-wheels-manylinux-build@v0.4.2
         with:
             build-requirements: 'setuptools_scm'
-            python-versions: cp${{ env.PV }}-cp${{ env.PV }}
+            python-versions: cp${{ env.PV }}-cp${{ env.PVA }}
             pre-build-command: 'git config --global --add safe.directory "*"'
 
       - if: matrix.platform == 'ubuntu-latest'
