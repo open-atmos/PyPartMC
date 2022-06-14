@@ -66,6 +66,7 @@ jobs:
 
       - if: matrix.platform == 'ubuntu-latest'
         uses: mad9000/actions-find-and-replace-string@2
+        with:
             source: ${{ matrix.python-version }}
             find: '.'
             replace: ''
