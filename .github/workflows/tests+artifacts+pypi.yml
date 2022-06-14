@@ -65,16 +65,12 @@ jobs:
         run: python -m build
 
       - if: matrix.platform == 'ubuntu-latest'
-        uses: mad9000/actions-find-and-replace-string@2
-        with:
-            source: ${{ matrix.python-version }}
-            find: '.'
-            replace: ''
+        run: python -c "import sys; vi=sys.version_info; print(f'PV={vi.major}{vi.minor}')" >> $GITHUB_ENV
 
       - if: matrix.platform == 'ubuntu-latest'
         uses: RalfG/python-wheels-manylinux-build@v0.4.2
         with:
-            python-versions: cp${{ matrix.python-version }}-cp${{ matrix.python-version }}
+            python-versions: cp${{ PV }}-cp${{ PV }}
             build-requirements: 'numpy'
 
       - uses: actions/upload-artifact@v2
