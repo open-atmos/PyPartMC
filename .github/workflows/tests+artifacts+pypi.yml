@@ -66,14 +66,14 @@ jobs:
 
       - if: matrix.platform == 'ubuntu-latest'
         uses: mad9000/actions-find-and-replace-string@2
-            source: ${{matrix.python-version}}
+            source: ${{ matrix.python-version }}
             find: '.'
             replace: ''
 
       - if: matrix.platform == 'ubuntu-latest'
         uses: RalfG/python-wheels-manylinux-build@v0.4.2
         with:
-            python-versions: cp${{matrix.python-version}}-cp${{matrix.python-version}}
+            python-versions: cp${{ matrix.python-version }}-cp${{ matrix.python-version }}
             build-requirements: 'numpy'
 
       - uses: actions/upload-artifact@v2
