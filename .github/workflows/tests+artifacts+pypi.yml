@@ -106,15 +106,17 @@ jobs:
 
   dist_upload:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}   # TODO: only on release?
+    #if: ${{ github.ref == 'refs/heads/main' }}
     needs: [dist_check]
     steps:
     - uses: actions/download-artifact@v2
       with:
         name: dist
         path: dist
-    - uses: pypa/gh-action-pypi-publish@master
+    - run: pip install twine
+    - run: twine upload dist/*
       with:
-        user: __token__
-        password: pypi-${{ secrets.TEST_PYPI_API_TOKEN }}
-        repository_url: https://test.pypi.org/legacy/
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          TWINE_REPOSITORY: testpypi
