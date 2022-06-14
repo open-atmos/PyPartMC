@@ -50,7 +50,7 @@ graft gitmodules/pybind11/include/pybind11
 
 graft gitmodules/json/include/nlohmann
 include gitmodules/span/include/tcb/span.hpp
-include gitmodules/string_view-standalone/include/bpstd
+graft gitmodules/string_view-standalone/include/bpstd
 include gitmodules/pybind11_json/include/pybind11_json/pybind11_json.hpp
 
 include gitmodules/partmc/src/condense_solver.c
