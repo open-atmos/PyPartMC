@@ -70,8 +70,8 @@ jobs:
       - if: matrix.platform == 'ubuntu-latest'
         uses: RalfG/python-wheels-manylinux-build@v0.4.2
         with:
+            build-requirements: 'setuptools_scm'
             python-versions: cp${{ env.PV }}-cp${{ env.PV }}
-            build-requirements: 'numpy'
 
       - uses: actions/upload-artifact@v2
         with:
@@ -98,7 +98,7 @@ jobs:
 
   dist_upload:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }} 
+    if: ${{ github.ref == 'refs/heads/main' }}   # TODO: only on release?
     needs: [dist_check]
     steps:
     - uses: actions/download-artifact@v2
