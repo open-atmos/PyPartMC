@@ -135,8 +135,8 @@ void c_spec_file_read_timed_real_array_data(
 ) {
     spec_file_read_timed_real_array_data(
         bpstd::string_view(name_data, *name_size),
-        tcb::span(times_data, *times_size),
-        tcb::span(vals_data, *vals_size)
+        tcb::span<double>(times_data, *times_size),
+        tcb::span<double>(vals_data, *vals_size)
     );
 }
 
@@ -202,7 +202,7 @@ void c_spec_file_read_real_named_array_data(
     spec_file_read_real_named_array_data(
         *row,
         name_data, name_size,
-        tcb::span(vals_data, *vals_size)
+        tcb::span<double>(vals_data, *vals_size)
     );
 }
 
