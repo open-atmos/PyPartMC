@@ -70,7 +70,7 @@ jobs:
       - if: matrix.platform == 'ubuntu-latest'
         uses: RalfG/python-wheels-manylinux-build@v0.4.2
         with:
-            python-versions: cp${{ PV }}-cp${{ PV }}
+            python-versions: cp${{ env.PV }}-cp${{ env.PV }}
             build-requirements: 'numpy'
 
       - uses: actions/upload-artifact@v2
