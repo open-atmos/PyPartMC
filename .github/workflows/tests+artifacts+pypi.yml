@@ -114,8 +114,8 @@ jobs:
         name: dist
         path: dist
     - run: pip install twine
-    - run: twine upload dist/*
+    - run: twine upload --verbose dist/*
       env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
-        TWINE_REPOSITORY: testpypi
+        TWINE_USERNAME: "__token__"
+        TWINE_PASSWORD: "pypi-${{ secrets.TEST_PYPI_API_TOKEN }}"
+        TWINE_REPOSITORY: "testpypi"
