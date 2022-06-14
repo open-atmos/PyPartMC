@@ -68,10 +68,11 @@ jobs:
         run: python -c "import sys; vi=sys.version_info; print(f'PV={vi.major}{vi.minor}')" >> $GITHUB_ENV
 
       - if: matrix.platform == 'ubuntu-latest'
-        uses: RalfG/python-wheels-manylinux-build@v0.4.2-manylinux_2_28_x86_64
+        uses: RalfG/python-wheels-manylinux-build@v0.4.2
         with:
             build-requirements: 'setuptools_scm'
             python-versions: cp${{ env.PV }}-cp${{ env.PV }}
+            pre-build-command: 'DEBIAN_FRONTEND noninteractive apt-get update && apt-get -y install gcc'
 
       - uses: actions/upload-artifact@v2
         with:
