@@ -22,3 +22,7 @@
 	path = gitmodules/span
 	url = https://github.com/tcbrindle/span.git
 	shallow = true
+[submodule "gitmodules/string_view-standalone"]
+	path = gitmodules/string_view-standalone
+	url = https://github.com/bitwizeshift/string_view-standalone.git
+	shallow = true

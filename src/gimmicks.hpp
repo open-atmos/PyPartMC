@@ -12,6 +12,7 @@
 #include <stack>
 #include "nlohmann/json.hpp"
 #include <tcb/span.hpp>
+#include <bpstd/string_view.hpp>
 
 struct Gimmick {
   private:
@@ -45,7 +46,7 @@ struct Gimmick {
   public:
     virtual ~Gimmick() {}
 
-    void zoom_in(const std::string_view &sub) noexcept {
+    void zoom_in(const bpstd::string_view &sub) noexcept {
         auto it = this->json->is_array() 
             ? this->json->at(this->json->size()-1).begin()
             : this->json->find(sub);
@@ -81,7 +82,7 @@ struct Gimmick {
         return this->json->empty();
     }
 
-    std::size_t n_elements(const std::string_view &name) noexcept {
+    std::size_t n_elements(const bpstd::string_view &name) noexcept {
         for (auto i=0u; i<this->json->size(); ++i) {
             for (auto &entry : this->json->at(i).items()) {
                 if (entry.key() == name)
@@ -106,14 +107,14 @@ struct Gimmick {
 
     template <typename T>
     void read_value(
-        const std::string_view name,
+        const bpstd::string_view name,
         T *var
     ) {
         *var = this->find(name)->get<T>();
     }
 
     void read_str(
-        const std::string_view &name,
+        const bpstd::string_view &name,
         char* var_data,
         int* var_size
     ) noexcept {
@@ -126,7 +127,7 @@ struct Gimmick {
         }
         auto value = it->is_array()
             ? name
-            : it->begin()->get<std::string_view>();  // TODO: is this path used anywhere?
+            : it->begin()->get<bpstd::string_view>();  // TODO: is this path used anywhere?
         if ((int)value.size() > *var_size) {
             std::ostringstream oss;
             oss << "provided entry \"" << name << "\" has too many characters";
