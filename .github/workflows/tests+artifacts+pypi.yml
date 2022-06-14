@@ -21,7 +21,6 @@ jobs:
         exclude:
           - platform: ubuntu-latest
             python-version: "3.7"
-        exclude:
           - platform: windows-latest
             python-version: ["3.8", "3.10"]
     runs-on: ${{ matrix.platform }}
