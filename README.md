@@ -22,7 +22,7 @@ Since PyPartMC is implemented in C++, it also constitutes a C++ API to the PartM
 [![Jupyter](https://img.shields.io/static/v1?label=Jupyter&logo=Jupyter&color=f37626&message=%E2%9C%93)](https://jupyter.org/)
 
 ```python
-! pip install git+https://github.com/open-atmos/PyPartMC.git
+! pip install PyPartMC
 import PyPartMC
 ```
 
@@ -120,7 +120,7 @@ gdb python
 
 #### PyPartMC:
 
-author: [Sylwester Arabas](https://www.ii.uj.edu.pl/~arabas/)   
+author: [Sylwester Arabas et al.](https://github.com/open-atmos/PyPartMC/graphs/contributors)   
 funding: [US Department of Energy Atmospheric System Research programme](https://asr.science.energy.gov/)   
 copyright: [University of Illinois at Urbana-Champaign](https://atmos.illinois.edu/)   
 licence: [GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html)
