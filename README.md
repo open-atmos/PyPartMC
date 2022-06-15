@@ -31,7 +31,7 @@ import PyPartMC
 - works on Linux, macOS and Windows (compatibility assured with [CI builds](https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/tests.yml))
 - hassle-free installation using `pip` (prior PartMC installation **not needed**)
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
-- ships with [a set of examples](https://github.com/open-atmos/PyPartMC/tree/main/examples) maintained in a form of Jupyter notebooks
+- ships with [a set of examples](https://github.com/open-atmos/PyPartMC-examples) maintained in a form of Jupyter notebooks
 - Pythonic API (but retaining PartMC jargon) incl. exceptions and GC deallocation of Fortran objects 
 - code snippets in README depicting how to use PyPartMC from Julia (also executed on CI)
 - auto-generated [docs on the web](https://open-atmos.github.io/PyPartMC/)
@@ -63,22 +63,11 @@ gas_data = ppmc.GasData(("H2SO4", "HNO3", "HCl", "NH3", "NO", "NO2"))
 
 #### Jupyter notebooks with examples
 
-- `hello_world` notebook:    
-[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/open-atmos/PyPartMC/blob/main/examples/hello_world.ipynb)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/hello_world.ipynb)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/hello_world.ipynb)
-- `condense` notebook:   
-[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/open-atmos/PyPartMC/blob/main/examples/condense.ipynb)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/condense.ipynb)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/condense.ipynb)
-- `widgets_playground` notebook:   
-[![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/open-atmos/PyPartMC/blob/main/examples/widgets_playground.ipynb)
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/widgets_playground.ipynb)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/widgets_playground.ipynb)
+See the [PyPartMC-examples](https://github.com/open-atmos/PyPartMC-examples) project.
 
 #### usage in other projects
 
-PyPartMC is also used within the tests of PySDM project ... TODO
+PyPartMC is used within the [test workflow of the PySDM project](https://github.com/atmos-cloud-sim-uj/PySDM/tree/main/tests/smoke_tests/partmc).
 
 ## Implementation outline
 
