@@ -29,7 +29,7 @@ jobs:
             python-version: "3.10"
     runs-on: ${{ matrix.platform }}
     steps:
-      - if: matrix.platform == 'macos-latest'
+      - if: startsWith(matrix.platform, 'macos-')
         run: brew reinstall gcc
 
       - if: matrix.platform == 'windows-latest'
