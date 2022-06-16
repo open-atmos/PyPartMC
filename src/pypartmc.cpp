@@ -63,6 +63,7 @@ PYBIND11_MODULE(PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>())
+        .def("spec_by_name", AeroData::spec_by_name)
     ;
 
     py::class_<AeroState>(m, "AeroState",
