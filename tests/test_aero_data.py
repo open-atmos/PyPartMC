@@ -33,7 +33,7 @@ class TestAeroData:
 
         #assert
         assert value == 0
- 
+
     @staticmethod
     def test_spec_by_name_not_found():
         #arrange
@@ -41,7 +41,7 @@ class TestAeroData:
 
         #act and assert
         try:
-            value = sut.spec_by_name("XXX")
+            _ = sut.spec_by_name("XXX")
             assert False
-        except RuntimeError as e:
-            assert str(e) == "Element not found."
+        except RuntimeError as error:
+            assert str(error) == "Element not found."
