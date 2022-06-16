@@ -8,7 +8,7 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 AERO_DATA_CTOR_ARG_MINIMAL = (
-    {"H20": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
+    {"H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
 )
 
 
@@ -24,5 +24,24 @@ class TestAeroData:
         assert sut is not None
 
     @staticmethod
-    def test_std():
-        pass  # TODO
+    def test_spec_by_name_found():
+        #arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        #act
+        value = sut.spec_by_name("H2O")
+
+        #assert
+        assert value == 0
+
+    @staticmethod
+    def test_spec_by_name_not_found():
+        #arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        #act and assert
+        try:
+            _ = sut.spec_by_name("XXX")
+            assert False
+        except RuntimeError as error:
+            assert str(error) == "Element not found."
