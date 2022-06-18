@@ -75,9 +75,6 @@ macro(sundials_add_library target)
   target_include_directories(${target} PRIVATE ${SUNDIALS_SOURCE_DIR}/src/sundials)
   target_include_directories(${target} PRIVATE ${SUNDIALS_SOURCE_DIR}/include)
   target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/include)
-  if (APPLE)
-    target_link_options(${target} PRIVATE -Wl,-no_compact_unwind)
-  endif()
 endmacro()
 
 function(print_error)
@@ -137,6 +134,9 @@ target_include_directories(PyPartMC PRIVATE
 )
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(PyPartMC PRIVATE partmclib)
+if (APPLE)
+  target_link_options(PyPartMC PRIVATE -Wl,-no_compact_unwind)
+endif()
 
 ### pedantics ######################################################################################
 
