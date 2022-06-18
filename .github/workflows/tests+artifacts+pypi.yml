@@ -30,7 +30,9 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - if: matrix.platform == 'macos-latest'
-        run: brew reinstall gcc
+        run: |
+          brew reinstall gcc
+          echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
