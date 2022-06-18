@@ -17,6 +17,7 @@ extern "C" void f_bin_grid_init(
     const double *min,
     const double *max
 ) noexcept;
+extern "C" void f_bin_grid_size(const void *ptr, int *val) noexcept;
 
 struct BinGrid {
     PMCResource ptr;
@@ -25,6 +26,12 @@ struct BinGrid {
         ptr(f_bin_grid_ctor, f_bin_grid_dtor)
     {
         f_bin_grid_init(ptr.f_arg(), &n_bin, &type, &min, &max);
+    }
+
+    static std::size_t __len__(const BinGrid &self) {
+        int len;
+        f_bin_grid_size(&self.ptr, &len);
+        return len;
     }
 
 };

@@ -40,4 +40,14 @@ module PyPartMC_bin_grid
  
   end subroutine
 
+  subroutine f_bin_grid_size(ptr_c, val) bind(C)
+    type(c_ptr), intent(in) :: ptr_c
+    type(bin_grid_t), pointer :: bin_grid => null()
+    integer(c_int), intent(out) :: val
+
+    call c_f_pointer(ptr_c, bin_grid)
+    val = bin_grid_size(bin_grid)
+
+  end subroutine
+
 end module

@@ -176,6 +176,7 @@ PYBIND11_MODULE(PyPartMC, m) {
 
     py::class_<BinGrid>(m,"BinGrid")
         .def(py::init<const double, const int, const double, const double>())
+        .def("__len__", BinGrid::__len__)
     ;
     //  TODO: auto util = m.def_submodule("util", "TODO");
     m.def(
