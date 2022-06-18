@@ -70,7 +70,9 @@ jobs:
       - run: pytest -v -s -We -p no:unraisableexception tests
 
       - if: matrix.platform != 'ubuntu-latest'
-        run: python -m build
+        run: |
+          python -m build 2>&1 | tee build.log
+          exit `fgrep -i warning build.log | wc -l`
 
       - if: matrix.platform != 'ubuntu-latest'
         uses: actions/upload-artifact@v2
