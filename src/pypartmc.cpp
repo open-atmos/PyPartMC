@@ -18,6 +18,7 @@
 #include "gas_data.hpp"
 #include "gas_state.hpp"
 #include "condense.hpp"
+#include "bin_grid.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -173,6 +174,9 @@ PYBIND11_MODULE(PyPartMC, m) {
         .def(py::init<const nlohmann::json&>())
     ;
 
+    py::class_<BinGrid>(m,"BinGrid")
+        .def(py::init<const double, const int, const double, const double>())
+    ;
     //  TODO: auto util = m.def_submodule("util", "TODO");
     m.def(
         "pow2_above", &pow2_above, py::return_value_policy::copy,
