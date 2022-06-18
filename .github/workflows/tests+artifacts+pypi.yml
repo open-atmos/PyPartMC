@@ -30,7 +30,9 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - if: startsWith(matrix.platform, 'macos-')
-        run: brew reinstall gcc
+        run: |
+          brew reinstall gcc
+          echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
@@ -69,8 +71,12 @@ jobs:
 
       - run: pytest -v -s -We -p no:unraisableexception tests
 
-      - if: matrix.platform != 'ubuntu-latest'
-        run: python -m build
+      - run: |
+          python -m build 2>&1 | tee build.log
+          exit `fgrep -i warning build.log | wc -l`
+
+      - if: matrix.platform == 'ubuntu-latest'
+        run: rm dist/*
 
       - if: matrix.platform != 'ubuntu-latest'
         uses: actions/upload-artifact@v2

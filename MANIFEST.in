@@ -39,7 +39,6 @@ include gitmodules/sundials/src/sunlinsol/spbcgs/sunlinsol_spbcgs.c
 include gitmodules/sundials/src/sunlinsol/spfgmr/sunlinsol_spfgmr.c
 include gitmodules/sundials/src/sunlinsol/spgmr/sunlinsol_spgmr.c
 include gitmodules/sundials/src/sunlinsol/sptfqmr/sunlinsol_sptfqmr.c
-include gitmodules/sundials/sundials_nvector_senswrapper.h
 
 include gitmodules/pybind11/CMakeLists.txt
 include gitmodules/pybind11/tools/pybind11Common.cmake

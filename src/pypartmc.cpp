@@ -189,6 +189,8 @@ PYBIND11_MODULE(PyPartMC, m) {
     si.attr("mol") = py::float_(1.);
     si.attr("kg") = py::float_(1.);
     si.attr("g") = py::float_(1e-3);
+    si.attr("cm") = py::float_(.01);
+    si.attr("um") = py::float_(1e-6);
 
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 }

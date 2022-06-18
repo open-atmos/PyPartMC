@@ -134,6 +134,9 @@ target_include_directories(PyPartMC PRIVATE
 )
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(PyPartMC PRIVATE partmclib)
+if (APPLE)
+  target_link_options(PyPartMC PRIVATE -Wl,-no_compact_unwind -Wl,-keep_dwarf_unwind)
+endif()
 
 ### pedantics ######################################################################################
 
