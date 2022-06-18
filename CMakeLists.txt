@@ -120,6 +120,9 @@ add_dependencies(partmclib ${SUNDIALS_items})
 target_include_directories(partmclib PRIVATE ${SUNDIALS_SOURCE_DIR}/include)
 target_include_directories(partmclib PRIVATE ${CMAKE_BINARY_DIR}/include)
 target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
+if (APPLE)
+  target_link_options(partmclib PRIVATE -Wl,-no_compact_unwind)
+endif()
 
 ### PYBIND11 & PyPartMC ############################################################################
 
@@ -134,9 +137,6 @@ target_include_directories(PyPartMC PRIVATE
 )
 target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(PyPartMC PRIVATE partmclib)
-if (APPLE)
-  target_link_options(PyPartMC PRIVATE -Wl,-no_compact_unwind)
-endif()
 
 ### pedantics ######################################################################################
 
