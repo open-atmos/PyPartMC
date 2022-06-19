@@ -183,7 +183,6 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     m.attr("__all__") = py::make_tuple(
         "__version__",
-        "si",
         "AeroData",
         "AeroState",
         "EnvState",
