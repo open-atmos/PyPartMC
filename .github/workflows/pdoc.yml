@@ -26,8 +26,6 @@ jobs:
           pip install -e .
           # TODO: add -We
           python -m pdoc --html PyPartMC
-          mkdir html/PyPartMC
-          mv html/PyPartMC.html html/PyPartMC/index.html
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' && matrix.platform == 'ubuntu-latest' }}
         uses: JamesIves/github-pages-deploy-action@4.1.1

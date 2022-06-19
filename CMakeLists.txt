@@ -5,7 +5,7 @@
 ####################################################################################################
 
 cmake_minimum_required(VERSION 3.4...3.18)
-project(PyPartMC LANGUAGES C CXX Fortran)
+project(_PyPartMC LANGUAGES C CXX Fortran)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -124,23 +124,23 @@ target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
 ### PYBIND11 & PyPartMC ############################################################################
 
 add_subdirectory(gitmodules/pybind11)
-pybind11_add_module(PyPartMC ${PyPartMC_sources})
-add_dependencies(PyPartMC partmclib)
-target_include_directories(PyPartMC PRIVATE 
+pybind11_add_module(_PyPartMC ${PyPartMC_sources})
+add_dependencies(_PyPartMC partmclib)
+target_include_directories(_PyPartMC PRIVATE 
   ${CMAKE_SOURCE_DIR}/gitmodules/json/include 
   ${CMAKE_SOURCE_DIR}/gitmodules/pybind11_json/include
   ${CMAKE_SOURCE_DIR}/gitmodules/span/include
   ${CMAKE_SOURCE_DIR}/gitmodules/string_view-standalone/include
 )
-target_compile_definitions(PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
-target_link_libraries(PyPartMC PRIVATE partmclib)
+target_compile_definitions(_PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
+target_link_libraries(_PyPartMC PRIVATE partmclib)
 if (APPLE)
-  target_link_options(PyPartMC PRIVATE -Wl,-no_compact_unwind -Wl,-keep_dwarf_unwind)
+  target_link_options(_PyPartMC PRIVATE -Wl,-no_compact_unwind -Wl,-keep_dwarf_unwind)
 endif()
 
 ### pedantics ######################################################################################
 
-foreach(target PyPartMC)  # TODO: the same for partmclib
+foreach(target _PyPartMC)  # TODO: the same for partmclib
   target_compile_options(${target} PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
