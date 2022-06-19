@@ -1,3 +1,5 @@
+# pylint: disable=wrong-import-position,invalid-name
+
 import sys
 import platform
 
