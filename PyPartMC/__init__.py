@@ -5,7 +5,7 @@ from pathlib import Path
 
 # https://github.com/diegoferigo/cmake-build-extension/blob/master/src/cmake_build_extension/__init__.py
 @contextmanager
-def build_extension_env():
+def __build_extension_env():
     cookies = []
     # https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
     if hasattr(os, "add_dll_directory"):
@@ -18,6 +18,7 @@ def build_extension_env():
         for cookie in cookies:
             cookie.close()
 
-with build_extension_env():
+with __build_extension_env():
     from _PyPartMC import *
-    from _PyPartMC import __version__
+    from _PyPartMC import __all__
+    import _PyPartMC

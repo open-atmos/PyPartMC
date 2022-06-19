@@ -193,4 +193,19 @@ PYBIND11_MODULE(_PyPartMC, m) {
     si.attr("um") = py::float_(1e-6);
 
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
+
+    m.attr("__all__") = py::make_tuple(
+        "__version__",
+        "si",
+        "AeroData",
+        "AeroState",
+        "EnvState",
+        "GasData",
+        "GasState",
+        "RunPartOpt",
+        "Scenario",
+        "condense_equilib_particles",
+        "run_part",
+        "pow2_above"
+    );
 }
