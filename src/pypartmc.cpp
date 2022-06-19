@@ -24,7 +24,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(PyPartMC, m) {
+PYBIND11_MODULE(_PyPartMC, m) {
     m.doc() = R"pbdoc(
         PyPartMC is a Python interface to PartMC.
     )pbdoc";

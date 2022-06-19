@@ -9,7 +9,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from setuptools import Extension, setup
+from setuptools import Extension, setup, find_packages
 from setuptools.command.build_ext import build_ext
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
@@ -134,7 +134,8 @@ setup(
     description="Python interface to PartMC",
     long_description=(Path(__file__).parent / "README.md").read_text(),
     long_description_content_type="text/markdown",
-    ext_modules=[CMakeExtension("PyPartMC")],
+    packages=find_packages(include=["PyPartMC", "PyPartMC.*"]),
+    ext_modules=[CMakeExtension("_PyPartMC")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     python_requires=">=3.7",
