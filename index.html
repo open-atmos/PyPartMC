@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>PyPartMC API documentation</title>
-<meta name="description" content="PyPartMC is a Python interface to PartMC." />
+<meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -19,10 +19,57 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>PyPartMC</code></h1>
+<h1 class="title">Package <code>PyPartMC</code></h1>
 </header>
 <section id="section-intro">
-<p>PyPartMC is a Python interface to PartMC.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python"># pylint: disable=invalid-name,wrong-import-position
+import os
+from contextlib import contextmanager
+from pathlib import Path
+from collections import namedtuple
+
+# https://github.com/diegoferigo/cmake-build-extension/blob/master/src/cmake_build_extension/__init__.py
+@contextmanager
+def __build_extension_env():
+    cookies = []
+    # https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
+    if hasattr(os, &#34;add_dll_directory&#34;):
+        for path in os.environ.get(&#34;PATH&#34;, &#34;&#34;).split(os.pathsep):
+            if path and Path(path).is_absolute() and Path(path).is_dir():
+                cookies.append(os.add_dll_directory(path))
+    try:
+        yield
+    finally:
+        for cookie in cookies:
+            cookie.close()
+
+# TODO: 2 x loop over prefixes and units
+si = namedtuple(&#34;SI&#34;, (
+    &#34;m&#34;, &#34;cm&#34;, &#34;um&#34;,
+    &#34;kg&#34;, &#34;g&#34;,
+    &#34;s&#34;,
+    &#34;K&#34;,
+    &#34;Pa&#34;, &#34;hPa&#34;,
+    &#34;mol&#34;
+))(
+    m=1., cm=.01, um=1e-6,
+    kg=1., g=1e-3,
+    s=1.,
+    K=1.,
+    Pa=1., hPa=100.,
+    mol=1.
+)
+&#34;&#34;&#34; TODO &#34;&#34;&#34;
+
+with __build_extension_env():
+    from _PyPartMC import *
+    from _PyPartMC import __all__
+    import _PyPartMC</code></pre>
+</details>
 </section>
 <section>
 </section>
@@ -32,7 +79,7 @@
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="PyPartMC.condense_equilib_particles"><code class="name flex">
-<span>def <span class="ident">condense_equilib_particles</span></span>(<span>arg0: <a title="PyPartMC.EnvState" href="#PyPartMC.EnvState">EnvState</a>, arg1: <a title="PyPartMC.AeroData" href="#PyPartMC.AeroData">AeroData</a>, arg2: <a title="PyPartMC.AeroState" href="#PyPartMC.AeroState">AeroState</a>)</span>
+<span>def <span class="ident">condense_equilib_particles</span></span>(<span>arg0: _PyPartMC.EnvState, arg1: _PyPartMC.AeroData, arg2: _PyPartMC.AeroState)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Call condense_equilib_particle() on each particle in the aerosol
@@ -46,7 +93,7 @@ equilibrium.</p></div>
 <div class="desc"><p>Return the least power-of-2 that is at least equal to n.</p></div>
 </dd>
 <dt id="PyPartMC.run_part"><code class="name flex">
-<span>def <span class="ident">run_part</span></span>(<span>arg0: <a title="PyPartMC.Scenario" href="#PyPartMC.Scenario">Scenario</a>, arg1: <a title="PyPartMC.EnvState" href="#PyPartMC.EnvState">EnvState</a>, arg2: <a title="PyPartMC.AeroData" href="#PyPartMC.AeroData">AeroData</a>, arg3: <a title="PyPartMC.AeroState" href="#PyPartMC.AeroState">AeroState</a>, arg4: <a title="PyPartMC.GasData" href="#PyPartMC.GasData">GasData</a>, arg5: <a title="PyPartMC.GasState" href="#PyPartMC.GasState">GasState</a>, arg6: <a title="PyPartMC.RunPartOpt" href="#PyPartMC.RunPartOpt">RunPartOpt</a>)</span>
+<span>def <span class="ident">run_part</span></span>(<span>arg0: _PyPartMC.Scenario, arg1: _PyPartMC.EnvState, arg2: _PyPartMC.AeroData, arg3: _PyPartMC.AeroState, arg4: _PyPartMC.GasData, arg5: _PyPartMC.GasState, arg6: _PyPartMC.RunPartOpt)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Do a particle-resolved Monte Carlo simulation.</p></div>
@@ -76,7 +123,7 @@ only the material properties are used. The names are used for
 input and output, and also for communication with MOSAIC. For the
 MOSAIC interface to work correctly the species must be named the
 same, but without the \c _a suffix.</p>
-<p><strong>init</strong>(self: PyPartMC.AeroData, arg0: json) -&gt; None</p></div>
+<p><strong>init</strong>(self: _PyPartMC.AeroData, arg0: json) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -84,7 +131,7 @@ same, but without the \c _a suffix.</p>
 <h3>Methods</h3>
 <dl>
 <dt id="PyPartMC.AeroData.spec_by_name"><code class="name flex">
-<span>def <span class="ident">spec_by_name</span></span>(<span>self: <a title="PyPartMC.AeroData" href="#PyPartMC.AeroData">AeroData</a>, arg0: str) ‑> int</span>
+<span>def <span class="ident">spec_by_name</span></span>(<span>self: _PyPartMC.AeroData, arg0: str) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -104,7 +151,7 @@ member (if \c valid_sort is true).</p>
 <p>Every time we remove particles we keep track of the particle ID
 and the action performed in the aero_info_array_t structure. This
 is typically cleared each time we output data to disk.</p>
-<p><strong>init</strong>(self: PyPartMC.AeroState, arg0: float, arg1: PyPartMC.AeroData) -&gt; None</p></div>
+<p><strong>init</strong>(self: _PyPartMC.AeroState, arg0: float, arg1: _PyPartMC.AeroData) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -120,7 +167,7 @@ is typically cleared each time we output data to disk.</p>
 particular instant of time. Constant data and other data not
 associated with the current environment state is stored in
 scenario_t.</p>
-<p><strong>init</strong>(self: PyPartMC.EnvState, arg0: json) -&gt; None</p></div>
+<p><strong>init</strong>(self: _PyPartMC.EnvState, arg0: json) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -137,7 +184,7 @@ scenario_t.</p>
 The variable gas data describing the current mixing ratios is stored
 in the gas_state_t structure, so the mixing ratio of species \c i
 is gas_state%%mix_rat(i).</p>
-<p><strong>init</strong>(self: PyPartMC.GasData, arg0: tuple) -&gt; None</p></div>
+<p><strong>init</strong>(self: _PyPartMC.GasData, arg0: tuple) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -155,7 +202,7 @@ with name \c gas_data%%name(i), etc.</p>
 <p>By convention, if gas_state_is_allocated() return \c .false.,
 then the gas_state is treated as zero for all operations on
 it. This will be the case for new \c gas_state_t structures.</p>
-<p><strong>init</strong>(self: PyPartMC.GasState, arg0: json = {}) -&gt; None</p>
+<p><strong>init</strong>(self: _PyPartMC.GasState, arg0: json = {}) -&gt; None</p>
 <p>instantiates and initializes from a JSON object</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -168,7 +215,7 @@ it. This will be the case for new \c gas_state_t structures.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Options controlling the execution of run_part().</p>
-<p><strong>init</strong>(self: PyPartMC.RunPartOpt, arg0: json) -&gt; None</p></div>
+<p><strong>init</strong>(self: _PyPartMC.RunPartOpt, arg0: json) -&gt; None</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
@@ -187,7 +234,7 @@ linearly interpolated between times, with constant interpolation
 outside of the range of times. Gases and aerosols are
 interpolated with gas_state_interp_1d() and
 aero_dist_interp_1d(), respectively.</p>
-<p><strong>init</strong>(self: PyPartMC.Scenario, arg0: PyPartMC.GasData, arg1: PyPartMC.AeroData, arg2: json) -&gt; None</p>
+<p><strong>init</strong>(self: _PyPartMC.Scenario, arg0: _PyPartMC.GasData, arg1: _PyPartMC.AeroData, arg2: json) -&gt; None</p>
 <p>instantiates and initializes from a JSON object</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
