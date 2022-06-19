@@ -2,6 +2,7 @@
 import os
 from contextlib import contextmanager
 from pathlib import Path
+from collections import namedtuple
 
 # https://github.com/diegoferigo/cmake-build-extension/blob/master/src/cmake_build_extension/__init__.py
 @contextmanager
@@ -17,6 +18,24 @@ def __build_extension_env():
     finally:
         for cookie in cookies:
             cookie.close()
+
+# TODO: 2 x loop over prefixes and units
+si = namedtuple("SI", (
+    "m", "cm", "um",
+    "kg", "g",
+    "s",
+    "K",
+    "Pa", "hPa",
+    "mol"
+))(
+    m=1., cm=.01, um=1e-6,
+    kg=1., g=1e-3,
+    s=1.,
+    K=1.,
+    Pa=1., hPa=100.,
+    mol=1.
+)
+""" TODO """
 
 with __build_extension_env():
     from _PyPartMC import *
