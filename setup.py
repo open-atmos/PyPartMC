@@ -142,4 +142,9 @@ setup(
     setup_requires=["setuptools_scm"],
     install_requires=['numpy'],
     license="GPL-3.0",
+    project_urls={
+        "Tracker": "https://github.com/open-atmos/PyPartMC/issues",
+        "Documentation": "https://open-atmos.github.io/PyPartMC",
+        "Source": "https://github.com/open-atmos/PyPartMC/",
+    }
 )
