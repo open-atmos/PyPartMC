@@ -1,4 +1,4 @@
-# pylint: disable=invalid-name
+# pylint: disable=invalid-name,wrong-import-position
 import os
 
 # https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
