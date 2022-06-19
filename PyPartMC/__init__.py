@@ -1,13 +1,11 @@
-# pylint: disable=wrong-import-position,invalid-name
-
-import sys
-import platform
+# pylint: disable=invalid-name
+import os
 
 # https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
-if (3, 8) <= sys.version_info and platform.system() == 'Windows':
-    import os
-    import pathlib
-    os.add_dll_directory(pathlib.Path(__file__).parent.absolute())
+if hasattr(os, 'add_dll_directory'):  # Python 3.8+ on Windows
+    path = os.path.dirname(__file__)
+    print(path)
+    os.add_dll_directory(path)
 
 from _PyPartMC import *
 from _PyPartMC import __version__
