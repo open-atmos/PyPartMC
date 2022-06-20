@@ -21,11 +21,20 @@ class TestCondense:
         aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
 
         # act
-        # ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
+        ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
 
         # assert
         pass  # TODO
 
     @staticmethod
-    def test_todo():
-        pass
+    def test_equilib_particle():
+        # arrange
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_particle = ppmc.AeroParticle()
+
+        # act
+        ppmc.condense_equilib_particle(env_state, aero_data, aero_particle)
+
+        # assert
+        pass  # TODO

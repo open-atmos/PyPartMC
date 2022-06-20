@@ -35,6 +35,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
       to ensure that every particle has its water content in
       equilibrium.
     )pbdoc");
+    m.def("condense_equilib_particle", &condense_equilib_particle, R"pbdoc(
+        Determine the water equilibrium state of a single particle.
+    )pbdoc");
 
     // TODO #65
     //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
@@ -64,6 +67,19 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const nlohmann::json&>())
         .def("spec_by_name", AeroData::spec_by_name)
+    ;
+
+    py::class_<AeroParticle>(m, "AeroParticle",
+        R"pbdoc(
+             Single aerosol particle data structure.
+  
+             The \c vol array stores the total volumes of the different
+             species that make up the particle. This array must have length
+             equal to aero_data%%n_spec, so that \c vol(i) is the volume (in
+             m^3) of the i'th aerosol species.
+        )pbdoc"
+    )
+        .def(py::init<>())
     ;
 
     py::class_<AeroState>(m, "AeroState",
@@ -185,6 +201,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "__version__",
         "AeroData",
         "AeroState",
+        "AeroParticle",
         "EnvState",
         "GasData",
         "GasState",
@@ -192,6 +209,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Scenario",
         "condense_equilib_particles",
         "run_part",
-        "pow2_above"
+        "pow2_above",
+        "condense_equilib_particle"
     );
 }

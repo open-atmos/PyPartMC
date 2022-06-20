@@ -4,26 +4,17 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
-import gc
-import pytest
 import PyPartMC as ppmc
-from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 
 
-@pytest.mark.parametrize('sut', (
-    pytest.param(ppmc.GasData(("SO2",)), id='GasData'),
-    pytest.param(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), id='AeroData'),
-    pytest.param(ppmc.GasState(), id='GasState'),
-    pytest.param(ppmc.AeroParticle(), id='AeroParticle')
-))
-def test_dtors(sut):  # pylint: disable=unused-argument
-    # arrange
-    gc.collect()
+class TestAeroParticle:
+    @staticmethod
+    def test_ctor():
+        # arrange
 
-    # act
-    sut = None
-    gc.collect()
+        # act
+        sut = ppmc.AeroParticle()
 
-    # assert
-    pass
+        # assert
+        assert sut is not None
 
