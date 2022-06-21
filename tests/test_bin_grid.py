@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import PyPartMC as ppmc
+import numpy as np
 
 BIN_GRID_N_BIN = 100
 
@@ -28,4 +29,18 @@ class TestBinGrid:
         size = len(sut)
 
         # assert
+        assert size == BIN_GRID_N_BIN
+
+    def test_bin_edges():
+        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)    
+
+        size = len(sut.edges)
+
+        assert size == BIN_GRID_N_BIN + 1 
+
+    def test_bin_centers():
+        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)
+
+        size = len(sut.centers)
+
         assert size == BIN_GRID_N_BIN
