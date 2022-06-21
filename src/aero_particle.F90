@@ -27,4 +27,14 @@ module PyPartMC_aero_particle
     deallocate(ptr_f)
   end subroutine
 
+subroutine f_aero_particle_init(ptr_c, aero_data_ptr_c) bind(C)
+    type(aero_particle_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
+    integer :: n_spec
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+    n_spec = aero_data_n_spec(aero_data_ptr_f)
+    allocate(ptr_f%vol(n_spec))
+  end subroutine
 end module

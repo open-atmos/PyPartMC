@@ -79,7 +79,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              m^3) of the i'th aerosol species.
         )pbdoc"
     )
-        .def(py::init<>())
+        .def(py::init<const AeroData&>())
     ;
 
     py::class_<AeroState>(m, "AeroState",

@@ -7,16 +7,19 @@
 #pragma once
 
 #include "pmc_resource.hpp"
+#include "aero_data.hpp"
 
 extern "C" void f_aero_particle_ctor(void *ptr) noexcept;
 extern "C" void f_aero_particle_dtor(void *ptr) noexcept;
+extern "C" void f_aero_particle_init(const void *ptr, const void *) noexcept;
 
 struct AeroParticle {
     PMCResource ptr;
 
-    AeroParticle() :
+    AeroParticle( const AeroData &aero_data) :
         ptr(f_aero_particle_ctor, f_aero_particle_dtor)
     {
+        f_aero_particle_init(ptr.f_arg(), aero_data.ptr.f_arg());
     }
 };
 
