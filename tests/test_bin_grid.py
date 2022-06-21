@@ -4,7 +4,6 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
-import json
 import PyPartMC as ppmc
 
 BIN_GRID_N_BIN = 100
