@@ -190,6 +190,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "__version__",
         "AeroData",
         "AeroState",
+        "BinGrid",
         "EnvState",
         "GasData",
         "GasState",
