@@ -22,9 +22,14 @@ extern "C" void f_bin_grid_size(const void *ptr, int *val) noexcept;
 struct BinGrid {
     PMCResource ptr;
 
-    BinGrid(const int &n_bin, const int &type, const double &min, const double &max) :
+    BinGrid(const int &n_bin, const std::string &grid_type, const double &min, const double &max) :
         ptr(f_bin_grid_ctor, f_bin_grid_dtor)
     {
+        int type;
+        type = 0;
+        if (grid_type == "log") type = 1;
+        if (grid_type == "linear") type = 2;
+        if (type == 0) throw std::invalid_argument( "Invalid grid spacing" );
         f_bin_grid_init(ptr.f_arg(), &n_bin, &type, &min, &max);
     }
 

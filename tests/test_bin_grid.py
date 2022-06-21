@@ -15,7 +15,7 @@ class TestBinGrid:
         pass
 
         # act
-        sut = ppmc.BinGrid(BIN_GRID_N_BIN, 1, 1, 100)
+        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)
 
         # assert
         assert sut is not None
@@ -23,7 +23,7 @@ class TestBinGrid:
     @staticmethod
     def test_len():
         # arrange
-        sut = ppmc.BinGrid(BIN_GRID_N_BIN, 1, 1, 100)
+        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)
         # act
         size = len(sut)
 
