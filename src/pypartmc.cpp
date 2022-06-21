@@ -25,7 +25,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(PyPartMC, m) {
+PYBIND11_MODULE(_PyPartMC, m) {
     m.doc() = R"pbdoc(
         PyPartMC is a Python interface to PartMC.
     )pbdoc";
@@ -184,16 +184,19 @@ PYBIND11_MODULE(PyPartMC, m) {
         "Return the least power-of-2 that is at least equal to n."
     );
 
-    auto si = m.def_submodule("si", "SI units");
-    // TODO: 2xloop over prefixes and units
-    si.attr("m") = py::float_(1.);
-    si.attr("s") = py::float_(1.);
-    si.attr("K") = py::float_(1.);
-    si.attr("Pa") = py::float_(1.);
-    si.attr("hPa") = py::float_(100.);
-    si.attr("mol") = py::float_(1.);
-    si.attr("kg") = py::float_(1.);
-    si.attr("g") = py::float_(1e-3);
-
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
+
+    m.attr("__all__") = py::make_tuple(
+        "__version__",
+        "AeroData",
+        "AeroState",
+        "EnvState",
+        "GasData",
+        "GasState",
+        "RunPartOpt",
+        "Scenario",
+        "condense_equilib_particles",
+        "run_part",
+        "pow2_above"
+    );
 }

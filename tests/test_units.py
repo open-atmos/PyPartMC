@@ -6,6 +6,8 @@ class TestUnits:
     @staticmethod
     def test_length():
         assert ppmc.si.m == 1
+        assert ppmc.si.cm == 0.01
+        assert ppmc.si.um == 1e-6
 
     @staticmethod
     def test_temperatur():
