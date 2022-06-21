@@ -50,4 +50,24 @@ module PyPartMC_bin_grid
 
   end subroutine
 
+  subroutine f_bin_grid_edges(ptr_c, arr) bind(C)
+    type(c_ptr), intent(in) :: ptr_c
+    type(bin_grid_t), pointer :: bin_grid => null()
+    real(c_double), allocatable, intent(out) :: arr(:)
+
+    call c_f_pointer(ptr_c, bin_grid)
+    arr = bin_grid%edges
+
+  end subroutine
+
+  subroutine f_bin_grid_centers(ptr_c, arr) bind(C)
+    type(c_ptr), intent(in) :: ptr_c
+    type(bin_grid_t), pointer :: bin_grid => null()
+    real(c_double), allocatable, intent(out) :: arr(:)
+
+    call c_f_pointer(ptr_c, bin_grid)
+    arr = bin_grid%centers
+
+  end subroutine
+
 end module

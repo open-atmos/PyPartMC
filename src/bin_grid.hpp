@@ -18,6 +18,8 @@ extern "C" void f_bin_grid_init(
     const double *max
 ) noexcept;
 extern "C" void f_bin_grid_size(const void *ptr, int *val) noexcept;
+extern "C" void f_bin_grid_edges(const void *ptr, void *arr) noexcept;
+extern "C" void f_bin_grid_centers(const void *ptr, void *arr) noexcept;
 
 struct BinGrid {
     PMCResource ptr;
@@ -37,6 +39,34 @@ struct BinGrid {
         int len;
         f_bin_grid_size(&self.ptr, &len);
         return len;
+    }
+
+    static py::array_t<double> edges(const BinGrid &self) {
+
+        int len;
+        f_bin_grid_size(&self.ptr, &len);
+        
+        py::array_t<double> result = py::array_t<double>(len+1);
+        auto buf = result.request();
+        double *buf_ptr = (double *) buf.ptr;
+
+        f_bin_grid_edges(&self.ptr, &buf_ptr);
+
+        return result;
+    }
+
+    static py::array_t<double> centers(const BinGrid &self) {
+
+        int len;
+        f_bin_grid_size(&self.ptr, &len);
+
+        py::array_t<double> result = py::array_t<double>(len);
+        auto buf = result.request();
+        double *buf_ptr = (double *) buf.ptr;
+
+        f_bin_grid_centers(&self.ptr, &buf_ptr);
+
+        return result;
     }
 
 };
