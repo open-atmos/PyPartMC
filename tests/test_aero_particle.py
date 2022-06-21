@@ -6,7 +6,7 @@
 
 import PyPartMC as ppmc
 
-
+# pylint: disable=too-few-public-methods
 class TestAeroParticle:
     @staticmethod
     def test_ctor():
@@ -17,4 +17,3 @@ class TestAeroParticle:
 
         # assert
         assert sut is not None
-
