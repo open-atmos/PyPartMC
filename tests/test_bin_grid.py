@@ -30,13 +30,15 @@ class TestBinGrid:
         # assert
         assert size == BIN_GRID_N_BIN
 
+    @staticmethod
     def test_bin_edges():
-        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)    
+        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)
 
         size = len(sut.edges)
 
-        assert size == BIN_GRID_N_BIN + 1 
+        assert size == BIN_GRID_N_BIN + 1
 
+    @staticmethod
     def test_bin_centers():
         sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)
 
