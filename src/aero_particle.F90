@@ -24,6 +24,7 @@ module PyPartMC_aero_particle
     type(c_ptr), intent(in) :: ptr_c
 
     call c_f_pointer(ptr_c, ptr_f)
+    deallocate(ptr_f%vol)
     deallocate(ptr_f)
   end subroutine
 
