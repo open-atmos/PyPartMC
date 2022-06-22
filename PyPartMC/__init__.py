@@ -1,27 +1,8 @@
 # pylint: disable=invalid-name,wrong-import-position
 import os
-from contextlib import contextmanager
 from pathlib import Path
 from collections import namedtuple
 
-# https://github.com/diegoferigo/cmake-build-extension/blob/master/src/cmake_build_extension/__init__.py
-@contextmanager
-def __build_extension_env():
-    cookies = []
-    # https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
-    if hasattr(os, "add_dll_directory"):
-        basepath = os.path.dirname(os.path.abspath(__file__))
-        dllspath = os.path.join(basepath, '..')
-        os.environ['PATH'] = dllspath + os.pathsep + os.environ['PATH']
-
-        for path in os.environ.get("PATH", "").split(os.pathsep):
-            if path and Path(path).is_absolute() and Path(path).is_dir():
-                cookies.append(os.add_dll_directory(path))
-    try:
-        yield
-    finally:
-        for cookie in cookies:
-            cookie.close()
 
 # TODO: 2 x loop over prefixes and units
 si = namedtuple("SI", (
@@ -41,7 +22,12 @@ si = namedtuple("SI", (
 )
 """ TODO """
 
-with __build_extension_env():
-    from _PyPartMC import *
-    from _PyPartMC import __all__
-    import _PyPartMC
+# https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
+if hasattr(os, "add_dll_directory"):
+    basepath = os.path.dirname(os.path.abspath(__file__))
+    dllspath = os.path.join(basepath, '..')
+    os.add_dll_directory(dllspath)
+
+from _PyPartMC import *
+from _PyPartMC import __all__
+import _PyPartMC
