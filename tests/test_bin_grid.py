@@ -94,6 +94,6 @@ class TestBinGrid:
     def test_invalid_grid():
         grid_size = 100
         try:
-            sut = ppmc.BinGrid(grid_size, "X", 1, 100)
+            _ = ppmc.BinGrid(grid_size, "X", 1, 100)
         except ValueError as error:
-            assert(str(error) == "Invalid grid spacing.")
+            assert str(error) == "Invalid grid spacing."
