@@ -45,12 +45,10 @@ struct BinGrid {
 
         int len;
         f_bin_grid_size(&self.ptr, &len);
-        
         py::array_t<double> result = py::array_t<double>(len+1);
-        auto buf = result.request();
-        double *buf_ptr = (double *) buf.ptr;
+        py::buffer_info buf = result.request();
 
-        f_bin_grid_edges(&self.ptr, &buf_ptr);
+        f_bin_grid_edges(&self.ptr, &buf);
 
         return result;
     }
@@ -59,12 +57,10 @@ struct BinGrid {
 
         int len;
         f_bin_grid_size(&self.ptr, &len);
-
         py::array_t<double> result = py::array_t<double>(len);
-        auto buf = result.request();
-        double *buf_ptr = (double *) buf.ptr;
+        py::buffer_info buf = result.request();
 
-        f_bin_grid_centers(&self.ptr, &buf_ptr);
+        f_bin_grid_centers(&self.ptr, &buf);
 
         return result;
     }
