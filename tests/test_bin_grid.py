@@ -4,9 +4,9 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import numpy as np
 import PyPartMC as ppmc
 
-BIN_GRID_N_BIN = 100
 
 class TestBinGrid:
     @staticmethod
@@ -15,7 +15,7 @@ class TestBinGrid:
         pass
 
         # act
-        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)
+        sut = ppmc.BinGrid(123, "log", 1, 100)
 
         # assert
         assert sut is not None
@@ -23,25 +23,69 @@ class TestBinGrid:
     @staticmethod
     def test_len():
         # arrange
-        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)
+        grid_size = 666
+        sut = ppmc.BinGrid(grid_size, "log", 1, 100)
+
         # act
         size = len(sut)
 
         # assert
-        assert size == BIN_GRID_N_BIN
+        assert size == grid_size
 
     @staticmethod
-    def test_bin_edges():
-        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)
+    def test_bin_edges_len():
+        # arrange
+        grid_size = 100
+        sut = ppmc.BinGrid(grid_size, "log", 1, 100)
 
-        size = len(sut.edges())
+        # act
+        edges = sut.edges
 
-        assert size == BIN_GRID_N_BIN + 1
+        # assert
+        assert grid_size + 1 == len(edges)
 
     @staticmethod
-    def test_bin_centers():
-        sut = ppmc.BinGrid(BIN_GRID_N_BIN, "log", 1, 100)
+    def test_bin_edges_values():
+        # arrange
+        n_bins = 10
+        left_edge = 1
+        right_edge = 100
+        sut = ppmc.BinGrid(n_bins, "log", left_edge, right_edge)
 
-        size = len(sut.centers())
+        # act
+        edges = sut.edges
 
-        assert size == BIN_GRID_N_BIN
+        # assert
+        np.testing.assert_array_almost_equal(
+            np.logspace(np.log10(left_edge), np.log10(right_edge), n_bins+1),
+            edges
+        )
+
+    @staticmethod
+    def test_bin_centers_len():
+        # arrange
+        grid_size = 44
+        sut = ppmc.BinGrid(grid_size, "log", 1, 100)
+
+        # act
+        centers = sut.centers
+
+        # assert
+        assert grid_size == len(centers)
+
+    @staticmethod
+    def test_bin_centers_values():
+        # arrange
+        n_bins = 10
+        left_edge = 1
+        right_edge = 100
+        sut = ppmc.BinGrid(n_bins, "log", left_edge, right_edge)
+
+        # act
+        centers = sut.centers
+
+        # assert
+        np.testing.assert_array_almost_equal(
+            np.logspace(np.log10(left_edge), np.log10(right_edge), 2*n_bins+1)[1:-1:2],
+            centers
+        )

@@ -18,8 +18,8 @@ extern "C" void f_bin_grid_init(
     const double *max
 ) noexcept;
 extern "C" void f_bin_grid_size(const void *ptr, int *val) noexcept;
-extern "C" void f_bin_grid_edges(const void *ptr, void *arr) noexcept;
-extern "C" void f_bin_grid_centers(const void *ptr, void *arr) noexcept;
+extern "C" void f_bin_grid_edges(const void *ptr, void *arr_data, const int *arr_size) noexcept;
+extern "C" void f_bin_grid_centers(const void *ptr, void *arr_data, const int *arr_size) noexcept;
 
 struct BinGrid {
     PMCResource ptr;
@@ -45,24 +45,30 @@ struct BinGrid {
 
         int len;
         f_bin_grid_size(&self.ptr, &len);
-        py::array_t<double> result = py::array_t<double>(len+1);
-        py::buffer_info buf = result.request();
 
-        f_bin_grid_edges(&self.ptr, &buf);
+        double *data = new double[len+1];
+        py::capsule free_when_done(data, [](void *f) {
+            double *d = reinterpret_cast<double *>(f);
+           delete[] d;
+        });
 
-        return result;
+        f_bin_grid_edges(&self.ptr, data, &len);
+        return py::array_t<double>(len+1, data, free_when_done);
     }
 
     static py::array_t<double> centers(const BinGrid &self) {
 
         int len;
         f_bin_grid_size(&self.ptr, &len);
-        py::array_t<double> result = py::array_t<double>(len);
-        py::buffer_info buf = result.request();
 
-        f_bin_grid_centers(&self.ptr, &buf);
+        double *data = new double[len];
+        py::capsule free_when_done(data, [](void *f) {
+            double *d = reinterpret_cast<double *>(f);
+            delete[] d;
+        });
 
-        return result;
+        f_bin_grid_centers(&self.ptr, data, &len);
+        return py::array_t<double>(len, data, free_when_done);
     }
 
 };
