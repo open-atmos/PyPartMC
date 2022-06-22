@@ -89,3 +89,11 @@ class TestBinGrid:
             np.logspace(np.log10(left_edge), np.log10(right_edge), 2*n_bins+1)[1:-1:2],
             centers
         )
+
+    @staticmethod
+    def test_invalid_grid():
+        grid_size = 100
+        try:
+            sut = ppmc.BinGrid(grid_size, "X", 1, 100)
+        except ValueError as error:
+            assert(str(error) == "Invalid grid spacing.")

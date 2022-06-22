@@ -31,7 +31,7 @@ struct BinGrid {
         type = 0;
         if (grid_type == "log") type = 1;
         if (grid_type == "linear") type = 2;
-        if (type == 0) throw std::invalid_argument( "Invalid grid spacing" );
+        if (type == 0) throw std::invalid_argument( "Invalid grid spacing." );
         f_bin_grid_init(ptr.f_arg(), &n_bin, &type, &min, &max);
     }
 
