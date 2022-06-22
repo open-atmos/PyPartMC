@@ -27,7 +27,7 @@ void condense_equilib_particle(
     const AeroData &aero_data,
     const AeroParticle &aero_particle
 ) {
-    f_condense_equilib_particles(
+    f_condense_equilib_particle(
         env_state.ptr.f_arg(),
         aero_data.ptr.f_arg(),
         aero_particle.ptr.f_arg()

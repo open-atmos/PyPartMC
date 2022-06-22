@@ -34,8 +34,7 @@ class TestCondense:
         aero_particle = ppmc.AeroParticle(aero_data)
 
         # act
-        #ppmc.condense_equilib_particle(env_state, aero_data, aero_particle)
+        ppmc.condense_equilib_particle(env_state, aero_data, aero_particle)
 
         # assert
         pass  # TODO
-    
