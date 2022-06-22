@@ -13,7 +13,7 @@ extern "C" void f_aero_data_ctor(void *ptr) noexcept;
 extern "C" void f_aero_data_dtor(void *ptr) noexcept;
 extern "C" void f_aero_data_from_json(const void *ptr) noexcept;
 extern "C" void f_aero_data_spec_by_name(const void *ptr, int *value, const char *name_data, const int *name_size) noexcept;
-
+extern "C" void f_aero_data_len(const void *ptr, int *len) noexcept;
 struct AeroData {
     PMCResource ptr;
 
@@ -31,6 +31,12 @@ struct AeroData {
         f_aero_data_spec_by_name(self.ptr.f_arg(), &value, name.c_str(), &name_size);
         if (value==0) throw std::runtime_error("Element not found.");
         return value-1;
+    }
+
+    static std::size_t __len__(const AeroData &self) {
+        int len;
+        f_aero_data_len(&self.ptr, &len);
+        return len;
     }
 };
 

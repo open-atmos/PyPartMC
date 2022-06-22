@@ -45,3 +45,14 @@ class TestAeroData:
             assert False
         except RuntimeError as error:
             assert str(error) == "Element not found."
+
+    @staticmethod
+    def test_len():
+        #arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        #act
+        value = len(sut)
+
+        #assert
+        assert value == len(AERO_DATA_CTOR_ARG_MINIMAL)

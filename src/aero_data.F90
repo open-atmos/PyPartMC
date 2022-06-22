@@ -50,4 +50,13 @@ module PyPartMC_aero_data
     value = aero_data_spec_by_name(ptr_f, name)
   end subroutine
 
+  subroutine f_aero_data_len(ptr_c, len) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    integer(c_int), intent(out) :: len 
+
+    call c_f_pointer(ptr_c, ptr_f)
+    len = aero_data_n_spec(ptr_f)
+  end subroutine
+
 end module

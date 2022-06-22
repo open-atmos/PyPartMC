@@ -8,18 +8,37 @@
 
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
+#include "pybind11/numpy.h"
 
 extern "C" void f_aero_particle_ctor(void *ptr) noexcept;
 extern "C" void f_aero_particle_dtor(void *ptr) noexcept;
 extern "C" void f_aero_particle_init(const void *ptr, const void *) noexcept;
+extern "C" void f_aero_particle_volumes(const void *ptr, void *arr_data, const int *arr_size) noexcept;
 
+namespace py = pybind11;
 struct AeroParticle {
     PMCResource ptr;
+    const AeroData &aero_data;
 
     AeroParticle( const AeroData &aero_data) :
-        ptr(f_aero_particle_ctor, f_aero_particle_dtor)
+        ptr(f_aero_particle_ctor, f_aero_particle_dtor),
+        aero_data(aero_data)
     {
         f_aero_particle_init(ptr.f_arg(), aero_data.ptr.f_arg());
+    }
+
+    static py::array_t<double> volumes(const AeroParticle &self) {
+
+        int len = AeroData::__len__(self.aero_data);
+
+        double *data = new double[len];
+        py::capsule free_when_done(data, [](void *f) {
+            double *d = reinterpret_cast<double *>(f);
+           delete[] d;
+        });
+
+        f_aero_particle_volumes(&self.ptr, data, &len);
+        return py::array_t<double>(len, data, free_when_done);
     }
 };
 

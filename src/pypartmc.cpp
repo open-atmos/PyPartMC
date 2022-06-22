@@ -67,6 +67,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const nlohmann::json&>())
         .def("spec_by_name", AeroData::spec_by_name)
+        .def("__len__", AeroData::__len__)
+
     ;
 
     py::class_<AeroParticle>(m, "AeroParticle",
@@ -80,6 +82,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const AeroData&>())
+        .def_property_readonly("volumes", AeroParticle::volumes)
     ;
 
     py::class_<AeroState>(m, "AeroState",
