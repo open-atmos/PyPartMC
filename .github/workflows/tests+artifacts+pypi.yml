@@ -81,20 +81,23 @@ jobs:
           name: dist
           path: dist
 
-      # TODO
+      # TODO: should be doable on any OS
       - if: matrix.platform == 'windows-latest' || matrix.platform == 'ubuntu-latest'
         run: |
-          ls -la dist/*.whl
           pip install dist/*.whl
           pip show --verbose PyPartMC
           python -c "import PyPartMC"
-          pytest -v -s -We -p no:unraisableexception tests
 
       - if: startsWith(matrix.platform, 'macos-')
         run: |
           DEBUG=0 VERBOSE=1 pip install --verbose -e .
-          pytest -v -s -We -p no:unraisableexception tests
 
+      ### make sure PyPartMC is not picked up from a local folder
+      - run: cd ..
+
+      - run: pytest -v -s -We -p no:unraisableexception PyPartMC/tests
+
+# TODO: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
 #      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
 #
 #      - run: pytest -v -s -We -p no:unraisableexception tests
@@ -103,6 +106,7 @@ jobs:
 #
 #      - run: pytest -v -s -We -p no:unraisableexception tests
 
+### uncomment to gain ssh access in case of failure
 #      - if: ${{ failure() }}
 #        uses: mxschmitt/action-tmate@v3
 #        with:
