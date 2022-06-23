@@ -86,7 +86,6 @@ jobs:
         run: |
           pip install dist/*.whl
           pip show --verbose PyPartMC
-          python -c "import PyPartMC"
 
       - if: startsWith(matrix.platform, 'macos-')
         run: |
