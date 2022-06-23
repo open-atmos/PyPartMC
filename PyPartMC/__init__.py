@@ -1,6 +1,6 @@
 # pylint: disable=invalid-name,wrong-import-position
 import os
-import numpy
+import numpy  # pylint: disable=unused-import
 from contextlib import contextmanager
 from pathlib import Path
 from collections import namedtuple
@@ -40,5 +40,5 @@ si = namedtuple("SI", (
 
 with __build_extension_env():
     from _PyPartMC import *
-    from _PyPartMC import __all__
+    from _PyPartMC import __all__, __version__
     import _PyPartMC
