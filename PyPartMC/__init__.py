@@ -1,5 +1,6 @@
 # pylint: disable=invalid-name,wrong-import-position
 import os
+import numpy
 from contextlib import contextmanager
 from pathlib import Path
 from collections import namedtuple
