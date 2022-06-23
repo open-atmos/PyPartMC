@@ -94,8 +94,8 @@ jobs:
 
       ### make sure PyPartMC is not picked up from a local folder
       - run: |
-        cd tests
-        pytest -v -s -We -p no:unraisableexception .
+          cd tests
+          pytest -v -s -We -p no:unraisableexception .
 
 # TODO: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
 #      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
