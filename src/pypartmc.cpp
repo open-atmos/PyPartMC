@@ -179,6 +179,17 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property_readonly("edges", BinGrid::edges)
         .def_property_readonly("centers", BinGrid::centers)
     ;
+
+    m.def(
+        "histogram_1d", &histogram_1d, py::return_value_policy::copy,
+        "Return the 1D histogram."
+    );
+
+    m.def(
+        "histogram_2d", &histogram_2d, py::return_value_policy::copy,
+        "Return the 2D histogram."
+    );
+
     //  TODO: auto util = m.def_submodule("util", "TODO");
     m.def(
         "pow2_above", &pow2_above, py::return_value_policy::copy,
@@ -199,6 +210,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Scenario",
         "condense_equilib_particles",
         "run_part",
-        "pow2_above"
+        "pow2_above",
+        "histogram_1d",
+        "histogram_2d"
     );
 }
