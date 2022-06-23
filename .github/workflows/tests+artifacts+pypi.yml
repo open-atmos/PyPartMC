@@ -74,7 +74,7 @@ jobs:
             pre-build-command: 'git config --global --add safe.directory "*"'
 
       - if: matrix.platform == 'ubuntu-latest'
-        run: rm dist/*-linux_
+        run: rm -f dist/*-linux_
 
       - uses: actions/upload-artifact@v2
         with:
