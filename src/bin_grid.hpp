@@ -46,7 +46,8 @@ struct BinGrid {
     {
         int len;
         f_bin_grid_size(&self.ptr, &len);
-        std::valarray<double> data(len+1);
+        len++;
+        std::valarray<double> data(len);
         f_bin_grid_edges(&self.ptr, begin(data), &len);
         return data;
     }
