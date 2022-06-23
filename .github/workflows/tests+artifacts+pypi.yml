@@ -91,7 +91,7 @@ jobs:
           pytest -v -s -We -p no:unraisableexception tests
 
       - if: startsWith(matrix.platform, 'macos-')
-        run: 
+        run: |
           DEBUG=0 VERBOSE=1 pip install --verbose -e .
           pytest -v -s -We -p no:unraisableexception tests
 
