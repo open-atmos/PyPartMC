@@ -97,3 +97,13 @@ class TestBinGrid:
             _ = ppmc.BinGrid(grid_size, "X", 1, 100)
         except ValueError as error:
             assert str(error) == "Invalid grid spacing."
+
+    @staticmethod
+    def test_histogram_1d():
+
+        grid = ppmc.BinGrid(100,"linear",0,1000)
+        vals = np.random.random(1000)*1000
+        weights = np.ones(1000)
+        data = ppmc.histogram_1d(grid, vals, weights)
+        hist,bin_edges = np.histogram(vals,bins=grid.edges)
+        np.testing.assert_array_almost_equal(data,hist/(bin_edges[1]-bin_edges[0]))
