@@ -85,7 +85,6 @@ jobs:
           name: dist
           path: dist/*-manylinux*.whl
 
-# TODO
       - if: !(startsWith(matrix.platform, 'macos-'))
         run: |
           pip install dist/*.whl
