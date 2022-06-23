@@ -63,12 +63,6 @@ jobs:
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*
 
-      - if: matrix.platform != 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: dist
-
       - if: matrix.platform == 'ubuntu-latest'
         run: python -c "import sys; vi=sys.version_info; abitag='m' if vi.minor<8 else ''; print(f'PV=cp{vi.major}{vi.minor}-cp{vi.major}{vi.minor}{abitag}')" >> $GITHUB_ENV
 
@@ -80,10 +74,12 @@ jobs:
             pre-build-command: 'git config --global --add safe.directory "*"'
 
       - if: matrix.platform == 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
+        run: rm dist/*-linux_
+
+      - uses: actions/upload-artifact@v2
         with:
           name: dist
-          path: dist/*-manylinux*.whl
+          path: dist
 
       # TODO
       - if: matrix.platform == 'windows-latest' || matrix.platform == 'ubuntu-latest'
