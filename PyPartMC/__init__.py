@@ -1,6 +1,5 @@
 # pylint: disable=invalid-name,wrong-import-position
 import os
-import glob
 from contextlib import contextmanager
 from pathlib import Path
 from collections import namedtuple
@@ -11,13 +10,8 @@ def __build_extension_env():
     cookies = []
     # https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
     if hasattr(os, "add_dll_directory"):
-        basepath = os.path.dirname(os.path.abspath(__file__))
-        dllspath = os.path.join(basepath, '..')
-        os.environ['PATH'] = dllspath + os.pathsep + os.environ['PATH']
-
         for path in os.environ.get("PATH", "").split(os.pathsep):
             if path and Path(path).is_absolute() and Path(path).is_dir():
-                print(path, list(glob.glob(os.path.join(path, '*.pyd'))))
                 cookies.append(os.add_dll_directory(path))
     try:
         yield
