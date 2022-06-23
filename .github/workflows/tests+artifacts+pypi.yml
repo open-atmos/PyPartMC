@@ -85,11 +85,12 @@ jobs:
           name: dist
           path: dist/*-manylinux*.whl
 
-      - run: pip install dist/*.whl
-
-      - run: python -c "import PyPartMC"
-
-      - run: pytest -v -s -We -p no:unraisableexception tests
+      # TODO
+      - if: not startsWith(matrix.platform, 'macos-')
+        run: |
+          pip install dist/*.whl
+          python -c "import PyPartMC"
+          pytest -v -s -We -p no:unraisableexception tests
 
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
 
