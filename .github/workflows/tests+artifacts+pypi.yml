@@ -54,15 +54,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install pytest nbconvert ipython ipykernel build
-
-      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
-
-      - run: pytest -v -s -We -p no:unraisableexception tests
-
-      - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
-
-      - run: pytest -v -s -We -p no:unraisableexception tests
+      - run: pip install pytest build wheel
 
       - run: |
           python -m build 2>&1 | tee build.log
@@ -92,6 +84,20 @@ jobs:
         with:
           name: dist
           path: dist/*-manylinux*.whl
+
+      - run: python -m wheel install dist/*.whl
+
+      - run: python -c "import PyPartMC"
+
+      - run: pytest -v -s -We -p no:unraisableexception tests
+
+      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
+
+      - run: pytest -v -s -We -p no:unraisableexception tests
+
+      - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
+
+      - run: pytest -v -s -We -p no:unraisableexception tests
 
 #      - if: ${{ failure() }}
 #        uses: mxschmitt/action-tmate@v3
