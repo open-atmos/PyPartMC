@@ -85,7 +85,7 @@ jobs:
           name: dist
           path: dist/*-manylinux*.whl
 
-      - run: python -m wheel install dist/*.whl
+      - run: pip install dist/*.whl
 
       - run: python -c "import PyPartMC"
 
