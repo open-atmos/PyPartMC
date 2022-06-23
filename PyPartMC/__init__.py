@@ -24,12 +24,18 @@ si = namedtuple("SI", (
 
 # https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
 if hasattr(os, "add_dll_directory"):
-    dllspath = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
-    cookie = os.add_dll_directory(dllspath)
+    __dllspath = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+    os.environ['PATH'] = __dllspath + os.pathsep + os.environ['PATH']
+    __cookies = []
+    for path in os.environ.get("PATH", "").split(os.pathsep):
+        if path and Path(path).is_absolute() and Path(path).is_dir():
+            __cookies.append(os.add_dll_directory(path))
 
 from _PyPartMC import *
 from _PyPartMC import __all__, __version__
 import _PyPartMC
 
 if hasattr(os, "add_dll_directory"):
-    cookie.close()
+    for cookie in __cookies:
+        cookie.close()
+
