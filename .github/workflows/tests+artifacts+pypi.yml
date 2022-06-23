@@ -86,7 +86,7 @@ jobs:
           path: dist/*-manylinux*.whl
 
       # TODO
-      - if: ! startsWith(matrix.platform, 'macos-')
+      - if: !(startsWith(matrix.platform, 'macos-'))
         run: |
           pip install dist/*.whl
           python -c "import PyPartMC"
