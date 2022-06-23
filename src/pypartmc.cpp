@@ -81,7 +81,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              m^3) of the i'th aerosol species.
         )pbdoc"
     )
-        .def(py::init<const AeroData&>())
+        .def(py::init<const AeroData&, const std::valarray<double>&>())
         .def_property_readonly("volumes", AeroParticle::volumes)
     ;
 

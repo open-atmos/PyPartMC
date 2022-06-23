@@ -28,15 +28,16 @@ module PyPartMC_aero_particle
     deallocate(ptr_f)
   end subroutine
 
-  subroutine f_aero_particle_init(ptr_c, aero_data_ptr_c) bind(C)
+  subroutine f_aero_particle_init(ptr_c, aero_data_ptr_c, arr_data, arr_size) bind(C)
     type(aero_particle_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
-    integer :: n_spec
+    integer(c_int), intent(in) :: arr_size
+    real(c_double), dimension(arr_size), intent(in) :: arr_data
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
-    n_spec = aero_data_n_spec(aero_data_ptr_f)
-    allocate(ptr_f%vol(n_spec))
+    allocate(ptr_f%vol(arr_size))
+    ptr_f%vol = arr_data
   end subroutine
 
   subroutine f_aero_particle_volumes(ptr_c, arr_data, arr_size) bind(C)
@@ -44,11 +45,8 @@ module PyPartMC_aero_particle
     type(aero_particle_t), pointer :: aero_particle => null()
     integer(c_int), intent(in) :: arr_size
     real(c_double), dimension(arr_size), intent(out) :: arr_data
-    integer :: i
 
     call c_f_pointer(ptr_c, aero_particle)
-    do i = 1, arr_size
-      arr_data(i) = aero_particle%vol(i)
-    end do
+    arr_data = aero_particle%vol
   end subroutine
 end module

@@ -5,16 +5,21 @@
 ####################################################################################################
 
 import PyPartMC as ppmc
+import pytest
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 
 class TestAeroParticle:
     @staticmethod
-    def test_ctor():
+    @pytest.mark.parametrize("volumes", (
+        [0],
+        pytest.param([],marks=pytest.mark.xfail(strict=True))
+    ))
+    def test_ctor(volumes):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
         # act
-        sut = ppmc.AeroParticle(aero_data)
+        sut = ppmc.AeroParticle(aero_data, volumes)
 
         # assert
         assert sut is not None
@@ -23,9 +28,10 @@ class TestAeroParticle:
     def test_volumes():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        volumes = [123]
 
         # act
-        sut = ppmc.AeroParticle(aero_data)
+        sut = ppmc.AeroParticle(aero_data, volumes)
 
         # assert
-        assert sut.volumes is not None
+        assert sut.volumes == volumes
