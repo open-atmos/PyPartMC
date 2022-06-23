@@ -33,6 +33,9 @@ module PyPartMC_aero_data
     type(spec_file_t) :: file
     call c_f_pointer(ptr_c, ptr_f)
     call spec_file_read_aero_data(file, ptr_f)
+    !!!TODO
+    ptr_f%fractal%frac_dim = 3d0
+    ptr_f%fractal%vol_fill_factor = 1d0
   end subroutine
 
   subroutine f_aero_data_spec_by_name(ptr_c, value, name_data, name_size) bind(C)

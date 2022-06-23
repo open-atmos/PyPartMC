@@ -33,6 +33,8 @@ module PyPartMC_env_state
         type(spec_file_t) :: file
         call c_f_pointer(ptr_c, ptr_f)
         call spec_file_read_env_state(file, ptr_f)
+        ptr_f%temp = 300 !TODO
+        ptr_f%rel_humid = .99
     end subroutine
 
 end module
