@@ -85,8 +85,10 @@ jobs:
           name: dist
           path: dist/*-manylinux*.whl
 
-      - if: matrix.platform == 'windows-lates' || matrix.platform == 'ubuntu-'
+      # TODO
+      - if: matrix.platform == 'windows-latest' || matrix.platform == 'ubuntu-latest'
         run: |
+          ls -la dist/*.whl
           pip install dist/*.whl
           python -c "import PyPartMC"
           pytest -v -s -We -p no:unraisableexception tests
