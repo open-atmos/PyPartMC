@@ -38,6 +38,9 @@ def __build_extension_env():
     cookies = []
     # https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
     if hasattr(os, &#34;add_dll_directory&#34;):
+        basepath = os.path.dirname(os.path.abspath(__file__))
+        dllspath = os.path.join(basepath, &#39;..&#39;)
+        os.environ[&#39;PATH&#39;] = dllspath + os.pathsep + os.environ[&#39;PATH&#39;]
         for path in os.environ.get(&#34;PATH&#34;, &#34;&#34;).split(os.pathsep):
             if path and Path(path).is_absolute() and Path(path).is_dir():
                 cookies.append(os.add_dll_directory(path))
@@ -67,7 +70,7 @@ si = namedtuple(&#34;SI&#34;, (
 
 with __build_extension_env():
     from _PyPartMC import *
-    from _PyPartMC import __all__
+    from _PyPartMC import __all__, __version__
     import _PyPartMC</code></pre>
 </details>
 </section>
@@ -156,6 +159,28 @@ is typically cleared each time we output data to disk.</p>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
 </ul>
+</dd>
+<dt id="PyPartMC.BinGrid"><code class="flex name class">
+<span>class <span class="ident">BinGrid</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p><strong>init</strong>(self: _PyPartMC.BinGrid, arg0: float, arg1: str, arg2: float, arg3: float) -&gt; None</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pybind11_builtins.pybind11_object</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="PyPartMC.BinGrid.centers"><code class="name">var <span class="ident">centers</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.BinGrid) -&gt; List[float]</p></div>
+</dd>
+<dt id="PyPartMC.BinGrid.edges"><code class="name">var <span class="ident">edges</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.BinGrid) -&gt; List[float]</p></div>
+</dd>
+</dl>
 </dd>
 <dt id="PyPartMC.EnvState"><code class="flex name class">
 <span>class <span class="ident">EnvState</span></span>
@@ -267,6 +292,13 @@ aero_dist_interp_1d(), respectively.</p>
 </li>
 <li>
 <h4><code><a title="PyPartMC.AeroState" href="#PyPartMC.AeroState">AeroState</a></code></h4>
+</li>
+<li>
+<h4><code><a title="PyPartMC.BinGrid" href="#PyPartMC.BinGrid">BinGrid</a></code></h4>
+<ul class="">
+<li><code><a title="PyPartMC.BinGrid.centers" href="#PyPartMC.BinGrid.centers">centers</a></code></li>
+<li><code><a title="PyPartMC.BinGrid.edges" href="#PyPartMC.BinGrid.edges">edges</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="PyPartMC.EnvState" href="#PyPartMC.EnvState">EnvState</a></code></h4>
