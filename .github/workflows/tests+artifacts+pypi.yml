@@ -85,7 +85,7 @@ jobs:
           name: dist
           path: dist/*-manylinux*.whl
 
-      - if: matrix.platform == 'windows-lates' or matrix.platform == 'ubuntu-'
+      - if: matrix.platform == 'windows-lates' || matrix.platform == 'ubuntu-'
         run: |
           pip install dist/*.whl
           python -c "import PyPartMC"
