@@ -47,7 +47,7 @@ module PyPartMC_aero_particle
     integer :: i
 
     call c_f_pointer(ptr_c, aero_particle)
-    do i = 1, arr_size+1
+    do i = 1, arr_size
       arr_data(i) = aero_particle%vol(i)
     end do
   end subroutine
