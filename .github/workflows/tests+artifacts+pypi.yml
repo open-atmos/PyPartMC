@@ -86,7 +86,13 @@ jobs:
         run: |
           ls -la dist/*.whl
           pip install dist/*.whl
+          pip show --verbose PyPartMC
           python -c "import PyPartMC"
+          pytest -v -s -We -p no:unraisableexception tests
+
+      - if: startsWith(matrix.platform, 'macos-')
+        run: 
+          DEBUG=0 VERBOSE=1 pip install --verbose -e .
           pytest -v -s -We -p no:unraisableexception tests
 
 #      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
