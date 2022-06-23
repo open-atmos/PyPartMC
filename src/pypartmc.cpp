@@ -7,7 +7,6 @@
 #include "pybind11/pybind11.h"
 #include "nlohmann/json.hpp"
 #include "pybind11_json/pybind11_json.hpp"
-#include "pybind11/numpy.h"
 
 #include "util.hpp"
 #include "run_part.hpp"
@@ -18,6 +17,7 @@
 #include "gas_data.hpp"
 #include "gas_state.hpp"
 #include "condense.hpp"
+#include "bin_grid.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -173,6 +173,12 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def(py::init<const nlohmann::json&>())
     ;
 
+    py::class_<BinGrid>(m,"BinGrid")
+        .def(py::init<const double, const py::str, const double, const double>())
+        .def("__len__", BinGrid::__len__)
+        .def_property_readonly("edges", BinGrid::edges)
+        .def_property_readonly("centers", BinGrid::centers)
+    ;
     //  TODO: auto util = m.def_submodule("util", "TODO");
     m.def(
         "pow2_above", &pow2_above, py::return_value_policy::copy,
@@ -185,6 +191,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "__version__",
         "AeroData",
         "AeroState",
+        "BinGrid",
         "EnvState",
         "GasData",
         "GasState",
