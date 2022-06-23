@@ -54,15 +54,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install pytest nbconvert ipython ipykernel build
-
-      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
-
-      - run: pytest -v -s -We -p no:unraisableexception tests
-
-      - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
-
-      - run: pytest -v -s -We -p no:unraisableexception tests
+      - run: pip install pytest build wheel
 
       - run: |
           python -m build 2>&1 | tee build.log
@@ -70,12 +62,6 @@ jobs:
 
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*
-
-      - if: matrix.platform != 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: dist
 
       - if: matrix.platform == 'ubuntu-latest'
         run: python -c "import sys; vi=sys.version_info; abitag='m' if vi.minor<8 else ''; print(f'PV=cp{vi.major}{vi.minor}-cp{vi.major}{vi.minor}{abitag}')" >> $GITHUB_ENV
@@ -88,11 +74,39 @@ jobs:
             pre-build-command: 'git config --global --add safe.directory "*"'
 
       - if: matrix.platform == 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
+        run: rm dist/*-linux_*
+
+      - uses: actions/upload-artifact@v2
         with:
           name: dist
-          path: dist/*-manylinux*.whl
+          path: dist
 
+      # TODO: should be doable on any OS
+      - if: matrix.platform == 'windows-latest' || matrix.platform == 'ubuntu-latest'
+        run: |
+          pip install dist/*.whl
+          pip show --verbose PyPartMC
+
+      - if: startsWith(matrix.platform, 'macos-')
+        run: |
+          DEBUG=0 VERBOSE=1 pip install --verbose -e .
+
+      ### make sure PyPartMC is not picked up from a local folder
+      - run: |
+          cd tests
+          python -v -c "import PyPartMC"
+          pytest -v -s -We -p no:unraisableexception .
+
+# TODO: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
+#      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
+#
+#      - run: pytest -v -s -We -p no:unraisableexception tests
+#
+#      - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
+#
+#      - run: pytest -v -s -We -p no:unraisableexception tests
+
+### uncomment to gain ssh access in case of failure
 #      - if: ${{ failure() }}
 #        uses: mxschmitt/action-tmate@v3
 #        with:
