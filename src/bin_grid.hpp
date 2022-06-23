@@ -7,6 +7,7 @@
 #pragma once
 
 #include "pmc_resource.hpp"
+#include "pybind11/stl.h"
 
 extern "C" void f_bin_grid_ctor(void *ptr) noexcept;
 extern "C" void f_bin_grid_dtor(void *ptr) noexcept;
@@ -41,34 +42,21 @@ struct BinGrid {
         return len;
     }
 
-    static py::array_t<double> edges(const BinGrid &self) {
-
+    static std::valarray<double> edges(const BinGrid &self)
+    {
         int len;
         f_bin_grid_size(&self.ptr, &len);
-
-        double *data = new double[len+1];
-        py::capsule free_when_done(data, [](void *f) {
-            double *d = reinterpret_cast<double *>(f);
-           delete[] d;
-        });
-
-        f_bin_grid_edges(&self.ptr, data, &len);
-        return py::array_t<double>(len+1, data, free_when_done);
+        std::valarray<double> data(len+1);
+        f_bin_grid_edges(&self.ptr, begin(data), &len);
+        return data;
     }
 
-    static py::array_t<double> centers(const BinGrid &self) {
-
+    static std::valarray<double> centers(const BinGrid &self) 
+    {
         int len;
         f_bin_grid_size(&self.ptr, &len);
-
-        double *data = new double[len];
-        py::capsule free_when_done(data, [](void *f) {
-            double *d = reinterpret_cast<double *>(f);
-            delete[] d;
-        });
-
-        f_bin_grid_centers(&self.ptr, data, &len);
-        return py::array_t<double>(len, data, free_when_done);
+        std::valarray<double> data(len);
+        f_bin_grid_centers(&self.ptr, begin(data), &len);
+        return data;
     }
-
 };

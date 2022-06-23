@@ -7,7 +7,6 @@
 #include "pybind11/pybind11.h"
 #include "nlohmann/json.hpp"
 #include "pybind11_json/pybind11_json.hpp"
-#include "pybind11/numpy.h"
 
 #include "util.hpp"
 #include "run_part.hpp"

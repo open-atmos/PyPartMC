@@ -140,7 +140,7 @@ setup(
     zip_safe=False,
     python_requires=">=3.7",
     setup_requires=["setuptools_scm"],
-    install_requires=['numpy'] + (['msvc-runtime'] if sys.platform == 'win32' else []),
+    install_requires=['numpy'],
     license="GPL-3.0",
     project_urls={
         "Tracker": "https://github.com/open-atmos/PyPartMC/issues",
