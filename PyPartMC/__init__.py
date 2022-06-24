@@ -19,7 +19,8 @@ def __build_extension_env():
             if path and Path(path).is_absolute() and Path(path).is_dir():
                 dlls = glob.glob(os.path.join(path, '_PyPartMC*'))
                 assert len(dlls) == 1 
-                ctypes.WinDLL(dlls[0])
+                os.system(f"dumpbin {dlls[0]}")
+                ctypes.WinDLL(dlls[0], winmode=0)
                 ctypes.cdll.LoadLibrary(dlls[0])
                 cookies.append(os.add_dll_directory(path))
     try:
