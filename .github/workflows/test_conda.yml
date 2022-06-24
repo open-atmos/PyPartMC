@@ -19,7 +19,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest 
-          pip install -e .
+          DEBUG=1 VERBOSE=1 pip --verbose install -e .
       - name: Test with pytest
         run: |
           cd tests
