@@ -8,6 +8,7 @@
 
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
+#include "env_state.hpp"
 #include "pybind11/stl.h"
 
 extern "C" void f_aero_state_ctor(void *ptr) noexcept;
@@ -30,6 +31,8 @@ extern "C" void f_aero_state_diameters(const void *ptr, const void *aero_dataptr
     double *diameters, const int *n_parts) noexcept;
 extern "C" void f_aero_state_volumes(const void *ptr, const void *aero_dataptr,
     double *volumes, const int *n_parts) noexcept;
+extern "C" void f_aero_state_crit_rel_humids(const void *ptr, const void *aero_dataptr,
+       const void *env_stateptr, double *crit_rel_humids, const int *n_parts) noexcept;
 
 struct AeroState {
     PMCResource ptr;
@@ -101,5 +104,17 @@ struct AeroState {
         f_aero_state_volumes(&self.ptr, &aero_data.ptr, begin(volumes), &len);
 
         return volumes;
+    }
+
+    static std::valarray<double> crit_rel_humids(const AeroState &self, const AeroData &aero_data,
+        const EnvState &env_state){
+        int len;
+        f_aero_state_len(&self.ptr, &len);
+        std::valarray<double> crit_rel_humids(len);
+
+        f_aero_state_crit_rel_humids(&self.ptr, &aero_data.ptr, &env_state.ptr, 
+             begin(crit_rel_humids), &len);
+
+        return crit_rel_humids;
     }
 };

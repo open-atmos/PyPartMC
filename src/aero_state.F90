@@ -40,7 +40,7 @@ module PyPartMC_aero_state
     real(kind=dp), parameter, dimension(2) :: diams = [2d-8, 1.16d-7]
     real(kind=dp), parameter, dimension(2) :: std = [1.45,1.65]
     character(len=10), parameter, dimension(2) :: mode_names = ["init_small","init_large"]
-    integer :: n_spec, n_modes, i_mode, i_water
+    integer :: n_spec, n_modes, i_mode, i_spec
     integer :: n_part_added, source
 
     call c_f_pointer(ptr_c, ptr_f)
@@ -64,8 +64,8 @@ module PyPartMC_aero_state
        aero_dist_init%mode(i_mode)%num_conc = num_conc(i_mode)
        allocate(aero_dist_init%mode(i_mode)%vol_frac(n_spec))
        aero_dist_init%mode(i_mode)%vol_frac = 0.0
-       i_water = aero_data_spec_by_name(aero_data_ptr_f, "H2O")
-       aero_dist_init%mode(i_mode)%vol_frac(i_water) = 1.0
+       i_spec = aero_data_spec_by_name(aero_data_ptr_f, "SO4")
+       aero_dist_init%mode(i_mode)%vol_frac(i_spec) = 1.0
        allocate(aero_dist_init%mode(i_mode)%vol_frac_std(n_spec))
        aero_dist_init%mode(i_mode)%vol_frac_std = 0.0
        source = aero_data_source_by_name(aero_data_ptr_f, mode_names(i_mode))
@@ -183,6 +183,26 @@ module PyPartMC_aero_state
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
 
     volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f)
+
+  end subroutine
+
+
+  subroutine f_aero_state_crit_rel_humids(ptr_c, aero_data_ptr_c, &
+       env_state_ptr_c, crit_rel_humids, n_parts) bind(C)
+
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(env_state_t), pointer :: env_state_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c, env_state_ptr_c
+    integer(c_int), intent(in) :: n_parts
+    real(c_double) :: crit_rel_humids(n_parts)
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+    call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
+
+    crit_rel_humids = aero_state_crit_rel_humids(ptr_f, aero_data_ptr_f, &
+         env_state_ptr_f)
 
   end subroutine
 
