@@ -21,7 +21,7 @@ jobs:
         # platform: [ubuntu-latest, macos-11, macOS-12, windows-latest]
         # python-version: ["3.7", "3.8", "3.9", "3.10"]
         platform: [windows-latest]
-        python-version: ["3.9", "3.10"]
+        python-version: ["3.7"]
     runs-on: ${{ matrix.platform }}
     steps:
       - if: startsWith(matrix.platform, 'macos-')
@@ -51,10 +51,6 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
-
-      - if: matrix.platform == 'windows-latest'
-        run: |
-          curl --output tests/dlldp.exe https://github.com/BullyWiiPlaza/DLL-Dependencies-Parser/releases/download/v1.2/DLL-Dependencies-Parser.exe
 
       - uses: actions/setup-python@v1
         with:
@@ -100,6 +96,7 @@ jobs:
       ### make sure PyPartMC is not picked up from a local folder
       - run: |
           cd tests
+          python -v -c "import numpy"
           python -v -c "import PyPartMC"
           pytest -v -s -We -p no:unraisableexception .
 
