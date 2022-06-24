@@ -22,6 +22,12 @@ extern "C" void f_aero_state_total_num_conc(const void *ptr, const void *aero_da
     double *total_num_conc) noexcept;
 extern "C" void f_aero_state_num_concs(const void *ptr, const void *aero_dataptr, 
     double *num_concs, const int *len) noexcept;
+extern "C" void f_aero_state_masses(const void *ptr, const void *aero_dataptr,
+    double *masses, const int *n_parts) noexcept;
+extern "C" void f_aero_state_dry_diameters(const void *ptr, const void *aero_dataptr,
+    double *dry_diameters, const int *n_parts) noexcept;
+extern "C" void f_aero_state_diameters(const void *ptr, const void *aero_dataptr,
+    double *diameters, const int *n_parts) noexcept;
 
 struct AeroState {
     PMCResource ptr;
@@ -52,5 +58,36 @@ struct AeroState {
         f_aero_state_num_concs(&self.ptr, &aero_data.ptr, begin(num_concs), &len);
 
         return num_concs;
+    }
+
+    static std::valarray<double> masses(const AeroState &self, const AeroData &aero_data){
+        int len;
+        f_aero_state_len(&self.ptr, &len);
+        std::valarray<double> masses(len);
+
+        f_aero_state_masses(&self.ptr, &aero_data.ptr, begin(masses), &len);
+
+        return masses;
+    }
+
+
+   static std::valarray<double> dry_diameters(const AeroState &self, const AeroData &aero_data){
+        int len;
+        f_aero_state_len(&self.ptr, &len);
+        std::valarray<double> dry_diameters(len);
+
+        f_aero_state_dry_diameters(&self.ptr, &aero_data.ptr, begin(dry_diameters), &len);
+
+        return dry_diameters;
+    }
+
+   static std::valarray<double> diameters(const AeroState &self, const AeroData &aero_data){
+        int len;
+        f_aero_state_len(&self.ptr, &len);
+        std::valarray<double> diameters(len);
+
+        f_aero_state_diameters(&self.ptr, &aero_data.ptr, begin(diameters), &len);
+
+        return diameters;
     }
 };

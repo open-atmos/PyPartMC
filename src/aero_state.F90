@@ -120,4 +120,53 @@ module PyPartMC_aero_state
 
   end  subroutine
 
+  ! FIXME: add include and exclude 
+  subroutine f_aero_state_masses(ptr_c, aero_data_ptr_c, masses, n_parts) &
+       bind(C) 
+
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
+    integer(c_int) :: n_parts
+    real(c_double) :: masses(n_parts)
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    masses =  aero_state_masses(ptr_f, aero_data_ptr_f)
+
+  end subroutine
+
+  subroutine f_aero_state_dry_diameters(ptr_c, aero_data_ptr_c, diameters, n_parts) &
+       bind(C)
+
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
+    integer(c_int) :: n_parts
+    real(c_double) :: diameters(n_parts)
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    diameters =  aero_state_dry_diameters(ptr_f, aero_data_ptr_f)
+
+  end subroutine
+
+  subroutine f_aero_state_diameters(ptr_c, aero_data_ptr_c, diameters, &
+       n_parts) bind(C)
+
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
+    integer(c_int) :: n_parts
+    real(c_double) :: diameters(n_parts)
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f)
+
+  end subroutine
+
 end module

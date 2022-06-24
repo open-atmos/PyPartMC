@@ -84,6 +84,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("__len__", AeroState::__len__)
         .def("total_num_conc", AeroState::total_num_conc)
         .def("num_concs", AeroState::num_concs)
+        .def("masses", AeroState::masses)
+        .def("dry_diameters", AeroState::dry_diameters)
+        .def("diameters", AeroState::diameters)
     ;
 
     py::class_<GasData>(m, "GasData",
