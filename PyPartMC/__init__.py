@@ -14,11 +14,15 @@ def __build_extension_env():
     if hasattr(os, "add_dll_directory"):
         basepath = os.path.dirname(os.path.abspath(__file__))
         dllspath = os.path.join(basepath, '..')
-        os.environ['PATH'] = dllspath + os.pathsep + os.environ['PATH']
-        for path in os.environ.get("PATH", "").split(os.pathsep):
-            if path and Path(path).is_absolute() and Path(path).is_dir():
-                print(path, glob.glob(os.path.join(path, '_PyPartMC*')), file=sys.stderr)
-                cookies.append(os.add_dll_directory(path))
+        print(glob.glob(os.path.join(dllspath, '_PyPartMC*')), file=sys.stderr)
+        cookies.append(os.add_dll_directory(dllspath))
+        sys.path.append(dllspath)
+        
+        #os.environ['PATH'] = dllspath + os.pathsep + os.environ['PATH']
+        #for path in os.environ.get("PATH", "").split(os.pathsep):
+        #    if path and Path(path).is_absolute() and Path(path).is_dir():
+        #        print(path, glob.glob(os.path.join(path, '_PyPartMC*')), file=sys.stderr)
+        #        cookies.append(os.add_dll_directory(path))
     try:
         print("HERE", file=sys.stderr)
         yield
