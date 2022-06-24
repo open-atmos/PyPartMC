@@ -1,6 +1,7 @@
 # pylint: disable=invalid-name,wrong-import-position
 import os
 import glob
+import sys
 from contextlib import contextmanager
 from pathlib import Path
 from collections import namedtuple
@@ -16,9 +17,10 @@ def __build_extension_env():
         os.environ['PATH'] = dllspath + os.pathsep + os.environ['PATH']
         for path in os.environ.get("PATH", "").split(os.pathsep):
             if path and Path(path).is_absolute() and Path(path).is_dir():
-                print(path, glob.glob(os.path.join(path, '_PyPartMC*')))
+                print(path, glob.glob(os.path.join(path, '_PyPartMC*')), file=sys.stderr)
                 cookies.append(os.add_dll_directory(path))
     try:
+        print("HERE", file=sys.stderr)
         yield
     finally:
         for cookie in cookies:
