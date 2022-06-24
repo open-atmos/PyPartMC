@@ -28,6 +28,8 @@ extern "C" void f_aero_state_dry_diameters(const void *ptr, const void *aero_dat
     double *dry_diameters, const int *n_parts) noexcept;
 extern "C" void f_aero_state_diameters(const void *ptr, const void *aero_dataptr,
     double *diameters, const int *n_parts) noexcept;
+extern "C" void f_aero_state_volumes(const void *ptr, const void *aero_dataptr,
+    double *volumes, const int *n_parts) noexcept;
 
 struct AeroState {
     PMCResource ptr;
@@ -89,5 +91,15 @@ struct AeroState {
         f_aero_state_diameters(&self.ptr, &aero_data.ptr, begin(diameters), &len);
 
         return diameters;
+    }
+
+    static std::valarray<double> volumes(const AeroState &self, const AeroData &aero_data){
+        int len;
+        f_aero_state_len(&self.ptr, &len);
+        std::valarray<double> volumes(len);
+
+        f_aero_state_volumes(&self.ptr, &aero_data.ptr, begin(volumes), &len);
+
+        return volumes;
     }
 };

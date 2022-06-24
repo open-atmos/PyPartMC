@@ -169,4 +169,21 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  ! FIXME: add include and exclude
+  subroutine f_aero_state_volumes(ptr_c, aero_data_ptr_c, volumes, n_parts) &
+       bind(C)
+
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
+    integer(c_int) :: n_parts
+    real(c_double) :: volumes(n_parts)
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f)
+
+  end subroutine
+
 end module
