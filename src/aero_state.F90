@@ -64,8 +64,15 @@ module PyPartMC_aero_state
        aero_dist_init%mode(i_mode)%num_conc = num_conc(i_mode)
        allocate(aero_dist_init%mode(i_mode)%vol_frac(n_spec))
        aero_dist_init%mode(i_mode)%vol_frac = 0.0
-       i_spec = aero_data_spec_by_name(aero_data_ptr_f, "SO4")
-       aero_dist_init%mode(i_mode)%vol_frac(i_spec) = 1.0
+       if (i_mode == 1) then
+          i_spec = aero_data_spec_by_name(aero_data_ptr_f, "SO4")
+          aero_dist_init%mode(i_mode)%vol_frac(i_spec) = 1.0
+       else
+          i_spec = aero_data_spec_by_name(aero_data_ptr_f, "OC")
+          aero_dist_init%mode(i_mode)%vol_frac(i_spec) =  .8 
+          i_spec = aero_data_spec_by_name(aero_data_ptr_f, "BC")
+          aero_dist_init%mode(i_mode)%vol_frac(i_spec) =  .2
+       end if
        allocate(aero_dist_init%mode(i_mode)%vol_frac_std(n_spec))
        aero_dist_init%mode(i_mode)%vol_frac_std = 0.0
        source = aero_data_source_by_name(aero_data_ptr_f, mode_names(i_mode))
@@ -203,6 +210,26 @@ module PyPartMC_aero_state
 
     crit_rel_humids = aero_state_crit_rel_humids(ptr_f, aero_data_ptr_f, &
          env_state_ptr_f)
+
+  end subroutine
+
+  ! FIXME: Add include, exclude, group and groups
+  subroutine f_aero_state_mixing_state_metrics(ptr_c, aero_data_ptr_c, & 
+       d_alpha, d_gamma, chi) bind(C) !, include, exclude, group, groups)&
+
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
+    real(c_double) :: d_alpha
+    real(c_double) :: d_gamma
+    real(c_double) :: chi
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+         d_gamma, chi)
+    print*, d_alpha, d_gamma, chi
 
   end subroutine
 

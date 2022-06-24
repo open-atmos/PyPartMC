@@ -33,6 +33,8 @@ extern "C" void f_aero_state_volumes(const void *ptr, const void *aero_dataptr,
     double *volumes, const int *n_parts) noexcept;
 extern "C" void f_aero_state_crit_rel_humids(const void *ptr, const void *aero_dataptr,
        const void *env_stateptr, double *crit_rel_humids, const int *n_parts) noexcept;
+extern "C" void f_aero_state_mixing_state_metrics(const void *aero_state, 
+       const void *aero_data, double *d_alpha, double *d_gamma, double *chi) noexcept;
 
 struct AeroState {
     PMCResource ptr;
@@ -116,5 +118,20 @@ struct AeroState {
              begin(crit_rel_humids), &len);
 
         return crit_rel_humids;
+    }
+
+    static std::tuple<double, double, double> mixing_state(const AeroState &self, 
+        const AeroData &aero_data){
+
+        int len;
+        f_aero_state_len(&self.ptr, &len);
+        double chi;
+        double d_alpha;
+        double d_gamma;
+
+        f_aero_state_mixing_state_metrics(&self.ptr, &aero_data.ptr,
+             &d_alpha, &d_gamma, &chi);
+
+        return std::make_tuple(d_alpha, d_gamma, chi); 
     }
 };

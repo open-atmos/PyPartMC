@@ -89,6 +89,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("dry_diameters", AeroState::dry_diameters)
         .def("diameters", AeroState::diameters)
         .def("crit_rel_humids", AeroState::crit_rel_humids)
+        .def("mixing_state", AeroState::mixing_state)
     ;
 
     py::class_<GasData>(m, "GasData",
