@@ -4,8 +4,8 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
-import PyPartMC as ppmc
 import pytest
+import PyPartMC as ppmc
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 
 class TestAeroParticle:

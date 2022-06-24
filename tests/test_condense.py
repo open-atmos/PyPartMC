@@ -44,4 +44,4 @@ class TestCondense:
         ppmc.condense_equilib_particle(env_state, aero_data, aero_particle)
 
         # assert
-        assert 4.954526386662255e-23 == aero_particle.volumes[0]
+        assert 4.954526386662255e-23 == tuple(aero_particle.volumes)[0]
