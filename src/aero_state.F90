@@ -54,6 +54,7 @@ module PyPartMC_aero_state
 
     n_modes = 2 
     n_spec = aero_data_n_spec(aero_data_ptr_f)
+    if (n_spec > 1) then
     allocate(aero_dist_init%mode(n_modes))
     do i_mode = 1,n_modes
        aero_dist_init%mode(i_mode)%name = mode_names(i_mode)
@@ -71,7 +72,7 @@ module PyPartMC_aero_state
           i_spec = aero_data_spec_by_name(aero_data_ptr_f, "OC")
           aero_dist_init%mode(i_mode)%vol_frac(i_spec) =  .8 
           i_spec = aero_data_spec_by_name(aero_data_ptr_f, "BC")
-          aero_dist_init%mode(i_mode)%vol_frac(i_spec) =  .2
+             aero_dist_init%mode(i_mode)%vol_frac(i_spec) =  .2
        end if
        allocate(aero_dist_init%mode(i_mode)%vol_frac_std(n_spec))
        aero_dist_init%mode(i_mode)%vol_frac_std = 0.0
@@ -84,6 +85,7 @@ module PyPartMC_aero_state
            .true., & ! TODO run_part_opt%allow_doubling, &
            .true., & ! TODO run_part_opt%allow_halving)
            n_part_added)
+    end if
 
   end subroutine
 
@@ -207,6 +209,8 @@ module PyPartMC_aero_state
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
     call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
+
+    print*, 'temperature', env_state_ptr_f%temp
 
     crit_rel_humids = aero_state_crit_rel_humids(ptr_f, aero_data_ptr_f, &
          env_state_ptr_f)
