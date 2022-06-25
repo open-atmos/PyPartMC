@@ -82,14 +82,22 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const double, const AeroData&>())
         .def("__len__", AeroState::__len__)
-        .def("total_num_conc", AeroState::total_num_conc)
-        .def("num_concs", AeroState::num_concs)
-        .def("masses", AeroState::masses)
-        .def("volumes", AeroState::volumes)
-        .def("dry_diameters", AeroState::dry_diameters)
-        .def("diameters", AeroState::diameters)
-        .def("crit_rel_humids", AeroState::crit_rel_humids)
-        .def("mixing_state", AeroState::mixing_state)
+        .def("total_num_conc", AeroState::total_num_conc,
+            "returns the total number concentration of the population")
+        .def("num_concs", AeroState::num_concs,
+            "returns the number concentration of each particle in the population")
+        .def("masses", AeroState::masses,
+            "returns the total mass of each particle in the population")
+        .def("volumes", AeroState::volumes,
+            "returns the total volume of each particle in the population")
+        .def("dry_diameters", AeroState::dry_diameters,
+            "returns the dry diameter of each particle in the population")
+        .def("diameters", AeroState::diameters,
+            "returns the diameter of each particle in the population")
+        .def("crit_rel_humids", AeroState::crit_rel_humids,
+            "returns the critical relative humidity of each particle in the population")
+        .def("mixing_state", AeroState::mixing_state,
+            "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population")
     ;
 
     py::class_<GasData>(m, "GasData",
@@ -121,9 +129,12 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>())
-        .def("set_temperature", EnvState::set_temperature)
-        .def_property_readonly("temp", EnvState::temp)
-        .def_property_readonly("rh", EnvState::rh)
+        .def("set_temperature", EnvState::set_temperature,
+            "sets the temperature of the environment state")
+        .def_property_readonly("temp", EnvState::temp,
+            "returns the current temperature of the environment state")
+        .def_property_readonly("rh", EnvState::rh,
+            "returns the current relative humidity of the environment state")
     ;
 
     py::class_<Scenario>(m,
