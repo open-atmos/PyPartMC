@@ -6,6 +6,7 @@
 
 import PyPartMC as ppmc
 from PyPartMC import si
+import numpy as np
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
@@ -44,4 +45,4 @@ class TestCondense:
         ppmc.condense_equilib_particle(env_state, aero_data, aero_particle)
 
         # assert
-        assert 4.954526386662255e-23 == tuple(aero_particle.volumes)[0]
+        np.testing.assert_almost_equal(4.95452639e-23, tuple(aero_particle.volumes)[0])
