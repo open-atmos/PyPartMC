@@ -17,10 +17,10 @@ def __build_extension_env():
         os.environ['PATH'] = dllspath + os.pathsep + os.environ['PATH']
         for path in os.environ.get("PATH", "").split(os.pathsep):
             if path and Path(path).is_absolute() and Path(path).is_dir():
-                dlls = glob.glob(os.path.join(path, '_PyPartMC*'))
-                assert len(dlls) == 1 
-                ctypes.WinDLL(dlls[0], winmode=0)
-                ctypes.cdll.LoadLibrary(dlls[0])
+                #dlls = glob.glob(os.path.join(path, '_PyPartMC*'))
+                #assert len(dlls) == 1 
+                #ctypes.WinDLL(dlls[0], winmode=0)
+                #ctypes.cdll.LoadLibrary(dlls[0])
                 cookies.append(os.add_dll_directory(path))
     try:
         yield
