@@ -35,4 +35,15 @@ module PyPartMC_env_state
         call spec_file_read_env_state(file, ptr_f)
     end subroutine
 
+    subroutine f_env_state_set_temperature(ptr_c, temperature) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(in) :: temperature
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ptr_f%temp = temperature
+
+    end subroutine
+
 end module

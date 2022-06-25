@@ -210,8 +210,6 @@ module PyPartMC_aero_state
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
     call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
 
-    print*, 'temperature', env_state_ptr_f%temp
-
     crit_rel_humids = aero_state_crit_rel_humids(ptr_f, aero_data_ptr_f, &
          env_state_ptr_f)
 
@@ -233,7 +231,6 @@ module PyPartMC_aero_state
 
     call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
          d_gamma, chi)
-    print*, d_alpha, d_gamma, chi
 
   end subroutine
 

@@ -121,6 +121,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>())
+        .def("set_temperature", EnvState::set_temperature)
     ;
 
     py::class_<Scenario>(m,

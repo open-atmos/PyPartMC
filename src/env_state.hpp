@@ -12,6 +12,7 @@
 extern "C" void f_env_state_ctor(void *ptr) noexcept;
 extern "C" void f_env_state_dtor(void *ptr) noexcept;
 extern "C" void f_env_state_from_json(const void *ptr) noexcept;
+extern "C" void f_env_state_set_temperature(const void *ptr, const double *temperature) noexcept;
 
 struct EnvState {
     PMCResource ptr;
@@ -23,5 +24,10 @@ struct EnvState {
         f_env_state_from_json(this->ptr.f_arg());
         gimmick_ptr().reset();
     }
+
+    static void set_temperature(const EnvState &self, double &temperature){
+        f_env_state_set_temperature(&self.ptr, &temperature);
+    }
+
 };
 
