@@ -13,6 +13,8 @@ extern "C" void f_env_state_ctor(void *ptr) noexcept;
 extern "C" void f_env_state_dtor(void *ptr) noexcept;
 extern "C" void f_env_state_from_json(const void *ptr) noexcept;
 extern "C" void f_env_state_set_temperature(const void *ptr, const double *temperature) noexcept;
+extern "C" void f_env_state_get_temperature(const void *ptr, double *temperature) noexcept;
+extern "C" void f_env_state_get_rel_humid(const void *ptr, double *rel_humid) noexcept;
 
 struct EnvState {
     PMCResource ptr;
@@ -29,5 +31,17 @@ struct EnvState {
         f_env_state_set_temperature(&self.ptr, &temperature);
     }
 
-};
+    static double temp(const EnvState &self){
+        double temperature;
 
+        f_env_state_get_temperature(&self.ptr, &temperature);
+        return temperature;
+    }
+
+    static double rh(const EnvState &self){
+        double rel_humid;
+
+        f_env_state_get_rel_humid(&self.ptr, &rel_humid);
+        return rel_humid;
+    }
+};
