@@ -98,6 +98,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the critical relative humidity of each particle in the population")
         .def("mixing_state", AeroState::mixing_state,
             "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population")
+        .def("bin_average_comp", AeroState::bin_average_comp,
+            "composition-averages population using BinGrid")
     ;
 
     py::class_<GasData>(m, "GasData",

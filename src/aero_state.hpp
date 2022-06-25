@@ -9,6 +9,7 @@
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
 #include "env_state.hpp"
+#include "bin_grid.hpp"
 #include "pybind11/stl.h"
 
 extern "C" void f_aero_state_ctor(void *ptr) noexcept;
@@ -35,6 +36,8 @@ extern "C" void f_aero_state_crit_rel_humids(const void *ptr, const void *aero_d
        const void *env_stateptr, double *crit_rel_humids, const int *n_parts) noexcept;
 extern "C" void f_aero_state_mixing_state_metrics(const void *aero_state, 
        const void *aero_data, double *d_alpha, double *d_gamma, double *chi) noexcept;
+extern "C" void f_aero_state_bin_average_comp(const void *ptr_c, const void *bin_grid_ptr, 
+       const void *aero_data_ptr) noexcept;
 
 struct AeroState {
     PMCResource ptr;
@@ -133,5 +136,11 @@ struct AeroState {
              &d_alpha, &d_gamma, &chi);
 
         return std::make_tuple(d_alpha, d_gamma, chi); 
+    }
+
+    static void bin_average_comp(AeroState &self, const BinGrid &bin_grid, 
+        const AeroData &aero_data){
+
+        f_aero_state_bin_average_comp(&self.ptr, &bin_grid.ptr, &aero_data.ptr);
     }
 };
