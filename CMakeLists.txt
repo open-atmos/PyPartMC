@@ -132,6 +132,7 @@ target_include_directories(_PyPartMC PRIVATE
   ${CMAKE_SOURCE_DIR}/gitmodules/span/include
   ${CMAKE_SOURCE_DIR}/gitmodules/string_view-standalone/include
 )
+target_compile_definitions(_PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(_PyPartMC PRIVATE partmclib)
 if (WIN32)
   target_link_libraries(_PyPartMC PRIVATE -static gcc stdc++ winpthread quadmath -dynamic)
