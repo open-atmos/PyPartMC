@@ -137,6 +137,9 @@ target_link_libraries(_PyPartMC PRIVATE partmclib)
 if (APPLE)
   target_link_options(_PyPartMC PRIVATE -Wl,-no_compact_unwind -Wl,-keep_dwarf_unwind)
 endif()
+if (WIN32)
+  target_link_libraries(_PyPartMC -static gcc stdc++ winpthread quadmath -dynamic)
+endif()
 
 ### pedantics ######################################################################################
 
