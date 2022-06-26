@@ -9,6 +9,7 @@
 #include "pmc_resource.hpp"
 #include "pybind11/stl.h"
 #include "pybind11/numpy.h"
+#include "boost/array.hpp"
 
 extern "C" void f_bin_grid_ctor(void *ptr) noexcept;
 extern "C" void f_bin_grid_dtor(void *ptr) noexcept;
@@ -98,7 +99,7 @@ static std::vector<std::vector<double>> histogram_2d(
         int data_size = x_values.size();
 
         std::vector<std::vector<double>> data( x_len , std::vector<double>(y_len,0));
-        std::valarray<double> data_fake(x_len);
+        std::valarray<double> data_fake(x_len*y_len);
         f_bin_grid_histogram_2d(&x_bin_grid.ptr, begin(x_values),
             &y_bin_grid.ptr, begin(y_values),
             begin(weights),
@@ -108,9 +109,10 @@ static std::vector<std::vector<double>> histogram_2d(
     {
         for(int j = 0; j < y_len; j++)
         {
-            std::cout << data[i][j] << " ";
+//            std::cout << data[i][j] << " ";
+           data[i][j] = data_fake[i*y_len + j];
         }
-        std::cout << std::endl;
+//        std::cout << std::endl;
     }
 
         return data;

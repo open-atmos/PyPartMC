@@ -98,13 +98,13 @@ module PyPartMC_bin_grid
     integer(c_int), intent(in) :: x_bin_grid_size
     integer(c_int), intent(in) :: y_bin_grid_size
     ! Fake data
-    real(c_double), dimension(x_bin_grid_size), intent(out) :: output_data
+    real(c_double), dimension(x_bin_grid_size*y_bin_grid_size), intent(out) :: output_data
     real(c_double), dimension(arr_size), intent(in) :: x_data, y_data
     real(c_double), dimension(arr_size), intent(in) :: weight_data
 !    real(c_double), dimension(x_bin_grid_size,y_bin_grid_size) :: &
 !         output_data_local
     real(c_double), allocatable :: output_data_local(:,:)
-
+    integer :: i, j
     call c_f_pointer(x_bin_grid_ptr_c, x_bin_grid)
     call c_f_pointer(y_bin_grid_ptr_c, y_bin_grid)
     allocate(output_data_local(x_bin_grid_size,y_bin_grid_size))
@@ -112,7 +112,12 @@ module PyPartMC_bin_grid
          y_data, weight_data)
 
     ! FIXME: To avoid complaints
-    print*, output_data(1), x_bin_grid_size, y_bin_grid_size
+    do i = 1,x_bin_grid_size
+    do j = 1,y_bin_grid_size
+       output_data((i-1)*y_bin_grid_size + j) = output_data_local(i,j)
+    end do
+    end do
+!    print*, output_data(1), x_bin_grid_size, y_bin_grid_size
 
   end subroutine
 
