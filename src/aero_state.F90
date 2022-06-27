@@ -127,7 +127,23 @@ module PyPartMC_aero_state
 
     total_num_conc = aero_state_total_num_conc(ptr_f, aero_data_ptr_f)
 
-  end  subroutine
+  end subroutine
+
+  subroutine f_aero_state_total_mass_conc(ptr_c, aero_data_ptr_c, &
+      total_mass_conc) bind(C)
+
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
+    real(c_double) :: total_mass_conc
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    total_mass_conc = sum(aero_state_num_concs(ptr_f, aero_data_ptr_f) &
+         * aero_state_masses(ptr_f, aero_data_ptr_f))
+
+  end subroutine
 
   ! FIXME: add include and exclude 
   subroutine f_aero_state_masses(ptr_c, aero_data_ptr_c, masses, n_parts) &

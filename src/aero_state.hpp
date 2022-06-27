@@ -22,6 +22,8 @@ extern "C" void f_aero_state_init(
 extern "C" void f_aero_state_len(const void *ptr, int *len) noexcept;
 extern "C" void f_aero_state_total_num_conc(const void *ptr, const void *aero_dataptr,
     double *total_num_conc) noexcept;
+extern "C" void f_aero_state_total_mass_conc(const void *ptr, const void *aero_dataptr,
+    double *total_mass_conc) noexcept;
 extern "C" void f_aero_state_num_concs(const void *ptr, const void *aero_dataptr, 
     double *num_concs, const int *len) noexcept;
 extern "C" void f_aero_state_masses(const void *ptr, const void *aero_dataptr,
@@ -60,6 +62,12 @@ struct AeroState {
         return total_num_conc;
     }
 
+    static double total_mass_conc(const AeroState &self, const AeroData &aero_data){
+        double total_mass_conc;
+        f_aero_state_total_mass_conc(&self.ptr, &aero_data.ptr, &total_mass_conc);
+        return total_mass_conc;
+    }
+
     static std::valarray<double> num_concs(const AeroState &self, const AeroData &aero_data){
         int len;
         f_aero_state_len(&self.ptr, &len);
@@ -79,7 +87,6 @@ struct AeroState {
 
         return masses;
     }
-
 
    static std::valarray<double> dry_diameters(const AeroState &self, const AeroData &aero_data){
         int len;

@@ -84,6 +84,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("__len__", AeroState::__len__)
         .def("total_num_conc", AeroState::total_num_conc,
             "returns the total number concentration of the population")
+        .def("total_mass_conc", AeroState::total_mass_conc,
+            "returns the total mass concentration of the population")
         .def("num_concs", AeroState::num_concs,
             "returns the number concentration of each particle in the population")
         .def("masses", AeroState::masses,
