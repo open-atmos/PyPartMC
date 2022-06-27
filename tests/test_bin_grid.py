@@ -109,7 +109,7 @@ class TestBinGrid:
         np.testing.assert_array_almost_equal(data,hist/(bin_edges[1]-bin_edges[0]))
 
     @staticmethod
-    def test_histogram_2d():
+    def test_histogram_2d_linear():
         n_data = 1000
         x_grid = ppmc.BinGrid(15,"linear",0,1000)
         y_grid = ppmc.BinGrid(12,"linear",0,500)
@@ -117,7 +117,7 @@ class TestBinGrid:
         y_vals = np.random.random(n_data)*500
         weights = np.random.random(n_data)
         data = ppmc.histogram_2d(x_grid, x_vals, y_grid, y_vals, weights)
-        data_numpy, bin_edges_x, bin_edges_y = np.histogram2d(x_vals,y_vals,
+        data_numpy,bin_edges_x,bin_edges_y = np.histogram2d(x_vals,y_vals,
              bins=[x_grid.edges,y_grid.edges],weights=weights)
-        cell_size = (x_grid.edges[1]-x_grid.edges[0])*(y_grid.edges[1]-y_grid.edges[0])
+        cell_size = (bin_edges_x[1]-bin_edges_x[0])*(bin_edges_y[1]-bin_edges_y[0])
         np.testing.assert_array_almost_equal(np.array(data),data_numpy/cell_size,decimal=15)
