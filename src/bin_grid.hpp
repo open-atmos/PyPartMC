@@ -9,7 +9,6 @@
 #include "pmc_resource.hpp"
 #include "pybind11/stl.h"
 #include "pybind11/numpy.h"
-#include "boost/array.hpp"
 
 extern "C" void f_bin_grid_ctor(void *ptr) noexcept;
 extern "C" void f_bin_grid_dtor(void *ptr) noexcept;
