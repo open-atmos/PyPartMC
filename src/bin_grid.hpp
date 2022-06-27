@@ -105,15 +105,13 @@ static std::vector<std::vector<double>> histogram_2d(
             begin(weights),
             &data_size, begin(data_fake), &x_len, &y_len);
 
-    for(int i = 0; i < x_len; i++)
-    {
-        for(int j = 0; j < y_len; j++)
+        for(int i = 0; i < x_len; i++)
         {
-//            std::cout << data[i][j] << " ";
-           data[i][j] = data_fake[i*y_len + j];
+            for(int j = 0; j < y_len; j++)
+            {
+            data[i][j] = data_fake[i*y_len + j];
+            }
         }
-//        std::cout << std::endl;
-    }
 
         return data;
 }
