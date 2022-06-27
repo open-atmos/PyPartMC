@@ -176,18 +176,18 @@ PYBIND11_MODULE(_PyPartMC, m) {
     py::class_<BinGrid>(m,"BinGrid")
         .def(py::init<const double, const py::str, const double, const double>())
         .def("__len__", BinGrid::__len__)
-        .def_property_readonly("edges", BinGrid::edges)
-        .def_property_readonly("centers", BinGrid::centers)
+        .def_property_readonly("edges", BinGrid::edges, "Bin edges")
+        .def_property_readonly("centers", BinGrid::centers, "Bin centers")
     ;
 
     m.def(
         "histogram_1d", &histogram_1d, py::return_value_policy::copy,
-        "Return the 1D histogram."
+        "Return a 1D histogram with of the given weighted data, scaled by the bin sizes."
     );
 
     m.def(
         "histogram_2d", &histogram_2d, py::return_value_policy::copy,
-        "Return the 2D histogram."
+        "Return a 2D histogram with of the given weighted data, scaled by the bin sizes."
     );
 
     //  TODO: auto util = m.def_submodule("util", "TODO");
