@@ -97,17 +97,16 @@ static std::vector<std::vector<double>> histogram_2d(
         int data_size = x_values.size();
 
         std::vector<std::vector<double>> data( x_len , std::vector<double>(y_len,0));
-        std::valarray<double> data_fake(x_len*y_len);
+        std::valarray<double> data_flat(x_len*y_len);
         f_bin_grid_histogram_2d(&x_bin_grid.ptr, begin(x_values),
-            &y_bin_grid.ptr, begin(y_values),
-            begin(weights),
-            &data_size, begin(data_fake), &x_len, &y_len);
+            &y_bin_grid.ptr, begin(y_values), begin(weights),
+            &data_size, begin(data_flat), &x_len, &y_len);
 
         for(int i = 0; i < x_len; i++)
         {
             for(int j = 0; j < y_len; j++)
             {
-            data[i][j] = data_fake[i*y_len + j];
+            data[i][j] = data_flat[i*y_len + j];
             }
         }
 

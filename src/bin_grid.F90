@@ -97,7 +97,6 @@ module PyPartMC_bin_grid
     integer(c_int), intent(in) :: arr_size
     integer(c_int), intent(in) :: x_bin_grid_size
     integer(c_int), intent(in) :: y_bin_grid_size
-    ! Fake data
     real(c_double), dimension(x_bin_grid_size*y_bin_grid_size), intent(out) :: output_data
     real(c_double), dimension(arr_size), intent(in) :: x_data, y_data
     real(c_double), dimension(arr_size), intent(in) :: weight_data
