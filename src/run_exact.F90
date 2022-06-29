@@ -4,10 +4,10 @@
 ! Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 !###################################################################################################
 
-module PyPartMC_run_part
+module PyPartMC_run_exact
 
   use iso_c_binding
-  use pmc_run_part
+  use pmc_run_exact
 
   implicit none
 
@@ -54,7 +54,7 @@ module PyPartMC_run_part
     call c_f_pointer(aero_dist_init_ptr_c, aero_dist_init_ptr_f)
     call c_f_pointer(gas_data_ptr_c, gas_data_ptr_f)
     call c_f_pointer(run_exact_opt_ptr_c, run_exact_opt_ptr_f)
-    call run_part( &
+    call run_exact( &
       bin_grid_ptr_f, &
       scenario_ptr_f, &
       env_state_ptr_f, &

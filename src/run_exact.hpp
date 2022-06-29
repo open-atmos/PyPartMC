@@ -30,7 +30,7 @@ void run_exact(
     const AeroState &aero_data,
     const GasData &aero_dist_init,
     const GasState &gas_data,
-    const RunPartOpt &run_exact_opt
+    const RunExactOpt &run_exact_opt
 ) {
     f_run_exact(
         bin_grid.ptr.f_arg(),
