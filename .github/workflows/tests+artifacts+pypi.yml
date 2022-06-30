@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
       - run: pip install -r test-time-requirements.txt
       - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
       - run: pytest -v -s -We -p no:unraisableexception -k 'test_todos_annotated' .
