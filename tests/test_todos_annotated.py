@@ -23,8 +23,8 @@ def findfiles(path, regex):
 def grep(filepath, regex):
     reg_obj = re.compile(regex)
     res = []
-    with open(filepath, encoding="utf8") as f:
-        for line in f:
+    with open(filepath, encoding="utf8") as file_lines:
+        for line in file_lines:
             if reg_obj.match(line):
                 res.append(line)
     return res

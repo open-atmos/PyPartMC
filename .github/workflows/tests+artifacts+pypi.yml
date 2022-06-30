@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
       - run: pip install -r test-time-requirements.txt
       - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
-      - run: pytest -v -s -We -p no:unraisableexception -k 'test_todos_annotated' .
+      - run: pytest -v -s -We -p no:unraisableexception tests/test_todos_annotated.py
 
   build:
     needs: [todos_annotated]
