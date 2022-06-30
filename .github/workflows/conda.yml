@@ -32,4 +32,4 @@ jobs:
       - name: Test with pytest
         run: |
           cd tests
-          pytest -v -s -We -p no:unraisableexception .
+          pytest -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
