@@ -81,7 +81,7 @@ jobs:
           name: dist
           path: dist
 
-      # TODO: should be doable on any OS
+      # TODO #114: should be doable on any OS
       - if: matrix.platform == 'windows-latest' || matrix.platform == 'ubuntu-latest'
         run: |
           pip install dist/*.whl
@@ -97,7 +97,7 @@ jobs:
           python -v -c "import PyPartMC"
           pytest -v -s -We -p no:unraisableexception .
 
-# TODO: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
+# TODO #114: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
 #      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
 #
 #      - run: pytest -v -s -We -p no:unraisableexception tests

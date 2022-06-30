@@ -19,9 +19,6 @@ module PyPartMC_gas_state
     ptr_c = c_loc(ptr_f)
   end subroutine
 
-  ! integer(c_int), intent(in) :: n
-  ! TODO  call gas_state_set_size(ptr_f, n)
-
   subroutine f_gas_state_dtor(ptr_c) bind(C)
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
@@ -79,8 +76,8 @@ module PyPartMC_gas_state
     integer :: ncid
 
     call c_f_pointer(ptr_c, ptr_f)
-    allocate(gas_data)  ! TODO
+    allocate(gas_data)  ! TODO #122
     call gas_state_output_netcdf(ptr_f, ncid, gas_data)
-    deallocate(gas_data)  ! TODO
+    deallocate(gas_data)  ! TODO #122
   end subroutine
 end module

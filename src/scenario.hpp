@@ -35,7 +35,7 @@ struct Scenario {
         ptr(f_scenario_ctor, f_scenario_dtor),
         json(json)
     {
-        gimmick_ptr() = std::make_unique<InputGimmick>(json); // TODO: guard
+        gimmick_ptr() = std::make_unique<InputGimmick>(json); // TODO #117: guard
         f_scenario_from_json(
             gas_data.ptr.f_arg(),
             aero_data.ptr.f_arg(),
