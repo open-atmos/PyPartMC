@@ -18,16 +18,8 @@ jobs:
   build:
     strategy:
       matrix:
-<<<<<<< HEAD
-        platform: [ubuntu-latest, macos-11, macOS-12, windows-latest]
+        platform: [ubuntu-latest, macos-11, macos-12, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
-=======
-        platform: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.8", "3.10"]
-        exclude:
-          - platform: windows-latest
-            python-version: "3.10"
->>>>>>> f1946b56d76a6378b88b11945c2b7b2bce34ed75
     runs-on: ${{ matrix.platform }}
     steps:
       - if: startsWith(matrix.platform, 'macos-')
@@ -81,13 +73,8 @@ jobs:
             python-versions: ${{ env.PV }}
             pre-build-command: 'git config --global --add safe.directory "*"'
 
-<<<<<<< HEAD
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*-linux_*
-=======
-      - if: matrix.platform != 'ubuntu-latest'
-        run: python -m build
->>>>>>> f1946b56d76a6378b88b11945c2b7b2bce34ed75
 
       - if: matrix.platform != 'ubuntu-latest'
         uses: actions/upload-artifact@v2
@@ -95,7 +82,6 @@ jobs:
           name: dist
           path: dist
 
-<<<<<<< HEAD
       # TODO #114: should be doable on any OS
       - if: matrix.platform == 'windows-latest' || matrix.platform == 'ubuntu-latest'
         run: |
@@ -122,24 +108,6 @@ jobs:
 #      - run: pytest -v -s -We -p no:unraisableexception tests
 
 ### uncomment to gain ssh access in case of failure
-=======
-      - if: matrix.platform == 'ubuntu-latest'
-        run: python -c "import sys; vi=sys.version_info; print(f'PV={vi.major}{vi.minor}')" >> $GITHUB_ENV
-
-      - if: matrix.platform == 'ubuntu-latest'
-        uses: RalfG/python-wheels-manylinux-build@v0.4.2
-        with:
-            build-requirements: 'setuptools_scm'
-            python-versions: cp${{ env.PV }}-cp${{ env.PV }}
-            pre-build-command: 'git config --global --add safe.directory "*"'
-
-      - if: matrix.platform == 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: dist/*-manylinux*.whl
-
->>>>>>> f1946b56d76a6378b88b11945c2b7b2bce34ed75
 #      - if: ${{ failure() }}
 #        uses: mxschmitt/action-tmate@v3
 #        with:
