@@ -19,7 +19,7 @@ module netcdf
     nf90_global=-1
 
   interface
-    ! TODO: use C types here?
+    ! TODO #124: use C types here?
     subroutine nf90_put_var_dbl(ncid, varid, values, start, count) bind(C)
       integer, intent(in) :: ncid, varid
       type(double precision), dimension(..), intent(in) :: values
@@ -76,7 +76,7 @@ module netcdf
   function nf90_strerror(ncerr)
     integer, intent(in) :: ncerr
     character(len = 80)  :: nf90_strerror
-    nf90_strerror = "TODO"
+    nf90_strerror = "TODO #125"
   end function
 
   function nf90_put_var_dbl_(ncid, varid, values, start, count)

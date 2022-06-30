@@ -50,7 +50,7 @@ struct Gimmick {
         auto it = this->json->is_array() 
             ? this->json->at(this->json->size()-1).begin()
             : this->json->find(sub);
-        // TODO: handle errors
+        // TODO #112: handle errors
         this->json_parent.push(this->json);
         this->set_current_json_ptr(&(*it));
     }
@@ -65,9 +65,9 @@ struct Gimmick {
         return this->json->begin();
     }
 
-    // TODO: to be removed after initialising GasData with a list, and not JSON?
+    // TODO #112: to be removed after initialising GasData with a list, and not JSON?
     std::string first_field_name() noexcept {
-        // TODO: handle errors
+        // TODO #112: handle errors
         assert(this->json->size() > 0);
         assert(this->json->begin()->size() > 0);
         for (auto &entry : this->json->at(0).items())
@@ -122,12 +122,12 @@ struct Gimmick {
         if (it == this->json->end())
         {
             assert(false);
-            // TODO
+            // TODO #112
             return;
         }
         auto value = it->is_array()
             ? name
-            : it->begin()->get<bpstd::string_view>();  // TODO: is this path used anywhere?
+            : it->begin()->get<bpstd::string_view>();  // TODO #112: is this path used anywhere?
         if ((int)value.size() > *var_size) {
             std::ostringstream oss;
             oss << "provided entry \"" << name << "\" has too many characters";
@@ -152,7 +152,7 @@ struct Gimmick {
                 }
             }
         }
-        // TODO: check size
+        // TODO #112: check size
     }
 
     auto varid(const std::string& name) noexcept {

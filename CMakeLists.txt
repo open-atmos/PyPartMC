@@ -13,11 +13,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# TODO
-#set(CMAKE_Fortran_STANDARD 2008)
-#set(CMAKE_Fortran_STANDARD_REQUIRED YES)
-#set(CMAKE_Fortran_EXTENSIONS OFF)
-
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-fimplicit-none>)
 endif()
@@ -84,7 +79,7 @@ function(scoped_sundials_setup_config)
   set(PROJECT_SOURCE_DIR ${SUNDIALS_SOURCE_DIR})
   set(SUNDIALS_PRECISION "double")
   set(SUNDIALS_CINDEX_TYPE "int64_t")
-  # TODO: read from submodule files!
+  # TODO #111: read from submodule files!
   set(PACKAGE_VERSION_MAJOR "5")
   set(PACKAGE_VERSION_MINOR "8")
   set(PACKAGE_VERSION_PATCH "0")
@@ -143,18 +138,11 @@ endif()
 
 ### pedantics ######################################################################################
 
-foreach(target _PyPartMC)  # TODO: the same for partmclib
+foreach(target _PyPartMC)
   target_compile_options(${target} PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
-    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-compare-reals> # TODO
-    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-dummy-argument> # TODO
-    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-variable>  # TODO
-    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-c-binding-type>  # TODO
-    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-maybe-uninitialized> # TODO
-    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-function-elimination> # TODO
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter> # TODO
-    #$<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-surprising> # TODO
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter> 
   )
 endforeach()
 

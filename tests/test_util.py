@@ -21,5 +21,5 @@ class TestUtil:
 
     @staticmethod
     def test_deg2rad():
-        pass  # TODO
+        pass
 
