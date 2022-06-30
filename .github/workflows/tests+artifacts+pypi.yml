@@ -15,7 +15,16 @@ on:
     types: [published]
 
 jobs:
+  todos_annotated:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: pip install -r test-time-requirements.txt
+      - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
+      - run: pytest -v -s -We -p no:unraisableexception -k 'test_todos_annotated' .
+
   build:
+    needs: [todos_annotated]
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-11, macos-12, windows-latest]
@@ -95,7 +104,7 @@ jobs:
       - run: |
           cd tests
           python -v -c "import PyPartMC"
-          pytest -v -s -We -p no:unraisableexception .
+          pytest -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
 
 # TODO #114: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
 #      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
