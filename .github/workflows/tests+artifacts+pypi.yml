@@ -76,8 +76,7 @@ jobs:
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*-linux_*
 
-      - if: matrix.platform != 'ubuntu-latest'
-        uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v2
         with:
           name: dist
           path: dist
