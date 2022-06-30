@@ -21,7 +21,7 @@ module mpi
     MPI_SUM = -1, &
     MPI_SUCCESS = -1, &
     MPI_ANY_TAG = -1, &
-    MPI_ANY_SOURCE = -1 &
+    MPI_ANY_SOURCE = -1, &
     ! status array indices
     MPI_TAG = 1, &
     MPI_SOURCE = 1 
