@@ -50,7 +50,7 @@ def __build_extension_env():
         for cookie in cookies:
             cookie.close()
 
-# TODO: 2 x loop over prefixes and units
+# TODO #113: 2 x loop over prefixes and units
 si = namedtuple(&#34;SI&#34;, (
     &#34;m&#34;, &#34;cm&#34;, &#34;um&#34;,
     &#34;kg&#34;, &#34;g&#34;,
@@ -66,7 +66,7 @@ si = namedtuple(&#34;SI&#34;, (
     Pa=1., hPa=100.,
     mol=1.
 )
-&#34;&#34;&#34; TODO &#34;&#34;&#34;
+&#34;&#34;&#34; TODO #113 &#34;&#34;&#34;
 
 with __build_extension_env():
     from _PyPartMC import *
