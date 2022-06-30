@@ -3,9 +3,13 @@ import os
 import pathlib
 import re
 import sys
-
+import warnings
 import pytest
-from fastcore.net import ExceptionsHTTP
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore", category=DeprecationWarning)
+    from fastcore.net import ExceptionsHTTP
+
 from ghapi.all import GhApi, paged
 
 

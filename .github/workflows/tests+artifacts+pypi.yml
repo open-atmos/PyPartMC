@@ -107,7 +107,7 @@ jobs:
       ### make sure PyPartMC is not picked up from a local folder
       - run: |
           cd tests
-          python -v -c "import PyPartMC"
+          python -c "import PyPartMC"
           pytest -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
 
 # TODO #114: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
