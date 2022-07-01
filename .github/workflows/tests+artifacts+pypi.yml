@@ -30,13 +30,8 @@ jobs:
     needs: [todos_annotated]
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-11, macos-12, windows-latest]
+        platform: [ubuntu-latest, macos-10, macos-12, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
-        exclude:
-          - platform: macos-11
-            python-version: "3.7"
-          - platform: macos-11
-            python-version: "3.8"
     runs-on: ${{ matrix.platform }}
     steps:
       - if: startsWith(matrix.platform, 'macos-')
