@@ -19,7 +19,7 @@ void put_var(
   const int &count
 ) {
   std::cerr << "C++ put_var<T> ..." << std::endl;
-  //get_fake_netcdf_json() = std::make_unique<nlohmann::json>(nlohmann::json{{"aqq", 44}}); // TODO!
+  //get_fake_netcdf_json() = std::make_unique<nlohmann::json>(nlohmann::json{{"aqq", 44}}); // TODO #126!
 }
 
 extern "C" 
@@ -37,7 +37,7 @@ extern "C"
 void nf90_put_var_int(
   const int *ncid,
   const int *varid,
-  const int *values, // TODO: fortran type
+  const int *values, // TODO #126: fortran type
   const int *start,
   const int *count
 ) {
@@ -66,7 +66,7 @@ extern "C" void nf90_get_var_dbl(
 }
 
 extern "C" 
-void nf90_get_var_int(const int *ncid, const int *varid, const int *values, // TODO: fortran type
+void nf90_get_var_int(const int *ncid, const int *varid, const int *values, // TODO #126: fortran type
   const int *start,
   const int *count
 ) {
@@ -80,6 +80,6 @@ void inq_varid(const int &ncid, const std::string &name, int *varid) {
 
 extern "C" 
 void nf90_inq_varid_str(const int *ncid, const char *name_data, int *name_size, int *varid) {
-    inq_varid(*ncid, std::string(name_data, *name_size), varid); // TODO: change into string_view?
+    inq_varid(*ncid, std::string(name_data, *name_size), varid); // TODO #126: change into string_view?
 }
 

@@ -101,7 +101,7 @@ module pmc_spec_file
         allocate(names(n_rows))
         allocate(vals(n_rows, n_cols))
         allocate(vals_row(n_cols))
-        ! TODO: handle max_lines
+        ! TODO #112: handle max_lines
         do row = 1, n_rows
             name_size = len(names(row))
             call c_spec_file_read_real_named_array_data( &
@@ -142,7 +142,7 @@ module pmc_spec_file
     subroutine spec_file_read_line_no_eof(file, line)
         type(spec_file_t), intent(inout) :: file
         type(spec_line_t), intent(inout) :: line
-        ! TODO!
+        ! TODO #112: deallocate!
         allocate(line%data(1))
         line%data(1) = "dist"
     end subroutine
@@ -176,7 +176,7 @@ module pmc_spec_file
         type(spec_file_t), intent(inout) :: file
         type(spec_line_t), intent(inout) :: line
         logical, intent(out) :: eof
-        ! TODO!
+        ! TODO #112!
         eof = .true.
     end subroutine 
 

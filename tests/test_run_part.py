@@ -29,7 +29,7 @@ class TestRunPart:
         ppmc.run_part(scenario, env_state, aero_data, aero_state, gas_data, gas_state, run_part_opt)
 
         # assert
-        pass  # TODO
+        pass
 
     @staticmethod
     def test_todo():

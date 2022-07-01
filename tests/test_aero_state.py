@@ -24,7 +24,7 @@ class TestAeroState:
         assert sut is not None
 
     @staticmethod
-    @pytest.mark.xfail(strict=True)  # TODO
+    @pytest.mark.xfail(strict=True)  # TODO #116
     @pytest.mark.parametrize("n_part", (1, 44, 666))
     def test_len(n_part):
         # arrange
