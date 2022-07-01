@@ -94,15 +94,9 @@ jobs:
           name: dist
           path: dist
 
-      # TODO #114: should be doable on any OS
-      - if: matrix.platform == 'windows-latest' || matrix.platform == 'ubuntu-latest'
-        run: |
+      - run: |
           pip install dist/*.whl
           pip show --verbose PyPartMC
-
-      - if: startsWith(matrix.platform, 'macos-')
-        run: |
-          DEBUG=0 VERBOSE=1 pip install --verbose -e .
 
       ### make sure PyPartMC is not picked up from a local folder
       - run: |
