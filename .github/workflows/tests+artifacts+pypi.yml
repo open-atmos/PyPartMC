@@ -95,6 +95,7 @@ jobs:
           path: dist
 
       - run: |
+          python -c "import wheel.pep425tags as w; print('\n'.join(['-'.join(p) for p in w.get_supported()]))"
           pip install dist/*.whl
           pip show --verbose PyPartMC
 
