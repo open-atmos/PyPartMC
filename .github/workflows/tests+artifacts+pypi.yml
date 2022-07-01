@@ -66,6 +66,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - run: pip install --upgrade pip
       - run: pip install build wheel
       - run: pip install -r test-time-requirements.txt
 
