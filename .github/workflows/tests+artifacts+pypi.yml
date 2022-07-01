@@ -34,6 +34,8 @@ jobs:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         exclude:
           - platform: macos-11
+            python-version: "3.7"
+          - platform: macos-11
             python-version: "3.8"
     runs-on: ${{ matrix.platform }}
     steps:
