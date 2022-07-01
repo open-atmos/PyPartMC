@@ -70,4 +70,51 @@ module PyPartMC_bin_grid
     arr_data = bin_grid%centers
   end subroutine
 
+  subroutine f_bin_grid_histogram_1d(x_bin_grid_ptr_c, x_data, weight_data, &
+       arr_size, output_data, bin_grid_size) bind(C)
+
+    type(c_ptr), intent(in) :: x_bin_grid_ptr_c
+    type(bin_grid_t), pointer :: bin_grid => null()
+    integer(c_int), intent(in) :: arr_size
+    integer(c_int), intent(in) :: bin_grid_size
+    real(c_double), dimension(bin_grid_size) :: output_data
+    real(c_double), dimension(arr_size) :: x_data
+    real(c_double), dimension(arr_size) :: weight_data
+
+    call c_f_pointer(x_bin_grid_ptr_c, bin_grid)
+    output_data = bin_grid_histogram_1d(bin_grid, x_data, weight_data)
+
+  end subroutine
+
+  subroutine f_bin_grid_histogram_2d(x_bin_grid_ptr_c, x_data, &
+       y_bin_grid_ptr_c, y_data, weight_data, &
+       arr_size, output_data, x_bin_grid_size, y_bin_grid_size) bind(C)
+
+    type(c_ptr), intent(in) :: x_bin_grid_ptr_c
+    type(c_ptr), intent(in) :: y_bin_grid_ptr_c
+    type(bin_grid_t), pointer :: x_bin_grid => null()
+    type(bin_grid_t), pointer :: y_bin_grid => null()
+    integer(c_int), intent(in) :: arr_size
+    integer(c_int), intent(in) :: x_bin_grid_size
+    integer(c_int), intent(in) :: y_bin_grid_size
+    real(c_double), dimension(x_bin_grid_size*y_bin_grid_size), intent(out) :: output_data
+    real(c_double), dimension(arr_size), intent(in) :: x_data, y_data
+    real(c_double), dimension(arr_size), intent(in) :: weight_data
+    real(c_double), allocatable :: output_data_local(:,:)
+    integer :: i, j
+
+    call c_f_pointer(x_bin_grid_ptr_c, x_bin_grid)
+    call c_f_pointer(y_bin_grid_ptr_c, y_bin_grid)
+    allocate(output_data_local(x_bin_grid_size,y_bin_grid_size))
+    output_data_local = bin_grid_histogram_2d(x_bin_grid, x_data, y_bin_grid, & 
+         y_data, weight_data)
+
+    do i = 1,x_bin_grid_size
+    do j = 1,y_bin_grid_size
+       output_data((i-1)*y_bin_grid_size + j) = output_data_local(i,j)
+    end do
+    end do
+
+  end subroutine
+
 end module
