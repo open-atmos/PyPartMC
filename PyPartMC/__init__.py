@@ -22,7 +22,7 @@ def __build_extension_env():
         for cookie in cookies:
             cookie.close()
 
-# TODO: 2 x loop over prefixes and units
+# TODO #113: 2 x loop over prefixes and units
 si = namedtuple("SI", (
     "m", "cm", "um", "nm",
     "kg", "g",
@@ -38,7 +38,7 @@ si = namedtuple("SI", (
     Pa=1., hPa=100.,
     mol=1.
 )
-""" TODO """
+""" TODO #113 """
 
 with __build_extension_env():
     from _PyPartMC import *

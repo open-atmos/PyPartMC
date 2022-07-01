@@ -31,40 +31,30 @@ struct GasState {
         //f_gas_state_set_size(this->ptr.f_arg(), &n);
         if (n != 0) f_gas_state_from_json(this->ptr.f_arg());
 
-        gimmick_ptr().reset(); // TODO: guard
+        gimmick_ptr().reset(); // TODO #117: guard
     }
 
     static void set_item(const GasState &self, const int &idx, const double &val) {
         if (idx < 0 || idx >= (int)__len__(self))
-            throw std::out_of_range("TODO");
+            throw std::out_of_range("TODO #118");
         f_gas_state_set_item(&self.ptr, &idx, &val);
     }
 
-    //static void set_items(const GasState &self, const py::slice &idx, const py::array_t<double> &vals) {
-    //    throw std::runtime_error("TODO");
-    //}
-
     static double get_item(const GasState &self, const int &idx) {
         if (idx < 0 || idx >= (int)__len__(self))
-            throw std::out_of_range("TODO");
+            throw std::out_of_range("TODO #118");
         double value;
         f_gas_state_get_item(&self.ptr, &idx, &value);
         return value;
     }
 
-    //static py::array_t<double> get_items(const GasState &self, const py::slice &idx) {
-    //    throw std::runtime_error("TODO");
-        //f_get_item(self.ptr, &arr);
-        //return py::array_t<double>();
-    //}
-
     static std::string __str__(const GasState &self) {
-        gimmick_ptr() = std::make_unique<OutputGimmick>(); // TODO: guard
+        gimmick_ptr() = std::make_unique<OutputGimmick>(); // TODO #117: guard
 
         f_gas_state_to_json(&self.ptr);
         auto str = gimmick_ptr()->str();
 
-        gimmick_ptr().reset(); // TODO: guard
+        gimmick_ptr().reset(); // TODO #117: guard
         return str;
     }
 

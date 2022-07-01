@@ -24,7 +24,7 @@ jobs:
         run: |
           pip install pdoc3
           pip install -e .
-          # TODO: add -We
+          # FIXME #23: add -We
           python -m pdoc --html PyPartMC
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' && matrix.platform == 'ubuntu-latest' }}

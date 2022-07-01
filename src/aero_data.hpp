@@ -22,7 +22,7 @@ struct AeroData {
     {
         gimmick_ptr() = std::make_unique<InputGimmick>(json);
         f_aero_data_from_json(this->ptr.f_arg());
-        gimmick_ptr().reset(); // TODO: guard
+        gimmick_ptr().reset(); // TODO #117: guard
     }
 
     static int spec_by_name(const AeroData &self, const std::string &name) {

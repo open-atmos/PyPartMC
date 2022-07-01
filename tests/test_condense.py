@@ -26,7 +26,7 @@ class TestCondense:
         ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
 
         # assert
-        pass  # TODO
+        pass
 
     @staticmethod
     def test_equilib_particle():

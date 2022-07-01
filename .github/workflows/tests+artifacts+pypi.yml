@@ -15,10 +15,22 @@ on:
     types: [published]
 
 jobs:
+  todos_annotated:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
+      - run: pip install -r test-time-requirements.txt
+      - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
+      - run: pytest -v -s -We -p no:unraisableexception tests/test_todos_annotated.py
+
   build:
+    needs: [todos_annotated]
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-11, macOS-12, windows-latest]
+        platform: [ubuntu-latest, macos-11, macos-12, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
     runs-on: ${{ matrix.platform }}
     steps:
@@ -54,7 +66,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install pytest build wheel
+      - run: pip install build wheel
+      - run: pip install -r test-time-requirements.txt
 
       - run: |
           python -m build 2>&1 | tee build.log
@@ -81,7 +94,7 @@ jobs:
           name: dist
           path: dist
 
-      # TODO: should be doable on any OS
+      # TODO #114: should be doable on any OS
       - if: matrix.platform == 'windows-latest' || matrix.platform == 'ubuntu-latest'
         run: |
           pip install dist/*.whl
@@ -94,10 +107,10 @@ jobs:
       ### make sure PyPartMC is not picked up from a local folder
       - run: |
           cd tests
-          python -v -c "import PyPartMC"
-          pytest -v -s -We -p no:unraisableexception .
+          python -c "import PyPartMC"
+          pytest -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
 
-# TODO: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
+# TODO #114: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
 #      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
 #
 #      - run: pytest -v -s -We -p no:unraisableexception tests
