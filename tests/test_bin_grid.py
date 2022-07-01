@@ -177,7 +177,11 @@ class TestBinGrid:
             bins=[x_grid.edges, y_grid.edges],
             weights=weights
         )
-        cell_size = np.log(bin_edges_x[1] / bin_edges_x[0]) * np.log(bin_edges_y[1] / bin_edges_y[0])
+        cell_size = np.log(
+            bin_edges_x[1] / bin_edges_x[0]
+        ) * np.log(
+            bin_edges_y[1] / bin_edges_y[0]
+        )
 
         # act
         data = ppmc.histogram_2d(x_grid, x_vals, y_grid, y_vals, weights)
