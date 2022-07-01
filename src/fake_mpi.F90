@@ -20,10 +20,11 @@ module mpi
     MPI_MAX = -1, &
     MPI_SUM = -1, &
     MPI_SUCCESS = -1, &
-    MPI_TAG = 1, &  ! TODO this is used as status array index
     MPI_ANY_TAG = -1, &
-    MPI_SOURCE = 1, & ! TODO this is used as status array index
-    MPI_ANY_SOURCE = -1
+    MPI_ANY_SOURCE = -1, &
+    ! status array indices
+    MPI_TAG = 1, &
+    MPI_SOURCE = 1 
 
   interface
     subroutine mpi_abort(comm, errorcode, ierror) bind(C)

@@ -205,7 +205,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property_readonly("edges", BinGrid::edges)
         .def_property_readonly("centers", BinGrid::centers)
     ;
-    //  TODO: auto util = m.def_submodule("util", "TODO");
+    //  TODO #120: auto util = m.def_submodule("util", "...");
     m.def(
         "pow2_above", &pow2_above, py::return_value_policy::copy,
         "Return the least power-of-2 that is at least equal to n."

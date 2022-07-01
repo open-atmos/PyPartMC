@@ -82,11 +82,10 @@ module PyPartMC_aero_state
 
     call aero_state_add_aero_dist_sample(ptr_f, aero_data_ptr_f, &
            aero_dist_init, 1d0, 0d0, &
-           .true., & ! TODO run_part_opt%allow_doubling, &
-           .true., & ! TODO run_part_opt%allow_halving)
+           .true., & ! TODO #121 run_part_opt%allow_doubling, &
+           .true., & ! TODO #121 run_part_opt%allow_halving)
            n_part_added)
     end if
-
   end subroutine
 
   subroutine f_aero_state_len(ptr_c, len) bind(C)

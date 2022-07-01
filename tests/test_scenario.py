@@ -44,7 +44,7 @@ class TestScenario:
                     {'pressure': [1,2,3]}
                 ],
                 'height_profile': [
-                    {'time': [0,1,2, 3, 4]}, # TODO: should be caught
+                    {'time': [0,1,2, 3, 4]}, # TODO #115: should be caught
                     {'height': [1,2,3]}
                 ],
                 'gas_emissions': [
