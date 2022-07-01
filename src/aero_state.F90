@@ -144,7 +144,7 @@ module PyPartMC_aero_state
 
   end subroutine
 
-  ! FIXME: add include and exclude 
+  ! TODO #130: add include and exclude 
   subroutine f_aero_state_masses(ptr_c, aero_data_ptr_c, masses, n_parts) &
        bind(C) 
 
@@ -193,7 +193,7 @@ module PyPartMC_aero_state
 
   end subroutine
 
-  ! FIXME: add include and exclude
+  ! TODO #130: add include and exclude
   subroutine f_aero_state_volumes(ptr_c, aero_data_ptr_c, volumes, n_parts) &
        bind(C)
 
@@ -230,7 +230,7 @@ module PyPartMC_aero_state
 
   end subroutine
 
-  ! FIXME: Add include, exclude, group and groups
+  ! TODO #130: Add include, exclude, group and groups
   subroutine f_aero_state_mixing_state_metrics(ptr_c, aero_data_ptr_c, & 
        d_alpha, d_gamma, chi) bind(C) !, include, exclude, group, groups)&
 
