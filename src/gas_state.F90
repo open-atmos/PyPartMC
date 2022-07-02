@@ -80,4 +80,16 @@ module PyPartMC_gas_state
     call gas_state_output_netcdf(ptr_f, ncid, gas_data)
     deallocate(gas_data)  ! TODO #122
   end subroutine
+
+  subroutine f_gas_state_set_size(ptr_c, gas_data_ptr_c) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(c_ptr), intent(in) :: gas_data_ptr_c
+    type(gas_state_t), pointer :: ptr_f => null()
+    type(gas_data_t), pointer :: gas_data_ptr_f => null()
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(gas_data_ptr_c, gas_data_ptr_f)
+    call gas_state_set_size(ptr_f, gas_data_n_spec(gas_data_ptr_f))
+
+  end subroutine
 end module

@@ -54,7 +54,7 @@ module PyPartMC_gas_data
       integer(c_int), intent(in) :: name_size
       integer(c_int) :: value
 
-      character(len=name_size), allocatable:: name
+      character(len=name_size) :: name
 
       call c_f_pointer(ptr_c, ptr_f)
       name = name_data(1:name_size) 
