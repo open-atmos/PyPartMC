@@ -46,4 +46,20 @@ module PyPartMC_gas_data
         call spec_file_read_gas_data(nofile, ptr_f)
     end subroutine
 
+    subroutine f_gas_data_spec_by_name(ptr_c, value, name_data, name_size) &
+         bind(C)
+      type(gas_data_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(in) :: ptr_c
+      character(kind=c_char), intent(in) :: name_data
+      integer(c_int), intent(in) :: name_size
+      integer(c_int) :: value
+
+      character(len=name_size), allocatable:: name
+
+      call c_f_pointer(ptr_c, ptr_f)
+      name = name_data(1:name_size) 
+      value = gas_data_spec_by_name(ptr_f, name)
+
+    end subroutine
+
 end module

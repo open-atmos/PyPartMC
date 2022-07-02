@@ -99,6 +99,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("__len__", GasData::__len__)
         .def("__str__", GasData::__str__,
             "returns a string with JSON representation of the object")
+        .def("spec_by_name", GasData::spec_by_name,
+            "returns the number of the species in gas with the given name")
     ;
 
     py::class_<EnvState>(m,

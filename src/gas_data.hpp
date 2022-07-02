@@ -14,6 +14,8 @@ extern "C" void f_gas_data_dtor(void *ptr) noexcept;
 extern "C" void f_gas_data_len(const void *ptr, int *len) noexcept;
 extern "C" void f_gas_data_from_json(const void *ptr) noexcept;
 extern "C" void f_gas_data_to_json(const void *ptr) noexcept;
+extern "C" void f_gas_data_spec_by_name(const void *ptr, int *value, const char *name_data,
+    const int *name_size) noexcept;
 
 struct GasData {
     PMCResource ptr;
@@ -43,6 +45,14 @@ struct GasData {
         int len;
         f_gas_data_len(&self.ptr, &len);
         return len;
-    }   
+    }
+
+    static int spec_by_name(const GasData &self, const std::string &name) {
+        int value;
+        const int name_size = name.size();
+        f_gas_data_spec_by_name(&self.ptr, &value, name.c_str(), &name_size);
+        if (value==0) throw std::runtime_error("Element not found.");
+       return value-1;
+    }
 };
 
