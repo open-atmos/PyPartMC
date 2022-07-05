@@ -30,8 +30,15 @@ jobs:
     needs: [todos_annotated]
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-11, macos-12, windows-latest]
+        platform: [ubuntu-latest, macos-10.15, macos-12, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
+        exclude:
+          - platform: macos-12
+            python-version: "3.7"
+          - platform: macos-12
+            python-version: "3.8"
+          - platform: macos-12
+            python-version: "3.9"
     runs-on: ${{ matrix.platform }}
     steps:
       - if: startsWith(matrix.platform, 'macos-')
@@ -66,7 +73,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install build wheel
+      - run: pip install --upgrade pip build wheel
       - run: pip install -r test-time-requirements.txt
 
       - run: |
@@ -94,15 +101,10 @@ jobs:
           name: dist
           path: dist
 
-      # TODO #114: should be doable on any OS
-      - if: matrix.platform == 'windows-latest' || matrix.platform == 'ubuntu-latest'
-        run: |
+      - run: |
+          pip debug --verbose
           pip install dist/*.whl
           pip show --verbose PyPartMC
-
-      - if: startsWith(matrix.platform, 'macos-')
-        run: |
-          DEBUG=0 VERBOSE=1 pip install --verbose -e .
 
       ### make sure PyPartMC is not picked up from a local folder
       - run: |
