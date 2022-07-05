@@ -34,6 +34,7 @@ class TestCondense:
         env_state_ctor_arg = ENV_STATE_CTOR_ARG_MINIMAL
         env_state_ctor_arg["rel_humid"] = .99
         env_state = ppmc.EnvState(env_state_ctor_arg)
+        env_state.set_temperature(300)
         aero_data = ppmc.AeroData((
             {"H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
