@@ -110,15 +110,6 @@ jobs:
           python -c "import PyPartMC"
           pytest -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
 
-# TODO #114: worth checking but perhaps in a separater workflow? (here conflicts with build dir created for manylinux by other user)
-#      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
-#
-#      - run: pytest -v -s -We -p no:unraisableexception tests
-#
-#      - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
-#
-#      - run: pytest -v -s -We -p no:unraisableexception tests
-
 ### uncomment to gain ssh access in case of failure
 #      - if: ${{ failure() }}
 #        uses: mxschmitt/action-tmate@v3
