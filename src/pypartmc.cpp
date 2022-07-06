@@ -68,6 +68,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def(py::init<const nlohmann::json&>())
         .def("spec_by_name", AeroData::spec_by_name)
         .def("__len__", AeroData::__len__)
+        .def_property("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim)
+        .def_property("vol_fill_factor", &AeroData::get_vol_fill_factor, &AeroData::set_vol_fill_factor)
 
     ;
 

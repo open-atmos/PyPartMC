@@ -14,6 +14,10 @@ extern "C" void f_aero_data_dtor(void *ptr) noexcept;
 extern "C" void f_aero_data_from_json(const void *ptr) noexcept;
 extern "C" void f_aero_data_spec_by_name(const void *ptr, int *value, const char *name_data, const int *name_size) noexcept;
 extern "C" void f_aero_data_len(const void *ptr, int *len) noexcept;
+extern "C" void f_aero_data_set_frac_dim(void *ptr, const double*) noexcept;
+extern "C" void f_aero_data_get_frac_dim(const void *ptr, double*) noexcept;
+extern "C" void f_aero_data_set_vol_fill_factor(void *ptr, const double*) noexcept;
+extern "C" void f_aero_data_get_vol_fill_factor(const void *ptr, double*) noexcept;
 struct AeroData {
     PMCResource ptr;
 
@@ -37,6 +41,26 @@ struct AeroData {
         int len;
         f_aero_data_len(&self.ptr, &len);
         return len;
+    }
+
+    static void set_frac_dim(AeroData &self, const double value) {
+        f_aero_data_set_frac_dim(&self.ptr, &value);
+    }
+
+    static double get_frac_dim(const AeroData &self) {
+        double value;
+        f_aero_data_get_frac_dim(&self.ptr, &value);
+        return value;
+    }
+
+    static void set_vol_fill_factor(AeroData &self, const double value) {
+        f_aero_data_set_vol_fill_factor(&self.ptr, &value);
+    }
+
+    static double get_vol_fill_factor(const AeroData &self) {
+        double value;
+        f_aero_data_get_vol_fill_factor(&self.ptr, &value);
+        return value;
     }
 };
 

@@ -56,3 +56,27 @@ class TestAeroData:
 
         #assert
         assert value == len(AERO_DATA_CTOR_ARG_MINIMAL)
+
+    @staticmethod
+    def test_frac_dim():
+        #arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        value = 3
+
+        #act
+        sut.frac_dim = value
+
+        #assert
+        assert value == sut.frac_dim
+
+    @staticmethod
+    def test_vol_fill_factor():
+        #arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        value = 1
+
+        #act
+        sut.vol_fill_factor = value
+
+        #assert
+        assert value == sut.vol_fill_factor

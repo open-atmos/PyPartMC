@@ -40,6 +40,8 @@ class TestCondense:
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
             {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         ))
+        aero_data.frac_dim = 3
+        aero_data.vol_fill_factor = 1
         aero_particle = ppmc.AeroParticle(aero_data, [0, 1000 * si.nm**3, 1000 * si.nm**3])
 
         # act

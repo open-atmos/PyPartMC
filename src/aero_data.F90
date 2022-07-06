@@ -33,9 +33,6 @@ module PyPartMC_aero_data
     type(spec_file_t) :: file
     call c_f_pointer(ptr_c, ptr_f)
     call spec_file_read_aero_data(file, ptr_f)
-    !!!TODO #100
-    ptr_f%fractal%frac_dim = 3d0
-    ptr_f%fractal%vol_fill_factor = 1d0
   end subroutine
 
   subroutine f_aero_data_spec_by_name(ptr_c, value, name_data, name_size) bind(C)
@@ -61,5 +58,49 @@ module PyPartMC_aero_data
     call c_f_pointer(ptr_c, ptr_f)
     len = aero_data_n_spec(ptr_f)
   end subroutine
+
+  subroutine f_aero_data_set_frac_dim(ptr_c, frac_dim) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(in) :: frac_dim
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    ptr_f%fractal%frac_dim = frac_dim
+
+end subroutine
+
+subroutine f_aero_data_get_frac_dim(ptr_c, frac_dim) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(out) :: frac_dim
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    frac_dim = ptr_f%fractal%frac_dim
+
+end subroutine
+
+subroutine f_aero_data_set_vol_fill_factor(ptr_c, vol_fill_factor) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(in) :: vol_fill_factor
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    ptr_f%fractal%vol_fill_factor = vol_fill_factor
+
+end subroutine
+
+subroutine f_aero_data_get_vol_fill_factor(ptr_c, vol_fill_factor) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(out) :: vol_fill_factor
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    vol_fill_factor = ptr_f%fractal%vol_fill_factor
+
+end subroutine
 
 end module
