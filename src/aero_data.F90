@@ -103,4 +103,26 @@ subroutine f_aero_data_get_vol_fill_factor(ptr_c, vol_fill_factor) bind(C)
 
 end subroutine
 
+subroutine f_aero_data_set_prime_radius(ptr_c, prime_radius) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(in) :: prime_radius
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    ptr_f%fractal%prime_radius = prime_radius
+
+end subroutine
+
+subroutine f_aero_data_get_prime_radius(ptr_c, prime_radius) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(out) :: prime_radius
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    prime_radius = ptr_f%fractal%prime_radius
+
+end subroutine
+
 end module
