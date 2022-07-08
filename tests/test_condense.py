@@ -6,6 +6,7 @@
 
 import numpy as np
 import PyPartMC as ppmc
+import pytest
 from PyPartMC import si
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
@@ -29,7 +30,10 @@ class TestCondense:
         pass
 
     @staticmethod
-    def test_equilib_particle():
+    @pytest.mark.parametrize("aero_data_params", (
+        {"frac_dim": 3, "vol_fill_factor": 1},
+        {"frac_dim": 2.5, "vol_fill_factor": 1.1, "prime_radius": 1e-8}))
+    def test_equilib_particle(aero_data_params:dict):
         # arrange
         env_state_ctor_arg = ENV_STATE_CTOR_ARG_MINIMAL
         env_state_ctor_arg["rel_humid"] = .99
@@ -40,8 +44,8 @@ class TestCondense:
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
             {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         ))
-        aero_data.frac_dim = 3
-        aero_data.vol_fill_factor = 1
+        for key,value in aero_data_params.items():
+            setattr(aero_data, key, value)
         aero_particle = ppmc.AeroParticle(aero_data, [0, 1000 * si.nm**3, 1000 * si.nm**3])
 
         # act
