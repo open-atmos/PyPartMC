@@ -5,8 +5,8 @@
 ####################################################################################################
 
 import numpy as np
-import PyPartMC as ppmc
 import pytest
+import PyPartMC as ppmc
 from PyPartMC import si
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
