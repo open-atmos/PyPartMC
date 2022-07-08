@@ -80,3 +80,15 @@ class TestAeroData:
 
         #assert
         assert value == sut.vol_fill_factor
+
+    @staticmethod
+    def test_prime_radius():
+        #arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        value = 44
+
+        #act
+        sut.prime_radius = value
+
+        #assert
+        assert value == sut.prime_radius
