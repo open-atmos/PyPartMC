@@ -37,8 +37,8 @@ PYBIND11_MODULE(PyPartMC, m) {
     )pbdoc");
 
     // TODO #65
-    //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
-    //m.def("run_exact", &run_exact, "Do an exact solution simulation.");
+    m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
+    m.def("run_exact", &run_exact, "Do an exact solution simulation.");
 
     py::class_<AeroData>(m, "AeroData",
         R"pbdoc(
