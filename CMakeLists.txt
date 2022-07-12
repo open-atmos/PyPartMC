@@ -15,6 +15,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-fimplicit-none>)
+  add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-ffixed-line-length-none>)
 endif()
 
 macro(add_prefix prefix rootlist)
@@ -34,6 +35,23 @@ set(PyPartMC_sources
 )
 add_prefix(src/ PyPartMC_sources)
 
+set(camp_sources
+  util.F90 constants.F90 mpi.F90
+  env_state.F90
+  rand.F90
+  property.F90 chem_spec_data.F90
+  rxn_data.F90 camp_state.F90 mechanism_data.F90
+  camp_core.F90 camp_solver_data.F90 aero_rep_data.F90
+  aero_phase_data.F90 aero_rep_factory.F90
+  rxn_factory.F90 sub_model_data.F90 sub_model_factory.F90
+  solver_stats.F90
+  debug_diff_check.F90 aero_reps/aero_rep_modal_binned_mass.F90
+  aero_reps/aero_rep_single_particle.F90
+  aero_reps/aero_rep_modal_binned_mass.c
+  aero_reps/aero_rep_single_particle.c
+)
+add_prefix(gitmodules/camp/src/ camp_sources)
+
 set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 integer_rmap.F90 
   integer_rmap2.F90 aero_sorted.F90 aero_binned.F90 bin_grid.F90 constants.F90 scenario.F90
   env_state.F90 aero_mode.F90 aero_dist.F90 aero_weight.F90 aero_weight_array.F90 
@@ -47,6 +65,7 @@ set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 intege
 )
 add_prefix(gitmodules/partmc/src/ partmclib_SOURCES)
 list(APPEND partmclib_SOURCES src/fake_mpi.F90 src/fake_netcdf.F90 src/fake_spec_file.F90)
+list(APPEND partmclib_SOURCES ${camp_sources})
 
 ### SUNDIALS #######################################################################################
 
@@ -111,6 +130,7 @@ add_prefix(sundials_ SUNDIALS_items)
 add_library(partmclib STATIC ${partmclib_SOURCES})
 target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
 target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
+target_compile_definitions(partmclib PRIVATE PMC_USE_CAMP="1")
 add_dependencies(partmclib ${SUNDIALS_items})
 target_include_directories(partmclib PRIVATE ${SUNDIALS_SOURCE_DIR}/include)
 target_include_directories(partmclib PRIVATE ${CMAKE_BINARY_DIR}/include)
