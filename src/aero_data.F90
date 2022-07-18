@@ -137,4 +137,16 @@ subroutine f_aero_data_rad2vol(ptr_c, radius, vol) bind(C)
 
 end subroutine
 
+subroutine f_aero_data_vol2rad(ptr_c, vol, radius) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(in) :: vol
+    real(c_double), intent(out) :: radius
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    radius = aero_data_vol2rad(ptr_f, vol)
+
+end subroutine
+
 end module

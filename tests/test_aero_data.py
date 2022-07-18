@@ -128,3 +128,38 @@ class TestAeroData:
         # assert
         np.testing.assert_almost_equal(value, (4/3)*np.pi*(sut.prime_radius)**3 *
             (radius/sut.prime_radius)**sut.frac_dim / sut.vol_fill_factor)
+
+    @staticmethod
+    def test_vol2rad_sphere():
+        # arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        vol = 4.19e-18
+        sut.frac_dim = 3.0
+        sut.vol_fill_factor = 1.0
+        sut.prime_radius = 1e-8
+
+        # act
+        value  = sut.vol2rad(vol)
+
+        # assert
+        np.testing.assert_almost_equal(value, 1e-6)
+
+    @staticmethod
+    @pytest.mark.parametrize("aero_data_params", (
+        {"frac_dim": 2.4, "vol_fill_factor": 1.2, 'prime_radius': 1e-7},
+        {"frac_dim": 2.5, "vol_fill_factor": 1.1, "prime_radius": 1e-8},
+        {"frac_dim": 2.2, "vol_fill_factor": 1.3, 'prime_radius': 1e-6}))
+    def test_vol2rad_fractal(aero_data_params:dict):
+        #arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        vol = 4.19e-18
+        for key,value in aero_data_params.items():
+            setattr(sut, key, value)
+
+        # act
+        value = sut.vol2rad(vol)
+
+        # assert
+        np.testing.assert_almost_equal(value, sut.prime_radius *
+            (((3*vol/4/np.pi)**(1/3)/sut.prime_radius)**3 * sut.vol_fill_factor)**
+            (1/sut.frac_dim))

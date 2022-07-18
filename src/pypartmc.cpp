@@ -73,6 +73,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius)
         .def("rad2vol", AeroData::rad2vol,
             "Convert geometric radius to mass-equivalent volume")
+        .def("vol2rad", AeroData::vol2rad,
+            "Convert mass-equivalent volume to geometric radius")
     ;
 
     py::class_<AeroParticle>(m, "AeroParticle",

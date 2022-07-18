@@ -21,6 +21,8 @@ extern "C" void f_aero_data_get_vol_fill_factor(const void *ptr, double*) noexce
 extern "C" void f_aero_data_set_prime_radius(void *ptr, const double*) noexcept;
 extern "C" void f_aero_data_get_prime_radius(const void *ptr, double*) noexcept;
 extern "C" void f_aero_data_rad2vol(const void *ptr, const double*, double*) noexcept;
+extern "C" void f_aero_data_vol2rad(const void *ptr, const double*, double*) noexcept;
+
 struct AeroData {
     PMCResource ptr;
 
@@ -81,5 +83,12 @@ struct AeroData {
         f_aero_data_rad2vol(&self.ptr, &radius, &vol);
         return vol;
     }
+
+    static double vol2rad(const AeroData &self, const double vol) {
+        double radius;
+        f_aero_data_vol2rad(&self.ptr, &vol, &radius);
+        return radius;
+    }
+
 };
 
