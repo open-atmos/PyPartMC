@@ -4,6 +4,8 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import numpy as np
+import pytest
 import PyPartMC as ppmc
 from PyPartMC import si
 
@@ -25,21 +27,21 @@ class TestAeroData:
 
     @staticmethod
     def test_spec_by_name_found():
-        #arrange
+        # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
-        #act
+        # act
         value = sut.spec_by_name("H2O")
 
-        #assert
+        # assert
         assert value == 0
 
     @staticmethod
     def test_spec_by_name_not_found():
-        #arrange
+        # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
-        #act and assert
+        # act and assert
         try:
             _ = sut.spec_by_name("XXX")
             assert False
@@ -48,47 +50,81 @@ class TestAeroData:
 
     @staticmethod
     def test_len():
-        #arrange
+        # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
-        #act
+        # act
         value = len(sut)
 
-        #assert
+        # assert
         assert value == len(AERO_DATA_CTOR_ARG_MINIMAL)
 
     @staticmethod
     def test_frac_dim():
-        #arrange
+        # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         value = 3
 
-        #act
+        # act
         sut.frac_dim = value
 
-        #assert
+        # assert
         assert value == sut.frac_dim
 
     @staticmethod
     def test_vol_fill_factor():
-        #arrange
+        # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         value = 1
 
-        #act
+        # act
         sut.vol_fill_factor = value
 
-        #assert
+        # assert
         assert value == sut.vol_fill_factor
 
     @staticmethod
     def test_prime_radius():
-        #arrange
+        # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         value = 44
 
-        #act
+        # act
         sut.prime_radius = value
 
-        #assert
+        # assert
         assert value == sut.prime_radius
+
+    @staticmethod
+    def test_rad2vol_sphere():
+        # arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        radius = 1e-6
+        sut.frac_dim = 3.0
+        sut.vol_fill_factor = 1.0
+        sut.prime_radius = 1e-8
+
+        # act
+        value = sut.rad2vol(radius)
+
+        # assert
+        np.testing.assert_almost_equal(value,(4/3)*np.pi*(radius)**3)
+
+    @staticmethod
+    @pytest.mark.parametrize("aero_data_params", (
+        {"frac_dim": 2.4, "vol_fill_factor": 1.2, 'prime_radius': 1e-7},
+        {"frac_dim": 2.5, "vol_fill_factor": 1.1, "prime_radius": 1e-8},
+        {"frac_dim": 2.2, "vol_fill_factor": 1.3, 'prime_radius': 1e-6}))
+    def test_rad2vol_fractal(aero_data_params:dict):
+        # arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        radius = 1e-6
+        for key,value in aero_data_params.items():
+            setattr(sut, key, value)
+
+        # act
+        value = sut.rad2vol(radius)
+
+        # assert
+        np.testing.assert_almost_equal(value, (4/3)*np.pi*(sut.prime_radius)**3 *
+            (radius/sut.prime_radius)**sut.frac_dim / sut.vol_fill_factor)
