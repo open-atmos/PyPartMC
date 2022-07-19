@@ -201,6 +201,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Convert mass-equivalent volume (m^3) to geometric radius (m) for spherical particles."
     );
 
+    m.def(
+        "rad2diam", &rad2diam, py::return_value_policy::copy,
+        "Convert radius (m) to diameter (m)."
+    );
+
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 
     m.attr("__all__") = py::make_tuple(
@@ -218,6 +223,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "pow2_above",
         "histogram_1d",
         "histogram_2d",
-        "sphere_vol2rad"
+        "sphere_vol2rad",
+        "rad2diam"
     );
 }

@@ -34,3 +34,14 @@ class TestUtil:
 
         # assert
         np.testing.assert_almost_equal(1e-6, rad)
+
+    @staticmethod
+    def test_rad2diam():
+        # arrange
+        arg = 0.5e-6
+
+        # act
+        diam = ppmc.rad2diam(arg)
+
+        # assert
+        assert diam == 2*arg

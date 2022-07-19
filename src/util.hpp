@@ -8,6 +8,7 @@
 
 extern "C" void py_pow2_above(int*, int*);
 extern "C" void f_sphere_vol2rad(const double*, double*);
+extern "C" void f_rad2diam(const double*, double*);
 
 auto pow2_above(int n) {
     int res;
@@ -19,6 +20,12 @@ double sphere_vol2rad(double v) {
     double rad;
     f_sphere_vol2rad(&v, &rad);
     return rad;
+}
+
+double rad2diam(double rad) {
+    double d;
+    f_rad2diam(&rad, &d);
+    return  d;
 }
 
 extern "C" double py_deg2rad(double);
