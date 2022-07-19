@@ -19,4 +19,12 @@ subroutine py_pow2_above(n, res) bind(C)
    res = pow2_above(n)
 end subroutine
 
+subroutine f_sphere_vol2rad(v, rad) bind(C)
+   real(c_double), intent(in) :: v
+   real(c_double), intent(out) :: rad
+
+   rad = sphere_vol2rad(v)
+
+end subroutine
+
 end module

@@ -196,6 +196,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Return the least power-of-2 that is at least equal to n."
     );
 
+    m.def(
+        "sphere_vol2rad", &sphere_vol2rad, py::return_value_policy::copy,
+        "Convert mass-equivalent volume (m^3) to geometric radius (m) for spherical particles."
+    );
+
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 
     m.attr("__all__") = py::make_tuple(
@@ -212,6 +217,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "run_part",
         "pow2_above",
         "histogram_1d",
-        "histogram_2d"
+        "histogram_2d",
+        "sphere_vol2rad"
     );
 }
