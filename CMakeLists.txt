@@ -15,7 +15,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-fimplicit-none>)
-  add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-ffixed-line-length-none>)
+  add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-ffree-line-length-none>)
 endif()
 
 macro(add_prefix prefix rootlist)
@@ -45,10 +45,29 @@ set(camp_sources
   aero_phase_data.F90 aero_rep_factory.F90
   rxn_factory.F90 sub_model_data.F90 sub_model_factory.F90
   solver_stats.F90
-  debug_diff_check.F90 aero_reps/aero_rep_modal_binned_mass.F90
+  debug_diff_check.F90
+  aero_reps/aero_rep_modal_binned_mass.F90
   aero_reps/aero_rep_single_particle.F90
   aero_reps/aero_rep_modal_binned_mass.c
   aero_reps/aero_rep_single_particle.c
+  rxns/rxn_aqueous_equilibrium.F90
+  rxns/rxn_arrhenius.F90
+  rxns/rxn_CMAQ_H2O2.F90
+  rxns/rxn_CMAQ_OH_HNO3.F90
+  rxns/rxn_condensed_phase_arrhenius.F90
+  rxns/rxn_emission.F90
+  rxns/rxn_first_order_loss.F90
+  rxns/rxn_HL_phase_transfer.F90
+  rxns/rxn_photolysis.F90
+  rxns/rxn_SIMPOL_phase_transfer.F90
+  rxns/rxn_ternary_chemical_activation.F90
+  rxns/rxn_troe.F90
+  rxns/rxn_wennberg_no_ro2.F90
+  rxns/rxn_wennberg_tunneling.F90
+  rxns/rxn_wet_deposition.F90
+  sub_models/sub_model_PDFiTE.F90
+  sub_models/sub_model_UNIFAC.F90
+  sub_models/sub_model_ZSR_aerosol_water.F90
 )
 add_prefix(gitmodules/camp/src/ camp_sources)
 
