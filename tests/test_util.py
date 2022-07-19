@@ -45,3 +45,14 @@ class TestUtil:
 
         # assert
         assert diam == 2*arg
+
+    @staticmethod
+    def test_sphere_rad2vol():
+        # arrange
+        arg = 1e-6
+
+        # act
+        vol = ppmc.sphere_rad2vol(arg)
+
+        # assert
+        np.testing.assert_almost_equal(vol, (4/3)*np.pi*(arg)**3)
