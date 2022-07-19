@@ -56,3 +56,14 @@ class TestUtil:
 
         # assert
         np.testing.assert_almost_equal(vol, (4/3)*np.pi*(arg)**3)
+
+    @staticmethod
+    def test_diam2rad():
+        # arrange
+        arg = 1e-6
+
+        # act
+        rad = ppmc.diam2rad(arg)
+
+        # assert
+        assert rad == arg/2

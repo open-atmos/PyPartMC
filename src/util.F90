@@ -43,4 +43,12 @@ subroutine f_sphere_rad2vol(rad, v) bind(C)
 
 end subroutine
 
+subroutine f_diam2rad(d, rad) bind(C)
+   real(c_double), intent(in) :: d
+   real(c_double), intent(out) :: rad
+
+   rad = diam2rad(d)
+
+end subroutine
+
 end module
