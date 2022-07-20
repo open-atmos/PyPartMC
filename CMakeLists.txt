@@ -16,6 +16,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-fimplicit-none>)
   add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-ffree-line-length-none>)
+  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58175
+  add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-Wno-surprising>)
 endif()
 
 macro(add_prefix prefix rootlist)
@@ -303,7 +305,7 @@ foreach(target _PyPartMC)
   target_compile_options(${target} PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter> 
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter>
   )
 endforeach()
 
