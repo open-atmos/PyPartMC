@@ -183,6 +183,7 @@ add_library(klulib STATIC
 )
 target_compile_definitions(klulib PRIVATE DLONG="1")
 target_compile_definitions(klulib PRIVATE SUNDIALS_INT64_T="1")
+target_compile_definitions(klulib PRIVATE CAMP_DEBUG_H)
 target_include_directories(klulib PRIVATE ${KLU_INCLUDE_DIRS})
 
 ### SUNDIALS #######################################################################################
