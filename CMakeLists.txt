@@ -137,9 +137,11 @@ set(klu_SOURCES
   KLU/Source/klu_solve.c
   KLU/Source/klu.c
   KLU/Source/klu_kernel.c 
+  KLU/Source/klu_defaults.c
   KLU/Source/klu_dump.c
   KLU/Source/klu_factor.c 
   KLU/Source/klu_free_numeric.c 
+  KLU/Source/klu_free_symbolic.c
   KLU/Source/klu_scale.c
   KLU/Source/klu_refactor.c
   KLU/Source/klu_diagnostics.c
@@ -148,7 +150,18 @@ set(klu_SOURCES
   KLU/Source/klu_analyze_given.c
   COLAMD/Source/colamd.c
   SuiteSparse_config/SuiteSparse_config.c
+  AMD/Source/amd_aat.c
+  AMD/Source/amd_1.c
+  AMD/Source/amd_2.c
+  AMD/Source/amd_dump.c
+  AMD/Source/amd_postorder.c
+  AMD/Source/amd_defaults.c
+  AMD/Source/amd_post_tree.c
   AMD/Source/amd_order.c
+  AMD/Source/amd_control.c
+  AMD/Source/amd_info.c
+  AMD/Source/amd_valid.c
+  AMD/Source/amd_preprocess.c
   BTF/Source/btf_order.c
   BTF/Source/btf_maxtrans.c
   BTF/Source/btf_strongcomp.c
