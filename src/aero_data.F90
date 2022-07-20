@@ -161,4 +161,16 @@ subroutine f_aero_data_diam2vol(ptr_c, diam, vol) bind(C)
 
 end  subroutine
 
+subroutine f_aero_data_vol2diam(ptr_c, vol, diam) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(in) :: vol
+    real(c_double), intent(out) :: diam
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    diam = aero_data_vol2diam(ptr_f, vol)
+
+end subroutine
+
 end module

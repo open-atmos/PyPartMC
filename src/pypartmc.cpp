@@ -77,6 +77,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Convert mass-equivalent volume (m^3) to geometric radius (m)")
         .def("diam2vol", AeroData::diam2vol,
             "Convert geometric diameter (m) to mass-equivalent volume (m^3).")
+        .def("vol2diam", AeroData::vol2diam,
+            "Convert mass-equivalent volume (m^3) to geometric diameter (m).")
     ;
 
     py::class_<AeroParticle>(m, "AeroParticle",
