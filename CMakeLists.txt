@@ -183,7 +183,6 @@ add_library(klulib STATIC
 )
 target_compile_definitions(klulib PRIVATE DLONG="1")
 target_compile_definitions(klulib PRIVATE SUNDIALS_INT64_T="1")
-target_compile_definitions(klulib PRIVATE CAMP_DEBUG_H)
 target_include_directories(klulib PRIVATE ${KLU_INCLUDE_DIRS})
 
 ### SUNDIALS #######################################################################################
@@ -257,6 +256,7 @@ add_library(camplib STATIC ${camp_SOURCES} ${json_fortran_SOURCES})
 target_compile_definitions(camplib PRIVATE CAMP_USE_JSON="1")
 target_compile_definitions(camplib PRIVATE CAMP_USE_SUNDIALS="1")
 target_compile_definitions(camplib PRIVATE SUNDIALS_INT64_T="1")
+target_compile_definitions(camplib PRIVATE SUNDIALS_INDEX_TYPE="long long int")
 target_include_directories(camplib PRIVATE 
   ${KLU_INCLUDE_DIRS}
   ${SUNDIALS_SOURCE_DIR}/include
