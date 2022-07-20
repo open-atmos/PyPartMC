@@ -26,7 +26,7 @@ class TestRunPart:
         run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL)
 
         # act
-        ppmc.run_part(scenario, env_state, aero_data, aero_state, gas_data, gas_state, run_part_opt)
+        # ppmc.run_part(scenario, env_state, aero_data, aero_state, gas_data, gas_state, run_part_opt)
 
         # assert
         pass
