@@ -89,6 +89,12 @@ with __build_extension_env():
 to ensure that every particle has its water content in
 equilibrium.</p></div>
 </dd>
+<dt id="PyPartMC.diam2rad"><code class="name flex">
+<span>def <span class="ident">diam2rad</span></span>(<span>arg0: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert diameter (m) to radius (m).</p></div>
+</dd>
 <dt id="PyPartMC.histogram_1d"><code class="name flex">
 <span>def <span class="ident">histogram_1d</span></span>(<span>arg0: _PyPartMC.BinGrid, arg1: List[float], arg2: List[float]) ‑> List[float]</span>
 </code></dt>
@@ -107,11 +113,29 @@ equilibrium.</p></div>
 <dd>
 <div class="desc"><p>Return the least power-of-2 that is at least equal to n.</p></div>
 </dd>
+<dt id="PyPartMC.rad2diam"><code class="name flex">
+<span>def <span class="ident">rad2diam</span></span>(<span>arg0: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert radius (m) to diameter (m).</p></div>
+</dd>
 <dt id="PyPartMC.run_part"><code class="name flex">
 <span>def <span class="ident">run_part</span></span>(<span>arg0: _PyPartMC.Scenario, arg1: _PyPartMC.EnvState, arg2: _PyPartMC.AeroData, arg3: _PyPartMC.AeroState, arg4: _PyPartMC.GasData, arg5: _PyPartMC.GasState, arg6: _PyPartMC.RunPartOpt)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Do a particle-resolved Monte Carlo simulation.</p></div>
+</dd>
+<dt id="PyPartMC.sphere_rad2vol"><code class="name flex">
+<span>def <span class="ident">sphere_rad2vol</span></span>(<span>arg0: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert geometric radius (m) to mass-equivalent volume for spherical particles.</p></div>
+</dd>
+<dt id="PyPartMC.sphere_vol2rad"><code class="name flex">
+<span>def <span class="ident">sphere_vol2rad</span></span>(<span>arg0: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convert mass-equivalent volume (m^3) to geometric radius (m) for spherical particles.</p></div>
 </dd>
 </dl>
 </section>
@@ -290,10 +314,14 @@ aero_dist_interp_1d(), respectively.</p>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="PyPartMC.condense_equilib_particles" href="#PyPartMC.condense_equilib_particles">condense_equilib_particles</a></code></li>
+<li><code><a title="PyPartMC.diam2rad" href="#PyPartMC.diam2rad">diam2rad</a></code></li>
 <li><code><a title="PyPartMC.histogram_1d" href="#PyPartMC.histogram_1d">histogram_1d</a></code></li>
 <li><code><a title="PyPartMC.histogram_2d" href="#PyPartMC.histogram_2d">histogram_2d</a></code></li>
 <li><code><a title="PyPartMC.pow2_above" href="#PyPartMC.pow2_above">pow2_above</a></code></li>
+<li><code><a title="PyPartMC.rad2diam" href="#PyPartMC.rad2diam">rad2diam</a></code></li>
 <li><code><a title="PyPartMC.run_part" href="#PyPartMC.run_part">run_part</a></code></li>
+<li><code><a title="PyPartMC.sphere_rad2vol" href="#PyPartMC.sphere_rad2vol">sphere_rad2vol</a></code></li>
+<li><code><a title="PyPartMC.sphere_vol2rad" href="#PyPartMC.sphere_vol2rad">sphere_vol2rad</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
