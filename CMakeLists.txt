@@ -278,8 +278,8 @@ target_include_directories(partmclib PRIVATE
   ${CMAKE_BINARY_DIR}/include
 )
 target_link_libraries(partmclib PRIVATE camplib)
-target_link_libraries(partmclib PRIVATE klulib)
 target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
+target_link_libraries(partmclib PRIVATE klulib)
 
 ### PYBIND11 & PyPartMC ############################################################################
 
