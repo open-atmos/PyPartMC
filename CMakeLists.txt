@@ -28,6 +28,11 @@ macro(add_prefix prefix rootlist)
   set(${rootlist} ${outlist})
 endmacro(add_prefix)
 
+add_definitions("-DSuiteSparse_long=long long")
+add_definitions("-DSuiteSparse_long_max=9223372036854775801")
+add_definitions("-DSuiteSparse_long_idd=lld")
+add_definitions("-DSUNDIALS_INT64_T=1")
+
 ### sources ########################################################################################
 
 set(PyPartMC_sources 
@@ -184,7 +189,6 @@ add_library(klulib STATIC
   ${klu_SOURCES} 
 )
 target_compile_definitions(klulib PRIVATE DLONG="1")
-target_compile_definitions(klulib PRIVATE SUNDIALS_INT64_T="1")
 target_include_directories(klulib PRIVATE ${KLU_INCLUDE_DIRS})
 
 ### SUNDIALS #######################################################################################
@@ -206,7 +210,6 @@ macro(sundials_add_library target)
   )
   add_library(${target} STATIC ${sundials_add_library_SOURCES})
   target_compile_definitions(${target} PRIVATE SUNDIALS_STATIC_DEFINE)
-  target_compile_definitions(${target} PRIVATE SUNDIALS_INT64_T="1")
   target_include_directories(${target} PRIVATE
     ${SUNDIALS_SOURCE_DIR}/src/sundials
     ${SUNDIALS_SOURCE_DIR}/include
@@ -257,7 +260,6 @@ add_prefix(sundials_ SUNDIALS_items)
 add_library(camplib STATIC ${camp_SOURCES} ${json_fortran_SOURCES})
 target_compile_definitions(camplib PRIVATE CAMP_USE_JSON="1")
 target_compile_definitions(camplib PRIVATE CAMP_USE_SUNDIALS="1")
-target_compile_definitions(camplib PRIVATE SUNDIALS_INT64_T="1")
 target_include_directories(camplib PRIVATE 
   ${KLU_INCLUDE_DIRS}
   ${SUNDIALS_SOURCE_DIR}/include
