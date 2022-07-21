@@ -121,6 +121,31 @@ class TestScenario:
         assert json_actual == SCENARIO_CTOR_ARG_MINIMAL
 
     @staticmethod
+    @pytest.mark.parametrize("loss_function_param", (
+        'invalid',
+        'none',
+        'constant',
+        'volume',
+        'drydep'))
+    def test_loss_rate(loss_function_param:str):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        gas_data  = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        scenario_ctor_arg = SCENARIO_CTOR_ARG_MINIMAL
+        scenario_ctor_arg["loss_function"] = loss_function_param
+        scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+        vol =  (4/3)*np.pi*(1e-6)**3
+        density = 1
+
+        # act
+        rate = ppmc.loss_rate(scenario, vol, density, aero_data, env_state)
+        print(rate)
+
+        # assert
+        assert rate is not nan
+
+    @staticmethod
     def test_loss_rate_dry_dep():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)

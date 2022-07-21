@@ -221,6 +221,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Compute and return the dry deposition rate for a given particle."
     );
 
+    m.def(
+        "loss_rate", &loss_rate, py::return_value_policy::copy,
+        "Evaluate a loss rate function."
+    );
+
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 
     m.attr("__all__") = py::make_tuple(
@@ -242,6 +247,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "rad2diam",
         "sphere_rad2vol",
         "diam2rad",
-        "loss_rate_dry_dep"
+        "loss_rate_dry_dep",
+        "loss_rate"
     );
 }

@@ -23,6 +23,14 @@ extern "C" void f_scenario_from_json(
     noexcept
 #endif
 ;
+extern "C" void f_scenario_loss_rate(
+    const void *scenario,
+    const double *vol,
+    const double *density,
+    const void *aero_data,
+    const void *env_state,
+    double *rate
+) noexcept;
 extern "C" void f_scenario_loss_rate_dry_dep(
     const double *vol,
     const double *density,
@@ -56,6 +64,25 @@ struct Scenario {
         return self.json.dump();
     }   
 };
+
+double loss_rate(
+    const Scenario &scenario,
+    const double vol,
+    const double density,
+    const AeroData &aero_data,
+    const EnvState &env_state
+) {
+    double rate;
+    f_scenario_loss_rate(
+        &scenario.ptr,
+        &vol,
+        &density,
+        &aero_data.ptr,
+        &env_state.ptr,
+        &rate
+    );
+    return rate;
+}
 
 double loss_rate_dry_dep(
     const double vol,
