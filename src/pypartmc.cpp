@@ -216,6 +216,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Convert diameter (m) to radius (m)."
     );
 
+    m.def(
+        "loss_rate_dry_dep", &loss_rate_dry_dep, py::return_value_policy::copy,
+        "Compute and return the dry deposition rate for a given particle."
+    );
+
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 
     m.attr("__all__") = py::make_tuple(
@@ -236,6 +241,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "sphere_vol2rad",
         "rad2diam",
         "sphere_rad2vol",
-        "diam2rad"
+        "diam2rad",
+        "loss_rate_dry_dep"
     );
 }

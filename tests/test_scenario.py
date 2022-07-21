@@ -4,13 +4,16 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+from cmath import nan
 import gc
 import json
 import pytest
+import numpy as np
 import PyPartMC as ppmc
 
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 
 SCENARIO_CTOR_ARG_MINIMAL = {
@@ -117,3 +120,16 @@ class TestScenario:
         # assert
         assert json_actual == SCENARIO_CTOR_ARG_MINIMAL
 
+    @staticmethod
+    def test_loss_rate_dry_dep():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        vol =  (4/3)*np.pi*(1e-6)**3
+        density = 1
+
+        # act
+        rate = ppmc.loss_rate_dry_dep(vol, density, aero_data, env_state)
+
+        # assert
+        assert rate is not nan

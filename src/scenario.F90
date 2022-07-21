@@ -39,4 +39,23 @@ module PyPartMC_scenario
     call spec_file_read_scenario(file, gas_ptr_f, aer_ptr_f, ptr_f)
   end subroutine
 
+  subroutine f_scenario_loss_rate_dry_dep(vol, density, aero_data_ptr_c, env_state_ptr_c, rate) bind(C)
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(env_state_t), pointer :: env_state_ptr_f => null()
+    real(c_double), intent(in) :: vol
+    real(c_double), intent(in) :: density
+    type(c_ptr), intent(in) :: aero_data_ptr_c, env_state_ptr_c
+    real(c_double), intent(out) :: rate
+
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+    call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
+
+    call fractal_set_spherical(aero_data_ptr_f%fractal)
+
+    env_state_ptr_f%height = 1
+    env_state_ptr_f%temp = 300
+    env_state_ptr_f%pressure =  101325
+    rate = scenario_loss_rate_dry_dep(vol, density, aero_data_ptr_f, env_state_ptr_f)
+  end subroutine
+
 end module
