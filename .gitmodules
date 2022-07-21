@@ -26,3 +26,15 @@
 	path = gitmodules/string_view-standalone
 	url = https://github.com/bitwizeshift/string_view-standalone.git
 	shallow = true
+[submodule "gitmodules/camp"]
+	path = gitmodules/camp
+	url = https://github.com/zdaq12/camp
+	shallow = true
+[submodule "gitmodules/SuiteSparse"]
+	path = gitmodules/SuiteSparse
+	url = https://github.com/DrTimothyAldenDavis/SuiteSparse
+	shallow = true
+[submodule "gitmodules/json-fortran"]
+	path = gitmodules/json-fortran
+	url = https://github.com/jacobwilliams/json-fortran
+	shallow = true

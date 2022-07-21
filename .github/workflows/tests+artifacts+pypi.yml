@@ -73,7 +73,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - run: pip install --upgrade pip build wheel
+      - run: pip install --upgrade pip==22.1.2 build wheel
       - run: pip install -r test-time-requirements.txt
 
       - run: |
