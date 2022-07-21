@@ -28,9 +28,9 @@ macro(add_prefix prefix rootlist)
   set(${rootlist} ${outlist})
 endmacro(add_prefix)
 
-add_definitions("-DSuiteSparse_long=long long")
-add_definitions("-DSuiteSparse_long_max=9223372036854775801")
-add_definitions("-DSuiteSparse_long_idd=lld")
+add_definitions("-DSuiteSparse_long=long")
+add_definitions("-DSuiteSparse_long_max=LONG_MAX")
+add_definitions("-DSuiteSparse_long_idd=ld")
 add_definitions("-DSUNDIALS_INT64_T=1")
 
 ### sources ########################################################################################
