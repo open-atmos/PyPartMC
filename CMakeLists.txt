@@ -277,9 +277,9 @@ target_include_directories(partmclib PRIVATE
   ${SUNDIALS_SOURCE_DIR}/include
   ${CMAKE_BINARY_DIR}/include
 )
-target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
-target_link_libraries(partmclib PRIVATE klulib)
 target_link_libraries(partmclib PRIVATE camplib)
+target_link_libraries(partmclib PRIVATE klulib)
+target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
 
 ### PYBIND11 & PyPartMC ############################################################################
 
