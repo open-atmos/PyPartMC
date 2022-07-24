@@ -20,6 +20,10 @@ struct Gimmick {
     const nlohmann::json *json;
     std::stack<const nlohmann::json*> json_parent;
 
+    //set of valid keys in json
+    std::set<std::string> valid_vars {"temp_profile", "pressure_profile", "height_profile", "gas_emissions", "gas_background",
+    "aero_emissions", "aero_background", "loss function"};
+
     void warn(const std::exception &exception) {
         std::cerr << "WARN: " << exception.what() << std::endl;
 //        assert(false);
@@ -32,8 +36,23 @@ struct Gimmick {
         this->set_current_json_ptr(&json);
         for (auto &entry : this->json->items()) {
             this->vars.insert(entry.key());
+            //#54: Check if json entry is valid
+            check_entry(entry.key(), valid_vars);
         }
     };
+
+    /**
+     * #54: Checks if json entry key is valid
+     * 
+     * @param str key to check
+     * @param set the set of valid keys
+     * 
+     **/
+    void check_entry(std::string str, std::set<std::string> set) {
+        if (set.find(str) == set.end()) {
+            throw std::runtime_error("Provided invalid key: " + str);
+        }
+    }
 
     void set_current_json_ptr(const nlohmann::json *ptr) {
         this->json = ptr;
@@ -197,4 +216,3 @@ struct OutputGimmick: Gimmick {
 };
 
 std::unique_ptr<Gimmick> &gimmick_ptr();
-
