@@ -20,7 +20,7 @@ struct Gimmick {
     const nlohmann::json *json;
     std::stack<const nlohmann::json*> json_parent;
 
-    //set of valid keys in json
+    //#54: set of valid keys in json (not sure if this is correct)
     std::set<std::string> valid_vars {"temp_profile", "pressure_profile", "height_profile", "gas_emissions", "gas_background",
     "aero_emissions", "aero_background", "loss function"};
 
@@ -37,6 +37,7 @@ struct Gimmick {
         for (auto &entry : this->json->items()) {
             this->vars.insert(entry.key());
             //#54: Check if json entry is valid
+            //I think there could be a better way to do this
             check_entry(entry.key(), valid_vars);
         }
     };
