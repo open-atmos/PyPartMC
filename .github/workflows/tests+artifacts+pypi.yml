@@ -30,7 +30,7 @@ jobs:
     needs: [todos_annotated]
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest]
+        platform: [ubuntu-latest, macos-12, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         exclude:
           - platform: macos-12
@@ -103,7 +103,7 @@ jobs:
 
       - run: |
           pip debug --verbose
-          pip install dist/*.whl
+          SYSTEM_VERSION_COMPAT=0 pip install dist/*.whl
           pip show --verbose PyPartMC
 
       ### make sure PyPartMC is not picked up from a local folder
