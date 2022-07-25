@@ -13,7 +13,11 @@ from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 @pytest.mark.parametrize('sut', (
     pytest.param(ppmc.GasData(("SO2",)), id='GasData'),
     pytest.param(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), id='AeroData'),
-    pytest.param(ppmc.GasState(), id='GasState')
+    pytest.param(ppmc.GasState(), id='GasState'),
+    pytest.param(ppmc.AeroParticle(
+        ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL),
+        [0]
+    ), id='AeroParticle')
 ))
 def test_dtors(sut):  # pylint: disable=unused-argument
     # arrange

@@ -38,7 +38,7 @@ add_definitions("-DSUNDIALS_INT64_T=1")
 set(PyPartMC_sources 
   pypartmc.cpp gimmicks.cpp fake_netcdf.cpp fake_mpi.cpp fake_spec_file.cpp
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
-  gas_state.F90 scenario.F90 condense.F90 bin_grid.F90
+  gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90
 )
 add_prefix(src/ PyPartMC_sources)
 

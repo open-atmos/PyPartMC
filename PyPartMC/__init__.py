@@ -24,14 +24,14 @@ def __build_extension_env():
 
 # TODO #113: 2 x loop over prefixes and units
 si = namedtuple("SI", (
-    "m", "cm", "um",
+    "m", "cm", "um", "nm",
     "kg", "g",
     "s",
     "K",
     "Pa", "hPa",
     "mol"
 ))(
-    m=1., cm=.01, um=1e-6,
+    m=1., cm=.01, um=1e-6, nm=1e-9,
     kg=1., g=1e-3,
     s=1.,
     K=1.,
