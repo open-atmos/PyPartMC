@@ -168,6 +168,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the current temperature of the environment state")
         .def_property_readonly("rh", EnvState::rh,
             "returns the current relative humidity of the environment state")
+        .def_property("height", &EnvState::get_height, &EnvState::set_height)
     ;
 
     py::class_<Scenario>(m,
