@@ -27,7 +27,7 @@ struct AeroParticle {
         int len = data.size();
         f_aero_particle_init(ptr.f_arg(), aero_data.ptr.f_arg(), begin(data), &len);
         if (size_t(len)!=AeroData::__len__(aero_data))
-            throw std::runtime_error("TODO #100");
+            throw std::runtime_error("AeroData size mistmatch");
     }
 
     static std::valarray<double> volumes(const AeroParticle &self)
