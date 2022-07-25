@@ -33,12 +33,12 @@ module PyPartMC_aero_state
     type(c_ptr) :: ptr_c, aero_data_ptr_c
     real(c_double), intent(in) :: n_part
 
-    ! local testing
+    ! local testing # TODO #141
     type(aero_dist_t) :: aero_dist_init
     real(kind=dp), parameter, dimension(2) :: num_conc = &
-         [3.2d9, 2.9d9]
-    real(kind=dp), parameter, dimension(2) :: diams = [2d-8, 1.16d-7]
-    real(kind=dp), parameter, dimension(2) :: std = [1.45,1.65]
+         [3.2d9, 2.9d9]  # TODO #141
+    real(kind=dp), parameter, dimension(2) :: diams = [2d-8, 1.16d-7]  # TODO #141
+    real(kind=dp), parameter, dimension(2) :: std = [1.45,1.65]  # TODO #141
     character(len=10), parameter, dimension(2) :: mode_names = ["init_small","init_large"]
     integer :: n_spec, n_modes, i_mode, i_spec
     integer :: n_part_added, source
@@ -52,7 +52,7 @@ module PyPartMC_aero_state
 
     call fractal_set_spherical(aero_data_ptr_f%fractal)
 
-    n_modes = 2 
+    n_modes = 2   # TODO #141
     n_spec = aero_data_n_spec(aero_data_ptr_f)
     if (n_spec > 1) then
     allocate(aero_dist_init%mode(n_modes))
