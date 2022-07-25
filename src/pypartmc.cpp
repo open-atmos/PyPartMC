@@ -148,6 +148,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("__len__", GasData::__len__)
         .def("__str__", GasData::__str__,
             "returns a string with JSON representation of the object")
+        .def("spec_by_name", GasData::spec_by_name,
+            "returns the number of the species in gas with the given name")
     ;
 
     py::class_<EnvState>(m,
@@ -219,6 +221,12 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("__len__", GasState::__len__)
         .def("__str__", GasState::__str__,
             "returns a string with JSON representation of the object")
+        .def("set_size", GasState::set_size,
+            "sets the GasState to the size of GasData")
+        .def("mix_rat", GasState::mix_rat,
+            "returns the mixing ratio of a gas species")
+        .def_property_readonly("mix_rats", GasState::mix_rats,
+            "returns array of mixing ratios")
     ;
 
     py::class_<RunPartOpt>(m, 

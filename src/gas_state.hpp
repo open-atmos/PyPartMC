@@ -10,6 +10,7 @@
 #include "nlohmann/json.hpp"
 #include "gimmicks.hpp"
 #include "pmc_resource.hpp"
+#include "gas_data.hpp"
 
 extern "C" void f_gas_state_ctor(void *ptr) noexcept;
 extern "C" void f_gas_state_dtor(void *ptr) noexcept;
@@ -18,6 +19,7 @@ extern "C" void f_gas_state_get_item(const void *ptr, const int *idx, double *va
 extern "C" void f_gas_state_len(const void *ptr, int *len) noexcept;
 extern "C" void f_gas_state_to_json(const void *ptr) noexcept;
 extern "C" void f_gas_state_from_json(const void *ptr) noexcept;
+extern "C" void f_gas_state_set_size(const void *ptr, const void *gasdata_ptr) noexcept;
 
 struct GasState {
     PMCResource ptr;
@@ -62,5 +64,28 @@ struct GasState {
         int len;
         f_gas_state_len(&self.ptr, &len);
         return len;
+    }
+
+    static double mix_rat(const GasState &self, const GasData &gasData,
+         const std::string &name) {
+        int value;
+        const int name_size = name.size();
+
+        f_gas_data_spec_by_name(&gasData.ptr, &value, name.c_str(), &name_size);
+        if (value==0) throw std::runtime_error("Element not found.");
+        return get_item(self, value-1);
+    }
+
+    static void set_size(GasState &self, const GasData &GasData) {
+      f_gas_state_set_size(&self.ptr, &GasData.ptr);
+    }
+
+    static std::valarray<double> mix_rats(const GasState &self) {
+      int len;
+      f_gas_state_len(&self.ptr, &len);
+      std::valarray<double> data(len);
+
+
+      return data;
     }
 };
