@@ -8,12 +8,31 @@
 #include "aero_data.hpp"
 #include "aero_state.hpp"
 #include "env_state.hpp"
+#include "aero_particle.hpp"
+
+extern "C" void f_condense_equilib_particle(
+    const void*,
+    const void*,
+    const void*
+) noexcept;
 
 extern "C" void f_condense_equilib_particles(
     const void*,
     const void*,
     const void*
 ) noexcept;
+
+void condense_equilib_particle(
+    const EnvState &env_state,
+    const AeroData &aero_data,
+    const AeroParticle &aero_particle
+) {
+    f_condense_equilib_particle(
+        env_state.ptr.f_arg(),
+        aero_data.ptr.f_arg(),
+        aero_particle.ptr.f_arg()
+    );
+}
 
 void condense_equilib_particles(
     const EnvState &env_state,

@@ -15,6 +15,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-fimplicit-none>)
+  add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-ffree-line-length-none>)
+  # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58175
+  add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-Wno-surprising>)
 endif()
 
 macro(add_prefix prefix rootlist)
@@ -25,14 +28,100 @@ macro(add_prefix prefix rootlist)
   set(${rootlist} ${outlist})
 endmacro(add_prefix)
 
+add_definitions("-DSuiteSparse_long=long")
+add_definitions("-DSuiteSparse_long_max=LONG_MAX")
+add_definitions("-DSuiteSparse_long_idd=ld")
+add_definitions("-DSUNDIALS_INT64_T=1")
+
 ### sources ########################################################################################
 
 set(PyPartMC_sources 
   pypartmc.cpp gimmicks.cpp fake_netcdf.cpp fake_mpi.cpp fake_spec_file.cpp
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
-  gas_state.F90 scenario.F90 condense.F90 bin_grid.F90
+  gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90
 )
 add_prefix(src/ PyPartMC_sources)
+
+set(camp_SOURCES
+  Jacobian.c 
+  aero_phase_data.F90 
+  aero_phase_solver.c 
+  aero_rep_data.F90
+  aero_rep_solver.c 
+  aero_rep_factory.F90
+  camp_core.F90
+  camp_solver_data.F90 
+  camp_solver.c 
+  camp_state.F90 
+  chem_spec_data.F90
+  constants.F90 
+  debug_diff_check.F90
+  env_state.F90
+  mechanism_data.F90
+  mpi.F90
+  property.F90
+  rand.F90
+  rxn_data.F90 
+  rxn_factory.F90
+  rxn_solver.c 
+  solver_stats.F90
+  sub_model_data.F90
+  sub_model_solver.c 
+  sub_model_factory.F90
+  time_derivative.c
+  util.F90 
+  aero_reps/aero_rep_modal_binned_mass.F90
+  aero_reps/aero_rep_single_particle.F90
+  aero_reps/aero_rep_modal_binned_mass.c
+  aero_reps/aero_rep_single_particle.c
+  rxns/rxn_aqueous_equilibrium.c 
+  rxns/rxn_aqueous_equilibrium.F90
+  rxns/rxn_ternary_chemical_activation.c 
+  rxns/rxn_ternary_chemical_activation.F90
+  rxns/rxn_arrhenius.c
+  rxns/rxn_arrhenius.F90
+  rxns/rxn_CMAQ_H2O2.c 
+  rxns/rxn_CMAQ_H2O2.F90
+  rxns/rxn_CMAQ_OH_HNO3.c 
+  rxns/rxn_CMAQ_OH_HNO3.F90
+  rxns/rxn_condensed_phase_arrhenius.c 
+  rxns/rxn_condensed_phase_arrhenius.F90
+  rxns/rxn_emission.c 
+  rxns/rxn_emission.F90
+  rxns/rxn_first_order_loss.c 
+  rxns/rxn_first_order_loss.F90
+  rxns/rxn_HL_phase_transfer.c 
+  rxns/rxn_HL_phase_transfer.F90
+  rxns/rxn_photolysis.c 
+  rxns/rxn_photolysis.F90
+  rxns/rxn_SIMPOL_phase_transfer.c 
+  rxns/rxn_SIMPOL_phase_transfer.F90
+  rxns/rxn_troe.c 
+  rxns/rxn_troe.F90
+  rxns/rxn_wennberg_no_ro2.c 
+  rxns/rxn_wennberg_no_ro2.F90
+  rxns/rxn_wennberg_tunneling.c 
+  rxns/rxn_wennberg_tunneling.F90
+  rxns/rxn_wet_deposition.c 
+  rxns/rxn_wet_deposition.F90
+  sub_models/sub_model_PDFiTE.c
+  sub_models/sub_model_PDFiTE.F90
+  sub_models/sub_model_UNIFAC.c 
+  sub_models/sub_model_UNIFAC.F90
+  sub_models/sub_model_ZSR_aerosol_water.F90
+  sub_models/sub_model_ZSR_aerosol_water.c 
+)
+add_prefix(gitmodules/camp/src/ camp_SOURCES)
+
+set(json_fortran_SOURCES
+  json_kinds.F90
+  json_parameters.F90
+  json_string_utilities.F90
+  json_value_module.F90
+  json_file_module.F90
+  json_module.F90
+)
+add_prefix(gitmodules/json-fortran/src/ json_fortran_SOURCES)
 
 set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 integer_rmap.F90 
   integer_rmap2.F90 aero_sorted.F90 aero_binned.F90 bin_grid.F90 constants.F90 scenario.F90
@@ -47,6 +136,60 @@ set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 intege
 )
 add_prefix(gitmodules/partmc/src/ partmclib_SOURCES)
 list(APPEND partmclib_SOURCES src/fake_mpi.F90 src/fake_netcdf.F90 src/fake_spec_file.F90)
+
+set(klu_SOURCES
+  KLU/Source/klu_analyze.c
+  KLU/Source/klu_memory.c
+  KLU/Source/klu_tsolve.c
+  KLU/Source/klu_solve.c
+  KLU/Source/klu.c
+  KLU/Source/klu_kernel.c 
+  KLU/Source/klu_defaults.c
+  KLU/Source/klu_dump.c
+  KLU/Source/klu_factor.c 
+  KLU/Source/klu_free_numeric.c 
+  KLU/Source/klu_free_symbolic.c
+  KLU/Source/klu_scale.c
+  KLU/Source/klu_refactor.c
+  KLU/Source/klu_diagnostics.c
+  KLU/Source/klu_sort.c
+  KLU/Source/klu_extract.c
+  KLU/Source/klu_analyze_given.c
+  COLAMD/Source/colamd.c
+  SuiteSparse_config/SuiteSparse_config.c
+  AMD/Source/amd_aat.c
+  AMD/Source/amd_1.c
+  AMD/Source/amd_2.c
+  AMD/Source/amd_dump.c
+  AMD/Source/amd_postorder.c
+  AMD/Source/amd_defaults.c
+  AMD/Source/amd_post_tree.c
+  AMD/Source/amd_order.c
+  AMD/Source/amd_control.c
+  AMD/Source/amd_info.c
+  AMD/Source/amd_valid.c
+  AMD/Source/amd_preprocess.c
+  BTF/Source/btf_order.c
+  BTF/Source/btf_maxtrans.c
+  BTF/Source/btf_strongcomp.c
+)
+add_prefix(gitmodules/SuiteSparse/ klu_SOURCES)
+
+set(KLU_INCLUDE_DIRS
+  ${CMAKE_SOURCE_DIR}/gitmodules/SuiteSparse/KLU/Include
+  ${CMAKE_SOURCE_DIR}/gitmodules/SuiteSparse/AMD/Include
+  ${CMAKE_SOURCE_DIR}/gitmodules/SuiteSparse/SuiteSparse_config
+  ${CMAKE_SOURCE_DIR}/gitmodules/SuiteSparse/COLAMD/Include
+  ${CMAKE_SOURCE_DIR}/gitmodules/SuiteSparse/BTF/Include
+)
+
+### KLU ############################################################################################
+
+add_library(klulib STATIC
+  ${klu_SOURCES} 
+)
+target_compile_definitions(klulib PRIVATE DLONG="1")
+target_include_directories(klulib PRIVATE ${KLU_INCLUDE_DIRS})
 
 ### SUNDIALS #######################################################################################
 
@@ -67,9 +210,12 @@ macro(sundials_add_library target)
   )
   add_library(${target} STATIC ${sundials_add_library_SOURCES})
   target_compile_definitions(${target} PRIVATE SUNDIALS_STATIC_DEFINE)
-  target_include_directories(${target} PRIVATE ${SUNDIALS_SOURCE_DIR}/src/sundials)
-  target_include_directories(${target} PRIVATE ${SUNDIALS_SOURCE_DIR}/include)
-  target_include_directories(${target} PRIVATE ${CMAKE_BINARY_DIR}/include)
+  target_include_directories(${target} PRIVATE
+    ${SUNDIALS_SOURCE_DIR}/src/sundials
+    ${SUNDIALS_SOURCE_DIR}/include
+    ${KLU_INCLUDE_DIRS}
+    ${CMAKE_BINARY_DIR}/include
+  )
 endmacro()
 
 function(print_error)
@@ -91,30 +237,49 @@ scoped_sundials_setup_config()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SUNDIALS_SOURCE_DIR}/cmake)
 include(${SUNDIALS_SOURCE_DIR}/cmake/SundialsSetupCompilers.cmake)
 
-foreach(item cvode;sunmatrix;sunlinsol;sunnonlinsol;nvector;sundials)
-    add_subdirectory(${SUNDIALS_SOURCE_DIR}/src/${item})
+foreach(item cvode;sunmatrix;sunlinsol;sunnonlinsol;nvector;sundials;sunlinsol/klu)
+  add_subdirectory(${SUNDIALS_SOURCE_DIR}/src/${item})
 endforeach()
 
 set(SUNDIALS_items 
-  cvode nvecserial
+  cvode
+  nvecserial
   sunmatrixband
   sunmatrixdense
+  sunmatrixsparse
   sunlinsolband 
+  sunlinsolklu
   sunnonlinsolnewton 
   sunlinsolspgmr 
   generic
 )
 add_prefix(sundials_ SUNDIALS_items)
 
+### CAMP ###########################################################################################
+
+add_library(camplib STATIC ${camp_SOURCES} ${json_fortran_SOURCES})
+target_compile_definitions(camplib PRIVATE CAMP_USE_JSON="1")
+target_compile_definitions(camplib PRIVATE CAMP_USE_SUNDIALS="1")
+target_include_directories(camplib PRIVATE 
+  ${KLU_INCLUDE_DIRS}
+  ${SUNDIALS_SOURCE_DIR}/include
+  ${CMAKE_BINARY_DIR}/include
+)
+
 ### partmclib ######################################################################################
 
 add_library(partmclib STATIC ${partmclib_SOURCES})
 target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
 target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
+target_compile_definitions(partmclib PRIVATE PMC_USE_CAMP="1")
 add_dependencies(partmclib ${SUNDIALS_items})
-target_include_directories(partmclib PRIVATE ${SUNDIALS_SOURCE_DIR}/include)
-target_include_directories(partmclib PRIVATE ${CMAKE_BINARY_DIR}/include)
+target_include_directories(partmclib PRIVATE 
+  ${SUNDIALS_SOURCE_DIR}/include
+  ${CMAKE_BINARY_DIR}/include
+)
+target_link_libraries(partmclib PRIVATE camplib)
 target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
+target_link_libraries(partmclib PRIVATE klulib)
 
 ### PYBIND11 & PyPartMC ############################################################################
 
@@ -142,7 +307,7 @@ foreach(target _PyPartMC)
   target_compile_options(${target} PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter> 
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter>
   )
 endforeach()
 

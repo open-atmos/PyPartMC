@@ -35,6 +35,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
       to ensure that every particle has its water content in
       equilibrium.
     )pbdoc");
+    m.def("condense_equilib_particle", &condense_equilib_particle, R"pbdoc(
+        Determine the water equilibrium state of a single particle.
+    )pbdoc");
 
     // TODO #65
     //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
@@ -64,6 +67,32 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const nlohmann::json&>())
         .def("spec_by_name", AeroData::spec_by_name)
+        .def("__len__", AeroData::__len__)
+        .def_property("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim)
+        .def_property("vol_fill_factor", &AeroData::get_vol_fill_factor, &AeroData::set_vol_fill_factor)
+        .def_property("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius)
+        .def("rad2vol", AeroData::rad2vol,
+            "Convert geometric radius (m) to mass-equivalent volume (m^3).")
+        .def("vol2rad", AeroData::vol2rad,
+            "Convert mass-equivalent volume (m^3) to geometric radius (m)")
+        .def("diam2vol", AeroData::diam2vol,
+            "Convert geometric diameter (m) to mass-equivalent volume (m^3).")
+        .def("vol2diam", AeroData::vol2diam,
+            "Convert mass-equivalent volume (m^3) to geometric diameter (m).")
+    ;
+
+    py::class_<AeroParticle>(m, "AeroParticle",
+        R"pbdoc(
+             Single aerosol particle data structure.
+  
+             The \c vol array stores the total volumes of the different
+             species that make up the particle. This array must have length
+             equal to aero_data%%n_spec, so that \c vol(i) is the volume (in
+             m^3) of the i'th aerosol species.
+        )pbdoc"
+    )
+        .def(py::init<const AeroData&, const std::valarray<double>&>())
+        .def_property_readonly("volumes", AeroParticle::volumes)
     ;
 
     py::class_<AeroState>(m, "AeroState",
@@ -82,6 +111,26 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const double, const AeroData&>())
         .def("__len__", AeroState::__len__)
+        .def("total_num_conc", AeroState::total_num_conc,
+            "returns the total number concentration of the population")
+        .def("total_mass_conc", AeroState::total_mass_conc,
+            "returns the total mass concentration of the population")
+        .def("num_concs", AeroState::num_concs,
+            "returns the number concentration of each particle in the population")
+        .def("masses", AeroState::masses,
+            "returns the total mass of each particle in the population")
+        .def("volumes", AeroState::volumes,
+            "returns the total volume of each particle in the population")
+        .def("dry_diameters", AeroState::dry_diameters,
+            "returns the dry diameter of each particle in the population")
+        .def("diameters", AeroState::diameters,
+            "returns the diameter of each particle in the population")
+        .def("crit_rel_humids", AeroState::crit_rel_humids,
+            "returns the critical relative humidity of each particle in the population")
+        .def("mixing_state", AeroState::mixing_state,
+            "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population")
+        .def("bin_average_comp", AeroState::bin_average_comp,
+            "composition-averages population using BinGrid")
     ;
 
     py::class_<GasData>(m, "GasData",
@@ -113,6 +162,12 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>())
+        .def("set_temperature", EnvState::set_temperature,
+            "sets the temperature of the environment state")
+        .def_property_readonly("temp", EnvState::temp,
+            "returns the current temperature of the environment state")
+        .def_property_readonly("rh", EnvState::rh,
+            "returns the current relative humidity of the environment state")
     ;
 
     py::class_<Scenario>(m,
@@ -232,6 +287,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "__version__",
         "AeroData",
         "AeroState",
+        "AeroParticle",
         "BinGrid",
         "EnvState",
         "GasData",
@@ -241,6 +297,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "condense_equilib_particles",
         "run_part",
         "pow2_above",
+        "condense_equilib_particle",
         "histogram_1d",
         "histogram_2d",
         "sphere_vol2rad",
