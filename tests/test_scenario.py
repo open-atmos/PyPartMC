@@ -126,7 +126,8 @@ class TestScenario:
         'none',
         'constant',
         'volume',
-        'drydep'))
+        'drydep',
+        'chamber'))
     def test_loss_rate(loss_function_param:str):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -137,10 +138,15 @@ class TestScenario:
         scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
         vol =  (4/3)*np.pi*(1e-6)**3
         density = 1
+        env_state.height = 1
+        env_state.set_temperature(300)
+        env_state.pressure = 101325
+        aero_data.frac_dim = 3
+        aero_data.prime_radius = 1e-8
+        aero_data.vol_fill_factor = 1
 
         # act
         rate = ppmc.loss_rate(scenario, vol, density, aero_data, env_state)
-        print(rate)
 
         # assert
         assert rate is not nan
@@ -152,6 +158,12 @@ class TestScenario:
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         vol =  (4/3)*np.pi*(1e-6)**3
         density = 1
+        env_state.height = 1
+        env_state.set_temperature(300)
+        env_state.pressure = 101325
+        aero_data.frac_dim = 3
+        aero_data.prime_radius = 1e-8
+        aero_data.vol_fill_factor = 1
 
         # act
         rate = ppmc.loss_rate_dry_dep(vol, density, aero_data, env_state)

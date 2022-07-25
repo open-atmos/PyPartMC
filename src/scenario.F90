@@ -51,12 +51,8 @@ module PyPartMC_scenario
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
     call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
 
-    call fractal_set_spherical(aero_data_ptr_f%fractal)
-
-    env_state_ptr_f%height = 1
-    env_state_ptr_f%temp = 300
-    env_state_ptr_f%pressure =  101325
     rate = scenario_loss_rate(scenario_ptr_f, vol, density, aero_data_ptr_f, env_state_ptr_f)
+
   end subroutine
 
   subroutine f_scenario_loss_rate_dry_dep(vol, density, aero_data_ptr_c, env_state_ptr_c, rate) bind(C)
@@ -69,12 +65,8 @@ module PyPartMC_scenario
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
     call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
 
-    call fractal_set_spherical(aero_data_ptr_f%fractal)
-
-    env_state_ptr_f%height = 1
-    env_state_ptr_f%temp = 300
-    env_state_ptr_f%pressure =  101325
     rate = scenario_loss_rate_dry_dep(vol, density, aero_data_ptr_f, env_state_ptr_f)
+
   end subroutine
 
 end module
