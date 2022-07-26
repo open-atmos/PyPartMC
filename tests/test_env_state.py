@@ -44,3 +44,27 @@ class TestEnvState:
         # assert
         pass
 
+    @staticmethod
+    def test_height():
+        # arrange
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        value = 1
+
+        # act
+        sut.height = value
+
+        # assert
+        assert value == sut.height
+
+    @staticmethod
+    def test_pressure():
+        # arrange
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        value = 101325
+
+        # act
+        sut.pressure = value
+
+        # assert
+        assert value == sut.pressure
+

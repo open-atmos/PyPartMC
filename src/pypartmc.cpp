@@ -168,6 +168,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the current temperature of the environment state")
         .def_property_readonly("rh", EnvState::rh,
             "returns the current relative humidity of the environment state")
+        .def_property("height", &EnvState::get_height, &EnvState::set_height)
+        .def_property("pressure", &EnvState::get_pressure, &EnvState::set_pressure)
     ;
 
     py::class_<Scenario>(m,
@@ -271,6 +273,16 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Convert diameter (m) to radius (m)."
     );
 
+    m.def(
+        "loss_rate_dry_dep", &loss_rate_dry_dep, py::return_value_policy::copy,
+        "Compute and return the dry deposition rate for a given particle."
+    );
+
+    m.def(
+        "loss_rate", &loss_rate, py::return_value_policy::copy,
+        "Evaluate a loss rate function."
+    );
+
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 
     m.attr("__all__") = py::make_tuple(
@@ -293,6 +305,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "sphere_vol2rad",
         "rad2diam",
         "sphere_rad2vol",
-        "diam2rad"
+        "diam2rad",
+        "loss_rate_dry_dep",
+        "loss_rate"
     );
 }
