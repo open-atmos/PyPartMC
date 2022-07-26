@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <set>
@@ -19,10 +20,8 @@ struct Gimmick {
     std::set<std::string> vars;
     const nlohmann::json *json;
     std::stack<const nlohmann::json*> json_parent;
-
-    //#54: set of valid keys in json (not sure if this is correct)
-    std::set<std::string> valid_vars {"temp_profile", "pressure_profile", "height_profile", "gas_emissions", "gas_background",
-    "aero_emissions", "aero_background", "loss function"};
+    std::set<std::string> used_vars;
+    std::set<std::string> vars_diff;
 
     void warn(const std::exception &exception) {
         std::cerr << "WARN: " << exception.what() << std::endl;
@@ -36,22 +35,24 @@ struct Gimmick {
         this->set_current_json_ptr(&json);
         for (auto &entry : this->json->items()) {
             this->vars.insert(entry.key());
-            //#54: Check if json entry is valid
-            //I think there could be a better way to do this
-            check_entry(entry.key(), valid_vars);
         }
+        check_entries();
     };
 
     /**
-     * #54: Checks if json entry key is valid
+     * #54: Compares the input json key set (vars) and the keys actually used (used_vars)
+     * to check if each json entry key is valid
      * 
-     * @param str key to check
-     * @param set the set of valid keys
-     * 
+     * @throws std::runtime_error if there is a difference in the two sets
      **/
-    void check_entry(std::string str, std::set<std::string> set) {
-        if (set.find(str) == set.end()) {
-            throw std::runtime_error("Provided invalid key: " + str);
+    void check_entries() {
+        std::set_difference(vars.begin(), vars.end(), used_vars.begin(), used_vars.end(), std::inserter(vars_diff, vars_diff.end()));
+        if (!vars_diff.empty()) {
+            std::string err = "Provided invalid keys:";
+            for (std::string var : vars_diff) {
+                err += " " + var;
+            }
+            throw std::runtime_error(err);
         }
     }
 
@@ -156,6 +157,9 @@ struct Gimmick {
         for (auto i = 0u; i < value.size(); ++i)
             var_data[i] = value[i];
         var_size[0] = value.size();
+
+        //create set for keys that are actually used
+        used_vars.insert(name.data());
     }
 
     template <typename T1, typename T2>
