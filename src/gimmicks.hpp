@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <set>
@@ -19,6 +20,8 @@ struct Gimmick {
     std::set<std::string> vars;
     const nlohmann::json *json;
     std::stack<const nlohmann::json*> json_parent;
+    std::set<std::string> used_vars;
+    std::set<std::string> vars_diff;
 
     void warn(const std::exception &exception) {
         std::cerr << "WARN: " << exception.what() << std::endl;
@@ -33,7 +36,25 @@ struct Gimmick {
         for (auto &entry : this->json->items()) {
             this->vars.insert(entry.key());
         }
+        check_entries();
     };
+
+    /**
+     * #54: Compares the input json key set (vars) and the keys actually used (used_vars)
+     * to check if each json entry key is valid
+     * 
+     * @throws std::runtime_error if there is a difference in the two sets
+     **/
+    void check_entries() {
+        std::set_difference(vars.begin(), vars.end(), used_vars.begin(), used_vars.end(), std::inserter(vars_diff, vars_diff.end()));
+        if (!vars_diff.empty()) {
+            std::string err = "Provided invalid keys:";
+            for (std::string var : vars_diff) {
+                err += " " + var;
+            }
+            throw std::runtime_error(err);
+        }
+    }
 
     void set_current_json_ptr(const nlohmann::json *ptr) {
         this->json = ptr;
@@ -136,6 +157,9 @@ struct Gimmick {
         for (auto i = 0u; i < value.size(); ++i)
             var_data[i] = value[i];
         var_size[0] = value.size();
+
+        //create set for keys that are actually used
+        used_vars.insert(name.data());
     }
 
     template <typename T1, typename T2>
@@ -197,4 +221,3 @@ struct OutputGimmick: Gimmick {
 };
 
 std::unique_ptr<Gimmick> &gimmick_ptr();
-
