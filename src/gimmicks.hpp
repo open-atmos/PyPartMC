@@ -36,9 +36,17 @@ struct Gimmick {
         for (auto &entry : this->json->items()) {
             this->vars.insert(entry.key());
         }
-        check_entries();
     };
 
+    void set_current_json_ptr(const nlohmann::json *ptr) {
+        this->json = ptr;
+    }
+
+    auto dump() const {
+        return this->json->dump();
+    }
+
+  public:
     /**
      * #54: Compares the input json key set (vars) and the keys actually used (used_vars)
      * to check if each json entry key is valid
@@ -56,15 +64,6 @@ struct Gimmick {
         }
     }
 
-    void set_current_json_ptr(const nlohmann::json *ptr) {
-        this->json = ptr;
-    }
-
-    auto dump() const {
-        return this->json->dump();
-    }
-
-  public:
     virtual ~Gimmick() {}
 
     void zoom_in(const bpstd::string_view &sub) noexcept {
@@ -221,3 +220,4 @@ struct OutputGimmick: Gimmick {
 };
 
 std::unique_ptr<Gimmick> &gimmick_ptr();
+

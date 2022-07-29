@@ -23,21 +23,11 @@ FAKE_JSON = {
 class TestJSONInput:
     @staticmethod
     def test_json():
+        # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         
-
-        # does not catch RuntimeError for some reason
-        # tried catching error in the Scenario constructor 
-        # then throwing the exception again but did not work
+        # act & assert
         with pytest.raises(RuntimeError):
             fake_scenario = ppmc.Scenario(gas_data, aero_data, FAKE_JSON)
 
-
-        # this is the same code as above but just longer
-
-        # try:
-        #     fake_scenario = ppmc.Scenario(gas_data, aero_data, FAKE_JSON)
-        #     assert False
-        # except RuntimeError as e:
-        #     assert str(e) == "Provided unexpected key: humidity"

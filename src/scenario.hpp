@@ -41,13 +41,7 @@ struct Scenario {
             aero_data.ptr.f_arg(),
             this->ptr.f_arg()
         );
-
-        //#54: should catch error and throw but pytest does not catch it
-        try {
-            gimmick_ptr()->check_entries();
-        } catch (std::runtime_error) {
-            throw;
-        }
+        gimmick_ptr()->check_entries();
         gimmick_ptr().reset();
     }
 
