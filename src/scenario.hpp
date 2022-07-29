@@ -41,11 +41,12 @@ struct Scenario {
             aero_data.ptr.f_arg(),
             this->ptr.f_arg()
         );
+        gimmick_ptr()->check_entries();
         gimmick_ptr().reset();
     }
 
     static std::string __str__(const Scenario &self) {
         return self.json.dump();
-    }   
+    }
 };
 
