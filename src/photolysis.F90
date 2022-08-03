@@ -4,7 +4,7 @@
 ! Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 !###################################################################################################
 
-module PyPartMC_camp_core
+module PyPartMC_photolysis
     use iso_c_binding
     use pmc_photolysis
     implicit none
