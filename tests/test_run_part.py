@@ -25,12 +25,14 @@ class TestRunPart:
         gas_state  = ppmc.GasState()
         scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
         run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL)
+        camp_core = ppmc.CampCore()
+        photolysis = ppmc.Photolysis()
 
         # act
-        # TODO #33
-        # ppmc.run_part(
-        #     scenario, env_state, aero_data, aero_state, gas_data, gas_state, run_part_opt
-        # )
+        ppmc.run_part(
+            scenario, env_state, aero_data, aero_state, gas_data, gas_state, run_part_opt,
+            camp_core, photolysis
+        )
 
         # assert
         pass

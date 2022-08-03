@@ -18,6 +18,8 @@
 #include "gas_state.hpp"
 #include "condense.hpp"
 #include "bin_grid.hpp"
+#include "camp_core.hpp"
+#include "photolysis.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -170,6 +172,24 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the current relative humidity of the environment state")
     ;
 
+    py::class_<Photolysis>(m,
+        "Photolysis",
+        R"pbdoc(
+            PartMC interface to a photolysis module
+        )pbdoc"
+    )
+        .def(py::init<>())
+    ;
+
+    py::class_<CampCore>(m,
+        "CampCore",
+        R"pbdoc(
+            An interface between PartMC and the CAMP
+        )pbdoc"
+    )
+        .def(py::init<>())
+    ;
+
     py::class_<Scenario>(m,
         "Scenario",
         R"pbdoc(
@@ -279,9 +299,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "AeroState",
         "AeroParticle",
         "BinGrid",
+        "CampCore",
         "EnvState",
         "GasData",
         "GasState",
+        "Photolysis",
         "RunPartOpt",
         "Scenario",
         "condense_equilib_particles",
