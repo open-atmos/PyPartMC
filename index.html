@@ -113,6 +113,18 @@ equilibrium.</p></div>
 <dd>
 <div class="desc"><p>Return a 2D histogram with of the given weighted data, scaled by the bin sizes.</p></div>
 </dd>
+<dt id="PyPartMC.loss_rate"><code class="name flex">
+<span>def <span class="ident">loss_rate</span></span>(<span>arg0: _PyPartMC.Scenario, arg1: float, arg2: float, arg3: _PyPartMC.AeroData, arg4: _PyPartMC.EnvState) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Evaluate a loss rate function.</p></div>
+</dd>
+<dt id="PyPartMC.loss_rate_dry_dep"><code class="name flex">
+<span>def <span class="ident">loss_rate_dry_dep</span></span>(<span>arg0: float, arg1: float, arg2: _PyPartMC.AeroData, arg3: _PyPartMC.EnvState) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Compute and return the dry deposition rate for a given particle.</p></div>
+</dd>
 <dt id="PyPartMC.pow2_above"><code class="name flex">
 <span>def <span class="ident">pow2_above</span></span>(<span>arg0: int) ‑> int</span>
 </code></dt>
@@ -366,6 +378,14 @@ scenario_t.</p>
 </ul>
 <h3>Instance variables</h3>
 <dl>
+<dt id="PyPartMC.EnvState.height"><code class="name">var <span class="ident">height</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.EnvState) -&gt; float</p></div>
+</dd>
+<dt id="PyPartMC.EnvState.pressure"><code class="name">var <span class="ident">pressure</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.EnvState) -&gt; float</p></div>
+</dd>
 <dt id="PyPartMC.EnvState.rh"><code class="name">var <span class="ident">rh</span></code></dt>
 <dd>
 <div class="desc"><p>returns the current relative humidity of the environment state</p></div>
@@ -469,6 +489,8 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.diam2rad" href="#PyPartMC.diam2rad">diam2rad</a></code></li>
 <li><code><a title="PyPartMC.histogram_1d" href="#PyPartMC.histogram_1d">histogram_1d</a></code></li>
 <li><code><a title="PyPartMC.histogram_2d" href="#PyPartMC.histogram_2d">histogram_2d</a></code></li>
+<li><code><a title="PyPartMC.loss_rate" href="#PyPartMC.loss_rate">loss_rate</a></code></li>
+<li><code><a title="PyPartMC.loss_rate_dry_dep" href="#PyPartMC.loss_rate_dry_dep">loss_rate_dry_dep</a></code></li>
 <li><code><a title="PyPartMC.pow2_above" href="#PyPartMC.pow2_above">pow2_above</a></code></li>
 <li><code><a title="PyPartMC.rad2diam" href="#PyPartMC.rad2diam">rad2diam</a></code></li>
 <li><code><a title="PyPartMC.run_part" href="#PyPartMC.run_part">run_part</a></code></li>
@@ -522,6 +544,8 @@ aero_dist_interp_1d(), respectively.</p>
 <li>
 <h4><code><a title="PyPartMC.EnvState" href="#PyPartMC.EnvState">EnvState</a></code></h4>
 <ul class="">
+<li><code><a title="PyPartMC.EnvState.height" href="#PyPartMC.EnvState.height">height</a></code></li>
+<li><code><a title="PyPartMC.EnvState.pressure" href="#PyPartMC.EnvState.pressure">pressure</a></code></li>
 <li><code><a title="PyPartMC.EnvState.rh" href="#PyPartMC.EnvState.rh">rh</a></code></li>
 <li><code><a title="PyPartMC.EnvState.set_temperature" href="#PyPartMC.EnvState.set_temperature">set_temperature</a></code></li>
 <li><code><a title="PyPartMC.EnvState.temp" href="#PyPartMC.EnvState.temp">temp</a></code></li>
