@@ -9,6 +9,7 @@
 #include "gimmicks.hpp"
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
+#include "env_state.hpp"
 #include "gas_data.hpp"
 
 extern "C" void f_scenario_ctor(void *ptr) noexcept;
@@ -22,6 +23,21 @@ extern "C" void f_scenario_from_json(
     noexcept
 #endif
 ;
+extern "C" void f_scenario_loss_rate(
+    const void *scenario,
+    const double *vol,
+    const double *density,
+    const void *aero_data,
+    const void *env_state,
+    double *rate
+) noexcept;
+extern "C" void f_scenario_loss_rate_dry_dep(
+    const double *vol,
+    const double *density,
+    const void *aero_data,
+    const void *env_state,
+    double *rate
+) noexcept;
 
 struct Scenario {
     PMCResource ptr;
@@ -49,3 +65,38 @@ struct Scenario {
     }   
 };
 
+double loss_rate(
+    const Scenario &scenario,
+    const double vol,
+    const double density,
+    const AeroData &aero_data,
+    const EnvState &env_state
+) {
+    double rate;
+    f_scenario_loss_rate(
+        &scenario.ptr,
+        &vol,
+        &density,
+        &aero_data.ptr,
+        &env_state.ptr,
+        &rate
+    );
+    return rate;
+}
+
+double loss_rate_dry_dep(
+    const double vol,
+    const double density,
+    const AeroData &aero_data,
+    const EnvState &env_state
+) {
+    double rate;
+    f_scenario_loss_rate_dry_dep(
+        &vol,
+        &density,
+        &aero_data.ptr,
+        &env_state.ptr,
+        &rate
+    );
+    return rate;
+}

@@ -69,4 +69,48 @@ module PyPartMC_env_state
 
     end subroutine
 
+    subroutine f_env_state_set_height(ptr_c, height) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(in) :: height
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ptr_f%height = height
+
+    end subroutine
+
+    subroutine f_env_state_get_height(ptr_c, height) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: height
+        
+        call c_f_pointer(ptr_c, ptr_f)
+
+        height = ptr_f%height
+
+    end subroutine
+
+    subroutine f_env_state_set_pressure(ptr_c, pressure) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(in) :: pressure
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ptr_f%pressure = pressure
+
+    end subroutine
+
+    subroutine f_env_state_get_pressure(ptr_c, pressure) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: pressure
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        pressure = ptr_f%pressure
+
+    end subroutine
+
 end module
