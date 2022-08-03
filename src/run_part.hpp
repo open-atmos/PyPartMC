@@ -12,8 +12,12 @@
 #include "gas_state.hpp"
 #include "run_part_opt.hpp"
 #include "scenario.hpp"
+#include "camp_core.hpp"
+#include "photolysis.hpp"
 
 extern "C" void f_run_part(
+    const void*,
+    const void*,
     const void*,
     const void*,
     const void*,
@@ -30,7 +34,9 @@ void run_part(
     const AeroState &aero_state,
     const GasData &gas_data,
     const GasState &gas_state,
-    const RunPartOpt &run_part_opt
+    const RunPartOpt &run_part_opt,
+    const CampCore &camp_core,
+    const Photolysis &photolysis
 ) {
     f_run_part(
         scenario.ptr.f_arg(),
@@ -39,7 +45,9 @@ void run_part(
         aero_state.ptr.f_arg(),
         gas_data.ptr.f_arg(),
         gas_state.ptr.f_arg(),
-        run_part_opt.ptr.f_arg()
+        run_part_opt.ptr.f_arg(),
+        camp_core.ptr.f_arg(),
+        photolysis.ptr.f_arg()
     );
 }
 

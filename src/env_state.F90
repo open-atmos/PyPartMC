@@ -7,6 +7,7 @@
 module PyPartMC_env_state
     use iso_c_binding
     use pmc_env_state
+    use camp_env_state, only: camp_env_state_t => env_state_t
     implicit none
 
     contains
