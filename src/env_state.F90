@@ -7,6 +7,7 @@
 module PyPartMC_env_state
     use iso_c_binding
     use pmc_env_state
+    use camp_env_state, only: camp_env_state_t => env_state_t
     implicit none
 
     contains
@@ -33,6 +34,84 @@ module PyPartMC_env_state
         type(spec_file_t) :: file
         call c_f_pointer(ptr_c, ptr_f)
         call spec_file_read_env_state(file, ptr_f)
+        ptr_f%rel_humid = .99 !TODO #142
+    end subroutine
+
+    subroutine f_env_state_set_temperature(ptr_c, temperature) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(in) :: temperature
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ptr_f%temp = temperature
+
+    end subroutine
+
+    subroutine f_env_state_get_temperature(ptr_c, temperature) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: temperature
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        temperature = ptr_f%temp
+
+    end subroutine
+
+    subroutine f_env_state_get_rel_humid(ptr_c, rel_humid) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: rel_humid
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        rel_humid = ptr_f%rel_humid
+
+    end subroutine
+
+    subroutine f_env_state_set_height(ptr_c, height) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(in) :: height
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ptr_f%height = height
+
+    end subroutine
+
+    subroutine f_env_state_get_height(ptr_c, height) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: height
+        
+        call c_f_pointer(ptr_c, ptr_f)
+
+        height = ptr_f%height
+
+    end subroutine
+
+    subroutine f_env_state_set_pressure(ptr_c, pressure) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(in) :: pressure
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ptr_f%pressure = pressure
+
+    end subroutine
+
+    subroutine f_env_state_get_pressure(ptr_c, pressure) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: pressure
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        pressure = ptr_f%pressure
+
     end subroutine
 
 end module

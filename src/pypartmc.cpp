@@ -18,6 +18,8 @@
 #include "gas_state.hpp"
 #include "condense.hpp"
 #include "bin_grid.hpp"
+#include "camp_core.hpp"
+#include "photolysis.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -34,6 +36,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
       Call condense_equilib_particle() on each particle in the aerosol
       to ensure that every particle has its water content in
       equilibrium.
+    )pbdoc");
+    m.def("condense_equilib_particle", &condense_equilib_particle, R"pbdoc(
+        Determine the water equilibrium state of a single particle.
     )pbdoc");
 
     // TODO #65
@@ -64,6 +69,32 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const nlohmann::json&>())
         .def("spec_by_name", AeroData::spec_by_name)
+        .def("__len__", AeroData::__len__)
+        .def_property("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim)
+        .def_property("vol_fill_factor", &AeroData::get_vol_fill_factor, &AeroData::set_vol_fill_factor)
+        .def_property("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius)
+        .def("rad2vol", AeroData::rad2vol,
+            "Convert geometric radius (m) to mass-equivalent volume (m^3).")
+        .def("vol2rad", AeroData::vol2rad,
+            "Convert mass-equivalent volume (m^3) to geometric radius (m)")
+        .def("diam2vol", AeroData::diam2vol,
+            "Convert geometric diameter (m) to mass-equivalent volume (m^3).")
+        .def("vol2diam", AeroData::vol2diam,
+            "Convert mass-equivalent volume (m^3) to geometric diameter (m).")
+    ;
+
+    py::class_<AeroParticle>(m, "AeroParticle",
+        R"pbdoc(
+             Single aerosol particle data structure.
+  
+             The \c vol array stores the total volumes of the different
+             species that make up the particle. This array must have length
+             equal to aero_data%%n_spec, so that \c vol(i) is the volume (in
+             m^3) of the i'th aerosol species.
+        )pbdoc"
+    )
+        .def(py::init<const AeroData&, const std::valarray<double>&>())
+        .def_property_readonly("volumes", AeroParticle::volumes)
     ;
 
     py::class_<AeroState>(m, "AeroState",
@@ -82,6 +113,26 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const double, const AeroData&>())
         .def("__len__", AeroState::__len__)
+        .def("total_num_conc", AeroState::total_num_conc,
+            "returns the total number concentration of the population")
+        .def("total_mass_conc", AeroState::total_mass_conc,
+            "returns the total mass concentration of the population")
+        .def("num_concs", AeroState::num_concs,
+            "returns the number concentration of each particle in the population")
+        .def("masses", AeroState::masses,
+            "returns the total mass of each particle in the population")
+        .def("volumes", AeroState::volumes,
+            "returns the total volume of each particle in the population")
+        .def("dry_diameters", AeroState::dry_diameters,
+            "returns the dry diameter of each particle in the population")
+        .def("diameters", AeroState::diameters,
+            "returns the diameter of each particle in the population")
+        .def("crit_rel_humids", AeroState::crit_rel_humids,
+            "returns the critical relative humidity of each particle in the population")
+        .def("mixing_state", AeroState::mixing_state,
+            "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population")
+        .def("bin_average_comp", AeroState::bin_average_comp,
+            "composition-averages population using BinGrid")
     ;
 
     py::class_<GasData>(m, "GasData",
@@ -115,6 +166,32 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>())
+        .def("set_temperature", EnvState::set_temperature,
+            "sets the temperature of the environment state")
+        .def_property_readonly("temp", EnvState::temp,
+            "returns the current temperature of the environment state")
+        .def_property_readonly("rh", EnvState::rh,
+            "returns the current relative humidity of the environment state")
+        .def_property("height", &EnvState::get_height, &EnvState::set_height)
+        .def_property("pressure", &EnvState::get_pressure, &EnvState::set_pressure)
+    ;
+
+    py::class_<Photolysis>(m,
+        "Photolysis",
+        R"pbdoc(
+            PartMC interface to a photolysis module
+        )pbdoc"
+    )
+        .def(py::init<>())
+    ;
+
+    py::class_<CampCore>(m,
+        "CampCore",
+        R"pbdoc(
+            An interface between PartMC and the CAMP
+        )pbdoc"
+    )
+        .def(py::init<>())
     ;
 
     py::class_<Scenario>(m,
@@ -204,22 +281,62 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Return the least power-of-2 that is at least equal to n."
     );
 
+    m.def(
+        "sphere_vol2rad", &sphere_vol2rad, py::return_value_policy::copy,
+        "Convert mass-equivalent volume (m^3) to geometric radius (m) for spherical particles."
+    );
+
+    m.def(
+        "rad2diam", &rad2diam, py::return_value_policy::copy,
+        "Convert radius (m) to diameter (m)."
+    );
+
+    m.def(
+        "sphere_rad2vol", &sphere_rad2vol, py::return_value_policy::copy,
+        "Convert geometric radius (m) to mass-equivalent volume for spherical particles."
+    );
+
+    m.def(
+        "diam2rad", &diam2rad, py::return_value_policy::copy,
+        "Convert diameter (m) to radius (m)."
+    );
+
+    m.def(
+        "loss_rate_dry_dep", &loss_rate_dry_dep, py::return_value_policy::copy,
+        "Compute and return the dry deposition rate for a given particle."
+    );
+
+    m.def(
+        "loss_rate", &loss_rate, py::return_value_policy::copy,
+        "Evaluate a loss rate function."
+    );
+
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 
     m.attr("__all__") = py::make_tuple(
         "__version__",
         "AeroData",
         "AeroState",
+        "AeroParticle",
         "BinGrid",
+        "CampCore",
         "EnvState",
         "GasData",
         "GasState",
+        "Photolysis",
         "RunPartOpt",
         "Scenario",
         "condense_equilib_particles",
         "run_part",
         "pow2_above",
+        "condense_equilib_particle",
         "histogram_1d",
-        "histogram_2d"
+        "histogram_2d",
+        "sphere_vol2rad",
+        "rad2diam",
+        "sphere_rad2vol",
+        "diam2rad",
+        "loss_rate_dry_dep",
+        "loss_rate"
     );
 }

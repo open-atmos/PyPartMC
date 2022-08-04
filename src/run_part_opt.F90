@@ -48,6 +48,8 @@ module PyPartMC_run_part_opt
         call spec_file_read_logical(file, 'allow_doubling', run_part_opt%allow_doubling)
         call spec_file_read_logical(file, 'allow_halving', run_part_opt%allow_halving)
 
+        call spec_file_read_logical(file, 'do_camp_chem', run_part_opt%do_camp_chem)
+
         run_part_opt%output_type = OUTPUT_TYPE_SINGLE
 
     end subroutine

@@ -26,7 +26,7 @@ struct GasData {
         json(tpl)
     {
         auto json_array = nlohmann::json::array();
-        for (const auto &item : tpl)
+        for (const auto item : tpl)
             json_array.push_back(nlohmann::json::object({{
                 item.cast<std::string>(),
                 nlohmann::json::array()
