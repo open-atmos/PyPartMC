@@ -101,6 +101,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Volume of a single species in the particle (m^3).")
         .def("particle_dry_volume", AeroParticle::particle_dry_volume,
             "Total dry volume of the particle (m^3).")
+        .def("particle_radius", AeroParticle::particle_radius,
+            "Total radius of the particle (m).")
     ;
 
     py::class_<AeroState>(m, "AeroState",

@@ -83,4 +83,16 @@ module PyPartMC_aero_particle
     vol = aero_particle_dry_volume(aero_particle_ptr_f, aero_data_ptr_f)
   end subroutine
 
+  subroutine f_aero_particle_radius(aero_particle_ptr_c, aero_data_ptr_c, radius) bind(C)
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c, aero_data_ptr_c
+    real(c_double), intent(out) :: radius
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    radius = aero_particle_radius(aero_particle_ptr_f, aero_data_ptr_f)
+  end subroutine
+
 end module
