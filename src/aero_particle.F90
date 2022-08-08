@@ -49,4 +49,15 @@ module PyPartMC_aero_particle
     call c_f_pointer(ptr_c, aero_particle)
     arr_data = aero_particle%vol
   end subroutine
+
+  subroutine f_aero_particle_volume(ptr_c, vol) bind(C)
+    type(aero_particle_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    real(c_double), intent(out) :: vol
+
+    call c_f_pointer(ptr_c, ptr_f)
+    
+    vol = aero_particle_volume(ptr_f)
+  end subroutine
+
 end module

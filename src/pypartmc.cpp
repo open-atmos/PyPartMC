@@ -95,6 +95,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const AeroData&, const std::valarray<double>&>())
         .def_property_readonly("volumes", AeroParticle::volumes)
+        .def("particle_volume", AeroParticle::particle_volume,
+            "Total volume of the particle (m^3).")
     ;
 
     py::class_<AeroState>(m, "AeroState",

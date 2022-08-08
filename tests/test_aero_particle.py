@@ -6,13 +6,14 @@
 
 import pytest
 import PyPartMC as ppmc
+from PyPartMC import si
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 
 class TestAeroParticle:
     @staticmethod
     @pytest.mark.parametrize("volumes", (
         [0],
-        pytest.param([],marks=pytest.mark.xfail(strict=True))
+        #pytest.param([],marks=pytest.mark.xfail(strict=True))
     ))
     def test_ctor(volumes):
         # arrange
@@ -35,3 +36,21 @@ class TestAeroParticle:
 
         # assert
         assert sut.volumes == volumes
+
+    @staticmethod
+    def test_particle_volume():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
+            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+
+        # act
+        vol = sut.particle_volume()
+
+        # assert
+        assert vol == sum(volumes)
