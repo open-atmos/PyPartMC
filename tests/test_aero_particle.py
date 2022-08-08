@@ -71,3 +71,21 @@ class TestAeroParticle:
         for i, volume in enumerate(volumes):
             vol = sut.species_volume(i)
             assert vol == volume
+
+    @staticmethod
+    def test_particle_dry_volume():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
+            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+
+        # act
+        dry_vol = sut.particle_dry_volume()
+
+        # assert
+        assert dry_vol == 5
