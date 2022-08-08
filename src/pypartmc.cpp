@@ -105,6 +105,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Total radius of the particle (m).")
         .def("particle_dry_radius", AeroParticle::particle_dry_radius,
             "Total dry radius of the particle (m).")
+        .def("particle_diameter", AeroParticle::particle_diameter,
+            "Total diameter of the particle (m).")
     ;
 
     py::class_<AeroState>(m, "AeroState",
