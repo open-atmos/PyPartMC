@@ -45,7 +45,7 @@ struct AeroParticle {
         return data;
     }
 
-    static double particle_volume(const AeroParticle &self) {
+    static double volume(const AeroParticle &self) {
         double vol;
         f_aero_particle_volume(&self.ptr, &vol);
         return vol;
@@ -57,31 +57,31 @@ struct AeroParticle {
         return vol;
     }
 
-    static double particle_dry_volume(const AeroParticle &self) {
+    static double dry_volume(const AeroParticle &self) {
         double vol;
         f_aero_particle_dry_volume(&self.ptr, &self.aero_data, &vol);
         return vol;
     }
 
-    static double particle_radius(const AeroParticle &self) {
+    static double radius(const AeroParticle &self) {
         double radius;
         f_aero_particle_radius(&self.ptr, &self.aero_data, &radius);
         return radius;
     }
 
-    static double particle_dry_radius(const AeroParticle &self) {
+    static double dry_radius(const AeroParticle &self) {
         double radius;
         f_aero_particle_dry_radius(&self.ptr, &self.aero_data, &radius);
         return radius;
     }
 
-    static double particle_diameter(const AeroParticle &self) {
+    static double diameter(const AeroParticle &self) {
         double diameter;
         f_aero_particle_diameter(&self.ptr, &self.aero_data, &diameter);
         return diameter;
     }
 
-    static double particle_dry_diameter(const AeroParticle &self) {
+    static double dry_diameter(const AeroParticle &self) {
         double diameter;
         f_aero_particle_dry_diameter(&self.ptr, &self.aero_data, &diameter);
         return diameter;

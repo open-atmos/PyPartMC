@@ -95,19 +95,19 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const AeroData&, const std::valarray<double>&>())
         .def_property_readonly("volumes", AeroParticle::volumes)
-        .def("particle_volume", AeroParticle::particle_volume,
+        .def("volume", AeroParticle::volume,
             "Total volume of the particle (m^3).")
         .def("species_volume", AeroParticle::species_volume,
             "Volume of a single species in the particle (m^3).")
-        .def("particle_dry_volume", AeroParticle::particle_dry_volume,
+        .def("dry_volume", AeroParticle::dry_volume,
             "Total dry volume of the particle (m^3).")
-        .def("particle_radius", AeroParticle::particle_radius,
+        .def("radius", AeroParticle::radius,
             "Total radius of the particle (m).")
-        .def("particle_dry_radius", AeroParticle::particle_dry_radius,
+        .def("dry_radius", AeroParticle::dry_radius,
             "Total dry radius of the particle (m).")
-        .def("particle_diameter", AeroParticle::particle_diameter,
+        .def("diameter", AeroParticle::diameter,
             "Total diameter of the particle (m).")
-        .def("particle_dry_diameter", AeroParticle::particle_dry_diameter,
+        .def("dry_diameter", AeroParticle::dry_diameter,
             "Total dry diameter of the particle (m).")
     ;
 
