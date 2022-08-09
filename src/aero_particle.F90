@@ -131,4 +131,16 @@ module PyPartMC_aero_particle
     diameter = aero_particle_dry_diameter(aero_particle_ptr_f, aero_data_ptr_f)
   end subroutine
 
+  subroutine f_aero_particle_mass(aero_particle_ptr_c, aero_data_ptr_c, mass) bind(C)
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c, aero_data_ptr_c
+    real(c_double), intent(out) :: mass
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    mass = aero_particle_mass(aero_particle_ptr_f, aero_data_ptr_f)
+  end subroutine
+
 end module

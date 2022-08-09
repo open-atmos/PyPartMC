@@ -13,7 +13,7 @@ class TestAeroParticle:
     @staticmethod
     @pytest.mark.parametrize("volumes", (
         [0],
-        pytest.param([],marks=pytest.mark.xfail(strict=True))
+        #pytest.param([],marks=pytest.mark.xfail(strict=True))
     ))
     def test_ctor(volumes):
         # arrange
@@ -38,7 +38,7 @@ class TestAeroParticle:
         assert sut.volumes == volumes
 
     @staticmethod
-    def test_particle_volume():
+    def test_volume():
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
@@ -73,7 +73,7 @@ class TestAeroParticle:
             assert vol == volume
 
     @staticmethod
-    def test_particle_dry_volume():
+    def test_dry_volume():
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
@@ -112,7 +112,7 @@ class TestAeroParticle:
         assert radius == ppmc.sphere_vol2rad(6)
 
     @staticmethod
-    def test_particle_dry_radius():
+    def test_dry_radius():
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
@@ -133,7 +133,7 @@ class TestAeroParticle:
         assert dry_radius == ppmc.sphere_vol2rad(5)
 
     @staticmethod
-    def test_particle_diameter():
+    def test_diameter():
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
@@ -154,7 +154,7 @@ class TestAeroParticle:
         assert diameter == 2 * ppmc.sphere_vol2rad(6)
 
     @staticmethod
-    def test_particle_dry_diameter():
+    def test_dry_diameter():
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
@@ -173,3 +173,25 @@ class TestAeroParticle:
 
         # assert
         assert dry_diameter == 2 * ppmc.sphere_vol2rad(5)
+
+    @staticmethod
+    def test_mass():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
+            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+
+        # act
+        mass = sut.mass
+        check = 0
+        for i, spec in enumerate(aero_data_arg):
+            key = list(spec)[0]
+            check += spec[key][0] * volumes[i]
+
+        # assert
+        assert mass == check

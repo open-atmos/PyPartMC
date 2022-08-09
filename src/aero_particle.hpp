@@ -21,6 +21,7 @@ extern "C" void f_aero_particle_radius(const void *aero_particle_ptr, const void
 extern "C" void f_aero_particle_dry_radius(const void *aero_particle_ptr, const void *aero_data_ptr, double *radius) noexcept;
 extern "C" void f_aero_particle_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, double *diameter) noexcept;
 extern "C" void f_aero_particle_dry_diameter(const void *aero_particle_ptr, const void * aero_data_ptr, double *diameter) noexcept;
+extern "C" void f_aero_particle_mass(const void *aero_particle_ptr, const void *aero_data_ptr, double *mass) noexcept;
 
 namespace py = pybind11;
 struct AeroParticle {
@@ -85,6 +86,12 @@ struct AeroParticle {
         double diameter;
         f_aero_particle_dry_diameter(&self.ptr, &self.aero_data, &diameter);
         return diameter;
+    }
+
+    static double mass (const AeroParticle &self) {
+        double mass;
+        f_aero_particle_mass(&self.ptr, &self.aero_data, &mass);
+        return mass;
     }
 
 };
