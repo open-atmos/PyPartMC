@@ -95,6 +95,26 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const AeroData&, const std::valarray<double>&>())
         .def_property_readonly("volumes", AeroParticle::volumes)
+        .def_property_readonly("volume", AeroParticle::volume,
+            "Total volume of the particle (m^3).")
+        .def("species_volume", AeroParticle::species_volume,
+            "Volume of a single species in the particle (m^3).")
+        .def_property_readonly("dry_volume", AeroParticle::dry_volume,
+            "Total dry volume of the particle (m^3).")
+        .def_property_readonly("radius", AeroParticle::radius,
+            "Total radius of the particle (m).")
+        .def_property_readonly("dry_radius", AeroParticle::dry_radius,
+            "Total dry radius of the particle (m).")
+        .def_property_readonly("diameter", AeroParticle::diameter,
+            "Total diameter of the particle (m).")
+        .def_property_readonly("dry_diameter", AeroParticle::dry_diameter,
+            "Total dry diameter of the particle (m).")
+        .def_property_readonly("mass", AeroParticle::mass,
+            "Total mass of the particle (kg).")
+        .def("species_mass", AeroParticle::species_mass,
+            "Mass of a single species in the particle (kg).")
+        .def_property_readonly("species_masses", AeroParticle::species_masses,
+            "Mass of all species in the particle (kg).")
     ;
 
     py::class_<AeroState>(m, "AeroState",
