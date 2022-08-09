@@ -113,6 +113,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Total mass of the particle (kg).")
         .def("species_mass", AeroParticle::species_mass,
             "Mass of a single species in the particle (kg).")
+        .def_property_readonly("species_masses", AeroParticle::species_masses,
+            "Mass of all species in the particle (kg).")
     ;
 
     py::class_<AeroState>(m, "AeroState",

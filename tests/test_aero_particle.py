@@ -214,3 +214,25 @@ class TestAeroParticle:
 
         # assert
         assert sodium_mass == check
+
+    @staticmethod
+    def test_species_masses():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+
+        # act
+        masses = sut.species_masses
+        check = []
+        for i, spec in enumerate(aero_data_arg):
+            key = list(spec)[0]
+            check.append(spec[key][0] * volumes[i])
+
+        # assert
+        assert masses == check
