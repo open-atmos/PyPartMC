@@ -43,7 +43,7 @@ class TestAeroParticle:
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -61,7 +61,7 @@ class TestAeroParticle:
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -78,7 +78,7 @@ class TestAeroParticle:
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -96,7 +96,7 @@ class TestAeroParticle:
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
@@ -117,7 +117,7 @@ class TestAeroParticle:
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
@@ -138,7 +138,7 @@ class TestAeroParticle:
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
@@ -159,7 +159,7 @@ class TestAeroParticle:
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
@@ -180,7 +180,7 @@ class TestAeroParticle:
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
             {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [220 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -195,3 +195,22 @@ class TestAeroParticle:
 
         # assert
         assert mass == check
+
+    @staticmethod
+    def test_species_mass():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+
+        # act
+        sodium_mass = sut.species_mass(2)
+        check = aero_data_arg[2]["Na"][0] * volumes[2]
+
+        # assert
+        assert sodium_mass == check

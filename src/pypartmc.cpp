@@ -111,6 +111,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Total dry diameter of the particle (m).")
         .def_property_readonly("mass", AeroParticle::mass,
             "Total mass of the particle (kg).")
+        .def("species_mass", AeroParticle::species_mass,
+            "Mass of a single species in the particle (kg).")
     ;
 
     py::class_<AeroState>(m, "AeroState",
