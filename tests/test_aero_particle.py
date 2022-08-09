@@ -50,7 +50,7 @@ class TestAeroParticle:
         sut = ppmc.AeroParticle(aero_data, volumes)
 
         # act
-        vol = sut.volume()
+        vol = sut.volume
 
         # assert
         assert vol == sum(volumes)
@@ -85,7 +85,7 @@ class TestAeroParticle:
         sut = ppmc.AeroParticle(aero_data, volumes)
 
         # act
-        dry_vol = sut.dry_volume()
+        dry_vol = sut.dry_volume
 
         # assert
         assert dry_vol == 5
@@ -106,7 +106,7 @@ class TestAeroParticle:
         sut = ppmc.AeroParticle(aero_data, volumes)
 
         # act
-        radius = sut.radius()
+        radius = sut.radius
 
         # assert
         assert radius == ppmc.sphere_vol2rad(6)
@@ -127,7 +127,7 @@ class TestAeroParticle:
         sut = ppmc.AeroParticle(aero_data, volumes)
 
         # act
-        dry_radius = sut.dry_radius()
+        dry_radius = sut.dry_radius
 
         # assert
         assert dry_radius == ppmc.sphere_vol2rad(5)
@@ -148,7 +148,7 @@ class TestAeroParticle:
         sut = ppmc.AeroParticle(aero_data, volumes)
 
         # act
-        diameter = sut.diameter()
+        diameter = sut.diameter
 
         # assert
         assert diameter == 2 * ppmc.sphere_vol2rad(6)
@@ -169,7 +169,7 @@ class TestAeroParticle:
         sut = ppmc.AeroParticle(aero_data, volumes)
 
         # act
-        dry_diameter = sut.dry_diameter()
+        dry_diameter = sut.dry_diameter
 
         # assert
         assert dry_diameter == 2 * ppmc.sphere_vol2rad(5)
