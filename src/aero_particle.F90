@@ -143,7 +143,13 @@ module PyPartMC_aero_particle
     mass = aero_particle_mass(aero_particle_ptr_f, aero_data_ptr_f)
   end subroutine
 
-  subroutine f_aero_particle_species_mass(aero_particle_ptr_c, i_spec, aero_data_ptr_c, mass) bind(C)
+  subroutine f_aero_particle_species_mass( &
+      aero_particle_ptr_c, &
+      i_spec, &
+      aero_data_ptr_c, &
+      mass &
+    ) bind(C)
+
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_ptr_c, aero_data_ptr_c
@@ -156,7 +162,13 @@ module PyPartMC_aero_particle
     mass = aero_particle_species_mass(aero_particle_ptr_f, i_spec+1, aero_data_ptr_f)
   end subroutine
 
-  subroutine f_aero_particle_species_masses(aero_particle_ptr_c, aero_data_ptr_c, size_masses, masses) bind(C)
+  subroutine f_aero_particle_species_masses( &
+      aero_particle_ptr_c, &
+      aero_data_ptr_c, &
+      size_masses, &
+      masses &
+    ) bind(C)
+
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_ptr_c, aero_data_ptr_c
