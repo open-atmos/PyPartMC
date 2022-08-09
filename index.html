@@ -251,9 +251,56 @@ m^3) of the i'th aerosol species.</p>
 </ul>
 <h3>Instance variables</h3>
 <dl>
+<dt id="PyPartMC.AeroParticle.diameter"><code class="name">var <span class="ident">diameter</span></code></dt>
+<dd>
+<div class="desc"><p>Total diameter of the particle (m).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.dry_diameter"><code class="name">var <span class="ident">dry_diameter</span></code></dt>
+<dd>
+<div class="desc"><p>Total dry diameter of the particle (m).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.dry_radius"><code class="name">var <span class="ident">dry_radius</span></code></dt>
+<dd>
+<div class="desc"><p>Total dry radius of the particle (m).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.dry_volume"><code class="name">var <span class="ident">dry_volume</span></code></dt>
+<dd>
+<div class="desc"><p>Total dry volume of the particle (m^3).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.mass"><code class="name">var <span class="ident">mass</span></code></dt>
+<dd>
+<div class="desc"><p>Total mass of the particle (kg).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.radius"><code class="name">var <span class="ident">radius</span></code></dt>
+<dd>
+<div class="desc"><p>Total radius of the particle (m).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.species_masses"><code class="name">var <span class="ident">species_masses</span></code></dt>
+<dd>
+<div class="desc"><p>Mass of all species in the particle (kg).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.volume"><code class="name">var <span class="ident">volume</span></code></dt>
+<dd>
+<div class="desc"><p>Total volume of the particle (m^3).</p></div>
+</dd>
 <dt id="PyPartMC.AeroParticle.volumes"><code class="name">var <span class="ident">volumes</span></code></dt>
 <dd>
 <div class="desc"><p>(arg0: _PyPartMC.AeroParticle) -&gt; List[float]</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="PyPartMC.AeroParticle.species_mass"><code class="name flex">
+<span>def <span class="ident">species_mass</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: int) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Mass of a single species in the particle (kg).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.species_volume"><code class="name flex">
+<span>def <span class="ident">species_volume</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: int) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Volume of a single species in the particle (m^3).</p></div>
 </dd>
 </dl>
 </dd>
@@ -539,7 +586,17 @@ aero_dist_interp_1d(), respectively.</p>
 </li>
 <li>
 <h4><code><a title="PyPartMC.AeroParticle" href="#PyPartMC.AeroParticle">AeroParticle</a></code></h4>
-<ul class="">
+<ul class="two-column">
+<li><code><a title="PyPartMC.AeroParticle.diameter" href="#PyPartMC.AeroParticle.diameter">diameter</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.dry_diameter" href="#PyPartMC.AeroParticle.dry_diameter">dry_diameter</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.dry_radius" href="#PyPartMC.AeroParticle.dry_radius">dry_radius</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.dry_volume" href="#PyPartMC.AeroParticle.dry_volume">dry_volume</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.mass" href="#PyPartMC.AeroParticle.mass">mass</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.radius" href="#PyPartMC.AeroParticle.radius">radius</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.species_mass" href="#PyPartMC.AeroParticle.species_mass">species_mass</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.species_masses" href="#PyPartMC.AeroParticle.species_masses">species_masses</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.species_volume" href="#PyPartMC.AeroParticle.species_volume">species_volume</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.volume" href="#PyPartMC.AeroParticle.volume">volume</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.volumes" href="#PyPartMC.AeroParticle.volumes">volumes</a></code></li>
 </ul>
 </li>
