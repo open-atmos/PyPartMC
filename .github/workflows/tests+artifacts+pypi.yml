@@ -35,8 +35,6 @@ jobs:
         exclude:
           - platform: macos-12
             python-version: "3.7"
-          - platform: macos-12
-            python-version: "3.8"
     runs-on: ${{ matrix.platform }}
     steps:
       - if: startsWith(matrix.platform, 'macos-')
