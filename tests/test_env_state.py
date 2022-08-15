@@ -68,3 +68,10 @@ class TestEnvState:
         # assert
         assert value == sut.pressure
 
+    @staticmethod
+    def test_humidity_ctor():
+        # arrange and act
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+
+        # assert
+        assert ENV_STATE_CTOR_ARG_MINIMAL['rel_humidity'] == sut.rh
