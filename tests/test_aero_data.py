@@ -100,9 +100,6 @@ class TestAeroData:
         # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         radius = 1e-6
-        sut.frac_dim = 3.0
-        sut.vol_fill_factor = 1.0
-        sut.prime_radius = 1e-8
 
         # act
         value = sut.rad2vol(radius)
@@ -134,9 +131,6 @@ class TestAeroData:
         # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         vol = 4.19e-18
-        sut.frac_dim = 3.0
-        sut.vol_fill_factor = 1.0
-        sut.prime_radius = 1e-8
 
         # act
         value  = sut.vol2rad(vol)
@@ -169,9 +163,6 @@ class TestAeroData:
         # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         diam = 2e-6
-        sut.frac_dim = 3.0
-        sut.vol_fill_factor = 1.0
-        sut.prime_radius = 1e-8
 
         # act
         vol = sut.diam2vol(diam)
@@ -203,9 +194,6 @@ class TestAeroData:
         # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         vol = 4.19e-18
-        sut.frac_dim = 3.0
-        sut.vol_fill_factor = 1.0
-        sut.prime_radius = 1e-8
 
         # act
         value = sut.vol2diam(vol)
