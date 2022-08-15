@@ -34,7 +34,6 @@ module PyPartMC_env_state
         type(spec_file_t) :: file
         call c_f_pointer(ptr_c, ptr_f)
         call spec_file_read_env_state(file, ptr_f)
-        ptr_f%rel_humid = .99 !TODO #142
     end subroutine
 
     subroutine f_env_state_set_temperature(ptr_c, temperature) bind(C)
@@ -69,6 +68,8 @@ module PyPartMC_env_state
         rel_humid = ptr_f%rel_humid
 
     end subroutine
+
+
 
     subroutine f_env_state_set_height(ptr_c, height) bind(C)
         type(env_state_t), pointer :: ptr_f => null()
