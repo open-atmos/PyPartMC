@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import pytest
+import numpy as np
 import PyPartMC as ppmc
 from PyPartMC import si
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
@@ -236,3 +237,21 @@ class TestAeroParticle:
 
         # assert
         assert masses == check
+
+    @staticmethod
+    def test_solute_kappa():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+
+        #act
+        kappa = sut.solute_kappa
+
+        #assert
+        np.testing.assert_almost_equal(kappa, 1.479240661)

@@ -115,6 +115,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Mass of a single species in the particle (kg).")
         .def_property_readonly("species_masses", AeroParticle::species_masses,
             "Mass of all species in the particle (kg).")
+        .def_property_readonly("solute_kappa", AeroParticle::solute_kappa,
+            "Returns the average of the solute kappas (1).")
     ;
 
     py::class_<AeroState>(m, "AeroState",
