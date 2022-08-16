@@ -24,6 +24,7 @@ extern "C" void f_aero_particle_dry_diameter(const void *aero_particle_ptr, cons
 extern "C" void f_aero_particle_mass(const void *aero_particle_ptr, const void *aero_data_ptr, double *mass) noexcept;
 extern "C" void f_aero_particle_species_mass(const void *aero_particle_ptr, const int *i_spec, const void *aero_data_ptr, double *mass) noexcept;
 extern "C" void f_aero_particle_species_masses(const void *aero_particle_ptr, const void *aero_data_ptr, const int *size_masses, void *masses) noexcept;
+extern "C" void f_aero_particle_solute_kappa(const void *aero_particle_ptr, const void *aero_data_ptr, void *kappa) noexcept;
 
 
 namespace py = pybind11;
@@ -108,6 +109,12 @@ struct AeroParticle {
         std::valarray<double> masses(len);
         f_aero_particle_species_masses(&self.ptr, &self.aero_data, &len, begin(masses));
         return masses;
+    }
+
+    static double solute_kappa(const AeroParticle &self) {
+        double kappa;
+        f_aero_particle_solute_kappa(&self.ptr, &self.aero_data, &kappa);
+        return kappa;
     }
 
 };
