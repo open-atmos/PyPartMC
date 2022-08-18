@@ -37,7 +37,7 @@ jobs:
       - if: startsWith(matrix.platform, 'macos-')
         run: |
           brew reinstall gcc
-          echo MACOSX_DEPLOYMENT_TARGET=10.2 >> $GITHUB_ENV
+          echo MACOSX_DEPLOYMENT_TARGET=10.9 >> $GITHUB_ENV
           # echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
 
       - if: matrix.platform == 'windows-latest'
