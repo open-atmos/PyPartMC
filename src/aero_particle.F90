@@ -37,7 +37,7 @@ module PyPartMC_aero_particle
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
     allocate(ptr_f%vol(arr_size))
-    ptr_f%vol = arr_data
+    call aero_particle_set_vols(ptr_f, arr_data)
   end subroutine
 
   subroutine f_aero_particle_volumes(ptr_c, arr_data, arr_size) bind(C)
