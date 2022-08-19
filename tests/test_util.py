@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import numpy as np
+
 import PyPartMC as ppmc
 
 
@@ -27,7 +28,7 @@ class TestUtil:
     @staticmethod
     def test_sphere_vol2rad():
         # arrange
-        arg = (4/3)*np.pi*(1e-6)**3
+        arg = (4 / 3) * np.pi * (1e-6) ** 3
 
         # act
         rad = ppmc.sphere_vol2rad(arg)
@@ -44,7 +45,7 @@ class TestUtil:
         diam = ppmc.rad2diam(arg)
 
         # assert
-        assert diam == 2*arg
+        assert diam == 2 * arg
 
     @staticmethod
     def test_sphere_rad2vol():
@@ -55,7 +56,7 @@ class TestUtil:
         vol = ppmc.sphere_rad2vol(arg)
 
         # assert
-        np.testing.assert_almost_equal(vol, (4/3)*np.pi*(arg)**3)
+        np.testing.assert_almost_equal(vol, (4 / 3) * np.pi * (arg) ** 3)
 
     @staticmethod
     def test_diam2rad():
@@ -66,4 +67,4 @@ class TestUtil:
         rad = ppmc.diam2rad(arg)
 
         # assert
-        assert rad == arg/2
+        assert rad == arg / 2

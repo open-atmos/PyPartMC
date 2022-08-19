@@ -48,10 +48,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
     py::class_<AeroData>(m, "AeroData",
         R"pbdoc(
              Aerosol material properties and associated data.
- 
+
              The data in this structure is constant, as it represents physical
              quantities that cannot change over time.
-   
+
              Each aerosol species is identified by an index <tt>i =
              1,...,aero_data_n_spec(aero_data)</tt>. Then \c name(i) is the name of
              that species, \c density(i) is its density, etc. The ordering of the
@@ -59,7 +59,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              order in the species data file). The only exception is that it is
              possible to find out which species is water from the \c i_water
              variable.
-  
+
              The names of the aerosol species are not important to PartMC, as
              only the material properties are used. The names are used for
              input and output, and also for communication with MOSAIC. For the
@@ -86,7 +86,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     py::class_<AeroParticle>(m, "AeroParticle",
         R"pbdoc(
              Single aerosol particle data structure.
-  
+
              The \c vol array stores the total volumes of the different
              species that make up the particle. This array must have length
              equal to aero_data%%n_spec, so that \c vol(i) is the volume (in
@@ -122,12 +122,12 @@ PYBIND11_MODULE(_PyPartMC, m) {
     py::class_<AeroState>(m, "AeroState",
         R"pbdoc(
              The current collection of aerosol particles.
-  
+
              The particles in \c aero_state_t are stored in a single flat
              array (the \c apa data member), with a sorting into size bins and
              weight groups/classes possibly stored in the \c aero_sorted data
              member (if \c valid_sort is true).
-  
+
              Every time we remove particles we keep track of the particle ID
              and the action performed in the aero_info_array_t structure. This
              is typically cleared each time we output data to disk.
@@ -160,7 +160,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     py::class_<GasData>(m, "GasData",
         R"pbdoc(
             Constant gas data.
-    
+
             Each gas species is identified by an integer \c i between 1 and
             \c gas_data_n_spec(gas_data). Species \c i has name \c gas_data%%name(i).
             The variable gas data describing the current mixing ratios is stored
@@ -178,7 +178,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "EnvState",
         R"pbdoc(
             Current environment state.
-    
+
             All quantities are instantaneous, describing the state at a
             particular instant of time. Constant data and other data not
             associated with the current environment state is stored in
@@ -218,7 +218,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Scenario",
         R"pbdoc(
             This is everything needed to drive the scenario being simulated.
-  
+
             The temperature, pressure, emissions and background states are profiles
             prescribed as functions of time by giving a number of times and
             the corresponding data. Simple data such as temperature and pressure is
@@ -244,11 +244,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "GasState",
         R"pbdoc(
             Current state of the gas mixing ratios in the system.
-  
+
             The gas species are defined by the gas_data_t structure, so that
             \c gas_state%%mix_rat(i) is the current mixing ratio of the gas
             with name \c gas_data%%name(i), etc.
-    
+
             By convention, if gas_state_is_allocated() return \c .false.,
             then the gas_state is treated as zero for all operations on
             it. This will be the case for new \c gas_state_t structures.
@@ -265,7 +265,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns a string with JSON representation of the object")
     ;
 
-    py::class_<RunPartOpt>(m, 
+    py::class_<RunPartOpt>(m,
         "RunPartOpt",
         "Options controlling the execution of run_part()."
     )

@@ -8,8 +8,10 @@
 # pylint: disable=unused-variable
 
 import pytest
-#import numpy as np
+
+# import numpy as np
 import PyPartMC as ppmc
+
 
 class TestGasState:
     @staticmethod
@@ -18,14 +20,14 @@ class TestGasState:
         pass
 
         # act
-        #try:
+        # try:
         #    sut = ppmc.GasState({'':''})
-        #except ValueError as err:
+        # except ValueError as err:
         #    assert "gas_mixing_ratio" in str(err)
         #    return
 
         # assert
-        #assert False
+        # assert False
 
     @staticmethod
     def test_ctor_emtpy():
@@ -53,39 +55,39 @@ class TestGasState:
     def test_len_empty():
         # arrange
         pass
-        #sut = ppmc.GasState()
+        # sut = ppmc.GasState()
 
         # act
-        #size = len(sut)
+        # size = len(sut)
 
         # assert
-        #assert isinstance(size, int)
-        #assert size == 0  # TODO #123: test non-empty len
+        # assert isinstance(size, int)
+        # assert size == 0  # TODO #123: test non-empty len
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 100))
     def test_get_item_out_of_range(idx):
         # arrange
         pass
-        #sut = ppmc.GasState()
+        # sut = ppmc.GasState()
 
         # act
-        #try:
+        # try:
         #    value = sut[idx]
-        #except IndexError:
+        # except IndexError:
         #    return
 
         # assert
-        #assert False
+        # assert False
 
     @staticmethod
     def test_get_item_valid():
         pass
         # arrange
-        #sut = ppmc.GasState({'gas_mixing_ratio': (44,)})
+        # sut = ppmc.GasState({'gas_mixing_ratio': (44,)})
 
         # act
-        #value = sut[0]
+        # value = sut[0]
 
         # assert
         # assert isinstance(value, float)
@@ -119,7 +121,7 @@ class TestGasState:
     @staticmethod
     def test_to_json():
         # arrange
-        data_in = {} # TODO #123
+        data_in = {}  # TODO #123
         sut = ppmc.GasState(data_in)
 
         # act
@@ -127,5 +129,4 @@ class TestGasState:
         print(data_out)
 
         # assert
-        #assert data_in == data_out  TODO #123
-
+        # assert data_in == data_out  TODO #123
