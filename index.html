@@ -28,9 +28,10 @@
 </summary>
 <pre><code class="python"># pylint: disable=invalid-name,wrong-import-position
 import os
+from collections import namedtuple
 from contextlib import contextmanager
 from pathlib import Path
-from collections import namedtuple
+
 
 # https://github.com/diegoferigo/cmake-build-extension/blob/master/src/cmake_build_extension/__init__.py
 @contextmanager
@@ -39,8 +40,8 @@ def __build_extension_env():
     # https://docs.python.org/3/whatsnew/3.8.html#bpo-36085-whatsnew
     if hasattr(os, &#34;add_dll_directory&#34;):
         basepath = os.path.dirname(os.path.abspath(__file__))
-        dllspath = os.path.join(basepath, &#39;..&#39;)
-        os.environ[&#39;PATH&#39;] = dllspath + os.pathsep + os.environ[&#39;PATH&#39;]
+        dllspath = os.path.join(basepath, &#34;..&#34;)
+        os.environ[&#34;PATH&#34;] = dllspath + os.pathsep + os.environ[&#34;PATH&#34;]
         for path in os.environ.get(&#34;PATH&#34;, &#34;&#34;).split(os.pathsep):
             if path and Path(path).is_absolute() and Path(path).is_dir():
                 cookies.append(os.add_dll_directory(path))
@@ -50,28 +51,27 @@ def __build_extension_env():
         for cookie in cookies:
             cookie.close()
 
+
 # TODO #113: 2 x loop over prefixes and units
-si = namedtuple(&#34;SI&#34;, (
-    &#34;m&#34;, &#34;cm&#34;, &#34;um&#34;, &#34;nm&#34;,
-    &#34;kg&#34;, &#34;g&#34;,
-    &#34;s&#34;,
-    &#34;K&#34;,
-    &#34;Pa&#34;, &#34;hPa&#34;,
-    &#34;mol&#34;
-))(
-    m=1., cm=.01, um=1e-6, nm=1e-9,
-    kg=1., g=1e-3,
-    s=1.,
-    K=1.,
-    Pa=1., hPa=100.,
-    mol=1.
+si = namedtuple(&#34;SI&#34;, (&#34;m&#34;, &#34;cm&#34;, &#34;um&#34;, &#34;nm&#34;, &#34;kg&#34;, &#34;g&#34;, &#34;s&#34;, &#34;K&#34;, &#34;Pa&#34;, &#34;hPa&#34;, &#34;mol&#34;))(
+    m=1.0,
+    cm=0.01,
+    um=1e-6,
+    nm=1e-9,
+    kg=1.0,
+    g=1e-3,
+    s=1.0,
+    K=1.0,
+    Pa=1.0,
+    hPa=100.0,
+    mol=1.0,
 )
 &#34;&#34;&#34; TODO #113 &#34;&#34;&#34;
 
 with __build_extension_env():
+    import _PyPartMC
     from _PyPartMC import *
-    from _PyPartMC import __all__, __version__
-    import _PyPartMC</code></pre>
+    from _PyPartMC import __all__, __version__</code></pre>
 </details>
 </section>
 <section>
