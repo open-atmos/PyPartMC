@@ -2,6 +2,7 @@ import PyPartMC as ppmc
 
 # pylint: disable=no-member
 
+
 class TestUnits:
     @staticmethod
     def test_length():
@@ -30,4 +31,3 @@ class TestUnits:
     def test_mass():
         assert ppmc.si.kg == 1
         assert ppmc.si.g == 1e-3
-

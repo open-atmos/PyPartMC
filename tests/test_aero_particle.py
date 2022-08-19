@@ -4,18 +4,24 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
-import pytest
 import numpy as np
+import pytest
+
 import PyPartMC as ppmc
 from PyPartMC import si
+
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+
 
 class TestAeroParticle:
     @staticmethod
-    @pytest.mark.parametrize("volumes", (
-        [0],
-        #pytest.param([],marks=pytest.mark.xfail(strict=True))
-    ))
+    @pytest.mark.parametrize(
+        "volumes",
+        (
+            [0],
+            # pytest.param([],marks=pytest.mark.xfail(strict=True))
+        ),
+    )
     def test_ctor(volumes):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -43,8 +49,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -61,8 +67,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -78,8 +84,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -96,8 +102,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
@@ -117,8 +123,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
@@ -138,8 +144,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
@@ -159,8 +165,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
@@ -180,8 +186,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -202,8 +208,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -221,8 +227,8 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
@@ -243,15 +249,15 @@ class TestAeroParticle:
         # arrange
         aero_data_arg = (
             {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3* si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]}
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
         )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
 
-        #act
+        # act
         kappa = sut.solute_kappa
 
-        #assert
+        # assert
         np.testing.assert_almost_equal(kappa, 1.479240661)

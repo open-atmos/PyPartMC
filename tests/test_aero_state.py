@@ -5,9 +5,11 @@
 ####################################################################################################
 
 import pytest
+
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+
 AERO_STATE_CTOR_ARG_MINIMAL = 44
 
 
@@ -36,4 +38,3 @@ class TestAeroState:
 
         # assert
         assert size == n_part
-
