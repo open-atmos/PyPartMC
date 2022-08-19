@@ -36,9 +36,9 @@ class TestEnvState:
     @staticmethod
     def test_dtor():
         # arrange
-        sut = ppmc.EnvState(
+        sut = ppmc.EnvState(  # pylint: disable=unused-variable
             ENV_STATE_CTOR_ARG_MINIMAL
-        )  # pylint: disable=unused-variable
+        )
         gc.collect()
 
         # act
