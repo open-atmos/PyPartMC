@@ -1,5 +1,6 @@
 module pmc_spec_file
     use pmc_spec_line
+    use iso_c_binding
     implicit none
 
     integer, parameter :: SPEC_FILE_MAX_LIST_LINES = 1000

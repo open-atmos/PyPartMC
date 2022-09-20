@@ -7,14 +7,12 @@
 #include <stdexcept>
 #include <sstream>
 
-void _mpi_abort(const int errorcode) {
-  std::ostringstream oss;
-  oss << errorcode << std::endl;
-  auto err = std::runtime_error(oss.str());
-  throw err;
+void cpp_stop(int code) {
+  std::ostringstream str;
+  str << code;
+  throw std::runtime_error(str.str());
 }
 
-extern "C" void mpi_abort(const int *comm, const int *errorcode, const int *ierror) {
-  _mpi_abort(*errorcode);
+extern "C" void c_stop(int code) {
+  cpp_stop(code);
 }
-
