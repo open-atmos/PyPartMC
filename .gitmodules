@@ -4,7 +4,7 @@
 	shallow = true
 [submodule "partmc"]
 	path = gitmodules/partmc
-	url = https://github.com/compdyn/partmc
+	url = https://github.com/slayoo/partmc
 	shallow = true
 [submodule "pybind11_json"]
 	path = gitmodules/pybind11_json
