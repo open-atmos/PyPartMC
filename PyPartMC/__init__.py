@@ -43,4 +43,4 @@ si = namedtuple("SI", ("m", "cm", "um", "nm", "kg", "g", "s", "K", "Pa", "hPa", 
 with __build_extension_env():
     import _PyPartMC
     from _PyPartMC import *
-    from _PyPartMC import __all__, __version__
+    from _PyPartMC import __all__, __version__  # pylint: disable=no-name-in-module
