@@ -10,6 +10,7 @@
 import pytest
 #import numpy as np
 import PyPartMC as ppmc
+from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 
 class TestGasState:
     @staticmethod
@@ -52,15 +53,13 @@ class TestGasState:
     @staticmethod
     def test_len_empty():
         # arrange
-        pass
-        #sut = ppmc.GasState()
+        sut = ppmc.GasState()
 
         # act
-        #size = len(sut)
+        size = len(sut)
 
         # assert
-        #assert isinstance(size, int)
-        #assert size == 0  # TODO #123: test non-empty len
+        assert size == 0
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 100))
@@ -116,16 +115,37 @@ class TestGasState:
         # assert
         # assert sut[idx] == value  TODO #123
 
-    @staticmethod
-    def test_to_json():
-        # arrange
-        data_in = {} # TODO #123
-        sut = ppmc.GasState(data_in)
-
-        # act
-        data_out = str(sut)
-        print(data_out)
+#    @staticmethod
+#    def test_to_json():
+#        # arrange
+#        data_in = {} # TODO #123
+#        sut = ppmc.GasState(data_in)
+#
+#        # act
+#        data_out = str(sut)
+#        print(data_out)
 
         # assert
         #assert data_in == data_out  TODO #123
 
+    @staticmethod
+    def test_set_gas_state_size():
+
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+
+        sut = ppmc.GasState()
+
+        sut.set_size(gas_data)
+
+        assert sut.__len__() == len(gas_data)
+
+    @staticmethod
+    def test_get_mix_rats():
+
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+
+        sut = ppmc.GasState()
+
+        sut.set_size(gas_data)
+
+        assert len(sut.mix_rats) == len(gas_data)
