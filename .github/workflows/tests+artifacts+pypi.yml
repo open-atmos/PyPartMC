@@ -24,7 +24,9 @@ jobs:
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
       - run: pip install -r test-time-requirements.txt
       - run: DEBUG=0 VERBOSE=1 pip install --verbose -e .
-      - run: pytest -v -s -We -p no:unraisableexception tests/test_todos_annotated.py
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pytest -v -s -We -p no:unraisableexception tests/test_todos_annotated.py
 
   build:
     needs: [todos_annotated]
@@ -32,13 +34,6 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-12, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10"]
-        exclude:
-          - platform: macos-12
-            python-version: "3.7"
-          - platform: macos-12
-            python-version: "3.8"
-          - platform: macos-12
-            python-version: "3.9"
     runs-on: ${{ matrix.platform }}
     steps:
       - if: startsWith(matrix.platform, 'macos-')
@@ -78,6 +73,7 @@ jobs:
       - run: pip install -r test-time-requirements.txt
 
       - run: |
+          unset CI
           python -m build 2>&1 | tee build.log
           exit `fgrep -i warning build.log | wc -l`
 

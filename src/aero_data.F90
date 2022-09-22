@@ -16,6 +16,7 @@ module PyPartMC_aero_data
     type(c_ptr), intent(out) :: ptr_c
 
     allocate(ptr_f)
+    call fractal_set_spherical(ptr_f%fractal)
     ptr_c = c_loc(ptr_f)
   end subroutine
 

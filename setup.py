@@ -9,7 +9,8 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from setuptools import Extension, setup, find_packages
+
+from setuptools import Extension, find_packages, setup
 from setuptools.command.build_ext import build_ext
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
@@ -140,11 +141,11 @@ setup(
     zip_safe=False,
     python_requires=">=3.7",
     setup_requires=["setuptools_scm"],
-    install_requires=['numpy'],
+    install_requires=["numpy"],
     license="GPL-3.0",
     project_urls={
         "Tracker": "https://github.com/open-atmos/PyPartMC/issues",
         "Documentation": "https://open-atmos.github.io/PyPartMC",
         "Source": "https://github.com/open-atmos/PyPartMC/",
-    }
+    },
 )

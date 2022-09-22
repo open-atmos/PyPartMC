@@ -5,7 +5,9 @@
 ####################################################################################################
 
 import gc
+
 import pytest
+
 import PyPartMC as ppmc
 from PyPartMC import si
 
@@ -18,12 +20,13 @@ RUN_PART_OPT_CTOR_ARG_MINIMAL = {
     "t_output": 0,
     "t_progress": 0,
     "allow_halving": False,
-    "allow_doubling": False
+    "allow_doubling": False,
 }
+
 
 class TestRunPartOpt:
     @staticmethod
-    @pytest.mark.parametrize('ctor_arg', (RUN_PART_OPT_CTOR_ARG_MINIMAL,))
+    @pytest.mark.parametrize("ctor_arg", (RUN_PART_OPT_CTOR_ARG_MINIMAL,))
     def test_ctor(ctor_arg):
         # arrange
         pass
@@ -47,4 +50,3 @@ class TestRunPartOpt:
 
         # assert
         pass
-

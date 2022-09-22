@@ -36,7 +36,7 @@ add_definitions("-DSUNDIALS_INT64_T=1")
 ### sources ########################################################################################
 
 set(PyPartMC_sources 
-  pypartmc.cpp gimmicks.cpp fake_netcdf.cpp fake_mpi.cpp fake_spec_file.cpp
+  pypartmc.cpp gimmicks.cpp fake_netcdf.cpp fake_spec_file.cpp sys.cpp
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
   gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90
   camp_core.F90 photolysis.F90
@@ -136,7 +136,7 @@ set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 intege
   photolysis.F90
 )
 add_prefix(gitmodules/partmc/src/ partmclib_SOURCES)
-list(APPEND partmclib_SOURCES src/fake_mpi.F90 src/fake_netcdf.F90 src/fake_spec_file.F90)
+list(APPEND partmclib_SOURCES src/fake_netcdf.F90 src/fake_spec_file.F90 src/sys.F90)
 
 set(klu_SOURCES
   KLU/Source/klu_analyze.c
@@ -271,7 +271,6 @@ target_include_directories(camplib PRIVATE
 
 add_library(partmclib STATIC ${partmclib_SOURCES})
 target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
-target_compile_definitions(partmclib PRIVATE PMC_USE_MPI="1")
 target_compile_definitions(partmclib PRIVATE PMC_USE_CAMP="1")
 add_dependencies(partmclib ${SUNDIALS_items})
 target_include_directories(partmclib PRIVATE 
@@ -297,6 +296,9 @@ target_compile_definitions(_PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(_PyPartMC PRIVATE partmclib)
 if (APPLE)
   target_link_options(_PyPartMC PRIVATE -Wl,-no_compact_unwind -Wl,-keep_dwarf_unwind)
+  if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
+    target_link_libraries(_PyPartMC PRIVATE -static gfortran -dynamic)
+  endif()
 endif()
 if (WIN32)
   target_link_libraries(_PyPartMC PRIVATE -static gcc stdc++ winpthread quadmath -dynamic)

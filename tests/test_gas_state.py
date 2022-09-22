@@ -8,9 +8,11 @@
 # pylint: disable=unused-variable
 
 import pytest
-#import numpy as np
+
+# import numpy as np
 import PyPartMC as ppmc
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
+
 
 class TestGasState:
     @staticmethod
@@ -19,14 +21,14 @@ class TestGasState:
         pass
 
         # act
-        #try:
+        # try:
         #    sut = ppmc.GasState({'':''})
-        #except ValueError as err:
+        # except ValueError as err:
         #    assert "gas_mixing_ratio" in str(err)
         #    return
 
         # assert
-        #assert False
+        # assert False
 
     @staticmethod
     def test_ctor_emtpy():
@@ -66,25 +68,25 @@ class TestGasState:
     def test_get_item_out_of_range(idx):
         # arrange
         pass
-        #sut = ppmc.GasState()
+        # sut = ppmc.GasState()
 
         # act
-        #try:
+        # try:
         #    value = sut[idx]
-        #except IndexError:
+        # except IndexError:
         #    return
 
         # assert
-        #assert False
+        # assert False
 
     @staticmethod
     def test_get_item_valid():
         pass
         # arrange
-        #sut = ppmc.GasState({'gas_mixing_ratio': (44,)})
+        # sut = ppmc.GasState({'gas_mixing_ratio': (44,)})
 
         # act
-        #value = sut[0]
+        # value = sut[0]
 
         # assert
         # assert isinstance(value, float)
@@ -115,19 +117,6 @@ class TestGasState:
         # assert
         # assert sut[idx] == value  TODO #123
 
-#    @staticmethod
-#    def test_to_json():
-#        # arrange
-#        data_in = {} # TODO #123
-#        sut = ppmc.GasState(data_in)
-#
-#        # act
-#        data_out = str(sut)
-#        print(data_out)
-
-        # assert
-        #assert data_in == data_out  TODO #123
-
     @staticmethod
     def test_set_gas_state_size():
 
@@ -149,3 +138,16 @@ class TestGasState:
         sut.set_size(gas_data)
 
         assert len(sut.mix_rats) == len(gas_data)
+
+    @staticmethod
+    def test_to_json():
+        # arrange
+        data_in = {}  # TODO #123
+        sut = ppmc.GasState(data_in)
+
+        # act
+        data_out = str(sut)
+        print(data_out)
+
+        # assert
+        # assert data_in == data_out  TODO #123

@@ -96,6 +96,7 @@ warning: no files found matching 'gitmodules/...
 ```
 Since git clone was done without recursive option, try: `git submodule update --init`
 
+## Notes for developers
 #### How to debug
 ```sh
 git clone --recursive git+https://github.com/open-atmos/PyPartMC.git
@@ -104,6 +105,8 @@ DEBUG=1 VERBOSE=1 pip --verbose install -e .
 gdb python 
 (gdb) run -m pytest -s -vv -We -p no:unraisableexception tests
 ```
+#### Pre-commit hooks
+PyPartMC codebase benefits from Pylint, Black and isort code analysis (which are all part of the CI workflows where we also use pre-commit hooks. The pre-commit hooks can be run locally, and then the resultant changes need to be staged before committing. To set up the hooks locally, install pre-commit via `pip install pre-commit` and set up the git hooks via `pre-commit install` (this needs to be done every time you clone the project). To run all pre-commit hooks, run `pre-commit run --all-files`. The `.pre-commit-config.yaml` file can be modified in case new hooks are to be added or existing ones need to be altered.
 
 ## Credits
 
