@@ -71,7 +71,7 @@ si = namedtuple(&#34;SI&#34;, (&#34;m&#34;, &#34;cm&#34;, &#34;um&#34;, &#34;nm&
 with __build_extension_env():
     import _PyPartMC
     from _PyPartMC import *
-    from _PyPartMC import __all__, __version__</code></pre>
+    from _PyPartMC import __all__, __version__  # pylint: disable=no-name-in-module</code></pre>
 </details>
 </section>
 <section>
