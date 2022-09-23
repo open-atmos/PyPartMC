@@ -20,16 +20,19 @@ extern "C" void f_gas_state_len(const void *ptr, int *len) noexcept;
 extern "C" void f_gas_state_to_json(const void *ptr) noexcept;
 extern "C" void f_gas_state_from_json(const void *ptr) noexcept;
 extern "C" void f_gas_state_set_size(const void *ptr, const void *gasdata_ptr) noexcept;
+extern "C" void f_gas_state_mix_rats(const void *ptr, const double *data, const int *len);
 
 struct GasState {
     PMCResource ptr;
 
-    GasState(const nlohmann::json &json) :
+    GasState(const GasData &gas_data,
+             const nlohmann::json &json) :
         ptr(f_gas_state_ctor, f_gas_state_dtor)
     {
         gimmick_ptr() = std::make_unique<InputGimmick>(json);
 
         const int n = json.empty() ? 0 : gimmick_ptr()->find("gas_mixing_ratio")->size();
+        f_gas_state_set_size(this->ptr.f_arg(), &gas_data.ptr);
         //f_gas_state_set_size(this->ptr.f_arg(), &n);
         if (n != 0) f_gas_state_from_json(this->ptr.f_arg());
 
@@ -85,7 +88,10 @@ struct GasState {
       f_gas_state_len(&self.ptr, &len);
       std::valarray<double> data(len);
 
-
+      for (int idx = 0; idx < len; idx++) {
+         f_gas_state_get_item(&self.ptr, &idx, &data[idx]);
+      }
+      //f_gas_state_mix_rats(&self.ptr, &data, &len);
       return data;
     }
 };
