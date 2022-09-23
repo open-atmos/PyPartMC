@@ -25,7 +25,7 @@ extern "C" void f_gas_state_mix_rats(const void *ptr, const double *data, const 
 struct GasState {
     PMCResource ptr;
 
-    GasState(const GasData &gas_data,
+/*    GasState(const GasData &gas_data,
              const nlohmann::json &json) :
         ptr(f_gas_state_ctor, f_gas_state_dtor)
     {
@@ -37,6 +37,13 @@ struct GasState {
         if (n != 0) f_gas_state_from_json(this->ptr.f_arg());
 
         gimmick_ptr().reset(); // TODO #117: guard
+    }
+*/
+
+    GasState(const GasData &gas_data) :
+        ptr(f_gas_state_ctor, f_gas_state_dtor)
+    {
+        f_gas_state_set_size(this->ptr.f_arg(), &gas_data.ptr);
     }
 
     static void set_item(const GasState &self, const int &idx, const double &val) {
@@ -80,18 +87,17 @@ struct GasState {
     }
 
     static void set_size(GasState &self, const GasData &GasData) {
-      f_gas_state_set_size(&self.ptr, &GasData.ptr);
+        f_gas_state_set_size(&self.ptr, &GasData.ptr);
     }
 
     static std::valarray<double> mix_rats(const GasState &self) {
-      int len;
-      f_gas_state_len(&self.ptr, &len);
-      std::valarray<double> data(len);
+        int len;
+        f_gas_state_len(&self.ptr, &len);
+        std::valarray<double> data(len);
 
-      for (int idx = 0; idx < len; idx++) {
-         f_gas_state_get_item(&self.ptr, &idx, &data[idx]);
-      }
-      //f_gas_state_mix_rats(&self.ptr, &data, &len);
-      return data;
+        for (int idx = 0; idx < len; idx++) {
+             f_gas_state_get_item(&self.ptr, &idx, &data[idx]);
+        }
+        return data;
     }
 };
