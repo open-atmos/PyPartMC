@@ -71,13 +71,14 @@ class TestGasState:
     @staticmethod
     def test_get_items():
         # arrange
-        sut = ppmc.GasState(GAS_DATA_MINIMAL)
+        gas_data = ppmc.GasData(("SO2","NO2","NO","CO",))
+        sut = ppmc.GasState(gas_data)
 
         # act
         values = sut.mix_rats
 
         # assert
-        # assert isinstance(values, np.ndarray)
+        assert isinstance(values, list)
         assert len(sut) == len(values)
 
     @staticmethod
@@ -99,7 +100,7 @@ class TestGasState:
         gas_data = GAS_DATA_MINIMAL
         sut = ppmc.GasState(gas_data)
 
-        assert len(sut.mix_rats) == len(gas_data)
+        assert len(sut.mix_rats) == len(sut)
 
 #    @staticmethod
 #    def test_to_json():
