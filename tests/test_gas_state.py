@@ -60,7 +60,7 @@ class TestGasState:
     def test_get_item_valid():
         # arrange
         sut = ppmc.GasState(GAS_DATA_MINIMAL)
-        sut.__setitem__(0,44)
+        sut[0] = 44
         # act
         value = sut[0]
 
