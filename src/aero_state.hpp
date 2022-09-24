@@ -152,7 +152,7 @@ struct AeroState {
         f_aero_state_bin_average_comp(&self.ptr, &bin_grid.ptr, &aero_data.ptr);
     }
 
-    static AeroState* copy(AeroState &self, const AeroData &aero_data){
+    static AeroState* __deepcopy__(AeroState &self, const AeroData &aero_data){
         double n_part = 1.0;
         AeroState *ptr = new AeroState(n_part, aero_data);
         f_aero_state_copy(&self.ptr, ptr);

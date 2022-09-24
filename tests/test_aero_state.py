@@ -46,7 +46,7 @@ class TestAeroState:
         # act
         sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
 
-        aero_state_copy = sut.copy(aero_data)
+        aero_state_copy = sut.__deepcopy__(aero_data)
 
         # assert
         assert aero_state_copy is not sut
