@@ -5,10 +5,11 @@
 ####################################################################################################
 
 import pytest
+import numpy as np
 
 import PyPartMC as ppmc
 
-from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL, AERO_DATA_CTOR_ARG_FULL
 
 AERO_STATE_CTOR_ARG_MINIMAL = 44
 
@@ -38,3 +39,16 @@ class TestAeroState:
 
         # assert
         assert size == n_part
+
+    @staticmethod
+    def test_copy():
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+        # act
+        sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
+
+        aero_state_copy = sut.copy(aero_data)
+
+        # assert
+        assert aero_state_copy is not sut
+        assert np.sum(sut.diameters(aero_data)) ==  \
+            np.sum(aero_state_copy.diameters(aero_data))
