@@ -11,9 +11,11 @@ import pytest
 
 # import numpy as np
 import PyPartMC as ppmc
+
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 
 GAS_DATA_MINIMAL = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+
 
 class TestGasState:
     @staticmethod
@@ -71,7 +73,14 @@ class TestGasState:
     @staticmethod
     def test_get_items():
         # arrange
-        gas_data = ppmc.GasData(("SO2","NO2","NO","CO",))
+        gas_data = ppmc.GasData(
+            (
+                "SO2",
+                "NO2",
+                "NO",
+                "CO",
+            )
+        )
         sut = ppmc.GasState(gas_data)
 
         # act
@@ -101,6 +110,7 @@ class TestGasState:
         sut = ppmc.GasState(gas_data)
 
         assert len(sut.mix_rats) == len(sut)
+
 
 #    @staticmethod
 #    def test_to_json():
