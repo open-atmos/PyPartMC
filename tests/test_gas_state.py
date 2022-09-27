@@ -16,6 +16,7 @@ from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 
 GAS_DATA_MINIMAL = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
 
+
 class TestGasState:
     @staticmethod
     def test_ctor_error():
@@ -106,6 +107,7 @@ class TestGasState:
         sut = ppmc.GasState(gas_data)
 
         assert len(sut.mix_rats) == len(sut)
+
 
 #    @staticmethod
 #    def test_to_json():
