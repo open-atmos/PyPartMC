@@ -16,7 +16,6 @@ from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 
 GAS_DATA_MINIMAL = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
 
-
 class TestGasState:
     @staticmethod
     def test_ctor_error():
@@ -36,13 +35,10 @@ class TestGasState:
     @staticmethod
     def test_ctor_valid():
         # arrange
-        pass
-
-        # act
-        # TODO #123 sut = ppmc.GasState({"gas_mixing_ratio":''})
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
 
         # assert
-        # TODO #123 assert isinstance(sut, ppmc.GasState)
+        assert isinstance(sut, ppmc.GasState)
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 100))
@@ -93,7 +89,7 @@ class TestGasState:
     @staticmethod
     def test_set_item():
         # arrange
-        sut = ppmc.GasState(GAS_DATA_MINIMAL)  # TODO #123
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
         idx = 0
         val = 1234
 
@@ -110,7 +106,6 @@ class TestGasState:
         sut = ppmc.GasState(gas_data)
 
         assert len(sut.mix_rats) == len(sut)
-
 
 #    @staticmethod
 #    def test_to_json():
