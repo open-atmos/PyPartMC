@@ -16,7 +16,7 @@ extern "C" void f_aero_mode_init(
 ) noexcept;
 extern "C" void f_aero_mode_total_num_conc(
     const void *ptr,
-    const double *val
+    double *val
 ) noexcept;
 extern "C" void f_aero_mode_num_conc(
        const void *ptr, const void *bin_grid_ptr,
