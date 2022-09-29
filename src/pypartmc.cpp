@@ -170,8 +170,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const py::tuple&>())
         .def("__len__", GasData::__len__)
+        .def_property_readonly("n_spec", GasData::__len__)
         .def("__str__", GasData::__str__,
             "returns a string with JSON representation of the object")
+        .def("spec_by_name", GasData::spec_by_name,
+            "returns the number of the species in gas with the given name")
     ;
 
     py::class_<EnvState>(m,
@@ -254,15 +257,22 @@ PYBIND11_MODULE(_PyPartMC, m) {
             it. This will be the case for new \c gas_state_t structures.
         )pbdoc"
     )
-        .def(py::init<const nlohmann::json&>(),
-            "instantiates and initializes from a JSON object", py::arg(0) = py::dict())
+        .def(py::init<const GasData&>(),
+            "instantiates and initializes based on GasData")
         .def("__setitem__", GasState::set_item)
         //.def("__setitem__", GasState::set_items)
         .def("__getitem__", GasState::get_item)
         //.def("__getitem__", GasState::get_items)
         .def("__len__", GasState::__len__)
+        .def_property_readonly("n_spec", GasState::__len__)
         .def("__str__", GasState::__str__,
             "returns a string with JSON representation of the object")
+        .def("set_size", GasState::set_size,
+            "sets the GasState to the size of GasData")
+        .def("mix_rat", GasState::mix_rat,
+            "returns the mixing ratio of a gas species")
+        .def_property_readonly("mix_rats", GasState::mix_rats,
+            "returns array of mixing ratios")
     ;
 
     py::class_<RunPartOpt>(m,

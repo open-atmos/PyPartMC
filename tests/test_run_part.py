@@ -23,7 +23,7 @@ class TestRunPart:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
-        gas_state = ppmc.GasState()
+        gas_state = ppmc.GasState(gas_data)
         scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
         run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL)
         camp_core = ppmc.CampCore()

@@ -12,6 +12,10 @@ import pytest
 # import numpy as np
 import PyPartMC as ppmc
 
+from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
+
+GAS_DATA_MINIMAL = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+
 
 class TestGasState:
     @staticmethod
@@ -30,103 +34,90 @@ class TestGasState:
         # assert False
 
     @staticmethod
-    def test_ctor_emtpy():
-        # arrange
-        pass
-
-        # act
-        sut = ppmc.GasState()
-
-        # assert
-        isinstance(sut, ppmc.GasState)
-
-    @staticmethod
     def test_ctor_valid():
         # arrange
-        pass
-
-        # act
-        # TODO #123 sut = ppmc.GasState({"gas_mixing_ratio":''})
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
 
         # assert
-        # TODO #123 assert isinstance(sut, ppmc.GasState)
-
-    @staticmethod
-    def test_len_empty():
-        # arrange
-        pass
-        # sut = ppmc.GasState()
-
-        # act
-        # size = len(sut)
-
-        # assert
-        # assert isinstance(size, int)
-        # assert size == 0  # TODO #123: test non-empty len
+        assert isinstance(sut, ppmc.GasState)
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 100))
     def test_get_item_out_of_range(idx):
         # arrange
-        pass
-        # sut = ppmc.GasState()
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
 
         # act
-        # try:
-        #    value = sut[idx]
-        # except IndexError:
-        #    return
+        try:
+            value = sut[idx]
+        except IndexError:
+            return
 
-        # assert
-        # assert False
+        assert False
 
     @staticmethod
     def test_get_item_valid():
-        pass
         # arrange
-        # sut = ppmc.GasState({'gas_mixing_ratio': (44,)})
-
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
+        sut[0] = 44
         # act
-        # value = sut[0]
+        value = sut[0]
 
         # assert
-        # assert isinstance(value, float)
-        # assert value == 44  # TODO #123
+        assert isinstance(value, float)
+        assert value == 44
 
     @staticmethod
     def test_get_items():
         # arrange
-        sut = ppmc.GasState()
+        gas_data = ppmc.GasData(
+            (
+                "SO2",
+                "NO2",
+                "NO",
+                "CO",
+            )
+        )
+        sut = ppmc.GasState(gas_data)
 
         # act
-        # values = sut[:]  TODO #123
+        values = sut.mix_rats
 
         # assert
-        # assert isinstance(values, np.ndarray)
-        # assert len(sut) == len(values)
+        assert isinstance(values, list)
+        assert len(sut) == len(values)
 
     @staticmethod
     def test_set_item():
         # arrange
-        sut = ppmc.GasState()  # TODO #123
-        idx = 1
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
+        idx = 0
         val = 1234
 
         # act
-        # sut[idx] = val  TODO #123
+        sut[idx] = val
 
         # assert
-        # assert sut[idx] == value  TODO #123
+        assert sut[idx] == val
 
     @staticmethod
-    def test_to_json():
-        # arrange
-        data_in = {}  # TODO #123
-        sut = ppmc.GasState(data_in)
+    def test_get_mix_rats():
 
-        # act
-        data_out = str(sut)
-        print(data_out)
+        gas_data = GAS_DATA_MINIMAL
+        sut = ppmc.GasState(gas_data)
 
-        # assert
-        # assert data_in == data_out  TODO #123
+        assert len(sut.mix_rats) == len(sut)
+
+
+#    @staticmethod
+#    def test_to_json():
+#        # arrange
+#        data_in = {}  # TODO #123
+#        sut = ppmc.GasState(data_in)
+#
+#        # act
+#        data_out = str(sut)
+#        print(data_out)
+#
+#        # assert
+#        # assert data_in == data_out  TODO #123
