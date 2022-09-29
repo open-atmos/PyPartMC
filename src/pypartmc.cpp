@@ -12,6 +12,7 @@
 #include "run_part.hpp"
 #include "run_part_opt.hpp"
 #include "aero_data.hpp"
+#include "aero_mode.hpp"
 #include "aero_state.hpp"
 #include "env_state.hpp"
 #include "gas_data.hpp"
@@ -289,6 +290,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property_readonly("centers", BinGrid::centers, "Bin centers")
     ;
 
+    py::class_<AeroMode>(m,"AeroMode")
+        .def(py::init<>())
+        .def_property_readonly("num_conc",&AeroMode::num_conc)
+    ;
+
     m.def(
         "histogram_1d", &histogram_1d, py::return_value_policy::copy,
         "Return a 1D histogram with of the given weighted data, scaled by the bin sizes."
@@ -340,6 +346,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     m.attr("__all__") = py::make_tuple(
         "__version__",
         "AeroData",
+        "AeroMode",
         "AeroState",
         "AeroParticle",
         "BinGrid",
