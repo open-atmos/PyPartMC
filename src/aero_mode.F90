@@ -100,4 +100,38 @@ module PyPartMC_aero_mode
 
   end subroutine
 
+  subroutine f_aero_mode_get_n_spec(ptr_c, len) bind(C)
+    type(c_ptr), intent(in) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int) :: len
+
+    call c_f_pointer(ptr_c, aero_mode)
+
+    len = size(aero_mode%vol_frac)
+      
+  end subroutine
+
+  subroutine f_aero_mode_get_vol_frac(ptr_c, arr_data, arr_size) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int) :: arr_size
+    real(c_double) :: arr_data(arr_size)
+
+    call c_f_pointer(ptr_c, aero_mode)
+
+    arr_data = aero_mode%vol_frac
+
+  end subroutine
+
+  subroutine f_aero_mode_set_vol_frac(ptr_c, arr_data, arr_size) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int) :: arr_size
+    real(c_double) :: arr_data(arr_size)
+
+    call c_f_pointer(ptr_c, aero_mode)
+    aero_mode%vol_frac = arr_data
+
+  end subroutine
+
 end module

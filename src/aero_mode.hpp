@@ -23,6 +23,20 @@ extern "C" void f_aero_mode_num_conc(
        const void *ptr, const void *bin_grid_ptr,
        const void *aero_data_ptr_c, void *arr_data, const int *arr_size
 ) noexcept;
+extern "C" void f_aero_mode_get_n_spec(
+  const void *ptr,
+  int *len
+) noexcept;
+extern "C" void f_aero_mode_get_vol_frac(
+  const void *ptr,
+  void *arr_data,
+  const int *arr_size
+) noexcept;
+extern "C" void f_aero_mode_set_vol_frac(
+  void *ptr,
+  const void *arr_data,
+  const int *arr_size
+) noexcept;
 
 struct AeroMode {
     PMCResource ptr;
@@ -50,5 +64,21 @@ struct AeroMode {
            &aero_data.ptr, begin(data), &len);
 
        return data; 
+    }
+
+    static void set_vol_frac(AeroMode &self, const std::valarray<double>&data)
+    {
+        int len = data.size();
+        // Check to see they are correct length
+        f_aero_mode_set_vol_frac(&self.ptr, begin(data), &len);
+    }
+
+    static std::valarray<double> get_vol_frac(const AeroMode &self)
+    {
+       int len;
+       f_aero_mode_get_n_spec(&self.ptr, &len); 
+       std::valarray<double> data(len);
+       f_aero_mode_get_vol_frac(&self.ptr, begin(data), &len);
+       return data;
     }
 };
