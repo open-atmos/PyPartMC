@@ -484,6 +484,22 @@ is gas_state%%mix_rat(i).</p>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
 </ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="PyPartMC.GasData.n_spec"><code class="name">var <span class="ident">n_spec</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.GasData) -&gt; int</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="PyPartMC.GasData.spec_by_name"><code class="name flex">
+<span>def <span class="ident">spec_by_name</span></span>(<span>self: _PyPartMC.GasData, arg0: str) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns the number of the species in gas with the given name</p></div>
+</dd>
+</dl>
 </dd>
 <dt id="PyPartMC.GasState"><code class="flex name class">
 <span>class <span class="ident">GasState</span></span>
@@ -497,12 +513,38 @@ with name \c gas_data%%name(i), etc.</p>
 <p>By convention, if gas_state_is_allocated() return \c .false.,
 then the gas_state is treated as zero for all operations on
 it. This will be the case for new \c gas_state_t structures.</p>
-<p><strong>init</strong>(self: _PyPartMC.GasState, arg0: json = {}) -&gt; None</p>
-<p>instantiates and initializes from a JSON object</p></div>
+<p><strong>init</strong>(self: _PyPartMC.GasState, arg0: _PyPartMC.GasData) -&gt; None</p>
+<p>instantiates and initializes based on GasData</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
 </ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="PyPartMC.GasState.mix_rats"><code class="name">var <span class="ident">mix_rats</span></code></dt>
+<dd>
+<div class="desc"><p>returns array of mixing ratios</p></div>
+</dd>
+<dt id="PyPartMC.GasState.n_spec"><code class="name">var <span class="ident">n_spec</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.GasState) -&gt; int</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="PyPartMC.GasState.mix_rat"><code class="name flex">
+<span>def <span class="ident">mix_rat</span></span>(<span>self: _PyPartMC.GasState, arg0: _PyPartMC.GasData, arg1: str) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns the mixing ratio of a gas species</p></div>
+</dd>
+<dt id="PyPartMC.GasState.set_size"><code class="name flex">
+<span>def <span class="ident">set_size</span></span>(<span>self: _PyPartMC.GasState, arg0: _PyPartMC.GasData)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>sets the GasState to the size of GasData</p></div>
+</dd>
+</dl>
 </dd>
 <dt id="PyPartMC.Photolysis"><code class="flex name class">
 <span>class <span class="ident">Photolysis</span></span>
@@ -642,9 +684,19 @@ aero_dist_interp_1d(), respectively.</p>
 </li>
 <li>
 <h4><code><a title="PyPartMC.GasData" href="#PyPartMC.GasData">GasData</a></code></h4>
+<ul class="">
+<li><code><a title="PyPartMC.GasData.n_spec" href="#PyPartMC.GasData.n_spec">n_spec</a></code></li>
+<li><code><a title="PyPartMC.GasData.spec_by_name" href="#PyPartMC.GasData.spec_by_name">spec_by_name</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="PyPartMC.GasState" href="#PyPartMC.GasState">GasState</a></code></h4>
+<ul class="">
+<li><code><a title="PyPartMC.GasState.mix_rat" href="#PyPartMC.GasState.mix_rat">mix_rat</a></code></li>
+<li><code><a title="PyPartMC.GasState.mix_rats" href="#PyPartMC.GasState.mix_rats">mix_rats</a></code></li>
+<li><code><a title="PyPartMC.GasState.n_spec" href="#PyPartMC.GasState.n_spec">n_spec</a></code></li>
+<li><code><a title="PyPartMC.GasState.set_size" href="#PyPartMC.GasState.set_size">set_size</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="PyPartMC.Photolysis" href="#PyPartMC.Photolysis">Photolysis</a></code></h4>
