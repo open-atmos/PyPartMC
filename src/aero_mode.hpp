@@ -27,7 +27,7 @@ struct AeroMode {
     PMCResource ptr;
 
     AeroMode() :
-        ptr(f_bin_grid_ctor, f_bin_grid_dtor)
+        ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
         f_aero_mode_init(ptr.f_arg());
     }
