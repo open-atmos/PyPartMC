@@ -4,8 +4,6 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
-import numpy as np
-
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
@@ -22,3 +20,13 @@ class TestAeroMode:
 
         # assert
         assert sut is not None
+
+    @staticmethod
+    def test_set_vol_frac():
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        # act
+        sut = ppmc.AeroMode(aero_data)
+        vals = [1.0]
+        sut.vol_frac = vals
+
+        assert sut.vol_frac == vals

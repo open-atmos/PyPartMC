@@ -296,7 +296,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              "returns the total number concentration of a mode")
         .def("num_dist", &AeroMode::num_dist,
              "returns the binned number concenration of a mode")
-        .def_property("vol_frac", &AeroMode::get_vol_frac, 
+        .def_property("vol_frac", &AeroMode::get_vol_frac,
              &AeroMode::set_vol_frac)
     ;
 
