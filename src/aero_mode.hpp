@@ -18,6 +18,10 @@ extern "C" void f_aero_mode_total_num_conc(
     const void *ptr,
     const double *val
 ) noexcept;
+extern "C" void f_aero_mode_num_conc(
+       const void *ptr, const void *bin_grid_ptr,
+       const void *aero_data_ptr_c, void *arr_data, const int *arr_size
+) noexcept;
 
 struct AeroMode {
     PMCResource ptr;
@@ -32,5 +36,18 @@ struct AeroMode {
        double val;
        f_aero_mode_total_num_conc(&self.ptr, &val);
        return val;
+    }
+
+    static std::valarray<double> num_dist(const AeroMode &self, 
+       const BinGrid &bin_grid, const AeroData &aero_data)
+    {
+       int len;
+       f_bin_grid_size(&bin_grid.ptr, &len);
+       std::valarray<double> data(len);
+
+       f_aero_mode_num_conc(&self.ptr, &bin_grid.ptr,
+           &aero_data.ptr, begin(data), &len);
+
+       return data; 
     }
 };

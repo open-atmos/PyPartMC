@@ -61,4 +61,24 @@ module PyPartMC_aero_mode
 
   end subroutine
 
+  subroutine f_aero_mode_num_conc(ptr_c, bin_grid_ptr_c, &
+       aero_data_ptr_c, arr_data, arr_size) bind(C)
+
+    type(c_ptr), intent(in) :: ptr_c, bin_grid_ptr_c, &
+         aero_data_ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    type(bin_grid_t), pointer :: bin_grid => null()
+    type(aero_data_t), pointer :: aero_data => null()
+    integer(c_int), intent(in) :: arr_size
+    real(c_double), dimension(arr_size), intent(out) :: arr_data
+
+    call c_f_pointer(ptr_c, aero_mode)
+    call c_f_pointer(bin_grid_ptr_c, bin_grid)
+    call c_f_pointer(aero_data_ptr_c, aero_data)
+
+    call aero_mode_num_conc(aero_mode, bin_grid, aero_data, &
+       arr_data)
+
+  end subroutine 
+
 end module
