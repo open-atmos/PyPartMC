@@ -291,7 +291,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     ;
 
     py::class_<AeroMode>(m,"AeroMode")
-        .def(py::init<>())
+        .def(py::init<const AeroData&>())
         .def_property_readonly("num_conc",&AeroMode::num_conc,
              "returns the total number concentration of a mode")
         .def("num_dist", &AeroMode::num_dist,

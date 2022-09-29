@@ -12,7 +12,8 @@
 extern "C" void f_aero_mode_ctor(void *ptr) noexcept;
 extern "C" void f_aero_mode_dtor(void *ptr) noexcept;
 extern "C" void f_aero_mode_init(
-    const void *ptr
+    const void *ptr,
+    const void *aero_data_ptr
 ) noexcept;
 extern "C" void f_aero_mode_total_num_conc(
     const void *ptr,
@@ -26,10 +27,10 @@ extern "C" void f_aero_mode_num_conc(
 struct AeroMode {
     PMCResource ptr;
 
-    AeroMode() :
+    AeroMode(const AeroData &aero_data) :
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
-        f_aero_mode_init(ptr.f_arg());
+        f_aero_mode_init(ptr.f_arg(), aero_data.ptr.f_arg());
     }
 
     static double num_conc(const AeroMode &self){

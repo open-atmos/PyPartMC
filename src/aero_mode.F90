@@ -16,6 +16,7 @@ module PyPartMC_aero_mode
     type(c_ptr), intent(out) :: ptr_c
 
     allocate(ptr_f)
+
     ptr_c = c_loc(ptr_f)
   end subroutine
 
@@ -24,30 +25,21 @@ module PyPartMC_aero_mode
     type(c_ptr), intent(in) :: ptr_c
 
     call c_f_pointer(ptr_c, ptr_f)
+
     deallocate(ptr_f)
   end subroutine
 
-  subroutine f_aero_mode_init(ptr_c) bind(C)
-    type(c_ptr), intent(in) :: ptr_c
+  subroutine f_aero_mode_init(ptr_c, aero_data_ptr_c) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(c_ptr), intent(in) :: aero_data_ptr_c
     type(aero_mode_t), pointer :: aero_mode => null()
-  
+    type(aero_data_t), pointer :: aero_data => null()
+
     call c_f_pointer(ptr_c, aero_mode)
+    call c_f_pointer(aero_data_ptr_c, aero_data)
 
     ! Hard code some things so we can do testing
-    aero_mode%name = 'test_mode'
-    aero_mode%type = 1
-    aero_mode%char_radius = 2e-8
-    aero_mode%log10_std_dev_radius = log10(1.6)
-    aero_mode%num_conc = 1e9
-!    allocate(aero_mode%sample_radius(0))
-!    allocate(aero_mode%sample_num_conc(0))
-
-!    allocate(aero_mode%vol_frac(20))
-!    allocate(aero_mode%vol_frac_std(20))
-!    aero_mode%vol_frac = 0.0
-!    aero_mode%vol_frac(1) = 1.0
-!    aero_mode%vol_frac_std = 0.0
-    aero_mode%source = 1
+    call f_aero_mode_default(aero_mode, aero_data)
  
   end subroutine
 
@@ -80,5 +72,32 @@ module PyPartMC_aero_mode
        arr_data)
 
   end subroutine 
+
+  subroutine f_aero_mode_default(aero_mode, aero_data)
+    type(aero_mode_t), intent(inout) :: aero_mode
+    type(aero_data_t), intent(inout) :: aero_data
+
+    aero_mode%name = 'test_mode'
+    aero_mode%type = 1
+    aero_mode%char_radius = 2e-8
+    aero_mode%log10_std_dev_radius = log10(1.6)
+    aero_mode%num_conc = 1e9
+
+    if (allocated(aero_mode%sample_radius)) deallocate(aero_mode%sample_radius)
+    if (allocated(aero_mode%sample_num_conc)) &
+         deallocate(aero_mode%sample_num_conc)
+    allocate(aero_mode%sample_radius(0))
+    allocate(aero_mode%sample_num_conc(0))
+
+    if (allocated(aero_mode%vol_frac)) deallocate(aero_mode%vol_frac)
+    if (allocated(aero_mode%vol_frac_std)) deallocate(aero_mode%vol_frac_std)
+    allocate(aero_mode%vol_frac(aero_data_n_spec(aero_data)))
+    allocate(aero_mode%vol_frac_std(aero_data_n_spec(aero_data)))
+    aero_mode%vol_frac = 0.0
+    aero_mode%vol_frac(1) = 1.0
+    aero_mode%vol_frac_std = 0.0
+    aero_mode%source = 1
+
+  end subroutine
 
 end module
