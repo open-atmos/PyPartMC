@@ -44,7 +44,7 @@ struct AeroMode {
     AeroMode(const AeroData &aero_data) :
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
-        f_aero_mode_init(&ptr.ptr, aero_data.ptr.f_arg());
+        f_aero_mode_init(ptr.f_arg_non_const(), aero_data.ptr.f_arg());
     }
 
     static double num_conc(const AeroMode &self){
@@ -76,7 +76,7 @@ struct AeroMode {
         int len = data.size();
         // Check to see they are correct length
         f_aero_mode_set_vol_frac(
-            &self.ptr.ptr,
+            self.ptr.f_arg_non_const(),
             begin(data),
             &len
         );
