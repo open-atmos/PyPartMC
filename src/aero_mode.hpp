@@ -44,12 +44,12 @@ struct AeroMode {
     AeroMode(const AeroData &aero_data) :
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
-        f_aero_mode_init(ptr.f_arg(), aero_data.ptr.f_arg());
+        f_aero_mode_init(&ptr.ptr, aero_data.ptr.f_arg());
     }
 
     static double num_conc(const AeroMode &self){
        double val;
-       f_aero_mode_total_num_conc(&self.ptr, &val);
+       f_aero_mode_total_num_conc(self.ptr.f_arg(), &val);
        return val;
     }
 
@@ -57,11 +57,16 @@ struct AeroMode {
        const BinGrid &bin_grid, const AeroData &aero_data)
     {
        int len;
-       f_bin_grid_size(&bin_grid.ptr, &len);
+       f_bin_grid_size(bin_grid.ptr.f_arg(), &len);
        std::valarray<double> data(len);
 
-       f_aero_mode_num_conc(&self.ptr, &bin_grid.ptr,
-           &aero_data.ptr, begin(data), &len);
+       f_aero_mode_num_conc(
+           self.ptr.f_arg(),
+           bin_grid.ptr.f_arg(),
+           aero_data.ptr.f_arg(),
+           begin(data),
+           &len
+       );
 
        return data; 
     }
@@ -70,15 +75,19 @@ struct AeroMode {
     {
         int len = data.size();
         // Check to see they are correct length
-        f_aero_mode_set_vol_frac(&self.ptr, begin(data), &len);
+        f_aero_mode_set_vol_frac(
+            &self.ptr.ptr,
+            begin(data),
+            &len
+        );
     }
 
     static std::valarray<double> get_vol_frac(const AeroMode &self)
     {
        int len;
-       f_aero_mode_get_n_spec(&self.ptr, &len); 
+       f_aero_mode_get_n_spec(self.ptr.f_arg(), &len); 
        std::valarray<double> data(len);
-       f_aero_mode_get_vol_frac(&self.ptr, begin(data), &len);
+       f_aero_mode_get_vol_frac(self.ptr.f_arg(), begin(data), &len);
        return data;
     }
 };
