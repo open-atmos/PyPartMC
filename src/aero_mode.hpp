@@ -12,7 +12,7 @@
 extern "C" void f_aero_mode_ctor(void *ptr) noexcept;
 extern "C" void f_aero_mode_dtor(void *ptr) noexcept;
 extern "C" void f_aero_mode_init(
-    const void *ptr,
+    void *ptr,
     const void *aero_data_ptr
 ) noexcept;
 extern "C" void f_aero_mode_total_num_conc(
