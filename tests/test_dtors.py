@@ -28,6 +28,10 @@ from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
         ),
         pytest.param(ppmc.Photolysis(), id="Photolysis"),
         pytest.param(ppmc.CampCore(), id="CampCore"),
+        pytest.param(
+            ppmc.AeroMode(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)),
+            id="AeroMode",
+        )
     ),
 )
 def test_dtors(sut):  # pylint: disable=unused-argument
