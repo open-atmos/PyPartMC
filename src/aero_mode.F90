@@ -134,4 +134,70 @@ module PyPartMC_aero_mode
 
   end subroutine
 
+  subroutine f_aero_mode_get_vol_frac_std(ptr_c, arr_data, arr_size) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int) :: arr_size
+    real(c_double) :: arr_data(arr_size)
+
+    call c_f_pointer(ptr_c, aero_mode)
+
+    arr_data = aero_mode%vol_frac_std
+
+  end subroutine
+
+  subroutine f_aero_mode_set_vol_frac_std(ptr_c, arr_data, arr_size) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int) :: arr_size
+    real(c_double) :: arr_data(arr_size)
+
+    call c_f_pointer(ptr_c, aero_mode)
+    aero_mode%vol_frac_std = arr_data
+
+  end subroutine
+
+
+  subroutine f_aero_mode_get_char_radius(ptr_c, char_radius) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    real(c_double) :: char_radius
+
+    call c_f_pointer(ptr_c, aero_mode)
+
+    char_radius = aero_mode%char_radius
+
+  end subroutine
+
+  subroutine f_aero_mode_set_char_radius(ptr_c, char_radius) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    real(c_double) :: char_radius
+
+    call c_f_pointer(ptr_c, aero_mode)
+    aero_mode%char_radius = char_radius 
+
+  end subroutine
+
+  subroutine f_aero_mode_get_gsd(ptr_c, gsd) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    real(c_double) :: gsd 
+
+    call c_f_pointer(ptr_c, aero_mode)
+
+    gsd = 10**(aero_mode%log10_std_dev_radius)
+
+  end subroutine
+
+  subroutine f_aero_mode_set_gsd(ptr_c, gsd) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    real(c_double) :: gsd
+
+    call c_f_pointer(ptr_c, aero_mode)
+    aero_mode%log10_std_dev_radius = log10(gsd)
+
+  end subroutine
+
 end module

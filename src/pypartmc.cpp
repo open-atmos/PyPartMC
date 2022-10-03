@@ -298,6 +298,12 @@ PYBIND11_MODULE(_PyPartMC, m) {
              "returns the binned number concenration of a mode")
         .def_property("vol_frac", &AeroMode::get_vol_frac,
              &AeroMode::set_vol_frac)
+        .def_property("vol_frac_std", &AeroMode::get_vol_frac_std,
+             &AeroMode::set_vol_frac_std)
+        .def_property("char_radius", &AeroMode::get_char_radius,
+             &AeroMode::set_char_radius)
+        .def_property("gsd", &AeroMode::get_gsd,
+             &AeroMode::set_gsd)
     ;
 
     m.def(

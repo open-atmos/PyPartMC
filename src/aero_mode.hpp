@@ -37,6 +37,32 @@ extern "C" void f_aero_mode_set_vol_frac(
   const void *arr_data,
   const int *arr_size
 ) noexcept;
+extern "C" void f_aero_mode_get_vol_frac_std(
+  const void *ptr,
+  void *arr_data,
+  const int *arr_size
+) noexcept;
+extern "C" void f_aero_mode_set_vol_frac_std(
+  void *ptr,
+  const void *arr_data,
+  const int *arr_size
+) noexcept;
+extern "C" void f_aero_mode_get_char_radius(
+  const void *ptr,
+  double *val
+) noexcept;
+extern "C" void f_aero_mode_set_char_radius(
+  void *ptr,
+  const double *val 
+) noexcept;
+extern "C" void f_aero_mode_get_gsd(
+  const void *ptr,
+  double *val
+) noexcept;
+extern "C" void f_aero_mode_set_gsd(
+  void *ptr,
+  const double *val
+) noexcept;
 
 struct AeroMode {
     PMCResource ptr;
@@ -74,7 +100,10 @@ struct AeroMode {
     static void set_vol_frac(AeroMode &self, const std::valarray<double>&data)
     {
         int len = data.size();
-        // Check to see they are correct length
+        int n_spec;
+        f_aero_mode_get_n_spec(self.ptr.f_arg(), &n_spec);
+        if (len!=n_spec)
+            throw std::runtime_error("AeroData size mismatch");
         f_aero_mode_set_vol_frac(
             self.ptr.f_arg_non_const(),
             begin(data),
@@ -89,5 +118,48 @@ struct AeroMode {
        std::valarray<double> data(len);
        f_aero_mode_get_vol_frac(self.ptr.f_arg(), begin(data), &len);
        return data;
+    }
+
+    static void set_vol_frac_std(AeroMode &self, const std::valarray<double>&data)
+    {
+        int len = data.size();
+        int n_spec;
+        f_aero_mode_get_n_spec(self.ptr.f_arg(), &n_spec);
+        if (len!=n_spec)
+            throw std::runtime_error("AeroData size mismatch");
+        f_aero_mode_set_vol_frac_std(
+            self.ptr.f_arg_non_const(),
+            begin(data),
+            &len
+        );
+    }
+
+    static std::valarray<double> get_vol_frac_std(const AeroMode &self)
+    {
+       int len;
+       f_aero_mode_get_n_spec(self.ptr.f_arg(), &len);
+       std::valarray<double> data(len);
+       f_aero_mode_get_vol_frac_std(self.ptr.f_arg(), begin(data), &len);
+       return data;
+    }
+
+    static double get_char_radius(const AeroMode &self){
+       double val;
+       f_aero_mode_get_char_radius(self.ptr.f_arg(), &val);
+       return val;
+    }
+
+    static void set_char_radius(AeroMode &self, const double &val){
+       f_aero_mode_set_char_radius(self.ptr.f_arg_non_const(), &val);
+    }
+
+    static double get_gsd(const AeroMode &self){
+       double val;
+       f_aero_mode_get_gsd(self.ptr.f_arg(), &val);
+       return val;
+    }
+
+    static void set_gsd(AeroMode &self, const double &val){
+       f_aero_mode_set_gsd(self.ptr.f_arg_non_const(), &val);
     }
 };
