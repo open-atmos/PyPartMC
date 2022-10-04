@@ -43,7 +43,17 @@ module PyPartMC_aero_mode
  
   end subroutine
 
-  subroutine f_aero_mode_total_num_conc(ptr_c, val) bind(C)
+  subroutine f_aero_mode_set_num_conc(ptr_c, val) bind(C)
+    type(c_ptr), intent(in) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    real(c_double), intent(in) :: val
+
+    call c_f_pointer(ptr_c, aero_mode)
+    aero_mode%num_conc = val
+
+  end subroutine
+
+  subroutine f_aero_mode_get_num_conc(ptr_c, val) bind(C)
     type(c_ptr), intent(in) :: ptr_c
     type(aero_mode_t), pointer :: aero_mode => null()
     real(c_double), intent(out) :: val

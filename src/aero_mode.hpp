@@ -15,9 +15,13 @@ extern "C" void f_aero_mode_init(
     void *ptr,
     const void *aero_data_ptr
 ) noexcept;
-extern "C" void f_aero_mode_total_num_conc(
+extern "C" void f_aero_mode_get_num_conc(
     const void *ptr,
     double *val
+) noexcept;
+extern "C" void f_aero_mode_set_num_conc(
+    void *ptr,
+    const double *val
 ) noexcept;
 extern "C" void f_aero_mode_num_conc(
        const void *ptr, const void *bin_grid_ptr,
@@ -73,10 +77,14 @@ struct AeroMode {
         f_aero_mode_init(ptr.f_arg_non_const(), aero_data.ptr.f_arg());
     }
 
-    static double num_conc(const AeroMode &self){
+    static double get_num_conc(const AeroMode &self){
        double val;
-       f_aero_mode_total_num_conc(self.ptr.f_arg(), &val);
+       f_aero_mode_get_num_conc(self.ptr.f_arg(), &val);
        return val;
+    }
+
+    static void set_num_conc(AeroMode &self, const double &val){
+       f_aero_mode_set_num_conc(self.ptr.f_arg_non_const(), &val);
     }
 
     static std::valarray<double> num_dist(const AeroMode &self, 
