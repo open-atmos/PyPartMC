@@ -305,6 +305,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property("gsd", &AeroMode::get_gsd,
              &AeroMode::set_gsd)
         .def("set_sample", &AeroMode::set_sampled)
+        .def_property("type", &AeroMode::get_type, &AeroMode::set_type)
     ;
 
     m.def(

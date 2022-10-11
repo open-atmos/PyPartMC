@@ -239,4 +239,24 @@ module PyPartMC_aero_mode
 
   end subroutine
 
+  subroutine f_aero_mode_set_type(ptr_c, type) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int), intent(in) :: type  
+
+    call c_f_pointer(ptr_c, aero_mode)    
+    aero_mode%type = type
+
+  end subroutine
+
+  subroutine f_aero_mode_get_type(ptr_c, type) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int), intent(out) :: type
+
+    call c_f_pointer(ptr_c, aero_mode)
+    type = aero_mode%type
+
+  end subroutine
+  
 end module

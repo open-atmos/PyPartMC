@@ -67,6 +67,14 @@ extern "C" void f_aero_mode_set_gsd(
   void *ptr,
   const double *val
 ) noexcept;
+extern "C" void f_aero_mode_set_type(
+  void *ptr,
+  const int *val
+) noexcept;
+extern "C" void f_aero_mode_get_type(
+  const void *ptr,
+  int *val
+) noexcept;
 extern "C" void f_aero_mode_set_sampled(
   void *ptr,
   const void *rad_data,
@@ -196,6 +204,29 @@ struct AeroMode {
             begin(sample_num_conc),
             &len
         );
+    }
+
+    static void set_type(AeroMode &self, const std::string &mode_type){
+        int type;
+        type = 0;
+        if (mode_type == "log_normal") type = 1;
+        if (mode_type == "exp") type = 2;
+        if (mode_type == "mono") type = 3;
+        if (mode_type == "sampled") type = 4;
+        if (type == 0) throw std::invalid_argument( "Invalid mode type." );
+        f_aero_mode_set_type(self.ptr.f_arg_non_const(), &type);
+    }
+
+    // TODO #173: Should return the type as a string
+    static int get_type(const AeroMode &self){
+        int type;
+        f_aero_mode_get_type(self.ptr.f_arg(), &type);
+        std::string mode_type;
+        if (type == 1) mode_type == "log_normal";
+        if (type == 2) mode_type == "exp";
+        if (type == 3) mode_type == "mono";
+        if (type == 4) mode_type == "sampled";
+        return type;
     }
 
 };
