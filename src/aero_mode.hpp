@@ -186,6 +186,10 @@ struct AeroMode {
          const std::valarray<double>&sample_num_conc){
 
         int len = sample_diams.size();
+        int len_num_conc = sample_num_conc.size();
+        if (len!=len_num_conc + 1)
+            throw std::runtime_error("Diameter and number size mismatch");
+
         f_aero_mode_set_sampled(
             self.ptr.f_arg_non_const(),
             begin(sample_diams),
