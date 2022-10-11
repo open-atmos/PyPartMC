@@ -75,3 +75,16 @@ class TestAeroMode:
             return
 
         assert False
+
+    @staticmethod
+    def test_set_sample_invalid():
+        # act
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        # act
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_CTOR_LOG_NORMAL)
+        try:
+            sut.set_sample([1, 10], [10, 10])
+        except RuntimeError:
+            return
+
+        assert False
