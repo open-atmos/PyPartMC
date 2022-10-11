@@ -10,6 +10,7 @@ from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 
 AERO_MODE_JSON = {}
 
+
 class TestAeroMode:
     @staticmethod
     def test_ctor():
