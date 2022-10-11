@@ -217,16 +217,15 @@ struct AeroMode {
         f_aero_mode_set_type(self.ptr.f_arg_non_const(), &type);
     }
 
-    // TODO #173: Should return the type as a string
-    static int get_type(const AeroMode &self){
+    static std::string get_type(const AeroMode &self){
         int type;
         f_aero_mode_get_type(self.ptr.f_arg(), &type);
         std::string mode_type;
-        if (type == 1) mode_type == "log_normal";
-        if (type == 2) mode_type == "exp";
-        if (type == 3) mode_type == "mono";
-        if (type == 4) mode_type == "sampled";
-        return type;
+        if (type == 1) mode_type = "log_normal";
+        if (type == 2) mode_type = "exp";
+        if (type == 3) mode_type = "mono";
+        if (type == 4) mode_type = "sampled";
+        return mode_type;
     }
 
 };
