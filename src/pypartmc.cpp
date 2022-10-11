@@ -291,7 +291,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     ;
 
     py::class_<AeroMode>(m,"AeroMode")
-        .def(py::init<const AeroData&>())
+        .def(py::init<AeroData&, const nlohmann::json&>())
         .def_property("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
              "returns the total number concentration of a mode")
         .def("num_dist", &AeroMode::num_dist,
@@ -304,6 +304,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              &AeroMode::set_char_radius)
         .def_property("gsd", &AeroMode::get_gsd,
              &AeroMode::set_gsd)
+        .def("set_sample", &AeroMode::set_sampled)
     ;
 
     m.def(

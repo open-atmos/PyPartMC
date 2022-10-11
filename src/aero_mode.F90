@@ -210,4 +210,33 @@ module PyPartMC_aero_mode
 
   end subroutine
 
+  subroutine f_aero_mode_from_json(ptr_c, aero_data_ptr_c) bind(C)
+    type(aero_mode_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(inout) :: ptr_c, aero_data_ptr_c
+    type(spec_file_t) :: file
+    logical :: eof
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    call spec_file_read_aero_mode(file, aero_data_ptr_f, ptr_f, eof)
+
+  end subroutine
+
+  subroutine f_aero_mode_set_sampled(ptr_c, diam_data, num_conc_data, &
+       arr_size) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int) :: arr_size
+    real(c_double) :: diam_data(arr_size), num_conc_data(arr_size-1)
+
+    call c_f_pointer(ptr_c, aero_mode)
+
+    aero_mode%type = AERO_MODE_TYPE_SAMPLED
+    aero_mode%sample_radius = diam_data / 2
+    aero_mode%sample_num_conc = num_conc_data
+
+  end subroutine
+
 end module

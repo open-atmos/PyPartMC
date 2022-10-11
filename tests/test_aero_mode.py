@@ -8,6 +8,7 @@ import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 
+AERO_MODE_JSON = {}
 
 class TestAeroMode:
     @staticmethod
@@ -16,7 +17,7 @@ class TestAeroMode:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
         # act
-        sut = ppmc.AeroMode(aero_data)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_JSON)
 
         # assert
         assert sut is not None
@@ -25,7 +26,7 @@ class TestAeroMode:
     def test_set_vol_frac():
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         # act
-        sut = ppmc.AeroMode(aero_data)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_JSON)
         vals = [1.0]
         sut.vol_frac = vals
 
@@ -35,7 +36,7 @@ class TestAeroMode:
     def test_set_num_conc():
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         # act
-        sut = ppmc.AeroMode(aero_data)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_JSON)
         val = 1234
         sut.num_conc = val
 
@@ -45,7 +46,7 @@ class TestAeroMode:
     def test_set_gsd():
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         # act
-        sut = ppmc.AeroMode(aero_data)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_JSON)
         val = 1.234
         sut.gsd = val
 
@@ -55,7 +56,7 @@ class TestAeroMode:
     def test_set_char_radius():
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         # act
-        sut = ppmc.AeroMode(aero_data)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_JSON)
         val = 1e-9
         sut.char_radius = val
 
@@ -66,7 +67,7 @@ class TestAeroMode:
         # act
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         # act
-        sut = ppmc.AeroMode(aero_data)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_JSON)
         try:
             sut.vol_frac = [1.0, 0.0]
         except RuntimeError:

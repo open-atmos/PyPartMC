@@ -67,14 +67,25 @@ extern "C" void f_aero_mode_set_gsd(
   void *ptr,
   const double *val
 ) noexcept;
+extern "C" void f_aero_mode_set_sampled(
+  void *ptr,
+  const void *rad_data,
+  const void *num_conc_data,
+  const int *arr_size
+) noexcept; 
+extern "C" void f_aero_mode_from_json(void *ptr, void *aero_data_ptr) noexcept;
 
 struct AeroMode {
     PMCResource ptr;
 
-    AeroMode(const AeroData &aero_data) :
+    AeroMode(AeroData &aero_data, const nlohmann::json &json) :
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
         f_aero_mode_init(ptr.f_arg_non_const(), aero_data.ptr.f_arg());
+        // Does not quite work yet
+/*        gimmick_ptr() = std::make_unique<InputGimmick>(json);
+        f_aero_mode_from_json(ptr.f_arg_non_const(), aero_data.ptr.f_arg_non_const());
+        gimmick_ptr().reset(); */
     }
 
     static double get_num_conc(const AeroMode &self){
@@ -170,4 +181,17 @@ struct AeroMode {
     static void set_gsd(AeroMode &self, const double &val){
        f_aero_mode_set_gsd(self.ptr.f_arg_non_const(), &val);
     }
+
+    static void set_sampled(AeroMode &self, const std::valarray<double>&sample_diams,
+         const std::valarray<double>&sample_num_conc){
+
+        int len = sample_diams.size();
+        f_aero_mode_set_sampled(
+            self.ptr.f_arg_non_const(),
+            begin(sample_diams),
+            begin(sample_num_conc),
+            &len
+        );
+    }
+
 };
