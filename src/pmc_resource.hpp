@@ -34,5 +34,9 @@ class PMCResource {
     const void *f_arg() const {
         return &this->ptr;
     }
+
+    void *f_arg_non_const() {
+        return &this->ptr;
+    }
 };
 
