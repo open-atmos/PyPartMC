@@ -30,7 +30,7 @@ class TestGasState:
 
         # act
         try:
-            value = sut[idx]
+            _ = sut[idx]
         except IndexError:
             return
 
@@ -87,7 +87,7 @@ class TestGasState:
     def test_get_mix_rats():
         # arrange
         gas_data = GAS_DATA_MINIMAL
-        
+
         # act
         sut = ppmc.GasState(gas_data)
 
