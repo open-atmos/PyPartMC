@@ -4,12 +4,8 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
-# TODO #123
-# pylint: disable=unused-variable
-
 import pytest
 
-# import numpy as np
 import PyPartMC as ppmc
 
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
@@ -19,23 +15,8 @@ GAS_DATA_MINIMAL = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
 
 class TestGasState:
     @staticmethod
-    def test_ctor_error():
-        # arrange
-        pass
-
-        # act
-        # try:
-        #    sut = ppmc.GasState({'':''})
-        # except ValueError as err:
-        #    assert "gas_mixing_ratio" in str(err)
-        #    return
-
-        # assert
-        # assert False
-
-    @staticmethod
     def test_ctor_valid():
-        # arrange
+        # act
         sut = ppmc.GasState(GAS_DATA_MINIMAL)
 
         # assert
@@ -53,6 +34,7 @@ class TestGasState:
         except IndexError:
             return
 
+        # assert
         assert False
 
     @staticmethod
@@ -60,6 +42,7 @@ class TestGasState:
         # arrange
         sut = ppmc.GasState(GAS_DATA_MINIMAL)
         sut[0] = 44
+
         # act
         value = sut[0]
 
@@ -102,22 +85,11 @@ class TestGasState:
 
     @staticmethod
     def test_get_mix_rats():
-
+        # arrange
         gas_data = GAS_DATA_MINIMAL
+        
+        # act
         sut = ppmc.GasState(gas_data)
 
+        # assert
         assert len(sut.mix_rats) == len(sut)
-
-
-#    @staticmethod
-#    def test_to_json():
-#        # arrange
-#        data_in = {}  # TODO #123
-#        sut = ppmc.GasState(data_in)
-#
-#        # act
-#        data_out = str(sut)
-#        print(data_out)
-#
-#        # assert
-#        # assert data_in == data_out  TODO #123
