@@ -236,7 +236,7 @@ struct AeroMode {
         );
     }
 
-    static const auto types() {
+    static auto types() {
         static auto vec = std::vector<std::string>({
             "log_normal",
             "exp",
