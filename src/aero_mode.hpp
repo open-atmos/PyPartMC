@@ -236,19 +236,27 @@ struct AeroMode {
         );
     }
 
-    const static inline std::vector<std::string> types = {"log_normal", "exp", "mono", "sampled"};
+    static const auto types() {
+        static auto vec = std::vector<std::string>({
+            "log_normal",
+            "exp",
+            "mono",
+            "sampled"
+        });
+        return vec;
+    };
 
     static void set_type(AeroMode &self, const std::string &mode_type) {
         auto it = std::find(
-            AeroMode::types.begin(),
-            AeroMode::types.end(),
+            AeroMode::types().begin(),
+            AeroMode::types().end(),
             mode_type
         );
 
-        if (it == AeroMode::types.end()) 
+        if (it == AeroMode::types().end()) 
             throw std::invalid_argument("Invalid mode type.");
 
-        int type = 1 + std::distance(AeroMode::types.begin(), it);
+        int type = 1 + std::distance(AeroMode::types().begin(), it);
 
         f_aero_mode_set_type(self.ptr.f_arg_non_const(), &type);
     }
@@ -257,9 +265,9 @@ struct AeroMode {
         int type;
         f_aero_mode_get_type(self.ptr.f_arg(), &type);
 
-        if (type < 0 || (unsigned int)type >= AeroMode::types.size())
+        if (type < 0 || (unsigned int)type >= AeroMode::types().size())
             throw std::logic_error("Unknown mode type.");
 
-        return AeroMode::types[type - 1];
+        return AeroMode::types()[type - 1];
     }
 };
