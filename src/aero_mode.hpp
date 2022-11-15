@@ -9,79 +9,107 @@
 #include "pmc_resource.hpp"
 #include "pybind11/stl.h"
 
-extern "C" void f_aero_mode_ctor(void *ptr) noexcept;
-extern "C" void f_aero_mode_dtor(void *ptr) noexcept;
+extern "C" void f_aero_mode_ctor(
+    void *ptr
+) noexcept;
+
+extern "C" void f_aero_mode_dtor(
+    void *ptr
+) noexcept;
+
 extern "C" void f_aero_mode_init(
     void *ptr,
     const void *aero_data_ptr
 ) noexcept;
+
 extern "C" void f_aero_mode_get_num_conc(
     const void *ptr,
     double *val
 ) noexcept;
+
 extern "C" void f_aero_mode_set_num_conc(
     void *ptr,
     const double *val
 ) noexcept;
+
 extern "C" void f_aero_mode_num_conc(
-       const void *ptr, const void *bin_grid_ptr,
-       const void *aero_data_ptr_c, void *arr_data, const int *arr_size
+    const void *ptr,
+    const void *bin_grid_ptr,
+    const void *aero_data_ptr_c,
+    void *arr_data,
+    const int *arr_size
 ) noexcept;
+
 extern "C" void f_aero_mode_get_n_spec(
-  const void *ptr,
-  int *len
+    const void *ptr,
+    int *len
 ) noexcept;
+
 extern "C" void f_aero_mode_get_vol_frac(
-  const void *ptr,
-  void *arr_data,
-  const int *arr_size
+    const void *ptr,
+    void *arr_data,
+    const int *arr_size
 ) noexcept;
+
 extern "C" void f_aero_mode_set_vol_frac(
-  void *ptr,
-  const void *arr_data,
-  const int *arr_size
+    void *ptr,
+    const void *arr_data,
+    const int *arr_size
 ) noexcept;
+
 extern "C" void f_aero_mode_get_vol_frac_std(
-  const void *ptr,
-  void *arr_data,
-  const int *arr_size
+    const void *ptr,
+    void *arr_data,
+    const int *arr_size
 ) noexcept;
+
 extern "C" void f_aero_mode_set_vol_frac_std(
-  void *ptr,
-  const void *arr_data,
-  const int *arr_size
+    void *ptr,
+    const void *arr_data,
+    const int *arr_size
 ) noexcept;
+
 extern "C" void f_aero_mode_get_char_radius(
-  const void *ptr,
-  double *val
+    const void *ptr,
+    double *val
 ) noexcept;
+
 extern "C" void f_aero_mode_set_char_radius(
-  void *ptr,
-  const double *val 
+    void *ptr,
+    const double *val 
 ) noexcept;
+
 extern "C" void f_aero_mode_get_gsd(
-  const void *ptr,
-  double *val
+    const void *ptr,
+    double *val
 ) noexcept;
+
 extern "C" void f_aero_mode_set_gsd(
-  void *ptr,
-  const double *val
+    void *ptr,
+    const double *val
 ) noexcept;
+
 extern "C" void f_aero_mode_set_type(
-  void *ptr,
-  const int *val
+    void *ptr,
+    const int *val
 ) noexcept;
+
 extern "C" void f_aero_mode_get_type(
-  const void *ptr,
-  int *val
+    const void *ptr,
+    int *val
 ) noexcept;
+
 extern "C" void f_aero_mode_set_sampled(
-  void *ptr,
-  const void *rad_data,
-  const void *num_conc_data,
-  const int *arr_size
+    void *ptr,
+    const void *rad_data,
+    const void *num_conc_data,
+    const int *arr_size
 ) noexcept; 
-extern "C" void f_aero_mode_from_json(void *ptr, void *aero_data_ptr) noexcept;
+
+extern "C" void f_aero_mode_from_json(
+    void *ptr,
+    void *aero_data_ptr
+) noexcept;
 
 struct AeroMode {
     PMCResource ptr;
@@ -90,10 +118,10 @@ struct AeroMode {
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
         f_aero_mode_init(ptr.f_arg_non_const(), aero_data.ptr.f_arg());
-        // Does not quite work yet
-/*        gimmick_ptr() = std::make_unique<InputGimmick>(json);
+
+        gimmick_ptr() = std::make_unique<InputGimmick>(json, "", "mode_name");
         f_aero_mode_from_json(ptr.f_arg_non_const(), aero_data.ptr.f_arg_non_const());
-        gimmick_ptr().reset(); */
+        gimmick_ptr().reset();
     }
 
     static double get_num_conc(const AeroMode &self){
@@ -186,17 +214,19 @@ struct AeroMode {
        return val;
     }
 
-    static void set_gsd(AeroMode &self, const double &val){
+    static void set_gsd(AeroMode &self, const double &val) {
        f_aero_mode_set_gsd(self.ptr.f_arg_non_const(), &val);
     }
 
     static void set_sampled(AeroMode &self, const std::valarray<double>&sample_diams,
-         const std::valarray<double>&sample_num_conc){
+         const std::valarray<double>&sample_num_conc) {
 
         int len = sample_diams.size();
-        int len_num_conc = sample_num_conc.size();
-        if (len!=len_num_conc + 1)
-            throw std::runtime_error("Diameter and number size mismatch");
+        {
+            int len_num_conc = sample_num_conc.size();
+            if (len != len_num_conc + 1)
+                throw std::runtime_error("Diameter and number size mismatch");
+        }
 
         f_aero_mode_set_sampled(
             self.ptr.f_arg_non_const(),
@@ -206,26 +236,30 @@ struct AeroMode {
         );
     }
 
-    static void set_type(AeroMode &self, const std::string &mode_type){
-        int type;
-        type = 0;
-        if (mode_type == "log_normal") type = 1;
-        if (mode_type == "exp") type = 2;
-        if (mode_type == "mono") type = 3;
-        if (mode_type == "sampled") type = 4;
-        if (type == 0) throw std::invalid_argument( "Invalid mode type." );
+    const static inline std::vector<std::string> types = {"log_normal", "exp", "mono", "sampled"};
+
+    static void set_type(AeroMode &self, const std::string &mode_type) {
+        auto it = std::find(
+            AeroMode::types.begin(),
+            AeroMode::types.end(),
+            mode_type
+        );
+
+        if (it == AeroMode::types.end()) 
+            throw std::invalid_argument("Invalid mode type.");
+
+        int type = 1 + std::distance(AeroMode::types.begin(), it);
+
         f_aero_mode_set_type(self.ptr.f_arg_non_const(), &type);
     }
 
-    static std::string get_type(const AeroMode &self){
+    static std::string get_type(const AeroMode &self) {
         int type;
         f_aero_mode_get_type(self.ptr.f_arg(), &type);
-        std::string mode_type;
-        if (type == 1) mode_type = "log_normal";
-        if (type == 2) mode_type = "exp";
-        if (type == 3) mode_type = "mono";
-        if (type == 4) mode_type = "sampled";
-        return mode_type;
-    }
 
+        if (type < 0 || (unsigned int)type >= AeroMode::types.size())
+            throw std::logic_error("Unknown mode type.");
+
+        return AeroMode::types[type - 1];
+    }
 };

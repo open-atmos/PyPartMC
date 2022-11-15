@@ -37,10 +37,6 @@ module PyPartMC_aero_mode
 
     call c_f_pointer(ptr_c, aero_mode)
     call c_f_pointer(aero_data_ptr_c, aero_data)
-
-    ! Hard code some things so we can do testing
-    call f_aero_mode_default(aero_mode, aero_data)
- 
   end subroutine
 
   subroutine f_aero_mode_set_num_conc(ptr_c, val) bind(C)
@@ -82,33 +78,6 @@ module PyPartMC_aero_mode
        arr_data)
 
   end subroutine 
-
-  subroutine f_aero_mode_default(aero_mode, aero_data)
-    type(aero_mode_t), intent(inout) :: aero_mode
-    type(aero_data_t), intent(inout) :: aero_data
-
-    aero_mode%name = 'test_mode'
-    aero_mode%type = 1
-    aero_mode%char_radius = 2e-8
-    aero_mode%log10_std_dev_radius = log10(1.6)
-    aero_mode%num_conc = 1e9
-
-    if (allocated(aero_mode%sample_radius)) deallocate(aero_mode%sample_radius)
-    if (allocated(aero_mode%sample_num_conc)) &
-         deallocate(aero_mode%sample_num_conc)
-    allocate(aero_mode%sample_radius(0))
-    allocate(aero_mode%sample_num_conc(0))
-
-    if (allocated(aero_mode%vol_frac)) deallocate(aero_mode%vol_frac)
-    if (allocated(aero_mode%vol_frac_std)) deallocate(aero_mode%vol_frac_std)
-    allocate(aero_mode%vol_frac(aero_data_n_spec(aero_data)))
-    allocate(aero_mode%vol_frac_std(aero_data_n_spec(aero_data)))
-    aero_mode%vol_frac = 0.0
-    aero_mode%vol_frac(1) = 1.0
-    aero_mode%vol_frac_std = 0.0
-    aero_mode%source = 1
-
-  end subroutine
 
   subroutine f_aero_mode_get_n_spec(ptr_c, len) bind(C)
     type(c_ptr), intent(in) :: ptr_c
