@@ -234,6 +234,59 @@ same, but without the \c _a suffix.</p>
 </dd>
 </dl>
 </dd>
+<dt id="PyPartMC.AeroMode"><code class="flex name class">
+<span>class <span class="ident">AeroMode</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<div class="desc"><p><strong>init</strong>(self: _PyPartMC.AeroMode, arg0: _PyPartMC.AeroData, arg1: json) -&gt; None</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>pybind11_builtins.pybind11_object</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="PyPartMC.AeroMode.char_radius"><code class="name">var <span class="ident">char_radius</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.AeroMode) -&gt; float</p></div>
+</dd>
+<dt id="PyPartMC.AeroMode.gsd"><code class="name">var <span class="ident">gsd</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.AeroMode) -&gt; float</p></div>
+</dd>
+<dt id="PyPartMC.AeroMode.num_conc"><code class="name">var <span class="ident">num_conc</span></code></dt>
+<dd>
+<div class="desc"><p>returns the total number concentration of a mode</p></div>
+</dd>
+<dt id="PyPartMC.AeroMode.type"><code class="name">var <span class="ident">type</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.AeroMode) -&gt; str</p></div>
+</dd>
+<dt id="PyPartMC.AeroMode.vol_frac"><code class="name">var <span class="ident">vol_frac</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.AeroMode) -&gt; List[float]</p></div>
+</dd>
+<dt id="PyPartMC.AeroMode.vol_frac_std"><code class="name">var <span class="ident">vol_frac_std</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.AeroMode) -&gt; List[float]</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="PyPartMC.AeroMode.num_dist"><code class="name flex">
+<span>def <span class="ident">num_dist</span></span>(<span>self: _PyPartMC.AeroMode, arg0: _PyPartMC.BinGrid, arg1: _PyPartMC.AeroData) ‑> List[float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns the binned number concenration of a mode</p></div>
+</dd>
+<dt id="PyPartMC.AeroMode.set_sample"><code class="name flex">
+<span>def <span class="ident">set_sample</span></span>(<span>self: _PyPartMC.AeroMode, arg0: List[float], arg1: List[float])</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="PyPartMC.AeroParticle"><code class="flex name class">
 <span>class <span class="ident">AeroParticle</span></span>
 <span>(</span><span>...)</span>
@@ -628,6 +681,19 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.AeroData.vol2diam" href="#PyPartMC.AeroData.vol2diam">vol2diam</a></code></li>
 <li><code><a title="PyPartMC.AeroData.vol2rad" href="#PyPartMC.AeroData.vol2rad">vol2rad</a></code></li>
 <li><code><a title="PyPartMC.AeroData.vol_fill_factor" href="#PyPartMC.AeroData.vol_fill_factor">vol_fill_factor</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="PyPartMC.AeroMode" href="#PyPartMC.AeroMode">AeroMode</a></code></h4>
+<ul class="two-column">
+<li><code><a title="PyPartMC.AeroMode.char_radius" href="#PyPartMC.AeroMode.char_radius">char_radius</a></code></li>
+<li><code><a title="PyPartMC.AeroMode.gsd" href="#PyPartMC.AeroMode.gsd">gsd</a></code></li>
+<li><code><a title="PyPartMC.AeroMode.num_conc" href="#PyPartMC.AeroMode.num_conc">num_conc</a></code></li>
+<li><code><a title="PyPartMC.AeroMode.num_dist" href="#PyPartMC.AeroMode.num_dist">num_dist</a></code></li>
+<li><code><a title="PyPartMC.AeroMode.set_sample" href="#PyPartMC.AeroMode.set_sample">set_sample</a></code></li>
+<li><code><a title="PyPartMC.AeroMode.type" href="#PyPartMC.AeroMode.type">type</a></code></li>
+<li><code><a title="PyPartMC.AeroMode.vol_frac" href="#PyPartMC.AeroMode.vol_frac">vol_frac</a></code></li>
+<li><code><a title="PyPartMC.AeroMode.vol_frac_std" href="#PyPartMC.AeroMode.vol_frac_std">vol_frac_std</a></code></li>
 </ul>
 </li>
 <li>
