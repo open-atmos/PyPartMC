@@ -205,3 +205,22 @@ void c_spec_file_read_real_named_array_data(
     );
 }
 
+/*********************************************************************************/
+extern "C"
+void c_spec_file_read_line(
+    char *name_data,
+    int *name_size,
+    char *data0_data,
+    int *data0_size,
+    bool *eof
+) noexcept {
+    std::string name, data;
+    *eof = gimmick_ptr()->read_line(name, data);
+
+    int i = 0;
+    for (const auto &ch : name) {
+        assert(i < name_size);
+        name_data[i++] = ch;
+    }
+    *name_size = i;
+}

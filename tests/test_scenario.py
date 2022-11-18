@@ -15,6 +15,7 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_mode import AERO_MODE_CTOR_LOG_NORMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 
@@ -24,8 +25,16 @@ SCENARIO_CTOR_ARG_MINIMAL = {
     "height_profile": [{"time": []}, {"height": []}],
     "gas_emissions": [{"time": [0]}, {"rate": [0]}, {"SO2": [0]}],
     "gas_background": [{"time": [0]}, {"rate": [0]}, {"SO2": [0]}],
-    "aero_emissions": [{"time": [0]}, {"rate": [0]}, {"dist": [{}]}],
-    "aero_background": [{"time": [0]}, {"rate": [0]}, {"dist": [{}]}],
+    "aero_emissions": [
+        {"time": [0]},
+        {"rate": [0]},
+        {"dist": [AERO_MODE_CTOR_LOG_NORMAL]},
+    ],
+    "aero_background": [
+        {"time": [0]},
+        {"rate": [0]},
+        {"dist": [AERO_MODE_CTOR_LOG_NORMAL]},
+    ],
     "loss_function": "none",
 }
 
@@ -60,8 +69,16 @@ class TestScenario:
                         {"SO2": [0, 0, 0]},
                         {"NO2": [0, 0, 0]},
                     ],
-                    "aero_emissions": [{"time": [0]}, {"rate": [0]}, {"dist": [{}]}],
-                    "aero_background": [{"time": [0]}, {"rate": [0]}, {"dist": [{}]}],
+                    "aero_emissions": [
+                        {"time": [0]},
+                        {"rate": [0]},
+                        {"dist": [AERO_MODE_CTOR_LOG_NORMAL]},
+                    ],
+                    "aero_background": [
+                        {"time": [0]},
+                        {"rate": [0]},
+                        {"dist": [AERO_MODE_CTOR_LOG_NORMAL]},
+                    ],
                     "loss_function": "none",
                 },
             },

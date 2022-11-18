@@ -1,5 +1,6 @@
 module pmc_spec_file
     use pmc_spec_line
+    use pmc_sys
     use iso_c_binding
     implicit none
 
@@ -80,6 +81,17 @@ module pmc_spec_file
             real(c_double), intent(out) :: vals_data
             integer, intent(in) :: row, vals_size, names_size
         end subroutine
+
+        subroutine c_spec_file_read_line( &
+            name_data, name_size, &
+            data0_data, data0_size, &
+            eof &
+        ) bind(C)
+            import c_bool
+            logical(c_bool), intent(out) :: eof
+            character, intent(in) :: name_data, data0_data
+            integer, intent(in) :: name_size, data0_size
+        end subroutine
     end interface
 
     contains
@@ -88,6 +100,10 @@ module pmc_spec_file
         type(spec_file_t), intent(in) :: file
         type(spec_line_t), intent(in) :: line
         character(len=*), intent(in) :: name
+        if (line%name /= name) then
+            print*, 'line must begin with: ' // trim(name) // ' not: ' // trim(line%name)
+            call pmc_stop(462932478)
+        end if
     end subroutine
 
     subroutine spec_file_read_real_named_array(file, max_lines, names, vals)
@@ -129,6 +145,10 @@ module pmc_spec_file
         type(spec_file_t), intent(in) :: file
         type(spec_line_t), intent(in) :: line
         integer, intent(in) :: length
+        if (size(line%data) /= length) then
+            print*, 'expected ' // trim(integer_to_string(length)) // ' data items on line'
+            call pmc_stop(189339129)
+        end if
     end subroutine
 
     subroutine spec_file_read_logical(file, name, var)
@@ -143,9 +163,8 @@ module pmc_spec_file
     subroutine spec_file_read_line_no_eof(file, line)
         type(spec_file_t), intent(inout) :: file
         type(spec_line_t), intent(inout) :: line
-        ! TODO #112: deallocate!
-        allocate(line%data(1))
-        line%data(1) = "dist"
+        logical :: eof
+        call spec_file_read_line(file, line, eof)
     end subroutine
 
     subroutine spec_file_read_string(file, name, var)
@@ -177,8 +196,21 @@ module pmc_spec_file
         type(spec_file_t), intent(inout) :: file
         type(spec_line_t), intent(inout) :: line
         logical, intent(out) :: eof
-        ! TODO #112!
-        eof = .true.
+
+        integer :: name_size, data0_size
+        logical(c_bool) :: c_eof
+
+        allocate(line%data(1))
+        name_size = len(line%name)
+        data0_size = len(line%data(1))
+        call c_spec_file_read_line(line%name, name_size, line%data(1), data0_size, c_eof)
+        eof = c_eof
+        if (.not. eof) then
+            line%name = line%name(1:name_size)
+            line%data(1) = line%data(1)(1:data0_size)
+        else
+            deallocate(line%data)
+        end if
     end subroutine 
 
     subroutine spec_file_read_timed_real_array(file, name, times, vals)
@@ -224,6 +256,8 @@ module pmc_spec_file
         integer, intent(in) :: code
         type(spec_file_t), intent(in) :: file
         character(len=*), intent(in) :: msg
+        print*, msg
+        call pmc_stop(code)
     end subroutine
 
 end module

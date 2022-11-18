@@ -43,6 +43,21 @@ struct Gimmick {
         return this->json->dump();
     }
 
+    std::string last_dict_key() const noexcept {
+        std::string key = "<NOT FOUND>";
+        for (const auto& item : this->json->items())
+        {
+            if (this->json->is_array()) {
+                for (auto &entry : item.value().items()) {
+                    key = entry.key();
+                }
+            } else {
+                key = item.key();
+            }
+        }
+        return key;
+    }
+ 
   public:
     virtual ~Gimmick() {}
 
@@ -61,12 +76,17 @@ struct Gimmick {
         this->json_parent.pop();
     }
 
+    auto zoom_level() noexcept {
+        auto level = this->json_parent.size();
+        return level;
+    }
+
     auto begin() noexcept {
         return this->json->begin();
     }
 
     // TODO #112: to be removed after initialising GasData with a list, and not JSON?
-    std::string first_field_name() noexcept {
+    std::string first_field_name() const noexcept {
         // TODO #112: handle errors
         assert(this->json->size() > 0);
         assert(this->json->begin()->size() > 0);
@@ -77,7 +97,7 @@ struct Gimmick {
         assert(false);
         return "";
     }
- 
+
     auto is_empty() noexcept {
         return this->json->empty();
     }
@@ -175,12 +195,48 @@ struct Gimmick {
     }
 
     virtual std::string str() const = 0;
+
+    virtual bool read_line(std::string &name, std::string &data) = 0;
 };
 
 struct InputGimmick: Gimmick {
-    InputGimmick(const nlohmann::json &json) : Gimmick(json) {}
+  private:
+    std::string key_cond, key_name;
+    std::string last_read_line_key = "";
+
+  public:
+    InputGimmick(
+        const nlohmann::json &json,
+        const std::string key_cond = "",
+        const std::string key_name = ""
+    ) : Gimmick(json), key_cond(key_cond), key_name(key_name)
+    {}
+
     std::string str() const {
         throw std::logic_error("str() called on InputGimmick!");
+    }
+
+    bool read_line(std::string &name, std::string &data) {
+        bool eof = this->is_empty();
+
+        if (this->zoom_level() == 3) { // TODO #112
+            eof = true;
+            this->zoom_out();
+        }
+
+        if (!eof) {
+            assert(this>size() == 1);
+            auto key = this->last_dict_key();
+            if (this->key_name != "" && (this->key_cond == this->last_read_line_key)) {
+                name = this->key_name;
+                this->zoom_in(key);
+            } else {
+                name = key;
+            }
+            data = key;
+            this->last_read_line_key = key;
+        }
+        return eof;
     }
 };
 
@@ -193,6 +249,10 @@ struct OutputGimmick: Gimmick {
 
     std::string str() const {
         return this->dump();
+    }
+
+    bool read_line(std::string &, std::string &) {
+        throw std::logic_error("read_line() called on OutputGimmick!");
     }
 };
 

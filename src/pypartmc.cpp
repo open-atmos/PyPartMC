@@ -12,6 +12,7 @@
 #include "run_part.hpp"
 #include "run_part_opt.hpp"
 #include "aero_data.hpp"
+#include "aero_mode.hpp"
 #include "aero_state.hpp"
 #include "env_state.hpp"
 #include "gas_data.hpp"
@@ -289,6 +290,24 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property_readonly("centers", BinGrid::centers, "Bin centers")
     ;
 
+    py::class_<AeroMode>(m,"AeroMode")
+        .def(py::init<AeroData&, const nlohmann::json&>())
+        .def_property("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
+             "returns the total number concentration of a mode")
+        .def("num_dist", &AeroMode::num_dist,
+             "returns the binned number concenration of a mode")
+        .def_property("vol_frac", &AeroMode::get_vol_frac,
+             &AeroMode::set_vol_frac)
+        .def_property("vol_frac_std", &AeroMode::get_vol_frac_std,
+             &AeroMode::set_vol_frac_std)
+        .def_property("char_radius", &AeroMode::get_char_radius,
+             &AeroMode::set_char_radius)
+        .def_property("gsd", &AeroMode::get_gsd,
+             &AeroMode::set_gsd)
+        .def("set_sample", &AeroMode::set_sampled)
+        .def_property("type", &AeroMode::get_type, &AeroMode::set_type)
+    ;
+
     m.def(
         "histogram_1d", &histogram_1d, py::return_value_policy::copy,
         "Return a 1D histogram with of the given weighted data, scaled by the bin sizes."
@@ -340,6 +359,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     m.attr("__all__") = py::make_tuple(
         "__version__",
         "AeroData",
+        "AeroMode",
         "AeroState",
         "AeroParticle",
         "BinGrid",
