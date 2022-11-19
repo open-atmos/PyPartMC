@@ -141,7 +141,7 @@ class TestAeroState:
         assert isinstance(crit_rel_humids, list)
         assert len(crit_rel_humids) == len(sut_minimal)
         assert (np.asarray(crit_rel_humids) > 1).all()
-        assert (np.asarray(crit_rel_humids) < 1.1).all()
+        assert (np.asarray(crit_rel_humids) < 1.2).all()
 
     @staticmethod
     def test_mixing_state(sut_minimal):  # pylint: disable=redefined-outer-name
