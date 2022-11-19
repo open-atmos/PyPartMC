@@ -4,6 +4,8 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import gc
+
 import numpy as np
 import pytest
 
@@ -55,6 +57,8 @@ class TestAeroParticle:
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        gc.collect()
 
         # act
         vol = sut.volume
@@ -73,6 +77,8 @@ class TestAeroParticle:
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        gc.collect()
 
         # act and assert
         for i, volume in enumerate(volumes):
@@ -90,6 +96,9 @@ class TestAeroParticle:
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
 
         # act
         dry_vol = sut.dry_volume
@@ -111,6 +120,9 @@ class TestAeroParticle:
         aero_data.prime_radius = 1e-8
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
 
         # act
         radius = sut.radius
@@ -132,6 +144,9 @@ class TestAeroParticle:
         aero_data.prime_radius = 1e-8
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
 
         # act
         dry_radius = sut.dry_radius
@@ -153,6 +168,9 @@ class TestAeroParticle:
         aero_data.prime_radius = 1e-8
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
 
         # act
         diameter = sut.diameter
@@ -174,6 +192,9 @@ class TestAeroParticle:
         aero_data.prime_radius = 1e-8
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
 
         # act
         dry_diameter = sut.dry_diameter
@@ -192,6 +213,8 @@ class TestAeroParticle:
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        gc.collect()
 
         # act
         mass = sut.mass
@@ -214,6 +237,8 @@ class TestAeroParticle:
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        gc.collect()
 
         # act
         sodium_mass = sut.species_mass(2)
@@ -233,6 +258,8 @@ class TestAeroParticle:
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        gc.collect()
 
         # act
         masses = sut.species_masses
@@ -255,6 +282,9 @@ class TestAeroParticle:
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
 
         # act
         kappa = sut.solute_kappa

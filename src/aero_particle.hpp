@@ -30,21 +30,24 @@ extern "C" void f_aero_particle_solute_kappa(const void *aero_particle_ptr, cons
 namespace py = pybind11;
 struct AeroParticle {
     PMCResource ptr;
-    const AeroData &aero_data;
+    std::shared_ptr<AeroData> aero_data;
 
-    AeroParticle( const AeroData &aero_data, const std::valarray<double>&data) :
+    AeroParticle(
+        std::shared_ptr<AeroData> aero_data,
+        const std::valarray<double>&data
+    ) :
         ptr(f_aero_particle_ctor, f_aero_particle_dtor),
         aero_data(aero_data)
     {
         int len = data.size();
-        f_aero_particle_init(ptr.f_arg(), aero_data.ptr.f_arg(), begin(data), &len);
-        if (size_t(len)!=AeroData::__len__(aero_data))
+        f_aero_particle_init(ptr.f_arg(), aero_data->ptr.f_arg(), begin(data), &len);
+        if (size_t(len) != AeroData::__len__(*aero_data))
             throw std::runtime_error("AeroData size mistmatch");
     }
 
     static std::valarray<double> volumes(const AeroParticle &self)
     {
-        int len = AeroData::__len__(self.aero_data);
+        int len = AeroData::__len__(*self.aero_data);
         std::valarray<double> data(len);
         f_aero_particle_volumes(&self.ptr, begin(data), &len);
         return data;
@@ -64,56 +67,56 @@ struct AeroParticle {
 
     static double dry_volume(const AeroParticle &self) {
         double vol;
-        f_aero_particle_dry_volume(&self.ptr, &self.aero_data, &vol);
+        f_aero_particle_dry_volume(&self.ptr, self.aero_data.get(), &vol);
         return vol;
     }
 
     static double radius(const AeroParticle &self) {
         double radius;
-        f_aero_particle_radius(&self.ptr, &self.aero_data, &radius);
+        f_aero_particle_radius(&self.ptr, self.aero_data.get(), &radius);
         return radius;
     }
 
     static double dry_radius(const AeroParticle &self) {
         double radius;
-        f_aero_particle_dry_radius(&self.ptr, &self.aero_data, &radius);
+        f_aero_particle_dry_radius(&self.ptr, self.aero_data.get(), &radius);
         return radius;
     }
 
     static double diameter(const AeroParticle &self) {
         double diameter;
-        f_aero_particle_diameter(&self.ptr, &self.aero_data, &diameter);
+        f_aero_particle_diameter(&self.ptr, self.aero_data.get(), &diameter);
         return diameter;
     }
 
     static double dry_diameter(const AeroParticle &self) {
         double diameter;
-        f_aero_particle_dry_diameter(&self.ptr, &self.aero_data, &diameter);
+        f_aero_particle_dry_diameter(&self.ptr, self.aero_data.get(), &diameter);
         return diameter;
     }
 
     static double mass(const AeroParticle &self) {
         double mass;
-        f_aero_particle_mass(&self.ptr, &self.aero_data, &mass);
+        f_aero_particle_mass(&self.ptr, self.aero_data.get(), &mass);
         return mass;
     }
 
     static double species_mass(const AeroParticle &self, const int &i_spec) {
         double mass;
-        f_aero_particle_species_mass(&self.ptr, &i_spec, &self.aero_data, &mass);
+        f_aero_particle_species_mass(&self.ptr, &i_spec, self.aero_data.get(), &mass);
         return mass;
     }
 
     static std::valarray<double> species_masses(const AeroParticle &self) {
-        int len = AeroData::__len__(self.aero_data);
+        int len = AeroData::__len__(*self.aero_data);
         std::valarray<double> masses(len);
-        f_aero_particle_species_masses(&self.ptr, &self.aero_data, &len, begin(masses));
+        f_aero_particle_species_masses(&self.ptr, self.aero_data.get(), &len, begin(masses));
         return masses;
     }
 
     static double solute_kappa(const AeroParticle &self) {
         double kappa;
-        f_aero_particle_solute_kappa(&self.ptr, &self.aero_data, &kappa);
+        f_aero_particle_solute_kappa(&self.ptr, self.aero_data.get(), &kappa);
         return kappa;
     }
 

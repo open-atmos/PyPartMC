@@ -4,6 +4,8 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import gc
+
 import pytest
 
 import PyPartMC as ppmc
@@ -62,6 +64,8 @@ class TestGasState:
             )
         )
         sut = ppmc.GasState(gas_data)
+        gas_data = None
+        gc.collect()
 
         # act
         values = sut.mix_rats
