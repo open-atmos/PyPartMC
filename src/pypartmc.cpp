@@ -46,7 +46,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
     //m.def("run_exact", &run_exact, "Do an exact solution simulation.");
 
-    py::class_<AeroData>(m, "AeroData",
+    py::class_<AeroData, std::shared_ptr<AeroData>>(m, "AeroData",
         R"pbdoc(
              Aerosol material properties and associated data.
 
@@ -94,7 +94,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              m^3) of the i'th aerosol species.
         )pbdoc"
     )
-        .def(py::init<const AeroData&, const std::valarray<double>&>())
+        .def(py::init<std::shared_ptr<AeroData>, const std::valarray<double>&>())
         .def_property_readonly("volumes", AeroParticle::volumes)
         .def_property_readonly("volume", AeroParticle::volume,
             "Total volume of the particle (m^3).")
@@ -134,32 +134,32 @@ PYBIND11_MODULE(_PyPartMC, m) {
              is typically cleared each time we output data to disk.
         )pbdoc"
     )
-        .def(py::init<const double, const AeroData&>())
+        .def(py::init<const double, std::shared_ptr<AeroData>>())
         .def("__len__", AeroState::__len__)
         .def("__deepcopy__", AeroState::__deepcopy__)
-        .def("total_num_conc", AeroState::total_num_conc,
+        .def_property_readonly("total_num_conc", AeroState::total_num_conc,
             "returns the total number concentration of the population")
-        .def("total_mass_conc", AeroState::total_mass_conc,
+        .def_property_readonly("total_mass_conc", AeroState::total_mass_conc,
             "returns the total mass concentration of the population")
-        .def("num_concs", AeroState::num_concs,
+        .def_property_readonly("num_concs", AeroState::num_concs,
             "returns the number concentration of each particle in the population")
-        .def("masses", AeroState::masses,
+        .def_property_readonly("masses", AeroState::masses,
             "returns the total mass of each particle in the population")
-        .def("volumes", AeroState::volumes,
+        .def_property_readonly("volumes", AeroState::volumes,
             "returns the total volume of each particle in the population")
-        .def("dry_diameters", AeroState::dry_diameters,
+        .def_property_readonly("dry_diameters", AeroState::dry_diameters,
             "returns the dry diameter of each particle in the population")
-        .def("diameters", AeroState::diameters,
+        .def_property_readonly("diameters", AeroState::diameters,
             "returns the diameter of each particle in the population")
         .def("crit_rel_humids", AeroState::crit_rel_humids,
             "returns the critical relative humidity of each particle in the population")
-        .def("mixing_state", AeroState::mixing_state,
+        .def_property_readonly("mixing_state", AeroState::mixing_state,
             "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population")
         .def("bin_average_comp", AeroState::bin_average_comp,
             "composition-averages population using BinGrid")
     ;
 
-    py::class_<GasData>(m, "GasData",
+    py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData",
         R"pbdoc(
             Constant gas data.
 
@@ -259,7 +259,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             it. This will be the case for new \c gas_state_t structures.
         )pbdoc"
     )
-        .def(py::init<const GasData&>(),
+        .def(py::init<std::shared_ptr<GasData>>(),
             "instantiates and initializes based on GasData")
         .def("__setitem__", GasState::set_item)
         //.def("__setitem__", GasState::set_items)

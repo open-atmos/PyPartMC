@@ -35,6 +35,9 @@ from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
             ),
             id="AeroMode",
         ),
+        pytest.param(
+            ppmc.AeroState(1, ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)), id="AeroState"
+        ),
     ),
 )
 def test_dtors(sut):  # pylint: disable=unused-argument

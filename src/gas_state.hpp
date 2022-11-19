@@ -24,6 +24,7 @@ extern "C" void f_gas_state_mix_rats(const void *ptr, const double *data, const 
 
 struct GasState {
     PMCResource ptr;
+    std::shared_ptr<GasData> gas_data;
 
 /*    GasState(const GasData &gas_data,
              const nlohmann::json &json) :
@@ -40,10 +41,14 @@ struct GasState {
     }
 */
 
-    GasState(const GasData &gas_data) :
-        ptr(f_gas_state_ctor, f_gas_state_dtor)
+    GasState(std::shared_ptr<GasData> gas_data):
+        ptr(f_gas_state_ctor, f_gas_state_dtor),
+        gas_data(gas_data)
     {
-        f_gas_state_set_size(this->ptr.f_arg(), &gas_data.ptr);
+        f_gas_state_set_size(
+            this->ptr.f_arg(),
+            gas_data->ptr.f_arg()
+        );
     }
 
     static void set_item(const GasState &self, const int &idx, const double &val) {
@@ -76,18 +81,29 @@ struct GasState {
         return len;
     }
 
-    static double mix_rat(const GasState &self, const GasData &gasData,
-         const std::string &name) {
+    static double mix_rat(
+        const GasState &self,
+        const std::string &name
+    ) {
         int value;
         const int name_size = name.size();
 
-        f_gas_data_spec_by_name(&gasData.ptr, &value, name.c_str(), &name_size);
-        if (value==0) throw std::runtime_error("Element not found.");
+        f_gas_data_spec_by_name(
+            self.gas_data->ptr.f_arg(),
+            &value,
+            name.c_str(),
+            &name_size
+        );
+        if (value == 0)
+            throw std::runtime_error("Element not found.");
         return get_item(self, value-1);
     }
 
-    static void set_size(GasState &self, const GasData &GasData) {
-        f_gas_state_set_size(&self.ptr, &GasData.ptr);
+    static void set_size(GasState &self) {
+        f_gas_state_set_size(
+            &self.ptr,
+            self.gas_data->ptr.f_arg()
+        );
     }
 
     static std::valarray<double> mix_rats(const GasState &self) {
