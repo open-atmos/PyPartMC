@@ -161,4 +161,4 @@ class TestAeroState:
         sut_minimal.bin_average_comp(bin_grid)
 
         # assert
-        # TODO #170
+        # TODO #179
