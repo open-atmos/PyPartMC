@@ -289,3 +289,19 @@ class TestAeroData:
                 ** (1 / sut.frac_dim)
             ),
         )
+
+    @staticmethod
+    def test_aero_data_densities():
+        # arrange
+        densities = [1800,1400,1800,1000]
+        sut = ppmc.AeroData((
+            {"SO4":  [densities[0] * si.kg/si.m**3, 1,  96.0 * si.g/si.mol, 0.00]},
+            {"OC":   [densities[1] * si.kg/si.m**3, 0,   1.0 * si.g/si.mol, 0.10]},
+            {"BC":   [densities[2] * si.kg/si.m**3, 0,   1.0 * si.g/si.mol, 0.00]},
+            {"H2O":  [densities[3] * si.kg/si.m**3, 0,  18.0 * si.g/si.mol, 0.00]}
+        ))
+
+        # act
+        aero_data_densities = sut.densities
+
+        assert aero_data_densities == densities
