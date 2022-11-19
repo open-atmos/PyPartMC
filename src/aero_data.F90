@@ -174,4 +174,14 @@ subroutine f_aero_data_vol2diam(ptr_c, vol, diam) bind(C)
 
 end subroutine
 
+  subroutine f_aero_data_get_species_density(ptr_c, idx, val) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    integer(c_int), intent(in) :: idx
+    real(c_double), intent(out) :: val
+
+    call c_f_pointer(ptr_c, ptr_f)
+    val = ptr_f%density(idx+1)
+  end subroutine
+
 end module
