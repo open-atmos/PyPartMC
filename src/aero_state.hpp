@@ -40,6 +40,7 @@ extern "C" void f_aero_state_mixing_state_metrics(const void *aero_state,
        const void *aero_data, double *d_alpha, double *d_gamma, double *chi) noexcept;
 extern "C" void f_aero_state_bin_average_comp(const void *ptr_c, const void *bin_grid_ptr, 
        const void *aero_data_ptr) noexcept;
+extern "C" void f_aero_state_copy(const void *ptr_c, const void *aero_dataptr) noexcept;
 
 struct AeroState {
     PMCResource ptr;
@@ -149,5 +150,12 @@ struct AeroState {
         const AeroData &aero_data){
 
         f_aero_state_bin_average_comp(&self.ptr, &bin_grid.ptr, &aero_data.ptr);
+    }
+
+    static AeroState* __deepcopy__(AeroState &self, const AeroData &aero_data){
+        double n_part = 1.0;
+        AeroState *ptr = new AeroState(n_part, aero_data);
+        f_aero_state_copy(&self.ptr, ptr);
+        return ptr;
     }
 };
