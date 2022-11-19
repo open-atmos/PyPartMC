@@ -379,67 +379,54 @@ is typically cleared each time we output data to disk.</p>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
 </ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="PyPartMC.AeroState.diameters"><code class="name">var <span class="ident">diameters</span></code></dt>
+<dd>
+<div class="desc"><p>returns the diameter of each particle in the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.dry_diameters"><code class="name">var <span class="ident">dry_diameters</span></code></dt>
+<dd>
+<div class="desc"><p>returns the dry diameter of each particle in the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.masses"><code class="name">var <span class="ident">masses</span></code></dt>
+<dd>
+<div class="desc"><p>returns the total mass of each particle in the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.mixing_state"><code class="name">var <span class="ident">mixing_state</span></code></dt>
+<dd>
+<div class="desc"><p>returns the mixing state parameters (chi,d_alpha,d_gamma) of the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.num_concs"><code class="name">var <span class="ident">num_concs</span></code></dt>
+<dd>
+<div class="desc"><p>returns the number concentration of each particle in the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.total_mass_conc"><code class="name">var <span class="ident">total_mass_conc</span></code></dt>
+<dd>
+<div class="desc"><p>returns the total mass concentration of the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.total_num_conc"><code class="name">var <span class="ident">total_num_conc</span></code></dt>
+<dd>
+<div class="desc"><p>returns the total number concentration of the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.volumes"><code class="name">var <span class="ident">volumes</span></code></dt>
+<dd>
+<div class="desc"><p>returns the total volume of each particle in the population</p></div>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="PyPartMC.AeroState.bin_average_comp"><code class="name flex">
-<span>def <span class="ident">bin_average_comp</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.BinGrid, arg1: _PyPartMC.AeroData)</span>
+<span>def <span class="ident">bin_average_comp</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.BinGrid)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>composition-averages population using BinGrid</p></div>
 </dd>
 <dt id="PyPartMC.AeroState.crit_rel_humids"><code class="name flex">
-<span>def <span class="ident">crit_rel_humids</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroData, arg1: _PyPartMC.EnvState) ‑> List[float]</span>
+<span>def <span class="ident">crit_rel_humids</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.EnvState) ‑> List[float]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>returns the critical relative humidity of each particle in the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.diameters"><code class="name flex">
-<span>def <span class="ident">diameters</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroData) ‑> List[float]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>returns the diameter of each particle in the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.dry_diameters"><code class="name flex">
-<span>def <span class="ident">dry_diameters</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroData) ‑> List[float]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>returns the dry diameter of each particle in the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.masses"><code class="name flex">
-<span>def <span class="ident">masses</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroData) ‑> List[float]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>returns the total mass of each particle in the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.mixing_state"><code class="name flex">
-<span>def <span class="ident">mixing_state</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroData) ‑> Tuple[float, float, float]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>returns the mixing state parameters (chi,d_alpha,d_gamma) of the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.num_concs"><code class="name flex">
-<span>def <span class="ident">num_concs</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroData) ‑> List[float]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>returns the number concentration of each particle in the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.total_mass_conc"><code class="name flex">
-<span>def <span class="ident">total_mass_conc</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroData) ‑> float</span>
-</code></dt>
-<dd>
-<div class="desc"><p>returns the total mass concentration of the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.total_num_conc"><code class="name flex">
-<span>def <span class="ident">total_num_conc</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroData) ‑> float</span>
-</code></dt>
-<dd>
-<div class="desc"><p>returns the total number concentration of the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.volumes"><code class="name flex">
-<span>def <span class="ident">volumes</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroData) ‑> List[float]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>returns the total volume of each particle in the population</p></div>
 </dd>
 </dl>
 </dd>
@@ -586,13 +573,13 @@ it. This will be the case for new \c gas_state_t structures.</p>
 <h3>Methods</h3>
 <dl>
 <dt id="PyPartMC.GasState.mix_rat"><code class="name flex">
-<span>def <span class="ident">mix_rat</span></span>(<span>self: _PyPartMC.GasState, arg0: _PyPartMC.GasData, arg1: str) ‑> float</span>
+<span>def <span class="ident">mix_rat</span></span>(<span>self: _PyPartMC.GasState, arg0: str) ‑> float</span>
 </code></dt>
 <dd>
 <div class="desc"><p>returns the mixing ratio of a gas species</p></div>
 </dd>
 <dt id="PyPartMC.GasState.set_size"><code class="name flex">
-<span>def <span class="ident">set_size</span></span>(<span>self: _PyPartMC.GasState, arg0: _PyPartMC.GasData)</span>
+<span>def <span class="ident">set_size</span></span>(<span>self: _PyPartMC.GasState)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>sets the GasState to the size of GasData</p></div>
