@@ -336,3 +336,20 @@ class TestAeroData:
 
         # assert
         assert aero_data_densities == densities
+
+    @staticmethod
+    def test_aero_data_density():
+        # arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+
+        for item in AERO_DATA_CTOR_ARG_FULL:
+            keys = item.keys()
+            assert len(keys) == 1
+            key = tuple(keys)[0]
+            val = tuple(item.values())[0]
+
+            # act
+            density = sut.density(key)
+
+            # assert
+            assert density == val[0]
