@@ -24,6 +24,7 @@ extern "C" void f_aero_data_rad2vol(const void *ptr, const double*, double*) noe
 extern "C" void f_aero_data_vol2rad(const void *ptr, const double*, double*) noexcept;
 extern "C" void f_aero_data_diam2vol(const void *ptr, const double*, double*) noexcept;
 extern "C" void f_aero_data_vol2diam(const void *ptr, const double*, double*) noexcept;
+extern "C" void f_aero_data_get_species_density(const void *ptr, const int *idx, double *val) noexcept;
 
 struct AeroData {
     PMCResource ptr;
@@ -102,6 +103,28 @@ struct AeroData {
         double diam;
         f_aero_data_vol2diam(&self.ptr, &vol, &diam);
         return diam;
+    }
+
+    static std::valarray<double> densities(const AeroData &self) {
+        int len;
+        f_aero_data_len(&self.ptr, &len);
+        std::valarray<double> data(len);
+
+        for (int idx = 0; idx < len; idx++) {
+             f_aero_data_get_species_density(&self.ptr, &idx, &data[idx]);
+        }
+        return data;
+    }
+
+    static double density(const AeroData &self, const std::string &name) {
+        int idx;
+        double data;
+        const int name_size = name.size();
+        f_aero_data_spec_by_name(&self.ptr, &idx, name.c_str(), &name_size);
+        if (idx==0) throw std::runtime_error("Element not found.");
+        idx--;
+        f_aero_data_get_species_density(&self.ptr, &idx, &data);
+        return data;
     }
 
 };

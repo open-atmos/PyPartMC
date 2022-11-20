@@ -74,6 +74,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim)
         .def_property("vol_fill_factor", &AeroData::get_vol_fill_factor, &AeroData::set_vol_fill_factor)
         .def_property("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius)
+        .def_property_readonly("densities", &AeroData::densities,
+            "Return array of aerosol species densities")
+        .def("density", &AeroData::density, "Return density of an aerosol species")
         .def("rad2vol", AeroData::rad2vol,
             "Convert geometric radius (m) to mass-equivalent volume (m^3).")
         .def("vol2rad", AeroData::vol2rad,
