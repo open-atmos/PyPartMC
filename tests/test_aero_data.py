@@ -334,4 +334,5 @@ class TestAeroData:
         # act
         aero_data_densities = sut.densities
 
+        # assert
         assert aero_data_densities == densities

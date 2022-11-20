@@ -69,9 +69,9 @@ module PyPartMC_aero_data
 
     ptr_f%fractal%frac_dim = frac_dim
 
-end subroutine
+  end subroutine
 
-subroutine f_aero_data_get_frac_dim(ptr_c, frac_dim) bind(C)
+  subroutine f_aero_data_get_frac_dim(ptr_c, frac_dim) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     real(c_double), intent(out) :: frac_dim
@@ -80,9 +80,9 @@ subroutine f_aero_data_get_frac_dim(ptr_c, frac_dim) bind(C)
 
     frac_dim = ptr_f%fractal%frac_dim
 
-end subroutine
+  end subroutine
 
-subroutine f_aero_data_set_vol_fill_factor(ptr_c, vol_fill_factor) bind(C)
+  subroutine f_aero_data_set_vol_fill_factor(ptr_c, vol_fill_factor) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     real(c_double), intent(in) :: vol_fill_factor
@@ -91,9 +91,9 @@ subroutine f_aero_data_set_vol_fill_factor(ptr_c, vol_fill_factor) bind(C)
 
     ptr_f%fractal%vol_fill_factor = vol_fill_factor
 
-end subroutine
+  end subroutine
 
-subroutine f_aero_data_get_vol_fill_factor(ptr_c, vol_fill_factor) bind(C)
+  subroutine f_aero_data_get_vol_fill_factor(ptr_c, vol_fill_factor) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     real(c_double), intent(out) :: vol_fill_factor
@@ -102,9 +102,9 @@ subroutine f_aero_data_get_vol_fill_factor(ptr_c, vol_fill_factor) bind(C)
 
     vol_fill_factor = ptr_f%fractal%vol_fill_factor
 
-end subroutine
+  end subroutine
 
-subroutine f_aero_data_set_prime_radius(ptr_c, prime_radius) bind(C)
+  subroutine f_aero_data_set_prime_radius(ptr_c, prime_radius) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     real(c_double), intent(in) :: prime_radius
@@ -113,9 +113,9 @@ subroutine f_aero_data_set_prime_radius(ptr_c, prime_radius) bind(C)
 
     ptr_f%fractal%prime_radius = prime_radius
 
-end subroutine
+  end subroutine
 
-subroutine f_aero_data_get_prime_radius(ptr_c, prime_radius) bind(C)
+  subroutine f_aero_data_get_prime_radius(ptr_c, prime_radius) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     real(c_double), intent(out) :: prime_radius
@@ -124,9 +124,9 @@ subroutine f_aero_data_get_prime_radius(ptr_c, prime_radius) bind(C)
 
     prime_radius = ptr_f%fractal%prime_radius
 
-end subroutine
+  end subroutine
 
-subroutine f_aero_data_rad2vol(ptr_c, radius, vol) bind(C)
+  subroutine f_aero_data_rad2vol(ptr_c, radius, vol) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     real(c_double), intent(in) :: radius
@@ -136,9 +136,9 @@ subroutine f_aero_data_rad2vol(ptr_c, radius, vol) bind(C)
 
     vol = aero_data_rad2vol(ptr_f, radius)
 
-end subroutine
+  end subroutine
 
-subroutine f_aero_data_vol2rad(ptr_c, vol, radius) bind(C)
+  subroutine f_aero_data_vol2rad(ptr_c, vol, radius) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     real(c_double), intent(in) :: vol
@@ -148,9 +148,9 @@ subroutine f_aero_data_vol2rad(ptr_c, vol, radius) bind(C)
 
     radius = aero_data_vol2rad(ptr_f, vol)
 
-end subroutine
+  end subroutine
 
-subroutine f_aero_data_diam2vol(ptr_c, diam, vol) bind(C)
+  subroutine f_aero_data_diam2vol(ptr_c, diam, vol) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     real(c_double), intent(in) :: diam
@@ -160,9 +160,9 @@ subroutine f_aero_data_diam2vol(ptr_c, diam, vol) bind(C)
 
     vol = aero_data_diam2vol(ptr_f, diam)
 
-end  subroutine
+  end subroutine
 
-subroutine f_aero_data_vol2diam(ptr_c, vol, diam) bind(C)
+  subroutine f_aero_data_vol2diam(ptr_c, vol, diam) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     real(c_double), intent(in) :: vol
@@ -172,7 +172,7 @@ subroutine f_aero_data_vol2diam(ptr_c, vol, diam) bind(C)
 
     diam = aero_data_vol2diam(ptr_f, vol)
 
-end subroutine
+  end subroutine
 
   subroutine f_aero_data_get_species_density(ptr_c, idx, val) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
@@ -182,6 +182,7 @@ end subroutine
 
     call c_f_pointer(ptr_c, ptr_f)
     val = ptr_f%density(idx+1)
+
   end subroutine
 
 end module
