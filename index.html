@@ -187,6 +187,10 @@ same, but without the \c _a suffix.</p>
 </ul>
 <h3>Instance variables</h3>
 <dl>
+<dt id="PyPartMC.AeroData.densities"><code class="name">var <span class="ident">densities</span></code></dt>
+<dd>
+<div class="desc"><p>Return array of aerosol species densities</p></div>
+</dd>
 <dt id="PyPartMC.AeroData.frac_dim"><code class="name">var <span class="ident">frac_dim</span></code></dt>
 <dd>
 <div class="desc"><p>(arg0: _PyPartMC.AeroData) -&gt; float</p></div>
@@ -202,6 +206,12 @@ same, but without the \c _a suffix.</p>
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="PyPartMC.AeroData.density"><code class="name flex">
+<span>def <span class="ident">density</span></span>(<span>self: _PyPartMC.AeroData, arg0: str) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return density of an aerosol species</p></div>
+</dd>
 <dt id="PyPartMC.AeroData.diam2vol"><code class="name flex">
 <span>def <span class="ident">diam2vol</span></span>(<span>self: _PyPartMC.AeroData, arg0: float) ‑> float</span>
 </code></dt>
@@ -660,6 +670,8 @@ aero_dist_interp_1d(), respectively.</p>
 <li>
 <h4><code><a title="PyPartMC.AeroData" href="#PyPartMC.AeroData">AeroData</a></code></h4>
 <ul class="two-column">
+<li><code><a title="PyPartMC.AeroData.densities" href="#PyPartMC.AeroData.densities">densities</a></code></li>
+<li><code><a title="PyPartMC.AeroData.density" href="#PyPartMC.AeroData.density">density</a></code></li>
 <li><code><a title="PyPartMC.AeroData.diam2vol" href="#PyPartMC.AeroData.diam2vol">diam2vol</a></code></li>
 <li><code><a title="PyPartMC.AeroData.frac_dim" href="#PyPartMC.AeroData.frac_dim">frac_dim</a></code></li>
 <li><code><a title="PyPartMC.AeroData.prime_radius" href="#PyPartMC.AeroData.prime_radius">prime_radius</a></code></li>
