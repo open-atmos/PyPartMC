@@ -49,74 +49,123 @@ struct AeroParticle {
     {
         int len = AeroData::__len__(*self.aero_data);
         std::valarray<double> data(len);
-        f_aero_particle_volumes(&self.ptr, begin(data), &len);
+        f_aero_particle_volumes(
+            self.ptr.f_arg(),
+            begin(data),
+            &len
+        );
         return data;
     }
 
     static double volume(const AeroParticle &self) {
         double vol;
-        f_aero_particle_volume(&self.ptr, &vol);
+        f_aero_particle_volume(
+            self.ptr.f_arg(),
+            &vol
+        );
         return vol;
     }
 
     static double species_volume(const AeroParticle &self, const int &i_spec) {
         double vol;
-        f_aero_particle_species_volume(&self.ptr, &i_spec, &vol);
+        f_aero_particle_species_volume(
+            self.ptr.f_arg(),
+            &i_spec,
+            &vol
+        );
         return vol;
     }
 
     static double dry_volume(const AeroParticle &self) {
         double vol;
-        f_aero_particle_dry_volume(&self.ptr, self.aero_data.get(), &vol);
+        f_aero_particle_dry_volume(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &vol
+        );
         return vol;
     }
 
     static double radius(const AeroParticle &self) {
         double radius;
-        f_aero_particle_radius(&self.ptr, self.aero_data.get(), &radius);
+        f_aero_particle_radius(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &radius
+        );
         return radius;
     }
 
     static double dry_radius(const AeroParticle &self) {
         double radius;
-        f_aero_particle_dry_radius(&self.ptr, self.aero_data.get(), &radius);
+        f_aero_particle_dry_radius(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &radius
+        );
         return radius;
     }
 
     static double diameter(const AeroParticle &self) {
         double diameter;
-        f_aero_particle_diameter(&self.ptr, self.aero_data.get(), &diameter);
+        f_aero_particle_diameter(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &diameter
+        );
         return diameter;
     }
 
     static double dry_diameter(const AeroParticle &self) {
         double diameter;
-        f_aero_particle_dry_diameter(&self.ptr, self.aero_data.get(), &diameter);
+        f_aero_particle_dry_diameter(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &diameter
+        );
         return diameter;
     }
 
     static double mass(const AeroParticle &self) {
         double mass;
-        f_aero_particle_mass(&self.ptr, self.aero_data.get(), &mass);
+        f_aero_particle_mass(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &mass
+        );
         return mass;
     }
 
     static double species_mass(const AeroParticle &self, const int &i_spec) {
         double mass;
-        f_aero_particle_species_mass(&self.ptr, &i_spec, self.aero_data.get(), &mass);
+        f_aero_particle_species_mass(
+            self.ptr.f_arg(),
+            &i_spec,
+            self.aero_data.get(),
+            &mass
+        );
         return mass;
     }
 
     static std::valarray<double> species_masses(const AeroParticle &self) {
         int len = AeroData::__len__(*self.aero_data);
         std::valarray<double> masses(len);
-        f_aero_particle_species_masses(&self.ptr, self.aero_data.get(), &len, begin(masses));
+        f_aero_particle_species_masses(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &len,
+            begin(masses)
+        );
         return masses;
     }
 
     static double solute_kappa(const AeroParticle &self) {
         double kappa;
-        f_aero_particle_solute_kappa(&self.ptr, self.aero_data.get(), &kappa);
+        f_aero_particle_solute_kappa(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &kappa
+        );
         return kappa;
     }
 
