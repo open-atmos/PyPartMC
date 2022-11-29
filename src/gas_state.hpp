@@ -26,21 +26,6 @@ struct GasState {
     PMCResource ptr;
     std::shared_ptr<GasData> gas_data;
 
-/*    GasState(const GasData &gas_data,
-             const nlohmann::json &json) :
-        ptr(f_gas_state_ctor, f_gas_state_dtor)
-    {
-        gimmick_ptr() = std::make_unique<InputGimmick>(json);
-
-        const int n = json.empty() ? 0 : gimmick_ptr()->find("gas_mixing_ratio")->size();
-        f_gas_state_set_size(this->ptr.f_arg(), &gas_data.ptr);
-        //f_gas_state_set_size(this->ptr.f_arg(), &n);
-        if (n != 0) f_gas_state_from_json(this->ptr.f_arg());
-
-        gimmick_ptr().reset(); // TODO #117: guard
-    }
-*/
-
     GasState(std::shared_ptr<GasData> gas_data):
         ptr(f_gas_state_ctor, f_gas_state_dtor),
         gas_data(gas_data)
@@ -54,21 +39,29 @@ struct GasState {
     static void set_item(const GasState &self, const int &idx, const double &val) {
         if (idx < 0 || idx >= (int)__len__(self))
             throw std::out_of_range("TODO #118");
-        f_gas_state_set_item(&self.ptr, &idx, &val);
+        f_gas_state_set_item(
+            self.ptr.f_arg(),
+            &idx,
+            &val
+        );
     }
 
     static double get_item(const GasState &self, const int &idx) {
         if (idx < 0 || idx >= (int)__len__(self))
             throw std::out_of_range("TODO #118");
         double value;
-        f_gas_state_get_item(&self.ptr, &idx, &value);
+        f_gas_state_get_item(
+            self.ptr.f_arg(),
+            &idx,
+            &value
+        );
         return value;
     }
 
     static std::string __str__(const GasState &self) {
         gimmick_ptr() = std::make_unique<OutputGimmick>(); // TODO #117: guard
 
-        f_gas_state_to_json(&self.ptr);
+        f_gas_state_to_json(self.ptr.f_arg());
         auto str = gimmick_ptr()->str();
 
         gimmick_ptr().reset(); // TODO #117: guard
@@ -77,7 +70,7 @@ struct GasState {
 
     static std::size_t __len__(const GasState &self) {
         int len;
-        f_gas_state_len(&self.ptr, &len);
+        f_gas_state_len(self.ptr.f_arg(), &len);
         return len;
     }
 
@@ -101,18 +94,25 @@ struct GasState {
 
     static void set_size(GasState &self) {
         f_gas_state_set_size(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.gas_data->ptr.f_arg()
         );
     }
 
     static std::valarray<double> mix_rats(const GasState &self) {
         int len;
-        f_gas_state_len(&self.ptr, &len);
+        f_gas_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
         std::valarray<double> data(len);
 
         for (int idx = 0; idx < len; idx++) {
-             f_gas_state_get_item(&self.ptr, &idx, &data[idx]);
+             f_gas_state_get_item(
+                 self.ptr.f_arg(),
+                 &idx,
+                 &data[idx]
+             );
         }
         return data;
     }

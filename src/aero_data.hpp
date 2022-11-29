@@ -40,78 +40,128 @@ struct AeroData {
     static int spec_by_name(const AeroData &self, const std::string &name) {
         int value;
         const int name_size = name.size();
-        f_aero_data_spec_by_name(self.ptr.f_arg(), &value, name.c_str(), &name_size);
-        if (value==0) throw std::runtime_error("Element not found.");
-        return value-1;
+        f_aero_data_spec_by_name(
+            self.ptr.f_arg(),
+            &value,
+            name.c_str(),
+            &name_size
+        );
+        if (value==0)
+            throw std::runtime_error("Element not found.");
+        return value - 1;
     }
 
     static std::size_t __len__(const AeroData &self) {
         int len;
-        f_aero_data_len(&self.ptr, &len);
+        f_aero_data_len(
+            self.ptr.f_arg(),
+            &len
+        );
         return len;
     }
 
     static void set_frac_dim(AeroData &self, const double value) {
-        f_aero_data_set_frac_dim(&self.ptr, &value);
+        f_aero_data_set_frac_dim( 
+            self.ptr.f_arg_non_const(),
+            &value
+        );
     }
 
     static double get_frac_dim(const AeroData &self) {
         double value;
-        f_aero_data_get_frac_dim(&self.ptr, &value);
+        f_aero_data_get_frac_dim(
+            self.ptr.f_arg(),
+            &value
+        );
         return value;
     }
 
     static void set_vol_fill_factor(AeroData &self, const double value) {
-        f_aero_data_set_vol_fill_factor(&self.ptr, &value);
+        f_aero_data_set_vol_fill_factor(
+            self.ptr.f_arg_non_const(),
+            &value
+        );
     }
 
     static double get_prime_radius(AeroData &self) {
         double value;
-        f_aero_data_get_prime_radius(&self.ptr, &value);
+        f_aero_data_get_prime_radius(
+            self.ptr.f_arg(),
+            &value
+        );
         return value;
     }
 
     static void set_prime_radius(AeroData &self, const double value) {
-        f_aero_data_set_prime_radius(&self.ptr, &value);
+        f_aero_data_set_prime_radius(
+            self.ptr.f_arg_non_const(),
+            &value
+        );
     }
 
     static double get_vol_fill_factor(const AeroData &self) {
         double value;
-        f_aero_data_get_vol_fill_factor(&self.ptr, &value);
+        f_aero_data_get_vol_fill_factor(
+            self.ptr.f_arg(),
+            &value
+        );
         return value;
     }
 
     static double rad2vol(const AeroData &self, const double radius) {
         double vol;
-        f_aero_data_rad2vol(&self.ptr, &radius, &vol);
+        f_aero_data_rad2vol(
+            self.ptr.f_arg(),
+            &radius,
+            &vol
+        );
         return vol;
     }
 
     static double vol2rad(const AeroData &self, const double vol) {
         double radius;
-        f_aero_data_vol2rad(&self.ptr, &vol, &radius);
+        f_aero_data_vol2rad(
+            self.ptr.f_arg(),
+            &vol,
+            &radius
+        );
         return radius;
     }
 
     static double diam2vol(const AeroData &self, const double diam) {
         double vol;
-        f_aero_data_diam2vol(&self.ptr, &diam, &vol);
+        f_aero_data_diam2vol(
+            self.ptr.f_arg(),
+            &diam,
+            &vol
+        );
         return vol;
     }
 
     static double vol2diam(const AeroData &self, const double vol) {
         double diam;
-        f_aero_data_vol2diam(&self.ptr, &vol, &diam);
+        f_aero_data_vol2diam(
+            self.ptr.f_arg(),
+            &vol,
+            &diam
+        );
         return diam;
     }
 
     static std::valarray<double> densities(const AeroData &self) {
         int len;
-        f_aero_data_len(&self.ptr, &len);
+        f_aero_data_len(
+            self.ptr.f_arg(),
+            &len
+        );
         std::valarray<double> data(len);
 
         for (int idx = 0; idx < len; idx++) {
-             f_aero_data_get_species_density(&self.ptr, &idx, &data[idx]);
+             f_aero_data_get_species_density(
+                 self.ptr.f_arg(),
+                 &idx,
+                 &data[idx]
+            );
         }
         return data;
     }
@@ -120,10 +170,24 @@ struct AeroData {
         int idx;
         double data;
         const int name_size = name.size();
-        f_aero_data_spec_by_name(&self.ptr, &idx, name.c_str(), &name_size);
-        if (idx==0) throw std::runtime_error("Element not found.");
+
+        f_aero_data_spec_by_name(
+            self.ptr.f_arg(),
+            &idx,
+            name.c_str(),
+            &name_size
+        );
+
+        if (idx==0)
+            throw std::runtime_error("Element not found.");
+
         idx--;
-        f_aero_data_get_species_density(&self.ptr, &idx, &data);
+        f_aero_data_get_species_density(
+            self.ptr.f_arg(),
+            &idx,
+            &data
+        );
+
         return data;
     }
 

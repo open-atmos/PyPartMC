@@ -124,14 +124,17 @@ struct AeroState {
 
     static std::size_t __len__(const AeroState &self) {
         int len;
-        f_aero_state_len(&self.ptr, &len);
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
         return len;
     }
 
     static double total_num_conc(const AeroState &self) {
         double total_num_conc;
         f_aero_state_total_num_conc(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             &total_num_conc
         );
@@ -141,7 +144,7 @@ struct AeroState {
     static double total_mass_conc(const AeroState &self) {
         double total_mass_conc;
         f_aero_state_total_mass_conc(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             &total_mass_conc
         );
@@ -150,11 +153,14 @@ struct AeroState {
 
     static std::valarray<double> num_concs(const AeroState &self) {
         int len;
-        f_aero_state_len(&self.ptr, &len);
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
         std::valarray<double> num_concs(len);
 
         f_aero_state_num_concs(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(num_concs),
             &len
@@ -167,11 +173,14 @@ struct AeroState {
         const AeroState &self
     ) {
         int len;
-        f_aero_state_len(&self.ptr, &len);
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
         std::valarray<double> masses(len);
 
         f_aero_state_masses(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(masses),
             &len
@@ -182,11 +191,14 @@ struct AeroState {
 
     static std::valarray<double> dry_diameters(const AeroState &self) {
         int len;
-        f_aero_state_len(&self.ptr, &len);
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
         std::valarray<double> dry_diameters(len);
 
         f_aero_state_dry_diameters(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(dry_diameters),
             &len
@@ -199,11 +211,14 @@ struct AeroState {
        const AeroState &self
     ) {
         int len;
-        f_aero_state_len(&self.ptr, &len);
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
         std::valarray<double> diameters(len);
 
         f_aero_state_diameters(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(diameters),
             &len
@@ -216,11 +231,14 @@ struct AeroState {
         const AeroState &self
     ) {
         int len;
-        f_aero_state_len(&self.ptr, &len);
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
         std::valarray<double> volumes(len);
 
         f_aero_state_volumes(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(volumes),
             &len
@@ -234,13 +252,16 @@ struct AeroState {
         const EnvState &env_state
     ) {
         int len;
-        f_aero_state_len(&self.ptr, &len);
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
         std::valarray<double> crit_rel_humids(len);
 
         f_aero_state_crit_rel_humids(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
-            &env_state.ptr, 
+            env_state.ptr.f_arg(), 
             begin(crit_rel_humids),
             &len
         );
@@ -252,13 +273,16 @@ struct AeroState {
         const AeroState &self
     ) {
         int len;
-        f_aero_state_len(&self.ptr, &len);
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
         double chi;
         double d_alpha;
         double d_gamma;
 
         f_aero_state_mixing_state_metrics(
-            &self.ptr,
+            self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             &d_alpha,
             &d_gamma,
@@ -273,8 +297,8 @@ struct AeroState {
         const BinGrid &bin_grid
     ) {
         f_aero_state_bin_average_comp(
-            &self.ptr,
-            &bin_grid.ptr,
+            self.ptr.f_arg(),
+            bin_grid.ptr.f_arg(),
             self.aero_data->ptr.f_arg()
         );
     }
@@ -285,7 +309,10 @@ struct AeroState {
     ) {
         double n_part = 1.0;
         AeroState *ptr = new AeroState(n_part, self.aero_data);
-        f_aero_state_copy(&self.ptr, ptr);
+        f_aero_state_copy(
+            self.ptr.f_arg(),
+            ptr
+        );
         return ptr;
     }
 };

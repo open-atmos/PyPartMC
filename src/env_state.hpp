@@ -31,43 +31,64 @@ struct EnvState {
         gimmick_ptr().reset();
     }
 
-    static void set_temperature(const EnvState &self, double &temperature){
-        f_env_state_set_temperature(&self.ptr, &temperature);
+    static void set_temperature(const EnvState &self, double &temperature) {
+        f_env_state_set_temperature(
+            self.ptr.f_arg(),
+            &temperature
+        );
     }
 
-    static double temp(const EnvState &self){
+    static double temp(const EnvState &self) {
         double temperature;
 
-        f_env_state_get_temperature(&self.ptr, &temperature);
+        f_env_state_get_temperature(
+            self.ptr.f_arg(),
+            &temperature
+        );
         return temperature;
     }
 
-    static double rh(const EnvState &self){
+    static double rh(const EnvState &self) {
         double rel_humid;
 
-        f_env_state_get_rel_humid(&self.ptr, &rel_humid);
+        f_env_state_get_rel_humid(
+            self.ptr.f_arg(),
+            &rel_humid
+        );
         return rel_humid;
     }
     
     static void set_height(const EnvState &self, const double height) {
-        f_env_state_set_height(&self.ptr, &height);
+        f_env_state_set_height(
+            self.ptr.f_arg(),
+            &height
+        );
     }
 
     static double get_height(const EnvState &self) {
         double height;
 
-        f_env_state_get_height(&self.ptr, &height);
+        f_env_state_get_height(
+            self.ptr.f_arg(),
+            &height
+        );
         return height;
     }
 
     static void set_pressure(const EnvState &self, const double pressure) {
-        f_env_state_set_pressure(&self.ptr, &pressure);
+        f_env_state_set_pressure(
+            self.ptr.f_arg(),
+            &pressure
+        );
     }
 
     static double get_pressure(const EnvState &self) {
         double pressure;
 
-        f_env_state_get_pressure(&self.ptr, &pressure);
+        f_env_state_get_pressure(
+            self.ptr.f_arg(),
+            &pressure
+        );
         return pressure;
     }
 };

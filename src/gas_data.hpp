@@ -43,14 +43,22 @@ struct GasData {
 
     static std::size_t __len__(const GasData &self) {
         int len;
-        f_gas_data_len(&self.ptr, &len);
+        f_gas_data_len(
+            self.ptr.f_arg(),
+            &len
+        );
         return len;
     }
 
     static int spec_by_name(const GasData &self, const std::string &name) {
         int value;
         const int name_size = name.size();
-        f_gas_data_spec_by_name(&self.ptr, &value, name.c_str(), &name_size);
+        f_gas_data_spec_by_name(
+            self.ptr.f_arg(),
+            &value,
+            name.c_str(),
+            &name_size
+        );
         if (value==0) throw std::runtime_error("Element not found.");
        return value-1;
     }
