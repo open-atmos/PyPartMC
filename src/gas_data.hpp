@@ -37,7 +37,7 @@ struct GasData {
         gimmick_ptr().reset(); // TODO #117: guard
     }
 
-    static std::string __str__(const GasData &self) {
+    static auto __str__(const GasData &self) {
         return self.json.dump();
     }   
 
@@ -50,7 +50,7 @@ struct GasData {
         return len;
     }
 
-    static int spec_by_name(const GasData &self, const std::string &name) {
+    static auto spec_by_name(const GasData &self, const std::string &name) {
         int value;
         const int name_size = name.size();
         f_gas_data_spec_by_name(
@@ -59,8 +59,9 @@ struct GasData {
             name.c_str(),
             &name_size
         );
-        if (value==0) throw std::runtime_error("Element not found.");
-       return value-1;
+        if (value == 0)
+            throw std::runtime_error("Element not found.");
+        return value - 1;
     }
 };
 

@@ -124,7 +124,7 @@ struct AeroMode {
         gimmick_ptr().reset();
     }
 
-    static double get_num_conc(const AeroMode &self){
+    static auto get_num_conc(const AeroMode &self){
        double val;
        f_aero_mode_get_num_conc(self.ptr.f_arg(), &val);
        return val;
@@ -134,7 +134,7 @@ struct AeroMode {
        f_aero_mode_set_num_conc(self.ptr.f_arg_non_const(), &val);
     }
 
-    static std::valarray<double> num_dist(const AeroMode &self, 
+    static auto num_dist(const AeroMode &self, 
        const BinGrid &bin_grid, const AeroData &aero_data)
     {
        int len;
@@ -166,7 +166,7 @@ struct AeroMode {
         );
     }
 
-    static std::valarray<double> get_vol_frac(const AeroMode &self)
+    static auto get_vol_frac(const AeroMode &self)
     {
        int len;
        f_aero_mode_get_n_spec(self.ptr.f_arg(), &len); 
@@ -189,7 +189,7 @@ struct AeroMode {
         );
     }
 
-    static std::valarray<double> get_vol_frac_std(const AeroMode &self)
+    static auto get_vol_frac_std(const AeroMode &self)
     {
        int len;
        f_aero_mode_get_n_spec(self.ptr.f_arg(), &len);
@@ -198,7 +198,7 @@ struct AeroMode {
        return data;
     }
 
-    static double get_char_radius(const AeroMode &self){
+    static auto get_char_radius(const AeroMode &self){
        double val;
        f_aero_mode_get_char_radius(self.ptr.f_arg(), &val);
        return val;
@@ -208,7 +208,7 @@ struct AeroMode {
        f_aero_mode_set_char_radius(self.ptr.f_arg_non_const(), &val);
     }
 
-    static double get_gsd(const AeroMode &self){
+    static auto get_gsd(const AeroMode &self){
        double val;
        f_aero_mode_get_gsd(self.ptr.f_arg(), &val);
        return val;
@@ -261,7 +261,7 @@ struct AeroMode {
         f_aero_mode_set_type(self.ptr.f_arg_non_const(), &type);
     }
 
-    static std::string get_type(const AeroMode &self) {
+    static auto get_type(const AeroMode &self) {
         int type;
         f_aero_mode_get_type(self.ptr.f_arg(), &type);
 

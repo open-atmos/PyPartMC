@@ -45,7 +45,7 @@ struct AeroParticle {
             throw std::runtime_error("AeroData size mistmatch");
     }
 
-    static std::valarray<double> volumes(const AeroParticle &self)
+    static auto volumes(const AeroParticle &self)
     {
         int len = AeroData::__len__(*self.aero_data);
         std::valarray<double> data(len);
@@ -57,7 +57,7 @@ struct AeroParticle {
         return data;
     }
 
-    static double volume(const AeroParticle &self) {
+    static auto volume(const AeroParticle &self) {
         double vol;
         f_aero_particle_volume(
             self.ptr.f_arg(),
@@ -66,7 +66,7 @@ struct AeroParticle {
         return vol;
     }
 
-    static double species_volume(const AeroParticle &self, const int &i_spec) {
+    static auto species_volume(const AeroParticle &self, const int &i_spec) {
         double vol;
         f_aero_particle_species_volume(
             self.ptr.f_arg(),
@@ -76,7 +76,7 @@ struct AeroParticle {
         return vol;
     }
 
-    static double dry_volume(const AeroParticle &self) {
+    static auto dry_volume(const AeroParticle &self) {
         double vol;
         f_aero_particle_dry_volume(
             self.ptr.f_arg(),
@@ -86,7 +86,7 @@ struct AeroParticle {
         return vol;
     }
 
-    static double radius(const AeroParticle &self) {
+    static auto radius(const AeroParticle &self) {
         double radius;
         f_aero_particle_radius(
             self.ptr.f_arg(),
@@ -96,7 +96,7 @@ struct AeroParticle {
         return radius;
     }
 
-    static double dry_radius(const AeroParticle &self) {
+    static auto dry_radius(const AeroParticle &self) {
         double radius;
         f_aero_particle_dry_radius(
             self.ptr.f_arg(),
@@ -106,7 +106,7 @@ struct AeroParticle {
         return radius;
     }
 
-    static double diameter(const AeroParticle &self) {
+    static auto diameter(const AeroParticle &self) {
         double diameter;
         f_aero_particle_diameter(
             self.ptr.f_arg(),
@@ -116,7 +116,7 @@ struct AeroParticle {
         return diameter;
     }
 
-    static double dry_diameter(const AeroParticle &self) {
+    static auto dry_diameter(const AeroParticle &self) {
         double diameter;
         f_aero_particle_dry_diameter(
             self.ptr.f_arg(),
@@ -126,7 +126,7 @@ struct AeroParticle {
         return diameter;
     }
 
-    static double mass(const AeroParticle &self) {
+    static auto mass(const AeroParticle &self) {
         double mass;
         f_aero_particle_mass(
             self.ptr.f_arg(),
@@ -136,7 +136,7 @@ struct AeroParticle {
         return mass;
     }
 
-    static double species_mass(const AeroParticle &self, const int &i_spec) {
+    static auto species_mass(const AeroParticle &self, const int &i_spec) {
         double mass;
         f_aero_particle_species_mass(
             self.ptr.f_arg(),
@@ -147,7 +147,7 @@ struct AeroParticle {
         return mass;
     }
 
-    static std::valarray<double> species_masses(const AeroParticle &self) {
+    static auto species_masses(const AeroParticle &self) {
         int len = AeroData::__len__(*self.aero_data);
         std::valarray<double> masses(len);
         f_aero_particle_species_masses(
@@ -159,7 +159,7 @@ struct AeroParticle {
         return masses;
     }
 
-    static double solute_kappa(const AeroParticle &self) {
+    static auto solute_kappa(const AeroParticle &self) {
         double kappa;
         f_aero_particle_solute_kappa(
             self.ptr.f_arg(),

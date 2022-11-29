@@ -131,7 +131,7 @@ struct AeroState {
         return len;
     }
 
-    static double total_num_conc(const AeroState &self) {
+    static auto total_num_conc(const AeroState &self) {
         double total_num_conc;
         f_aero_state_total_num_conc(
             self.ptr.f_arg(),
@@ -141,7 +141,7 @@ struct AeroState {
         return total_num_conc;
     }
 
-    static double total_mass_conc(const AeroState &self) {
+    static auto total_mass_conc(const AeroState &self) {
         double total_mass_conc;
         f_aero_state_total_mass_conc(
             self.ptr.f_arg(),
@@ -151,7 +151,7 @@ struct AeroState {
         return total_mass_conc;
     }
 
-    static std::valarray<double> num_concs(const AeroState &self) {
+    static auto num_concs(const AeroState &self) {
         int len;
         f_aero_state_len(
             self.ptr.f_arg(),
@@ -169,7 +169,7 @@ struct AeroState {
         return num_concs;
     }
 
-    static std::valarray<double> masses(
+    static auto masses(
         const AeroState &self
     ) {
         int len;
@@ -189,7 +189,7 @@ struct AeroState {
         return masses;
     }
 
-    static std::valarray<double> dry_diameters(const AeroState &self) {
+    static auto dry_diameters(const AeroState &self) {
         int len;
         f_aero_state_len(
             self.ptr.f_arg(),
@@ -207,7 +207,7 @@ struct AeroState {
         return dry_diameters;
     }
 
-    static std::valarray<double> diameters(
+    static auto diameters(
        const AeroState &self
     ) {
         int len;
@@ -227,7 +227,7 @@ struct AeroState {
         return diameters;
     }
 
-    static std::valarray<double> volumes(
+    static auto volumes(
         const AeroState &self
     ) {
         int len;
@@ -247,7 +247,7 @@ struct AeroState {
         return volumes;
     }
 
-    static std::valarray<double> crit_rel_humids(
+    static auto crit_rel_humids(
         const AeroState &self,
         const EnvState &env_state
     ) {
@@ -269,7 +269,7 @@ struct AeroState {
         return crit_rel_humids;
     }
 
-    static std::tuple<double, double, double> mixing_state(
+    static auto mixing_state(
         const AeroState &self
     ) {
         int len;

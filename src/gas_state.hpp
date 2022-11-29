@@ -46,7 +46,7 @@ struct GasState {
         );
     }
 
-    static double get_item(const GasState &self, const int &idx) {
+    static auto get_item(const GasState &self, const int &idx) {
         if (idx < 0 || idx >= (int)__len__(self))
             throw std::out_of_range("TODO #118");
         double value;
@@ -58,7 +58,7 @@ struct GasState {
         return value;
     }
 
-    static std::string __str__(const GasState &self) {
+    static auto __str__(const GasState &self) {
         gimmick_ptr() = std::make_unique<OutputGimmick>(); // TODO #117: guard
 
         f_gas_state_to_json(self.ptr.f_arg());
@@ -74,7 +74,7 @@ struct GasState {
         return len;
     }
 
-    static double mix_rat(
+    static auto mix_rat(
         const GasState &self,
         const std::string &name
     ) {
@@ -89,7 +89,7 @@ struct GasState {
         );
         if (value == 0)
             throw std::runtime_error("Element not found.");
-        return get_item(self, value-1);
+        return get_item(self, value - 1);
     }
 
     static void set_size(GasState &self) {
@@ -99,7 +99,7 @@ struct GasState {
         );
     }
 
-    static std::valarray<double> mix_rats(const GasState &self) {
+    static auto mix_rats(const GasState &self) {
         int len;
         f_gas_state_len(
             self.ptr.f_arg(),

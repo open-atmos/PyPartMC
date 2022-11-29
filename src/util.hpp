@@ -18,25 +18,25 @@ auto pow2_above(int n) {
     return res;
 }
 
-double sphere_vol2rad(double v) {
+auto sphere_vol2rad(double v) {
     double rad;
     f_sphere_vol2rad(&v, &rad);
     return rad;
 }
 
-double rad2diam(double rad) {
+auto rad2diam(double rad) {
     double d;
     f_rad2diam(&rad, &d);
     return  d;
 }
 
-double sphere_rad2vol(double rad) {
+auto sphere_rad2vol(double rad) {
     double v;
     f_sphere_rad2vol(&rad, &v);
     return v;
 }
 
-double diam2rad(double d) {
+auto diam2rad(double d) {
     double rad;
     f_diam2rad(&d, &rad);
     return rad;
