@@ -74,9 +74,8 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 - PyPartMC is written in C++, Fortran and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
 - JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
 - PartMC and selected parts of SUNDIALS are compiled during `pip install` and statically linked
-- C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
+- C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC, CAMP) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
 - a [mock of Fortran netCDF API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_netcdf.F90) and a [mock of PartMC spec file API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) are used for i/o from/to JSON 
-- a [mock of Fortran MPI API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_mpi.F90) is used for error handling using existing MPI API calls within PartMC
 
 ## Troubleshooting 
 
