@@ -60,12 +60,12 @@ struct Scenario {
         gimmick_ptr().reset();
     }
 
-    static std::string __str__(const Scenario &self) {
+    static auto __str__(const Scenario &self) {
         return self.json.dump();
     }   
 };
 
-double loss_rate(
+auto loss_rate(
     const Scenario &scenario,
     const double vol,
     const double density,
@@ -84,7 +84,7 @@ double loss_rate(
     return rate;
 }
 
-double loss_rate_dry_dep(
+auto loss_rate_dry_dep(
     const double vol,
     const double density,
     const AeroData &aero_data,

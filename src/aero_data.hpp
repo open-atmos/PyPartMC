@@ -37,7 +37,7 @@ struct AeroData {
         gimmick_ptr().reset(); // TODO #117: guard
     }
 
-    static int spec_by_name(const AeroData &self, const std::string &name) {
+    static auto spec_by_name(const AeroData &self, const std::string &name) {
         int value;
         const int name_size = name.size();
         f_aero_data_spec_by_name(
@@ -67,7 +67,7 @@ struct AeroData {
         );
     }
 
-    static double get_frac_dim(const AeroData &self) {
+    static auto get_frac_dim(const AeroData &self) {
         double value;
         f_aero_data_get_frac_dim(
             self.ptr.f_arg(),
@@ -83,7 +83,7 @@ struct AeroData {
         );
     }
 
-    static double get_prime_radius(AeroData &self) {
+    static auto get_prime_radius(AeroData &self) {
         double value;
         f_aero_data_get_prime_radius(
             self.ptr.f_arg(),
@@ -99,7 +99,7 @@ struct AeroData {
         );
     }
 
-    static double get_vol_fill_factor(const AeroData &self) {
+    static auto get_vol_fill_factor(const AeroData &self) {
         double value;
         f_aero_data_get_vol_fill_factor(
             self.ptr.f_arg(),
@@ -108,7 +108,7 @@ struct AeroData {
         return value;
     }
 
-    static double rad2vol(const AeroData &self, const double radius) {
+    static auto rad2vol(const AeroData &self, const double radius) {
         double vol;
         f_aero_data_rad2vol(
             self.ptr.f_arg(),
@@ -118,7 +118,7 @@ struct AeroData {
         return vol;
     }
 
-    static double vol2rad(const AeroData &self, const double vol) {
+    static auto vol2rad(const AeroData &self, const double vol) {
         double radius;
         f_aero_data_vol2rad(
             self.ptr.f_arg(),
@@ -128,7 +128,7 @@ struct AeroData {
         return radius;
     }
 
-    static double diam2vol(const AeroData &self, const double diam) {
+    static auto diam2vol(const AeroData &self, const double diam) {
         double vol;
         f_aero_data_diam2vol(
             self.ptr.f_arg(),
@@ -138,7 +138,7 @@ struct AeroData {
         return vol;
     }
 
-    static double vol2diam(const AeroData &self, const double vol) {
+    static auto vol2diam(const AeroData &self, const double vol) {
         double diam;
         f_aero_data_vol2diam(
             self.ptr.f_arg(),
@@ -148,7 +148,7 @@ struct AeroData {
         return diam;
     }
 
-    static std::valarray<double> densities(const AeroData &self) {
+    static auto densities(const AeroData &self) {
         int len;
         f_aero_data_len(
             self.ptr.f_arg(),
@@ -166,7 +166,7 @@ struct AeroData {
         return data;
     }
 
-    static double density(const AeroData &self, const std::string &name) {
+    static auto density(const AeroData &self, const std::string &name) {
         int idx;
         double data;
         const int name_size = name.size();

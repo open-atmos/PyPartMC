@@ -38,7 +38,7 @@ struct EnvState {
         );
     }
 
-    static double temp(const EnvState &self) {
+    static auto temp(const EnvState &self) {
         double temperature;
 
         f_env_state_get_temperature(
@@ -48,7 +48,7 @@ struct EnvState {
         return temperature;
     }
 
-    static double rh(const EnvState &self) {
+    static auto rh(const EnvState &self) {
         double rel_humid;
 
         f_env_state_get_rel_humid(
@@ -65,7 +65,7 @@ struct EnvState {
         );
     }
 
-    static double get_height(const EnvState &self) {
+    static auto get_height(const EnvState &self) {
         double height;
 
         f_env_state_get_height(
@@ -82,7 +82,7 @@ struct EnvState {
         );
     }
 
-    static double get_pressure(const EnvState &self) {
+    static auto get_pressure(const EnvState &self) {
         double pressure;
 
         f_env_state_get_pressure(

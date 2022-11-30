@@ -83,7 +83,7 @@ struct BinGrid {
         return len;
     }
 
-    static std::valarray<double> edges(const BinGrid &self)
+    static auto edges(const BinGrid &self)
     {
         int len;
         f_bin_grid_size(
@@ -100,7 +100,7 @@ struct BinGrid {
         return data;
     }
 
-    static std::valarray<double> centers(const BinGrid &self) 
+    static auto centers(const BinGrid &self) 
     {
         int len;
         f_bin_grid_size(
@@ -117,7 +117,7 @@ struct BinGrid {
     }
 };
 
-std::valarray<double> histogram_1d(
+auto histogram_1d(
     const BinGrid &bin_grid,
     std::valarray<double> values,
     std::valarray<double> weights
@@ -141,7 +141,7 @@ std::valarray<double> histogram_1d(
     return data;
 }
 
-std::vector<std::vector<double>> histogram_2d(
+auto histogram_2d(
     const BinGrid &x_bin_grid,
     std::valarray<double> x_values,
     const BinGrid &y_bin_grid,
