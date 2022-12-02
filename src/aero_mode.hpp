@@ -17,11 +17,6 @@ extern "C" void f_aero_mode_dtor(
     void *ptr
 ) noexcept;
 
-extern "C" void f_aero_mode_init(
-    void *ptr,
-    const void *aero_data_ptr
-) noexcept;
-
 extern "C" void f_aero_mode_get_num_conc(
     const void *ptr,
     double *val
@@ -117,8 +112,6 @@ struct AeroMode {
     AeroMode(AeroData &aero_data, const nlohmann::json &json) :
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
-        f_aero_mode_init(ptr.f_arg_non_const(), aero_data.ptr.f_arg());
-
         gimmick_ptr() = std::make_unique<InputGimmick>(json, "", "mode_name");
         f_aero_mode_from_json(ptr.f_arg_non_const(), aero_data.ptr.f_arg_non_const());
         gimmick_ptr().reset();
