@@ -4,11 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
-import numpy as np
-import pytest
-
 import PyPartMC as ppmc
-from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_mode import AERO_MODE_CTOR_LOG_NORMAL
@@ -18,7 +14,8 @@ AERO_DIST_CTOR_ARG_MINIMAL = [
 ]
 
 
-class TestAeroMode:
+# pylint: disable=too-few-public-methods
+class TestAeroDist:
     @staticmethod
     def test_ctor():
         # arrange
