@@ -203,13 +203,15 @@ struct InputGimmick: Gimmick {
   private:
     std::string key_cond, key_name;
     std::string last_read_line_key = "";
+    std::size_t max_zoom_level;
 
   public:
     InputGimmick(
         const nlohmann::json &json,
         const std::string key_cond = "",
-        const std::string key_name = ""
-    ) : Gimmick(json), key_cond(key_cond), key_name(key_name)
+        const std::string key_name = "",
+        const std::size_t max_zoom_level = 3
+    ) : Gimmick(json), key_cond(key_cond), key_name(key_name), max_zoom_level(max_zoom_level)
     {}
 
     std::string str() const {
@@ -219,7 +221,7 @@ struct InputGimmick: Gimmick {
     bool read_line(std::string &name, std::string &data) {
         bool eof = this->is_empty();
 
-        if (this->zoom_level() == 3) { // TODO #112
+        if (this->zoom_level() == this->max_zoom_level) { // TODO #112
             eof = true;
             this->zoom_out();
         }

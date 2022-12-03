@@ -29,16 +29,6 @@ module PyPartMC_aero_mode
     deallocate(ptr_f)
   end subroutine
 
-  subroutine f_aero_mode_init(ptr_c, aero_data_ptr_c) bind(C)
-    type(c_ptr), intent(inout) :: ptr_c
-    type(c_ptr), intent(in) :: aero_data_ptr_c
-    type(aero_mode_t), pointer :: aero_mode => null()
-    type(aero_data_t), pointer :: aero_data => null()
-
-    call c_f_pointer(ptr_c, aero_mode)
-    call c_f_pointer(aero_data_ptr_c, aero_data)
-  end subroutine
-
   subroutine f_aero_mode_set_num_conc(ptr_c, val) bind(C)
     type(c_ptr), intent(in) :: ptr_c
     type(aero_mode_t), pointer :: aero_mode => null()
