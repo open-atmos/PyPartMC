@@ -1,3 +1,5 @@
+![logo](https://raw.githubusercontent.com/wiki/open-atmos/PyPartMC/logo.svg)
+
 # PyPartMC (pre-alpha!)
 
 PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
