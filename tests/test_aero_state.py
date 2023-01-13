@@ -164,7 +164,7 @@ class TestAeroState:
         # TODO #179
 
     @staticmethod
-    def test_get_particle(sut_minimal): # pylint: disable=redefined-outer-name
+    def test_get_particle(sut_minimal):  # pylint: disable=redefined-outer-name
         # act
         particle = sut_minimal.particle(1)
 
@@ -172,7 +172,7 @@ class TestAeroState:
         assert isinstance(particle, ppmc.AeroParticle)
 
     @staticmethod
-    def test_get_random_particle(sut_minimal): # pylint: disable=redefined-outer-name
+    def test_get_random_particle(sut_minimal):  # pylint: disable=redefined-outer-name
         # act
         particle = sut_minimal.rand_particle()
 
