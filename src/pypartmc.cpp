@@ -161,6 +161,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population")
         .def("bin_average_comp", AeroState::bin_average_comp,
             "composition-averages population using BinGrid")
+        .def("particle", AeroState::get_particle,
+            "returns the particle of a given index")
     ;
 
     py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData",

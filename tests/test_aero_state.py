@@ -162,3 +162,11 @@ class TestAeroState:
 
         # assert
         # TODO #179
+
+    @staticmethod
+    def test_get_particle(sut_minimal):
+        # act
+        sut = sut_minimal.particle(1)
+
+        # assert
+        assert isinstance(sut, ppmc.AeroParticle)
