@@ -111,6 +111,11 @@ extern "C" void f_aero_state_particle(
     const int *index
 ) noexcept;
 
+extern "C" void f_aero_state_rand_particle(
+    const void *ptr_c,
+    const void *ptr_particle_c
+) noexcept;
+
 struct AeroState {
     PMCResource ptr;
     std::shared_ptr<AeroData> aero_data;
@@ -337,4 +342,16 @@ struct AeroState {
         
         return ptr;
     } 
+
+    static AeroParticle* get_random_particle(
+        const AeroState &self
+    ) {
+        int len = AeroData::__len__(*self.aero_data);
+        std::valarray<double> data(len);
+
+        AeroParticle *ptr = new AeroParticle(self.aero_data, data);
+        f_aero_state_rand_particle(self.ptr.f_arg(), ptr);
+
+        return ptr;
+    }
 };
