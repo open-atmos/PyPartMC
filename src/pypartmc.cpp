@@ -163,7 +163,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "composition-averages population using BinGrid")
         .def("particle", AeroState::get_particle,
             "returns the particle of a given index")
-        .def("rand_particle", AeroState::get_random_particle,
+        .def_property_readonly("rand_particle", AeroState::get_random_particle,
             "returns a random particle from the population")
     ;
 
