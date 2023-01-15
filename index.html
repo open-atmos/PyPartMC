@@ -449,6 +449,18 @@ is typically cleared each time we output data to disk.</p>
 <dd>
 <div class="desc"><p>returns the critical relative humidity of each particle in the population</p></div>
 </dd>
+<dt id="PyPartMC.AeroState.particle"><code class="name flex">
+<span>def <span class="ident">particle</span></span>(<span>self: _PyPartMC.AeroState, arg0: int) ‑> _PyPartMC.AeroParticle</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns the particle of a given index</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.rand_particle"><code class="name flex">
+<span>def <span class="ident">rand_particle</span></span>(<span>self: _PyPartMC.AeroState) ‑> _PyPartMC.AeroParticle</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns a random particle from the population</p></div>
+</dd>
 </dl>
 </dd>
 <dt id="PyPartMC.BinGrid"><code class="flex name class">
@@ -736,6 +748,8 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.AeroState.masses" href="#PyPartMC.AeroState.masses">masses</a></code></li>
 <li><code><a title="PyPartMC.AeroState.mixing_state" href="#PyPartMC.AeroState.mixing_state">mixing_state</a></code></li>
 <li><code><a title="PyPartMC.AeroState.num_concs" href="#PyPartMC.AeroState.num_concs">num_concs</a></code></li>
+<li><code><a title="PyPartMC.AeroState.particle" href="#PyPartMC.AeroState.particle">particle</a></code></li>
+<li><code><a title="PyPartMC.AeroState.rand_particle" href="#PyPartMC.AeroState.rand_particle">rand_particle</a></code></li>
 <li><code><a title="PyPartMC.AeroState.total_mass_conc" href="#PyPartMC.AeroState.total_mass_conc">total_mass_conc</a></code></li>
 <li><code><a title="PyPartMC.AeroState.total_num_conc" href="#PyPartMC.AeroState.total_num_conc">total_num_conc</a></code></li>
 <li><code><a title="PyPartMC.AeroState.volumes" href="#PyPartMC.AeroState.volumes">volumes</a></code></li>
