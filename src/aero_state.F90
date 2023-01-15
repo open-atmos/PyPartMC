@@ -276,4 +276,32 @@ module PyPartMC_aero_state
     ptr_new_f = ptr_f
   end subroutine
 
+  subroutine f_aero_state_particle(ptr_c, ptr_particle_c, index) bind(C)
+    type(c_ptr) :: ptr_c, ptr_particle_c
+    integer(c_int) :: index
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_particle_t), pointer :: ptr_particle_f => null()
+
+    call c_f_pointer(ptr_c,ptr_f)
+    call c_f_pointer(ptr_particle_c, ptr_particle_f)
+
+    ptr_particle_f = ptr_f%apa%particle(index + 1)
+
+  end subroutine
+
+  subroutine f_aero_state_rand_particle(ptr_c, ptr_particle_c) bind(C)
+    type(c_ptr) :: ptr_c, ptr_particle_c
+    integer(c_int) :: index
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_particle_t), pointer :: ptr_particle_f => null()
+
+    call c_f_pointer(ptr_c,ptr_f)
+    call c_f_pointer(ptr_particle_c, ptr_particle_f)
+
+    call aero_state_rand_particle(ptr_f, index)
+
+    ptr_particle_f = ptr_f%apa%particle(index)
+
+  end subroutine
+
 end module

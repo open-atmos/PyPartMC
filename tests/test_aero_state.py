@@ -162,3 +162,55 @@ class TestAeroState:
 
         # assert
         # TODO #179
+
+    @staticmethod
+    def test_get_particle(sut_minimal):  # pylint: disable=redefined-outer-name
+        # act
+        particle = sut_minimal.particle(1)
+
+        # assert
+        assert isinstance(particle, ppmc.AeroParticle)
+
+    @staticmethod
+    def test_get_random_particle(sut_minimal):  # pylint: disable=redefined-outer-name
+        # act
+        particle = sut_minimal.rand_particle()
+
+        # assert
+        assert isinstance(particle, ppmc.AeroParticle)
+
+    @staticmethod
+    def test_check_correct_particle(
+        sut_minimal,
+    ):  # pylint: disable=redefined-outer-name
+        # act
+        i_part = 20
+        particle = sut_minimal.particle(i_part)
+        diameters = sut_minimal.diameters
+
+        # assert
+        assert particle.diameter == diameters[i_part]
+
+    @staticmethod
+    def test_different_particles(sut_minimal):  # pylint: disable=redefined-outer-name
+        # act
+        i_part = 20
+        particle_1 = sut_minimal.particle(i_part)
+        particle_2 = sut_minimal.particle(i_part + 1)
+
+        # assert
+        assert particle_1.diameter != particle_2.diameter
+
+    @staticmethod
+    @pytest.mark.parametrize("idx", (-1, 500))
+    def test_get_item_out_of_range(
+        sut_minimal, idx
+    ):  # pylint: disable=redefined-outer-name
+        # act
+        try:
+            _ = sut_minimal.particle(idx)
+        except IndexError:
+            return
+
+        # assert
+        assert False

@@ -8,6 +8,7 @@
 
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
+#include "aero_particle.hpp"
 #include "env_state.hpp"
 #include "bin_grid.hpp"
 #include "pybind11/stl.h"
@@ -102,6 +103,17 @@ extern "C" void f_aero_state_bin_average_comp(
 extern "C" void f_aero_state_copy(
     const void *ptr_c,
     const void *aero_dataptr
+) noexcept;
+
+extern "C" void f_aero_state_particle(
+    const void *ptr_c,
+    const void *ptr_particle_c,
+    const int *index
+) noexcept;
+
+extern "C" void f_aero_state_rand_particle(
+    const void *ptr_c,
+    const void *ptr_particle_c
 ) noexcept;
 
 struct AeroState {
@@ -313,6 +325,33 @@ struct AeroState {
             self.ptr.f_arg(),
             ptr
         );
+        return ptr;
+    }
+
+    static AeroParticle* get_particle(
+        const AeroState &self,
+        const int &idx
+    ) {
+        int len = AeroData::__len__(*self.aero_data);
+        std::valarray<double> data(len);
+        
+        AeroParticle *ptr = new AeroParticle(self.aero_data, data);
+        if (idx < 0 || idx >= (int)__len__(self))
+            throw std::out_of_range("Index out of range");
+        f_aero_state_particle(self.ptr.f_arg(), ptr, &idx);
+        
+        return ptr;
+    } 
+
+    static AeroParticle* get_random_particle(
+        const AeroState &self
+    ) {
+        int len = AeroData::__len__(*self.aero_data);
+        std::valarray<double> data(len);
+
+        AeroParticle *ptr = new AeroParticle(self.aero_data, data);
+        f_aero_state_rand_particle(self.ptr.f_arg(), ptr);
+
         return ptr;
     }
 };
