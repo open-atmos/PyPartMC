@@ -102,6 +102,10 @@ struct Gimmick {
         return this->json->empty();
     }
 
+    auto size() noexcept {
+        return this->json->size();
+    }
+
     std::size_t n_elements(const bpstd::string_view &name) noexcept {
         for (auto i=0u; i<this->json->size(); ++i) {
             for (auto &entry : this->json->at(i).items()) {
@@ -227,7 +231,7 @@ struct InputGimmick: Gimmick {
         }
 
         if (!eof) {
-            assert(this>size() == 1);
+            assert(this->size() == 1);
             auto key = this->last_dict_key();
             if (this->key_name != "" && (this->key_cond == this->last_read_line_key)) {
                 name = this->key_name;
