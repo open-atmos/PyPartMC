@@ -14,6 +14,8 @@ from PyPartMC import si
 RUN_PART_OPT_CTOR_ARG_MINIMAL = {
     "do_coagulation": False,
     "do_parallel": False,
+    "do_nucleation": False,
+    "do_condensation": False,
     "do_camp_chem": False,
     "t_max": 0,
     "del_t": 1 * si.s,

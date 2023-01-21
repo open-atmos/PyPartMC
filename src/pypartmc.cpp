@@ -34,6 +34,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )pbdoc";
 
     m.def("run_part", &run_part, "Do a particle-resolved Monte Carlo simulation.");
+    m.def("run_part_timestep", &run_part_timestep, "Do a single time step");
+    m.def("run_part_timeblock", &run_part_timeblock, "Do a time block");
     m.def("condense_equilib_particles", &condense_equilib_particles, R"pbdoc(
       Call condense_equilib_particle() on each particle in the aerosol
       to ensure that every particle has its water content in
@@ -386,6 +388,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Scenario",
         "condense_equilib_particles",
         "run_part",
+        "run_part_timeblock",
+        "run_part_timestep",
         "pow2_above",
         "condense_equilib_particle",
         "histogram_1d",
