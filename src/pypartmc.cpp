@@ -207,6 +207,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the current temperature of the environment state")
         .def_property_readonly("rh", EnvState::rh,
             "returns the current relative humidity of the environment state")
+        .def_property_readonly("elapsed_time", EnvState::get_elapsed_time,
+            "returns time since start_time (s).")
+        .def_property_readonly("start_time", EnvState::get_start_time,
+            "returns start time (s since 00:00 UTC on start_day)")
         .def_property("height", &EnvState::get_height, &EnvState::set_height)
         .def_property("pressure", &EnvState::get_pressure, &EnvState::set_pressure)
     ;

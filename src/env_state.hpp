@@ -19,6 +19,9 @@ extern "C" void f_env_state_set_height(const void *ptr, const double *height) no
 extern "C" void f_env_state_get_height(const void *ptr, double *height) noexcept;
 extern "C" void f_env_state_set_pressure(const void *ptr, const double *pressure) noexcept;
 extern "C" void f_env_state_get_pressure(const void *ptr, double *pressure) noexcept;
+extern "C" void f_env_state_get_elapsed_time(const void *ptr, double *elapsed_time) noexcept;
+extern "C" void f_env_state_get_start_time(const void *ptr, double *start_time) noexcept;
+
 
 struct EnvState {
     PMCResource ptr;
@@ -90,5 +93,25 @@ struct EnvState {
             &pressure
         );
         return pressure;
+    }
+
+    static auto get_elapsed_time(const EnvState &self) {
+        double elapsed_time;
+
+        f_env_state_get_elapsed_time(
+            self.ptr.f_arg(),
+            &elapsed_time
+        );
+        return elapsed_time;
+    }
+
+    static auto get_start_time(const EnvState &self) {
+        double start_time;
+
+        f_env_state_get_start_time(
+            self.ptr.f_arg(),
+            &start_time
+        );
+        return start_time;
     }
 };
