@@ -257,6 +257,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )
         .def("__str__", Scenario::__str__,
             "returns a string with JSON representation of the object")
+        .def("init_env_state", Scenario::init_env_state,
+            "initializes the EnvState")
     ;
 
     py::class_<GasState>(m,

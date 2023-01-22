@@ -38,6 +38,11 @@ extern "C" void f_scenario_loss_rate_dry_dep(
     const void *env_state,
     double *rate
 ) noexcept;
+extern "C" void f_scenario_init_env_state(
+    const void *scenario,
+    const void *env_state,
+    const double *time
+) noexcept;
 
 struct Scenario {
     PMCResource ptr;
@@ -63,6 +68,19 @@ struct Scenario {
     static auto __str__(const Scenario &self) {
         return self.json.dump();
     }   
+
+static void init_env_state(
+    const Scenario &self,
+    EnvState &env_state,
+    const double time
+) {
+    f_scenario_init_env_state(
+         self.ptr.f_arg(),
+         env_state.ptr.f_arg(),
+         &time
+    );
+}
+
 };
 
 auto loss_rate(
