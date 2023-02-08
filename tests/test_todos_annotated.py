@@ -80,11 +80,11 @@ def test_todos_annotated(file, gh_issues):
     for line in grep(file, r".*(TODO|FIXME).*"):
         match = re.search(r"(TODO|FIXME) #(\d+)", line)
         if match is None:
-            raise Exception(f"TODO/FIXME not annotated with issue id ({line})")
+            raise AssertionError(f"TODO/FIXME not annotated with issue id ({line})")
         giving_up_with_hope_other_builds_did_it = len(gh_issues) == 0
         if not giving_up_with_hope_other_builds_did_it:
             number = int(match.group(2))
             if number not in gh_issues.keys():
-                raise Exception(f"TODO/FIXME annotated with non-existent id ({line})")
+                raise AssertionError(f"TODO/FIXME annotated with non-existent id ({line})")
             if gh_issues[number] != "open":
-                raise Exception(f"TODO/FIXME remains for a non-open issue ({line})")
+                raise AssertionError(f"TODO/FIXME remains for a non-open issue ({line})")
