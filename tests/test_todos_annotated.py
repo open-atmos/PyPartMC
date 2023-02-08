@@ -85,6 +85,10 @@ def test_todos_annotated(file, gh_issues):
         if not giving_up_with_hope_other_builds_did_it:
             number = int(match.group(2))
             if number not in gh_issues.keys():
-                raise AssertionError(f"TODO/FIXME annotated with non-existent id ({line})")
+                raise AssertionError(
+                    f"TODO/FIXME annotated with non-existent id ({line})"
+                )
             if gh_issues[number] != "open":
-                raise AssertionError(f"TODO/FIXME remains for a non-open issue ({line})")
+                raise AssertionError(
+                    f"TODO/FIXME remains for a non-open issue ({line})"
+                )
