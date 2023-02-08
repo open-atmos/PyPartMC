@@ -40,7 +40,7 @@ extern "C" void f_scenario_loss_rate_dry_dep(
 ) noexcept;
 extern "C" void f_scenario_init_env_state(
     const void *scenario,
-    const void *env_state,
+    void *env_state,
     const double *time
 ) noexcept;
 
@@ -76,7 +76,7 @@ static void init_env_state(
 ) {
     f_scenario_init_env_state(
          self.ptr.f_arg(),
-         env_state.ptr.f_arg(),
+         env_state.ptr.f_arg_non_const(),
          &time
     );
 }

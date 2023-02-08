@@ -80,19 +80,19 @@ module PyPartMC_run_part
     type(c_ptr), intent(in) :: scenario_ptr_c
     type(scenario_t), pointer :: scenario_ptr_f => null()
 
-    type(c_ptr), intent(in) :: env_state_ptr_c
+    type(c_ptr), intent(inout) :: env_state_ptr_c
     type(env_state_t), pointer :: env_state_ptr_f => null()
 
-    type(c_ptr), intent(in) :: aero_data_ptr_c
+    type(c_ptr), intent(inout) :: aero_data_ptr_c
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
 
-    type(c_ptr), intent(in) :: aero_state_ptr_c
+    type(c_ptr), intent(inout) :: aero_state_ptr_c
     type(aero_state_t), pointer :: aero_state_ptr_f => null()
 
-    type(c_ptr), intent(in) :: gas_data_ptr_c
+    type(c_ptr), intent(inout) :: gas_data_ptr_c
     type(gas_data_t), pointer :: gas_data_ptr_f => null()
 
-    type(c_ptr), intent(in) :: gas_state_ptr_c
+    type(c_ptr), intent(inout) :: gas_state_ptr_c
     type(gas_state_t), pointer :: gas_state_ptr_f => null()
 
     type(c_ptr), intent(in) :: run_part_opt_ptr_c

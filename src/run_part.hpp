@@ -29,11 +29,11 @@ extern "C" void f_run_part(
 
 extern "C" void f_run_part_timestep(
     const void*,
+    void*,
     const void*,
+    void*,
     const void*,
-    const void*,
-    const void*,
-    const void*,
+    void*,
     const void*,
     const void*,
     const void*,
@@ -43,11 +43,11 @@ extern "C" void f_run_part_timestep(
 
 extern "C" void f_run_part_timeblock(
     const void*,
+    void*,
     const void*,
+    void*,
     const void*,
-    const void*,
-    const void*,
-    const void*,
+    void*,
     const void*,
     const void*,
     const void*,
@@ -58,22 +58,22 @@ extern "C" void f_run_part_timeblock(
 
 void run_part(
     const Scenario &scenario,
-    const EnvState &env_state,
+    EnvState &env_state,
     const AeroData &aero_data,
-    const AeroState &aero_state,
+    AeroState &aero_state,
     const GasData &gas_data,
-    const GasState &gas_state,
+    GasState &gas_state,
     const RunPartOpt &run_part_opt,
     const CampCore &camp_core,
     const Photolysis &photolysis
 ) {
     f_run_part(
         scenario.ptr.f_arg(),
-        env_state.ptr.f_arg(),
+        env_state.ptr.f_arg_non_const(),
         aero_data.ptr.f_arg(),
-        aero_state.ptr.f_arg(),
+        aero_state.ptr.f_arg_non_const(),
         gas_data.ptr.f_arg(),
-        gas_state.ptr.f_arg(),
+        gas_state.ptr.f_arg_non_const(),
         run_part_opt.ptr.f_arg(),
         camp_core.ptr.f_arg(),
         photolysis.ptr.f_arg()
@@ -82,11 +82,11 @@ void run_part(
 
 void run_part_timestep(
     const Scenario &scenario,
-    const EnvState &env_state,
+    EnvState &env_state,
     const AeroData &aero_data,
-    const AeroState &aero_state,
+    AeroState &aero_state,
     const GasData &gas_data,
-    const GasState &gas_state,
+    GasState &gas_state,
     const RunPartOpt &run_part_opt,
     const CampCore &camp_core,
     const Photolysis &photolysis,
@@ -95,11 +95,11 @@ void run_part_timestep(
 ) {
     f_run_part_timestep(
         scenario.ptr.f_arg(),
-        env_state.ptr.f_arg(),
+        env_state.ptr.f_arg_non_const(),
         aero_data.ptr.f_arg(),
-        aero_state.ptr.f_arg(),
+        aero_state.ptr.f_arg_non_const(),
         gas_data.ptr.f_arg(),
-        gas_state.ptr.f_arg(),
+        gas_state.ptr.f_arg_non_const(),
         run_part_opt.ptr.f_arg(),
         camp_core.ptr.f_arg(),
         photolysis.ptr.f_arg(),
@@ -110,11 +110,11 @@ void run_part_timestep(
 
 void run_part_timeblock(
     const Scenario &scenario,
-    const EnvState &env_state,
+    EnvState &env_state,
     const AeroData &aero_data,
-    const AeroState &aero_state,
+    AeroState &aero_state,
     const GasData &gas_data,
-    const GasState &gas_state,
+    GasState &gas_state,
     const RunPartOpt &run_part_opt,
     const CampCore &camp_core,
     const Photolysis &photolysis,
@@ -124,11 +124,11 @@ void run_part_timeblock(
 ) {
     f_run_part_timeblock(
         scenario.ptr.f_arg(),
-        env_state.ptr.f_arg(),
+        env_state.ptr.f_arg_non_const(),
         aero_data.ptr.f_arg(),
-        aero_state.ptr.f_arg(),
+        aero_state.ptr.f_arg_non_const(),
         gas_data.ptr.f_arg(),
-        gas_state.ptr.f_arg(),
+        gas_state.ptr.f_arg_non_const(),
         run_part_opt.ptr.f_arg(),
         camp_core.ptr.f_arg(),
         photolysis.ptr.f_arg(),
