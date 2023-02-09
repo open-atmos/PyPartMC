@@ -120,7 +120,6 @@ module PyPartMC_run_part
     call c_f_pointer(camp_core_ptr_c, camp_core_ptr_f)
     call c_f_pointer(photolysis_ptr_c, photolysis_ptr_f)
 
-!    call pmc_srand(0, 0)
     progress_n_samp = 0
     progress_n_coag = 0
     progress_n_emit = 0
@@ -198,7 +197,6 @@ module PyPartMC_run_part
     call c_f_pointer(camp_core_ptr_c, camp_core_ptr_f)
     call c_f_pointer(photolysis_ptr_c, photolysis_ptr_f)
 
-!    call pmc_srand(0, 0)
     progress_n_samp = 0
     progress_n_coag = 0
     progress_n_emit = 0

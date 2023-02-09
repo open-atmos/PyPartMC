@@ -33,6 +33,7 @@ module PyPartMC_run_part_opt
         type(run_part_opt_t), pointer :: run_part_opt => null()
         type(c_ptr), intent(in) :: ptr_c
         type(spec_file_t) :: file
+        integer(c_int) :: rand_init
 
         call c_f_pointer(ptr_c, run_part_opt)
 
@@ -84,12 +85,15 @@ module PyPartMC_run_part_opt
         call spec_file_read_real(file, 't_output', run_part_opt%t_output)
         call spec_file_read_real(file, 't_progress', run_part_opt%t_progress)
 
+        call spec_file_read_integer(file, 'rand_init', rand_init)
         call spec_file_read_logical(file, 'allow_doubling', run_part_opt%allow_doubling)
         call spec_file_read_logical(file, 'allow_halving', run_part_opt%allow_halving)
 
         call spec_file_read_logical(file, 'do_camp_chem', run_part_opt%do_camp_chem)
 
         run_part_opt%output_type = OUTPUT_TYPE_SINGLE
+
+        call pmc_srand(rand_init, 0)
 
     end subroutine
 end module
