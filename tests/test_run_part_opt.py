@@ -21,6 +21,7 @@ RUN_PART_OPT_CTOR_ARG_MINIMAL = {
     "del_t": 1 * si.s,
     "t_output": 0,
     "t_progress": 0,
+    "rand_init": 0,
     "allow_halving": False,
     "allow_doubling": False,
 }
