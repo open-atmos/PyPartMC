@@ -15,7 +15,7 @@ ENV_STATE_CTOR_ARG_MINIMAL = {
     "latitude": 0.0,
     "longitude": 0.0,
     "altitude": 0.0,
-    "start_time": 0.0,
+    "start_time": 44.0,
     "start_day": 0,
 }
 
@@ -87,4 +87,12 @@ class TestEnvState:
 
         # assert
         assert sut.elapsed_time == 0
+
+    @staticmethod
+    def test_start_time():
+        # arrange and act
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+
+        # assert
+        assert sut.start_time == ENV_STATE_CTOR_ARG_MINIMAL["start_time"]
 
