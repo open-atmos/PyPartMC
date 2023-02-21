@@ -21,9 +21,12 @@ def common_args():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
     gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
     gas_state = ppmc.GasState(gas_data)
+    scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+    env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+    scenario.init_env_state(env_state, 0.0)
     return (
-        ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL),
-        ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL),
+        scenario,
+        env_state,
         aero_data,
         ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data),
         gas_data,

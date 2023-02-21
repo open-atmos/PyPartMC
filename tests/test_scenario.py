@@ -17,9 +17,9 @@ from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 
 SCENARIO_CTOR_ARG_MINIMAL = {
-    "temp_profile": [{"time": []}, {"temp": []}],
-    "pressure_profile": [{"time": []}, {"pressure": []}],
-    "height_profile": [{"time": []}, {"height": []}],
+    "temp_profile": [{"time": [0]}, {"temp": [273]}],
+    "pressure_profile": [{"time": [0]}, {"pressure": [1e5]}],
+    "height_profile": [{"time": [0]}, {"height": [1]}],
     "gas_emissions": [{"time": [0]}, {"rate": [0]}, {"SO2": [0]}],
     "gas_background": [{"time": [0]}, {"rate": [0]}, {"SO2": [0]}],
     "aero_emissions": [
