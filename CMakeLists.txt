@@ -5,6 +5,11 @@
 ####################################################################################################
 
 cmake_minimum_required(VERSION 3.4...3.18)
+
+if (NOT EXISTS "${CMAKE_SOURCE_DIR}/gitmodules/pybind11/.git" )
+  message(FATAL_ERROR "git submodules not initialised.\n Please run `git submodule update --init`")
+endif()
+
 project(_PyPartMC LANGUAGES C CXX Fortran)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
