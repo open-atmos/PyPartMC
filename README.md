@@ -92,7 +92,6 @@ No CMAKE_Fortran_COMPILER could be found.
 ```
 Try installing a Fortran compiler (e.g., `brew reinstall gcc`)
 
-```
 
 ## Notes for developers
 #### How to debug
