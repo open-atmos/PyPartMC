@@ -79,3 +79,12 @@ class TestEnvState:
 
         # assert
         assert ENV_STATE_CTOR_ARG_MINIMAL["rel_humidity"] == sut.rh
+
+    @staticmethod
+    def test_elapsed_time():
+        # arrange and act
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+
+        # assert
+        assert sut.elapsed_time == 0
+

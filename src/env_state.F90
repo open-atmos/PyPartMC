@@ -17,6 +17,7 @@ module PyPartMC_env_state
         type(c_ptr), intent(out) :: ptr_c
 
         allocate(ptr_f)
+        ptr_f%elapsed_time = 0
         ptr_c = c_loc(ptr_f)
     end subroutine
 
