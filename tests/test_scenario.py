@@ -124,3 +124,15 @@ class TestScenario:
         # assert
         assert json_actual == SCENARIO_CTOR_ARG_MINIMAL
 
+    @staticmethod
+    def test_init_env_state():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        time = 666.
+        sut = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+
+        # act
+        sut.init_env_state(env_state, time)
+
