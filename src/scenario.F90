@@ -93,4 +93,20 @@ module PyPartMC_scenario
 
   end subroutine
 
+  subroutine f_scenario_init_env_state(scenario_ptr_c, env_state_ptr_c, &
+      time) bind(C)
+
+
+    type(c_ptr), intent(in) :: scenario_ptr_c, env_state_ptr_c
+    real(c_double), intent(in) :: time
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    type(env_state_t), pointer :: env_state_ptr_f => null()
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+    call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
+
+    call scenario_init_env_state(scenario_ptr_f, env_state_ptr_f, time)
+
+  end subroutine
+
 end module

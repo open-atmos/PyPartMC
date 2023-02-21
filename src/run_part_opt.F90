@@ -33,24 +33,67 @@ module PyPartMC_run_part_opt
         type(run_part_opt_t), pointer :: run_part_opt => null()
         type(c_ptr), intent(in) :: ptr_c
         type(spec_file_t) :: file
+        integer(c_int) :: rand_init
 
         call c_f_pointer(ptr_c, run_part_opt)
 
         !!! TODO #55
         call spec_file_read_logical(file, 'do_coagulation', run_part_opt%do_coagulation)    
+        if (run_part_opt%do_coagulation) then
+           call spec_file_read_coag_kernel_type(file, &
+                run_part_opt%coag_kernel_type)
+        else
+           run_part_opt%coag_kernel_type = COAG_KERNEL_TYPE_INVALID
+        end if
         call spec_file_read_logical(file, 'do_parallel', run_part_opt%do_parallel)
+       if (run_part_opt%do_parallel) then
+#ifndef PMC_USE_MPI
+          call spec_file_die_msg(929006383, file, &
+               'cannot use parallel mode, support is not compiled in')
+#endif
+          call spec_file_read_output_type(file, run_part_opt%output_type)
+          call spec_file_read_real(file, 'mix_timescale', &
+               run_part_opt%mix_timescale)
+          call spec_file_read_logical(file, 'gas_average', &
+               run_part_opt%gas_average)
+          call spec_file_read_logical(file, 'env_average', &
+               run_part_opt%env_average)
+          call spec_file_read_parallel_coag_type(file, &
+               run_part_opt%parallel_coag_type)
+       else
+          run_part_opt%output_type = OUTPUT_TYPE_SINGLE
+          run_part_opt%mix_timescale = 0d0
+          run_part_opt%gas_average = .false.
+          run_part_opt%env_average = .false.
+          run_part_opt%parallel_coag_type = PARALLEL_COAG_TYPE_LOCAL
+       end if
+
+       call spec_file_read_logical(file, 'do_nucleation', &
+            run_part_opt%do_nucleation)
+       !if (run_part_opt%do_nucleation) then
+       !   call spec_file_read_nucleate_type(file, aero_data, &
+       !        run_part_opt%nucleate_type, run_part_opt%nucleate_source)
+       !else
+       run_part_opt%nucleate_type = NUCLEATE_TYPE_INVALID
+       !end if
+
+       call spec_file_read_logical(file, 'do_condensation', &
+            run_part_opt%do_condensation)
 
         call spec_file_read_real(file, 't_max', run_part_opt%t_max)
         call spec_file_read_real(file, 'del_t', run_part_opt%del_t)
         call spec_file_read_real(file, 't_output', run_part_opt%t_output)
         call spec_file_read_real(file, 't_progress', run_part_opt%t_progress)
 
+        call spec_file_read_integer(file, 'rand_init', rand_init)
         call spec_file_read_logical(file, 'allow_doubling', run_part_opt%allow_doubling)
         call spec_file_read_logical(file, 'allow_halving', run_part_opt%allow_halving)
 
         call spec_file_read_logical(file, 'do_camp_chem', run_part_opt%do_camp_chem)
 
         run_part_opt%output_type = OUTPUT_TYPE_SINGLE
+
+        call pmc_srand(rand_init, 0)
 
     end subroutine
 end module
