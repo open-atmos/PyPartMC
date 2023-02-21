@@ -6,7 +6,7 @@
 
 cmake_minimum_required(VERSION 3.4...3.18)
 
-if (NOT EXISTS "${CMAKE_SOURCE_DIR}/gitmodules/pybind11/.git" )
+if (NOT EXISTS "${CMAKE_SOURCE_DIR}/gitmodules/pybind11/include/pybind11/pybind11.h" )
   message(FATAL_ERROR "git submodules not initialised.\n Please run `git submodule update --init`")
 endif()
 
