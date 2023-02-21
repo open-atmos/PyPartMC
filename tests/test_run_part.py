@@ -4,6 +4,8 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import pytest
+
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
@@ -14,37 +16,33 @@ from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_MINIMAL
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
 
+@pytest.fixture
+def common_args():
+    aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+    gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+    gas_state = ppmc.GasState(gas_data)
+    return (
+        ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL),
+        ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL),
+        aero_data,
+        ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data),
+        gas_data,
+        gas_state,
+        ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL),
+        ppmc.CampCore(),
+        ppmc.Photolysis(),
+    )
+
 class TestRunPart:
     @staticmethod
-    def test_args():
-        # pylint: disable=unused-variable
-        # arrange
-        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
-        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        aero_state = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
-        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
-        gas_state = ppmc.GasState(gas_data)
-        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
-        run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL)
-        camp_core = ppmc.CampCore()
-        photolysis = ppmc.Photolysis()
-
-        # act
-        ppmc.run_part(
-            scenario,
-            env_state,
-            aero_data,
-            aero_state,
-            gas_data,
-            gas_state,
-            run_part_opt,
-            camp_core,
-            photolysis,
-        )
-
-        # assert
-        pass
+    def test_run_part(common_args):
+        ppmc.run_part(*common_args)
 
     @staticmethod
-    def test_todo():
-        pass
+    def test_run_part_timestep(common_args):
+        ppmc.run_part_timestep(*common_args, 0, 0)
+
+    @staticmethod
+    def test_run_part_timeblock(common_args):
+        ppmc.run_part_timeblock(*common_args, 0, 0, 0)
+
