@@ -95,4 +95,3 @@ class TestEnvState:
 
         # assert
         assert sut.start_time == ENV_STATE_CTOR_ARG_MINIMAL["start_time"]
-

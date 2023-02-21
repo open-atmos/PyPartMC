@@ -78,4 +78,3 @@ class TestLossRate:
 
         # assert
         assert rate is not nan
-

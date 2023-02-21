@@ -127,9 +127,8 @@ class TestScenario:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
-        time = 666.
+        time = 666.0
         sut = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
 
         # act
         sut.init_env_state(env_state, time)
-
