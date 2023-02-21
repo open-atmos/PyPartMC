@@ -6,13 +6,10 @@
 
 import gc
 import json
-from cmath import nan
 
-import numpy as np
 import pytest
 
 import PyPartMC as ppmc
-from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_mode import AERO_MODE_CTOR_LOG_NORMAL
