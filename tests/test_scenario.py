@@ -146,4 +146,4 @@ class TestScenario:
             ]
 
         # act
-        sut = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+        _ = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
