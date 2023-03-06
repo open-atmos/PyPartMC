@@ -16,6 +16,11 @@ extern "C" void f_aero_dist_dtor(
     void *ptr
 ) noexcept;
 
+extern "C" void f_aero_dist_n_mode(
+    const void *ptr,
+    int *n_mode
+) noexcept;
+
 extern "C" void f_aero_dist_from_json(
     void *ptr,
     void *aero_data_ptr
@@ -30,5 +35,11 @@ struct AeroDist {
         gimmick_ptr() = std::make_unique<InputGimmick>(json, "", "mode_name", 1);
         f_aero_dist_from_json(ptr.f_arg_non_const(), aero_data.ptr.f_arg_non_const());
         gimmick_ptr().reset();
+    }
+
+    static auto get_n_mode(const AeroDist &self) {
+        int n_mode;
+        f_aero_dist_n_mode(self.ptr.f_arg(), &n_mode);
+        return n_mode;
     }
 };

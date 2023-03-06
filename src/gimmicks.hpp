@@ -43,13 +43,19 @@ struct Gimmick {
         return this->json->dump();
     }
 
-    std::string last_dict_key() const noexcept {
-        std::string key = "<NOT FOUND>";
+    template <class T>
+    std::string next_dict_key(const T last_key) const noexcept {
+        std::string key = "", prev_key = "";
         for (const auto& item : this->json->items())
         {
             if (this->json->is_array()) {
                 for (auto &entry : item.value().items()) {
-                    key = entry.key();
+                    if (prev_key == last_key) {
+                        key = entry.key();
+                        break;
+                    }
+                    else
+                        prev_key = entry.key();
                 }
             } else {
                 key = item.key();
@@ -86,31 +92,29 @@ struct Gimmick {
     }
 
     // TODO #112: to be removed after initialising GasData with a list, and not JSON?
-    std::string first_field_name() const noexcept {
+    auto first_field_name() const noexcept {
         // TODO #112: handle errors
+        std::string name = "";
         assert(this->json->size() > 0);
         assert(this->json->begin()->size() > 0);
         for (auto &entry : this->json->at(0).items())
         {
-            return entry.key();
+            name = entry.key();
         }
-        assert(false);
-        return "";
+        if (name == "")
+            assert(false);
+        return name;
     }
 
-    auto is_empty() noexcept {
-        return this->json->empty();
-    }
-
-    std::size_t n_elements(const bpstd::string_view &name) noexcept {
+    auto n_elements(const bpstd::string_view &name) noexcept {
+        std::size_t n_elem = 0;
         for (auto i=0u; i<this->json->size(); ++i) {
             for (auto &entry : this->json->at(i).items()) {
                 if (entry.key() == name)
-                    return entry.value().size();
+                    n_elem = entry.value().size();
             }
         }
-        assert(false);
-        return 0;
+        return n_elem;
     }
 
     auto n_numeric_array_entries() noexcept {
@@ -219,26 +223,28 @@ struct InputGimmick: Gimmick {
     }
 
     bool read_line(std::string &name, std::string &data) {
-        bool eof = this->is_empty();
-
-        if (this->zoom_level() == this->max_zoom_level) { // TODO #112
-            eof = true;
+        bool subsequent_record = false;
+        if (this->zoom_level() == this->max_zoom_level) {
             this->zoom_out();
+            if (this->next_dict_key(this->last_read_line_key) == "") {
+                this->last_read_line_key = "";
+                return true;
+            }
+            else
+                subsequent_record = true;
         }
 
-        if (!eof) {
-            assert(this>size() == 1);
-            auto key = this->last_dict_key();
-            if (this->key_name != "" && (this->key_cond == this->last_read_line_key)) {
-                name = this->key_name;
-                this->zoom_in(key);
-            } else {
-                name = key;
-            }
-            data = key;
-            this->last_read_line_key = key;
+        auto key = this->next_dict_key(this->last_read_line_key);
+        if (subsequent_record || (this->key_name != "" && (this->key_cond == this->last_read_line_key))) {
+            name = this->key_name;
+            this->zoom_in(key);
+        } else {
+            name = key;
         }
-        return eof;
+        data = key;
+        this->last_read_line_key = key;
+
+        return false;
     }
 };
 

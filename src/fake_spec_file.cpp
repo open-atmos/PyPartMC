@@ -219,7 +219,7 @@ void c_spec_file_read_line(
 
     int i = 0;
     for (const auto &ch : name) {
-        assert(i < name_size);
+        assert(i < *name_size);
         name_data[i++] = ch;
     }
     *name_size = i;

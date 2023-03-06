@@ -319,6 +319,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     py::class_<AeroDist>(m,"AeroDist")
         .def(py::init<AeroData&, const nlohmann::json&>())
+        .def_property_readonly("n_mode", &AeroDist::get_n_mode)
     ;
 
     m.def(

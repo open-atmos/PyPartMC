@@ -4,6 +4,8 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import pytest
+
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
@@ -26,3 +28,18 @@ class TestAeroDist:
 
         # assert
         assert sut is not None
+
+    @staticmethod
+    @pytest.mark.parametrize("n_modes", (1, 2, 3))
+    def test_ctor_multimode(n_modes):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        mode_data = AERO_DIST_CTOR_ARG_MINIMAL[0]["test_mode"]
+
+        # act
+        sut = ppmc.AeroDist(
+            aero_data, [{f"mode_{k}": mode_data for k in range(n_modes)}]
+        )
+
+        # assert
+        assert sut.n_mode == n_modes

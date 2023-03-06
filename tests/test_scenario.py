@@ -183,3 +183,21 @@ class TestScenario:
 
         # assert
         assert rate is not nan
+
+    @staticmethod
+    def test_multi_mode():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        scenario_ctor_arg = SCENARIO_CTOR_ARG_MINIMAL
+        for entry in ("aero_emissions", "aero_background"):
+            scenario_ctor_arg[entry][-1]["dist"] = [
+                {"A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
+                {"B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
+            ]
+
+        # act
+        sut = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+
+        # assert
+        pass
