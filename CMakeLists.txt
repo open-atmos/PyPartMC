@@ -23,6 +23,8 @@ if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-ffree-line-length-none>)
   # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58175
   add_compile_options($<$<COMPILE_LANGUAGE:Fortran>:-Wno-surprising>)
+
+  add_compile_options($<$<AND:$<COMPILE_LANGUAGE:Fortran>,$<CONFIG:DEBUG>>:-fcheck=bounds>)
 endif()
 
 macro(add_prefix prefix rootlist)
