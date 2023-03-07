@@ -232,6 +232,10 @@ module pmc_spec_file
             times(1), size(times), &
             vals(1), size(vals) &
         )
+        if (size(times) < 1) then
+            print*, 'must have at least one data poin in file ' // trim(file%name) // '::' // name
+            call pmc_stop(925956383)
+        end if
     end subroutine
 
     subroutine spec_file_open(filename, file)
