@@ -135,6 +135,7 @@ class TestScenario:
 
     @staticmethod
     @pytest.mark.xfail(strict=True)
+    @pytest.mark.skipif("sys.platform != 'linux'")
     def test_ctor_arg_checks():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
