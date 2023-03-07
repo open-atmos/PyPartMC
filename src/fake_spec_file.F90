@@ -117,21 +117,23 @@ module pmc_spec_file
         call c_spec_file_read_real_named_array_size(n_rows, n_cols)
         allocate(names(n_rows))
         allocate(vals(n_rows, n_cols))
-        allocate(vals_row(n_cols))
-        ! TODO #112: handle max_lines
-        do row = 1, n_rows
-            name_size = len(names(row))
-            call c_spec_file_read_real_named_array_data( &
-                row, &
-                names(row), name_size, &
-                vals_row(1), size(vals, 2) &
-            )
-            names(row) = names(row)(1:name_size)
-            do col = 1, n_cols
-                vals(row, col) = vals_row(col)
+        if (n_cols .gt. 0) then
+            allocate(vals_row(n_cols))
+            ! TODO #112: handle max_lines
+            do row = 1, n_rows
+                name_size = len(names(row))
+                call c_spec_file_read_real_named_array_data( &
+                    row, &
+                    names(row), name_size, &
+                    vals_row(1), size(vals, 2) &
+                )
+                names(row) = names(row)(1:name_size)
+                do col = 1, n_cols
+                    vals(row, col) = vals_row(col)
+                end do
             end do
-        end do
-        deallocate(vals_row)
+            deallocate(vals_row)
+        end if
     end subroutine
 
     subroutine spec_file_assert_msg(code, file, condition_ok, msg)
