@@ -44,10 +44,12 @@ struct Gimmick {
     }
 
     template <class T>
-    std::string next_dict_key(const T last_key) const noexcept {
+    std::string next_dict_key(T last_key, const T key_cond) const noexcept {
         std::string key = "", prev_key = "";
-        for (const auto& item : this->json->items())
-        {
+        if (last_key == key_cond)
+            last_key = "";
+
+        for (const auto& item : this->json->items()) {
             if (this->json->is_array()) {
                 for (auto &entry : item.value().items()) {
                     if (prev_key == last_key) {
@@ -69,7 +71,7 @@ struct Gimmick {
 
     void zoom_in(const bpstd::string_view &sub) noexcept {
         auto it = this->json->is_array() 
-            ? this->json->at(this->json->size()-1).begin()
+            ? this->json->at(this->json->size()-1).find(sub)
             : this->json->find(sub);
         // TODO #112: handle errors
         this->json_parent.push(this->json);
@@ -226,7 +228,9 @@ struct InputGimmick: Gimmick {
         bool subsequent_record = false;
         if (this->zoom_level() == this->max_zoom_level) {
             this->zoom_out();
-            if (this->next_dict_key(this->last_read_line_key) == "") {
+
+            auto key = this->next_dict_key(this->last_read_line_key, this->key_cond);
+            if (key == "") {
                 this->last_read_line_key = "";
                 return true;
             }
@@ -234,7 +238,7 @@ struct InputGimmick: Gimmick {
                 subsequent_record = true;
         }
 
-        auto key = this->next_dict_key(this->last_read_line_key);
+        auto key = this->next_dict_key(this->last_read_line_key, this->key_cond);
         if (subsequent_record || (this->key_name != "" && (this->key_cond == this->last_read_line_key))) {
             name = this->key_name;
             this->zoom_in(key);
