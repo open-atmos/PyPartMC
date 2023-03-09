@@ -40,14 +40,14 @@ class TestAeroDist:
 
         mode_data = AERO_DIST_CTOR_ARG_MINIMAL[0]["test_mode"]
         num_concs = np.random.rand(n_modes)
-        aero_dists = {}
+        modes = {}
         for k in range(n_modes):
             mode_data["num_conc"] = num_concs[k]
-            aero_dists[k] = copy.deepcopy(mode_data)
+            modes[k] = copy.deepcopy(mode_data)
 
         # act
         sut = ppmc.AeroDist(
-            aero_data, [{f"mode_{k}": aero_dists[k] for k in range(n_modes)}]
+            aero_data, [{f"mode_{k}": modes[k] for k in range(n_modes)}]
         )
 
         # assert
