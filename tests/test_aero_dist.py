@@ -4,7 +4,9 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import numpy as np
 import pytest
+import copy
 
 import PyPartMC as ppmc
 
@@ -34,12 +36,19 @@ class TestAeroDist:
     def test_ctor_multimode(n_modes):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        mode_data = AERO_DIST_CTOR_ARG_MINIMAL[0]["test_mode"]
+
+        mode_data =AERO_DIST_CTOR_ARG_MINIMAL[0]["test_mode"]
+        num_concs = np.random.rand(n_modes)
+        aero_dists = {}
+        for k in range(n_modes):
+            mode_data['num_conc'] = num_concs[k]
+            aero_dists[k] = copy.deepcopy(mode_data)
 
         # act
         sut = ppmc.AeroDist(
-            aero_data, [{f"mode_{k}": mode_data for k in range(n_modes)}]
+            aero_data, [{f"mode_{k}": aero_dists[k] for k in range(n_modes)}]
         )
 
         # assert
         assert sut.n_mode == n_modes
+        assert sut.num_conc == np.sum(num_concs)

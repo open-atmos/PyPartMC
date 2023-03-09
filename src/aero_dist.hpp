@@ -26,6 +26,11 @@ extern "C" void f_aero_dist_from_json(
     void *aero_data_ptr
 ) noexcept;
 
+extern "C" void f_aero_dist_total_num_conc(
+    const void *ptr,
+    double *total_num_conc
+) noexcept;
+
 struct AeroDist {
     PMCResource ptr;
 
@@ -41,5 +46,11 @@ struct AeroDist {
         int n_mode;
         f_aero_dist_n_mode(self.ptr.f_arg(), &n_mode);
         return n_mode;
+    }
+
+    static auto get_total_num_conc(const AeroDist &self) {
+        double total_num_conc;
+        f_aero_dist_total_num_conc(self.ptr.f_arg(), &total_num_conc);
+        return total_num_conc;
     }
 };
