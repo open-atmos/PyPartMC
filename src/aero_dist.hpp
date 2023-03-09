@@ -32,7 +32,7 @@ extern "C" void f_aero_dist_total_num_conc(
     double *total_num_conc
 ) noexcept;
 
-extern "C" void f_get_aero_mode(
+extern "C" void f_aero_dist_mode(
     const void *ptr,
     void *ptr_c,
     const int *index
@@ -40,12 +40,17 @@ extern "C" void f_get_aero_mode(
 
 struct AeroDist {
     PMCResource ptr;
+    std::shared_ptr<AeroData> aero_data;
 
-    AeroDist(AeroData &aero_data, const nlohmann::json &json):
-        ptr(f_aero_dist_ctor, f_aero_dist_dtor)
+    AeroDist(
+        std::shared_ptr<AeroData> aero_data,
+        const nlohmann::json &json
+    ):
+        ptr(f_aero_dist_ctor, f_aero_dist_dtor),
+        aero_data(aero_data)
     {
         gimmick_ptr() = std::make_unique<InputGimmick>(json, "", "mode_name", 1);
-        f_aero_dist_from_json(ptr.f_arg_non_const(), aero_data.ptr.f_arg_non_const());
+        f_aero_dist_from_json(ptr.f_arg_non_const(), aero_data->ptr.f_arg_non_const());
         gimmick_ptr().reset();
     }
 
@@ -61,6 +66,13 @@ struct AeroDist {
         return total_num_conc;
     }
 
-//    static AeroMode* get_aero_mode(const AeroDist &self) {
-//    }
+    static AeroMode* get_mode(const AeroDist &self, const int &idx) {
+        if (idx < 0 || idx >= AeroDist::get_n_mode(self))
+            throw std::out_of_range("Index out of range");
+
+        AeroMode *ptr = new AeroMode();
+        f_aero_dist_mode(self.ptr.f_arg(), ptr, &idx);
+
+        return ptr;
+    }
 };

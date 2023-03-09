@@ -332,12 +332,13 @@ struct AeroState {
         const AeroState &self,
         const int &idx
     ) {
+        if (idx < 0 || idx >= (int)__len__(self))
+            throw std::out_of_range("Index out of range");
+
         int len = AeroData::__len__(*self.aero_data);
         std::valarray<double> data(len);
         
         AeroParticle *ptr = new AeroParticle(self.aero_data, data);
-        if (idx < 0 || idx >= (int)__len__(self))
-            throw std::out_of_range("Index out of range");
         f_aero_state_particle(self.ptr.f_arg(), ptr, &idx);
         
         return ptr;

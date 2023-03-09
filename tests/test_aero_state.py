@@ -203,7 +203,7 @@ class TestAeroState:
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 500))
-    def test_get_item_out_of_range(
+    def test_get_particle_out_of_range(
         sut_minimal, idx
     ):  # pylint: disable=redefined-outer-name
         # act

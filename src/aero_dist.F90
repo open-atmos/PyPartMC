@@ -59,7 +59,7 @@ module PyPartMC_aero_dist
     total_num_conc = aero_dist_total_num_conc(aero_dist)
   end subroutine
 
-  subroutine f_get_aero_mode(ptr_c, aero_mode_ptr_c, index) bind(C)
+  subroutine f_aero_dist_mode(ptr_c, aero_mode_ptr_c, index) bind(C)
     type(c_ptr) :: ptr_c, aero_mode_ptr_c
     type(aero_dist_t), pointer :: aero_dist
     type(aero_mode_t), pointer :: aero_mode

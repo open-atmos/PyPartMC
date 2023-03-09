@@ -326,9 +326,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
     ;
 
     py::class_<AeroDist>(m,"AeroDist")
-        .def(py::init<AeroData&, const nlohmann::json&>())
+        .def(py::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
         .def_property_readonly("n_mode", &AeroDist::get_n_mode)
         .def_property_readonly("num_conc", &AeroDist::get_total_num_conc)
+        .def("mode", AeroDist::get_mode,
+            "returns the mode of a given index")
     ;
 
     m.def(
