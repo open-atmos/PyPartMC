@@ -58,5 +58,18 @@ module PyPartMC_aero_dist
     call c_f_pointer(ptr_c, aero_dist)
     total_num_conc = aero_dist_total_num_conc(aero_dist)
   end subroutine
+
+  subroutine f_get_aero_mode(ptr_c, aero_mode_ptr_c, index) bind(C)
+    type(c_ptr) :: ptr_c, aero_mode_ptr_c
+    type(aero_dist_t), pointer :: aero_dist
+    type(aero_mode_t), pointer :: aero_mode
+    integer(c_int), intent(in) :: index
+
+    call c_f_pointer(ptr_c, aero_dist)
+    call c_f_pointer(aero_mode_ptr_c, aero_mode)
+
+    aero_mode = aero_dist%mode(index + 1)
+
+  end subroutine
  
 end module

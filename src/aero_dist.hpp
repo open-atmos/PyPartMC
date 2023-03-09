@@ -7,6 +7,7 @@
 #pragma once
 
 #include "pmc_resource.hpp"
+#include "aero_mode.hpp"
 
 extern "C" void f_aero_dist_ctor(
     void *ptr
@@ -31,6 +32,12 @@ extern "C" void f_aero_dist_total_num_conc(
     double *total_num_conc
 ) noexcept;
 
+extern "C" void f_get_aero_mode(
+    const void *ptr,
+    void *ptr_c,
+    const int *index
+) noexcept;
+
 struct AeroDist {
     PMCResource ptr;
 
@@ -53,4 +60,7 @@ struct AeroDist {
         f_aero_dist_total_num_conc(self.ptr.f_arg(), &total_num_conc);
         return total_num_conc;
     }
+
+//    static AeroMode* get_aero_mode(const AeroDist &self) {
+//    }
 };
