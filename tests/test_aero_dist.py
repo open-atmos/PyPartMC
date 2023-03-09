@@ -82,7 +82,9 @@ class TestAeroDist:
         assert False
 
     @staticmethod
-    def test_get_mode_result_lifetime(sut_minimal):
+    def test_get_mode_result_lifetime(
+        sut_minimal,
+    ):  # pylint: disable=redefined-outer-name
         # arrange
         mode = sut_minimal.mode(0)
         mode_type = mode.type
@@ -95,7 +97,7 @@ class TestAeroDist:
         assert mode.type == mode_type
 
     @staticmethod
-    def test_get_mode_is_a_copy(sut_minimal):
+    def test_get_mode_is_a_copy(sut_minimal):  # pylint: disable=redefined-outer-name
         # arrange
         new_type = "mono"
         mode_idx = 0
