@@ -4,6 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import copy
 import gc
 import json
 
@@ -140,7 +141,7 @@ class TestScenario:
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
-        ctor_arg = {**SCENARIO_CTOR_ARG_MINIMAL}
+        ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
         ctor_arg["temp_profile"][0]["time"] = []
 
         # act
@@ -151,7 +152,7 @@ class TestScenario:
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
-        scenario_ctor_arg = {**SCENARIO_CTOR_ARG_MINIMAL}
+        scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
         for entry in ("aero_emissions", "aero_background"):
             scenario_ctor_arg[entry][-1]["dist"] = [
                 {"A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
