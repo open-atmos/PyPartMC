@@ -101,11 +101,6 @@ extern "C" void f_aero_state_bin_average_comp(
     const void *aero_data_ptr
 ) noexcept;
 
-extern "C" void f_aero_state_copy(
-    const void *ptr_c,
-    const void *aero_dataptr
-) noexcept;
-
 extern "C" void f_aero_state_particle(
     const void *ptr_c,
     const void *ptr_particle_c,
@@ -325,19 +320,6 @@ struct AeroState {
             bin_grid.ptr.f_arg(),
             self.aero_data->ptr.f_arg()
         );
-    }
-
-    static AeroState* __deepcopy__(
-        AeroState &self,
-        py::dict &memo
-    ) {
-        double n_part = 1.0;
-        AeroState *ptr = new AeroState(n_part, self.aero_data);
-        f_aero_state_copy(
-            self.ptr.f_arg(),
-            ptr
-        );
-        return ptr;
     }
 
     static AeroParticle* get_particle(

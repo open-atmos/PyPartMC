@@ -5,7 +5,6 @@
 ####################################################################################################
 
 import gc
-from copy import deepcopy
 
 import numpy as np
 import pytest
@@ -68,17 +67,6 @@ class TestAeroState:
         # assert
         assert int(size) > n_part * 0.5
         assert int(size) < n_part * 2
-
-    @staticmethod
-    def test_copy(sut_minimal):  # pylint: disable=redefined-outer-name
-        # act
-        aero_state_copy = deepcopy(sut_minimal)
-
-        # assert
-        assert aero_state_copy is not sut_minimal
-        expected = np.sum(sut_minimal.diameters)
-        actual = np.sum(aero_state_copy.diameters)
-        assert expected == actual
 
     @staticmethod
     def test_total_num_conc(sut_minimal):  # pylint: disable=redefined-outer-name
