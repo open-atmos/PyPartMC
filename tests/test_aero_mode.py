@@ -200,7 +200,7 @@ class TestAeroMode:
         name = sut.name
 
         # assert
-        assert AERO_MODE_CTOR_LOG_NORMAL[val.keys()[0]] == name
+        assert tuple(AERO_MODE_CTOR_LOG_NORMAL.keys())[0] == name
 
     @staticmethod
     def test_set_name():

@@ -229,6 +229,9 @@ module PyPartMC_aero_mode
     do i=1, name_size
       aero_mode%name(i:i) = name_data(i)
     end do
+    do i=name_size+1, len(aero_mode%name)
+      aero_mode%name(i:i) = " " 
+    end do
   end subroutine
 
   subroutine f_aero_mode_get_name(ptr_c, name_data, name_size) bind(C)
