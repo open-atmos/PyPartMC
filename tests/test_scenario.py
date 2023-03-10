@@ -4,6 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import copy
 import gc
 import json
 
@@ -134,11 +135,24 @@ class TestScenario:
         sut.init_env_state(env_state, time)
 
     @staticmethod
+    @pytest.mark.xfail(strict=True)
+    @pytest.mark.skipif("sys.platform != 'linux'")
+    def test_ctor_fails_with_no_values_in_time_array():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
+        ctor_arg["temp_profile"][0]["time"] = []
+
+        # act
+        _ = ppmc.Scenario(gas_data, aero_data, ctor_arg)
+
+    @staticmethod
     def test_multi_mode():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
-        scenario_ctor_arg = SCENARIO_CTOR_ARG_MINIMAL
+        scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
         for entry in ("aero_emissions", "aero_background"):
             scenario_ctor_arg[entry][-1]["dist"] = [
                 {"A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
