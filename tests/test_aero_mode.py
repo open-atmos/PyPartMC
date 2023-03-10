@@ -189,3 +189,29 @@ class TestAeroMode:
         mode = modes[tuple(modes.keys())[0]]
         assert sut.num_conc == mode["num_conc"]
         assert sut.type == mode["mode_type"]
+
+    @staticmethod
+    def test_get_name():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_CTOR_LOG_NORMAL)
+
+        # act
+        name = sut.name
+
+        # assert
+        assert AERO_MODE_CTOR_LOG_NORMAL[val.keys()[0]] == name
+
+    @staticmethod
+    def test_set_name():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_CTOR_LOG_NORMAL)
+        val = "abc"
+        assert sut.name != val
+
+        # act
+        sut.name = val
+
+        # assert
+        assert sut.name == val
