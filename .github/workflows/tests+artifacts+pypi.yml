@@ -75,7 +75,7 @@ jobs:
 
       - run: |
           unset CI
-          python -m build 2>&1 | tee build.log || { cat $TEMP/build-*/PyPartMC*/build/temp*/Release/_PyPartMC/CMakeFiles/CMakeError.log; exit 1; };
+          python -m build 2>&1 | tee build.log
           exit `fgrep -i warning build.log | wc -l`
 
       - if: matrix.platform == 'ubuntu-latest'

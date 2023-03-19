@@ -9,7 +9,7 @@
 #include "gimmicks.hpp" // TODO #119: rename to something like json_resource.hpp?
 #include "pmc_resource.hpp"
 #include "pybind11/stl.h"
-#include "pybind11_json/pybind11_json.hpp"
+//#include "pybind11_json/pybind11_json.hpp"
 
 extern "C" void f_gas_data_ctor(void *ptr) noexcept;
 extern "C" void f_gas_data_dtor(void *ptr) noexcept;
