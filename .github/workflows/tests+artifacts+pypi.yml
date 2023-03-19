@@ -115,10 +115,10 @@ jobs:
           pytest -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
 
 ### uncomment to gain ssh access in case of failure
-#      - if: ${{ failure() }}
-#        uses: mxschmitt/action-tmate@v3
-#        with:
-#          limit-access-to-actor: true
+     - if: ${{ failure() }}
+       uses: mxschmitt/action-tmate@v3
+       with:
+         limit-access-to-actor: true
 
   dist_check:
     runs-on: ubuntu-latest
