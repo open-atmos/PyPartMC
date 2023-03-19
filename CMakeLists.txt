@@ -44,7 +44,8 @@ set(PyPartMC_sources
   pypartmc.cpp gimmicks.cpp fake_netcdf.cpp fake_spec_file.cpp sys.cpp
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
   gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90
-  camp_core.F90 photolysis.F90 aero_mode.F90 aero_dist.F90
+  camp_core.F90 photolysis.F90 aero_mode.F90 aero_dist.F90 bin_grid.cpp condense.cpp run_part.cpp
+  scenario.cpp
 )
 add_prefix(src/ PyPartMC_sources)
 
@@ -291,12 +292,13 @@ target_link_libraries(partmclib PRIVATE klulib)
 add_subdirectory(gitmodules/pybind11)
 pybind11_add_module(_PyPartMC ${PyPartMC_sources})
 add_dependencies(_PyPartMC partmclib)
-target_include_directories(_PyPartMC PRIVATE 
-  ${CMAKE_SOURCE_DIR}/gitmodules/json/include 
-  ${CMAKE_SOURCE_DIR}/gitmodules/pybind11_json/include
-  ${CMAKE_SOURCE_DIR}/gitmodules/span/include
-  ${CMAKE_SOURCE_DIR}/gitmodules/string_view-standalone/include
+set(PYPARTMC_INCLUDE_DIRS 
+  "${CMAKE_SOURCE_DIR}/gitmodules/json/include;"
+  "${CMAKE_SOURCE_DIR}/gitmodules/pybind11_json/include;"
+  "${CMAKE_SOURCE_DIR}/gitmodules/span/include;"
+  "${CMAKE_SOURCE_DIR}/gitmodules/string_view-standalone/include;"
 )
+target_include_directories(_PyPartMC PRIVATE ${PYPARTMC_INCLUDE_DIRS})
 target_compile_definitions(_PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
 target_link_libraries(_PyPartMC PRIVATE partmclib)
 if (APPLE)
@@ -317,5 +319,23 @@ foreach(target _PyPartMC)
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter>
   )
+endforeach()
+
+include(CheckCXXSourceCompiles)
+file(GLOB PyPartMC_headers ${CMAKE_SOURCE_DIR}/src/*.hpp)
+if (NOT "${CMAKE_REQUIRED_INCLUDES}" STREQUAL "")
+  message("CMAKE_REQUIRED_INCLUDES not empty! (${CMAKE_REQUIRED_INCLUDES})")
+endif()
+foreach(file ${PyPartMC_headers})
+  set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS};${pybind11_INCLUDE_DIRS}")
+  check_cxx_source_compiles(
+    "#include \"${file}\"
+    int main() { return 0;}"
+    _header_self_contained_${file}
+  )
+  unset(CMAKE_REQUIRED_INCLUDES)
+  if (NOT _header_self_contained_${file})
+    message(FATAL_ERROR "non-self-contained header: ${file}")
+  endif()
 endforeach()
 

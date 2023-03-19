@@ -83,38 +83,17 @@ static void init_env_state(
 
 };
 
-auto loss_rate(
+double loss_rate(
     const Scenario &scenario,
     const double vol,
     const double density,
     const AeroData &aero_data,
     const EnvState &env_state
-) {
-    double rate;
-    f_scenario_loss_rate(
-        &scenario.ptr,
-        &vol,
-        &density,
-        &aero_data.ptr,
-        &env_state.ptr,
-        &rate
-    );
-    return rate;
-}
+);
 
-auto loss_rate_dry_dep(
+double loss_rate_dry_dep(
     const double vol,
     const double density,
     const AeroData &aero_data,
     const EnvState &env_state
-) {
-    double rate;
-    f_scenario_loss_rate_dry_dep(
-        &vol,
-        &density,
-        &aero_data.ptr,
-        &env_state.ptr,
-        &rate
-    );
-    return rate;
-}
+);

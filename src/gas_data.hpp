@@ -8,6 +8,8 @@
 
 #include "gimmicks.hpp" // TODO #119: rename to something like json_resource.hpp?
 #include "pmc_resource.hpp"
+#include "pybind11/stl.h"
+#include "pybind11_json/pybind11_json.hpp"
 
 extern "C" void f_gas_data_ctor(void *ptr) noexcept;
 extern "C" void f_gas_data_dtor(void *ptr) noexcept;
@@ -21,7 +23,7 @@ struct GasData {
     PMCResource ptr;
     const nlohmann::json json;
 
-    GasData(const py::tuple &tpl) :
+    GasData(const pybind11::tuple &tpl) :
         ptr(f_gas_data_ctor, f_gas_data_dtor),
         json(tpl)
     {
