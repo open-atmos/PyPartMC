@@ -60,10 +60,6 @@ jobs:
           echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
           echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
 
-      - if: matrix.platform != 'windows-latest'
-        run: |
-          echo TEMP="/tmp/" >> $GITHUB_ENV
-
       - uses: actions/checkout@v2
         with:
           submodules: recursive
@@ -79,7 +75,7 @@ jobs:
 
       - run: |
           unset CI
-          python -m build 2>&1 | tee build.log || { cat $TEMP/build-*/PyPartMC*/build/temp*/_PyPartMC/CMakeFiles/CMakeError.log; exit 1; };
+          python -m build 2>&1 | tee build.log || { cat $TEMP/build-*/PyPartMC*/build/temp*/Release_PyPartMC/CMakeFiles/CMakeError.log; exit 1; };
           exit `fgrep -i warning build.log | wc -l`
 
       - if: matrix.platform == 'ubuntu-latest'
@@ -115,10 +111,10 @@ jobs:
           pytest -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
 
 ### uncomment to gain ssh access in case of failure
-      - if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
+#      - if: ${{ failure() }}
+#        uses: mxschmitt/action-tmate@v3
+#        with:
+#          limit-access-to-actor: true
 
   dist_check:
     runs-on: ubuntu-latest
