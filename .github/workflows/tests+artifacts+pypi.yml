@@ -76,6 +76,10 @@ jobs:
       - run: |
           unset CI
           python -m build 2>&1 | tee build.log
+          if [ ${PIPESTATUS[0]} != 0 ]; then 
+            ls -la build
+            cat build/temp*/_PyPartMC/CMakeFiles/CMakeError.log
+          fi
           exit `fgrep -i warning build.log | wc -l`
 
       - if: matrix.platform == 'ubuntu-latest'

@@ -335,7 +335,7 @@ foreach(file ${PyPartMC_headers})
   )
   unset(CMAKE_REQUIRED_INCLUDES)
   if (NOT _header_self_contained_${file})
-    message(FATAL_ERROR "non-self-contained header: ${file}")
+    message(SEND_ERROR "non-self-contained header: ${file}")
   endif()
 endforeach()
 
