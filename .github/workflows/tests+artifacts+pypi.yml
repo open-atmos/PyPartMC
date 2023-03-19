@@ -60,6 +60,10 @@ jobs:
           echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
           echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
 
+      - if: matrix.platform != 'windows-latest'
+        run: |
+          echo TEMP="/tmp/" >> $GITHUB_ENV
+
       - uses: actions/checkout@v2
         with:
           submodules: recursive
@@ -75,7 +79,7 @@ jobs:
 
       - run: |
           unset CI
-          python -m build 2>&1 | tee build.log || { cat build/temp*/_PyPartMC/CMakeFiles/CMakeError.log; exit 1; };
+          python -m build 2>&1 | tee build.log || { cat $TEMP/build-*/PyPartMC*/build/temp*/_PyPartMC/CMakeFiles/CMakeError.log; exit 1; };
           exit `fgrep -i warning build.log | wc -l`
 
       - if: matrix.platform == 'ubuntu-latest'
