@@ -328,16 +328,17 @@ if (NOT "${CMAKE_REQUIRED_INCLUDES}" STREQUAL "")
 endif()
 foreach(file ${PyPartMC_headers})
   set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS};${pybind11_INCLUDE_DIRS}")
-  check_cxx_source_compiles(
-    "#include \"${file}\"
-    int main() { return 0;}"
+  check_cxx_source_compiles("
+      // https://bugs.python.org/issue36020
+      #define HAVE_SNPRINTF 
+      #include \"${file}\"
+      int main() { return 0;}
+    "
     _header_self_contained_${file}
   )
   unset(CMAKE_REQUIRED_INCLUDES)
   if (NOT _header_self_contained_${file})
     message(SEND_ERROR "non-self-contained header: ${file}")
-    file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log" tmp)
-    message(FATAL_ERROR ${tmp})
   endif()
 endforeach()
 
