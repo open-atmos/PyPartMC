@@ -250,4 +250,29 @@ module PyPartMC_aero_particle
       )
   end subroutine
 
+  subroutine f_aero_particle_approx_crit_rel_humid( &
+      aero_particle_ptr_c, &
+      aero_data_ptr_c, &
+      env_state_ptr_c, &
+      approx_crit_rel_humid &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(env_state_t), pointer :: env_state_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c, aero_data_ptr_c, &
+      env_state_ptr_c
+    real(c_double), intent(out) :: approx_crit_rel_humid
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+    call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
+
+    approx_crit_rel_humid = aero_particle_approx_crit_rel_humid( &
+        aero_particle_ptr_f, &
+        aero_data_ptr_f, &
+        env_state_ptr_f &
+      )
+  end subroutine
+
 end module
