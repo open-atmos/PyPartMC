@@ -13,6 +13,7 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 
 class TestAeroParticle:
@@ -291,3 +292,48 @@ class TestAeroParticle:
 
         # assert
         np.testing.assert_almost_equal(kappa, 1.479240661)
+
+    @staticmethod
+    def test_moles():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
+
+        # act
+        moles = sut.moles
+        check = 1000 / 18e-3 + 4400 / 35.5e-3 + 6600 / 23e-3
+
+        # assert
+        np.testing.assert_almost_equal(moles, check)
+
+    @staticmethod
+    def test_mobility_diameter():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        aero_data = None
+        volumes = None
+
+        # act
+        mobility_diameter = sut.mobility_diameter(env_state)
+        env_state = None
+        gc.collect()
+
+        # assert
+        assert mobility_diameter is not None

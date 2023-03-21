@@ -193,4 +193,41 @@ module PyPartMC_aero_particle
     kappa = aero_particle_solute_kappa(aero_particle_ptr_f, aero_data_ptr_f)
   end subroutine
 
+  subroutine f_aero_particle_moles(aero_particle_ptr_c, aero_data_ptr_c, moles) bind(C)
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c, aero_data_ptr_c
+    real(c_double), intent(out) :: moles
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    moles = aero_particle_moles(aero_particle_ptr_f, aero_data_ptr_f)
+  end subroutine
+
+  subroutine f_aero_particle_mobility_diameter( &
+      aero_particle_ptr_c, &
+      aero_data_ptr_c, &
+      env_state_ptr_c, &
+      mobility_diameter &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(env_state_t), pointer :: env_state_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c, aero_data_ptr_c, &
+      env_state_ptr_c
+    real(c_double), intent(out) :: mobility_diameter
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+    call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
+
+    mobility_diameter = aero_particle_mobility_diameter( &
+        aero_particle_ptr_f, &
+        aero_data_ptr_f, &
+        env_state_ptr_f &
+      )
+  end subroutine
+
 end module

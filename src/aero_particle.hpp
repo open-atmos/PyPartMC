@@ -8,6 +8,7 @@
 
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
+#include "env_state.hpp"
 #include "pybind11/stl.h"
 
 extern "C" void f_aero_particle_ctor(void *ptr) noexcept;
@@ -25,6 +26,8 @@ extern "C" void f_aero_particle_mass(const void *aero_particle_ptr, const void *
 extern "C" void f_aero_particle_species_mass(const void *aero_particle_ptr, const int *i_spec, const void *aero_data_ptr, double *mass) noexcept;
 extern "C" void f_aero_particle_species_masses(const void *aero_particle_ptr, const void *aero_data_ptr, const int *size_masses, void *masses) noexcept;
 extern "C" void f_aero_particle_solute_kappa(const void *aero_particle_ptr, const void *aero_data_ptr, void *kappa) noexcept;
+extern "C" void f_aero_particle_moles(const void *aero_particle_ptr, const void *aero_data_ptr, void *moles) noexcept;
+extern "C" void f_aero_particle_mobility_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *mobility_diameter) noexcept;
 
 
 namespace py = pybind11;
@@ -169,5 +172,25 @@ struct AeroParticle {
         return kappa;
     }
 
-};
+    static auto moles(const AeroParticle &self) {
+        double moles;
+        f_aero_particle_moles(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &moles
+        );
+        return moles;
+    }
 
+    static auto mobility_diameter(const AeroParticle &self, const EnvState &env_state) {
+        double mobility_diameter;
+        f_aero_particle_mobility_diameter(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            env_state.ptr.f_arg(),
+            &mobility_diameter
+        );
+        return mobility_diameter;
+    }
+
+};
