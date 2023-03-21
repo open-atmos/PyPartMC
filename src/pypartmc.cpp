@@ -34,6 +34,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )pbdoc";
 
     m.def("run_part", &run_part, "Do a particle-resolved Monte Carlo simulation.");
+    m.def("run_part_timestep", &run_part_timestep, "Do a single time step");
+    m.def("run_part_timeblock", &run_part_timeblock, "Do a time block");
     m.def("condense_equilib_particles", &condense_equilib_particles, R"pbdoc(
       Call condense_equilib_particle() on each particle in the aerosol
       to ensure that every particle has its water content in
@@ -209,6 +211,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the current temperature of the environment state")
         .def_property_readonly("rh", EnvState::rh,
             "returns the current relative humidity of the environment state")
+        .def_property_readonly("elapsed_time", EnvState::get_elapsed_time,
+            "returns time since start_time (s).")
+        .def_property_readonly("start_time", EnvState::get_start_time,
+            "returns start time (s since 00:00 UTC on start_day)")
         .def_property("height", &EnvState::get_height, &EnvState::set_height)
         .def_property("pressure", &EnvState::get_pressure, &EnvState::set_pressure)
     ;
@@ -255,6 +261,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )
         .def("__str__", Scenario::__str__,
             "returns a string with JSON representation of the object")
+        .def("init_env_state", Scenario::init_env_state,
+            "initializes the EnvState")
     ;
 
     py::class_<GasState>(m,
@@ -322,7 +330,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
     ;
 
     py::class_<AeroDist>(m,"AeroDist")
-        .def(py::init<AeroData&, const nlohmann::json&>())
+        .def(py::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
+        .def_property_readonly("n_mode", &AeroDist::get_n_mode)
+        .def_property_readonly("num_conc", &AeroDist::get_total_num_conc)
+        .def("mode", AeroDist::get_mode,
+            "returns the mode of a given index")
     ;
 
     m.def(
@@ -390,6 +402,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Scenario",
         "condense_equilib_particles",
         "run_part",
+        "run_part_timeblock",
+        "run_part_timestep",
         "pow2_above",
         "condense_equilib_particle",
         "histogram_1d",

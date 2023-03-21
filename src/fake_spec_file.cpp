@@ -217,10 +217,20 @@ void c_spec_file_read_line(
     std::string name, data;
     *eof = gimmick_ptr()->read_line(name, data);
 
-    int i = 0;
-    for (const auto &ch : name) {
-        assert(i < *name_size);
-        name_data[i++] = ch;
+    {
+        int i = 0;
+        for (const auto &ch : name) {
+            assert(i < *name_size);
+            name_data[i++] = ch;
+        }
+        *name_size = i;
     }
-    *name_size = i;
+    {
+        int i = 0;
+        for (const auto &ch : data) {
+            assert(i < *data0_size);
+            data0_data[i++] = ch;
+        }
+        *data0_size = i;
+    }
 }

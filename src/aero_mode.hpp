@@ -109,6 +109,10 @@ extern "C" void f_aero_mode_from_json(
 struct AeroMode {
     PMCResource ptr;
 
+    AeroMode() :
+        ptr(f_aero_mode_ctor, f_aero_mode_dtor)
+    {}
+
     AeroMode(AeroData &aero_data, const nlohmann::json &json) :
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
@@ -230,26 +234,29 @@ struct AeroMode {
     }
 
     static auto types() {
-        static auto vec = std::vector<std::string>({
+        static auto vec = std::vector<std::string>{
             "log_normal",
             "exp",
             "mono",
             "sampled"
-        });
+        };
         return vec;
     };
 
     static void set_type(AeroMode &self, const std::string &mode_type) {
-        auto it = std::find(
-            AeroMode::types().begin(),
-            AeroMode::types().end(),
-            mode_type
-        );
+        auto found = false;
+        auto type = 0;
 
-        if (it == AeroMode::types().end()) 
+        for (auto el : AeroMode::types()) {
+            ++type;
+            if (el == mode_type) {
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found)
             throw std::invalid_argument("Invalid mode type.");
-
-        int type = 1 + std::distance(AeroMode::types().begin(), it);
 
         f_aero_mode_set_type(self.ptr.f_arg_non_const(), &type);
     }

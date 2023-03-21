@@ -92,10 +92,6 @@ No CMAKE_Fortran_COMPILER could be found.
 ```
 Try installing a Fortran compiler (e.g., `brew reinstall gcc`)
 
-```
-warning: no files found matching 'gitmodules/...
-```
-Since git clone was done without recursive option, try: `git submodule update --init`
 
 ## Notes for developers
 #### How to debug

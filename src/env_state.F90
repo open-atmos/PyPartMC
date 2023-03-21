@@ -17,6 +17,7 @@ module PyPartMC_env_state
         type(c_ptr), intent(out) :: ptr_c
 
         allocate(ptr_f)
+        ptr_f%elapsed_time = 0
         ptr_c = c_loc(ptr_f)
     end subroutine
 
@@ -112,6 +113,28 @@ module PyPartMC_env_state
         call c_f_pointer(ptr_c, ptr_f)
 
         pressure = ptr_f%pressure
+
+    end subroutine
+
+    subroutine f_env_state_get_elapsed_time(ptr_c, elapsed_time) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: elapsed_time 
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        elapsed_time = ptr_f%elapsed_time
+
+    end subroutine
+
+    subroutine f_env_state_get_start_time(ptr_c, start_time) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: start_time
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        start_time = ptr_f%start_time
 
     end subroutine
 
