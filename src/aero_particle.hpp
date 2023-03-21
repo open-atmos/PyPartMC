@@ -28,6 +28,7 @@ extern "C" void f_aero_particle_species_masses(const void *aero_particle_ptr, co
 extern "C" void f_aero_particle_solute_kappa(const void *aero_particle_ptr, const void *aero_data_ptr, void *kappa) noexcept;
 extern "C" void f_aero_particle_moles(const void *aero_particle_ptr, const void *aero_data_ptr, void *moles) noexcept;
 extern "C" void f_aero_particle_mobility_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *mobility_diameter) noexcept;
+extern "C" void f_aero_particle_density(const void *aero_particle_ptr, const void *aero_data, const void *density) noexcept;
 
 
 namespace py = pybind11;
@@ -193,4 +194,13 @@ struct AeroParticle {
         return mobility_diameter;
     }
 
+    static auto density(const AeroParticle &self) {
+        double density;
+        f_aero_particle_density(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &density
+        );
+        return density;
+    }
 };

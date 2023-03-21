@@ -128,6 +128,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Total moles in the particle (1).")
         .def("mobility_diameter", AeroParticle::mobility_diameter,
             "Mobility diameter of the particle (m).")
+        .def_property_readonly("density", AeroParticle::density,
+            "Average density of the particle (kg/m^3)")
     ;
 
     py::class_<AeroState>(m, "AeroState",
