@@ -28,8 +28,10 @@ extern "C" void f_aero_particle_species_masses(const void *aero_particle_ptr, co
 extern "C" void f_aero_particle_solute_kappa(const void *aero_particle_ptr, const void *aero_data_ptr, void *kappa) noexcept;
 extern "C" void f_aero_particle_moles(const void *aero_particle_ptr, const void *aero_data_ptr, void *moles) noexcept;
 extern "C" void f_aero_particle_mobility_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *mobility_diameter) noexcept;
-extern "C" void f_aero_particle_density(const void *aero_particle_ptr, const void *aero_data_ptr, const void *density) noexcept;
-extern "C" void f_aero_particle_approx_crit_rel_humid(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptrconst, void *approx_crit_rel_humid) noexcept;
+extern "C" void f_aero_particle_density(const void *aero_particle_ptr, const void *aero_data_ptr, void *density) noexcept;
+extern "C" void f_aero_particle_approx_crit_rel_humid(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *approx_crit_rel_humid) noexcept;
+extern "C" void f_aero_particle_crit_rel_humid(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *crit_rel_humid) noexcept;
+extern "C" void f_aero_particle_crit_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state, void *crit_diameter) noexcept;
 
 namespace py = pybind11;
 struct AeroParticle {
@@ -213,6 +215,28 @@ struct AeroParticle {
             &approx_crit_rel_humid
         );
         return approx_crit_rel_humid;
+    }
+
+    static auto crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
+        double crit_rel_humid;
+        f_aero_particle_crit_rel_humid(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            env_state.ptr.f_arg(),
+            &crit_rel_humid
+        );
+        return crit_rel_humid;
+    }
+
+    static auto crit_diameter(const AeroParticle &self, const EnvState &env_state) {
+        double crit_diameter;
+        f_aero_particle_crit_diameter(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            env_state.ptr.f_arg(),
+            &crit_diameter
+        );
+        return crit_diameter;
     }
 
 };

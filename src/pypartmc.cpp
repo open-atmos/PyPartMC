@@ -132,6 +132,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Average density of the particle (kg/m^3)")
         .def("approx_crit_rel_humid", AeroParticle::approx_crit_rel_humid,
             "Returns the approximate critical relative humidity (1).")
+        .def("crit_rel_humid", AeroParticle::crit_rel_humid,
+            "Returns the critical relative humidity (1).")
+        .def("crit_diameter", AeroParticle::crit_diameter,
+            "Returns the critical diameter (m).")
     ;
 
     py::class_<AeroState>(m, "AeroState",

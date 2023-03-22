@@ -381,3 +381,49 @@ class TestAeroParticle:
 
         # assert
         assert approx_crit_rel_humid is not None
+
+    @staticmethod
+    def test_crit_rel_humid():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        aero_data = None
+        volumes = None
+
+        # act
+        crit_rel_humid = sut.crit_rel_humid(env_state)
+        env_state = None
+        gc.collect()
+
+        # assert
+        assert crit_rel_humid is not None
+
+    @staticmethod
+    def test_crit_diameter():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        aero_data = None
+        volumes = None
+
+        # act
+        crit_diameter = sut.crit_diameter(env_state)
+        env_state = None
+        gc.collect()
+
+        # assert
+        assert crit_diameter is not None
