@@ -8,6 +8,8 @@
 
 #include "pmc_resource.hpp"
 #include "pybind11/stl.h"
+#include "aero_data.hpp"
+#include "bin_grid.hpp"
 
 extern "C" void f_aero_mode_ctor(
     void *ptr
