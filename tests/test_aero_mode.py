@@ -34,6 +34,7 @@ AERO_MODE_CTOR_LOG_NORMAL_FULL = {
     }
 }
 
+
 class TestAeroMode:
     @staticmethod
     def test_ctor():
