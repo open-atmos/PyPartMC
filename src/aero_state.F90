@@ -186,7 +186,7 @@ module PyPartMC_aero_state
 
   ! TODO #130: Add include, exclude, group and groups
   subroutine f_aero_state_mixing_state_metrics(ptr_c, aero_data_ptr_c, & 
-       d_alpha, d_gamma, chi) bind(C) !, include, exclude, group, groups)&
+       d_alpha, d_gamma, chi) bind(C)
 
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
