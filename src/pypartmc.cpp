@@ -167,6 +167,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the particle of a given index")
         .def("rand_particle", AeroState::get_random_particle,
             "returns a random particle from the population")
+        .def("dist_sample", AeroState::dist_sample,
+            "sample particles for AeroState from an AeroDist")
     ;
 
     py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData",

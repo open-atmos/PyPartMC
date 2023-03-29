@@ -258,4 +258,26 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  subroutine f_aero_state_add_aero_dist_sample(ptr_c, ptr_aero_data_c, &
+       ptr_aero_dist_c, sample_prop, create_time, allow_doubling, &
+       allow_halving, n_part_add) bind(C)
+
+    type(c_ptr) :: ptr_c, ptr_aero_data_c, ptr_aero_dist_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: ptr_aero_data_f => null()
+    type(aero_dist_t), pointer :: ptr_aero_dist_f => null()
+    real(c_double) :: sample_prop, create_time
+    logical(c_bool) :: allow_doubling, allow_halving
+    integer(c_int) :: n_part_add
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(ptr_aero_data_c,ptr_aero_data_f)
+    call c_f_pointer(ptr_aero_dist_c,ptr_aero_dist_f)
+
+    call aero_state_add_aero_dist_sample(ptr_f, ptr_aero_data_f, &
+       ptr_aero_dist_f, sample_prop, create_time, LOGICAL(allow_doubling), &
+       logical(allow_halving), n_part_add)
+
+  end subroutine
+
 end module
