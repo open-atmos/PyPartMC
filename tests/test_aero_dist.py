@@ -17,7 +17,6 @@ AERO_DIST_CTOR_ARG_FULL = [
     AERO_MODE_CTOR_LOG_NORMAL_FULL,
 ]
 
-
 # pylint: disable=too-few-public-methods
 class TestAeroDist:
     @staticmethod
