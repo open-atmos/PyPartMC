@@ -13,6 +13,7 @@ import pytest
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_dist import AERO_DIST_CTOR_ARG_FULL, AERO_DIST_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 AERO_STATE_CTOR_ARG_MINIMAL = 44
@@ -21,7 +22,9 @@ AERO_STATE_CTOR_ARG_MINIMAL = 44
 @pytest.fixture
 def sut_minimal():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+    aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FULL)
     sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
+    n_part_added = sut.sample_dist(aero_dist, 1.0, 0.0, True, True)
     aero_data = None
     gc.collect()
     return sut
