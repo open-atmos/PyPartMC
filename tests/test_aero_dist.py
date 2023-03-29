@@ -66,6 +66,7 @@ class TestAeroDist:
         for i in range(sut.n_mode):
             assert sut.mode(i).type == modes[i]["mode_type"]
             assert sut.mode(i).num_conc == modes[i]["num_conc"]
+            assert sut.mode(i).name == f"mode_{i}"
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 500))

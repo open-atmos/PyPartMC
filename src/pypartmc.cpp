@@ -323,6 +323,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              &AeroMode::set_gsd)
         .def("set_sample", &AeroMode::set_sampled)
         .def_property("type", &AeroMode::get_type, &AeroMode::set_type)
+        .def_property("name", &AeroMode::get_name, &AeroMode::set_name)
     ;
 
     py::class_<AeroDist>(m,"AeroDist")
