@@ -24,7 +24,7 @@ def sut_minimal():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
     aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FULL)
     sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
-    n_part_added = sut.sample_dist(aero_dist, 1.0, 0.0, True, True)
+    n_part_added = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
     aero_data = None
     gc.collect()
     return sut
