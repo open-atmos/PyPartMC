@@ -485,6 +485,12 @@ is typically cleared each time we output data to disk.</p>
 <dd>
 <div class="desc"><p>returns the critical relative humidity of each particle in the population</p></div>
 </dd>
+<dt id="PyPartMC.AeroState.dist_sample"><code class="name flex">
+<span>def <span class="ident">dist_sample</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroDist, arg1: float, arg2: float, arg3: bool, arg4: bool) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>sample particles for AeroState from an AeroDist</p></div>
+</dd>
 <dt id="PyPartMC.AeroState.particle"><code class="name flex">
 <span>def <span class="ident">particle</span></span>(<span>self: _PyPartMC.AeroState, arg0: int) ‑> _PyPartMC.AeroParticle</span>
 </code></dt>
@@ -805,6 +811,7 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.AeroState.bin_average_comp" href="#PyPartMC.AeroState.bin_average_comp">bin_average_comp</a></code></li>
 <li><code><a title="PyPartMC.AeroState.crit_rel_humids" href="#PyPartMC.AeroState.crit_rel_humids">crit_rel_humids</a></code></li>
 <li><code><a title="PyPartMC.AeroState.diameters" href="#PyPartMC.AeroState.diameters">diameters</a></code></li>
+<li><code><a title="PyPartMC.AeroState.dist_sample" href="#PyPartMC.AeroState.dist_sample">dist_sample</a></code></li>
 <li><code><a title="PyPartMC.AeroState.dry_diameters" href="#PyPartMC.AeroState.dry_diameters">dry_diameters</a></code></li>
 <li><code><a title="PyPartMC.AeroState.masses" href="#PyPartMC.AeroState.masses">masses</a></code></li>
 <li><code><a title="PyPartMC.AeroState.mixing_state" href="#PyPartMC.AeroState.mixing_state">mixing_state</a></code></li>
