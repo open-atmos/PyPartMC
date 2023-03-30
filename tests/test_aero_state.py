@@ -13,6 +13,7 @@ import pytest
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_dist import AERO_DIST_CTOR_ARG_FULL, AERO_DIST_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 AERO_STATE_CTOR_ARG_MINIMAL = 44
@@ -20,8 +21,21 @@ AERO_STATE_CTOR_ARG_MINIMAL = 44
 
 @pytest.fixture
 def sut_minimal():
-    aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+    aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+    aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
     sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
+    _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
+    aero_data = None
+    gc.collect()
+    return sut
+
+
+@pytest.fixture
+def sut_full():
+    aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+    aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FULL)
+    sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
+    _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
     aero_data = None
     gc.collect()
     return sut
@@ -40,18 +54,20 @@ class TestAeroState:
         assert sut is not None
 
     @staticmethod
-    @pytest.mark.xfail(strict=True)  # TODO #116
-    @pytest.mark.parametrize("n_part", (1, 44, 666))
+    @pytest.mark.parametrize("n_part", (44, 666))
     def test_len(n_part):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(n_part, aero_data)
+        _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
 
         # act
         size = len(sut)
 
         # assert
-        assert size == n_part
+        assert int(size) > n_part * 0.5
+        assert int(size) < n_part * 2
 
     @staticmethod
     def test_copy(sut_minimal):  # pylint: disable=redefined-outer-name
@@ -128,18 +144,18 @@ class TestAeroState:
         assert len(diameters) == len(sut_minimal)
 
     @staticmethod
-    def test_crit_rel_humids(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_crit_rel_humids(sut_full):  # pylint: disable=redefined-outer-name
         # arrange
         args = {"rel_humidity": 0.8, **ENV_STATE_CTOR_ARG_MINIMAL}
         env_state = ppmc.EnvState(args)
         env_state.set_temperature(300)
 
         # act
-        crit_rel_humids = sut_minimal.crit_rel_humids(env_state)
+        crit_rel_humids = sut_full.crit_rel_humids(env_state)
 
         # assert
         assert isinstance(crit_rel_humids, list)
-        assert len(crit_rel_humids) == len(sut_minimal)
+        assert len(crit_rel_humids) == len(sut_full)
         assert (np.asarray(crit_rel_humids) > 1).all()
         assert (np.asarray(crit_rel_humids) < 1.2).all()
 
@@ -155,7 +171,7 @@ class TestAeroState:
     @staticmethod
     def test_bin_average_comp(sut_minimal):  # pylint: disable=redefined-outer-name
         # arrange
-        bin_grid = ppmc.BinGrid(123, "log", 1, 100)
+        bin_grid = ppmc.BinGrid(123, "log", 1e-9, 1e-4)
 
         # act
         sut_minimal.bin_average_comp(bin_grid)
@@ -214,3 +230,14 @@ class TestAeroState:
 
         # assert
         assert False
+
+    @staticmethod
+    def test_dist_sample():
+        n_part = 44
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroState(n_part, aero_data)
+        n_added = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
+
+        assert n_added > n_part * 0.5
+        assert n_added < n_part * 2

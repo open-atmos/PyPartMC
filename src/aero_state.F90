@@ -33,65 +33,13 @@ module PyPartMC_aero_state
     type(c_ptr) :: ptr_c, aero_data_ptr_c
     real(c_double), intent(in) :: n_part
 
-    ! local testing ! TODO #141
-    type(aero_dist_t) :: aero_dist_init
-    real(kind=dp), parameter, dimension(2) :: num_conc = &
-         [3.2d9, 2.9d9]  ! TODO #141
-    real(kind=dp), parameter, dimension(2) :: diams = [2d-8, 1.16d-7]  ! TODO #141
-    real(kind=dp), parameter, dimension(2) :: std = [1.45,1.65]  ! TODO #141
-    character(len=10), parameter, dimension(2) :: mode_names = ["init_small","init_large"]
-    integer :: n_spec, n_modes, i_mode, i_spec
-    integer :: n_part_added, source
-    logical, parameter :: hardcoded_init = .true.
-
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
 
     call aero_state_zero(ptr_f)
     call fractal_set_spherical(aero_data_ptr_f%fractal)
-
-    if (hardcoded_init) then
-       n_modes = 2   ! TODO #141
-       n_spec = aero_data_n_spec(aero_data_ptr_f)
-       if (n_spec > 1) then
-          allocate(aero_dist_init%mode(n_modes))
-          do i_mode = 1,n_modes
-             aero_dist_init%mode(i_mode)%name = mode_names(i_mode)
-             aero_dist_init%mode(i_mode)%type = AERO_MODE_TYPE_LOG_NORMAL
-             aero_dist_init%mode(i_mode)%char_radius = diams(i_mode) / 2
-             aero_dist_init%mode(i_mode)%log10_std_dev_radius = &
-                  log10(std(i_mode))
-             aero_dist_init%mode(i_mode)%num_conc = num_conc(i_mode)
-             allocate(aero_dist_init%mode(i_mode)%vol_frac(n_spec))
-             aero_dist_init%mode(i_mode)%vol_frac = 0.0
-             if (i_mode == 1) then
-                i_spec = aero_data_spec_by_name(aero_data_ptr_f, "SO4")
-                aero_dist_init%mode(i_mode)%vol_frac(i_spec) = 1.0
-             else
-                i_spec = aero_data_spec_by_name(aero_data_ptr_f, "OC")
-                aero_dist_init%mode(i_mode)%vol_frac(i_spec) =  .8
-                i_spec = aero_data_spec_by_name(aero_data_ptr_f, "BC")
-                aero_dist_init%mode(i_mode)%vol_frac(i_spec) =  .2
-             end if
-             allocate(aero_dist_init%mode(i_mode)%vol_frac_std(n_spec))
-             aero_dist_init%mode(i_mode)%vol_frac_std = 0.0
-             source = aero_data_source_by_name(aero_data_ptr_f, mode_names(i_mode))
-             aero_dist_init%mode(i_mode)%source = source
-          end do
-       end if
-    end if
-
     call aero_state_set_weight(ptr_f, aero_data_ptr_f, AERO_STATE_WEIGHT_NUMMASS_SOURCE)
     call aero_state_set_n_part_ideal(ptr_f, n_part)
-
-    if (hardcoded_init) then
-       call aero_state_add_aero_dist_sample(ptr_f, aero_data_ptr_f, &
-            aero_dist_init, 1d0, 0d0, &
-            .true., & ! TODO #121 run_part_opt%allow_doubling, &
-            .true., & ! TODO #121 run_part_opt%allow_halving)
-            n_part_added)
-    end if
-
   end subroutine
 
   subroutine f_aero_state_len(ptr_c, len) bind(C)
@@ -238,7 +186,7 @@ module PyPartMC_aero_state
 
   ! TODO #130: Add include, exclude, group and groups
   subroutine f_aero_state_mixing_state_metrics(ptr_c, aero_data_ptr_c, & 
-       d_alpha, d_gamma, chi) bind(C) !, include, exclude, group, groups)&
+       d_alpha, d_gamma, chi) bind(C)
 
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
@@ -307,6 +255,28 @@ module PyPartMC_aero_state
     call aero_state_rand_particle(ptr_f, index)
 
     ptr_particle_f = ptr_f%apa%particle(index)
+
+  end subroutine
+
+  subroutine f_aero_state_add_aero_dist_sample(ptr_c, ptr_aero_data_c, &
+       ptr_aero_dist_c, sample_prop, create_time, allow_doubling, &
+       allow_halving, n_part_add) bind(C)
+
+    type(c_ptr) :: ptr_c, ptr_aero_data_c, ptr_aero_dist_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: ptr_aero_data_f => null()
+    type(aero_dist_t), pointer :: ptr_aero_dist_f => null()
+    real(c_double) :: sample_prop, create_time
+    logical(c_bool) :: allow_doubling, allow_halving
+    integer(c_int) :: n_part_add
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(ptr_aero_data_c,ptr_aero_data_f)
+    call c_f_pointer(ptr_aero_dist_c,ptr_aero_dist_f)
+
+    call aero_state_add_aero_dist_sample(ptr_f, ptr_aero_data_f, &
+       ptr_aero_dist_f, sample_prop, create_time, LOGICAL(allow_doubling), &
+       logical(allow_halving), n_part_add)
 
   end subroutine
 

@@ -8,6 +8,7 @@
 
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
+#include "aero_dist.hpp"
 #include "aero_particle.hpp"
 #include "env_state.hpp"
 #include "bin_grid.hpp"
@@ -114,6 +115,17 @@ extern "C" void f_aero_state_particle(
 extern "C" void f_aero_state_rand_particle(
     const void *ptr_c,
     const void *ptr_particle_c
+) noexcept;
+
+extern "C" void f_aero_state_add_aero_dist_sample(
+    const void *ptr_c, 
+    const void *ptr_aero_data_c, 
+    const void *ptr_aero_dist_c, 
+    const double *sample_prop,
+    const double *create_time,
+    const bool *allow_doubling,
+    const bool *allow_halving,
+    int *n_part_add
 ) noexcept;
 
 struct AeroState {
@@ -355,4 +367,28 @@ struct AeroState {
 
         return ptr;
     }
+
+   static int dist_sample(
+       const AeroState &self,
+       const AeroDist &aero_dist,
+       const double &sample_prop,
+       const double &create_time,
+       const bool &allow_doubling,
+       const bool &allow_halving
+   ) {
+       int n_part_add = 0;
+
+       f_aero_state_add_aero_dist_sample(
+       self.ptr.f_arg(),
+       self.aero_data->ptr.f_arg(),
+       aero_dist.ptr.f_arg(),
+       &sample_prop,
+       &create_time,
+       &allow_doubling,
+       &allow_halving,
+       &n_part_add
+       );
+       return n_part_add;
+
+   }
 };
