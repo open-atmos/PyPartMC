@@ -300,6 +300,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Options controlling the execution of run_part()."
     )
         .def(py::init<const nlohmann::json&>())
+        .def_property_readonly("t_max", RunPartOpt::t_max, "total simulation time")
+        .def_property_readonly("del_t", RunPartOpt::del_t, "time step")
     ;
 
     py::class_<BinGrid>(m,"BinGrid")

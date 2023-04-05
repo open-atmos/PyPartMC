@@ -53,3 +53,24 @@ class TestRunPartOpt:
 
         # assert
         pass
+
+    @staticmethod
+    def test_get_t_max():
+        # arrange
+        run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL)
+
+        # act
+        t_max = run_part_opt.t_max
+
+        # assert
+        assert t_max == 0
+
+    @staticmethod
+    def test_aero_del_t():
+        run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL)
+
+        # act
+        del_t = run_part_opt.del_t
+
+        # assert
+        assert del_t == 1
