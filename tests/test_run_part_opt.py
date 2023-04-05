@@ -63,7 +63,7 @@ class TestRunPartOpt:
         t_max = run_part_opt.t_max
 
         # assert
-        assert t_max == 0
+        assert t_max == RUN_PART_OPT_CTOR_ARG_MINIMAL["t_max"]
 
     @staticmethod
     def test_aero_del_t():
@@ -73,4 +73,4 @@ class TestRunPartOpt:
         del_t = run_part_opt.del_t
 
         # assert
-        assert del_t == 1
+        assert del_t == RUN_PART_OPT_CTOR_ARG_MINIMAL["del_t"]
