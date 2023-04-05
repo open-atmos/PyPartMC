@@ -96,4 +96,27 @@ module PyPartMC_run_part_opt
         call pmc_srand(rand_init, 0)
 
     end subroutine
+
+    subroutine f_run_part_opt_t_max(ptr_c, t_max) bind(C)
+        type(run_part_opt_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double) :: t_max
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        t_max = ptr_f%t_max
+               
+    end subroutine
+
+    subroutine f_run_part_opt_del_t(ptr_c, del_t) bind(C)
+        type(run_part_opt_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double) :: del_t 
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        del_t = ptr_f%del_t
+
+    end subroutine
+
 end module
