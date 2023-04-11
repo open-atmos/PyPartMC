@@ -291,8 +291,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "sets the GasState to the size of GasData")
         .def("mix_rat", GasState::mix_rat,
             "returns the mixing ratio of a gas species")
-        .def_property_readonly("mix_rats", GasState::mix_rats,
-            "returns array of mixing ratios")
+        .def_property("mix_rats", &GasState::mix_rats, &GasState::set_mix_rats,
+            "provides access (read of write) to the array of mixing ratios")
     ;
 
     py::class_<RunPartOpt>(m,
@@ -314,7 +314,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     py::class_<AeroMode>(m,"AeroMode")
         .def(py::init<AeroData&, const nlohmann::json&>())
         .def_property("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
-             "returns the total number concentration of a mode")
+             "provides access (read or write) to the total number concentration of a mode")
         .def("num_dist", &AeroMode::num_dist,
              "returns the binned number concenration of a mode")
         .def_property("vol_frac", &AeroMode::get_vol_frac,

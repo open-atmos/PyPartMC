@@ -61,13 +61,12 @@ module PyPartMC_gas_state
     type(gas_state_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
     type(c_ptr), intent(in) :: gas_data_ptr_c
-    
+    type(spec_file_t) :: file    
     type(gas_data_t), pointer :: gas_data_ptr_f => null()
-    integer :: ncid
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(gas_data_ptr_c, gas_data_ptr_f)
-    call gas_state_input_netcdf(ptr_f, ncid, gas_data_ptr_f)
+    call spec_file_read_gas_state(file, gas_data_ptr_f, ptr_f)    
   end subroutine
 
   subroutine f_gas_state_to_json(ptr_c) bind(C)
