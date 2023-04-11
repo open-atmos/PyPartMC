@@ -116,7 +116,7 @@ class TestGasState:
 
         # act
         gas_state_init_values = ({"SO2": [0.1]}, {"CO": [0.5]})
-        sut.set_mixing_rats(gas_state_init_values)
+        sut.mix_rats = gas_state_init_values
 
         # assert
         idx_set = []
