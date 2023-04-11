@@ -293,6 +293,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the mixing ratio of a gas species")
         .def_property_readonly("mix_rats", GasState::mix_rats,
             "returns array of mixing ratios")
+        .def("set_mixing_rats", GasState::set_mix_rats,
+            "initializes mixing ratios from a JSON object")
     ;
 
     py::class_<RunPartOpt>(m,

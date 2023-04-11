@@ -15,6 +15,9 @@ from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 GAS_DATA_MINIMAL = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
 
 
+GAS_STATE_MINIMAL = ({"SO2": [0.1]},)
+
+
 class TestGasState:
     @staticmethod
     def test_ctor_valid():
@@ -97,3 +100,34 @@ class TestGasState:
 
         # assert
         assert len(sut.mix_rats) == len(sut)
+
+    @staticmethod
+    def test_set_mix_rats_from_json():
+        # arrange
+        gas_data = ppmc.GasData(
+            (
+                "SO2",
+                "NO2",
+                "NO",
+                "CO",
+            )
+        )
+        sut = ppmc.GasState(gas_data)
+
+        # act
+        GAS_STATE_TEST = ({"SO2": [0.1]}, {"CO": [0.5]})
+        sut.set_mixing_rats(GAS_STATE_TEST)
+
+        # assert
+        mix_rats = sut.mix_rats
+        indexes = []
+        for item in GAS_STATE_TEST:
+            keys = item.keys()
+            assert len(keys) == 1
+            key = tuple(keys)[0]
+            val = tuple(item.values())[0][0]
+            indexes.append(gas_data.spec_by_name(key))
+            assert mix_rats[gas_data.spec_by_name(key)] == val
+        for i_spec in range(gas_data.n_spec):
+            if not i_spec in indexes:
+                assert mix_rats[i_spec] == 0
