@@ -115,19 +115,18 @@ class TestGasState:
         sut = ppmc.GasState(gas_data)
 
         # act
-        GAS_STATE_TEST = ({"SO2": [0.1]}, {"CO": [0.5]})
-        sut.set_mixing_rats(GAS_STATE_TEST)
+        gas_state_init_values = ({"SO2": [0.1]}, {"CO": [0.5]})
+        sut.set_mixing_rats(gas_state_init_values)
 
         # assert
-        mix_rats = sut.mix_rats
-        indexes = []
-        for item in GAS_STATE_TEST:
+        idx_set = []
+        for item in gas_state_init_values:
             keys = item.keys()
             assert len(keys) == 1
             key = tuple(keys)[0]
             val = tuple(item.values())[0][0]
-            indexes.append(gas_data.spec_by_name(key))
-            assert mix_rats[gas_data.spec_by_name(key)] == val
+            idx_set.append(gas_data.spec_by_name(key))
+            assert sut[gas_data.spec_by_name(key)] == val
         for i_spec in range(gas_data.n_spec):
-            if not i_spec in indexes:
-                assert mix_rats[i_spec] == 0
+            if not i_spec in idx_set:
+                assert sut[i_spec] == 0
