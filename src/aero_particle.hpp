@@ -32,6 +32,7 @@ extern "C" void f_aero_particle_density(const void *aero_particle_ptr, const voi
 extern "C" void f_aero_particle_approx_crit_rel_humid(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *approx_crit_rel_humid) noexcept;
 extern "C" void f_aero_particle_crit_rel_humid(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *crit_rel_humid) noexcept;
 extern "C" void f_aero_particle_crit_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state, void *crit_diameter) noexcept;
+extern "C" void f_aero_particle_coagulate(const void *aero_particle_1_ptr, const void *aero_particle_2_ptr, void *new_particle_ptr) noexcept;
 
 namespace py = pybind11;
 struct AeroParticle {
@@ -237,6 +238,18 @@ struct AeroParticle {
             &crit_diameter
         );
         return crit_diameter;
+    }
+
+    static auto coagulate(const AeroParticle &self, const AeroParticle &two) {
+        int len = AeroData::__len__(*self.aero_data);
+        std::valarray<double> data(len);
+        AeroParticle* new_ptr = new AeroParticle(self.aero_data, data);
+        f_aero_particle_coagulate(
+            self.ptr.f_arg(),
+            two.ptr.f_arg(),
+            new_ptr
+        );
+        return new_ptr;
     }
 
 };

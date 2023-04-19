@@ -136,6 +136,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Returns the critical relative humidity (1).")
         .def("crit_diameter", AeroParticle::crit_diameter,
             "Returns the critical diameter (m).")
+        .def("coagulate", AeroParticle::coagulate,
+            "Coagulate two particles together to make a new one. The new particle will not have its ID set.")
     ;
 
     py::class_<AeroState>(m, "AeroState",

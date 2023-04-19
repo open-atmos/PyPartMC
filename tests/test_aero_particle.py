@@ -371,6 +371,7 @@ class TestAeroParticle:
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        env_state.set_temperature(288)
         aero_data = None
         volumes = None
 
@@ -394,6 +395,7 @@ class TestAeroParticle:
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        env_state.set_temperature(288)
         aero_data = None
         volumes = None
 
@@ -417,6 +419,7 @@ class TestAeroParticle:
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        env_state.set_temperature(288)
         aero_data = None
         volumes = None
 
@@ -427,3 +430,27 @@ class TestAeroParticle:
 
         # assert
         assert crit_diameter is not None
+
+    @staticmethod
+    def test_coagulate():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes_1 = [1, 2, 3]
+        volumes_2 = [3, 2, 1]
+        sut = ppmc.AeroParticle(aero_data, volumes_1)
+        aero_particle_2 = ppmc.AeroParticle(aero_data, volumes_2)
+        aero_data = None
+        volumes_1 = None
+        volumes_2 = None
+        gc.collect()
+
+        # act
+        coagulated = sut.coagulate(aero_particle_2)
+
+        # assert
+        assert coagulated.volumes == [4, 4, 4]
