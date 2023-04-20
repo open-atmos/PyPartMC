@@ -232,10 +232,13 @@ class TestAeroState:
         assert False
 
     @staticmethod
-    @pytest.mark.parametrize("args", (
-        (1.0, 0.0, True, True),
-        pytest.param((), id="default args"),
-    ))
+    @pytest.mark.parametrize(
+        "args",
+        (
+            (1.0, 0.0, True, True),
+            pytest.param((), id="default args"),
+        ),
+    )
     def test_dist_sample(args):
         # arrange
         n_part = 44
