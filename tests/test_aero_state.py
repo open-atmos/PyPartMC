@@ -232,12 +232,23 @@ class TestAeroState:
         assert False
 
     @staticmethod
-    def test_dist_sample():
+    @pytest.mark.parametrize(
+        "args",
+        (
+            (1.0, 0.0, True, True),
+            pytest.param((), id="default args"),
+        ),
+    )
+    def test_dist_sample(args):
+        # arrange
         n_part = 44
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(n_part, aero_data)
-        n_added = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
 
+        # act
+        n_added = sut.dist_sample(aero_dist, *args)
+
+        # assert
         assert n_added > n_part * 0.5
         assert n_added < n_part * 2
