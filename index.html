@@ -486,7 +486,7 @@ is typically cleared each time we output data to disk.</p>
 <div class="desc"><p>returns the critical relative humidity of each particle in the population</p></div>
 </dd>
 <dt id="PyPartMC.AeroState.dist_sample"><code class="name flex">
-<span>def <span class="ident">dist_sample</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroDist, arg1: float, arg2: float, arg3: bool, arg4: bool) ‑> int</span>
+<span>def <span class="ident">dist_sample</span></span>(<span>self: _PyPartMC.AeroState, AeroDist: _PyPartMC.AeroDist, sample_prop: float = 1.0, create_time: float = 0.0, allow_doubling: bool = True, allow_halving: bool = True) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"><p>sample particles for AeroState from an AeroDist</p></div>
