@@ -36,7 +36,7 @@ module PyPartMC_aero_particle
     real(c_double), dimension(arr_size), intent(in) :: arr_data
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
-    allocate(ptr_f%vol(arr_size))
+    call aero_particle_zero(ptr_f, aero_data_ptr_f)
     call aero_particle_set_vols(ptr_f, arr_data)
   end subroutine
 
@@ -348,6 +348,6 @@ module PyPartMC_aero_particle
       )
 
     aero_particle_new_ptr_c = c_loc(aero_particle_new_ptr_f)
-end subroutine
+  end subroutine
 
 end module
