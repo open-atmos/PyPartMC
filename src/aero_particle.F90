@@ -350,4 +350,41 @@ module PyPartMC_aero_particle
     aero_particle_new_ptr_c = c_loc(aero_particle_new_ptr_f)
   end subroutine
 
+  subroutine f_aero_particle_zero( &
+      aero_particle_ptr_c, &
+      aero_data_ptr_c &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c, aero_data_ptr_c
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    call aero_particle_zero( &
+      aero_particle_ptr_f, &
+      aero_data_ptr_f &
+    )
+  end subroutine
+
+  subroutine f_aero_particle_set_vols( &
+      aero_particle_ptr_c, &
+      vol_size, &
+      volumes &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(in) :: vol_size
+    real(c_double), dimension(vol_size), intent(in) :: volumes
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    call aero_particle_set_vols( &
+      aero_particle_ptr_f, &
+      volumes &
+    )
+  end subroutine
+
 end module

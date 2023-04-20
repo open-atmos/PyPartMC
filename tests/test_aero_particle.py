@@ -454,3 +454,45 @@ class TestAeroParticle:
 
         # assert
         assert coagulated.volumes == [4, 4, 4]
+
+    @staticmethod
+    def test_zero():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
+
+        # act
+        sut.zero()
+
+        # assert
+        assert sut.volumes == [0, 0, 0]
+
+    @staticmethod
+    def test_set_vols():
+        # arrange
+        aero_data_arg = (
+            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
+            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
+            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
+        )
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
+
+        # act
+        sut.set_vols([3, 2, 1])
+
+        # assert
+        assert sut.volumes == [3, 2, 1]

@@ -33,6 +33,8 @@ extern "C" void f_aero_particle_approx_crit_rel_humid(const void *aero_particle_
 extern "C" void f_aero_particle_crit_rel_humid(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *crit_rel_humid) noexcept;
 extern "C" void f_aero_particle_crit_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state, void *crit_diameter) noexcept;
 extern "C" void f_aero_particle_coagulate(const void *aero_particle_1_ptr, const void *aero_particle_2_ptr, void *new_particle_ptr) noexcept;
+extern "C" void f_aero_particle_zero(void *aero_particle_ptr, const void *aero_data_ptr) noexcept;
+extern "C" void f_aero_particle_set_vols(void *aero_particle_ptr, const int *vol_size, const void *volumes) noexcept;
 
 namespace py = pybind11;
 struct AeroParticle {
@@ -250,6 +252,24 @@ struct AeroParticle {
             new_ptr
         );
         return new_ptr;
+    }
+
+    static void zero(AeroParticle &self) {
+        f_aero_particle_zero(
+            self.ptr.f_arg_non_const(),
+            self.aero_data.get()
+        );
+    }
+
+    static void set_vols(AeroParticle &self, const std::valarray<double>&volumes) {
+        int len = AeroData::__len__(*self.aero_data.get());
+        if (volumes.size() != size_t(len))
+            throw std::runtime_error("AeroData size mistmatch");
+        f_aero_particle_set_vols(
+            self.ptr.f_arg_non_const(),
+            &len,
+            begin(volumes)
+        );
     }
 
 };

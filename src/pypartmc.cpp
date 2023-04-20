@@ -138,6 +138,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Returns the critical diameter (m).")
         .def("coagulate", AeroParticle::coagulate,
             "Coagulate two particles together to make a new one. The new particle will not have its ID set.")
+        .def("zero", AeroParticle::zero,
+            "Resets an aero_particle to be zero.")
+        .def("set_vols", AeroParticle::set_vols,
+            "Sets the aerosol particle volumes.")
     ;
 
     py::class_<AeroState>(m, "AeroState",
