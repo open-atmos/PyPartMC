@@ -69,18 +69,17 @@ struct Scenario {
         return self.json.dump();
     }   
 
-static void init_env_state(
-    const Scenario &self,
-    EnvState &env_state,
-    const double time
-) {
-    f_scenario_init_env_state(
-         self.ptr.f_arg(),
-         env_state.ptr.f_arg_non_const(),
-         &time
-    );
-}
-
+    static void init_env_state(
+        const Scenario &self,
+        EnvState &env_state,
+        const double time
+    ) {
+        f_scenario_init_env_state(
+            self.ptr.f_arg(),
+            env_state.ptr.f_arg_non_const(),
+            &time
+        );
+    }
 };
 
 double loss_rate(

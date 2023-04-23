@@ -100,7 +100,7 @@ module pmc_spec_file
         type(spec_file_t), intent(in) :: file
         type(spec_line_t), intent(in) :: line
         character(len=*), intent(in) :: name
-        if (line%name /= name) then
+        if (line%name(1:len(name)) /= name) then
             print*, 'line must begin with: ' // trim(name) // ' not: ' // trim(line%name)
             call pmc_stop(462932478)
         end if
@@ -115,10 +115,14 @@ module pmc_spec_file
         integer :: row, col, n_rows, n_cols, name_size;
 
         call c_spec_file_read_real_named_array_size(n_rows, n_cols)
+
+        if (max_lines .ne. 0 .and. max_lines .lt. n_rows) then
+            n_rows = max_lines
+        end if
+
         allocate(names(n_rows))
         allocate(vals(n_rows, n_cols))
         allocate(vals_row(n_cols))
-        ! TODO #112: handle max_lines
         do row = 1, n_rows
             name_size = len(names(row))
             call c_spec_file_read_real_named_array_data( &

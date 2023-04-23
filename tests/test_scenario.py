@@ -161,3 +161,23 @@ class TestScenario:
 
         # act
         _ = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+
+    @staticmethod
+    @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
+    @pytest.mark.xfail
+    def test_time_varying_aero(key):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
+        scenario_ctor_arg[key] = [
+            {"time": [0, 1, 2, 3, 4]},
+            {"rate": [0, 10, 100, 1000, 10000]},
+            {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]] * 5},
+        ]
+        import json
+
+        print(json.dumps(scenario_ctor_arg, sort_keys=True, indent=4))
+
+        # act
+        sut = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
