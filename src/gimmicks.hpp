@@ -73,7 +73,9 @@ struct Gimmick {
         auto it = this->json->is_array() 
             ? this->json->at(this->json->size()-1).find(sub)
             : this->json->find(sub);
-        // TODO #112: handle errors
+
+        assert(*it != NULL);
+
         this->json_parent.push(this->json);
         this->set_current_json_ptr(&(*it));
     }
