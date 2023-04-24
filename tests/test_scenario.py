@@ -175,9 +175,7 @@ class TestScenario:
             {"rate": [0, 10, 100, 1000, 10000]},
             {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]] * 5},
         ]
-        import json
-
         print(json.dumps(scenario_ctor_arg, sort_keys=True, indent=4))
 
         # act
-        sut = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+        _ = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
