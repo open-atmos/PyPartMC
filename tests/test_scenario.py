@@ -164,7 +164,7 @@ class TestScenario:
 
     @staticmethod
     @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
-    @pytest.mark.xfail
+    @pytest.mark.skip(reason="TODO #206")
     def test_time_varying_aero(key):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
