@@ -162,7 +162,9 @@ module pmc_spec_file
         type(spec_line_t), intent(in) :: line
         integer, intent(in) :: length
         if (size(line%data) /= length) then
-            print*, 'expected ' // trim(integer_to_string(length)) // ' data items on line, not ' // trim(integer_to_string(size(line%data)))
+            print*, 'expected ' // trim(integer_to_string(length)) &
+                                // ' data items on line, not ' &
+                                // trim(integer_to_string(size(line%data)))
             call pmc_stop(189339129)
         end if
     end subroutine
