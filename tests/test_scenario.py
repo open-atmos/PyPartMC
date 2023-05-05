@@ -26,12 +26,12 @@ SCENARIO_CTOR_ARG_MINIMAL = {
     "aero_emissions": [
         {"time": [0]},
         {"rate": [0]},
-        {"dist": [AERO_MODE_CTOR_LOG_NORMAL]},
+        {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]]},
     ],
     "aero_background": [
         {"time": [0]},
         {"rate": [0]},
-        {"dist": [AERO_MODE_CTOR_LOG_NORMAL]},
+        {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]]},
     ],
     "loss_function": "none",
 }
@@ -70,12 +70,12 @@ class TestScenario:
                     "aero_emissions": [
                         {"time": [0]},
                         {"rate": [0]},
-                        {"dist": [AERO_MODE_CTOR_LOG_NORMAL]},
+                        {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]]},
                     ],
                     "aero_background": [
                         {"time": [0]},
                         {"rate": [0]},
-                        {"dist": [AERO_MODE_CTOR_LOG_NORMAL]},
+                        {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]]},
                     ],
                     "loss_function": "none",
                 },
@@ -155,8 +155,10 @@ class TestScenario:
         scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
         for entry in ("aero_emissions", "aero_background"):
             scenario_ctor_arg[entry][-1]["dist"] = [
-                {"A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
-                {"B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
+                [
+                    {"A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
+                    {"B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
+                ]
             ]
 
         # act
@@ -164,7 +166,6 @@ class TestScenario:
 
     @staticmethod
     @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
-    @pytest.mark.skip(reason="TODO #206")
     def test_time_varying_aero(key):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -175,7 +176,30 @@ class TestScenario:
             {"rate": [0, 10, 100, 1000, 10000]},
             {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]] * 5},
         ]
-        print(json.dumps(scenario_ctor_arg, sort_keys=True, indent=4))
+
+        # act
+        _ = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+
+    @staticmethod
+    @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
+    def test_time_varying_aero_multimode(key):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
+        scenario_ctor_arg[key] = [
+            {"time": [0, 1, 2, 3, 4]},
+            {"rate": [0, 10, 100, 1000, 10000]},
+            {
+                "dist": [
+                    [
+                        {"A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
+                        {"B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
+                    ]
+                ]
+                * 5
+            },
+        ]
 
         # act
         _ = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)

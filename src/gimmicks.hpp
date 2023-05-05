@@ -26,6 +26,8 @@ struct Gimmick {
     }
 
   protected:
+    size_t index = 0;
+
     Gimmick() {}
 
     Gimmick(const nlohmann::json &json) {
@@ -75,9 +77,13 @@ struct Gimmick {
             : this->json->find(sub);
 
         assert(*it != NULL);
-
         this->json_parent.push(this->json);
-        this->set_current_json_ptr(&(*it));
+
+        if (sub == "dist")  // TODO: do better than hardcoding "dist"...
+            this->set_current_json_ptr(&(it->at(this->n_elements(sub) - this->index--)));
+        else
+            this->set_current_json_ptr(&(*it));
+
     }
 
     void zoom_out() noexcept {
@@ -86,7 +92,7 @@ struct Gimmick {
         this->json_parent.pop();
     }
 
-    auto zoom_level() noexcept {
+    auto zoom_level() const noexcept {
         auto level = this->json_parent.size();
         return level;
     }
@@ -110,7 +116,7 @@ struct Gimmick {
         return name;
     }
 
-    auto n_elements(const bpstd::string_view &name) noexcept {
+    std::size_t n_elements(const bpstd::string_view &name) const noexcept {
         std::size_t n_elem = 0;
         for (auto i=0u; i<this->json->size(); ++i) {
             for (auto &entry : this->json->at(i).items()) {
@@ -205,6 +211,8 @@ struct Gimmick {
     virtual std::string str() const = 0;
 
     virtual bool read_line(std::string &name, std::string &data) = 0;
+    
+    virtual int read_line_data_size_and_start_enumerating() = 0;
 };
 
 struct InputGimmick: Gimmick {
@@ -220,7 +228,8 @@ struct InputGimmick: Gimmick {
         const std::string key_name = "",
         const std::size_t max_zoom_level = 3
     ) : Gimmick(json), key_cond(key_cond), key_name(key_name), max_zoom_level(max_zoom_level)
-    {}
+    {
+    }
 
     std::string str() const {
         throw std::logic_error("str() called on InputGimmick!");
@@ -233,7 +242,10 @@ struct InputGimmick: Gimmick {
 
             auto key = this->next_dict_key(this->last_read_line_key, this->key_cond);
             if (key == "") {
-                this->last_read_line_key = "";
+                if (this->index == 0)
+                    this->last_read_line_key = "";
+                else
+                    this->last_read_line_key = this->key_cond;
                 return true;
             }
             else
@@ -252,6 +264,14 @@ struct InputGimmick: Gimmick {
 
         return false;
     }
+
+    int read_line_data_size_and_start_enumerating() {
+        if (this->zoom_level() == this->max_zoom_level - 2) {
+            this->index = this->n_elements(this->key_cond);
+            return this->index;
+        }
+        return 1;
+    }
 };
 
 struct OutputGimmick: Gimmick {
@@ -267,6 +287,10 @@ struct OutputGimmick: Gimmick {
 
     bool read_line(std::string &, std::string &) {
         throw std::logic_error("read_line() called on OutputGimmick!");
+    }
+
+    int read_line_data_size_and_start_enumerating() {
+        throw std::logic_error("read_line_data_size_and_start_enumerating() called on OutputGimmick!");
     }
 };
 
