@@ -79,7 +79,7 @@ struct Gimmick {
         assert(*it != NULL);
         this->json_parent.push(this->json);
 
-        if (sub == "dist")  // TODO: do better than hardcoding "dist"...
+        if (sub == "dist")  // TODO #112: do better than hardcoding "dist"...
             this->set_current_json_ptr(&(it->at(this->n_elements(sub) - this->index--)));
         else
             this->set_current_json_ptr(&(*it));
