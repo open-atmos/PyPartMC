@@ -107,10 +107,7 @@ module pmc_spec_file
         character(len=*), intent(in) :: name
         integer :: substr_len
 
-        !substr_len = index(name, "[")
-        !if (substr_len .eq. 0) then
-            substr_len = len(name)
-        !end if
+        substr_len = len(name)
 
         if (line%name(1:substr_len) /= name(1:substr_len)) then
             print*, 'line must begin with: ' // trim(name) // ' not: ' // trim(line%name)
