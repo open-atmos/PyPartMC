@@ -207,6 +207,12 @@ void c_spec_file_read_real_named_array_data(
 
 /*********************************************************************************/
 extern "C"
+void c_spec_file_read_line_data_size(int *size) noexcept {
+    *size = gimmick_ptr()->read_line_data_size_and_start_enumerating();
+}
+
+/*********************************************************************************/
+extern "C"
 void c_spec_file_read_line(
     char *name_data,
     int *name_size,
