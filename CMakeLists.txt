@@ -287,7 +287,7 @@ target_link_libraries(partmclib PRIVATE camplib)
 target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
 target_link_libraries(partmclib PRIVATE klulib)
 if(DEFINED ENV{MOSAIC_HOME})
-  message(STATUS "CI value: $ENV{MOSAIC_HOME}")
+  message(STATUS "MOSAIC enabled: $ENV{MOSAIC_HOME}")
   target_compile_definitions(partmclib PRIVATE PMC_USE_MOSAIC="1")
   find_library(mosaiclib mosaic
       DOC "MOSAIC library"
