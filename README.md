@@ -78,6 +78,7 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 - JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
 - PartMC and selected parts of SUNDIALS are statically linked (and compiled in during `pip install` or `python -m build`) 
 - C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC, CAMP) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
+- MOSAIC dependency is optionally linked through setting the environmental variable MOSAIC_HOME
 - a [mock of Fortran netCDF API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_netcdf.F90) and a [mock of PartMC spec file API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) are used for i/o from/to JSON 
 
 ## Troubleshooting 
