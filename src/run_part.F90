@@ -51,6 +51,12 @@ module PyPartMC_run_part
     call c_f_pointer(gas_data_ptr_c, gas_data_ptr_f)
     call c_f_pointer(gas_state_ptr_c, gas_state_ptr_f)
     call c_f_pointer(run_part_opt_ptr_c, run_part_opt_ptr_f)
+
+    if (env_state_ptr_f%elapsed_time < run_part_opt_ptr_f%del_t) then
+       call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
+            run_part_opt_ptr_f%do_optical)
+    end if
+
     call run_part( &
       scenario_ptr_f, &
       env_state_ptr_f, &
@@ -127,9 +133,9 @@ module PyPartMC_run_part
     progress_n_dil_out = 0
     progress_n_nuc = 0
 
-    if (almost_equal(env_state_ptr_f%elapsed_time, 0.0d0)) then
-    call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
-            .false.)
+    if (env_state_ptr_f%elapsed_time < run_part_opt_ptr_f%del_t) then
+       call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
+            run_part_opt_ptr_f%do_optical)
     end if
     call run_part_timestep(scenario_ptr_f, env_state_ptr_f, aero_data_ptr_f, aero_state_ptr_f, &
        gas_data_ptr_f, gas_state_ptr_f, run_part_opt_ptr_f, camp_core_ptr_f, photolysis_ptr_f, &
@@ -207,6 +213,11 @@ module PyPartMC_run_part
     progress_n_dil_in = 0
     progress_n_dil_out = 0
     progress_n_nuc = 0
+
+    if (env_state_ptr_f%elapsed_time < run_part_opt_ptr_f%del_t) then
+       call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
+            run_part_opt_ptr_f%do_optical)
+    end if
 
     call run_part_timeblock(scenario_ptr_f, env_state_ptr_f, aero_data_ptr_f, aero_state_ptr_f, &
        gas_data_ptr_f, gas_state_ptr_f, run_part_opt_ptr_f, camp_core_ptr_f, photolysis_ptr_f, &

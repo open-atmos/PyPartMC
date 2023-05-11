@@ -16,6 +16,7 @@ RUN_PART_OPT_CTOR_ARG_MINIMAL = {
     "do_parallel": False,
     "do_nucleation": False,
     "do_mosaic": False,
+    "do_optical": False,
     "do_condensation": False,
     "do_camp_chem": False,
     "t_max": 0,

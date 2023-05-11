@@ -74,6 +74,13 @@ module PyPartMC_run_part_opt
                'cannot use MOSAIC, support is not compiled in')
        end if
 
+       if (run_part_opt%do_mosaic) then
+          call spec_file_read_logical(file, 'do_optical', &
+               run_part_opt%do_optical)
+       else
+          run_part_opt%do_optical = .false.
+       end if
+
        call spec_file_read_logical(file, 'do_nucleation', &
             run_part_opt%do_nucleation)
        if (run_part_opt%do_nucleation) then
