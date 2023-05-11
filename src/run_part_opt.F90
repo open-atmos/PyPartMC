@@ -48,7 +48,7 @@ module PyPartMC_run_part_opt
         call spec_file_read_logical(file, 'do_parallel', run_part_opt%do_parallel)
        if (run_part_opt%do_parallel) then
 #ifndef PMC_USE_MPI
-          call spec_file_die_msg(929006383, file, &
+          call spec_file_die_msg(929006384, file, &
                'cannot use parallel mode, support is not compiled in')
 #endif
           call spec_file_read_output_type(file, run_part_opt%output_type)
@@ -68,32 +68,52 @@ module PyPartMC_run_part_opt
           run_part_opt%parallel_coag_type = PARALLEL_COAG_TYPE_LOCAL
        end if
 
+       call spec_file_read_logical(file, 'do_mosaic', run_part_opt%do_mosaic)
+       if (run_part_opt%do_mosaic .and. (.not. mosaic_support())) then
+          call spec_file_die_msg(230495366, file, &
+               'cannot use MOSAIC, support is not compiled in')
+       end if
+
        call spec_file_read_logical(file, 'do_nucleation', &
             run_part_opt%do_nucleation)
-       !if (run_part_opt%do_nucleation) then
-       !   call spec_file_read_nucleate_type(file, aero_data, &
-       !        run_part_opt%nucleate_type, run_part_opt%nucleate_source)
-       !else
-       run_part_opt%nucleate_type = NUCLEATE_TYPE_INVALID
-       !end if
+       if (.not.  run_part_opt%do_nucleation) then
+          call spec_file_die_msg(230495367, file, &
+               'cannot use nucleation, support is not compiled in')
+       end if
+!       if (run_part_opt%do_nucleation) then
+!          call spec_file_read_nucleate_type(file, aero_data, &
+!               run_part_opt%nucleate_type, run_part_opt%nucleate_source)
+!       else
+!          run_part_opt%nucleate_type = NUCLEATE_TYPE_INVALID
+!       end if
 
        call spec_file_read_logical(file, 'do_condensation', &
             run_part_opt%do_condensation)
+#ifndef PMC_USE_SUNDIALS
+       call assert_msg(121370218, &
+            run_part_opt%do_condensation .eqv. .false., &
+            "cannot use condensation, SUNDIALS support is not compiled in")
+#endif
 
-        call spec_file_read_real(file, 't_max', run_part_opt%t_max)
-        call spec_file_read_real(file, 'del_t', run_part_opt%del_t)
-        call spec_file_read_real(file, 't_output', run_part_opt%t_output)
-        call spec_file_read_real(file, 't_progress', run_part_opt%t_progress)
+       if (run_part_opt%do_mosaic .and. run_part_opt%do_condensation) then
+          call spec_file_die_msg(599877805, file, &
+               'cannot use MOSAIC and condensation simultaneously')
+       end if
 
-        call spec_file_read_integer(file, 'rand_init', rand_init)
-        call spec_file_read_logical(file, 'allow_doubling', run_part_opt%allow_doubling)
-        call spec_file_read_logical(file, 'allow_halving', run_part_opt%allow_halving)
+       call spec_file_read_real(file, 't_max', run_part_opt%t_max)
+       call spec_file_read_real(file, 'del_t', run_part_opt%del_t)
+       call spec_file_read_real(file, 't_output', run_part_opt%t_output)
+       call spec_file_read_real(file, 't_progress', run_part_opt%t_progress)
 
-        call spec_file_read_logical(file, 'do_camp_chem', run_part_opt%do_camp_chem)
+       call spec_file_read_integer(file, 'rand_init', rand_init)
+       call spec_file_read_logical(file, 'allow_doubling', run_part_opt%allow_doubling)
+       call spec_file_read_logical(file, 'allow_halving', run_part_opt%allow_halving)
 
-        run_part_opt%output_type = OUTPUT_TYPE_SINGLE
+       call spec_file_read_logical(file, 'do_camp_chem', run_part_opt%do_camp_chem)
 
-        call pmc_srand(rand_init, 0)
+       run_part_opt%output_type = OUTPUT_TYPE_SINGLE
+
+       call pmc_srand(rand_init, 0)
 
     end subroutine
 

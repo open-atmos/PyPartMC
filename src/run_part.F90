@@ -127,6 +127,10 @@ module PyPartMC_run_part
     progress_n_dil_out = 0
     progress_n_nuc = 0
 
+    if (almost_equal(env_state_ptr_f%elapsed_time, 0.0d0)) then
+    call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
+            .false.)
+    end if
     call run_part_timestep(scenario_ptr_f, env_state_ptr_f, aero_data_ptr_f, aero_state_ptr_f, &
        gas_data_ptr_f, gas_state_ptr_f, run_part_opt_ptr_f, camp_core_ptr_f, photolysis_ptr_f, &
        i_time, t_start, last_output_time, &
