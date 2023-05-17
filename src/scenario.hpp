@@ -53,6 +53,16 @@ extern "C" void f_scenario_aero_emission_n_times(
     const void *scenario,
     int *n_times
 ) noexcept;
+extern "C" void f_scenario_emission_rates(
+    const void *scenario,
+    double *rates,
+    const int *len
+) noexcept;
+extern "C" void f_scenario_emission_time(
+    const void *scenario,
+    double *times,
+    const int *len
+) noexcept;
 
 struct Scenario {
     PMCResource ptr;
@@ -105,6 +115,34 @@ struct Scenario {
         f_scenario_aero_emission_n_times(self.ptr.f_arg(), &len);
 
         return len;
+    }
+
+    static auto emission_rate_scale(const Scenario &self) {
+        int len;
+
+        f_scenario_aero_emission_n_times(self.ptr.f_arg(), &len);
+        std::valarray<double> rates(len);
+        f_scenario_emission_rates(
+            self.ptr.f_arg(),
+            begin(rates),
+            &len
+        );
+
+        return rates;
+    }
+
+    static auto emission_time(const Scenario &self) {
+        int len;
+
+        f_scenario_aero_emission_n_times(self.ptr.f_arg(), &len);
+        std::valarray<double> times(len);
+        f_scenario_emission_time(
+            self.ptr.f_arg(),
+            begin(times),
+            &len
+        );
+
+        return times;
     }
 
 };
