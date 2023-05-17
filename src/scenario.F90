@@ -109,4 +109,18 @@ module PyPartMC_scenario
 
   end subroutine
 
+  subroutine f_scenario_aero_dist_emission(scenario_ptr_c, aero_dist_ptr_c, index) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c, aero_dist_ptr_c
+    integer(c_int), intent(in) :: index
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    type(aero_dist_t), pointer :: aero_dist_ptr_f => null()
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+    call c_f_pointer(aero_dist_ptr_c, aero_dist_ptr_f)
+
+    aero_dist_ptr_f = scenario_ptr_f%aero_emission(index + 1)
+
+  end subroutine
+
 end module
