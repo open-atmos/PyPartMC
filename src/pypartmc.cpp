@@ -263,7 +263,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns a string with JSON representation of the object")
         .def("init_env_state", Scenario::init_env_state,
             "initializes the EnvState")
-        .def("emissions", Scenario::get_dist)
+        .def("emissions", Scenario::get_dist, "returns AeroDists at a given index")
+        .def("emissions_n_times", Scenario::get_emissions_n_times,
+            "returns the number of times specified for emissions")
     ;
 
     py::class_<GasState>(m,
