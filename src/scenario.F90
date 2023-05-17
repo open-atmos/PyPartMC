@@ -123,4 +123,16 @@ module PyPartMC_scenario
 
   end subroutine
 
+  subroutine f_scenario_aero_emission_n_times(scenario_ptr_c, n_times) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c
+    integer(c_int), intent(out) :: n_times
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+
+    n_times = size(scenario_ptr_f%aero_emission_time)
+
+  end subroutine
+
 end module

@@ -49,6 +49,10 @@ extern "C" void f_scenario_aero_dist_emission(
     const void *aero_dist,
     const int *idx
 ) noexcept;
+extern "C" void f_scenario_aero_emission_n_times(
+    const void *scenario,
+    int *n_times
+) noexcept;
 
 struct Scenario {
     PMCResource ptr;
@@ -94,6 +98,13 @@ struct Scenario {
         f_scenario_aero_dist_emission(self.ptr.f_arg(), ptr, &idx);
 
         return ptr;
+    }
+
+    static auto get_emissions_n_times(const Scenario &self) {
+        int len;
+        f_scenario_aero_emission_n_times(self.ptr.f_arg(), &len);
+
+        return len;
     }
 
 };

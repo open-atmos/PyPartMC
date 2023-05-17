@@ -182,8 +182,8 @@ class TestScenario:
         scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
 
     #        for i in range(5):
-    #            dist = scenario.emissions(aero_data, i)
-    #            assert dist.n_mode == 1
+    #           dist = scenario.emissions(aero_data, i)
+    #           assert dist.n_mode == 1
 
     @staticmethod
     @pytest.mark.parametrize("key", ["aero_emissions"])
@@ -211,6 +211,9 @@ class TestScenario:
 
         # act
         scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
-        for i in range(5):
+        assert scenario.emissions_n_times() == len(
+            list(scenario_ctor_arg[key][0].values())[0]
+        )
+        for i in range(scenario.emissions_n_times()):
             dist = scenario.emissions(aero_data, i)
             assert dist.n_mode == 2
