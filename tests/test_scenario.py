@@ -170,7 +170,7 @@ class TestScenario:
         emissions = sut.emissions(aero_data, 0)
         expected_mode_names = ("A", "B")
         actual_mode_names = tuple(
-            [emissions.mode(i).name for i in range(emissions.n_mode)]
+            emissions.mode(i).name for i in range(emissions.n_mode)
         )
         assert expected_mode_names == actual_mode_names
         # TODO #207 : same for background

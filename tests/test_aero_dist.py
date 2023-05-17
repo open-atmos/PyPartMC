@@ -90,7 +90,7 @@ class TestAeroDist:
 
         # assert
         expected_modes = tuple(mode_map.keys())
-        actual_modes = tuple([sut.mode(i).name for i in range(sut.n_mode)])
+        actual_modes = tuple(sut.mode(i).name for i in range(sut.n_mode))
         assert expected_modes == actual_modes
 
     @staticmethod
