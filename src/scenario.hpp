@@ -9,6 +9,7 @@
 #include "gimmicks.hpp"
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
+#include "aero_dist.hpp"
 #include "env_state.hpp"
 #include "gas_data.hpp"
 
@@ -42,6 +43,11 @@ extern "C" void f_scenario_init_env_state(
     const void *scenario,
     void *env_state,
     const double *time
+) noexcept;
+extern "C" void f_scenario_aero_dist_emission(
+    const void *scenario,
+    const void *aero_dist,
+    const int *idx
 ) noexcept;
 
 struct Scenario {
@@ -80,6 +86,16 @@ struct Scenario {
             &time
         );
     }
+
+    static AeroDist* get_dist(const Scenario &self, const AeroData &aero_data, const int &idx) {
+//        if (idx < 0 || idx >= AeroDist::get_n_mode(self))
+//            throw std::out_of_range("Index out of range");
+        AeroDist *ptr = new AeroDist();
+        f_scenario_aero_dist_emission(self.ptr.f_arg(), ptr, &idx);
+
+        return ptr;
+    }
+
 };
 
 double loss_rate(
