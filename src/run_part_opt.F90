@@ -83,6 +83,7 @@ module PyPartMC_run_part_opt
 
        call spec_file_read_logical(file, 'do_nucleation', &
             run_part_opt%do_nucleation)
+       !!! TODO #214
        if (run_part_opt%do_nucleation) then
           call spec_file_die_msg(230495367, file, &
                'cannot use nucleation, support is not compiled in')
