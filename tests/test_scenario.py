@@ -173,6 +173,7 @@ class TestScenario:
             [emissions.mode(i).name for i in range(emissions.n_mode)]
         )
         assert expected_mode_names == actual_mode_names
+        # TODO #207 : same for background
 
     @staticmethod
     @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
@@ -231,6 +232,7 @@ class TestScenario:
             assert rate_scale[i] == list(scenario_ctor_arg[key][1]["rate"])[i]
             assert dist.n_mode == len(list(scenario_ctor_arg[key][2]["dist"][i])[0])
             for i_mode in range(dist.n_mode):
+                assert dist.mode(i_mode).name == ("A", "B")[i_mode]
                 assert (
                     dist.mode(i_mode).num_conc
                     == list(scenario_ctor_arg[key][2].values())[0][i][0][
