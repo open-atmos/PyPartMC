@@ -361,6 +361,10 @@ m^3) of the i'th aerosol species.</p>
 </ul>
 <h3>Instance variables</h3>
 <dl>
+<dt id="PyPartMC.AeroParticle.density"><code class="name">var <span class="ident">density</span></code></dt>
+<dd>
+<div class="desc"><p>Average density of the particle (kg/m^3)</p></div>
+</dd>
 <dt id="PyPartMC.AeroParticle.diameter"><code class="name">var <span class="ident">diameter</span></code></dt>
 <dd>
 <div class="desc"><p>Total diameter of the particle (m).</p></div>
@@ -380,6 +384,10 @@ m^3) of the i'th aerosol species.</p>
 <dt id="PyPartMC.AeroParticle.mass"><code class="name">var <span class="ident">mass</span></code></dt>
 <dd>
 <div class="desc"><p>Total mass of the particle (kg).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.moles"><code class="name">var <span class="ident">moles</span></code></dt>
+<dd>
+<div class="desc"><p>Total moles in the particle (1).</p></div>
 </dd>
 <dt id="PyPartMC.AeroParticle.radius"><code class="name">var <span class="ident">radius</span></code></dt>
 <dd>
@@ -404,6 +412,42 @@ m^3) of the i'th aerosol species.</p>
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="PyPartMC.AeroParticle.approx_crit_rel_humid"><code class="name flex">
+<span>def <span class="ident">approx_crit_rel_humid</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: _PyPartMC.EnvState) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the approximate critical relative humidity (1).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.coagulate"><code class="name flex">
+<span>def <span class="ident">coagulate</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: _PyPartMC.AeroParticle) ‑> _PyPartMC.AeroParticle</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Coagulate two particles together to make a new one. The new particle will not have its ID set.</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.crit_diameter"><code class="name flex">
+<span>def <span class="ident">crit_diameter</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: _PyPartMC.EnvState) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the critical diameter (m).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.crit_rel_humid"><code class="name flex">
+<span>def <span class="ident">crit_rel_humid</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: _PyPartMC.EnvState) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the critical relative humidity (1).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.mobility_diameter"><code class="name flex">
+<span>def <span class="ident">mobility_diameter</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: _PyPartMC.EnvState) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Mobility diameter of the particle (m).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.set_vols"><code class="name flex">
+<span>def <span class="ident">set_vols</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: List[float])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sets the aerosol particle volumes.</p></div>
+</dd>
 <dt id="PyPartMC.AeroParticle.species_mass"><code class="name flex">
 <span>def <span class="ident">species_mass</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: int) ‑> float</span>
 </code></dt>
@@ -415,6 +459,12 @@ m^3) of the i'th aerosol species.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Volume of a single species in the particle (m^3).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.zero"><code class="name flex">
+<span>def <span class="ident">zero</span></span>(<span>self: _PyPartMC.AeroParticle)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Resets an aero_particle to be zero.</p></div>
 </dd>
 </dl>
 </dd>
@@ -801,19 +851,28 @@ aero_dist_interp_1d(), respectively.</p>
 </li>
 <li>
 <h4><code><a title="PyPartMC.AeroParticle" href="#PyPartMC.AeroParticle">AeroParticle</a></code></h4>
-<ul class="two-column">
+<ul class="">
+<li><code><a title="PyPartMC.AeroParticle.approx_crit_rel_humid" href="#PyPartMC.AeroParticle.approx_crit_rel_humid">approx_crit_rel_humid</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.coagulate" href="#PyPartMC.AeroParticle.coagulate">coagulate</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.crit_diameter" href="#PyPartMC.AeroParticle.crit_diameter">crit_diameter</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.crit_rel_humid" href="#PyPartMC.AeroParticle.crit_rel_humid">crit_rel_humid</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.density" href="#PyPartMC.AeroParticle.density">density</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.diameter" href="#PyPartMC.AeroParticle.diameter">diameter</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.dry_diameter" href="#PyPartMC.AeroParticle.dry_diameter">dry_diameter</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.dry_radius" href="#PyPartMC.AeroParticle.dry_radius">dry_radius</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.dry_volume" href="#PyPartMC.AeroParticle.dry_volume">dry_volume</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.mass" href="#PyPartMC.AeroParticle.mass">mass</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.mobility_diameter" href="#PyPartMC.AeroParticle.mobility_diameter">mobility_diameter</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.moles" href="#PyPartMC.AeroParticle.moles">moles</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.radius" href="#PyPartMC.AeroParticle.radius">radius</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.set_vols" href="#PyPartMC.AeroParticle.set_vols">set_vols</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.solute_kappa" href="#PyPartMC.AeroParticle.solute_kappa">solute_kappa</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.species_mass" href="#PyPartMC.AeroParticle.species_mass">species_mass</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.species_masses" href="#PyPartMC.AeroParticle.species_masses">species_masses</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.species_volume" href="#PyPartMC.AeroParticle.species_volume">species_volume</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.volume" href="#PyPartMC.AeroParticle.volume">volume</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.volumes" href="#PyPartMC.AeroParticle.volumes">volumes</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.zero" href="#PyPartMC.AeroParticle.zero">zero</a></code></li>
 </ul>
 </li>
 <li>
