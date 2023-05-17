@@ -8,6 +8,8 @@
 
 #include "pmc_resource.hpp"
 #include "pybind11/stl.h"
+#include "aero_data.hpp"
+#include "bin_grid.hpp"
 
 extern "C" void f_aero_mode_ctor(
     void *ptr
@@ -92,6 +94,16 @@ extern "C" void f_aero_mode_set_type(
 extern "C" void f_aero_mode_get_type(
     const void *ptr,
     int *val
+) noexcept;
+
+extern "C" void f_aero_mode_set_name(
+    void *ptr,
+    const char *name_data, const int *name_size
+) noexcept;
+
+extern "C" void f_aero_mode_get_name(
+    const void *ptr,
+    char **name_data, int *name_size
 ) noexcept;
 
 extern "C" void f_aero_mode_set_sampled(
@@ -269,5 +281,21 @@ struct AeroMode {
             throw std::logic_error("Unknown mode type.");
 
         return AeroMode::types()[type - 1];
+    }
+
+    static void set_name(AeroMode &self, const std::string &name) {
+        int size = name.size();
+        f_aero_mode_set_name(self.ptr.f_arg_non_const(), name.c_str(), &size);
+    }
+
+    static auto get_name(const AeroMode &self) {
+        std::string name;
+        char* f_ptr = NULL;
+        int size = 0;
+        f_aero_mode_get_name(self.ptr.f_arg(), &f_ptr, &size);
+        name.resize(size);
+        for (int i = 0; i < size; ++i)
+          name[i] = f_ptr[i];
+        return name;
     }
 };

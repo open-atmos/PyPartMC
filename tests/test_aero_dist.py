@@ -13,10 +13,14 @@ import pytest
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
-from .test_aero_mode import AERO_MODE_CTOR_LOG_NORMAL
+from .test_aero_mode import AERO_MODE_CTOR_LOG_NORMAL, AERO_MODE_CTOR_LOG_NORMAL_FULL
 
 AERO_DIST_CTOR_ARG_MINIMAL = [
     AERO_MODE_CTOR_LOG_NORMAL,
+]
+
+AERO_DIST_CTOR_ARG_FULL = [
+    AERO_MODE_CTOR_LOG_NORMAL_FULL,
 ]
 
 
@@ -66,6 +70,7 @@ class TestAeroDist:
         for i in range(sut.n_mode):
             assert sut.mode(i).type == modes[i]["mode_type"]
             assert sut.mode(i).num_conc == modes[i]["num_conc"]
+            assert sut.mode(i).name == f"mode_{i}"
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 500))

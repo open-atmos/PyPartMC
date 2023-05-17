@@ -218,4 +218,30 @@ module PyPartMC_aero_mode
 
   end subroutine
   
+  subroutine f_aero_mode_set_name(ptr_c, name_data, name_size) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    character(kind=c_char), dimension(*), intent(in) :: name_data
+    integer(c_int), intent(in) :: name_size
+    integer :: i
+
+    call c_f_pointer(ptr_c, aero_mode)    
+    do i=1, name_size
+      aero_mode%name(i:i) = name_data(i)
+    end do
+    do i=name_size+1, len(aero_mode%name)
+      aero_mode%name(i:i) = " " 
+    end do
+  end subroutine
+
+  subroutine f_aero_mode_get_name(ptr_c, name_data, name_size) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    type(c_ptr), intent(out) :: name_data
+    integer(c_int), intent(out) :: name_size
+
+    call c_f_pointer(ptr_c, aero_mode)
+    name_data = c_loc(aero_mode%name)
+    name_size = len_trim(aero_mode%name)
+  end subroutine
 end module

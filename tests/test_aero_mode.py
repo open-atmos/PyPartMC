@@ -23,6 +23,17 @@ AERO_MODE_CTOR_LOG_NORMAL = {
     }
 }
 
+AERO_MODE_CTOR_LOG_NORMAL_FULL = {
+    "test_mode": {
+        "mass_frac": [{"SO4": [1]}],
+        "diam_type": "geometric",
+        "mode_type": "log_normal",
+        "num_conc": 100 / si.m**3,
+        "geom_mean_diam": 2 * si.um,
+        "log10_geom_std_dev": np.log10(1.6),
+    }
+}
+
 
 class TestAeroMode:
     @staticmethod
@@ -189,3 +200,29 @@ class TestAeroMode:
         mode = modes[tuple(modes.keys())[0]]
         assert sut.num_conc == mode["num_conc"]
         assert sut.type == mode["mode_type"]
+
+    @staticmethod
+    def test_get_name():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_CTOR_LOG_NORMAL)
+
+        # act
+        name = sut.name
+
+        # assert
+        assert tuple(AERO_MODE_CTOR_LOG_NORMAL.keys())[0] == name
+
+    @staticmethod
+    def test_set_name():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_CTOR_LOG_NORMAL)
+        val = "abc"
+        assert sut.name != val
+
+        # act
+        sut.name = val
+
+        # assert
+        assert sut.name == val

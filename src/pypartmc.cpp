@@ -185,6 +185,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the particle of a given index")
         .def("rand_particle", AeroState::get_random_particle,
             "returns a random particle from the population")
+        .def("dist_sample", AeroState::dist_sample,
+            "sample particles for AeroState from an AeroDist",
+            py::arg("AeroDist"), py::arg("sample_prop") = 1.0, py::arg("create_time") = 0.0,
+            py::arg("allow_doubling") = true, py::arg("allow_halving") = true)
     ;
 
     py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData",
@@ -307,8 +311,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "sets the GasState to the size of GasData")
         .def("mix_rat", GasState::mix_rat,
             "returns the mixing ratio of a gas species")
-        .def_property_readonly("mix_rats", GasState::mix_rats,
-            "returns array of mixing ratios")
+        .def_property("mix_rats", &GasState::mix_rats, &GasState::set_mix_rats,
+            "provides access (read of write) to the array of mixing ratios")
     ;
 
     py::class_<RunPartOpt>(m,
@@ -316,6 +320,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Options controlling the execution of run_part()."
     )
         .def(py::init<const nlohmann::json&>())
+        .def_property_readonly("t_max", RunPartOpt::t_max, "total simulation time")
+        .def_property_readonly("del_t", RunPartOpt::del_t, "time step")
     ;
 
     py::class_<BinGrid>(m,"BinGrid")
@@ -328,7 +334,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     py::class_<AeroMode>(m,"AeroMode")
         .def(py::init<AeroData&, const nlohmann::json&>())
         .def_property("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
-             "returns the total number concentration of a mode")
+             "provides access (read or write) to the total number concentration of a mode")
         .def("num_dist", &AeroMode::num_dist,
              "returns the binned number concenration of a mode")
         .def_property("vol_frac", &AeroMode::get_vol_frac,
@@ -341,6 +347,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              &AeroMode::set_gsd)
         .def("set_sample", &AeroMode::set_sampled)
         .def_property("type", &AeroMode::get_type, &AeroMode::set_type)
+        .def_property("name", &AeroMode::get_name, &AeroMode::set_name)
     ;
 
     py::class_<AeroDist>(m,"AeroDist")

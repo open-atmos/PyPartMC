@@ -1,4 +1,4 @@
-name: tests+artifacts+pypi
+name: tests+pypi
 
 defaults:
   run:
@@ -26,7 +26,7 @@ jobs:
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pytest -v -s -We -p no:unraisableexception tests/test_todos_annotated.py
+        run: pytest --durations=10 -v -s -We -p no:unraisableexception tests/test_todos_annotated.py
 
   build:
     needs: [todos_annotated_and_debug_build_ok]
@@ -108,7 +108,7 @@ jobs:
       - run: |
           cd tests
           python -c "import PyPartMC"
-          pytest -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
+          pytest --durations=10 -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
 
 ### uncomment to gain ssh access in case of failure
 #      - if: ${{ failure() }}

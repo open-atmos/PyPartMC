@@ -18,7 +18,7 @@ extern "C" void f_gas_state_set_item(const void *ptr, const int *idx, const doub
 extern "C" void f_gas_state_get_item(const void *ptr, const int *idx, double *val) noexcept;
 extern "C" void f_gas_state_len(const void *ptr, int *len) noexcept;
 extern "C" void f_gas_state_to_json(const void *ptr) noexcept;
-extern "C" void f_gas_state_from_json(const void *ptr) noexcept;
+extern "C" void f_gas_state_from_json(const void *ptr, const void *gasdata_ptr) noexcept;
 extern "C" void f_gas_state_set_size(const void *ptr, const void *gasdata_ptr) noexcept;
 extern "C" void f_gas_state_mix_rats(const void *ptr, const double *data, const int *len);
 
@@ -115,5 +115,13 @@ struct GasState {
              );
         }
         return data;
+    }
+
+    static void set_mix_rats(const GasState &self, const nlohmann::json &json) {
+
+        gimmick_ptr() = std::make_unique<InputGimmick>(json);
+        f_gas_state_from_json(self.ptr.f_arg(),
+             self.gas_data->ptr.f_arg());
+        gimmick_ptr().reset(); // TODO #117: guard
     }
 };
