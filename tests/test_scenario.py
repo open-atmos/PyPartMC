@@ -13,7 +13,7 @@ import pytest
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
-from .test_aero_mode import AERO_MODE_CTOR_LOG_NORMAL
+from .test_aero_mode import AERO_MODE_CTOR_LOG_NORMAL, AERO_MODE_CTOR_LOG_NORMAL_FULL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 
@@ -200,7 +200,7 @@ class TestScenario:
                     [
                         {
                             "A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
-                            "B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
+                            "B": AERO_MODE_CTOR_LOG_NORMAL_FULL["test_mode"],
                         },
                     ]
                 ]
@@ -213,6 +213,17 @@ class TestScenario:
         assert scenario.emissions_n_times == len(
             list(scenario_ctor_arg[key][0].values())[0]
         )
+        rate_scale = scenario.emission_rate_scale
+        times = scenario.emission_time
         for i in range(scenario.emissions_n_times):
             dist = scenario.emissions(aero_data, i)
+            assert times[i] == list(scenario_ctor_arg[key][0]["time"])[i]
+            assert rate_scale[i] == list(scenario_ctor_arg[key][1]["rate"])[i]
             assert dist.n_mode == len(list(scenario_ctor_arg[key][2]["dist"][i])[0])
+            for i_mode in range(dist.n_mode):
+                assert (
+                    dist.mode(i_mode).num_conc
+                    == list(scenario_ctor_arg[key][2].values())[0][i][0][
+                        dist.mode(i_mode).name
+                    ]["num_conc"]
+                )
