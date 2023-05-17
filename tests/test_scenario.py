@@ -156,13 +156,23 @@ class TestScenario:
         for entry in ("aero_emissions", "aero_background"):
             scenario_ctor_arg[entry][-1]["dist"] = [
                 [
-                    {"A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
-                    {"B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"]},
+                    {
+                        "A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
+                        "B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
+                    },
                 ]
             ]
 
         # act
-        _ = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+        sut = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+
+        # assert
+        emissions = sut.emissions(aero_data, 0)
+        expected_mode_names = ("A", "B")
+        actual_mode_names = tuple(
+            [emissions.mode(i).name for i in range(emissions.n_mode)]
+        )
+        assert expected_mode_names == actual_mode_names
 
     @staticmethod
     @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
