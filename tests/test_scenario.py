@@ -210,9 +210,9 @@ class TestScenario:
 
         # act
         scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
-        assert scenario.emissions_n_times() == len(
+        assert scenario.emissions_n_times == len(
             list(scenario_ctor_arg[key][0].values())[0]
         )
-        for i in range(scenario.emissions_n_times()):
+        for i in range(scenario.emissions_n_times):
             dist = scenario.emissions(aero_data, i)
             assert dist.n_mode == 2

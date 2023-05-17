@@ -264,8 +264,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("init_env_state", Scenario::init_env_state,
             "initializes the EnvState")
         .def("emissions", Scenario::get_dist, "returns AeroDists at a given index")
-        .def("emissions_n_times", Scenario::get_emissions_n_times,
+        .def_property_readonly("emissions_n_times", Scenario::get_emissions_n_times,
             "returns the number of times specified for emissions")
+        .def_property_readonly("emission_rate_scale", Scenario::emission_rate_scale)
+        .def_property_readonly("emission_time", Scenario::emission_time)
     ;
 
     py::class_<GasState>(m,

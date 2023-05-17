@@ -135,4 +135,32 @@ module PyPartMC_scenario
 
   end subroutine
 
+  subroutine f_scenario_emission_rates(scenario_ptr_c, emission_rates, &
+    n_times) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    integer(c_int) :: n_times
+    real(c_double) :: emission_rates(n_times)
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+
+    emission_rates = scenario_ptr_f%aero_emission_rate_scale
+
+  end subroutine
+
+  subroutine f_scenario_emission_time(scenario_ptr_c, emission_time, &
+    n_times) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    integer(c_int) :: n_times
+    real(c_double) :: emission_time(n_times)
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+
+    emission_time = scenario_ptr_f%aero_emission_time
+
+  end subroutine
+
 end module
