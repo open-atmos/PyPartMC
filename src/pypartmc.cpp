@@ -124,6 +124,24 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Mass of all species in the particle (kg).")
         .def_property_readonly("solute_kappa", AeroParticle::solute_kappa,
             "Returns the average of the solute kappas (1).")
+        .def_property_readonly("moles", AeroParticle::moles,
+            "Total moles in the particle (1).")
+        .def("mobility_diameter", AeroParticle::mobility_diameter,
+            "Mobility diameter of the particle (m).")
+        .def_property_readonly("density", AeroParticle::density,
+            "Average density of the particle (kg/m^3)")
+        .def("approx_crit_rel_humid", AeroParticle::approx_crit_rel_humid,
+            "Returns the approximate critical relative humidity (1).")
+        .def("crit_rel_humid", AeroParticle::crit_rel_humid,
+            "Returns the critical relative humidity (1).")
+        .def("crit_diameter", AeroParticle::crit_diameter,
+            "Returns the critical diameter (m).")
+        .def("coagulate", AeroParticle::coagulate,
+            "Coagulate two particles together to make a new one. The new particle will not have its ID set.")
+        .def("zero", AeroParticle::zero,
+            "Resets an aero_particle to be zero.")
+        .def("set_vols", AeroParticle::set_vols,
+            "Sets the aerosol particle volumes.")
     ;
 
     py::class_<AeroState>(m, "AeroState",

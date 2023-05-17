@@ -8,6 +8,7 @@
 
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
+#include "env_state.hpp"
 #include "pybind11/stl.h"
 
 extern "C" void f_aero_particle_ctor(void *ptr) noexcept;
@@ -25,7 +26,15 @@ extern "C" void f_aero_particle_mass(const void *aero_particle_ptr, const void *
 extern "C" void f_aero_particle_species_mass(const void *aero_particle_ptr, const int *i_spec, const void *aero_data_ptr, double *mass) noexcept;
 extern "C" void f_aero_particle_species_masses(const void *aero_particle_ptr, const void *aero_data_ptr, const int *size_masses, void *masses) noexcept;
 extern "C" void f_aero_particle_solute_kappa(const void *aero_particle_ptr, const void *aero_data_ptr, void *kappa) noexcept;
-
+extern "C" void f_aero_particle_moles(const void *aero_particle_ptr, const void *aero_data_ptr, void *moles) noexcept;
+extern "C" void f_aero_particle_mobility_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *mobility_diameter) noexcept;
+extern "C" void f_aero_particle_density(const void *aero_particle_ptr, const void *aero_data_ptr, void *density) noexcept;
+extern "C" void f_aero_particle_approx_crit_rel_humid(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *approx_crit_rel_humid) noexcept;
+extern "C" void f_aero_particle_crit_rel_humid(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *crit_rel_humid) noexcept;
+extern "C" void f_aero_particle_crit_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state, void *crit_diameter) noexcept;
+extern "C" void f_aero_particle_coagulate(const void *aero_particle_1_ptr, const void *aero_particle_2_ptr, void *new_particle_ptr) noexcept;
+extern "C" void f_aero_particle_zero(void *aero_particle_ptr, const void *aero_data_ptr) noexcept;
+extern "C" void f_aero_particle_set_vols(void *aero_particle_ptr, const int *vol_size, const void *volumes) noexcept;
 
 namespace py = pybind11;
 struct AeroParticle {
@@ -169,5 +178,98 @@ struct AeroParticle {
         return kappa;
     }
 
-};
+    static auto moles(const AeroParticle &self) {
+        double moles;
+        f_aero_particle_moles(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &moles
+        );
+        return moles;
+    }
 
+    static auto mobility_diameter(const AeroParticle &self, const EnvState &env_state) {
+        double mobility_diameter;
+        f_aero_particle_mobility_diameter(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            env_state.ptr.f_arg(),
+            &mobility_diameter
+        );
+        return mobility_diameter;
+    }
+
+    static auto density(const AeroParticle &self) {
+        double density;
+        f_aero_particle_density(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            &density
+        );
+        return density;
+    }
+
+    static auto approx_crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
+        double approx_crit_rel_humid;
+        f_aero_particle_approx_crit_rel_humid(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            env_state.ptr.f_arg(),
+            &approx_crit_rel_humid
+        );
+        return approx_crit_rel_humid;
+    }
+
+    static auto crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
+        double crit_rel_humid;
+        f_aero_particle_crit_rel_humid(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            env_state.ptr.f_arg(),
+            &crit_rel_humid
+        );
+        return crit_rel_humid;
+    }
+
+    static auto crit_diameter(const AeroParticle &self, const EnvState &env_state) {
+        double crit_diameter;
+        f_aero_particle_crit_diameter(
+            self.ptr.f_arg(),
+            self.aero_data.get(),
+            env_state.ptr.f_arg(),
+            &crit_diameter
+        );
+        return crit_diameter;
+    }
+
+    static auto coagulate(const AeroParticle &self, const AeroParticle &two) {
+        int len = AeroData::__len__(*self.aero_data);
+        std::valarray<double> data(len);
+        AeroParticle* new_ptr = new AeroParticle(self.aero_data, data);
+        f_aero_particle_coagulate(
+            self.ptr.f_arg(),
+            two.ptr.f_arg(),
+            new_ptr
+        );
+        return new_ptr;
+    }
+
+    static void zero(AeroParticle &self) {
+        f_aero_particle_zero(
+            self.ptr.f_arg_non_const(),
+            self.aero_data.get()
+        );
+    }
+
+    static void set_vols(AeroParticle &self, const std::valarray<double>&volumes) {
+        int len = AeroData::__len__(*self.aero_data.get());
+        if (volumes.size() != size_t(len))
+            throw std::runtime_error("AeroData size mistmatch");
+        f_aero_particle_set_vols(
+            self.ptr.f_arg_non_const(),
+            &len,
+            begin(volumes)
+        );
+    }
+
+};
