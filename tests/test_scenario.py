@@ -11,7 +11,6 @@ import json
 import pytest
 
 import PyPartMC as ppmc
-from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_mode import AERO_MODE_CTOR_LOG_NORMAL
@@ -179,7 +178,7 @@ class TestScenario:
         ]
 
         # act
-        scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+        _ = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
 
     #        for i in range(5):
     #           dist = scenario.emissions(aero_data, i)
