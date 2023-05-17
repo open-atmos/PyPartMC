@@ -286,6 +286,17 @@ target_include_directories(partmclib PRIVATE
 target_link_libraries(partmclib PRIVATE camplib)
 target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
 target_link_libraries(partmclib PRIVATE klulib)
+if(DEFINED ENV{MOSAIC_HOME})
+  message(STATUS "MOSAIC enabled: $ENV{MOSAIC_HOME}")
+  target_compile_definitions(partmclib PRIVATE PMC_USE_MOSAIC="1")
+  find_library(mosaiclib mosaic
+      DOC "MOSAIC library"
+      PATHS  $ENV{MOSAIC_HOME})
+  target_link_libraries(partmclib PRIVATE ${mosaiclib})
+  target_include_directories(partmclib PRIVATE
+      $ENV{MOSAIC_HOME}/datamodules
+  )
+endif()
 
 ### PYBIND11 & PyPartMC ############################################################################
 
