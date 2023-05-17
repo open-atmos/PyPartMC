@@ -215,4 +215,4 @@ class TestScenario:
         )
         for i in range(scenario.emissions_n_times):
             dist = scenario.emissions(aero_data, i)
-            assert dist.n_mode == 2
+            assert dist.n_mode == len(list(scenario_ctor_arg[key][2]["dist"][i])[0])
