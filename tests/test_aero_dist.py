@@ -51,7 +51,7 @@ class TestAeroDist:
     @pytest.mark.parametrize(
         "order",
         (
-            lambda n_modes: range(n_modes),
+            range,
             pytest.param(
                 lambda n_modes: reversed(range(n_modes)),
                 marks=(pytest.mark.xfail(strict=True),),
