@@ -63,6 +63,25 @@ extern "C" void f_scenario_emission_time(
     double *times,
     const int *len
 ) noexcept;
+extern "C" void f_scenario_aero_dist_background(
+    const void *scenario,
+    const void *aero_dist,
+    const int *idx
+) noexcept;
+extern "C" void f_scenario_aero_background_n_times(
+    const void *scenario,
+    int *n_times
+) noexcept;
+extern "C" void f_scenario_aero_background_rate_scale(
+    const void *scenario,
+    double *rates,
+    const int *len
+) noexcept;
+extern "C" void f_scenario_aero_background_time(
+    const void *scenario,
+    double *times,
+    const int *len
+) noexcept;
 
 struct Scenario {
     PMCResource ptr;
@@ -137,6 +156,48 @@ struct Scenario {
         f_scenario_aero_emission_n_times(self.ptr.f_arg(), &len);
         std::valarray<double> times(len);
         f_scenario_emission_time(
+            self.ptr.f_arg(),
+            begin(times),
+            &len
+        );
+
+        return times;
+    }
+
+    static AeroDist* get_aero_background_dist(const Scenario &self, const AeroData &aero_data, const int &idx) {
+        AeroDist *ptr = new AeroDist();
+        f_scenario_aero_dist_background(self.ptr.f_arg(), ptr, &idx);
+
+        return ptr;
+    }
+
+    static auto get_aero_dilution_n_times(const Scenario &self) {
+        int len;
+        f_scenario_aero_background_n_times(self.ptr.f_arg(), &len);
+
+        return len;
+    }
+
+    static auto aero_dilution_rate(const Scenario &self) {
+        int len;
+
+        f_scenario_aero_background_n_times(self.ptr.f_arg(), &len);
+        std::valarray<double> rates(len);
+        f_scenario_aero_background_rate_scale(
+            self.ptr.f_arg(),
+            begin(rates),
+            &len
+        );
+
+        return rates;
+    }
+
+    static auto aero_dilution_time(const Scenario &self) {
+        int len;
+
+        f_scenario_aero_background_n_times(self.ptr.f_arg(), &len);
+        std::valarray<double> times(len);
+        f_scenario_aero_background_time(
             self.ptr.f_arg(),
             begin(times),
             &len

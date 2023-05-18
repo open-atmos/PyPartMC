@@ -281,11 +281,19 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns a string with JSON representation of the object")
         .def("init_env_state", Scenario::init_env_state,
             "initializes the EnvState")
-        .def("emissions", Scenario::get_dist, "returns AeroDists at a given index")
-        .def_property_readonly("emissions_n_times", Scenario::get_emissions_n_times,
+        .def("aero_emissions", Scenario::get_dist,
+            "returns aero_emissions AeroDists at a given index")
+        .def_property_readonly("aero_emissions_n_times", Scenario::get_emissions_n_times,
             "returns the number of times specified for emissions")
-        .def_property_readonly("emission_rate_scale", Scenario::emission_rate_scale)
-        .def_property_readonly("emission_time", Scenario::emission_time)
+        .def_property_readonly("aero_emissions_rate_scale", Scenario::emission_rate_scale)
+        .def_property_readonly("aero_emissions_time", Scenario::emission_time)
+        .def("aero_background", Scenario::get_aero_background_dist,
+            "returns aero_background AeroDists at a given index")
+        .def_property_readonly("aero_dilution_n_times", Scenario::get_aero_dilution_n_times,
+            "returns the number of times specified for dilution")
+        .def_property_readonly("aero_dilution_rate", Scenario::aero_dilution_rate)
+        .def_property_readonly("aero_dilution_time", Scenario::aero_dilution_time)
+
     ;
 
     py::class_<GasState>(m,

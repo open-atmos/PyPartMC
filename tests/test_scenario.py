@@ -167,7 +167,7 @@ class TestScenario:
         sut = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
 
         # assert
-        emissions = sut.emissions(aero_data, 0)
+        emissions = sut.aero_emissions(aero_data, 0)
         expected_mode_names = ("A", "B")
         actual_mode_names = tuple(
             emissions.mode(i).name for i in range(emissions.n_mode)
@@ -196,7 +196,7 @@ class TestScenario:
     #           assert dist.n_mode == 1
 
     @staticmethod
-    @pytest.mark.parametrize("key", ["aero_emissions"])
+    @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
     def test_time_varying_aero_multimode(key):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
@@ -221,13 +221,20 @@ class TestScenario:
 
         # act
         scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
-        assert scenario.emissions_n_times == len(
-            list(scenario_ctor_arg[key][0].values())[0]
-        )
-        rate_scale = scenario.emission_rate_scale
-        times = scenario.emission_time
-        for i in range(scenario.emissions_n_times):
-            dist = scenario.emissions(aero_data, i)
+        if key == "aero_emissions":
+            n_times = scenario.aero_emissions_n_times
+            rate_scale = scenario.aero_emissions_rate_scale
+            times = scenario.aero_emissions_time
+        elif key == "aero_background":
+            n_times = scenario.aero_dilution_n_times
+            rate_scale = scenario.aero_dilution_rate
+            times = scenario.aero_dilution_time
+        assert n_times == len(list(scenario_ctor_arg[key][0].values())[0])
+        for i in range(n_times):
+            if key == "aero_emissions":
+                dist = scenario.aero_emissions(aero_data, i)
+            elif key == "aero_background":
+                dist = scenario.aero_background(aero_data, i)
             assert times[i] == list(scenario_ctor_arg[key][0]["time"])[i]
             assert rate_scale[i] == list(scenario_ctor_arg[key][1]["rate"])[i]
             assert dist.n_mode == len(list(scenario_ctor_arg[key][2]["dist"][i])[0])
