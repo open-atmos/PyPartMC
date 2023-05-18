@@ -97,9 +97,11 @@ jobs:
           name: dist
           path: dist
 
-      - run: |
+      - env:
+          SYSTEM_VERSION_COMPAT: 0 
+        run: |
           pip debug --verbose
-          SYSTEM_VERSION_COMPAT=0 for i in dist/*.whl; do pip install $i[tests]; done;
+          for i in dist/*.whl; do pip install $i[tests]; done;
           pip show --verbose PyPartMC
 
       ### make sure PyPartMC is not picked up from a local folder
