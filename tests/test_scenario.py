@@ -189,11 +189,31 @@ class TestScenario:
         ]
 
         # act
-        _ = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+        scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+        if key == "aero_emissions":
+            n_times = scenario.aero_emissions_n_times
+            rate_scale = scenario.aero_emissions_rate_scale
+            times = scenario.aero_emissions_time
+        elif key == "aero_background":
+            n_times = scenario.aero_dilution_n_times
+            rate_scale = scenario.aero_dilution_rate
+            times = scenario.aero_dilution_time
+        assert n_times == len(list(scenario_ctor_arg[key][0].values())[0])
 
-    #        for i in range(5):
-    #           dist = scenario.emissions(aero_data, i)
-    #           assert dist.n_mode == 1
+        for i in range(n_times):
+            if key == "aero_emissions":
+                dist = scenario.aero_emissions(aero_data, i)
+            elif key == "aero_background":
+                dist = scenario.aero_background(aero_data, i)
+            assert times[i] == list(scenario_ctor_arg[key][0]["time"])[i]
+            assert rate_scale[i] == list(scenario_ctor_arg[key][1]["rate"])[i]
+            assert dist.n_mode == len(list(scenario_ctor_arg[key][2]["dist"][i])[0])
+            assert (
+                dist.mode(0).num_conc
+                == list(scenario_ctor_arg[key][2].values())[0][i][0][dist.mode(0).name][
+                    "num_conc"
+                ]
+            )
 
     @staticmethod
     @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
