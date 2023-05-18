@@ -176,6 +176,33 @@ class TestScenario:
         # TODO #207 : same for background
 
     @staticmethod
+    def test_multi_mode_reverse():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
+        for entry in ("aero_emissions", "aero_background"):
+            scenario_ctor_arg[entry][-1]["dist"] = [
+                [
+                    {
+                        "B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
+                        "A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
+                    },
+                ]
+            ]
+
+        # act
+        sut = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+
+        # assert
+        emissions = sut.aero_emissions(aero_data, 0)
+        expected_mode_names = ("B", "A")
+        actual_mode_names = tuple(
+            emissions.mode(i).name for i in range(emissions.n_mode)
+        )
+        assert expected_mode_names == actual_mode_names
+
+    @staticmethod
     @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
     def test_time_varying_aero(key):
         # arrange
