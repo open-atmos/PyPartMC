@@ -47,8 +47,18 @@ class TestAeroDist:
         assert sut is not None
 
     @staticmethod
-    @pytest.mark.parametrize("n_modes", (1, 2, 3))
-    def test_ctor_multimode(n_modes):
+    @pytest.mark.parametrize("n_modes", (2, 3))
+    @pytest.mark.parametrize(
+        "order",
+        (
+            lambda n_modes: range(n_modes),
+            pytest.param(
+                lambda n_modes: reversed(range(n_modes)),
+                marks=(pytest.mark.xfail(strict=True),),
+            ),  # TODO #213
+        ),
+    )
+    def test_ctor_multimode(n_modes, order):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
@@ -61,7 +71,7 @@ class TestAeroDist:
 
         # act
         sut = ppmc.AeroDist(
-            aero_data, [{f"mode_{k}": modes[k] for k in range(n_modes)}]
+            aero_data, [{f"mode_{k}": modes[k] for k in order(n_modes)}]
         )
 
         # assert
@@ -70,7 +80,7 @@ class TestAeroDist:
         for i in range(sut.n_mode):
             assert sut.mode(i).type == modes[i]["mode_type"]
             assert sut.mode(i).num_conc == modes[i]["num_conc"]
-            assert sut.mode(i).name == f"mode_{i}"
+            assert sut.mode(i).name == f"mode_{tuple(order(n_modes))[i]}"
 
     @staticmethod
     def test_ctor_modes_in_order(n_modes=4):

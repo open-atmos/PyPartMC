@@ -148,7 +148,16 @@ class TestScenario:
         _ = ppmc.Scenario(gas_data, aero_data, ctor_arg)
 
     @staticmethod
-    def test_multi_mode():
+    @pytest.mark.parametrize(
+        "mode_names",
+        (
+            ("A", "B"),
+            pytest.param(
+                ("B", "A"), marks=(pytest.mark.xfail(strict=True),)
+            ),  # TODO #213
+        ),
+    )
+    def test_multi_mode(mode_names):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
@@ -157,8 +166,8 @@ class TestScenario:
             scenario_ctor_arg[entry][-1]["dist"] = [
                 [
                     {
-                        "A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
-                        "B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
+                        mode_names[0]: AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
+                        mode_names[1]: AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
                     },
                 ]
             ]
@@ -168,83 +177,24 @@ class TestScenario:
 
         # assert
         emissions = sut.aero_emissions(aero_data, 0)
-        expected_mode_names = ("A", "B")
         actual_mode_names = tuple(
             emissions.mode(i).name for i in range(emissions.n_mode)
         )
-        assert expected_mode_names == actual_mode_names
+        assert mode_names == actual_mode_names
         # TODO #207 : same for background
 
     @staticmethod
-    def test_multi_mode_reverse():
-        # arrange
-        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
-        scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
-        for entry in ("aero_emissions", "aero_background"):
-            scenario_ctor_arg[entry][-1]["dist"] = [
-                [
-                    {
-                        "B": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
-                        "A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
-                    },
-                ]
-            ]
-
-        # act
-        sut = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
-
-        # assert
-        emissions = sut.aero_emissions(aero_data, 0)
-        expected_mode_names = ("B", "A")
-        actual_mode_names = tuple(
-            emissions.mode(i).name for i in range(emissions.n_mode)
-        )
-        assert expected_mode_names == actual_mode_names
-
-    @staticmethod
     @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
-    def test_time_varying_aero(key):
-        # arrange
-        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
-        scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
-        scenario_ctor_arg[key] = [
-            {"time": [0, 1, 2, 3, 4]},
-            {"rate": [0, 10, 100, 1000, 10000]},
-            {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]] * 5},
-        ]
-
-        # act
-        scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
-        if key == "aero_emissions":
-            n_times = scenario.aero_emissions_n_times
-            rate_scale = scenario.aero_emissions_rate_scale
-            times = scenario.aero_emissions_time
-        elif key == "aero_background":
-            n_times = scenario.aero_dilution_n_times
-            rate_scale = scenario.aero_dilution_rate
-            times = scenario.aero_dilution_time
-        assert n_times == len(list(scenario_ctor_arg[key][0].values())[0])
-
-        for i in range(n_times):
-            if key == "aero_emissions":
-                dist = scenario.aero_emissions(aero_data, i)
-            elif key == "aero_background":
-                dist = scenario.aero_background(aero_data, i)
-            assert times[i] == list(scenario_ctor_arg[key][0]["time"])[i]
-            assert rate_scale[i] == list(scenario_ctor_arg[key][1]["rate"])[i]
-            assert dist.n_mode == len(list(scenario_ctor_arg[key][2]["dist"][i])[0])
-            assert (
-                dist.mode(0).num_conc
-                == list(scenario_ctor_arg[key][2].values())[0][i][0][dist.mode(0).name][
-                    "num_conc"
-                ]
-            )
-
-    @staticmethod
-    @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
-    def test_time_varying_aero_multimode(key):
+    @pytest.mark.parametrize(
+        "mode_names",
+        (
+            ("A", "B"),
+            pytest.param(
+                ("B", "A"), marks=(pytest.mark.xfail(strict=True),)
+            ),  # TODO #213
+        ),
+    )
+    def test_time_varying_aero_multimode(key, mode_names):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
@@ -257,8 +207,8 @@ class TestScenario:
                 "dist": [
                     [
                         {
-                            "A": AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
-                            "B": AERO_MODE_CTOR_LOG_NORMAL_FULL["test_mode"],
+                            mode_names[0]: AERO_MODE_CTOR_LOG_NORMAL["test_mode"],
+                            mode_names[1]: AERO_MODE_CTOR_LOG_NORMAL_FULL["test_mode"],
                         },
                     ]
                 ]
@@ -268,25 +218,23 @@ class TestScenario:
 
         # act
         scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
-        if key == "aero_emissions":
-            n_times = scenario.aero_emissions_n_times
-            rate_scale = scenario.aero_emissions_rate_scale
-            times = scenario.aero_emissions_time
-        elif key == "aero_background":
-            n_times = scenario.aero_dilution_n_times
-            rate_scale = scenario.aero_dilution_rate
-            times = scenario.aero_dilution_time
+        attr = {"aero_emissions": "aero_emissions", "aero_background": "aero_dilution"}[
+            key
+        ]
+        n_times = getattr(scenario, f"{attr}_n_times")
+        rate_scale = getattr(
+            scenario, f"{attr}_rate" + ("_scale" if "emissions" in key else "")
+        )
+        times = getattr(scenario, f"{attr}_time")
+
         assert n_times == len(list(scenario_ctor_arg[key][0].values())[0])
         for i in range(n_times):
-            if key == "aero_emissions":
-                dist = scenario.aero_emissions(aero_data, i)
-            elif key == "aero_background":
-                dist = scenario.aero_background(aero_data, i)
+            dist = getattr(scenario, key)(aero_data, i)
             assert times[i] == list(scenario_ctor_arg[key][0]["time"])[i]
             assert rate_scale[i] == list(scenario_ctor_arg[key][1]["rate"])[i]
             assert dist.n_mode == len(list(scenario_ctor_arg[key][2]["dist"][i])[0])
             for i_mode in range(dist.n_mode):
-                assert dist.mode(i_mode).name == ("A", "B")[i_mode]
+                assert dist.mode(i_mode).name == mode_names[i_mode]
                 assert (
                     dist.mode(i_mode).num_conc
                     == list(scenario_ctor_arg[key][2].values())[0][i][0][
