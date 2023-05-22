@@ -15,7 +15,18 @@ on:
     types: [published]
 
 jobs:
-  todos_annotated_and_debug_build_ok:
+  devops_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
+
+  debug_build_ok:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,12 +34,9 @@ jobs:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
-      - env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pytest --durations=10 -v -s -We -p no:unraisableexception tests/test_todos_annotated.py
 
   build:
-    needs: [todos_annotated_and_debug_build_ok]
+    needs: [devops_tests, debug_build_ok]
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-12, windows-latest]
