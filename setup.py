@@ -147,4 +147,11 @@ setup(
         "Documentation": "https://open-atmos.github.io/PyPartMC",
         "Source": "https://github.com/open-atmos/PyPartMC/",
     },
+    extras_require={
+        "tests": [
+            "pytest",
+            "fastcore!=1.5.8",  # https://github.com/fastai/fastcore/issues/439
+            "ghapi",
+        ]
+    },
 )

@@ -22,8 +22,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
-      - run: pip install -r test-time-requirements.txt
-      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .
+      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pytest --durations=10 -v -s -We -p no:unraisableexception tests/test_todos_annotated.py
@@ -71,7 +70,6 @@ jobs:
 
       - run: python -m pip install --upgrade pip==22.1.2
       - run: pip install build wheel
-      - run: pip install -r test-time-requirements.txt
 
       - run: |
           unset CI
@@ -99,9 +97,11 @@ jobs:
           name: dist
           path: dist
 
-      - run: |
+      - env:
+          SYSTEM_VERSION_COMPAT: 0 
+        run: |
           pip debug --verbose
-          SYSTEM_VERSION_COMPAT=0 pip install dist/*.whl
+          for i in dist/*.whl; do pip install $i[tests]; done;
           pip show --verbose PyPartMC
 
       ### make sure PyPartMC is not picked up from a local folder
