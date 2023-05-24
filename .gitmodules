@@ -38,3 +38,7 @@
 	path = gitmodules/json-fortran
 	url = https://github.com/jacobwilliams/json-fortran
 	shallow = true
+[submodule "gitmodules/devops_tests"]
+	path = gitmodules/devops_tests
+	url = https://github.com/open-atmos/devops_tests
+	shallow = true
