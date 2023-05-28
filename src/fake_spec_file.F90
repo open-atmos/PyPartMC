@@ -82,6 +82,11 @@ module pmc_spec_file
             integer, intent(in) :: row, vals_size, names_size
         end subroutine
 
+        subroutine c_spec_file_read_line_data_size(sz) bind(C)
+            import c_int
+            integer(kind=c_int), intent(out) :: sz
+        end subroutine
+
         subroutine c_spec_file_read_line( &
             name_data, name_size, &
             data0_data, data0_size, &
@@ -100,7 +105,11 @@ module pmc_spec_file
         type(spec_file_t), intent(in) :: file
         type(spec_line_t), intent(in) :: line
         character(len=*), intent(in) :: name
-        if (line%name /= name) then
+        integer :: substr_len
+
+        substr_len = len(name)
+
+        if (line%name(1:substr_len) /= name(1:substr_len)) then
             print*, 'line must begin with: ' // trim(name) // ' not: ' // trim(line%name)
             call pmc_stop(462932478)
         end if
@@ -115,10 +124,14 @@ module pmc_spec_file
         integer :: row, col, n_rows, n_cols, name_size;
 
         call c_spec_file_read_real_named_array_size(n_rows, n_cols)
+
+        if (max_lines .ne. 0 .and. max_lines .lt. n_rows) then
+            n_rows = max_lines
+        end if
+
         allocate(names(n_rows))
         allocate(vals(n_rows, n_cols))
         allocate(vals_row(n_cols))
-        ! TODO #112: handle max_lines
         do row = 1, n_rows
             name_size = len(names(row))
             call c_spec_file_read_real_named_array_data( &
@@ -146,7 +159,9 @@ module pmc_spec_file
         type(spec_line_t), intent(in) :: line
         integer, intent(in) :: length
         if (size(line%data) /= length) then
-            print*, 'expected ' // trim(integer_to_string(length)) // ' data items on line'
+            print*, 'expected ' // trim(integer_to_string(length)) &
+                                // ' data items on line, not ' &
+                                // trim(integer_to_string(size(line%data)))
             call pmc_stop(189339129)
         end if
     end subroutine
@@ -197,17 +212,21 @@ module pmc_spec_file
         type(spec_line_t), intent(inout) :: line
         logical, intent(out) :: eof
 
-        integer :: name_size, data0_size
+        integer :: name_size, data0_size, data_size, i
         logical(c_bool) :: c_eof
 
-        allocate(line%data(1))
+        call c_spec_file_read_line_data_size(data_size)
+
+        allocate(line%data(data_size))
         name_size = len(line%name)
         data0_size = len(line%data(1))
         call c_spec_file_read_line(line%name, name_size, line%data(1), data0_size, c_eof)
         eof = c_eof
         if (.not. eof) then
             line%name = line%name(1:name_size)
-            line%data(1) = line%data(1)(1:data0_size)
+            do i = 1, data_size
+                line%data(i) = line%data(1)(1:data0_size)
+            end do
         else
             deallocate(line%data)
         end if

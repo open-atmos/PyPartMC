@@ -109,4 +109,112 @@ module PyPartMC_scenario
 
   end subroutine
 
+  subroutine f_scenario_aero_dist_emission(scenario_ptr_c, aero_dist_ptr_c, index) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c, aero_dist_ptr_c
+    integer(c_int), intent(in) :: index
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    type(aero_dist_t), pointer :: aero_dist_ptr_f => null()
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+    call c_f_pointer(aero_dist_ptr_c, aero_dist_ptr_f)
+
+    aero_dist_ptr_f = scenario_ptr_f%aero_emission(index + 1)
+
+  end subroutine
+
+  subroutine f_scenario_aero_emission_n_times(scenario_ptr_c, n_times) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c
+    integer(c_int), intent(out) :: n_times
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+
+    n_times = size(scenario_ptr_f%aero_emission_time)
+
+  end subroutine
+
+  subroutine f_scenario_emission_rates(scenario_ptr_c, emission_rates, &
+    n_times) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    integer(c_int) :: n_times
+    real(c_double) :: emission_rates(n_times)
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+
+    emission_rates = scenario_ptr_f%aero_emission_rate_scale
+
+  end subroutine
+
+  subroutine f_scenario_emission_time(scenario_ptr_c, emission_time, &
+    n_times) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    integer(c_int) :: n_times
+    real(c_double) :: emission_time(n_times)
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+
+    emission_time = scenario_ptr_f%aero_emission_time
+
+  end subroutine
+
+  subroutine f_scenario_aero_dist_background(scenario_ptr_c, aero_dist_ptr_c, index) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c, aero_dist_ptr_c
+    integer(c_int), intent(in) :: index
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    type(aero_dist_t), pointer :: aero_dist_ptr_f => null()
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+    call c_f_pointer(aero_dist_ptr_c, aero_dist_ptr_f)
+
+    aero_dist_ptr_f = scenario_ptr_f%aero_background(index + 1)
+
+  end subroutine
+
+  subroutine f_scenario_aero_background_n_times(scenario_ptr_c, n_times) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c
+    integer(c_int), intent(out) :: n_times
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+
+    n_times = size(scenario_ptr_f%aero_dilution_time)
+
+  end subroutine
+
+  subroutine f_scenario_aero_background_rate_scale(scenario_ptr_c, &
+    aero_background_rate_scale, n_times) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    integer(c_int) :: n_times
+    real(c_double) :: aero_background_rate_scale(n_times)
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+
+    aero_background_rate_scale = scenario_ptr_f%aero_dilution_rate
+
+  end subroutine
+
+  subroutine f_scenario_aero_background_time(scenario_ptr_c, aero_background_time, &
+    n_times) bind(C)
+
+    type(c_ptr), intent(in) :: scenario_ptr_c
+    type(scenario_t), pointer :: scenario_ptr_f => null()
+    integer(c_int) :: n_times
+    real(c_double) :: aero_background_time(n_times)
+
+    call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
+
+    aero_background_time = scenario_ptr_f%aero_dilution_time
+
+  end subroutine
+
 end module

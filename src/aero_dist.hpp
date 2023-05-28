@@ -54,6 +54,10 @@ struct AeroDist {
         gimmick_ptr().reset();
     }
 
+    AeroDist() :
+        ptr(f_aero_dist_ctor, f_aero_dist_dtor)
+    {}
+
     static auto get_n_mode(const AeroDist &self) {
         int n_mode;
         f_aero_dist_n_mode(self.ptr.f_arg(), &n_mode);
