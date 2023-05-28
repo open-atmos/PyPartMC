@@ -110,7 +110,7 @@ jobs:
           cd ..
 
       - run: pip install -r gitmodules/devops_tests/requirements.txt
-      - if: ${{ matrix.python-version != '3.7' }}
+      - if: ${{ matrix.python-version >= '3.8' }}
         run: |
           ex -sc 'g/^PyPartMC/d' -cx binder/requirements.txt
           pip install -r binder/requirements.txt
