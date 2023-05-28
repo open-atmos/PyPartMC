@@ -47,8 +47,18 @@ class TestAeroDist:
         assert sut is not None
 
     @staticmethod
-    @pytest.mark.parametrize("n_modes", (1, 2, 3))
-    def test_ctor_multimode(n_modes):
+    @pytest.mark.parametrize("n_modes", (2, 3))
+    @pytest.mark.parametrize(
+        "order",
+        (
+            range,
+            pytest.param(
+                lambda n_modes: reversed(range(n_modes)),
+                marks=(pytest.mark.xfail(strict=True),),
+            ),  # TODO #213
+        ),
+    )
+    def test_ctor_multimode(n_modes, order):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
@@ -61,7 +71,7 @@ class TestAeroDist:
 
         # act
         sut = ppmc.AeroDist(
-            aero_data, [{f"mode_{k}": modes[k] for k in range(n_modes)}]
+            aero_data, [{f"mode_{k}": modes[k] for k in order(n_modes)}]
         )
 
         # assert
@@ -70,7 +80,28 @@ class TestAeroDist:
         for i in range(sut.n_mode):
             assert sut.mode(i).type == modes[i]["mode_type"]
             assert sut.mode(i).num_conc == modes[i]["num_conc"]
-            assert sut.mode(i).name == f"mode_{i}"
+            assert sut.mode(i).name == f"mode_{tuple(order(n_modes))[i]}"
+
+    @staticmethod
+    def test_ctor_modes_in_order(n_modes=4):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        mode_data = AERO_DIST_CTOR_ARG_MINIMAL[0]["test_mode"]
+        num_concs = np.random.rand(n_modes)
+        modes = {}
+        for k in range(n_modes):
+            mode_data["num_conc"] = num_concs[k]
+            modes[k] = copy.deepcopy(mode_data)
+        mode_map = {f"mode_{k}": modes[k] for k in range(n_modes)}
+
+        # act
+        sut = ppmc.AeroDist(aero_data, [mode_map])
+
+        # assert
+        expected_modes = tuple(mode_map.keys())
+        actual_modes = tuple(sut.mode(i).name for i in range(sut.n_mode))
+        assert expected_modes == actual_modes
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 500))
