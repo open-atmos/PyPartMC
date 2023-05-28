@@ -30,6 +30,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-12, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+      fail-fast: false
     runs-on: ${{ matrix.platform }}
     steps:
       - if: startsWith(matrix.platform, 'macos-')
@@ -109,12 +110,11 @@ jobs:
           cd ..
 
       - run: pip install -r gitmodules/devops_tests/requirements.txt
-      - run: |
+      - if: matrix.python-version != '3.7'
+        run: |
           ex -sc 'g/^PyPartMC/d' -cx binder/requirements.txt
           pip install -r binder/requirements.txt
-      - env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
 ### uncomment to gain ssh access in case of failure
 #      - if: ${{ failure() }}
