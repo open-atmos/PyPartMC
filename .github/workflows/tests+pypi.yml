@@ -112,8 +112,8 @@ jobs:
       - if: matrix.python-version != '3.7'
         run: |
           pip install -r gitmodules/devops_tests/requirements.txt
-          ex -sc 'g/^PyPartMC/d' -cx binder/requirements.txt
-          pip install -r binder/requirements.txt
+          ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
+          pip install -r .binder/requirements.txt
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
 ### uncomment to gain ssh access in case of failure
