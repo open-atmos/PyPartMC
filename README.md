@@ -33,8 +33,8 @@ import PyPartMC
 - Dry-Wet Particle Size Equilibration with PartMC and PySDM:   
 [![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/slayoo/PyPartMC/blob/devops_tests/examples/lognorm_ex.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/slayoo/PyPartMC/blob/devops_tests/examples/lognorm_ex.ipynb)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/slayoo/PyPartMC.git/main?urlpath=lab/tree/examples/lognorm_ex.ipynb)
-[![Voila](https://img.shields.io/static/v1?label=Voil%C3%A0&logo=jupyter&color=teal&message=web+app)](https://mybinder.org/v2/gh/slayoo/PyPartMC/HEAD?urlpath=voila%2Frender%2Fexamples%2Flognorm_ex.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/slayoo/PyPartMC.git/devops_tests?urlpath=lab/tree/examples/lognorm_ex.ipynb)
+[![Voila](https://img.shields.io/static/v1?label=Voil%C3%A0&logo=jupyter&color=teal&message=web+app)](https://mybinder.org/v2/gh/slayoo/PyPartMC/devops_tests?urlpath=voila%2Frender%2Fexamples%2Flognorm_ex.ipynb)
 
 ## Features
 
