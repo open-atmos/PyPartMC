@@ -773,8 +773,47 @@ aero_dist_interp_1d(), respectively.</p>
 <ul class="hlist">
 <li>pybind11_builtins.pybind11_object</li>
 </ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="PyPartMC.Scenario.aero_dilution_n_times"><code class="name">var <span class="ident">aero_dilution_n_times</span></code></dt>
+<dd>
+<div class="desc"><p>returns the number of times specified for dilution</p></div>
+</dd>
+<dt id="PyPartMC.Scenario.aero_dilution_rate"><code class="name">var <span class="ident">aero_dilution_rate</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.Scenario) -&gt; List[float]</p></div>
+</dd>
+<dt id="PyPartMC.Scenario.aero_dilution_time"><code class="name">var <span class="ident">aero_dilution_time</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.Scenario) -&gt; List[float]</p></div>
+</dd>
+<dt id="PyPartMC.Scenario.aero_emissions_n_times"><code class="name">var <span class="ident">aero_emissions_n_times</span></code></dt>
+<dd>
+<div class="desc"><p>returns the number of times specified for emissions</p></div>
+</dd>
+<dt id="PyPartMC.Scenario.aero_emissions_rate_scale"><code class="name">var <span class="ident">aero_emissions_rate_scale</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.Scenario) -&gt; List[float]</p></div>
+</dd>
+<dt id="PyPartMC.Scenario.aero_emissions_time"><code class="name">var <span class="ident">aero_emissions_time</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.Scenario) -&gt; List[float]</p></div>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
+<dt id="PyPartMC.Scenario.aero_background"><code class="name flex">
+<span>def <span class="ident">aero_background</span></span>(<span>self: _PyPartMC.Scenario, arg0: _PyPartMC.AeroData, arg1: int) ‑> _PyPartMC.AeroDist</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns aero_background AeroDists at a given index</p></div>
+</dd>
+<dt id="PyPartMC.Scenario.aero_emissions"><code class="name flex">
+<span>def <span class="ident">aero_emissions</span></span>(<span>self: _PyPartMC.Scenario, arg0: _PyPartMC.AeroData, arg1: int) ‑> _PyPartMC.AeroDist</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns aero_emissions AeroDists at a given index</p></div>
+</dd>
 <dt id="PyPartMC.Scenario.init_env_state"><code class="name flex">
 <span>def <span class="ident">init_env_state</span></span>(<span>self: _PyPartMC.Scenario, arg0: _PyPartMC.EnvState, arg1: float)</span>
 </code></dt>
@@ -944,6 +983,14 @@ aero_dist_interp_1d(), respectively.</p>
 <li>
 <h4><code><a title="PyPartMC.Scenario" href="#PyPartMC.Scenario">Scenario</a></code></h4>
 <ul class="">
+<li><code><a title="PyPartMC.Scenario.aero_background" href="#PyPartMC.Scenario.aero_background">aero_background</a></code></li>
+<li><code><a title="PyPartMC.Scenario.aero_dilution_n_times" href="#PyPartMC.Scenario.aero_dilution_n_times">aero_dilution_n_times</a></code></li>
+<li><code><a title="PyPartMC.Scenario.aero_dilution_rate" href="#PyPartMC.Scenario.aero_dilution_rate">aero_dilution_rate</a></code></li>
+<li><code><a title="PyPartMC.Scenario.aero_dilution_time" href="#PyPartMC.Scenario.aero_dilution_time">aero_dilution_time</a></code></li>
+<li><code><a title="PyPartMC.Scenario.aero_emissions" href="#PyPartMC.Scenario.aero_emissions">aero_emissions</a></code></li>
+<li><code><a title="PyPartMC.Scenario.aero_emissions_n_times" href="#PyPartMC.Scenario.aero_emissions_n_times">aero_emissions_n_times</a></code></li>
+<li><code><a title="PyPartMC.Scenario.aero_emissions_rate_scale" href="#PyPartMC.Scenario.aero_emissions_rate_scale">aero_emissions_rate_scale</a></code></li>
+<li><code><a title="PyPartMC.Scenario.aero_emissions_time" href="#PyPartMC.Scenario.aero_emissions_time">aero_emissions_time</a></code></li>
 <li><code><a title="PyPartMC.Scenario.init_env_state" href="#PyPartMC.Scenario.init_env_state">init_env_state</a></code></li>
 </ul>
 </li>
