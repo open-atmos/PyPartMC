@@ -1,0 +1,6 @@
+PyPartMC>=0.0.19
+matplotlib
+ipywidgets
+voila
+open-atmos-jupyter-utils
+PySDM

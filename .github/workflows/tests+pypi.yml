@@ -15,18 +15,6 @@ on:
     types: [published]
 
 jobs:
-  devops_tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-          fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
-      - run: pip install -r gitmodules/devops_tests/requirements.txt
-      - env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
-
   debug_build_ok:
     runs-on: ubuntu-latest
     steps:
@@ -37,11 +25,12 @@ jobs:
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
 
   build:
-    needs: [devops_tests, debug_build_ok]
+    needs: [debug_build_ok]
     strategy:
       matrix:
         platform: [ubuntu-latest, macos-12, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+      fail-fast: false
     runs-on: ${{ matrix.platform }}
     steps:
       - if: startsWith(matrix.platform, 'macos-')
@@ -118,6 +107,14 @@ jobs:
           cd tests
           python -c "import PyPartMC"
           pytest --durations=10 -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
+          cd ..
+
+      - if: matrix.python-version != '3.7'
+        run: |
+          pip install -r gitmodules/devops_tests/requirements.txt
+          ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
+          pip install -r .binder/requirements.txt
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
 ### uncomment to gain ssh access in case of failure
 #      - if: ${{ failure() }}
