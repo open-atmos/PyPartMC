@@ -131,22 +131,20 @@ module pmc_spec_file
 
         allocate(names(n_rows))
         allocate(vals(n_rows, n_cols))
-        if (n_cols .gt. 0) then
-            allocate(vals_row(n_cols))
-            do row = 1, n_rows
-                name_size = len(names(row))
-                call c_spec_file_read_real_named_array_data( &
-                    row, &
-                    names(row), name_size, &
-                    vals_row(1), size(vals, 2) &
-                )
-                names(row) = names(row)(1:name_size)
-                do col = 1, n_cols
-                    vals(row, col) = vals_row(col)
-                end do
+        allocate(vals_row(max(1, n_cols)))
+        do row = 1, n_rows
+            name_size = len(names(row))
+            call c_spec_file_read_real_named_array_data( &
+                row, &
+                names(row), name_size, &
+                vals_row(1), size(vals, 2) &
+            )
+            names(row) = names(row)(1:name_size)
+            do col = 1, n_cols
+                vals(row, col) = vals_row(col)
             end do
-            deallocate(vals_row)
-        end if
+        end do
+        deallocate(vals_row)
     end subroutine
 
     subroutine spec_file_assert_msg(code, file, condition_ok, msg)
@@ -248,15 +246,15 @@ module pmc_spec_file
         )
         allocate(times(times_size))
         allocate(vals(vals_size))
+        if (size(times) < 1) then
+            print*, 'must have at least one data poin in file ' // trim(file%name) // '::' // name
+            call pmc_stop(925956383)
+        end if
         call c_spec_file_read_timed_real_array_data(&
             name, len(name), &
             times(1), size(times), &
             vals(1), size(vals) &
         )
-        if (size(times) < 1) then
-            print*, 'must have at least one data poin in file ' // trim(file%name) // '::' // name
-            call pmc_stop(925956383)
-        end if
     end subroutine
 
     subroutine spec_file_open(filename, file)
