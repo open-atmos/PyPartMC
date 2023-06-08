@@ -22,7 +22,6 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
-      - run: pip install -r test-time-requirements.txt
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
       - run: pytest -v -s -We -p no:unraisableexception tests
 
@@ -154,4 +153,3 @@ jobs:
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
-
