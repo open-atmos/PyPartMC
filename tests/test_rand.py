@@ -9,7 +9,6 @@ import pytest
 import PyPartMC as ppmc
 
 
-@staticmethod
 @pytest.mark.parametrize(
     "init_args",
     (
