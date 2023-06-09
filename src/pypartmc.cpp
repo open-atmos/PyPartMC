@@ -9,6 +9,7 @@
 #include "pybind11_json/pybind11_json.hpp"
 
 #include "util.hpp"
+#include "rand.hpp"
 #include "run_part.hpp"
 #include "run_part_opt.hpp"
 #include "aero_data.hpp"
@@ -417,6 +418,14 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Evaluate a loss rate function."
     );
 
+    m.def(
+        "rand_init", &rand_init, ""
+    );
+
+    m.def(
+        "rand_normal", &rand_normal, ""
+    );
+
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 
     m.attr("__all__") = py::make_tuple(
@@ -447,6 +456,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "sphere_rad2vol",
         "diam2rad",
         "loss_rate_dry_dep",
-        "loss_rate"
+        "loss_rate",
+        "rand_init",
+        "rand_normal"
     );
 }
