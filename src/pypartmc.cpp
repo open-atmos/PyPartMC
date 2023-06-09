@@ -419,11 +419,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
     );
 
     m.def(
-        "rand_init", &rand_init, ""
+        "rand_init", &rand_init, "Initializes the random number generator to the state defined by the given seed plus offset. If the seed is 0 then a seed is auto-generated from the current time plus offset"
     );
 
     m.def(
-        "rand_normal", &rand_normal, ""
+        "rand_normal", &rand_normal, "Generates a normally distributed random number with the given mean and standard deviation"
     );
 
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
