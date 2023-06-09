@@ -4,20 +4,29 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import pytest
+
 import PyPartMC as ppmc
 
 
 @staticmethod
-def test_set_rand_seed():
+@pytest.mark.parametrize(
+    "init_args",
+    (
+        ((0, 1), (0, 1)),
+        pytest.param(((0, 1), (0, 44)), marks=pytest.mark.xfail(strict=True)),
+    ),
+)
+def test_set_rand_seed(init_args):
     # arrange
-    init_arg = (1, 0)
     rand_arg = (0, 1)
-    
+    values = []
+
     # act
-    ppmc.rand_init(*init_arg)
-    val_a = ppmc.rand_normal(*rand_arg)
-    ppmc.rand_init(*init_arg)
-    val_b = ppmc.rand_normal(*rand_arg)
+    for init_arg in init_args:
+        ppmc.rand_init(*init_arg)
+        values.append(ppmc.rand_normal(*rand_arg))
 
     # assert
-    assert val_a == val_b
+    for value in values[1:]:
+        assert value == values[0]
