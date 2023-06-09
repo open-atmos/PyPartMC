@@ -25,6 +25,7 @@ jobs:
         with:
           python-version: 3.8
 
+      - run: sudo apt-get install libnetcdff-dev
       - run: |
           echo "CC=gcc-9" >> $GITHUB_ENV
           echo "CXX=g++-9" >> $GITHUB_ENV
