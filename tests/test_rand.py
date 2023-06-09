@@ -15,10 +15,10 @@ class TestRand:
         # arrange
 
         # act
-        ppmc.rand_init(1,0)
-        val_a = ppmc.rand_normal(0,1)
-        ppmc.rand_init(1,0)
-        val_b = ppmc.rand_normal(0,1)
+        ppmc.rand_init(1, 0)
+        val_a = ppmc.rand_normal(0, 1)
+        ppmc.rand_init(1, 0)
+        val_b = ppmc.rand_normal(0, 1)
 
         # assert
-        assert val_a == val_b 
+        assert val_a == val_b
