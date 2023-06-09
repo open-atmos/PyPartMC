@@ -22,6 +22,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
+      - run: sudo apt-get install libnetcdff-dev
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
 
   build:
