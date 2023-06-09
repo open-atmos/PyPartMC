@@ -273,6 +273,13 @@ target_include_directories(camplib PRIVATE
   ${CMAKE_BINARY_DIR}/include
 )
 
+### netCDF #########################################################################################
+
+include(${CMAKE_SOURCE_DIR}/gitmodules/cmake-modules/FindNetCDF.cmake)
+set(NETCDF_F90 "YES")
+find_package(netCDF REQUIRED)
+unset(NETCDF_F90)
+
 ### partmclib ######################################################################################
 
 add_library(partmclib STATIC ${partmclib_SOURCES})
@@ -282,10 +289,12 @@ add_dependencies(partmclib ${SUNDIALS_items})
 target_include_directories(partmclib PRIVATE 
   ${SUNDIALS_SOURCE_DIR}/include
   ${CMAKE_BINARY_DIR}/include
+  ${NETCDF_INCLUDES}
 )
 target_link_libraries(partmclib PRIVATE camplib)
 target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
 target_link_libraries(partmclib PRIVATE klulib)
+target_link_libraries(partmclib PRIVATE ${NETCDF_LIBRARIES})
 if(DEFINED ENV{MOSAIC_HOME})
   message(STATUS "MOSAIC enabled: $ENV{MOSAIC_HOME}")
   target_compile_definitions(partmclib PRIVATE PMC_USE_MOSAIC="1")

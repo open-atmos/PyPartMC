@@ -42,3 +42,6 @@
 	path = gitmodules/devops_tests
 	url = https://github.com/open-atmos/devops_tests
 	shallow = true
+[submodule "gitmodules/cmake-modules"]
+	path = gitmodules/cmake-modules
+	url = https://github.com/jedbrown/cmake-modules.git
