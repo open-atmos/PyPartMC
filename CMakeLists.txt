@@ -41,7 +41,7 @@ add_definitions("-DSUNDIALS_INT64_T=1")
 ### sources ########################################################################################
 
 set(PyPartMC_sources 
-  pypartmc.cpp gimmicks.cpp fake_netcdf.cpp fake_spec_file.cpp sys.cpp
+  pypartmc.cpp gimmicks.cpp fake_spec_file.cpp sys.cpp
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
   gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90
   camp_core.F90 photolysis.F90 aero_mode.F90 aero_dist.F90 bin_grid.cpp condense.cpp run_part.cpp
@@ -120,6 +120,66 @@ set(camp_SOURCES
 )
 add_prefix(gitmodules/camp/src/ camp_SOURCES)
 
+set(netcdf_c_SOURCES
+  libdispatch/dvar.c
+  libdispatch/ddim.c
+  libdispatch/dvarput.c
+  libdispatch/dvarget.c
+  libdispatch/ddispatch.c
+  libdispatch/dcompound.c
+  libdispatch/denum.c
+  libdispatch/dvlen.c
+  libdispatch/nc.c
+  libdispatch/dfile.c
+  libdispatch/dnotnc4.c
+  libdispatch/dstring.c
+  libdispatch/nclist.c
+  libdispatch/nchashmap.c
+  libdispatch/dinstance_intern.c
+  libdispatch/dtype.c
+  libdispatch/dgroup.c
+  libdispatch/nclistmgr.c
+  libdispatch/dattget.c
+  libdispatch/dattinq.c
+  libdispatch/dvarinq.c
+  libdispatch/dfilter.c
+  liblib/nc_initialize.c
+  libsrc/nc3dispatch.c
+  libsrc/nc3internal.c
+  libsrc/dim.c
+  libsrc/var.c
+  libsrc/ncio.c
+  libsrc/v1hpg.c
+  libsrc4/nc4internal.c
+  libsrc4/ncindex.c
+  #libsrc4/nc4cache.c
+)
+add_prefix(gitmodules/netcdf-c/ netcdf_c_SOURCES)
+
+set(netcdf_f_SOURCES
+  fortran/typeSizes.F90
+  fortran/module_netcdf_nf_data.F90
+  fortran/module_netcdf_nc_data.F90
+  fortran/module_netcdf_nf_interfaces.F90
+  fortran/module_netcdf_nc_interfaces.F90
+  fortran/module_netcdf4_nf_interfaces.F90
+  fortran/module_netcdf4_nc_interfaces.F90
+  fortran/nf_nc4.F90
+  fortran/netcdf4.F90
+  fortran/nf_varaio.F90
+  fortran/nf_varsio.F90
+  fortran/nf_varmio.F90
+  fortran/nf_var1io.F90
+  fortran/nf_attio.F90
+  fortran/nf_control.F90
+  fortran/nf_genvar.F90
+  fortran/nf_dim.F90
+  fortran/nf_misc.F90
+  fortran/nf_nc_noparallel.F90
+  fortran/nf_lib.c
+)
+add_prefix(gitmodules/netcdf-fortran/ netcdf_f_SOURCES)
+
 set(json_fortran_SOURCES
   json_kinds.F90
   json_parameters.F90
@@ -142,7 +202,7 @@ set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 intege
   photolysis.F90
 )
 add_prefix(gitmodules/partmc/src/ partmclib_SOURCES)
-list(APPEND partmclib_SOURCES src/fake_netcdf.F90 src/fake_spec_file.F90 src/sys.F90)
+list(APPEND partmclib_SOURCES src/fake_spec_file.F90 src/sys.F90)
 
 set(klu_SOURCES
   KLU/Source/klu_analyze.c
@@ -273,9 +333,65 @@ target_include_directories(camplib PRIVATE
   ${CMAKE_BINARY_DIR}/include
 )
 
+### netCDF #########################################################################################
+
+SET(m4_SOURCES attr ncx putget)
+foreach (f ${m4_SOURCES})
+  set(tmp ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
+  add_custom_command(
+    OUTPUT ${tmp}
+    COMMAND m4
+    ARGS ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc/${f}.m4 > ${tmp}
+    VERBATIM
+  )
+  LIST(APPEND netcdf_c_SOURCES ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
+endforeach(f)
+add_library(netcdflib STATIC ${netcdf_c_SOURCES})
+configure_file(
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/config.h.cmake.in
+  ${CMAKE_BINARY_DIR}/netcdf/config.h
+)
+target_include_directories(netcdflib PRIVATE 
+  ${CMAKE_BINARY_DIR}/netcdf
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
+)
+CHECK_TYPE_SIZE("int64_t"            SIZEOF_INT64_T)
+CHECK_TYPE_SIZE("uint64"             SIZEOF_UINT64)
+CHECK_TYPE_SIZE("unsigned char"      SIZEOF_UCHAR)
+CHECK_TYPE_SIZE("unsigned short"     SIZEOF_USHORT)
+CHECK_TYPE_SIZE("unsigned short int" SIZEOF_UNSIGNED_SHORT_INT)
+CHECK_TYPE_SIZE("unsigned int"       SIZEOF_UNSIGNED_INT)
+CHECK_TYPE_SIZE("long long"          SIZEOF_LONGLONG)
+CHECK_TYPE_SIZE("unsigned long long" SIZEOF_ULONGLONG)
+CHECK_TYPE_SIZE("uint64_t"           SIZEOF_UINT64_T)
+CHECK_TYPE_SIZE("size_t"             SIZEOF_SIZE_T)
+target_compile_definitions(netcdflib PRIVATE
+  HAVE_CONFIG_H
+  HAVE_STDINT_H
+  HAVE_STDIO_H
+  HAVE_STDLIB_H
+  HAVE_IO_H
+  HAVE_UINT64_T
+  DEFAULT_CHUNK_SIZE=16777216 
+  CHUNK_CACHE_SIZE=16777216 
+  CHUNK_CACHE_NELEMS=4133
+  CHUNK_CACHE_PREEMPTION=0.75
+  SIZEOF_INT64_T
+  SIZEOF_UINT64
+  SIZEOF_UCHAR
+  SIZEOF_USHORT
+  SIZEOF_UNSIGNED_SHORT_INT
+  SIZEOF_UNSIGNED_INT
+  SIZEOF_LONGLONG
+  SIZEOF_ULONGLONG
+  SIZEOF_UINT64_T
+  SIZEOF_SIZE_T
+)
+
 ### partmclib ######################################################################################
 
-add_library(partmclib STATIC ${partmclib_SOURCES})
+add_library(partmclib STATIC ${partmclib_SOURCES} ${netcdf_f_SOURCES})
 target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
 target_compile_definitions(partmclib PRIVATE PMC_USE_CAMP="1")
 add_dependencies(partmclib ${SUNDIALS_items})
@@ -283,6 +399,7 @@ target_include_directories(partmclib PRIVATE
   ${SUNDIALS_SOURCE_DIR}/include
   ${CMAKE_BINARY_DIR}/include
 )
+target_link_libraries(partmclib PRIVATE netcdflib)
 target_link_libraries(partmclib PRIVATE camplib)
 target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
 target_link_libraries(partmclib PRIVATE klulib)
@@ -295,6 +412,21 @@ if(DEFINED ENV{MOSAIC_HOME})
   target_link_libraries(partmclib PRIVATE ${mosaiclib})
   target_include_directories(partmclib PRIVATE
       $ENV{MOSAIC_HOME}/datamodules
+  )
+endif()
+
+# netCDF stuff
+target_compile_definitions(partmclib PRIVATE
+  HAVE_TS29113_SUPPORT
+  USE_NETCDF4
+)
+target_include_directories(partmclib PRIVATE 
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/fortran
+)
+include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
+if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
+  target_compile_options(partmclib PRIVATE 
+    $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch>
   )
 endif()
 

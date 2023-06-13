@@ -52,7 +52,7 @@ import PyPartMC
 - auto-generated [API docs on the web](https://open-atmos.github.io/PyPartMC/)
 - support for [de]serialization of selected wrapped structures using JSON 
 - based on [unmodified PartMC code](https://github.com/open-atmos/PyPartMC/tree/main/gitmodules)
-- does not use or require shell or netCDF Fortran library
+- does not use or require shell or any pre-installed libraries
 - aiming at 100% [unit test coverage](https://github.com/open-atmos/PyPartMC/tree/main/tests)
 
 ## Usage examples
@@ -91,7 +91,7 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 - PartMC and selected parts of SUNDIALS are statically linked (and compiled in during `pip install` or `python -m build`) 
 - C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC, CAMP) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
 - MOSAIC dependency is optionally linked through setting the environmental variable MOSAIC_HOME
-- a [mock of Fortran netCDF API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_netcdf.F90) and a [mock of PartMC spec file API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) are used for i/o from/to JSON 
+- a [mock of PartMC spec file API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) are used for i/o from/to JSON 
 
 ## Troubleshooting 
 

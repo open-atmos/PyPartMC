@@ -42,3 +42,11 @@
 	path = gitmodules/devops_tests
 	url = https://github.com/open-atmos/devops_tests
 	shallow = true
+[submodule "gitmodules/netcdf-fortran"]
+	path = gitmodules/netcdf-fortran
+	url = https://github.com/Unidata/netcdf-fortran.git
+	shallow = true
+[submodule "gitmodules/netcdf-c"]
+	path = gitmodules/netcdf-c
+	url = https://github.com/Unidata/netcdf-c.git
+	shallow = true
