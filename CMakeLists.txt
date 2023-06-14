@@ -346,7 +346,7 @@ foreach (f ${m4_SOURCES})
   )
   LIST(APPEND netcdf_c_SOURCES ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
 endforeach(f)
-add_library(netcdflib STATIC ${netcdf_c_SOURCES})
+add_library(netcdf_clib STATIC ${netcdf_c_SOURCES})
 configure_file(
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/config.h.cmake.in
   ${CMAKE_BINARY_DIR}/netcdf/config.h
@@ -356,7 +356,7 @@ configure_file(
   ${CMAKE_BINARY_DIR}/netcdf/netcdf_dispatch.h
   @ONLY NEWLINE_STYLE LF
 )
-target_include_directories(netcdflib PRIVATE 
+target_include_directories(netcdf_clib PRIVATE 
   ${CMAKE_BINARY_DIR}/netcdf
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
@@ -371,11 +371,12 @@ CHECK_TYPE_SIZE("long long"          SIZEOF_LONGLONG)
 CHECK_TYPE_SIZE("unsigned long long" SIZEOF_ULONGLONG)
 CHECK_TYPE_SIZE("uint64_t"           SIZEOF_UINT64_T)
 CHECK_TYPE_SIZE("size_t"             SIZEOF_SIZE_T)
-target_compile_definitions(netcdflib PRIVATE
+target_compile_definitions(netcdf_clib PRIVATE
   HAVE_CONFIG_H
   HAVE_STDINT_H
   HAVE_STDIO_H
   HAVE_STDLIB_H
+  HAVE_UNISTD_H
   HAVE_IO_H
   HAVE_UINT64_T
   DEFAULT_CHUNK_SIZE=16777216 
@@ -392,11 +393,30 @@ target_compile_definitions(netcdflib PRIVATE
   SIZEOF_ULONGLONG
   SIZEOF_UINT64_T
   SIZEOF_SIZE_T
+  NC_DISPATCH_VERSION=5
 )
+
+### netCDF-FORTRAN #################################################################################
+
+add_library(netcdf_flib STATIC ${netcdf_f_SOURCES})
+target_link_libraries(netcdf_flib PRIVATE netcdf_clib)
+target_compile_definitions(netcdf_flib PRIVATE
+  HAVE_TS29113_SUPPORT
+  USE_NETCDF4
+)
+target_include_directories(netcdf_flib PRIVATE 
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/fortran
+)
+include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
+if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
+  target_compile_options(netcdf_flib PRIVATE 
+    $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch>
+  )
+endif()
 
 ### partmclib ######################################################################################
 
-add_library(partmclib STATIC ${partmclib_SOURCES} ${netcdf_f_SOURCES})
+add_library(partmclib STATIC ${partmclib_SOURCES})
 target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
 target_compile_definitions(partmclib PRIVATE PMC_USE_CAMP="1")
 add_dependencies(partmclib ${SUNDIALS_items})
@@ -404,7 +424,7 @@ target_include_directories(partmclib PRIVATE
   ${SUNDIALS_SOURCE_DIR}/include
   ${CMAKE_BINARY_DIR}/include
 )
-target_link_libraries(partmclib PRIVATE netcdflib)
+target_link_libraries(partmclib PRIVATE netcdf_flib)
 target_link_libraries(partmclib PRIVATE camplib)
 target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
 target_link_libraries(partmclib PRIVATE klulib)
@@ -417,21 +437,6 @@ if(DEFINED ENV{MOSAIC_HOME})
   target_link_libraries(partmclib PRIVATE ${mosaiclib})
   target_include_directories(partmclib PRIVATE
       $ENV{MOSAIC_HOME}/datamodules
-  )
-endif()
-
-# netCDF stuff
-target_compile_definitions(partmclib PRIVATE
-  HAVE_TS29113_SUPPORT
-  USE_NETCDF4
-)
-target_include_directories(partmclib PRIVATE 
-  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/fortran
-)
-include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
-if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
-  target_compile_options(partmclib PRIVATE 
-    $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch>
   )
 endif()
 
