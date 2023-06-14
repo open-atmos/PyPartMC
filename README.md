@@ -89,6 +89,48 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 - MOSAIC dependency is optionally linked through setting the environmental variable MOSAIC_HOME
 - a [mock of Fortran netCDF API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_netcdf.F90) and a [mock of PartMC spec file API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) are used for i/o from/to JSON 
 
+## Implementation architecture
+
+```mermaid
+flowchart TD
+    subgraph J ["Julia"]
+        julia_user_code["Julia user code"] --> PyCall.jl
+    end
+    subgraph P ["Python"]
+        PyCall.jl --> PyPartMC
+        python_user_code -.-> NumPy
+        python_user_code["Python user code"] ---> PyPartMC["pubind11-generated PyPartMC module"]
+    end
+    subgraph Cpp ["C++"]
+        cpp_user_code["C++ user code"] ----> ppmc_cpp
+        PyPartMC --> ppmc_cpp["PyPartMC-C++"]
+        ppmc_cpp --> pybind11_json
+        pybind11_json ---> nlohmann::JSON
+        fake_spec_file_cpp --> nlohmann::JSON
+    end
+    subgraph C ["C"]
+        fake_spec_file_c --> fake_spec_file_cpp["SpecFile-C++"]
+        ppmc_cpp --> ppmc_c["PyPartMC-C"]
+        netCDF-C
+        SUNDIALS
+        camp_c["CAMP C code"]
+    end
+    subgraph Fortran ["Fortran"]
+        PartMC -....-> MOSAIC
+        ppmc_c --> ppmc_f["PyPartMC-F"]
+        ppmc_f ---> PartMC
+        PartMC --> netCDF-F
+        netCDF-F --> netCDF-C
+        PartMC --> SUNDIALS
+        PartMC ---> camp_f
+        camp_f["CAMP"] --> camp_c
+        PartMC ----> fake_spec_file_f[SpecFile-F]
+        fake_spec_file_f --> fake_spec_file_c["SpecFile-C"]
+    end
+
+    style PartMC fill:#7ae7ff,stroke-width:2px,color:#2B2B2B
+```
+
 ## Troubleshooting 
 
 #### Common installation issues 
