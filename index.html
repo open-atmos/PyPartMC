@@ -137,6 +137,18 @@ equilibrium.</p></div>
 <dd>
 <div class="desc"><p>Convert radius (m) to diameter (m).</p></div>
 </dd>
+<dt id="PyPartMC.rand_init"><code class="name flex">
+<span>def <span class="ident">rand_init</span></span>(<span>arg0: int, arg1: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Initializes the random number generator to the state defined by the given seed plus offset. If the seed is 0 then a seed is auto-generated from the current time plus offset</p></div>
+</dd>
+<dt id="PyPartMC.rand_normal"><code class="name flex">
+<span>def <span class="ident">rand_normal</span></span>(<span>arg0: float, arg1: float) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generates a normally distributed random number with the given mean and standard deviation</p></div>
+</dd>
 <dt id="PyPartMC.run_part"><code class="name flex">
 <span>def <span class="ident">run_part</span></span>(<span>arg0: _PyPartMC.Scenario, arg1: _PyPartMC.EnvState, arg2: _PyPartMC.AeroData, arg3: _PyPartMC.AeroState, arg4: _PyPartMC.GasData, arg5: _PyPartMC.GasState, arg6: _PyPartMC.RunPartOpt, arg7: _PyPartMC.CampCore, arg8: _PyPartMC.Photolysis)</span>
 </code></dt>
@@ -842,6 +854,8 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.loss_rate_dry_dep" href="#PyPartMC.loss_rate_dry_dep">loss_rate_dry_dep</a></code></li>
 <li><code><a title="PyPartMC.pow2_above" href="#PyPartMC.pow2_above">pow2_above</a></code></li>
 <li><code><a title="PyPartMC.rad2diam" href="#PyPartMC.rad2diam">rad2diam</a></code></li>
+<li><code><a title="PyPartMC.rand_init" href="#PyPartMC.rand_init">rand_init</a></code></li>
+<li><code><a title="PyPartMC.rand_normal" href="#PyPartMC.rand_normal">rand_normal</a></code></li>
 <li><code><a title="PyPartMC.run_part" href="#PyPartMC.run_part">run_part</a></code></li>
 <li><code><a title="PyPartMC.run_part_timeblock" href="#PyPartMC.run_part_timeblock">run_part_timeblock</a></code></li>
 <li><code><a title="PyPartMC.run_part_timestep" href="#PyPartMC.run_part_timestep">run_part_timestep</a></code></li>
