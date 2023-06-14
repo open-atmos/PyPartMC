@@ -160,7 +160,6 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const double, std::shared_ptr<AeroData>>())
         .def("__len__", AeroState::__len__)
-        .def("__deepcopy__", AeroState::__deepcopy__)
         .def_property_readonly("total_num_conc", AeroState::total_num_conc,
             "returns the total number concentration of the population")
         .def_property_readonly("total_mass_conc", AeroState::total_mass_conc,

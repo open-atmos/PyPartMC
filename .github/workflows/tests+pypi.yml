@@ -23,6 +23,7 @@ jobs:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
+      - run: pytest -v -s -We -p no:unraisableexception tests
 
   build:
     needs: [debug_build_ok]
@@ -106,7 +107,7 @@ jobs:
       - run: |
           cd tests
           python -c "import PyPartMC"
-          pytest --durations=10 -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .
+          pytest --durations=10 -v -s -We -p no:unraisableexception .
           cd ..
 
       - if: matrix.python-version != '3.7'
