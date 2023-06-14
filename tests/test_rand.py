@@ -9,11 +9,12 @@ import pytest
 import PyPartMC as ppmc
 
 
+@pytest.mark.order(-1)
 @pytest.mark.parametrize(
     "init_args",
     (
-        ((0, 1), (0, 1)),
-        pytest.param(((0, 1), (0, 44)), marks=pytest.mark.xfail(strict=True)),
+        ((44, 1), (44, 1)),
+        pytest.param(((44, 0), (44, 1)), marks=pytest.mark.xfail(strict=True)),
     ),
 )
 def test_set_rand_seed(init_args):

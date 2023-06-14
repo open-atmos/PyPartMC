@@ -150,6 +150,7 @@ setup(
     extras_require={
         "tests": [
             "pytest",
+            "pytest-order",
             "fastcore!=1.5.8",  # https://github.com/fastai/fastcore/issues/439
             "ghapi",
         ]
