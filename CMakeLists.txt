@@ -351,6 +351,11 @@ configure_file(
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/config.h.cmake.in
   ${CMAKE_BINARY_DIR}/netcdf/config.h
 )
+configure_file(
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include/netcdf_dispatch.h.in
+  ${CMAKE_BINARY_DIR}/netcdf/netcdf_dispatch.h
+  @ONLY NEWLINE_STYLE LF
+)
 target_include_directories(netcdflib PRIVATE 
   ${CMAKE_BINARY_DIR}/netcdf
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
