@@ -300,6 +300,7 @@ target_include_directories(camplib PRIVATE
 
 ### netCDF #########################################################################################
 
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/netcdf)
 find_package(PythonInterp REQUIRED)
 execute_process(
   COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if 'VERSION' in line and line.startswith('SET')]))"
