@@ -394,6 +394,7 @@ target_compile_definitions(netcdf_flib PRIVATE
 )
 target_include_directories(netcdf_flib PRIVATE 
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/fortran
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
 )
 include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
