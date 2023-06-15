@@ -5,6 +5,7 @@
 ####################################################################################################
 
 cmake_minimum_required(VERSION 3.4...3.18)
+find_package(PythonInterp REQUIRED)
 
 if (NOT EXISTS "${CMAKE_SOURCE_DIR}/gitmodules/pybind11/include/pybind11/pybind11.h" )
   message(FATAL_ERROR "git submodules not initialised.\n Please run `git submodule update --init`")
@@ -257,10 +258,15 @@ function(scoped_sundials_setup_config)
   set(PROJECT_SOURCE_DIR ${SUNDIALS_SOURCE_DIR})
   set(SUNDIALS_PRECISION "double")
   set(SUNDIALS_CINDEX_TYPE "int64_t")
-  # TODO #111: read from submodule files!
-  set(PACKAGE_VERSION_MAJOR "5")
-  set(PACKAGE_VERSION_MINOR "8")
-  set(PACKAGE_VERSION_PATCH "0")
+
+  file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/sundials)
+  execute_process(
+    COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if line.startswith('set(PACKAGE_VERSION_')]))"
+    INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/sundials/CMakeset(PACKAGE_VERSION_Lists.txt
+    OUTPUT_FILE ${CMAKE_BINARY_DIR}/sundials/CMakeLists.txt
+  )
+  include(${CMAKE_BINARY_DIR}/sundials/CMakeLists.txt)
+
   set(PACKAGE_VERSION "${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}.${PACKAGE_VERSION_PATCH}")
   include(${SUNDIALS_SOURCE_DIR}/cmake/SundialsSetupConfig.cmake)
 endfunction()
@@ -301,7 +307,6 @@ target_include_directories(camplib PRIVATE
 ### netCDF #########################################################################################
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/netcdf)
-find_package(PythonInterp REQUIRED)
 execute_process(
   COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if 'VERSION' in line and line.startswith('SET')]))"
   INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/CMakeLists.txt
