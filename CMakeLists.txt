@@ -120,65 +120,30 @@ set(camp_SOURCES
 )
 add_prefix(gitmodules/camp/src/ camp_SOURCES)
 
-set(netcdf_c_SOURCES
-  libdispatch/dvar.c
-  libdispatch/ddim.c
-  libdispatch/dvarput.c
-  libdispatch/dvarget.c
-  libdispatch/ddispatch.c
-  libdispatch/dcompound.c
-  libdispatch/denum.c
-  libdispatch/dvlen.c
-  libdispatch/nc.c
-  libdispatch/dfile.c
-  libdispatch/dnotnc4.c
-  libdispatch/dstring.c
-  libdispatch/nclist.c
-  libdispatch/nchashmap.c
-  libdispatch/dinstance_intern.c
-  libdispatch/dtype.c
-  libdispatch/dgroup.c
-  libdispatch/nclistmgr.c
-  libdispatch/dattget.c
-  libdispatch/dattinq.c
-  libdispatch/dvarinq.c
-  libdispatch/dfilter.c
-  liblib/nc_initialize.c
-  libsrc/nc3dispatch.c
-  libsrc/nc3internal.c
-  libsrc/dim.c
-  libsrc/var.c
-  libsrc/ncio.c
-  libsrc/v1hpg.c
-  libsrc4/nc4internal.c
-  libsrc4/ncindex.c
-  #libsrc4/nc4cache.c
+set(netcdf_c_dispatch_SOURCES dvar.c ddim.c dvarput.c dvarget.c ddispatch.c dcompound.c denum.c daux.c
+  dvlen.c nc.c dfile.c dnotnc4.c dstring.c nclist.c nchashmap.c dinstance_intern.c dtype.c dgroup.c
+  nclistmgr.c dattget.c dattinq.c dvarinq.c dfilter.c derror.c doffsets.c datt.c dattput.c dcopy.c drc.c
+  dpathmgr.c dmissing.c nclog.c dutf8.c utf8proc.c ncbytes.c dopaque.c ncuri.c dcrc64.c dinstance.c
+  ds3util.c dutil.c dauth.c dinfermodel.c
 )
-add_prefix(gitmodules/netcdf-c/ netcdf_c_SOURCES)
+add_prefix(gitmodules/netcdf-c/libdispatch/ netcdf_c_dispatch_SOURCES)
 
-set(netcdf_f_SOURCES
-  fortran/typeSizes.F90
-  fortran/module_netcdf_nf_data.F90
-  fortran/module_netcdf_nc_data.F90
-  fortran/module_netcdf_nf_interfaces.F90
-  fortran/module_netcdf_nc_interfaces.F90
-  fortran/module_netcdf4_nf_interfaces.F90
-  fortran/module_netcdf4_nc_interfaces.F90
-  fortran/nf_nc4.F90
-  fortran/netcdf4.F90
-  fortran/nf_varaio.F90
-  fortran/nf_varsio.F90
-  fortran/nf_varmio.F90
-  fortran/nf_var1io.F90
-  fortran/nf_attio.F90
-  fortran/nf_control.F90
-  fortran/nf_genvar.F90
-  fortran/nf_dim.F90
-  fortran/nf_misc.F90
-  fortran/nf_nc_noparallel.F90
-  fortran/nf_lib.c
+set(netcdf_c_lib_SOURCES nc_initialize.c)
+add_prefix(gitmodules/netcdf-c/liblib/ netcdf_c_lib_SOURCES)
+
+set(netcdf_c_src_SOURCES nc3dispatch.c nc3internal.c dim.c var.c ncio.c v1hpg.c memio.c posixio.c)
+add_prefix(gitmodules/netcdf-c/libsrc/ netcdf_c_src_SOURCES)
+
+set(netcdf_c_src4_SOURCES nc4internal.c ncindex.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c)
+add_prefix(gitmodules/netcdf-c/libsrc4/ netcdf_c_src4_SOURCES)
+
+set(netcdf_f_SOURCES typeSizes.F90 module_netcdf_nf_data.F90 module_netcdf_nc_data.F90
+  module_netcdf_nf_interfaces.F90 module_netcdf_nc_interfaces.F90 module_netcdf4_nf_interfaces.F90
+  module_netcdf4_nc_interfaces.F90 nf_nc4.F90 netcdf4.F90 nf_varaio.F90 nf_varsio.F90 nf_varmio.F90
+  nf_var1io.F90 nf_attio.F90 nf_control.F90 nf_genvar.F90 nf_dim.F90 nf_misc.F90 nf_nc_noparallel.F90
+  nf_lib.c nf_genatt.F90 nf_geninq.F90
 )
-add_prefix(gitmodules/netcdf-fortran/ netcdf_f_SOURCES)
+add_prefix(gitmodules/netcdf-fortran/fortran/ netcdf_f_SOURCES)
 
 set(json_fortran_SOURCES
   json_kinds.F90
@@ -335,7 +300,19 @@ target_include_directories(camplib PRIVATE
 
 ### netCDF #########################################################################################
 
+find_package(PythonInterp REQUIRED)
+execute_process(
+  COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if 'VERSION' in line and line.startswith('SET')]))"
+  INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/CMakeLists.txt
+  OUTPUT_FILE ${CMAKE_BINARY_DIR}/netcdf/CMakeLists.txt
+)
+include(${CMAKE_BINARY_DIR}/netcdf/CMakeLists.txt)
+
 SET(m4_SOURCES attr ncx putget)
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_lib_SOURCES})
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_dispatch_SOURCES})
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_src_SOURCES})
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_src4_SOURCES})
 foreach (f ${m4_SOURCES})
   set(tmp ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
   add_custom_command(
@@ -346,28 +323,8 @@ foreach (f ${m4_SOURCES})
   )
   LIST(APPEND netcdf_c_SOURCES ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
 endforeach(f)
-add_library(netcdf_clib STATIC ${netcdf_c_SOURCES})
-configure_file(
-  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/config.h.cmake.in
-  ${CMAKE_BINARY_DIR}/netcdf/config.h
-)
 set(NC_DISPATCH_VERSION 5)
 set(NC_HAS_LOGGING 0)
-configure_file(
-  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include/netcdf_dispatch.h.in
-  ${CMAKE_BINARY_DIR}/netcdf/netcdf_dispatch.h
-  @ONLY NEWLINE_STYLE LF
-)
-configure_file(
-  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include/netcdf_meta.h.in
-  ${CMAKE_BINARY_DIR}/netcdf/netcdf_meta.h
-  @ONLY
-)
-target_include_directories(netcdf_clib PRIVATE 
-  ${CMAKE_BINARY_DIR}/netcdf
-  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
-  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
-)
 CHECK_TYPE_SIZE("int64_t"            SIZEOF_INT64_T)
 CHECK_TYPE_SIZE("uint64"             SIZEOF_UINT64)
 CHECK_TYPE_SIZE("unsigned char"      SIZEOF_UCHAR)
@@ -378,28 +335,43 @@ CHECK_TYPE_SIZE("long long"          SIZEOF_LONGLONG)
 CHECK_TYPE_SIZE("unsigned long long" SIZEOF_ULONGLONG)
 CHECK_TYPE_SIZE("uint64_t"           SIZEOF_UINT64_T)
 CHECK_TYPE_SIZE("size_t"             SIZEOF_SIZE_T)
+configure_file(
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/config.h.cmake.in
+  ${CMAKE_BINARY_DIR}/netcdf/config.h
+)
+configure_file(
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include/netcdf_dispatch.h.in
+  ${CMAKE_BINARY_DIR}/netcdf/netcdf_dispatch.h
+  @ONLY NEWLINE_STYLE LF
+)
+configure_file(
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include/netcdf_meta.h.in
+  ${CMAKE_BINARY_DIR}/netcdf/netcdf_meta.h
+  @ONLY
+)
+add_library(netcdf_clib STATIC ${netcdf_c_SOURCES})
+target_include_directories(netcdf_clib PRIVATE 
+  ${CMAKE_BINARY_DIR}/netcdf
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
+)
 target_compile_definitions(netcdf_clib PRIVATE
+  HAVE_SSIZE_T
+  HAVE_MKSTEMP
   HAVE_CONFIG_H
   HAVE_STDINT_H
   HAVE_STDIO_H
   HAVE_STDLIB_H
   HAVE_UNISTD_H
+  HAVE_FCNTL_H
+  HAVE_SYS_STAT_H
   HAVE_IO_H
   HAVE_UINT64_T
   DEFAULT_CHUNK_SIZE=16777216 
   CHUNK_CACHE_SIZE=16777216 
   CHUNK_CACHE_NELEMS=4133
   CHUNK_CACHE_PREEMPTION=0.75
-  SIZEOF_INT64_T
-  SIZEOF_UINT64
-  SIZEOF_UCHAR
-  SIZEOF_USHORT
-  SIZEOF_UNSIGNED_SHORT_INT
-  SIZEOF_UNSIGNED_INT
-  SIZEOF_LONGLONG
-  SIZEOF_ULONGLONG
-  SIZEOF_UINT64_T
-  SIZEOF_SIZE_T
+  USE_NETCDF4
 )
 
 ### netCDF-FORTRAN #################################################################################
