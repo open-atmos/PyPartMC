@@ -351,6 +351,8 @@ configure_file(
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/config.h.cmake.in
   ${CMAKE_BINARY_DIR}/netcdf/config.h
 )
+set(NC_DISPATCH_VERSION 5)
+set(NC_HAS_LOGGING 0)
 configure_file(
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include/netcdf_dispatch.h.in
   ${CMAKE_BINARY_DIR}/netcdf/netcdf_dispatch.h
@@ -398,7 +400,6 @@ target_compile_definitions(netcdf_clib PRIVATE
   SIZEOF_ULONGLONG
   SIZEOF_UINT64_T
   SIZEOF_SIZE_T
-  NC_DISPATCH_VERSION=5
 )
 
 ### netCDF-FORTRAN #################################################################################
