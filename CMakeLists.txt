@@ -262,7 +262,7 @@ function(scoped_sundials_setup_config)
   file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/sundials)
   execute_process(
     COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if line.startswith('set(PACKAGE_VERSION_')]))"
-    INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/sundials/CMakeset(PACKAGE_VERSION_Lists.txt
+    INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/sundials/CMakeLists.txt
     OUTPUT_FILE ${CMAKE_BINARY_DIR}/sundials/CMakeLists.txt
   )
   include(${CMAKE_BINARY_DIR}/sundials/CMakeLists.txt)
@@ -332,6 +332,7 @@ endforeach(f)
 set(NC_DISPATCH_VERSION 5)
 set(NC_HAS_LOGGING 0)
 CHECK_TYPE_SIZE("int"                SIZEOF_INT)
+CHECK_TYPE_SIZE("float"              SIZEOF_FLOAT)
 CHECK_TYPE_SIZE("int64_t"            SIZEOF_INT64_T)
 CHECK_TYPE_SIZE("uint64"             SIZEOF_UINT64)
 CHECK_TYPE_SIZE("unsigned char"      SIZEOF_UCHAR)
@@ -372,6 +373,7 @@ target_compile_definitions(netcdf_clib PRIVATE
   HAVE_UNISTD_H
   HAVE_FCNTL_H
   HAVE_SYS_STAT_H
+  HAVE_STRING_H
   HAVE_IO_H
   HAVE_UINT64_T
   DEFAULT_CHUNK_SIZE=16777216 
