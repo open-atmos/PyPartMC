@@ -185,7 +185,7 @@ include gitmodules/netcdf-c/libsrc4/nc4type.c
 include gitmodules/netcdf-c/libsrc4/nc4grp.c
 include gitmodules/netcdf-c/libsrc4/nc4var.c
 
-include gitmodules/netcdf-fortran/fortran/COPYRIGHT
+include gitmodules/netcdf-fortran/COPYRIGHT
 include gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake
 include gitmodules/netcdf-fortran/fortran/typeSizes.F90
 include gitmodules/netcdf-fortran/fortran/module_netcdf_nf_data.F90

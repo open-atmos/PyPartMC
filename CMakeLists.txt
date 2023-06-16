@@ -367,6 +367,9 @@ target_compile_definitions(netcdf_clib PRIVATE
   HAVE_UINT64_T
   USE_NETCDF4
 )
+target_compile_options(netcdf_clib PRIVATE
+    $<$<C_COMPILER_ID:GNU>:-Wno-warn_unused_result -Wno-pointer-to-int-cast>
+)
 
 ### netCDF-FORTRAN #################################################################################
 
