@@ -308,7 +308,7 @@ target_include_directories(camplib PRIVATE
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/netcdf)
 execute_process(
-  COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if 'VERSION' in line and line.startswith('SET')]))"
+  COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if ('VERSION' in line and line.startswith('SET')) or line.startswith('CHECK_INCLUDE_FILE') or line.startswith('CHECK_TYPE_SIZE')]))"
   INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/CMakeLists.txt
   OUTPUT_FILE ${CMAKE_BINARY_DIR}/netcdf/CMakeLists.txt
 )
@@ -331,19 +331,6 @@ foreach (f ${m4_SOURCES})
 endforeach(f)
 set(NC_DISPATCH_VERSION 5)
 set(NC_HAS_LOGGING 0)
-CHECK_TYPE_SIZE("int"                SIZEOF_INT)
-CHECK_TYPE_SIZE("float"              SIZEOF_FLOAT)
-CHECK_TYPE_SIZE("double"             SIZEOF_DOUBLE)
-CHECK_TYPE_SIZE("int64_t"            SIZEOF_INT64_T)
-CHECK_TYPE_SIZE("uint64"             SIZEOF_UINT64)
-CHECK_TYPE_SIZE("unsigned char"      SIZEOF_UCHAR)
-CHECK_TYPE_SIZE("unsigned short"     SIZEOF_USHORT)
-CHECK_TYPE_SIZE("unsigned short int" SIZEOF_UNSIGNED_SHORT_INT)
-CHECK_TYPE_SIZE("unsigned int"       SIZEOF_UNSIGNED_INT)
-CHECK_TYPE_SIZE("long long"          SIZEOF_LONGLONG)
-CHECK_TYPE_SIZE("unsigned long long" SIZEOF_ULONGLONG)
-CHECK_TYPE_SIZE("uint64_t"           SIZEOF_UINT64_T)
-CHECK_TYPE_SIZE("size_t"             SIZEOF_SIZE_T)
 configure_file(
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/config.h.cmake.in
   ${CMAKE_BINARY_DIR}/netcdf/config.h
@@ -368,14 +355,6 @@ target_compile_definitions(netcdf_clib PRIVATE
   HAVE_SSIZE_T
   HAVE_MKSTEMP
   HAVE_CONFIG_H
-  HAVE_STDINT_H
-  HAVE_STDIO_H
-  HAVE_STDLIB_H
-  HAVE_UNISTD_H
-  HAVE_FCNTL_H
-  HAVE_SYS_STAT_H
-  HAVE_STRING_H
-  HAVE_IO_H
   HAVE_UINT64_T
   DEFAULT_CHUNK_SIZE=16777216 
   CHUNK_CACHE_SIZE=16777216 

@@ -128,6 +128,7 @@ include gitmodules/netcdf-c/libdispatch/dutil.c
 include gitmodules/netcdf-c/libdispatch/dauth.c
 include gitmodules/netcdf-c/libdispatch/dinfermodel.c
 include gitmodules/netcdf-c/liblib/nc_initialize.c
+include gitmodules/netcdf-c/libsrc/putget.m4
 include gitmodules/netcdf-c/libsrc/nc3dispatch.c
 include gitmodules/netcdf-c/libsrc/nc3internal.c
 include gitmodules/netcdf-c/libsrc/dim.c
