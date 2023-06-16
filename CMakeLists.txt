@@ -386,7 +386,7 @@ target_include_directories(netcdf_flib PRIVATE
 include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   target_compile_options(netcdf_flib PRIVATE 
-    $<$<COMPILE_LANGUAGE:Fortran>:-w>
+    $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch -fallow-invalid-boz -w>
   )
 endif()
 
