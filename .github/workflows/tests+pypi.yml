@@ -47,6 +47,7 @@ jobs:
           install: >-
             mingw-w64-x86_64-gcc-fortran
             mingw-w64-x86_64-ninja
+            m4
 
       - if: matrix.platform == 'windows-latest'
         run: |
@@ -56,6 +57,7 @@ jobs:
           echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" >> $GITHUB_ENV
           echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
           echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
+          echo "D:/a/_temp/msys64/mingw64/bin" >> $GITHUB_PATH
 
       - uses: actions/checkout@v2
         with:

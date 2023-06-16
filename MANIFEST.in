@@ -115,6 +115,9 @@ include gitmodules/netcdf-c/include/nc4dispatch.h
 include gitmodules/netcdf-c/include/ncs3sdk.h
 include gitmodules/netcdf-c/include/ncauth.h
 include gitmodules/netcdf-c/include/nchttp.h
+include gitmodules/netcdf-c/include/netcdf_mem.h
+include gitmodules/netcdf-c/include/netcdf_filter.h
+include gitmodules/netcdf-c/include/netcdf_aux.h
 include gitmodules/netcdf-c/libdispatch/utf8proc_data.c
 include gitmodules/netcdf-c/libdispatch/utf8proc.h
 include gitmodules/netcdf-c/libdispatch/dvar.c
@@ -182,7 +185,7 @@ include gitmodules/netcdf-c/libsrc4/nc4type.c
 include gitmodules/netcdf-c/libsrc4/nc4grp.c
 include gitmodules/netcdf-c/libsrc4/nc4var.c
 
-include gitmodules/netcdf-fortran/fortran/COPYRIGHT
+include gitmodules/netcdf-fortran/COPYRIGHT
 include gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake
 include gitmodules/netcdf-fortran/fortran/typeSizes.F90
 include gitmodules/netcdf-fortran/fortran/module_netcdf_nf_data.F90

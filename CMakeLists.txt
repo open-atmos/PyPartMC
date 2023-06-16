@@ -5,13 +5,14 @@
 ####################################################################################################
 
 cmake_minimum_required(VERSION 3.4...3.18)
-find_package(PythonInterp REQUIRED)
 
 if (NOT EXISTS "${CMAKE_SOURCE_DIR}/gitmodules/pybind11/include/pybind11/pybind11.h" )
   message(FATAL_ERROR "git submodules not initialised.\n Please run `git submodule update --init`")
 endif()
 
 project(_PyPartMC LANGUAGES C CXX Fortran)
+
+find_package(PythonInterp REQUIRED)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -367,9 +368,14 @@ target_compile_definitions(netcdf_clib PRIVATE
   HAVE_UINT64_T
   USE_NETCDF4
 )
+target_compile_options(netcdf_clib PRIVATE
+    $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
+    $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
+)
 
 ### netCDF-FORTRAN #################################################################################
 
+include(CheckFortranCompilerFlag)
 add_library(netcdf_flib STATIC ${netcdf_f_SOURCES})
 target_link_libraries(netcdf_flib PRIVATE netcdf_clib)
 target_compile_definitions(netcdf_flib PRIVATE
@@ -381,11 +387,14 @@ target_include_directories(netcdf_flib PRIVATE
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
 )
 include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
-if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
-  target_compile_options(netcdf_flib PRIVATE 
-    $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch>
-  )
+check_fortran_compiler_flag("-fallow-argument-mismatch" COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
+if(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
+  target_compile_options(netcdf_flib PRIVATE $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch -w>)
 endif()
+check_fortran_compiler_flag("-mismatch_all" COMPILER_HAS_MISMATCH_ALL)
+if(COMPILER_HAS_MISMATCH_ALL)
+  target_compile_options(netcdf_flib PRIVATE $<$<COMPILE_LANGUAGE:Fortran>:-mismatch_all>)
+endif(COMPILER_HAS_MISMATCH_ALL)
 
 ### partmclib ######################################################################################
 
