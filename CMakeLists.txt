@@ -370,6 +370,7 @@ target_compile_definitions(netcdf_clib PRIVATE
 )
 target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
+    $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
 )
 
 ### netCDF-FORTRAN #################################################################################
