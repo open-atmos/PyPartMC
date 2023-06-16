@@ -117,6 +117,7 @@ include gitmodules/netcdf-c/include/ncauth.h
 include gitmodules/netcdf-c/include/nchttp.h
 include gitmodules/netcdf-c/include/netcdf_mem.h
 include gitmodules/netcdf-c/include/netcdf_filter.h
+include gitmodules/netcdf-c/include/netcdf_aux.h
 include gitmodules/netcdf-c/libdispatch/utf8proc_data.c
 include gitmodules/netcdf-c/libdispatch/utf8proc.h
 include gitmodules/netcdf-c/libdispatch/dvar.c
