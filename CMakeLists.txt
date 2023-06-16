@@ -307,8 +307,18 @@ target_include_directories(camplib PRIVATE
 ### netCDF #########################################################################################
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/netcdf)
+string(CONCAT cmd
+  "import sys; print(''.join([line for line in sys.stdin"
+  " if ('VERSION' in line and line.strip().startswith('SET'))"
+  " or 'CHUNK_' in line"
+  " or line.strip().startswith('CHECK_INCLUDE_FILE')"
+  " or line.strip().startswith('CHECK_TYPE_SIZE')"
+  " or line.strip().startswith('CHECK_FUNCTION_EXISTS')"
+  "]))"
+)
+include(CheckFunctionExists)
 execute_process(
-  COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if ('VERSION' in line and line.startswith('SET')) or line.startswith('CHECK_INCLUDE_FILE') or line.startswith('CHECK_TYPE_SIZE')]))"
+  COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
   INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/CMakeLists.txt
   OUTPUT_FILE ${CMAKE_BINARY_DIR}/netcdf/CMakeLists.txt
 )
@@ -353,13 +363,8 @@ target_include_directories(netcdf_clib PRIVATE
 )
 target_compile_definitions(netcdf_clib PRIVATE
   HAVE_SSIZE_T
-  HAVE_MKSTEMP
   HAVE_CONFIG_H
   HAVE_UINT64_T
-  DEFAULT_CHUNK_SIZE=16777216 
-  CHUNK_CACHE_SIZE=16777216 
-  CHUNK_CACHE_NELEMS=4133
-  CHUNK_CACHE_PREEMPTION=0.75
   USE_NETCDF4
 )
 
