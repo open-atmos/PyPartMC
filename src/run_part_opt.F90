@@ -120,6 +120,7 @@ module PyPartMC_run_part_opt
        call spec_file_read_logical(file, 'do_camp_chem', run_part_opt%do_camp_chem)
 
        run_part_opt%output_type = OUTPUT_TYPE_SINGLE
+       run_part_opt%output_prefix = 'test'
 
        call pmc_srand(rand_init, 0)
 

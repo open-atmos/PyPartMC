@@ -22,6 +22,7 @@
 #include "bin_grid.hpp"
 #include "camp_core.hpp"
 #include "photolysis.hpp"
+#include "output.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -417,6 +418,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "Evaluate a loss rate function."
     );
 
+    m.def(
+        "output_state", &output_state, ""
+    );
+
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 
     m.attr("__all__") = py::make_tuple(
@@ -447,6 +452,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "sphere_rad2vol",
         "diam2rad",
         "loss_rate_dry_dep",
-        "loss_rate"
+        "loss_rate",
+        "output_state"
     );
 }
