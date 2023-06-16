@@ -368,7 +368,7 @@ target_compile_definitions(netcdf_clib PRIVATE
   USE_NETCDF4
 )
 target_compile_options(netcdf_clib PRIVATE
-    $<$<C_COMPILER_ID:GNU>:-Wno-warn_unused_result -Wno-pointer-to-int-cast>
+    $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
 )
 
 ### netCDF-FORTRAN #################################################################################
@@ -386,7 +386,7 @@ target_include_directories(netcdf_flib PRIVATE
 include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
 if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
   target_compile_options(netcdf_flib PRIVATE 
-    $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch>
+    $<$<COMPILE_LANGUAGE:Fortran>:-w>
   )
 endif()
 
