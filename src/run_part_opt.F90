@@ -122,6 +122,9 @@ module PyPartMC_run_part_opt
        run_part_opt%output_type = OUTPUT_TYPE_SINGLE
        run_part_opt%output_prefix = 'test'
 
+       run_part_opt%i_repeat = 1
+       run_part_opt%n_repeat = 1
+
        call pmc_srand(rand_init, 0)
 
     end subroutine
