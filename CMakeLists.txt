@@ -381,6 +381,7 @@ target_link_libraries(netcdf_flib PRIVATE netcdf_clib)
 target_compile_definitions(netcdf_flib PRIVATE
   HAVE_TS29113_SUPPORT
   USE_NETCDF4
+  NF_INT_IS_C_INT
 )
 target_include_directories(netcdf_flib PRIVATE 
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/fortran
