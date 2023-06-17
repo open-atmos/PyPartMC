@@ -37,6 +37,9 @@ module PyPartMC_run_part_opt
 
         call c_f_pointer(ptr_c, run_part_opt)
 
+        call spec_file_read_string(file, 'output_prefix', &
+             run_part_opt%output_prefix)
+
         !!! TODO #55
         call spec_file_read_logical(file, 'do_coagulation', run_part_opt%do_coagulation)    
         if (run_part_opt%do_coagulation) then

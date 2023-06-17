@@ -12,6 +12,7 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 RUN_PART_OPT_CTOR_ARG_MINIMAL = {
+    "output_prefix": "test",
     "do_coagulation": False,
     "do_parallel": False,
     "do_nucleation": False,
