@@ -419,7 +419,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
     );
 
     m.def(
-        "output_state", &output_state, ""
+        "output_state", &output_state, "Output current state to netCDF file."
+    );
+
+    m.def(
+        "input_state", &input_state, "Read current state from netCDF output file."
     );
 
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
@@ -453,6 +457,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "diam2rad",
         "loss_rate_dry_dep",
         "loss_rate",
-        "output_state"
+        "output_state",
+        "input_state"
     );
 }

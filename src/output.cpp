@@ -33,3 +33,20 @@ void output_state(
        &index, &time, &del_t, &i_repeat,
        &record_removals, &record_optical);
 }
+
+void input_state(
+    const AeroData &aero_data,
+    const AeroState &aero_state,
+    const GasData &gas_data,
+    const GasState &gas_state,
+    const EnvState &env_state
+){
+    int index;
+    double time;
+    double del_t;
+    int i_repeat;
+
+    f_input_state(&index, &time, &del_t, &i_repeat,
+       aero_data.ptr.f_arg(), aero_state.ptr.f_arg(),
+       gas_state.gas_data->ptr.f_arg(), gas_state.ptr.f_arg(), env_state.ptr.f_arg());
+}

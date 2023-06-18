@@ -27,7 +27,27 @@ extern "C" void f_output_state(
     const bool *record_optical
 ) noexcept;
 
+extern "C" void f_input_state(
+    int *index,
+    double *time,
+    double *del_t,
+    int *i_repeat,
+    const void *aero_data,
+    const void *aero_state,
+    const void *gas_data,
+    const void *gas_state,
+    const void *env_state
+) noexcept;
+
 void output_state(
+    const AeroData &aero_data,
+    const AeroState &aero_state,
+    const GasData &gas_data,
+    const GasState &gas_state,
+    const EnvState &env_state
+);
+
+void input_state(
     const AeroData &aero_data,
     const AeroState &aero_state,
     const GasData &gas_data,
