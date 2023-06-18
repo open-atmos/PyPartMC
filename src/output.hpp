@@ -28,6 +28,8 @@ extern "C" void f_output_state(
 ) noexcept;
 
 extern "C" void f_input_state(
+    const char *filename,
+    const int *filename_size,
     int *index,
     double *time,
     double *del_t,
@@ -48,6 +50,7 @@ void output_state(
 );
 
 void input_state(
+    const std::string &name,
     const AeroData &aero_data,
     const AeroState &aero_state,
     const GasData &gas_data,
