@@ -325,6 +325,7 @@ execute_process(
 )
 include(${CMAKE_BINARY_DIR}/netcdf/CMakeLists.txt)
 
+FIND_PROGRAM(NC_M4 NAMES m4 m4.exe REQUIRED)
 SET(m4_SOURCES attr ncx putget)
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_lib_SOURCES})
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_dispatch_SOURCES})
@@ -334,7 +335,7 @@ foreach (f ${m4_SOURCES})
   set(tmp ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
   add_custom_command(
     OUTPUT ${tmp}
-    COMMAND m4
+    COMMAND ${NC_M4}
     ARGS ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc/${f}.m4 > ${tmp}
     VERBATIM
   )
