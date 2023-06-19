@@ -315,6 +315,8 @@ string(CONCAT cmd
   " or line.strip().startswith('CHECK_INCLUDE_FILE')"
   " or line.strip().startswith('CHECK_TYPE_SIZE')"
   " or line.strip().startswith('CHECK_FUNCTION_EXISTS')"
+  " or 'IF(SIZEOF_' in line"
+  " or '_T TRUE)' in line"
   "]))"
 )
 include(CheckFunctionExists)
@@ -364,9 +366,7 @@ target_include_directories(netcdf_clib PRIVATE
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
 )
 target_compile_definitions(netcdf_clib PRIVATE
-  HAVE_SSIZE_T
   HAVE_CONFIG_H
-  HAVE_UINT64_T
   USE_NETCDF4
 )
 target_compile_options(netcdf_clib PRIVATE
