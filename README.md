@@ -85,9 +85,9 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 - PyPartMC is written in C++, Fortran and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
 - JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
 - PartMC and selected parts of SUNDIALS are statically linked (and compiled in during `pip install` or `python -m build`) 
-- C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC, CAMP) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
-- MOSAIC dependency is optionally linked through setting the environmental variable MOSAIC_HOME
-- a [mock of PartMC spec file API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) are used for i/o from/to JSON 
+- C (SUNDIALS, netCDF), C++ (pybind11, ...) and Fortran (PartMC, CAMP, netCDF-fortran) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
+- MOSAIC dependency is optionally linked through setting the environmental variable `MOSAIC_HOME`
+- a [drop-in replacement of the PartMC spec file routines](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) is used for i/o from/to JSON 
 
 ## Implementation architecture
 
@@ -137,13 +137,17 @@ flowchart TD
 ```
 error: [Errno 2] No such file or directory: 'cmake'
 ```
-Try rerunning after installing CMake (e.g., `apt-get install cmake` or `brew install cmake`)
+Try rerunning after installing CMake, e.g., using `apt-get install cmake` (Ubuntu/Debian), `brew install cmake` (homebrew on macOS) or using [MSYS2](https://www.msys2.org/docs/cmake/) on Windows.
 
 ```
 No CMAKE_Fortran_COMPILER could be found.
 ```
-Try installing a Fortran compiler (e.g., `brew reinstall gcc`)
+Try installing a Fortran compiler (e.g., `brew reinstall gcc` with Homebrew on macOS or using [MSYS2](https://packages.msys2.org/package/mingw-w64-x86_64-gcc-fortran?repo=mingw64) on Windows).
 
+```
+Could not find NC_M4 using the following names: m4, m4.exe
+```
+Try installing `m4` (e.g., using [MSYS2](https://packages.msys2.org/package/m4?repo=msys&variant=x86_64) on Windows).
 
 ## Notes for developers
 #### How to debug

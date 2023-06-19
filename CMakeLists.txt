@@ -317,6 +317,8 @@ string(CONCAT cmd
   " or line.strip().startswith('CHECK_INCLUDE_FILE')"
   " or line.strip().startswith('CHECK_TYPE_SIZE')"
   " or line.strip().startswith('CHECK_FUNCTION_EXISTS')"
+  " or 'IF(SIZEOF_' in line"
+  " or '_T TRUE)' in line"
   "]))"
 )
 include(CheckFunctionExists)
@@ -327,6 +329,7 @@ execute_process(
 )
 include(${CMAKE_BINARY_DIR}/netcdf/CMakeLists.txt)
 
+FIND_PROGRAM(NC_M4 NAMES m4 m4.exe REQUIRED)
 SET(m4_SOURCES attr ncx putget)
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_lib_SOURCES})
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_dispatch_SOURCES})
@@ -336,7 +339,7 @@ foreach (f ${m4_SOURCES})
   set(tmp ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
   add_custom_command(
     OUTPUT ${tmp}
-    COMMAND m4
+    COMMAND ${NC_M4}
     ARGS ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc/${f}.m4 > ${tmp}
     VERBATIM
   )
@@ -365,9 +368,7 @@ target_include_directories(netcdf_clib PRIVATE
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
 )
 target_compile_definitions(netcdf_clib PRIVATE
-  HAVE_SSIZE_T
   HAVE_CONFIG_H
-  HAVE_UINT64_T
   USE_NETCDF4
 )
 target_compile_options(netcdf_clib PRIVATE
