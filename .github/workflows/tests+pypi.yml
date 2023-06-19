@@ -48,13 +48,12 @@ jobs:
           install: >-
             mingw-w64-x86_64-gcc-fortran
             mingw-w64-x86_64-ninja
+            m4
 
       - if: matrix.platform == 'windows-latest'
         run: |
-          echo CMAKE_ARGS="-DCMAKE_Fortran_COMPILER=D:/a/_temp/msys64/mingw64/bin/gfortran.exe" >> $GITHUB_ENV
-          echo CMAKE_ARGS="-DCMAKE_C_COMPILER=D:/a/_temp/msys64/mingw64/bin/gcc.exe" >> $GITHUB_ENV
-          echo CMAKE_ARGS="-DCMAKE_CXX_COMPILER=D:/a/_temp/msys64/mingw64/bin/g++.exe" >> $GITHUB_ENV
           echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" >> $GITHUB_ENV
+          echo CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
           echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
           echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
 

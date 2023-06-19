@@ -12,6 +12,8 @@ endif()
 
 project(_PyPartMC LANGUAGES C CXX Fortran)
 
+find_package(PythonInterp REQUIRED)
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -43,7 +45,7 @@ add_definitions("-DSUNDIALS_INT64_T=1")
 ### sources ########################################################################################
 
 set(PyPartMC_sources 
-  pypartmc.cpp gimmicks.cpp fake_netcdf.cpp fake_spec_file.cpp sys.cpp
+  pypartmc.cpp gimmicks.cpp fake_spec_file.cpp sys.cpp
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
   gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90
   camp_core.F90 photolysis.F90 aero_mode.F90 aero_dist.F90 bin_grid.cpp condense.cpp run_part.cpp
@@ -122,6 +124,31 @@ set(camp_SOURCES
 )
 add_prefix(gitmodules/camp/src/ camp_SOURCES)
 
+set(netcdf_c_dispatch_SOURCES dvar.c ddim.c dvarput.c dvarget.c ddispatch.c dcompound.c denum.c daux.c
+  dvlen.c nc.c dfile.c dnotnc4.c dstring.c nclist.c nchashmap.c dinstance_intern.c dtype.c dgroup.c
+  nclistmgr.c dattget.c dattinq.c dvarinq.c dfilter.c derror.c doffsets.c datt.c dattput.c dcopy.c drc.c
+  dpathmgr.c dmissing.c nclog.c dutf8.c utf8proc.c ncbytes.c dopaque.c ncuri.c dcrc64.c dinstance.c
+  ds3util.c dutil.c dauth.c dinfermodel.c
+)
+add_prefix(gitmodules/netcdf-c/libdispatch/ netcdf_c_dispatch_SOURCES)
+
+set(netcdf_c_lib_SOURCES nc_initialize.c)
+add_prefix(gitmodules/netcdf-c/liblib/ netcdf_c_lib_SOURCES)
+
+set(netcdf_c_src_SOURCES nc3dispatch.c nc3internal.c dim.c var.c ncio.c v1hpg.c memio.c posixio.c)
+add_prefix(gitmodules/netcdf-c/libsrc/ netcdf_c_src_SOURCES)
+
+set(netcdf_c_src4_SOURCES nc4internal.c ncindex.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c)
+add_prefix(gitmodules/netcdf-c/libsrc4/ netcdf_c_src4_SOURCES)
+
+set(netcdf_f_SOURCES typeSizes.F90 module_netcdf_nf_data.F90 module_netcdf_nc_data.F90
+  module_netcdf_nf_interfaces.F90 module_netcdf_nc_interfaces.F90 module_netcdf4_nf_interfaces.F90
+  module_netcdf4_nc_interfaces.F90 nf_nc4.F90 netcdf4.F90 nf_varaio.F90 nf_varsio.F90 nf_varmio.F90
+  nf_var1io.F90 nf_attio.F90 nf_control.F90 nf_genvar.F90 nf_dim.F90 nf_misc.F90 nf_nc_noparallel.F90
+  nf_lib.c nf_genatt.F90 nf_geninq.F90
+)
+add_prefix(gitmodules/netcdf-fortran/fortran/ netcdf_f_SOURCES)
+
 set(json_fortran_SOURCES
   json_kinds.F90
   json_parameters.F90
@@ -144,7 +171,7 @@ set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 intege
   photolysis.F90
 )
 add_prefix(gitmodules/partmc/src/ partmclib_SOURCES)
-list(APPEND partmclib_SOURCES src/fake_netcdf.F90 src/fake_spec_file.F90 src/sys.F90)
+list(APPEND partmclib_SOURCES src/fake_spec_file.F90 src/sys.F90)
 
 set(klu_SOURCES
   KLU/Source/klu_analyze.c
@@ -234,10 +261,15 @@ function(scoped_sundials_setup_config)
   set(PROJECT_SOURCE_DIR ${SUNDIALS_SOURCE_DIR})
   set(SUNDIALS_PRECISION "double")
   set(SUNDIALS_CINDEX_TYPE "int64_t")
-  # TODO #111: read from submodule files!
-  set(PACKAGE_VERSION_MAJOR "5")
-  set(PACKAGE_VERSION_MINOR "8")
-  set(PACKAGE_VERSION_PATCH "0")
+
+  file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/sundials)
+  execute_process(
+    COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if line.startswith('set(PACKAGE_VERSION_')]))"
+    INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/sundials/CMakeLists.txt
+    OUTPUT_FILE ${CMAKE_BINARY_DIR}/sundials/CMakeLists.txt
+  )
+  include(${CMAKE_BINARY_DIR}/sundials/CMakeLists.txt)
+
   set(PACKAGE_VERSION "${PACKAGE_VERSION_MAJOR}.${PACKAGE_VERSION_MINOR}.${PACKAGE_VERSION_PATCH}")
   include(${SUNDIALS_SOURCE_DIR}/cmake/SundialsSetupConfig.cmake)
 endfunction()
@@ -275,6 +307,98 @@ target_include_directories(camplib PRIVATE
   ${CMAKE_BINARY_DIR}/include
 )
 
+### netCDF #########################################################################################
+
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/netcdf)
+string(CONCAT cmd
+  "import sys; print(''.join([line for line in sys.stdin"
+  " if ('VERSION' in line and line.strip().startswith('SET'))"
+  " or 'CHUNK_' in line"
+  " or line.strip().startswith('CHECK_INCLUDE_FILE')"
+  " or line.strip().startswith('CHECK_TYPE_SIZE')"
+  " or line.strip().startswith('CHECK_FUNCTION_EXISTS')"
+  " or 'IF(SIZEOF_' in line"
+  " or '_T TRUE)' in line"
+  "]))"
+)
+include(CheckFunctionExists)
+execute_process(
+  COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
+  INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/CMakeLists.txt
+  OUTPUT_FILE ${CMAKE_BINARY_DIR}/netcdf/CMakeLists.txt
+)
+include(${CMAKE_BINARY_DIR}/netcdf/CMakeLists.txt)
+
+FIND_PROGRAM(NC_M4 NAMES m4 m4.exe REQUIRED)
+SET(m4_SOURCES attr ncx putget)
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_lib_SOURCES})
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_dispatch_SOURCES})
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_src_SOURCES})
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_src4_SOURCES})
+foreach (f ${m4_SOURCES})
+  set(tmp ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
+  add_custom_command(
+    OUTPUT ${tmp}
+    COMMAND ${NC_M4}
+    ARGS ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc/${f}.m4 > ${tmp}
+    VERBATIM
+  )
+  LIST(APPEND netcdf_c_SOURCES ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
+endforeach(f)
+set(NC_DISPATCH_VERSION 5)
+set(NC_HAS_LOGGING 0)
+configure_file(
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/config.h.cmake.in
+  ${CMAKE_BINARY_DIR}/netcdf/config.h
+)
+configure_file(
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include/netcdf_dispatch.h.in
+  ${CMAKE_BINARY_DIR}/netcdf/netcdf_dispatch.h
+  @ONLY NEWLINE_STYLE LF
+)
+configure_file(
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include/netcdf_meta.h.in
+  ${CMAKE_BINARY_DIR}/netcdf/netcdf_meta.h
+  @ONLY
+)
+add_library(netcdf_clib STATIC ${netcdf_c_SOURCES})
+target_include_directories(netcdf_clib PRIVATE 
+  ${CMAKE_BINARY_DIR}/netcdf
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
+)
+target_compile_definitions(netcdf_clib PRIVATE
+  HAVE_CONFIG_H
+  USE_NETCDF4
+)
+target_compile_options(netcdf_clib PRIVATE
+    $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
+    $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
+)
+
+### netCDF-FORTRAN #################################################################################
+
+include(CheckFortranCompilerFlag)
+add_library(netcdf_flib STATIC ${netcdf_f_SOURCES})
+target_link_libraries(netcdf_flib PRIVATE netcdf_clib)
+target_compile_definitions(netcdf_flib PRIVATE
+  HAVE_TS29113_SUPPORT
+  USE_NETCDF4
+)
+target_include_directories(netcdf_flib PRIVATE 
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/fortran
+  ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
+)
+include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
+check_fortran_compiler_flag("-fallow-argument-mismatch" COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
+if(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
+  target_compile_options(netcdf_flib PRIVATE $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch -w>)
+endif()
+check_fortran_compiler_flag("-mismatch_all" COMPILER_HAS_MISMATCH_ALL)
+if(COMPILER_HAS_MISMATCH_ALL)
+  target_compile_options(netcdf_flib PRIVATE $<$<COMPILE_LANGUAGE:Fortran>:-mismatch_all>)
+endif(COMPILER_HAS_MISMATCH_ALL)
+
 ### partmclib ######################################################################################
 
 add_library(partmclib STATIC ${partmclib_SOURCES})
@@ -285,6 +409,7 @@ target_include_directories(partmclib PRIVATE
   ${SUNDIALS_SOURCE_DIR}/include
   ${CMAKE_BINARY_DIR}/include
 )
+target_link_libraries(partmclib PRIVATE netcdf_flib)
 target_link_libraries(partmclib PRIVATE camplib)
 target_link_libraries(partmclib PRIVATE ${SUNDIALS_items})
 target_link_libraries(partmclib PRIVATE klulib)
