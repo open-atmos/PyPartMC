@@ -99,13 +99,17 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 ```
 error: [Errno 2] No such file or directory: 'cmake'
 ```
-Try rerunning after installing CMake (e.g., `apt-get install cmake` or `brew install cmake`)
+Try rerunning after installing CMake, e.g., using `apt-get install cmake` (Ubuntu/Debian), `brew install cmake` (homebrew on macOS) or using [MSYS2](https://www.msys2.org/docs/cmake/) on Windows.
 
 ```
 No CMAKE_Fortran_COMPILER could be found.
 ```
-Try installing a Fortran compiler (e.g., `brew reinstall gcc`)
+Try installing a Fortran compiler (e.g., `brew reinstall gcc` with Homebrew on macOS or using [MSYS2](https://packages.msys2.org/package/mingw-w64-x86_64-gcc-fortran?repo=mingw64) on Windows).
 
+```
+Could not find NC_M4 using the following names: m4, m4.exe
+```
+Try installing `m4` (e.g., using [MSYS2](https://packages.msys2.org/package/m4?repo=msys&variant=x86_64) on Windows).
 
 ## Notes for developers
 #### How to debug
