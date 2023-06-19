@@ -9,6 +9,7 @@
 #include "pybind11_json/pybind11_json.hpp"
 
 #include "util.hpp"
+#include "rand.hpp"
 #include "run_part.hpp"
 #include "run_part_opt.hpp"
 #include "aero_data.hpp"
@@ -161,7 +162,6 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )
         .def(py::init<const double, std::shared_ptr<AeroData>>())
         .def("__len__", AeroState::__len__)
-        .def("__deepcopy__", AeroState::__deepcopy__)
         .def_property_readonly("total_num_conc", AeroState::total_num_conc,
             "returns the total number concentration of the population")
         .def_property_readonly("total_mass_conc", AeroState::total_mass_conc,
@@ -426,6 +426,14 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "input_state", &input_state, "Read current state from netCDF output file."
     );
 
+    m.def(
+        "rand_init", &rand_init, "Initializes the random number generator to the state defined by the given seed plus offset. If the seed is 0 then a seed is auto-generated from the current time plus offset"
+    );
+
+    m.def(
+        "rand_normal", &rand_normal, "Generates a normally distributed random number with the given mean and standard deviation"
+    );
+
     m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
 
     m.attr("__all__") = py::make_tuple(
@@ -458,6 +466,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "loss_rate_dry_dep",
         "loss_rate",
         "output_state",
-        "input_state"
+        "input_state",
+        "rand_init",
+        "rand_normal"
     );
 }

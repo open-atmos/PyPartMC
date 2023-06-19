@@ -6,6 +6,8 @@
 
 import json
 
+import pytest
+
 import PyPartMC as ppmc
 
 GAS_DATA_CTOR_ARG_MINIMAL = ("SO2",)
@@ -46,3 +48,17 @@ class TestGasData:
 
         # assert
         assert string == json.dumps(data, separators=(",", ":"))
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "ctor_arg", (GAS_DATA_CTOR_ARG_MINIMAL, ("SO2", "NO2"), ("A", "B", "C"))
+    )
+    def test_spec_by_name(ctor_arg):
+        # arrange
+        sut = ppmc.GasData(ctor_arg)
+
+        # act
+        indices = [sut.spec_by_name(name) for name in ctor_arg]
+
+        # assert
+        assert indices == list(range(len(ctor_arg)))

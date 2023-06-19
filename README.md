@@ -30,7 +30,7 @@ import PyPartMC
 
 #### Jupyter notebooks with examples 
 
-- Urban plum scenario demo (as in [PartMC](https://github.com/compdyn/partmc/tree/master/scenarios/1_urban_plume)):
+- Urban plum scenario demo (as in [PartMC](https://github.com/compdyn/partmc/tree/master/scenarios/1_urban_plume)):    
 [![nbviewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/open-atmos/PyPartMC/blob/main/examples/particle_simulation.ipynb)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/particle_simulation.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/particle_simulation.ipynb)
@@ -45,7 +45,7 @@ import PyPartMC
 - works on Linux, macOS and Windows (compatibility assured with [CI builds](https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/tests.yml))
 - hassle-free installation using `pip` (prior PartMC installation **not needed**)
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
-- ships with [a set of examples](https://github.com/open-atmos/PyPartMC-examples) maintained in a form of Jupyter notebooks
+- ships with [a set of examples](https://github.com/open-atmos/PyPartMC/tree/main/examples) maintained in a form of Jupyter notebooks
 - Pythonic API (but retaining PartMC jargon) incl. Python GC deallocation of Fortran objects
 - specification of parameters using native Python datatypes (lists, dicts) in place of PartMC spec files
 - code snippets in README depicting how to use PyPartMC from Julia (also executed on CI)
@@ -76,10 +76,6 @@ print(ppmc.__version__)
 gas_data = ppmc.GasData(("H2SO4", "HNO3", "HCl", "NH3", "NO", "NO2"))
 ```
 
-#### Jupyter notebooks with examples
-
-See the [PyPartMC-examples](https://github.com/open-atmos/PyPartMC-examples) project.
-
 #### usage in other projects
 
 PyPartMC is used within the [test workflow of the PySDM project](https://github.com/atmos-cloud-sim-uj/PySDM/tree/main/tests/smoke_tests/partmc).
@@ -92,6 +88,48 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 - C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC, CAMP) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
 - MOSAIC dependency is optionally linked through setting the environmental variable MOSAIC_HOME
 - a [mock of PartMC spec file API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) are used for i/o from/to JSON 
+
+## Implementation architecture
+
+```mermaid
+flowchart TD
+    subgraph J ["Julia"]
+        julia_user_code["Julia user code"] --> PyCall.jl
+    end
+    subgraph P ["Python"]
+        PyCall.jl --> PyPartMC
+        python_user_code -.-> NumPy
+        python_user_code["Python user code"] ---> PyPartMC["pubind11-generated PyPartMC module"]
+    end
+    subgraph Cpp ["C++"]
+        cpp_user_code["C++ user code"] ----> ppmc_cpp
+        PyPartMC --> ppmc_cpp["PyPartMC-C++"]
+        ppmc_cpp --> pybind11_json
+        pybind11_json ---> nlohmann::JSON
+        fake_spec_file_cpp --> nlohmann::JSON
+    end
+    subgraph C ["C"]
+        fake_spec_file_c --> fake_spec_file_cpp["SpecFile-C++"]
+        ppmc_cpp --> ppmc_c["PyPartMC-C"]
+        netCDF-C
+        SUNDIALS
+        camp_c["CAMP C code"]
+    end
+    subgraph Fortran ["Fortran"]
+        PartMC -....-> MOSAIC
+        ppmc_c --> ppmc_f["PyPartMC-F"]
+        ppmc_f ---> PartMC
+        PartMC --> netCDF-F
+        netCDF-F --> netCDF-C
+        PartMC --> SUNDIALS
+        PartMC ---> camp_f
+        camp_f["CAMP"] --> camp_c
+        PartMC ----> fake_spec_file_f[SpecFile-F]
+        fake_spec_file_f --> fake_spec_file_c["SpecFile-C"]
+    end
+
+    style PartMC fill:#7ae7ff,stroke-width:2px,color:#2B2B2B
+```
 
 ## Troubleshooting 
 
