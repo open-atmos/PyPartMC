@@ -128,6 +128,9 @@ module PyPartMC_run_part_opt
        run_part_opt%i_repeat = 1
        run_part_opt%n_repeat = 1
 
+       call pmc_srand(0, 0)
+       call uuid4_str(run_part_opt%uuid)
+
        call pmc_srand(rand_init, 0)
 
     end subroutine
