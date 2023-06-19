@@ -89,9 +89,9 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 - PyPartMC is written in C++, Fortran and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
 - JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
 - PartMC and selected parts of SUNDIALS are statically linked (and compiled in during `pip install` or `python -m build`) 
-- C (SUNDIALS), C++ (pybind11, ...) and Fortran (PartMC, CAMP) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
-- MOSAIC dependency is optionally linked through setting the environmental variable MOSAIC_HOME
-- a [mock of PartMC spec file API](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) are used for i/o from/to JSON 
+- C (SUNDIALS, netCDF), C++ (pybind11, ...) and Fortran (PartMC, CAMP, netCDF-fortran) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
+- MOSAIC dependency is optionally linked through setting the environmental variable `MOSAIC_HOME`
+- a [drop-in replacement of the PartMC spec file routines](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) is used for i/o from/to JSON 
 
 ## Troubleshooting 
 
