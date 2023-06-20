@@ -37,6 +37,9 @@ module PyPartMC_run_part_opt
 
         call c_f_pointer(ptr_c, run_part_opt)
 
+        call spec_file_read_string(file, 'output_prefix', &
+             run_part_opt%output_prefix)
+
         !!! TODO #55
         call spec_file_read_logical(file, 'do_coagulation', run_part_opt%do_coagulation)    
         if (run_part_opt%do_coagulation) then
@@ -120,6 +123,13 @@ module PyPartMC_run_part_opt
        call spec_file_read_logical(file, 'do_camp_chem', run_part_opt%do_camp_chem)
 
        run_part_opt%output_type = OUTPUT_TYPE_SINGLE
+       run_part_opt%output_prefix = 'test'
+
+       run_part_opt%i_repeat = 1
+       run_part_opt%n_repeat = 1
+
+       call pmc_srand(0, 0)
+       call uuid4_str(run_part_opt%uuid)
 
        call pmc_srand(rand_init, 0)
 
