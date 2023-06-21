@@ -34,6 +34,16 @@ AERO_MODE_CTOR_LOG_NORMAL_FULL = {
     }
 }
 
+AERO_MODE_CTOR_LOG_NORMAL_COAGULATION = {
+    "test_mode": {
+        "mass_frac": [{"SO4": [1]}],
+        "diam_type": "geometric",
+        "mode_type": "log_normal",
+        "num_conc": 1e12 / si.m**3,
+        "geom_mean_diam": 2 * si.um,
+        "log10_geom_std_dev": np.log10(1.6),
+    }
+}
 
 class TestAeroMode:
     @staticmethod
