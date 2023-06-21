@@ -7,6 +7,7 @@
 #include "output.hpp"
 
 void output_state(
+    const std::string &prefix,
     const AeroData &aero_data,
     const AeroState &aero_state,
     const GasData &gas_data,
@@ -19,7 +20,7 @@ void output_state(
     int i_repeat;
     bool record_removals;
     bool record_optical;
-
+    const int prefix_size = prefix.size();
 
     index = 1;
     time = 1.0;
@@ -28,10 +29,10 @@ void output_state(
     record_removals = false;
     record_optical = false;
 
-    f_output_state(aero_data.ptr.f_arg(), aero_state.ptr.f_arg(),
-       gas_state.gas_data->ptr.f_arg(), gas_state.ptr.f_arg(), env_state.ptr.f_arg(),
-       &index, &time, &del_t, &i_repeat,
-       &record_removals, &record_optical);
+    f_output_state(prefix.c_str(), &prefix_size, aero_data.ptr.f_arg(),
+       aero_state.ptr.f_arg(), gas_state.gas_data->ptr.f_arg(),
+       gas_state.ptr.f_arg(), env_state.ptr.f_arg(), &index, &time, &del_t,
+       &i_repeat, &record_removals, &record_optical);
 }
 
 void input_state(

@@ -14,10 +14,12 @@ implicit none
 
 contains
 
-  subroutine f_output_state(aero_data_ptr_c, aero_state_ptr_c, &
-       gas_data_ptr_c, gas_state_ptr_c, env_state_ptr_c, index, time, del_t, &
-       i_repeat, record_removals, record_optical) bind(C)
+  subroutine f_output_state(prefix_data, prefix_size, aero_data_ptr_c, &
+       aero_state_ptr_c, gas_data_ptr_c, gas_state_ptr_c, env_state_ptr_c, &
+       index, time, del_t, i_repeat, record_removals, record_optical) bind(C)
 
+    character(kind=c_char), dimension(*), intent(in) :: prefix_data
+    integer(c_int), intent(in) :: prefix_size
     type(aero_state_t), pointer :: aero_state_ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(env_state_t), pointer :: env_state_ptr_f => null()
@@ -26,17 +28,21 @@ contains
 
     type(c_ptr) :: aero_data_ptr_c, aero_state_ptr_c, gas_data_ptr_c, &
          gas_state_ptr_c, env_state_ptr_c
-    integer(c_int) :: index, i_repeat
-    real(c_double) :: time, del_t
-    logical(c_bool) :: record_removals, record_optical
+    integer(c_int), intent(in) :: index, i_repeat
+    real(c_double), intent(in) :: time, del_t
+    logical(c_bool), intent(in) :: record_removals, record_optical
 
     character(len=PMC_UUID_LEN) :: uuid
-    character(len=100) :: prefix
     integer :: output_type
+    character(len=prefix_size) :: prefix
+    integer :: i
 
-    prefix = 'test'
-    output_type = 3 
-    call uuid4_str(uuid) 
+    do i=1, prefix_size
+       prefix(i:i) = prefix_data(i)
+    end do
+
+    output_type = OUTPUT_TYPE_SINGLE
+    call uuid4_str(uuid)
 
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
     call c_f_pointer(aero_state_ptr_c, aero_state_ptr_f)
@@ -61,16 +67,17 @@ contains
     type(gas_data_t), pointer :: gas_data_ptr_f => null()
     character(kind=c_char), dimension(*), intent(in) :: filename_data
     integer(c_int), intent(in) :: filename_size
-    character(len=filename_size) :: name
-    integer :: i
     type(c_ptr) :: aero_data_ptr_c, aero_state_ptr_c, gas_data_ptr_c, &
          gas_state_ptr_c, env_state_ptr_c
-    integer(c_int) :: index, i_repeat
-    real(c_double) :: time, del_t
+    integer(c_int), intent(out) :: index, i_repeat
+    real(c_double), intent(out) :: time, del_t
     character(len=PMC_UUID_LEN) :: uuid
 
+    character(len=filename_size) :: filename
+    integer :: i
+
     do i=1, filename_size
-      name(i:i) = filename_data(i)
+       filename(i:i) = filename_data(i)
     end do
 
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
@@ -79,7 +86,7 @@ contains
     call c_f_pointer(gas_state_ptr_c, gas_state_ptr_f)
     call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
 
-    call input_state(name, index, time, del_t, i_repeat, uuid, &
+    call input_state(filename, index, time, del_t, i_repeat, uuid, &
          aero_data_ptr_f, aero_state_ptr_f, gas_data_ptr_f, gas_state_ptr_f, &
          env_state_ptr_f)
 

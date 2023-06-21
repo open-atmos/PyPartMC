@@ -14,6 +14,8 @@
 #include "gas_state.hpp"
 
 extern "C" void f_output_state(
+    const char *prefix,
+    const int *prefix_size,
     const void *aero_data,
     const void *aero_state,
     const void *gas_data,
@@ -42,6 +44,7 @@ extern "C" void f_input_state(
 ) noexcept;
 
 void output_state(
+    const std::string &prefix,
     const AeroData &aero_data,
     const AeroState &aero_state,
     const GasData &gas_data,
