@@ -384,17 +384,28 @@ target_link_libraries(netcdf_flib PRIVATE netcdf_clib)
 target_compile_definitions(netcdf_flib PRIVATE
   HAVE_TS29113_SUPPORT
   USE_NETCDF4
-  NF_INT_IS_C_INT
 )
 target_include_directories(netcdf_flib PRIVATE 
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/fortran
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
 )
+
 include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
+
+foreach(ftype DOUBLEPRECISION;INT1;INT2;INT8;INT;REAL)
+  foreach(ctype DOUBLE;FLOAT;INT;LONG;SHORT;SIGNED_CHAR;LONG_LONG)
+    set(def "NF_${ftype}_IS_C_${ctype}")
+    if(${def})
+      target_compile_definitions(netcdf_flib PRIVATE ${def})
+    endif()
+  endforeach()
+endforeach()
+
 check_fortran_compiler_flag("-fallow-argument-mismatch" COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
 if(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
   target_compile_options(netcdf_flib PRIVATE $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch -w>)
 endif()
+
 check_fortran_compiler_flag("-mismatch_all" COMPILER_HAS_MISMATCH_ALL)
 if(COMPILER_HAS_MISMATCH_ALL)
   target_compile_options(netcdf_flib PRIVATE $<$<COMPILE_LANGUAGE:Fortran>:-mismatch_all>)
