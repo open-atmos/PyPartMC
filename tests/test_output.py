@@ -34,9 +34,6 @@ class TestOutput:
         scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         scenario.init_env_state(env_state, 0.0)
-        run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_SIMULATION)
-        camp_core = ppmc.CampCore()
-        photolysis = ppmc.Photolysis()
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_COAGULATION)
         n_part = 100
         aero_state = ppmc.AeroState(n_part, aero_data)
@@ -77,6 +74,7 @@ class TestOutput:
         )
 
         num_concs = aero_state.num_concs
+        mix_rats = gas_state.mix_rats
         ppmc.run_part(
             scenario,
             env_state,
@@ -102,5 +100,6 @@ class TestOutput:
 
         # check an integer
         # check a real
-        assert len(num_concs) == aero_state.__len__()
+        assert len(num_concs) == len(aero_state)
         np.testing.assert_allclose(np.array(aero_state.num_concs), np.array(num_concs))
+        np.testing.assert_array_equal(gas_state.mix_rats, mix_rats)
