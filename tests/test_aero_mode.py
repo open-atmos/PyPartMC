@@ -45,6 +45,7 @@ AERO_MODE_CTOR_LOG_NORMAL_COAGULATION = {
     }
 }
 
+
 class TestAeroMode:
     @staticmethod
     def test_ctor():

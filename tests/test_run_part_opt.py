@@ -30,7 +30,7 @@ RUN_PART_OPT_CTOR_ARG_MINIMAL = {
 }
 
 RUN_PART_OPT_CTOR_ARG_SIMULATION = {
-    "output_prefix": "test",
+    "output_prefix": "tests/test",
     "do_coagulation": True,
     "coag_kernel": "brown",
     "do_parallel": False,
@@ -47,6 +47,7 @@ RUN_PART_OPT_CTOR_ARG_SIMULATION = {
     "allow_halving": False,
     "allow_doubling": False,
 }
+
 
 class TestRunPartOpt:
     @staticmethod
