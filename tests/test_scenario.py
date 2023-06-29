@@ -55,6 +55,7 @@ SCENARIO_CTOR_ARG_SIMULATION = {
     "loss_function": "none",
 }
 
+
 class TestScenario:
     @staticmethod
     @pytest.mark.parametrize(
