@@ -36,6 +36,24 @@ SCENARIO_CTOR_ARG_MINIMAL = {
     "loss_function": "none",
 }
 
+SCENARIO_CTOR_ARG_SIMULATION = {
+    "temp_profile": [{"time": [0]}, {"temp": [273]}],
+    "pressure_profile": [{"time": [0]}, {"pressure": [1e5]}],
+    "height_profile": [{"time": [0]}, {"height": [1]}],
+    "gas_emissions": [{"time": [0]}, {"rate": [1]}, {"SO2": [1e-9]}],
+    "gas_background": [{"time": [0]}, {"rate": [0]}, {"SO2": [0]}],
+    "aero_emissions": [
+        {"time": [0]},
+        {"rate": [0]},
+        {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]]},
+    ],
+    "aero_background": [
+        {"time": [0]},
+        {"rate": [0]},
+        {"dist": [[AERO_MODE_CTOR_LOG_NORMAL]]},
+    ],
+    "loss_function": "none",
+}
 
 class TestScenario:
     @staticmethod

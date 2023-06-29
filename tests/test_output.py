@@ -15,7 +15,7 @@ from .test_aero_dist import AERO_DIST_CTOR_ARG_COAGULATION
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_SIMULATION
-from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
+from .test_scenario import SCENARIO_CTOR_ARG_SIMULATION
 
 
 class TestOutput:
@@ -31,7 +31,7 @@ class TestOutput:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         gas_state = ppmc.GasState(gas_data)
-        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_SIMULATION)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         scenario.init_env_state(env_state, 0.0)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_COAGULATION)
@@ -56,7 +56,7 @@ class TestOutput:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         gas_state = ppmc.GasState(gas_data)
-        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_SIMULATION)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         scenario.init_env_state(env_state, 0.0)
         run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_SIMULATION)

@@ -39,7 +39,7 @@ RUN_PART_OPT_CTOR_ARG_SIMULATION = {
     "do_optical": False,
     "do_condensation": False,
     "do_camp_chem": False,
-    "t_max": 84600.0,
+    "t_max": 86400.0,
     "del_t": 60 * si.s,
     "t_output": 3600.0,
     "t_progress": 0.0,
