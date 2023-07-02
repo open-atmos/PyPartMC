@@ -49,7 +49,7 @@ set(PyPartMC_sources
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
   gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90
   camp_core.F90 photolysis.F90 aero_mode.F90 aero_dist.F90 bin_grid.cpp condense.cpp run_part.cpp
-  scenario.cpp util.cpp rand.cpp rand.F90
+  scenario.cpp util.cpp output.cpp output.F90 rand.cpp rand.F90
 )
 add_prefix(src/ PyPartMC_sources)
 
@@ -389,11 +389,23 @@ target_include_directories(netcdf_flib PRIVATE
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/fortran
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
 )
+
 include(${CMAKE_SOURCE_DIR}/gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake)
+
+foreach(ftype DOUBLEPRECISION;INT1;INT2;INT8;INT;REAL)
+  foreach(ctype DOUBLE;FLOAT;INT;LONG;SHORT;SIGNED_CHAR;LONG_LONG)
+    set(def "NF_${ftype}_IS_C_${ctype}")
+    if(${def})
+      target_compile_definitions(netcdf_flib PRIVATE ${def})
+    endif()
+  endforeach()
+endforeach()
+
 check_fortran_compiler_flag("-fallow-argument-mismatch" COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
 if(COMPILER_HAS_ALLOW_ARGUMENT_MISMATCH)
   target_compile_options(netcdf_flib PRIVATE $<$<COMPILE_LANGUAGE:Fortran>:-fallow-argument-mismatch -w>)
 endif()
+
 check_fortran_compiler_flag("-mismatch_all" COMPILER_HAS_MISMATCH_ALL)
 if(COMPILER_HAS_MISMATCH_ALL)
   target_compile_options(netcdf_flib PRIVATE $<$<COMPILE_LANGUAGE:Fortran>:-mismatch_all>)

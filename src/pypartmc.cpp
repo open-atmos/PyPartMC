@@ -23,6 +23,7 @@
 #include "bin_grid.hpp"
 #include "camp_core.hpp"
 #include "photolysis.hpp"
+#include "output.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -418,6 +419,14 @@ PYBIND11_MODULE(_PyPartMC, m) {
     );
 
     m.def(
+        "output_state", &output_state, "Output current state to netCDF file."
+    );
+
+    m.def(
+        "input_state", &input_state, "Read current state from netCDF output file."
+    );
+
+    m.def(
         "rand_init", &rand_init, "Initializes the random number generator to the state defined by the given seed plus offset. If the seed is 0 then a seed is auto-generated from the current time plus offset"
     );
 
@@ -456,6 +465,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "diam2rad",
         "loss_rate_dry_dep",
         "loss_rate",
+        "output_state",
+        "input_state",
         "rand_init",
         "rand_normal"
     );

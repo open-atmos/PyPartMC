@@ -12,6 +12,7 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 RUN_PART_OPT_CTOR_ARG_MINIMAL = {
+    "output_prefix": "tests/test",
     "do_coagulation": False,
     "do_parallel": False,
     "do_nucleation": False,
@@ -23,6 +24,25 @@ RUN_PART_OPT_CTOR_ARG_MINIMAL = {
     "del_t": 1 * si.s,
     "t_output": 0,
     "t_progress": 0,
+    "rand_init": 0,
+    "allow_halving": False,
+    "allow_doubling": False,
+}
+
+RUN_PART_OPT_CTOR_ARG_SIMULATION = {
+    "output_prefix": "tests/test",
+    "do_coagulation": True,
+    "coag_kernel": "brown",
+    "do_parallel": False,
+    "do_nucleation": False,
+    "do_mosaic": False,
+    "do_optical": False,
+    "do_condensation": False,
+    "do_camp_chem": False,
+    "t_max": 86400.0,
+    "del_t": 60 * si.s,
+    "t_output": 3600.0,
+    "t_progress": 0.0,
     "rand_init": 0,
     "allow_halving": False,
     "allow_doubling": False,
