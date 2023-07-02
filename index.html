@@ -113,6 +113,12 @@ equilibrium.</p></div>
 <dd>
 <div class="desc"><p>Return a 2D histogram with of the given weighted data, scaled by the bin sizes.</p></div>
 </dd>
+<dt id="PyPartMC.input_state"><code class="name flex">
+<span>def <span class="ident">input_state</span></span>(<span>arg0: str, arg1: _PyPartMC.AeroData, arg2: _PyPartMC.AeroState, arg3: _PyPartMC.GasData, arg4: _PyPartMC.GasState, arg5: _PyPartMC.EnvState)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Read current state from netCDF output file.</p></div>
+</dd>
 <dt id="PyPartMC.loss_rate"><code class="name flex">
 <span>def <span class="ident">loss_rate</span></span>(<span>arg0: _PyPartMC.Scenario, arg1: float, arg2: float, arg3: _PyPartMC.AeroData, arg4: _PyPartMC.EnvState) ‑> float</span>
 </code></dt>
@@ -124,6 +130,12 @@ equilibrium.</p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>Compute and return the dry deposition rate for a given particle.</p></div>
+</dd>
+<dt id="PyPartMC.output_state"><code class="name flex">
+<span>def <span class="ident">output_state</span></span>(<span>arg0: str, arg1: _PyPartMC.AeroData, arg2: _PyPartMC.AeroState, arg3: _PyPartMC.GasData, arg4: _PyPartMC.GasState, arg5: _PyPartMC.EnvState)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Output current state to netCDF file.</p></div>
 </dd>
 <dt id="PyPartMC.pow2_above"><code class="name flex">
 <span>def <span class="ident">pow2_above</span></span>(<span>arg0: int) ‑> int</span>
@@ -850,8 +862,10 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.diam2rad" href="#PyPartMC.diam2rad">diam2rad</a></code></li>
 <li><code><a title="PyPartMC.histogram_1d" href="#PyPartMC.histogram_1d">histogram_1d</a></code></li>
 <li><code><a title="PyPartMC.histogram_2d" href="#PyPartMC.histogram_2d">histogram_2d</a></code></li>
+<li><code><a title="PyPartMC.input_state" href="#PyPartMC.input_state">input_state</a></code></li>
 <li><code><a title="PyPartMC.loss_rate" href="#PyPartMC.loss_rate">loss_rate</a></code></li>
 <li><code><a title="PyPartMC.loss_rate_dry_dep" href="#PyPartMC.loss_rate_dry_dep">loss_rate_dry_dep</a></code></li>
+<li><code><a title="PyPartMC.output_state" href="#PyPartMC.output_state">output_state</a></code></li>
 <li><code><a title="PyPartMC.pow2_above" href="#PyPartMC.pow2_above">pow2_above</a></code></li>
 <li><code><a title="PyPartMC.rad2diam" href="#PyPartMC.rad2diam">rad2diam</a></code></li>
 <li><code><a title="PyPartMC.rand_init" href="#PyPartMC.rand_init">rand_init</a></code></li>
