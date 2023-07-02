@@ -20,13 +20,8 @@ from .test_scenario import SCENARIO_CTOR_ARG_SIMULATION
 
 class TestOutput:
     @staticmethod
-    def test_output_netcdf():  # pylint: disable=redefined-outer-name
-        filename = "tests/test"
-
-        try:
-            os.remove(filename)
-        except OSError:
-            pass
+    def test_output_netcdf(tmp_path):
+        filename = tmp_path / "test"
 
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
@@ -46,20 +41,24 @@ class TestOutput:
         )
 
         ppmc.output_state(
-            filename, aero_data, aero_state, gas_data, gas_state, env_state
+            str(filename), aero_data, aero_state, gas_data, gas_state, env_state
         )
 
-        assert os.path.exists(filename + "_0001_00000001.nc")
+        assert os.path.exists(str(filename) + "_0001_00000001.nc")
 
     @staticmethod
-    def test_input_netcdf():  # pylint: disable=redefined-outer-name
+    def test_input_netcdf(tmp_path):
+        filename = tmp_path / "test"
+
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
         gas_state = ppmc.GasState(gas_data)
         scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_SIMULATION)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         scenario.init_env_state(env_state, 0.0)
-        run_part_opt = ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_SIMULATION)
+        run_part_opt = ppmc.RunPartOpt(
+            {**RUN_PART_OPT_CTOR_ARG_SIMULATION, "output_prefix": str(filename)}
+        )
         camp_core = ppmc.CampCore()
         photolysis = ppmc.Photolysis()
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_COAGULATION)
@@ -90,7 +89,7 @@ class TestOutput:
         assert aero_state.num_concs != num_concs
 
         ppmc.input_state(
-            "tests/test_0001_00000001.nc",
+            str(filename) + "_0001_00000001.nc",
             aero_data,
             aero_state,
             gas_data,
