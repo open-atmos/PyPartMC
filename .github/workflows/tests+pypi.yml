@@ -138,17 +138,16 @@ jobs:
   dist_upload:
     runs-on: ubuntu-latest
     needs: [dist_check]
+    permissions:
+      id-token: write
     steps:
     - uses: actions/download-artifact@v2
       with:
         name: dist
         path: dist
     - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: pypa/gh-action-pypi-publish@master
+      uses: pypa/gh-action-pypi-publish@unstable/v1
       with:
-        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository_url: https://test.pypi.org/legacy/
     - if: startsWith(github.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        password: ${{ secrets.PYPI_API_TOKEN }}
+      uses: pypa/gh-action-pypi-publish@unstable/v1
