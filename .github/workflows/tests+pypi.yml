@@ -57,6 +57,10 @@ jobs:
           echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
           echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
 
+      - uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: '3.26.x'
+
       - uses: actions/checkout@v2
         with:
           submodules: recursive
@@ -68,7 +72,7 @@ jobs:
 
       - run: python -m pip install --upgrade pip==22.1.2
       - run: pip install build wheel
-
+      - run: cmake --version
       - run: |
           unset CI
           python -m build 2>&1 | tee build.log
