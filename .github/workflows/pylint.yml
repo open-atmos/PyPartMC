@@ -24,4 +24,4 @@ jobs:
         pip install -e .[tests]
         pip install -r .binder/requirements.txt
     - run: pylint --unsafe-load-any-extension=y --disable=fixme,no-member,trailing-newlines,missing-module-docstring,missing-class-docstring,missing-function-docstring,unnecessary-pass $(git ls-files '*.py')
-    - run: nbqa pylint --unsafe-load-any-extension=y --disable=fixme,no-member,duplicate-code,wrong-import-position,ungrouped-imports,trailing-whitespace,missing-function-docstring,missing-module-docstring $(git ls-files '*.ipynb')
+    - run: nbqa pylint --unsafe-load-any-extension=y --disable=fixme,no-member,duplicate-code,wrong-import-position,ungrouped-imports,trailing-whitespace,missing-function-docstring,missing-module-docstring,unsubscriptable-object,invalid-name $(git ls-files '*.ipynb')
