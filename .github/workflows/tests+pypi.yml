@@ -57,6 +57,9 @@ jobs:
           echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
           echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
 
+      - if: startsWith(matrix.platform, 'ubuntu-')
+        run: sudo apt-get install cmake=3.22.1-1ubuntu1
+
       - uses: actions/checkout@v2
         with:
           submodules: recursive
