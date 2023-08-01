@@ -1,0 +1,15 @@
+mode_name mode_a
+mass_frac aero_mode_a_comp.dat
+diam_type geometric
+mode_type log_normal
+num_conc 9.0E+06  # (#/m^2)
+geom_mean_diam 8.64e-8  # (m)
+log10_geom_std_dev 0.28
+
+mode_name mode_b
+mass_frac aero_mode_b_comp.dat
+diam_type geometric
+mode_type log_normal
+num_conc 1.6E+08  # (#/m^2)
+geom_mean_diam 5e-8
+log10_geom_std_dev 0.24
