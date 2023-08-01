@@ -1,0 +1,43 @@
+{
+    "title": "PyPartMC",
+    "description": "PyPartMC is a Python interface to PartMC, a particle-resolved Monte-Carlo code for atmospheric aerosol simulation. PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals.",
+    "creators": [
+      {
+        "affiliation": "University of Illinois Urbana-Champaign",
+        "name": "D'Aquino, Zach",
+        "orcid": "0000-0002-4712-8015"
+      },
+      {
+        "affiliation": "AGH University of Kraków, Kraków, Poland",
+        "name": "Arabas, Sylwester",
+        "orcid": "0000-0003-2361-0082"
+      },
+      {
+        "affiliation": "University of Illinois Urbana-Champaign",
+        "name": "Curtis, Jeffrey",
+        "orcid": "0000-0002-1447-2127"
+      },
+      {
+        "affiliation": "University of Illinois Urbana-Champaign",
+        "name": "Vaishnav, Akshunna"
+      },
+      {
+        "affiliation": "University of Illinois Urbana-Champaign",
+        "name": "Riemer, Nicole",
+        "orcid": "0000-0002-3220-3457"
+      },
+      {
+        "affiliation": "University of Illinois Urbana-Champaign",
+        "name": "West, Matthew"
+      }
+    ],
+    "keywords": [
+      "cloud microphysics",
+      "aerosol microphysics",
+      "particle-based simulation",
+      "Monte-Carlo",
+      "atmospheric physics"
+    ],
+    "license": "GPL-3.0-only",
+    "upload_type": "software"
+  }
