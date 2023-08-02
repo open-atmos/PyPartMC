@@ -6,8 +6,8 @@
 
 #include "rand.hpp"
 
-void rand_init(int seed, int offset) {
-  f_pmc_srand(&seed, &offset);
+void rand_init(int seed) {
+  f_pmc_srand(&seed);
 }
 
 double rand_normal(double mean, double stddev) {
