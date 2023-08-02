@@ -53,6 +53,7 @@ jobs:
       - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme.py', 'w'); f.writelines(block.code for block in code if block.syntax=='Python'); f.close()"
       - run: cat -n readme.py
 
+      - run: mkdir readme_output
       - run: python -We readme.py > readme_output/python.txt
       - uses: actions/upload-artifact@v2
         with:
