@@ -58,9 +58,11 @@ import PyPartMC
 
 ## Usage examples
 
+For a Fortran equivalent of the Python and Julia programs below, see the [`readme_fortran` folder](https://github.com/open-atmos/PyPartMC/tree/main/readme_fortran).
+
 #### example object instantiation in Python
 
-```python
+```Python
 import numpy as np
 
 import PyPartMC as ppmc
