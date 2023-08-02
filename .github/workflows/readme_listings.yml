@@ -80,7 +80,7 @@ jobs:
           cd readme_fortran
           mkdir build
           cd build
-          cmake ..
+          PARTMC_HOME=../../gitmodules/partmc cmake ..
           make
           cd ..
 

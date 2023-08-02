@@ -28,9 +28,11 @@ program main
 
   call aero_state_zero(aero_state)
   call fractal_set_spherical(aero_data%fractal)
-  call aero_state_set_weight(aero_state, aero_data, AERO_STATE_WEIGHT_NUMMASS_SOURCE)
+  call aero_state_set_weight(aero_state, aero_data, &
+    AERO_STATE_WEIGHT_NUMMASS_SOURCE)
   call aero_state_set_n_part_ideal(aero_state, dble(n_part))
-  call aero_state_add_aero_dist_sample(aero_state, aero_data, aero_dist, 1d0, 0d0, .true., .true., n_part_add)
+  call aero_state_add_aero_dist_sample(aero_state, aero_data, &
+    aero_dist, 1d0, 0d0, .true., .true., n_part_add)
 
   num_concs = aero_state_num_concs(aero_state, aero_data)
   masses = aero_state_masses(aero_state, aero_data)
