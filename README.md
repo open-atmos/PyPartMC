@@ -79,7 +79,7 @@ gas_data = ppmc.GasData(("H2SO4", "HNO3", "HCl", "NH3", "NO", "NO2"))
 
 #### usage in other projects
 
-PyPartMC is used within the [test workflow of the PySDM project](https://github.com/atmos-cloud-sim-uj/PySDM/tree/main/tests/smoke_tests/partmc).
+PyPartMC is used within the [test workflow of the PySDM project](https://github.com/atmos-cloud-sim-uj/PySDM/tree/main/tests/smoke_tests/box/partmc).
 
 ## Implementation outline
 
