@@ -65,6 +65,7 @@ jobs:
     needs: [julia, python, matlab-draft]
     steps:
     - uses: actions/setup-python@v2
+    - run: pip install numpy
     - uses: actions/download-artifact@v2
       with:
           name: readme_output
