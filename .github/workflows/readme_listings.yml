@@ -61,7 +61,7 @@ jobs:
       
   assert:
     runs-on: ubuntu-latest
-    needs: [julia, python]
+    needs: [julia, python, matlab-draft]
     steps:
     - uses: actions/setup-python@v2
     - uses: actions/download-artifact@v2
@@ -70,7 +70,7 @@ jobs:
           path: readme_output
     - run : python -c 'import numpy as np; data=[float(np.loadtxt(file)) for file in ("readme_output/julia.txt", "readme_output/python.txt")]; assert((np.array([k==data[0] for k in data[1:]])).all())'
 
-  matlab:
+  matlab-draft:
     runs-on: ubuntu-latest
 
     steps:
