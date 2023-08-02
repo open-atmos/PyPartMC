@@ -69,12 +69,12 @@ jobs:
 
       - run: sudo apt-get install libnetcdff-dev
       - run: |
-        cd readme_fortran
-        mkdir build
-        cd build
-        cmake ..
-        make
-        cd ..
+          cd readme_fortran
+          mkdir build
+          cd build
+          cmake ..
+          make
+          cd ..
 
       - run: mkdir readme_output
       - run: ./build/main > readme_output/fortran.txt
@@ -93,7 +93,7 @@ jobs:
       with:
           name: readme_output
           path: readme_output
-    - run : python -c 'import numpy as np; data=[float(np.loadtxt(file)) for file in ("readme_output/julia.txt", "readme_output/python.txt")]; assert((np.array([k==data[0] for k in data[1:]])).all())'
+    - run : python -c 'import numpy as np; import os; data=[float(np.loadtxt(file)) for file in os.listdir('readme_output')]; assert((np.array([k==data[0] for k in data[1:]])).all())'
 
   matlab-draft:
     runs-on: ubuntu-latest
