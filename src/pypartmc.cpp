@@ -427,7 +427,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     );
 
     m.def(
-        "rand_init", &rand_init, "Initializes the random number generator to the state defined by the given seed plus offset. If the seed is 0 then a seed is auto-generated from the current time plus offset"
+        "rand_init", &rand_init, "Initializes the random number generator to the state defined by the given seed. If the seed is 0 then a seed is auto-generated from the current time"
     );
 
     m.def(
