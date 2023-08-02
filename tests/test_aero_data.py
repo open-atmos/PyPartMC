@@ -353,3 +353,12 @@ class TestAeroData:
 
             # assert
             assert density == val[0]
+
+    @staticmethod
+    def test_ctor_error_on_nonunique_keys():
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroData([AERO_DATA_CTOR_ARG_MINIMAL[0]] * 2)
+
+        # assert
+        assert str(exc_info.value) == "Species names must be unique"
