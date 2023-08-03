@@ -55,6 +55,19 @@ jobs:
             python-version: "3.10"
           - manylinux: "manylinux_2_24_x86_64"
             platform: ubuntu-latest
+            python-version: "3.7"
+          - manylinux: "manylinux_2_24_x86_64"
+            platform: ubuntu-latest
+            python-version: "3.8"
+          - manylinux: "manylinux_2_24_x86_64"
+            platform: ubuntu-latest
+            python-version: "3.9"
+          - manylinux: "manylinux_2_24_x86_64"
+            platform: ubuntu-latest
+            python-version: "3.10"
+          - manylinux: "manylinux_2_24_x86_64"
+            platform: ubuntu-latest
+            python-version: "3.11"
       fail-fast: false
     runs-on: ${{ matrix.platform }}
     steps:
