@@ -272,6 +272,18 @@ struct InputGimmick: Gimmick {
         }
         return 1;
     }
+
+    static bool unique_keys(const nlohmann::json &json) {
+        std::set<std::string> keys;
+        for (auto i=0u; i<json.size(); ++i) {
+            for (auto &entry : json.at(i).items()) {
+                if (keys.find(entry.key()) != keys.end())
+                    return false;
+                keys.insert(entry.key());
+            }
+        }
+        return true;
+    }
 };
 
 struct OutputGimmick: Gimmick {

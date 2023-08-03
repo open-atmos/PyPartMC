@@ -237,3 +237,35 @@ class TestAeroMode:
 
         # assert
         assert sut.name == val
+
+    @staticmethod
+    def test_ctor_fails_with_multiple_modes():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = AERO_MODE_CTOR_LOG_NORMAL
+        fishy_ctor_arg["xxx"] = fishy_ctor_arg["test_mode"]
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert str(exc_info.value) == "Single element expected"
+
+    @staticmethod
+    def test_ctor_fails_with_nonunique_mass_fracs():
+        pytest.skip("TODO #240")
+
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = AERO_MODE_CTOR_LOG_NORMAL
+        fishy_ctor_arg["test_mode"]["mass_frac"].append(
+            fishy_ctor_arg["test_mode"]["mass_frac"]
+        )
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert str(exc_info.value) == ""

@@ -32,8 +32,8 @@ AERO_DIST_CTOR_ARG_COAGULATION = [
 ]
 
 
-@pytest.fixture
-def sut_minimal():
+@pytest.fixture(name="sut_minimal")
+def sut_minimal_fixture():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
     sut = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
     aero_data = None
@@ -113,9 +113,7 @@ class TestAeroDist:
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 500))
-    def test_get_mode_out_of_range(
-        sut_minimal, idx
-    ):  # pylint: disable=redefined-outer-name
+    def test_get_mode_out_of_range(sut_minimal, idx):
         # act
         try:
             _ = sut_minimal.mode(idx)
@@ -128,7 +126,7 @@ class TestAeroDist:
     @staticmethod
     def test_get_mode_result_lifetime(
         sut_minimal,
-    ):  # pylint: disable=redefined-outer-name
+    ):
         # arrange
         mode = sut_minimal.mode(0)
         mode_type = mode.type
@@ -141,7 +139,7 @@ class TestAeroDist:
         assert mode.type == mode_type
 
     @staticmethod
-    def test_get_mode_is_a_copy(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_get_mode_is_a_copy(sut_minimal):
         # arrange
         new_type = "mono"
         mode_idx = 0
@@ -153,3 +151,15 @@ class TestAeroDist:
 
         # assert
         assert sut_minimal.mode(mode_idx).type != new_type
+
+    @staticmethod
+    def test_ctor_multimode_error_on_repeated_mode_names():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL * 2)
+
+        # assert
+        assert str(exc_info.value) == "Mode names must be unique"
