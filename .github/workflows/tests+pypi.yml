@@ -101,14 +101,12 @@ jobs:
       - if: matrix.platform == 'ubuntu-latest'
         run: |
           python -c "import sys; vi=sys.version_info; abitag='m' if vi.minor<8 else ''; print(f'PV=cp{vi.major}{vi.minor}-cp{vi.major}{vi.minor}{abitag}')" >> $GITHUB_ENV
-          echo MANYLINUX=${{ matrix.manylinux }} >> $GITHUB_ENV
 
       - if: matrix.platform == 'ubuntu-latest'
-        uses: RalfG/python-wheels-manylinux-build@v0.7.1-${{ env.MANYLINUX }}
+        uses: open-atmos/PyPartMC/.github/workflows/manylinux.yml@zdaq12-patch-1
         with:
-            build-requirements: 'setuptools_scm'
-            python-versions: ${{ env.PV }}
-            pre-build-command: 'git config --global --add safe.directory "*"'
+          uses-value: RalfG/python-wheels-manylinux-build@v0.7.1-${{ matrix.manylinux }}
+          python-version: ${{ env.PV }}
 
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*-linux_*
