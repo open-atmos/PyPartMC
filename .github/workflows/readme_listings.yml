@@ -82,10 +82,12 @@ jobs:
           cd build
           PARTMC_HOME=../../gitmodules/partmc cmake ..
           make
-          cd ..
 
-      - run: mkdir readme_output
-      - run: ./build/main > readme_output/fortran.txt
+      - run: |
+          mkdir readme_output
+          cd readme_fortran
+          ./build/main > ../readme_output/fortran.txt
+
       - uses: actions/upload-artifact@v2
         with:
           name: readme_output
