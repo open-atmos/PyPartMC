@@ -28,4 +28,12 @@ add_executable(main
   $ENV{PARTMC_HOME}/src/integer_rmap.F90
   $ENV{PARTMC_HOME}/src/integer_rmap2.F90
 )
+find_path (NETCDF_INCLUDES netcdf.mod
+  HINTS NETCDF_DIR ENV NETCDF_DIR REQUIRED)
+
+find_library (NETCDF_LIBRARIES NAMES netcdff 
+  HINTS NETCDF_DIR ENV NETCDF_DIR REQUIRED)
+
 target_link_libraries(main netcdff)
+target_include_directories(main PRIVATE ${NETCDF_INCLUDES})
+target_link_directories(main PRIVATE ${NETCDF_LIBRARIES})
