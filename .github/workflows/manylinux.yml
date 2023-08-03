@@ -1,0 +1,17 @@
+name: manylinux
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: true
+        type: string
+      uses-value:
+        required: true
+        type: string
+jobs:
+  main:
+    uses: ${{ inputs.uses-value }}
+    with:
+      build-requirements: 'setuptools_scm'
+      python-versions: ${{ input.python-version }}
+      pre-build-command: 'git config --global --add safe.directory "*"'
