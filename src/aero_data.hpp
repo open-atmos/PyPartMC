@@ -32,9 +32,18 @@ struct AeroData {
     AeroData(const nlohmann::json &json) :
         ptr(f_aero_data_ctor, f_aero_data_dtor)
     {
-        if (!InputGimmick::unique_keys(json))
-            throw std::runtime_error("Species names must be unique");
-        gimmick_ptr() = std::make_unique<InputGimmick>(json);
+        //if (!InputGimmick::unique_keys(json))
+        //    throw std::runtime_error("Species names must be unique");
+
+        // copy!
+        auto arr = nlohmann::json::array();
+        if (!json.is_object())
+            throw std::runtime_error("expecting a dictionary-like object");
+        for (const auto& item : json.items()) {
+            arr.insert(arr.begin(), nlohmann::json({{item.key(), item.value()}}));
+        }
+            
+        gimmick_ptr() = std::make_unique<InputGimmick>(arr);
         f_aero_data_from_json(this->ptr.f_arg());
         gimmick_ptr().reset(); // TODO #117: guard
     }

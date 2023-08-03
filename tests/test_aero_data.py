@@ -10,34 +10,34 @@ import pytest
 import PyPartMC as ppmc
 from PyPartMC import si
 
-AERO_DATA_CTOR_ARG_MINIMAL = (
-    {"H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
-)
+AERO_DATA_CTOR_ARG_MINIMAL = {
+    "H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0],
+}
 
-AERO_DATA_CTOR_ARG_FULL = (
+AERO_DATA_CTOR_ARG_FULL = {
     #         density  ions in soln (1) molecular weight    kappa (1)
     #         |                     |   |                   |
-    {"SO4": [1800 * si.kg / si.m**3, 1, 96.0 * si.g / si.mol, 0.00]},
-    {"NO3": [1800 * si.kg / si.m**3, 1, 62.0 * si.g / si.mol, 0.00]},
-    {"Cl": [2200 * si.kg / si.m**3, 1, 35.5 * si.g / si.mol, 0.00]},
-    {"NH4": [1800 * si.kg / si.m**3, 1, 18.0 * si.g / si.mol, 0.00]},
-    {"MSA": [1800 * si.kg / si.m**3, 0, 95.0 * si.g / si.mol, 0.53]},
-    {"ARO1": [1400 * si.kg / si.m**3, 0, 150.0 * si.g / si.mol, 0.10]},
-    {"ARO2": [1400 * si.kg / si.m**3, 0, 150.0 * si.g / si.mol, 0.10]},
-    {"ALK1": [1400 * si.kg / si.m**3, 0, 140.0 * si.g / si.mol, 0.10]},
-    {"OLE1": [1400 * si.kg / si.m**3, 0, 140.0 * si.g / si.mol, 0.10]},
-    {"API1": [1400 * si.kg / si.m**3, 0, 184.0 * si.g / si.mol, 0.10]},
-    {"API2": [1400 * si.kg / si.m**3, 0, 184.0 * si.g / si.mol, 0.10]},
-    {"LIM1": [1400 * si.kg / si.m**3, 0, 200.0 * si.g / si.mol, 0.10]},
-    {"LIM2": [1400 * si.kg / si.m**3, 0, 200.0 * si.g / si.mol, 0.10]},
-    {"CO3": [2600 * si.kg / si.m**3, 1, 60.0 * si.g / si.mol, 0.00]},
-    {"Na": [2200 * si.kg / si.m**3, 1, 23.0 * si.g / si.mol, 0.00]},
-    {"Ca": [2600 * si.kg / si.m**3, 1, 40.0 * si.g / si.mol, 0.00]},
-    {"OIN": [2600 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.10]},
-    {"OC": [1400 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.10]},
-    {"BC": [1800 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.00]},
-    {"H2O": [1000 * si.kg / si.m**3, 0, 18.0 * si.g / si.mol, 0.00]},
-)
+    "SO4": [1800 * si.kg / si.m**3, 1, 96.0 * si.g / si.mol, 0.00],
+    "NO3": [1800 * si.kg / si.m**3, 1, 62.0 * si.g / si.mol, 0.00],
+    "Cl": [2200 * si.kg / si.m**3, 1, 35.5 * si.g / si.mol, 0.00],
+    "NH4": [1800 * si.kg / si.m**3, 1, 18.0 * si.g / si.mol, 0.00],
+    "MSA": [1800 * si.kg / si.m**3, 0, 95.0 * si.g / si.mol, 0.53],
+    "ARO1": [1400 * si.kg / si.m**3, 0, 150.0 * si.g / si.mol, 0.10],
+    "ARO2": [1400 * si.kg / si.m**3, 0, 150.0 * si.g / si.mol, 0.10],
+    "ALK1": [1400 * si.kg / si.m**3, 0, 140.0 * si.g / si.mol, 0.10],
+    "OLE1": [1400 * si.kg / si.m**3, 0, 140.0 * si.g / si.mol, 0.10],
+    "API1": [1400 * si.kg / si.m**3, 0, 184.0 * si.g / si.mol, 0.10],
+    "API2": [1400 * si.kg / si.m**3, 0, 184.0 * si.g / si.mol, 0.10],
+    "LIM1": [1400 * si.kg / si.m**3, 0, 200.0 * si.g / si.mol, 0.10],
+    "LIM2": [1400 * si.kg / si.m**3, 0, 200.0 * si.g / si.mol, 0.10],
+    "CO3": [2600 * si.kg / si.m**3, 1, 60.0 * si.g / si.mol, 0.00],
+    "Na": [2200 * si.kg / si.m**3, 1, 23.0 * si.g / si.mol, 0.00],
+    "Ca": [2600 * si.kg / si.m**3, 1, 40.0 * si.g / si.mol, 0.00],
+    "OIN": [2600 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.10],
+    "OC": [1400 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.10],
+    "BC": [1800 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.00],
+    "H2O": [1000 * si.kg / si.m**3, 0, 18.0 * si.g / si.mol, 0.00],
+}
 
 
 class TestAeroData:
@@ -295,40 +295,32 @@ class TestAeroData:
         # arrange
         densities = [1800, 1400, 1800, 1000]
         sut = ppmc.AeroData(
-            (
-                {
+            {
                     "SO4": [
                         densities[0] * si.kg / si.m**3,
                         1,
                         96.0 * si.g / si.mol,
                         0.00,
-                    ]
-                },
-                {
+                    ],
                     "OC": [
                         densities[1] * si.kg / si.m**3,
                         0,
                         1.0 * si.g / si.mol,
                         0.10,
-                    ]
-                },
-                {
+                    ],
                     "BC": [
                         densities[2] * si.kg / si.m**3,
                         0,
                         1.0 * si.g / si.mol,
                         0.00,
-                    ]
-                },
-                {
+                    ],
                     "H2O": [
                         densities[3] * si.kg / si.m**3,
                         0,
                         18.0 * si.g / si.mol,
                         0.00,
-                    ]
-                },
-            )
+                    ],
+            }
         )
 
         # act
@@ -342,23 +334,10 @@ class TestAeroData:
         # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
 
-        for item in AERO_DATA_CTOR_ARG_FULL:
-            keys = item.keys()
-            assert len(keys) == 1
-            key = tuple(keys)[0]
-            val = tuple(item.values())[0]
-
+        for key, val in AERO_DATA_CTOR_ARG_FULL.items():
             # act
             density = sut.density(key)
 
             # assert
             assert density == val[0]
 
-    @staticmethod
-    def test_ctor_error_on_nonunique_keys():
-        # act
-        with pytest.raises(Exception) as exc_info:
-            ppmc.AeroData([AERO_DATA_CTOR_ARG_MINIMAL[0]] * 2)
-
-        # assert
-        assert str(exc_info.value) == "Species names must be unique"
