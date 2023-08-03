@@ -110,7 +110,7 @@ aero_state = ppmc.AeroState(n_part, aero_data)
 ppmc.rand_init(seed)
 aero_state.dist_sample(aero_dist)
 
-print(np.dot(aero_state.masses, aero_state.num_concs), "kg/m3")
+print(np.dot(aero_state.masses, aero_state.num_concs), "# kg/m3")
 ```
 
 #### example object instantiation in Julia
@@ -160,7 +160,7 @@ aero_state = ppmc.AeroState(n_part, aero_data)
 ppmc.rand_init(seed)
 aero_state.dist_sample(aero_dist)
 
-print(aero_state.masses'aero_state.num_concs)
+print(aero_state.masses'aero_state.num_concs,"# kg/m3")
 ```
 
 #### usage in other projects

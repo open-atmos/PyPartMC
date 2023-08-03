@@ -36,5 +36,5 @@ program main
 
   num_concs = aero_state_num_concs(aero_state, aero_data)
   masses = aero_state_masses(aero_state, aero_data)
-  print *, dot_product(num_concs, masses)
+  print *, dot_product(num_concs, masses), "# kg/m3"
 end

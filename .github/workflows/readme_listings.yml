@@ -103,7 +103,7 @@ jobs:
       with:
           name: readme_output
           path: readme_output
-    - run : python -c 'import numpy as np; import os; data=[float(np.loadtxt(file)) for file in os.listdir('readme_output')]; assert((np.array([k==data[0] for k in data[1:]])).all())'
+    - run : python -c 'import numpy as np; import os; data=[float(np.loadtxt(file)) for file in os.listdir("readme_output")]; assert((np.array([k==data[0] for k in data[1:]])).all())'
 
   matlab-draft:
     runs-on: ubuntu-latest
