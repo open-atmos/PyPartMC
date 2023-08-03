@@ -13,9 +13,9 @@ implicit none
 
 contains
 
-  subroutine f_pmc_srand(seed, offset) bind(C)
+  subroutine f_pmc_srand(seed) bind(C)
     integer(c_int) :: seed
-    integer(c_int) :: offset
+    integer(c_int) :: offset = 0 ! MPI not used
 
     call pmc_srand(seed, offset)
 

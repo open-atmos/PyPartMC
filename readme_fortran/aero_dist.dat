@@ -1,0 +1,15 @@
+mode_name cooking
+mass_frac cooking_comp.dat
+diam_type geometric
+mode_type log_normal
+num_conc 3.2e9  # (#/m^3)
+geom_mean_diam 8.64e-9  # (m)
+log10_geom_std_dev 0.28
+
+mode_name diesel
+mass_frac diesel_comp.dat
+diam_type geometric
+mode_type log_normal
+num_conc 2.9e9  # (#/m^3)
+geom_mean_diam 5e-8
+log10_geom_std_dev 0.24

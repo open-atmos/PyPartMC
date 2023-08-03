@@ -1,0 +1,139 @@
+name: readme_listings
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 13 * * 4'
+
+jobs:
+  julia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: '3.26.x'
+
+      - run: pip install -e .
+      - run: pip install pytest-codeblocks pytest
+      - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme.jl', 'w'); f.writelines(block.code for block in code if block.syntax=='Julia'); f.close()"
+      - run: cat -n readme.jl
+
+      - uses: julia-actions/setup-julia@v1
+      - run: mkdir readme_output
+      - run: julia readme.jl > readme_output/julia.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: readme_output
+          path: readme_output
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: '3.26.x'
+
+      - run: pip install -e .
+      - run: pip install pytest-codeblocks pytest
+      - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme.py', 'w'); f.writelines(block.code for block in code if block.syntax=='Python'); f.close()"
+      - run: cat -n readme.py
+
+      - run: mkdir readme_output
+      - run: python -We readme.py > readme_output/python.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: readme_output
+          path: readme_output
+      
+  fortran:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - run: sudo apt-get install libnetcdff-dev
+      - run: |
+          cd readme_fortran
+          mkdir build
+          cd build
+          PARTMC_HOME=../../gitmodules/partmc cmake ..
+          make
+
+      - run: |
+          mkdir readme_output
+          cd readme_fortran
+          ./build/main > ../readme_output/fortran.txt
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: readme_output
+          path: readme_output
+
+  assert:
+    runs-on: ubuntu-latest
+    needs: [julia, python, matlab-draft, fortran]
+    steps:
+    - uses: actions/setup-python@v2
+    - run: pip install numpy
+    - uses: actions/download-artifact@v2
+      with:
+          name: readme_output
+          path: readme_output
+    - run : python -c 'import numpy as np; import os; dir="readme_output/"; data=[float(np.loadtxt(dir+file)) for file in os.listdir(dir)]; print("data:", data); similar_as_first = np.array([abs(data[0]-k)/data[0] for k in data[1:]]); print("similar_as_first", similar_as_first); assert((similar_as_first < .1).all())'
+
+  matlab-draft:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - uses: jwlawson/actions-setup-cmake@v1.13
+        with:
+          cmake-version: '3.26.x'
+
+      - run: |
+          echo "CC=gcc-9" >> $GITHUB_ENV
+          echo "CXX=g++-9" >> $GITHUB_ENV
+          VERBOSE=1 pip install --verbose -e .
+
+      - run: pip install pytest-codeblocks pytest
+      - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme.m', 'w'); f.writelines(block.code for block in code if block.syntax=='Matlab'); f.close()"
+      - run: cat -n readme.m
+
+      - uses: matlab-actions/setup-matlab@v0
+        with:
+          release: R2022a
+
+      - uses: matlab-actions/run-command@v0
+        with:
+          command: readme

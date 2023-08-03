@@ -6,7 +6,7 @@
 
 #pragma once
 
-extern "C" void f_pmc_srand(const int*, const int*);
+extern "C" void f_pmc_srand(const int*);
 extern "C" void f_rand_normal(const double*, const double*, double*);
-void rand_init(int seed, int offset);
+void rand_init(int seed);
 double rand_normal(double mean, double stddev);
