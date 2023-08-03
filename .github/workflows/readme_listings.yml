@@ -103,7 +103,7 @@ jobs:
       with:
           name: readme_output
           path: readme_output
-    - run : python -c 'import numpy as np; import os; dir="readme_output/"; data=[float(np.loadtxt(dir+file)) for file in os.listdir(dir)]; assert((np.array([k==data[0] for k in data[1:]])).all())'
+    - run : python -c 'import numpy as np; import os; dir="readme_output/"; data=[float(np.loadtxt(dir+file)) for file in os.listdir(dir)]; print("data:", data); same_as_first = np.array([k==data[0] for k in data[1:]]); print("same_as_first", same_as_first); assert((same_as_first).all())'
 
   matlab-draft:
     runs-on: ubuntu-latest
