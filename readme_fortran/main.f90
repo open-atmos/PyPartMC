@@ -4,7 +4,6 @@ program main
   use pmc_aero_mode
   use pmc_aero_dist
   use pmc_aero_state
-  use pmc_rand
 
   implicit none
 
@@ -12,7 +11,7 @@ program main
   type(aero_data_t) :: aero_data
   type(aero_dist_t) :: aero_dist
   type(aero_state_t) :: aero_state
-  integer, parameter :: n_part = 100, seed = 44
+  integer, parameter :: n_part = 100
   integer :: n_part_add
   real(kind=dp), dimension(n_part) :: num_concs, masses
 
@@ -23,8 +22,6 @@ program main
   call spec_file_open("aero_dist.dat", f_aero_dist)
   call spec_file_read_aero_dist(f_aero_dist, aero_data, aero_dist)
   call spec_file_close(f_aero_dist)
-
-  call pmc_srand(seed, 0)
 
   call aero_state_zero(aero_state)
   call fractal_set_spherical(aero_data%fractal)
