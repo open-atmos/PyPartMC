@@ -40,6 +40,14 @@ jobs:
       matrix:
         platform: [ubuntu-latest, macos-12, windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        include: 
+          - manylinux: "manylinux2010_x86_64"
+            platform: ubuntu-latest
+          - manylinux: "manylinux_2_24_x86_64"
+            platform: ubuntu-latest
+        exclude:
+          - manylinux: manylinux2010_x86_64
+            python-version: "3.11"
       fail-fast: false
     runs-on: ${{ matrix.platform }}
     steps:
@@ -94,7 +102,7 @@ jobs:
         run: python -c "import sys; vi=sys.version_info; abitag='m' if vi.minor<8 else ''; print(f'PV=cp{vi.major}{vi.minor}-cp{vi.major}{vi.minor}{abitag}')" >> $GITHUB_ENV
 
       - if: matrix.platform == 'ubuntu-latest'
-        uses: RalfG/python-wheels-manylinux-build@v0.7.1-manylinux2010_x86_64
+        uses: RalfG/python-wheels-manylinux-build@v0.7.1-${{ matrix.manylinux }}
         with:
             build-requirements: 'setuptools_scm'
             python-versions: ${{ env.PV }}
