@@ -58,9 +58,12 @@ import PyPartMC
 
 ## Usage examples
 
+The listings below depict how the identical task of randomly sampling particles from an aerosol size distribution in PartMC can be
+done in three different programming languages.
+
 For a Fortran equivalent of the Python and Julia programs below, see the [`readme_fortran` folder](https://github.com/open-atmos/PyPartMC/tree/main/readme_fortran).
 
-#### example object instantiation in Python
+#### Python
 
 ```Python
 import numpy as np
@@ -104,7 +107,7 @@ aero_state.dist_sample(aero_dist)
 print(np.dot(aero_state.masses, aero_state.num_concs), "# kg/m3")
 ```
 
-#### example object instantiation in Julia
+#### Julia
 ```Julia
 using Pkg
 Pkg.add("PyCall")
