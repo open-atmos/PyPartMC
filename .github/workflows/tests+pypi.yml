@@ -43,11 +43,18 @@ jobs:
         include: 
           - manylinux: "manylinux2010_x86_64"
             platform: ubuntu-latest
+            python-version: "3.7"
+          - manylinux: "manylinux2010_x86_64"
+            platform: ubuntu-latest
+            python-version: "3.8"
+          - manylinux: "manylinux2010_x86_64"
+            platform: ubuntu-latest
+            python-version: "3.9"
+          - manylinux: "manylinux2010_x86_64"
+            platform: ubuntu-latest
+            python-version: "3.10"
           - manylinux: "manylinux_2_24_x86_64"
             platform: ubuntu-latest
-        exclude:
-          - manylinux: manylinux2010_x86_64
-            python-version: "3.11"
       fail-fast: false
     runs-on: ${{ matrix.platform }}
     steps:
