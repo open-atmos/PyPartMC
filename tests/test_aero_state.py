@@ -60,7 +60,7 @@ class TestAeroState:
 
         # act
         with pytest.raises(RuntimeError) as excinfo:
-            sut = ppmc.AeroState(aero_data, 1, name)
+            _ = ppmc.AeroState(aero_data, 1, name)
 
         # assert
         assert (
