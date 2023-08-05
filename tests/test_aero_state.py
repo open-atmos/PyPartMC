@@ -15,14 +15,14 @@ from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_dist import AERO_DIST_CTOR_ARG_FULL, AERO_DIST_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
-AERO_STATE_CTOR_ARG_MINIMAL = 44
+AERO_STATE_CTOR_ARG_MINIMAL = 44, "nummass_source"
 
 
 @pytest.fixture
 def sut_minimal():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
     aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
-    sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
+    sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
     _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
     aero_data = None
     gc.collect()
@@ -33,7 +33,7 @@ def sut_minimal():
 def sut_full():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
     aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FULL)
-    sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
+    sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
     _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
     aero_data = None
     gc.collect()
@@ -47,10 +47,27 @@ class TestAeroState:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
         # act
-        sut = ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data)
+        sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
 
         # assert
         assert sut is not None
+
+    @staticmethod
+    def test_ctor_fails_on_unknown_weighting():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        name = "kopytko"
+
+        # act
+        with pytest.raises(RuntimeError) as excinfo:
+            sut = ppmc.AeroState(aero_data, 1, name)
+
+        # assert
+        assert (
+            str(excinfo.value)
+            == f"unknown weighting scheme '{name}', valid options are: "
+            + "flat, flat_source, nummass, nummass_source"
+        )
 
     @staticmethod
     @pytest.mark.parametrize("n_part", (44, 666))
@@ -58,7 +75,7 @@ class TestAeroState:
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
-        sut = ppmc.AeroState(n_part, aero_data)
+        sut = ppmc.AeroState(aero_data, n_part, "nummass_source")
         _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
 
         # act
@@ -227,12 +244,21 @@ class TestAeroState:
             pytest.param((), id="default args"),
         ),
     )
-    def test_dist_sample(args):
+    @pytest.mark.parametrize(
+        "weighting",
+        (
+            "flat_source",
+            "flat",
+            "nummass_source",
+            "nummass",
+        ),
+    )
+    def test_dist_sample(args, weighting):
         # arrange
         n_part = 44
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
-        sut = ppmc.AeroState(n_part, aero_data)
+        sut = ppmc.AeroState(aero_data, n_part, weighting)
 
         # act
         n_added = sut.dist_sample(aero_dist, *args)

@@ -28,7 +28,7 @@ def common_args():
         scenario,
         env_state,
         aero_data,
-        ppmc.AeroState(AERO_STATE_CTOR_ARG_MINIMAL, aero_data),
+        ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL),
         gas_data,
         gas_state,
         ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL),
