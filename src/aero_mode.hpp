@@ -130,9 +130,9 @@ struct AeroMode {
     {
         if (json.size() != 1)
             throw std::runtime_error("Single element expected");
-        gimmick_ptr() = std::make_unique<InputGimmick>(json, "", "mode_name");
+
+        GimmickGuard<InputGimmick> guard(json, "", "mode_name");
         f_aero_mode_from_json(ptr.f_arg_non_const(), aero_data.ptr.f_arg_non_const());
-        gimmick_ptr().reset();
     }
 
     static auto get_num_conc(const AeroMode &self){

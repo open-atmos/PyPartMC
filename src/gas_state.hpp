@@ -59,12 +59,11 @@ struct GasState {
     }
 
     static auto __str__(const GasState &self) {
-        gimmick_ptr() = std::make_unique<OutputGimmick>(); // TODO #117: guard
+        GimmickGuard<OutputGimmick> guard();
 
         f_gas_state_to_json(self.ptr.f_arg());
         auto str = gimmick_ptr()->str();
 
-        gimmick_ptr().reset(); // TODO #117: guard
         return str;
     }
 
@@ -118,10 +117,8 @@ struct GasState {
     }
 
     static void set_mix_rats(const GasState &self, const nlohmann::json &json) {
-
-        gimmick_ptr() = std::make_unique<InputGimmick>(json);
+        GimmickGuard<InputGimmick> guard(json);
         f_gas_state_from_json(self.ptr.f_arg(),
              self.gas_data->ptr.f_arg());
-        gimmick_ptr().reset(); // TODO #117: guard
     }
 };

@@ -29,9 +29,8 @@ struct EnvState {
     EnvState(const nlohmann::json &json) :
         ptr(f_env_state_ctor, f_env_state_dtor)
     {
-        gimmick_ptr() = std::make_unique<InputGimmick>(json); // TODO #117: guard
+        GimmickGuard<InputGimmick> guard(json);
         f_env_state_from_json(this->ptr.f_arg());
-        gimmick_ptr().reset();
     }
 
     static void set_temperature(const EnvState &self, double &temperature) {

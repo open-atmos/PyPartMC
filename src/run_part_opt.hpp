@@ -22,9 +22,8 @@ struct RunPartOpt {
     RunPartOpt(const nlohmann::json &json) :
         ptr(f_run_part_opt_ctor, f_run_part_opt_dtor)
     {
-        gimmick_ptr() = std::make_unique<InputGimmick>(json); // TODO #117: guard
+        GimmickGuard<InputGimmick> guard(json);
         f_run_part_opt_from_json(this->ptr.f_arg());
-        gimmick_ptr().reset();
     }
 
     static auto t_max(const RunPartOpt &self){

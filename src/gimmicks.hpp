@@ -308,3 +308,35 @@ struct OutputGimmick: Gimmick {
 
 std::unique_ptr<Gimmick> &gimmick_ptr();
 
+template <typename T>
+struct GimmickGuard {
+    GimmickGuard() {
+        gimmick_ptr() = std::make_unique<T>();
+    }   
+
+    GimmickGuard(const nlohmann::json & json) {
+        gimmick_ptr() = std::make_unique<T>(json);
+    }
+
+    GimmickGuard(
+        const nlohmann::json & json,
+        const std::string key_cond,
+        const std::string key_name
+    ) {
+        gimmick_ptr() = std::make_unique<T>(json, key_cond, key_name);
+    }
+
+    GimmickGuard(
+        const nlohmann::json & json,
+        const std::string key_cond,
+        const std::string key_name,
+        const int max_zoom_level
+    ) {
+        gimmick_ptr() = std::make_unique<T>(json, key_cond, key_name, max_zoom_level);
+    }
+
+    ~GimmickGuard() {
+        gimmick_ptr().reset();
+    }   
+};
+

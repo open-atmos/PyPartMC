@@ -34,9 +34,8 @@ struct GasData {
                 nlohmann::json::array()
             }}));
 
-        gimmick_ptr() = std::make_unique<InputGimmick>(json_array);
+        GimmickGuard<InputGimmick> guard(json_array);
         f_gas_data_from_json(this->ptr.f_arg());
-        gimmick_ptr().reset(); // TODO #117: guard
     }
 
     static auto __str__(const GasData &self) {

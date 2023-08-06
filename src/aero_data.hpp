@@ -34,9 +34,9 @@ struct AeroData {
     {
         if (!InputGimmick::unique_keys(json))
             throw std::runtime_error("Species names must be unique");
-        gimmick_ptr() = std::make_unique<InputGimmick>(json);
+
+        GimmickGuard<InputGimmick> guard(json);
         f_aero_data_from_json(this->ptr.f_arg());
-        gimmick_ptr().reset(); // TODO #117: guard
     }
 
     static auto spec_by_name(const AeroData &self, const std::string &name) {

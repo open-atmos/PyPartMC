@@ -95,13 +95,12 @@ struct Scenario {
         ptr(f_scenario_ctor, f_scenario_dtor),
         json(json)
     {
-        gimmick_ptr() = std::make_unique<InputGimmick>(json, "dist", "mode_name"); // TODO #117: guard
+        GimmickGuard<InputGimmick> guard(json, "dist", "mode_name");
         f_scenario_from_json(
             gas_data.ptr.f_arg(),
             aero_data.ptr.f_arg(),
             this->ptr.f_arg()
         );
-        gimmick_ptr().reset();
     }
 
     static auto __str__(const Scenario &self) {
