@@ -22,7 +22,31 @@ struct RunPartOpt {
     RunPartOpt(const nlohmann::json &json) :
         ptr(f_run_part_opt_ctor, f_run_part_opt_dtor)
     {
-        gimmick_ptr() = std::make_unique<InputGimmick>(json); // TODO #117: guard
+        nlohmann::json json_copy(json);
+
+        if (json_copy.find("do_parallel") != json_copy.end() && json_copy["do_parallel"])
+            throw std::runtime_error("setting do_parallel=true not supported in PyPartMC");
+        json_copy["do_parallel"] = false;
+
+        for (auto key : std::set{
+            "do_mosaic", "do_camp_chem", "do_condensation", "do_optical", "do_nucleation",
+        })
+            if (json_copy.find(key) == json_copy.end())
+                json_copy[key] = false;
+
+        for (auto key : std::set{
+            "allow_halving", "allow_doubling"
+        })
+            if (json_copy.find(key) == json_copy.end())
+                json_copy[key] = true;
+
+        for (auto key : std::set{
+            "t_output", "t_progress", "rand_init"
+        })
+            if (json_copy.find(key) == json_copy.end())
+                json_copy[key] = 0;
+
+        gimmick_ptr() = std::make_unique<InputGimmick>(json_copy); // TODO #117: guard
         f_run_part_opt_from_json(this->ptr.f_arg());
         gimmick_ptr().reset();
     }
