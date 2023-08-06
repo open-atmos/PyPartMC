@@ -59,7 +59,7 @@ struct GasState {
     }
 
     static auto __str__(const GasState &self) {
-        GimmickGuard<OutputGimmick> guard();
+        GimmickGuard<OutputGimmick> guard;
 
         f_gas_state_to_json(self.ptr.f_arg());
         auto str = gimmick_ptr()->str();
