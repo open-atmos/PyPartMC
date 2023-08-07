@@ -488,10 +488,6 @@ foreach(file ${PyPartMC_headers})
   )
   unset(CMAKE_REQUIRED_INCLUDES)
   if (NOT _header_self_contained_${file})
-    # <TEMPORARY>
-    file(READ ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log ERR)
-    message(INFO ${ERR})
-    # </TEMPORARY>
     message(SEND_ERROR "non-self-contained header: ${file}")
   endif()
 endforeach()
