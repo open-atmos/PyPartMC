@@ -28,21 +28,21 @@ struct RunPartOpt {
             throw std::runtime_error("setting do_parallel=true not supported in PyPartMC");
         json_copy["do_parallel"] = false;
 
-        for (auto key : std::set{
+        for (auto key : std::set({
             "do_mosaic", "do_camp_chem", "do_condensation", "do_optical", "do_nucleation",
-        })
+        }))
             if (json_copy.find(key) == json_copy.end())
                 json_copy[key] = false;
 
-        for (auto key : std::set{
+        for (auto key : std::set({
             "allow_halving", "allow_doubling"
-        })
+        }))
             if (json_copy.find(key) == json_copy.end())
                 json_copy[key] = true;
 
-        for (auto key : std::set{
+        for (auto key : std::set({
             "t_output", "t_progress", "rand_init"
-        })
+        }))
             if (json_copy.find(key) == json_copy.end())
                 json_copy[key] = 0;
 
