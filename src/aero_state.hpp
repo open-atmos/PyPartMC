@@ -24,8 +24,9 @@ extern "C" void f_aero_state_dtor(
 
 extern "C" void f_aero_state_init(
     const void *ptr,
+    const void *aero_dataptr,
     const double *n_part,
-    const void *aero_dataptr
+    const char *weight_c
 ) noexcept;
 
 extern "C" void f_aero_state_len(
@@ -128,16 +129,37 @@ struct AeroState {
     std::shared_ptr<AeroData> aero_data;
 
     AeroState(
+        std::shared_ptr<AeroData> aero_data,
         const double &n_part,
-        std::shared_ptr<AeroData> aero_data
+        const bpstd::string_view &weight
     ):
         ptr(f_aero_state_ctor, f_aero_state_dtor),
         aero_data(aero_data)
     {
+        static const std::map<bpstd::string_view, char> weight_c{
+          //{"none", '-'},
+          {"flat", 'f'},
+          {"flat_source", 'F'},
+          //{"power", 'p'},
+          //{"power_source", 'P'},
+          {"nummass", 'n'},
+          {"nummass_source", 'N'},
+        };
+
+        if (weight_c.find(weight) == weight_c.end()) {
+            std::ostringstream msg;
+            msg << "unknown weighting scheme '" << weight << "', valid options are: ";
+            auto index = 0;
+            for (auto const& pair: weight_c)
+                msg << (!index++ ? "" : ", ") << pair.first;
+            throw std::runtime_error(msg.str());
+        }
+
         f_aero_state_init(
             ptr.f_arg(),
+            aero_data->ptr.f_arg(),
             &n_part,
-            aero_data->ptr.f_arg()
+            &weight_c.at(weight)
         );
     }
 

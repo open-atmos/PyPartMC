@@ -31,7 +31,7 @@ class TestOutput:
         scenario.init_env_state(env_state, 0.0)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_COAGULATION)
         n_part = 100
-        aero_state = ppmc.AeroState(n_part, aero_data)
+        aero_state = ppmc.AeroState(aero_data, n_part, "nummass_source")
         aero_state.dist_sample(
             aero_dist,
             sample_prop=1.0,
@@ -63,7 +63,7 @@ class TestOutput:
         photolysis = ppmc.Photolysis()
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_COAGULATION)
         n_part = 100
-        aero_state = ppmc.AeroState(n_part, aero_data)
+        aero_state = ppmc.AeroState(aero_data, n_part, "nummass_source")
         aero_state.dist_sample(
             aero_dist,
             sample_prop=1.0,

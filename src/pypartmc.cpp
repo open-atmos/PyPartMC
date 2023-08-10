@@ -160,7 +160,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              is typically cleared each time we output data to disk.
         )pbdoc"
     )
-        .def(py::init<const double, std::shared_ptr<AeroData>>())
+        .def(py::init<std::shared_ptr<AeroData>, const double, const std::string>())
         .def("__len__", AeroState::__len__)
         .def_property_readonly("total_num_conc", AeroState::total_num_conc,
             "returns the total number concentration of the population")
