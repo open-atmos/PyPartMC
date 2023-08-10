@@ -460,6 +460,9 @@ endif()
 if (WIN32)
   target_link_libraries(_PyPartMC PRIVATE -static gcc stdc++ winpthread quadmath -dynamic)
 endif()
+if(CMAKE_CXX_COMPILER_ID STREQUAL GNU)
+  target_link_options(_PyPartMC PRIVATE -flto=auto)
+endif()
 
 ### pedantics ######################################################################################
 
