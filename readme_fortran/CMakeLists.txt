@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(main LANGUAGES Fortran)
 add_executable(main
   main.f90
+  $ENV{PARTMC_HOME}/src/sys.F90
   $ENV{PARTMC_HOME}/src/spec_file.F90
   $ENV{PARTMC_HOME}/src/spec_line.F90
   $ENV{PARTMC_HOME}/src/util.F90
