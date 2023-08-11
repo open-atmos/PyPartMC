@@ -46,9 +46,8 @@ struct RunPartOpt {
             if (json_copy.find(key) == json_copy.end())
                 json_copy[key] = 0;
 
-        gimmick_ptr() = std::make_unique<InputGimmick>(json_copy); // TODO #117: guard
+        GimmickGuard<InputGimmick> guard(json_copy);
         f_run_part_opt_from_json(this->ptr.f_arg());
-        gimmick_ptr().reset();
     }
 
     static auto t_max(const RunPartOpt &self){
