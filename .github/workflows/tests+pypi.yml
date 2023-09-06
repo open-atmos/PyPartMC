@@ -215,5 +215,5 @@ jobs:
       uses: pypa/gh-action-pypi-publish@unstable/v1
       with:
         repository_url: https://test.pypi.org/legacy/
-    - if: startsWith(github.ref, 'refs/tags')
+    - if: startsWith(env.GITHUB_REF, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@unstable/v1
