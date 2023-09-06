@@ -215,5 +215,11 @@ jobs:
       uses: pypa/gh-action-pypi-publish@unstable/v1
       with:
         repository_url: https://test.pypi.org/legacy/
-    - if: github.event_name == 'release' && github.event.action == 'created'
+    - run: |
+        echo "github.event_name:" ${{ github.event_name }}
+        echo "github.event.action:" ${{ github.event.action }}
+        echo "github.event.prerelease:" ${{ github.event.prerelease }}
+        echo "env.GITHUB_REF:" ${{ env.GITHUB_REF }}
+        echo "env.GITHUB_REF:" ${{ env.GITHUB_REF_NAME }}
+    - if: github.event_name == 'release' && github.event.prerelease == false
       uses: pypa/gh-action-pypi-publish@unstable/v1
