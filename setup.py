@@ -125,8 +125,6 @@ setup(
         "local_scheme": lambda _: "",
         "version_scheme": "post-release",
     },
-    author="PyPartMC Team",
-    author_email="sylwester.arabas@agh.edu.pl",
     long_description=(Path(__file__).parent / "README.md").read_text(),
     long_description_content_type="text/markdown",
     packages=find_packages(include=["PyPartMC", "PyPartMC.*"]),

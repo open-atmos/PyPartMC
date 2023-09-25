@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "PyPartMC"
 description = "Python interface to PartMC"
-dynamic = ["version"]
+dynamic = ["version", "readme", "urls"]
 dependencies = ["numpy"]
 license = {text = "GPL-3.0"}
 requires-python = ">=3.7"
