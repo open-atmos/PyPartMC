@@ -120,39 +120,22 @@ class CMakeBuild(build_ext):
         subprocess.check_call(["cmake", "--build", "."] + build_args, cwd=build_temp)
 
 
-# The information here can also be placed in setup.cfg - better separation of
-# logic and declaration, and simpler if you include description/version in a file.
 setup(
-    name="PyPartMC",
     use_scm_version={
         "local_scheme": lambda _: "",
         "version_scheme": "post-release",
-        # "fallback_version": "0.0.0"
     },
-    author="Sylwester Arabas",
-    author_email="sarabas@illinois.edu",
-    description="Python interface to PartMC",
+    author="PyPartMC Team",
+    author_email="sylwester.arabas@agh.edu.pl",
     long_description=(Path(__file__).parent / "README.md").read_text(),
     long_description_content_type="text/markdown",
     packages=find_packages(include=["PyPartMC", "PyPartMC.*"]),
     ext_modules=[CMakeExtension("_PyPartMC")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
-    python_requires=">=3.7",
-    setup_requires=["setuptools_scm"],
-    install_requires=["numpy"],
-    license="GPL-3.0",
     project_urls={
         "Tracker": "https://github.com/open-atmos/PyPartMC/issues",
         "Documentation": "https://open-atmos.github.io/PyPartMC",
         "Source": "https://github.com/open-atmos/PyPartMC/",
-    },
-    extras_require={
-        "tests": [
-            "pytest",
-            "pytest-order",
-            "fastcore!=1.5.8",  # https://github.com/fastai/fastcore/issues/439
-            "ghapi",
-        ]
     },
 )

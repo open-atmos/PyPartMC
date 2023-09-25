@@ -1,0 +1,20 @@
+[tool.setuptools]
+py-modules = []
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PyPartMC"
+description = "Python interface to PartMC"
+dynamic = ["version"]
+dependencies = ["numpy"]
+license = {text = "GPL-3.0"}
+requires-python = ">=3.7"
+
+[project.optional-dependencies]
+tests = [
+    "pytest",
+    "pytest-order",
+]
