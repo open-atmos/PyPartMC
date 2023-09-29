@@ -35,6 +35,12 @@ extern "C" void f_aero_particle_crit_diameter(const void *aero_particle_ptr, con
 extern "C" void f_aero_particle_coagulate(const void *aero_particle_1_ptr, const void *aero_particle_2_ptr, void *new_particle_ptr) noexcept;
 extern "C" void f_aero_particle_zero(void *aero_particle_ptr, const void *aero_data_ptr) noexcept;
 extern "C" void f_aero_particle_set_vols(void *aero_particle_ptr, const int *vol_size, const void *volumes) noexcept;
+extern "C" void f_aero_particle_absorb_cross_sect(const void *aero_particle_ptr, double *val) noexcept;
+extern "C" void f_aero_particle_scatter_cross_sect(const void *aero_particle_ptr, double *val) noexcept;
+extern "C" void f_aero_particle_asymmetry(const void *aero_particle_ptr, double *val) noexcept;
+extern "C" void f_aero_particle_greatest_create_time(const void *aero_particle_ptr, double *val) noexcept;
+extern "C" void f_aero_particle_least_create_time(const void *aero_particle_ptr, double *val) noexcept;
+extern "C" void f_aero_particle_n_orig_part(const void *aero_particle_ptr, void *arr_data, const int *arr_size) noexcept;
 
 namespace py = pybind11;
 struct AeroParticle {
@@ -270,6 +276,63 @@ struct AeroParticle {
             &len,
             begin(volumes)
         );
+    }
+
+    static auto scatter_cross_sect(const AeroParticle &self) {
+        double val;
+        f_aero_particle_scatter_cross_sect(
+            self.ptr.f_arg(),
+            &val
+        );
+        return val;
+    }
+
+    static auto absorb_cross_sect(const AeroParticle &self) {
+        double val;
+        f_aero_particle_absorb_cross_sect(
+            self.ptr.f_arg(),
+            &val
+        );
+        return val;
+    }
+
+    static auto asymmetry(const AeroParticle &self) {
+        double val;
+        f_aero_particle_asymmetry(
+            self.ptr.f_arg(),
+            &val
+        );
+        return val;
+    }
+
+    static auto n_orig_part(const AeroParticle &self) {
+        int len = AeroData::n_source(*self.aero_data);
+        std::valarray<int> data(len);
+
+        f_aero_particle_n_orig_part(
+            self.ptr.f_arg(),
+            begin(data),
+            &len
+        );
+        return data;
+    }
+
+    static auto least_create_time(const AeroParticle &self) {
+        double val;
+        f_aero_particle_least_create_time(
+            self.ptr.f_arg(),
+            &val
+        );
+        return val;
+    }
+
+    static auto greatest_create_time(const AeroParticle &self) {
+        double val;
+        f_aero_particle_greatest_create_time(
+            self.ptr.f_arg(),
+            &val
+        );
+        return val;
     }
 
 };

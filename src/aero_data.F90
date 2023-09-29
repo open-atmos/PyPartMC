@@ -185,4 +185,15 @@ module PyPartMC_aero_data
 
   end subroutine
 
+  subroutine f_aero_data_n_source(ptr_c, n_source) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    integer(c_int) :: n_source
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    n_source = aero_data_n_source(ptr_f)
+
+  end subroutine
+
 end module
