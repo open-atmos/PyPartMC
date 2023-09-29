@@ -479,4 +479,19 @@ module PyPartMC_aero_particle
 
   end subroutine
 
+  subroutine f_aero_particle_id( & 
+      aero_particle_ptr_c, &
+      id &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(out) :: id
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    id = aero_particle_ptr_f%id
+
+  end subroutine
+
 end module

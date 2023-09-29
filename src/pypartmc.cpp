@@ -141,6 +141,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "First time a constituent was created (s).")
         .def_property_readonly("greatest_create_time", AeroParticle::greatest_create_time,
             "Last time a constituent was created (s).")
+        .def_property_readonly("id", AeroParticle::id, "Unique ID number.")
         .def("mobility_diameter", AeroParticle::mobility_diameter,
             "Mobility diameter of the particle (m).")
         .def_property_readonly("density", AeroParticle::density,

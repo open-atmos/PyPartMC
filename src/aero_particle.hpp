@@ -41,6 +41,7 @@ extern "C" void f_aero_particle_asymmetry(const void *aero_particle_ptr, double 
 extern "C" void f_aero_particle_greatest_create_time(const void *aero_particle_ptr, double *val) noexcept;
 extern "C" void f_aero_particle_least_create_time(const void *aero_particle_ptr, double *val) noexcept;
 extern "C" void f_aero_particle_n_orig_part(const void *aero_particle_ptr, void *arr_data, const int *arr_size) noexcept;
+extern "C" void f_aero_particle_id(const void *aero_particle_ptr, int *val) noexcept;
 
 namespace py = pybind11;
 struct AeroParticle {
@@ -329,6 +330,15 @@ struct AeroParticle {
     static auto greatest_create_time(const AeroParticle &self) {
         double val;
         f_aero_particle_greatest_create_time(
+            self.ptr.f_arg(),
+            &val
+        );
+        return val;
+    }
+
+    static auto id(const AeroParticle &self) {
+        int val;
+        f_aero_particle_id(
             self.ptr.f_arg(),
             &val
         );
