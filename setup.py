@@ -139,7 +139,7 @@ setup(
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     python_requires=">=3.7",
-    setup_requires=["setuptools_scm"],
+    setup_requires=["setuptools_scm" + ("<8.0.0" if "CI" in os.environ else "")],
     install_requires=["numpy"],
     license="GPL-3.0",
     project_urls={
