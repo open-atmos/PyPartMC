@@ -121,10 +121,12 @@ class CMakeBuild(build_ext):
 
 
 setup(
+    name="PyPartMC",
     use_scm_version={
         "local_scheme": lambda _: "",
         "version_scheme": "post-release",
     },
+    setup_requires=["setuptools_scm"],
     long_description=(Path(__file__).parent / "README.md").read_text(),
     long_description_content_type="text/markdown",
     packages=find_packages(include=["PyPartMC", "PyPartMC.*"]),
