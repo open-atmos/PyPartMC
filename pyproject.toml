@@ -2,7 +2,7 @@
 py-modules = []
 
 [build-system]
-requires = ["setuptools", "setuptools-scm<8.0.0"]
+requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -18,3 +18,5 @@ tests = [
     "pytest",
     "pytest-order",
 ]
+
+[tool.setuptools_scm]
