@@ -22,6 +22,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
+      - run: pip install setuptools>=68.2.2
       - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
       - run: pytest -v -s -We -p no:unraisableexception tests
 
