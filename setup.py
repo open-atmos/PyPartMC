@@ -127,6 +127,7 @@ setup(
         "version_scheme": "post-release",
     },
     setup_requires=["setuptools_scm"],
+    python_requires=">=3.7",
     long_description=(Path(__file__).parent / "README.md").read_text(),
     long_description_content_type="text/markdown",
     packages=find_packages(include=["PyPartMC", "PyPartMC.*"]),
