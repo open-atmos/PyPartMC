@@ -494,4 +494,34 @@ module PyPartMC_aero_particle
 
   end subroutine
 
+  subroutine f_aero_particle_refract_shell( &
+      aero_particle_ptr_c, &
+      refract_shell &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    complex(c_double_complex), intent(out) :: refract_shell
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    refract_shell = aero_particle_ptr_f%refract_shell
+
+  end subroutine
+
+  subroutine f_aero_particle_refract_core( &
+      aero_particle_ptr_c, &
+      refract_core &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    complex(c_double_complex), intent(out) :: refract_core
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    refract_core = aero_particle_ptr_f%refract_core
+
+  end subroutine
+
 end module

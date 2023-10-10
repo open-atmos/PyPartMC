@@ -10,6 +10,7 @@
 #include "aero_data.hpp"
 #include "env_state.hpp"
 #include "pybind11/stl.h"
+#include <complex>
 
 extern "C" void f_aero_particle_ctor(void *ptr) noexcept;
 extern "C" void f_aero_particle_dtor(void *ptr) noexcept;
@@ -42,6 +43,8 @@ extern "C" void f_aero_particle_greatest_create_time(const void *aero_particle_p
 extern "C" void f_aero_particle_least_create_time(const void *aero_particle_ptr, double *val) noexcept;
 extern "C" void f_aero_particle_n_orig_part(const void *aero_particle_ptr, void *arr_data, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_id(const void *aero_particle_ptr, int *val) noexcept;
+extern "C" void f_aero_particle_refract_shell(const void *aero_particle_ptr, std::complex<double> *val) noexcept;
+extern "C" void f_aero_particle_refract_core(const void *aero_particle_ptr, std::complex<double> *val) noexcept;
 
 namespace py = pybind11;
 struct AeroParticle {
@@ -345,4 +348,21 @@ struct AeroParticle {
         return val;
     }
 
+    static auto refract_shell(const AeroParticle &self) {
+        std::complex<double> refract_shell;
+        f_aero_particle_refract_shell(
+            self.ptr.f_arg(),
+            &refract_shell
+        );
+        return refract_shell;
+    }
+
+    static auto refract_core(const AeroParticle &self) {
+        std::complex<double> refract_core;
+        f_aero_particle_refract_core(
+            self.ptr.f_arg(),
+            &refract_core
+        );
+        return refract_core;
+    }
 };

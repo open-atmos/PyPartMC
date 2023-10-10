@@ -7,6 +7,7 @@
 #include "pybind11/pybind11.h"
 #include "nlohmann/json.hpp"
 #include "pybind11_json/pybind11_json.hpp"
+#include "pybind11/complex.h"
 
 #include "util.hpp"
 #include "rand.hpp"
@@ -135,6 +136,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Scattering cross-section (m^-2).")
         .def_property_readonly("asymmetry", AeroParticle::asymmetry,
             "Asymmetry parameter (1).")
+        .def_property_readonly("refract_shell", AeroParticle::refract_shell,
+            "Refractive index of the shell (1).")
+        .def_property_readonly("refract_core", AeroParticle::refract_core,
+            "Refractive index of the core (1).")
         .def_property_readonly("n_orig_part", AeroParticle::n_orig_part,
             "Number of original particles from each source that coagulated to form particle.")
         .def_property_readonly("least_create_time", AeroParticle::least_create_time,
