@@ -496,3 +496,123 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert sut.volumes == [3, 2, 1]
+
+    @staticmethod
+    def test_absorb_cross_sect():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.absorb_cross_sect
+
+        # assert
+        assert value == 0
+        assert type(value) == float
+
+    @staticmethod
+    def test_scatter_cross_sect():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.scatter_cross_sect
+
+        # assert
+        assert value == 0
+        assert type(value) == float
+
+    @staticmethod
+    def test_asymmetry():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.asymmetry
+
+        # assert
+        assert value == 0
+        assert type(value) == float
+
+    @staticmethod
+    def test_refract_shell():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.refract_shell
+
+        # assert
+        assert value == 0 + 0j
+        assert type(value) == complex
+
+    @staticmethod
+    def test_refract_core():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.refract_core
+
+        # assert
+        assert value == 0 + 0j
+        assert type(value) == complex
+
+    @staticmethod
+    def test_n_orig_part():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            _ = sut.n_orig_part
+
+        # assert
+        assert str(exc_info.value) == "No sources defined."
+
+    @staticmethod
+    def test_least_create_time():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        time = sut.least_create_time
+
+        # assert
+        assert time == 0
+        assert type(time) == float
+
+    @staticmethod
+    def test_greatest_create_time():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        time = sut.greatest_create_time
+
+        # assert
+        assert time == 0
+        assert type(time) == float
+
+    @staticmethod
+    def test_id():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        pid = sut.id
+
+        # assert
+        assert pid == 0
+        assert type(pid) == int
+
+    @staticmethod
+    def test_density():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        density = sut.density
+
+        # assert
+        assert density > 0
+        assert type(density) == float
