@@ -362,3 +362,15 @@ class TestAeroData:
 
         # assert
         assert str(exc_info.value) == "Species names must be unique"
+
+    @staticmethod
+    def test_n_source_uninitialized():
+        # arrange
+        sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            _ = sut.n_source
+
+        # assert
+        assert str(exc_info.value) == "No sources defined."

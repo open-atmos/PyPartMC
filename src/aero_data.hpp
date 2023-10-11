@@ -200,6 +200,8 @@ struct AeroData {
             self.ptr.f_arg(),
             &len
         );
+        if (len == -1)
+            throw std::runtime_error("No sources defined.");
         return len;
     }
 
