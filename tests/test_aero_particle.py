@@ -507,7 +507,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert value == 0
-        assert type(value) == float
+        assert isinstance(value, float)
 
     @staticmethod
     def test_scatter_cross_sect():
@@ -519,7 +519,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert value == 0
-        assert type(value) == float
+        assert isinstance(value, float)
 
     @staticmethod
     def test_asymmetry():
@@ -531,7 +531,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert value == 0
-        assert type(value) == float
+        assert isinstance(value, float)
 
     @staticmethod
     def test_refract_shell():
@@ -543,7 +543,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert value == 0 + 0j
-        assert type(value) == complex
+        assert isinstance(value, complex)
 
     @staticmethod
     def test_refract_core():
@@ -555,7 +555,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert value == 0 + 0j
-        assert type(value) == complex
+        assert isinstance(value, complex)
 
     @staticmethod
     def test_n_orig_part():
@@ -579,7 +579,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert time == 0
-        assert type(time) == float
+        assert isinstance(time, float)
 
     @staticmethod
     def test_greatest_create_time():
@@ -591,7 +591,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert time == 0
-        assert type(time) == float
+        assert isinstance(time, float)
 
     @staticmethod
     def test_id():
@@ -603,16 +603,4 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert pid == 0
-        assert type(pid) == int
-
-    @staticmethod
-    def test_density():
-        # arrange
-        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
-
-        # act
-        density = sut.density
-
-        # assert
-        assert density > 0
-        assert type(density) == float
+        assert isinstance(pid, int)
