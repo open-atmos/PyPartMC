@@ -13,6 +13,8 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_dist import AERO_DIST_CTOR_ARG_MINIMAL
+from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 
@@ -560,47 +562,68 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_n_orig_part():
         # arrange
-        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
-
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
+        sut = aero_state.particle(0)
         # act
-        with pytest.raises(Exception) as exc_info:
-            _ = sut.n_orig_part
+        n_orig_part = sut.n_orig_part
 
         # assert
-        assert str(exc_info.value) == "No sources defined."
+        assert len(n_orig_part) == aero_dist.n_mode
+        assert isinstance(n_orig_part[0], int)
 
     @staticmethod
     def test_least_create_time():
         # arrange
-        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+        create_time = 44.0
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, create_time)
 
         # act
-        time = sut.least_create_time
+        time = []
+        for i_part in range(len(aero_state)):
+            time.append(aero_state.particle(i_part).least_create_time)
 
         # assert
-        assert time == 0
-        assert isinstance(time, float)
+        assert np.all(np.isclose(time, create_time))
+        assert isinstance(time[0], float)
 
     @staticmethod
     def test_greatest_create_time():
         # arrange
-        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+        create_time = 44.0
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, create_time)
 
         # act
-        time = sut.greatest_create_time
+        time = []
+        for i_part in range(len(aero_state)):
+            time.append(aero_state.particle(i_part).greatest_create_time)
 
         # assert
-        assert time == 0
-        assert isinstance(time, float)
+        assert np.all(np.isclose(time, create_time))
+        assert isinstance(time[0], float)
 
     @staticmethod
     def test_id():
         # arrange
-        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
 
         # act
-        pid = sut.id
+        ids = []
+        for i_part in range(len(aero_state)):
+            ids.append(aero_state.particle(i_part).id)
 
         # assert
-        assert pid == 0
-        assert isinstance(pid, int)
+        assert isinstance(ids[0], int)
+        assert min(ids) > 0
+        assert len(np.unique(ids)) == len(aero_state)
