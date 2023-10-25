@@ -1,3 +1,8 @@
+import pytest
+
 import PyPartMC as ppmc
 
-ppmc.rand_init(44)
+
+@pytest.fixture(autouse=True)
+def rand_init():
+    ppmc.rand_init(44)
