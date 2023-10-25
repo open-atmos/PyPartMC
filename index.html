@@ -231,6 +231,10 @@ same, but without the \c _a suffix.</p>
 <dd>
 <div class="desc"><p>(arg0: _PyPartMC.AeroData) -&gt; float</p></div>
 </dd>
+<dt id="PyPartMC.AeroData.n_source"><code class="name">var <span class="ident">n_source</span></code></dt>
+<dd>
+<div class="desc"><p>(arg0: _PyPartMC.AeroData) -&gt; int</p></div>
+</dd>
 <dt id="PyPartMC.AeroData.prime_radius"><code class="name">var <span class="ident">prime_radius</span></code></dt>
 <dd>
 <div class="desc"><p>(arg0: _PyPartMC.AeroData) -&gt; float</p></div>
@@ -385,6 +389,14 @@ m^3) of the i'th aerosol species.</p>
 </ul>
 <h3>Instance variables</h3>
 <dl>
+<dt id="PyPartMC.AeroParticle.absorb_cross_sect"><code class="name">var <span class="ident">absorb_cross_sect</span></code></dt>
+<dd>
+<div class="desc"><p>Absorption cross-section (m^-2).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.asymmetry"><code class="name">var <span class="ident">asymmetry</span></code></dt>
+<dd>
+<div class="desc"><p>Asymmetry parameter (1).</p></div>
+</dd>
 <dt id="PyPartMC.AeroParticle.density"><code class="name">var <span class="ident">density</span></code></dt>
 <dd>
 <div class="desc"><p>Average density of the particle (kg/m^3)</p></div>
@@ -405,6 +417,18 @@ m^3) of the i'th aerosol species.</p>
 <dd>
 <div class="desc"><p>Total dry volume of the particle (m^3).</p></div>
 </dd>
+<dt id="PyPartMC.AeroParticle.greatest_create_time"><code class="name">var <span class="ident">greatest_create_time</span></code></dt>
+<dd>
+<div class="desc"><p>Last time a constituent was created (s).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.id"><code class="name">var <span class="ident">id</span></code></dt>
+<dd>
+<div class="desc"><p>Unique ID number.</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.least_create_time"><code class="name">var <span class="ident">least_create_time</span></code></dt>
+<dd>
+<div class="desc"><p>First time a constituent was created (s).</p></div>
+</dd>
 <dt id="PyPartMC.AeroParticle.mass"><code class="name">var <span class="ident">mass</span></code></dt>
 <dd>
 <div class="desc"><p>Total mass of the particle (kg).</p></div>
@@ -413,9 +437,25 @@ m^3) of the i'th aerosol species.</p>
 <dd>
 <div class="desc"><p>Total moles in the particle (1).</p></div>
 </dd>
+<dt id="PyPartMC.AeroParticle.n_orig_part"><code class="name">var <span class="ident">n_orig_part</span></code></dt>
+<dd>
+<div class="desc"><p>Number of original particles from each source that coagulated to form particle.</p></div>
+</dd>
 <dt id="PyPartMC.AeroParticle.radius"><code class="name">var <span class="ident">radius</span></code></dt>
 <dd>
 <div class="desc"><p>Total radius of the particle (m).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.refract_core"><code class="name">var <span class="ident">refract_core</span></code></dt>
+<dd>
+<div class="desc"><p>Refractive index of the core (1).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.refract_shell"><code class="name">var <span class="ident">refract_shell</span></code></dt>
+<dd>
+<div class="desc"><p>Refractive index of the shell (1).</p></div>
+</dd>
+<dt id="PyPartMC.AeroParticle.scatter_cross_sect"><code class="name">var <span class="ident">scatter_cross_sect</span></code></dt>
+<dd>
+<div class="desc"><p>Scattering cross-section (m^-2).</p></div>
 </dd>
 <dt id="PyPartMC.AeroParticle.solute_kappa"><code class="name">var <span class="ident">solute_kappa</span></code></dt>
 <dd>
@@ -886,6 +926,7 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.AeroData.density" href="#PyPartMC.AeroData.density">density</a></code></li>
 <li><code><a title="PyPartMC.AeroData.diam2vol" href="#PyPartMC.AeroData.diam2vol">diam2vol</a></code></li>
 <li><code><a title="PyPartMC.AeroData.frac_dim" href="#PyPartMC.AeroData.frac_dim">frac_dim</a></code></li>
+<li><code><a title="PyPartMC.AeroData.n_source" href="#PyPartMC.AeroData.n_source">n_source</a></code></li>
 <li><code><a title="PyPartMC.AeroData.prime_radius" href="#PyPartMC.AeroData.prime_radius">prime_radius</a></code></li>
 <li><code><a title="PyPartMC.AeroData.rad2vol" href="#PyPartMC.AeroData.rad2vol">rad2vol</a></code></li>
 <li><code><a title="PyPartMC.AeroData.spec_by_name" href="#PyPartMC.AeroData.spec_by_name">spec_by_name</a></code></li>
@@ -919,7 +960,9 @@ aero_dist_interp_1d(), respectively.</p>
 <li>
 <h4><code><a title="PyPartMC.AeroParticle" href="#PyPartMC.AeroParticle">AeroParticle</a></code></h4>
 <ul class="">
+<li><code><a title="PyPartMC.AeroParticle.absorb_cross_sect" href="#PyPartMC.AeroParticle.absorb_cross_sect">absorb_cross_sect</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.approx_crit_rel_humid" href="#PyPartMC.AeroParticle.approx_crit_rel_humid">approx_crit_rel_humid</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.asymmetry" href="#PyPartMC.AeroParticle.asymmetry">asymmetry</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.coagulate" href="#PyPartMC.AeroParticle.coagulate">coagulate</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.crit_diameter" href="#PyPartMC.AeroParticle.crit_diameter">crit_diameter</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.crit_rel_humid" href="#PyPartMC.AeroParticle.crit_rel_humid">crit_rel_humid</a></code></li>
@@ -928,10 +971,17 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.AeroParticle.dry_diameter" href="#PyPartMC.AeroParticle.dry_diameter">dry_diameter</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.dry_radius" href="#PyPartMC.AeroParticle.dry_radius">dry_radius</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.dry_volume" href="#PyPartMC.AeroParticle.dry_volume">dry_volume</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.greatest_create_time" href="#PyPartMC.AeroParticle.greatest_create_time">greatest_create_time</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.id" href="#PyPartMC.AeroParticle.id">id</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.least_create_time" href="#PyPartMC.AeroParticle.least_create_time">least_create_time</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.mass" href="#PyPartMC.AeroParticle.mass">mass</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.mobility_diameter" href="#PyPartMC.AeroParticle.mobility_diameter">mobility_diameter</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.moles" href="#PyPartMC.AeroParticle.moles">moles</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.n_orig_part" href="#PyPartMC.AeroParticle.n_orig_part">n_orig_part</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.radius" href="#PyPartMC.AeroParticle.radius">radius</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.refract_core" href="#PyPartMC.AeroParticle.refract_core">refract_core</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.refract_shell" href="#PyPartMC.AeroParticle.refract_shell">refract_shell</a></code></li>
+<li><code><a title="PyPartMC.AeroParticle.scatter_cross_sect" href="#PyPartMC.AeroParticle.scatter_cross_sect">scatter_cross_sect</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.set_vols" href="#PyPartMC.AeroParticle.set_vols">set_vols</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.solute_kappa" href="#PyPartMC.AeroParticle.solute_kappa">solute_kappa</a></code></li>
 <li><code><a title="PyPartMC.AeroParticle.species_mass" href="#PyPartMC.AeroParticle.species_mass">species_mass</a></code></li>
