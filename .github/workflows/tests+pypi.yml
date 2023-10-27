@@ -193,6 +193,8 @@ jobs:
     needs: [build]
     steps:
     - uses: actions/setup-python@v2
+      with:
+        python-version: "3.11"
     - run: pip install twine auditwheel
     - uses: actions/download-artifact@v2
       with:
