@@ -207,6 +207,9 @@ jobs:
     permissions:
       id-token: write
     steps:
+    - uses: actions/setup-python@v1
+      with:
+        python-version: "3.11"
     - uses: actions/download-artifact@v2
       with:
         name: dist
