@@ -209,6 +209,11 @@ flowchart TD
     style PartMC fill:#7ae7ff,stroke-width:2px,color:#2B2B2B
 ```
 
+## FAQ
+
+- Q: Why some of the constructors expect data to be passed as **lists of single-entry dictionaries** instead of multi-element dictionaries?    
+  A: This is intentional and related with PartMC relying on the order of elements within spec-file input; while Python dictionaries preserve ordering (insertion order), JSON format does not, and we intend to make these data structures safe to be [de]serialized using JSON.   
+
 ## Troubleshooting 
 
 #### Common installation issues 
