@@ -88,6 +88,10 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
             vol = sut.species_volume(i)
             assert vol == volume
 
+        for i, volume in enumerate(volumes):
+            vol = sut.species_volume(list(aero_data_arg[i])[0])
+            assert vol == volume
+
     @staticmethod
     def test_dry_volume():
         # arrange
