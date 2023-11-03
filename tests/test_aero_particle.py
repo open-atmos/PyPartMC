@@ -250,6 +250,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         # assert
         assert sodium_mass == check
 
+        sodium_mass = sut.species_mass("Na")
+        check = aero_data_arg[2]["Na"][0] * volumes[2]
+
+        # assert
+        assert sodium_mass == check
+
     @staticmethod
     def test_species_masses():
         # arrange

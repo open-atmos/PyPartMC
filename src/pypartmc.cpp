@@ -122,7 +122,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Total dry diameter of the particle (m).")
         .def_property_readonly("mass", AeroParticle::mass,
             "Total mass of the particle (kg).")
-        .def("species_mass", AeroParticle::species_mass,
+        .def("species_mass", py::overload_cast<const AeroParticle &, const int &>(&AeroParticle::species_mass),
+            "Mass of a single species in the particle (kg).")
+        .def("species_mass", py::overload_cast<const AeroParticle &, const std::string &>(&AeroParticle::species_mass_by_name),
             "Mass of a single species in the particle (kg).")
         .def_property_readonly("species_masses", AeroParticle::species_masses,
             "Mass of all species in the particle (kg).")

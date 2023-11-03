@@ -166,6 +166,18 @@ struct AeroParticle {
         return mass;
     }
 
+    static auto species_mass_by_name(const AeroParticle &self, const std::string &name) {
+        double mass;
+        const int value = AeroData::spec_by_name(*self.aero_data, name);
+        f_aero_particle_species_mass(
+            self.ptr.f_arg(),
+            &value,
+            self.aero_data.get(),
+            &mass
+        );
+        return mass;
+    }
+
     static auto species_masses(const AeroParticle &self) {
         int len = AeroData::__len__(*self.aero_data);
         std::valarray<double> masses(len);
