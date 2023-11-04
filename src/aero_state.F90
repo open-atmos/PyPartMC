@@ -120,29 +120,54 @@ module PyPartMC_aero_state
 
   ! TODO #130: add include and exclude 
   subroutine f_aero_state_masses(ptr_c, aero_data_ptr_c, masses, n_parts, &
-       include, exclude) bind(C)
+       include, include_len, exclude, exclude_len) bind(C)
 
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
     integer(c_int), intent(in) :: n_parts
     character(c_char), dimension(*), intent(in), optional :: include
+    integer(c_int), intent(in), optional :: include_len
     character(c_char), dimension(*), intent(in), optional :: exclude 
-
+    integer(c_int), intent(in), optional :: exclude_len
+    character(len=2) :: include_f
+    character(len=2) :: exclude_f
+    integer :: i
     real(c_double) :: masses(n_parts)
+    character(len=2), allocatable :: include_array(:) 
+    character(len=2), allocatable :: exclude_array(:)
+
+    if (present(include)) then
+    allocate(include_array(1))
+    do i = 1,include_len
+       include_f(i:i) = include(i)
+    end do
+    include_array(1) = include_f
+    end if
+    if (present(exclude)) then
+    allocate(exclude_array(1)) 
+    do i = 1,exclude_len
+       exclude_f(i:i) = exclude(i)
+    end do
+    exclude_array(1) = exclude_f
+    end if
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
     if (present(include) .and. present(exclude)) then
-       print*, 'include and exclude'
+!       print*, 'include and exclude', exclude_array(1), include_array(1)
+       masses =  aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array, &
+           exclude=exclude_array)
     else if(present(exclude)) then
-       print*, 'exclude only'
+!       print*, 'exclude only', exclude_array(1)
+       masses =  aero_state_masses(ptr_f, aero_data_ptr_f, exclude=exclude_array)
     else if(present(include)) then
-       print*, 'include only'
+!       print*, 'include only', include_array(1)
+       masses =  aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array)
     else
-       print*, 'all'
+!       print*, 'all'
+       masses =  aero_state_masses(ptr_f, aero_data_ptr_f)
     end if 
-    masses =  aero_state_masses(ptr_f, aero_data_ptr_f)
 
   end subroutine
 

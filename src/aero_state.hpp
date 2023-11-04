@@ -58,8 +58,12 @@ extern "C" void f_aero_state_masses(
     const void *aero_dataptr,
     double *masses,
     const int *n_parts,
-    const std::optional<std::string> *include,
-    const std::optional<std::string> *exclude
+//    const std::optional<std::string> *include,
+//    const std::optional<std::string> *exclude
+    const char *include,
+    const int *include_len,
+    const char *exclude,
+    const int *exclude_len
 ) noexcept;
 
 extern "C" void f_aero_state_dry_diameters(
@@ -225,35 +229,46 @@ struct AeroState {
         );
         std::valarray<double> masses(len);
 
+
         if (include.has_value() and exclude.has_value()){
+        const int include_size = include.value().size();
+        const int exclude_size = exclude.value().size();
         f_aero_state_masses(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(masses),
             &len,
-            &include,
-            &exclude
+            include.value().c_str(),
+            &include_size,
+            exclude.value().c_str(),
+            &exclude_size 
         );
         }
         else if (include.has_value())
         {
+        const int include_size = include.value().size();
         f_aero_state_masses(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(masses),
             &len,
-            &include,
-            NULL
+            include.value().c_str(),
+            &include_size,
+            NULL,
+            NULL 
         );
         }
         else if (exclude.has_value()){
+        const int exclude_size = exclude.value().size();
         f_aero_state_masses(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(masses),
             &len,
             NULL,
-            &exclude
+            NULL,
+            exclude.value().c_str(),
+            &exclude_size 
         );
         }
         else{
@@ -262,6 +277,8 @@ struct AeroState {
             self.aero_data->ptr.f_arg(),
             begin(masses),
             &len,
+            NULL,
+            NULL,
             NULL,
             NULL
         );
