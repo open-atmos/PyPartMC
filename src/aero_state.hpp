@@ -13,6 +13,7 @@
 #include "env_state.hpp"
 #include "bin_grid.hpp"
 #include "pybind11/stl.h"
+#include <optional>
 
 extern "C" void f_aero_state_ctor(
     void *ptr
@@ -56,7 +57,9 @@ extern "C" void f_aero_state_masses(
     const void *ptr,
     const void *aero_dataptr,
     double *masses,
-    const int *n_parts
+    const int *n_parts,
+    const std::optional<std::string> *include,
+    const std::optional<std::string> *exclude
 ) noexcept;
 
 extern "C" void f_aero_state_dry_diameters(
@@ -211,7 +214,9 @@ struct AeroState {
     }
 
     static auto masses(
-        const AeroState &self
+        const AeroState &self,
+        const std::optional<std::string>&include,
+        const std::optional<std::string>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -220,12 +225,47 @@ struct AeroState {
         );
         std::valarray<double> masses(len);
 
+        if (include.has_value() and exclude.has_value()){
         f_aero_state_masses(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(masses),
-            &len
+            &len,
+            &include,
+            &exclude
         );
+        }
+        else if (include.has_value())
+        {
+        f_aero_state_masses(
+            self.ptr.f_arg(),
+            self.aero_data->ptr.f_arg(),
+            begin(masses),
+            &len,
+            &include,
+            NULL
+        );
+        }
+        else if (exclude.has_value()){
+        f_aero_state_masses(
+            self.ptr.f_arg(),
+            self.aero_data->ptr.f_arg(),
+            begin(masses),
+            &len,
+            NULL,
+            &exclude
+        );
+        }
+        else{
+        f_aero_state_masses(
+            self.ptr.f_arg(),
+            self.aero_data->ptr.f_arg(),
+            begin(masses),
+            &len,
+            NULL,
+            NULL
+        );
+        }
 
         return masses;
     }

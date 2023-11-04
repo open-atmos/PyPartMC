@@ -193,8 +193,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the total mass concentration of the population")
         .def_property_readonly("num_concs", AeroState::num_concs,
             "returns the number concentration of each particle in the population")
-        .def_property_readonly("masses", AeroState::masses,
-            "returns the total mass of each particle in the population")
+        .def("masses", AeroState::masses,
+            "returns the total mass of each particle in the population",
+            py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def_property_readonly("volumes", AeroState::volumes,
             "returns the total volume of each particle in the population")
         .def_property_readonly("dry_diameters", AeroState::dry_diameters,

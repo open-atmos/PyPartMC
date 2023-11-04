@@ -119,18 +119,29 @@ module PyPartMC_aero_state
   end subroutine
 
   ! TODO #130: add include and exclude 
-  subroutine f_aero_state_masses(ptr_c, aero_data_ptr_c, masses, n_parts) &
-       bind(C) 
+  subroutine f_aero_state_masses(ptr_c, aero_data_ptr_c, masses, n_parts, &
+       include, exclude) bind(C)
 
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
-    integer(c_int) :: n_parts
+    integer(c_int), intent(in) :: n_parts
+    character(c_char), dimension(*), intent(in), optional :: include
+    character(c_char), dimension(*), intent(in), optional :: exclude 
+
     real(c_double) :: masses(n_parts)
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
-
+    if (present(include) .and. present(exclude)) then
+       print*, 'include and exclude'
+    else if(present(exclude)) then
+       print*, 'exclude only'
+    else if(present(include)) then
+       print*, 'include only'
+    else
+       print*, 'all'
+    end if 
     masses =  aero_state_masses(ptr_f, aero_data_ptr_f)
 
   end subroutine
