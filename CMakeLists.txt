@@ -10,7 +10,9 @@ if (NOT EXISTS "${CMAKE_SOURCE_DIR}/gitmodules/pybind11/include/pybind11/pybind1
   message(FATAL_ERROR "git submodules not initialised.\n Please run `git submodule update --init`")
 endif()
 
-set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "" FORCE)
+if (APPLE)
+  set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "" FORCE)
+endif()
 
 project(_PyPartMC LANGUAGES C CXX Fortran)
 
