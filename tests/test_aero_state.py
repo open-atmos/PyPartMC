@@ -115,7 +115,7 @@ class TestAeroState:
     @staticmethod
     def test_masses(sut_minimal):  # pylint: disable=redefined-outer-name
         # act
-        masses = sut_minimal.masses
+        masses = sut_minimal.masses()
 
         # assert
         assert isinstance(masses, list)

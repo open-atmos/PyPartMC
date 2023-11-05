@@ -130,17 +130,20 @@ module PyPartMC_aero_state
     integer(c_int), intent(in), optional :: include_len
     character(c_char), dimension(*), intent(in), optional :: exclude 
     integer(c_int), intent(in), optional :: exclude_len
-    character(len=2) :: include_f
-    character(len=2) :: exclude_f
+    character(len=AERO_NAME_LEN) :: include_f
+    character(len=AERO_NAME_LEN) :: exclude_f
     integer :: i
     real(c_double) :: masses(n_parts)
-    character(len=2), allocatable :: include_array(:) 
-    character(len=2), allocatable :: exclude_array(:)
+    character(len=AERO_NAME_LEN), allocatable :: include_array(:)
+    character(len=AERO_NAME_LEN), allocatable :: exclude_array(:)
 
     if (present(include)) then
     allocate(include_array(1))
     do i = 1,include_len
        include_f(i:i) = include(i)
+    end do
+    do i = include_len+1,AERO_NAME_LEN
+       include_f(i:i) = " "
     end do
     include_array(1) = include_f
     end if
@@ -148,6 +151,9 @@ module PyPartMC_aero_state
     allocate(exclude_array(1)) 
     do i = 1,exclude_len
        exclude_f(i:i) = exclude(i)
+    end do
+    do i = exclude_len+1,AERO_NAME_LEN
+       exclude_f(i:i) = " "
     end do
     exclude_array(1) = exclude_f
     end if
