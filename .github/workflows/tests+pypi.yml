@@ -96,6 +96,9 @@ jobs:
 
           wget https://raw.githubusercontent.com/R-macos/gcc-12-branch/gcc-12-2-darwin/build/dr.sh
           chmod 755 dr.sh
+          `pwd`/dr.sh --version
+          echo "program hello\n print *, 'Hello, World!'\n end program hello" > hello.F90
+          `pwd`/dr.sh hello.F90
 
           sudo xcode-select -s "/Applications/Xcode_13.4.1.app"
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
