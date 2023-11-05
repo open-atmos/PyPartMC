@@ -100,7 +100,8 @@ jobs:
 
           sudo xcode-select -s "/Applications/Xcode_13.4.1.app"
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
-          echo "CMAKE_ARGS=\"-DCMAKE_OSX_ARCHITECTURES='arm64;x86_64' -DCMAKE_Fortran_COMPILER=`pwd`/dr.sh\"" >> $GITHUB_ENV
+          echo CMAKE_ARGS=-DCMAKE_OSX_ARCHITECTURES='arm64;x86_64' >> $GITHUB_ENV
+          echo FC=`pwd`/dr.sh >> $GITHUB_ENV
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
