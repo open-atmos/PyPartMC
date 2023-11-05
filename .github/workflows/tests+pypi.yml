@@ -95,7 +95,7 @@ jobs:
           sudo installer -pkg gfortran-12.2-universal.pkg -target /
           sudo xcode-select -s "/Applications/Xcode_13.4.1.app"
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
-          echo CMAKE_ARGS="-DCMAKE_OSX_ARCHITECTURES='arm64;x86_64' -DCMAKE_FORTRAN_COMPILER=/opt/gfortran/bin/gfortran" >> $GITHUB_ENV
+          echo CMAKE_ARGS="-DCMAKE_OSX_ARCHITECTURES='arm64;x86_64' -DCMAKE_Fortran_COMPILER=/opt/gfortran/bin/gfortran" >> $GITHUB_ENV
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
