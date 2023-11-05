@@ -94,7 +94,7 @@ jobs:
           wget -nv https://github.com/R-macos/gcc-12-branch/releases/download/12.2-darwin-r0.1/gfortran-12.2-universal.pkg
           sudo installer -pkg gfortran-12.2-universal.pkg -target /
 
-          wget https://github.com/R-macos/gcc-12-branch/blob/gcc-12-2-darwin/build/dr.sh
+          wget https://raw.githubusercontent.com/R-macos/gcc-12-branch/gcc-12-2-darwin/build/dr.sh
           chmod 755 dr.sh
 
           sudo xcode-select -s "/Applications/Xcode_13.4.1.app"
