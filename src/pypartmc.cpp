@@ -7,6 +7,7 @@
 #include "pybind11/pybind11.h"
 #include "nlohmann/json.hpp"
 #include "pybind11_json/pybind11_json.hpp"
+#include "pybind11/complex.h"
 
 #include "util.hpp"
 #include "rand.hpp"
@@ -76,6 +77,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def(py::init<const nlohmann::json&>())
         .def("spec_by_name", AeroData::spec_by_name)
         .def("__len__", AeroData::__len__)
+        .def_property_readonly("n_source", AeroData::n_source)
         .def_property("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim)
         .def_property("vol_fill_factor", &AeroData::get_vol_fill_factor, &AeroData::set_vol_fill_factor)
         .def_property("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius)
@@ -128,6 +130,23 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Returns the average of the solute kappas (1).")
         .def_property_readonly("moles", AeroParticle::moles,
             "Total moles in the particle (1).")
+        .def_property_readonly("absorb_cross_sect", AeroParticle::absorb_cross_sect,
+            "Absorption cross-section (m^-2).")
+        .def_property_readonly("scatter_cross_sect", AeroParticle::scatter_cross_sect,
+            "Scattering cross-section (m^-2).")
+        .def_property_readonly("asymmetry", AeroParticle::asymmetry,
+            "Asymmetry parameter (1).")
+        .def_property_readonly("refract_shell", AeroParticle::refract_shell,
+            "Refractive index of the shell (1).")
+        .def_property_readonly("refract_core", AeroParticle::refract_core,
+            "Refractive index of the core (1).")
+        .def_property_readonly("n_orig_part", AeroParticle::n_orig_part,
+            "Number of original particles from each source that coagulated to form particle.")
+        .def_property_readonly("least_create_time", AeroParticle::least_create_time,
+            "First time a constituent was created (s).")
+        .def_property_readonly("greatest_create_time", AeroParticle::greatest_create_time,
+            "Last time a constituent was created (s).")
+        .def_property_readonly("id", AeroParticle::id, "Unique ID number.")
         .def("mobility_diameter", AeroParticle::mobility_diameter,
             "Mobility diameter of the particle (m).")
         .def_property_readonly("density", AeroParticle::density,

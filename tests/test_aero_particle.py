@@ -13,6 +13,8 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_dist import AERO_DIST_CTOR_ARG_MINIMAL
+from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 
@@ -496,3 +498,132 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # assert
         assert sut.volumes == [3, 2, 1]
+
+    @staticmethod
+    def test_absorb_cross_sect():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.absorb_cross_sect
+
+        # assert
+        assert value == 0
+        assert isinstance(value, float)
+
+    @staticmethod
+    def test_scatter_cross_sect():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.scatter_cross_sect
+
+        # assert
+        assert value == 0
+        assert isinstance(value, float)
+
+    @staticmethod
+    def test_asymmetry():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.asymmetry
+
+        # assert
+        assert value == 0
+        assert isinstance(value, float)
+
+    @staticmethod
+    def test_refract_shell():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.refract_shell
+
+        # assert
+        assert value == 0 + 0j
+        assert isinstance(value, complex)
+
+    @staticmethod
+    def test_refract_core():
+        # arrange
+        sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
+
+        # act
+        value = sut.refract_core
+
+        # assert
+        assert value == 0 + 0j
+        assert isinstance(value, complex)
+
+    @staticmethod
+    def test_n_orig_part():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
+        sut = aero_state.particle(0)
+        # act
+        n_orig_part = sut.n_orig_part
+
+        # assert
+        assert len(n_orig_part) == aero_dist.n_mode
+        assert isinstance(n_orig_part[0], int)
+
+    @staticmethod
+    def test_least_create_time():
+        # arrange
+        create_time = 44.0
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, create_time)
+
+        # act
+        time = []
+        for i_part in range(len(aero_state)):
+            time.append(aero_state.particle(i_part).least_create_time)
+
+        # assert
+        assert np.all(np.isclose(time, create_time))
+        assert isinstance(time[0], float)
+
+    @staticmethod
+    def test_greatest_create_time():
+        # arrange
+        create_time = 44.0
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, create_time)
+
+        # act
+        time = []
+        for i_part in range(len(aero_state)):
+            time.append(aero_state.particle(i_part).greatest_create_time)
+
+        # assert
+        assert np.all(np.isclose(time, create_time))
+        assert isinstance(time[0], float)
+
+    @staticmethod
+    def test_id():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
+
+        # act
+        ids = []
+        for i_part in range(len(aero_state)):
+            ids.append(aero_state.particle(i_part).id)
+
+        # assert
+        assert isinstance(ids[0], int)
+        assert min(ids) > 0
+        assert len(np.unique(ids)) == len(aero_state)

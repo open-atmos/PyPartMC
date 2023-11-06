@@ -14,6 +14,7 @@ extern "C" void f_aero_data_dtor(void *ptr) noexcept;
 extern "C" void f_aero_data_from_json(const void *ptr) noexcept;
 extern "C" void f_aero_data_spec_by_name(const void *ptr, int *value, const char *name_data, const int *name_size) noexcept;
 extern "C" void f_aero_data_len(const void *ptr, int *len) noexcept;
+extern "C" void f_aero_data_n_source(const void *ptr, int *len) noexcept;
 extern "C" void f_aero_data_set_frac_dim(void *ptr, const double*) noexcept;
 extern "C" void f_aero_data_get_frac_dim(const void *ptr, double*) noexcept;
 extern "C" void f_aero_data_set_vol_fill_factor(void *ptr, const double*) noexcept;
@@ -191,6 +192,17 @@ struct AeroData {
         );
 
         return data;
+    }
+
+    static std::size_t n_source(const AeroData &self) {
+        int len;
+        f_aero_data_n_source(
+            self.ptr.f_arg(),
+            &len
+        );
+        if (len == -1)
+            throw std::runtime_error("No sources defined.");
+        return len;
     }
 
 };

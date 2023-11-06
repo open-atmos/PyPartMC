@@ -387,4 +387,141 @@ module PyPartMC_aero_particle
     )
   end subroutine
 
+  subroutine f_aero_particle_absorb_cross_sect( &
+      aero_particle_ptr_c, &
+      absorb_cross_sect & 
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    real(c_double), intent(out) :: absorb_cross_sect    
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    absorb_cross_sect = aero_particle_ptr_f%absorb_cross_sect
+
+  end subroutine
+
+  subroutine f_aero_particle_scatter_cross_sect( &
+      aero_particle_ptr_c, &
+      scatter_cross_sect &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    real(c_double), intent(out) :: scatter_cross_sect
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    scatter_cross_sect = aero_particle_ptr_f%scatter_cross_sect
+
+  end subroutine
+
+  subroutine f_aero_particle_asymmetry( &
+      aero_particle_ptr_c, &
+      asymmetry &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    real(c_double), intent(out) :: asymmetry
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    asymmetry = aero_particle_ptr_f%asymmetry
+
+  end subroutine
+
+  subroutine f_aero_particle_greatest_create_time( &
+      aero_particle_ptr_c, &
+      greatest_create_time &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    real(c_double), intent(out) :: greatest_create_time
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    greatest_create_time = aero_particle_ptr_f%greatest_create_time
+
+  end subroutine
+
+  subroutine f_aero_particle_least_create_time( &
+      aero_particle_ptr_c, &
+      least_create_time &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    real(c_double), intent(out) :: least_create_time
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    least_create_time = aero_particle_ptr_f%least_create_time
+
+  end subroutine
+
+  subroutine f_aero_particle_n_orig_part( &
+      aero_particle_ptr_c, &
+      n_orig_part, &
+      n_orig_part_size &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(in) :: n_orig_part_size
+    integer(c_int), dimension(n_orig_part_size), intent(out) :: n_orig_part
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    n_orig_part = aero_particle_ptr_f%n_orig_part
+
+  end subroutine
+
+  subroutine f_aero_particle_id( & 
+      aero_particle_ptr_c, &
+      id &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(out) :: id
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    id = aero_particle_ptr_f%id
+
+  end subroutine
+
+  subroutine f_aero_particle_refract_shell( &
+      aero_particle_ptr_c, &
+      refract_shell &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    complex(c_double_complex), intent(out) :: refract_shell
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    refract_shell = aero_particle_ptr_f%refract_shell
+
+  end subroutine
+
+  subroutine f_aero_particle_refract_core( &
+      aero_particle_ptr_c, &
+      refract_core &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    complex(c_double_complex), intent(out) :: refract_core
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    refract_core = aero_particle_ptr_f%refract_core
+
+  end subroutine
+
 end module
