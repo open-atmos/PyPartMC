@@ -98,7 +98,6 @@ jobs:
           chmod 755 dr.sh
           sudo mv dr.sh /opt/gfortran/bin/gfortran-universal
           echo /opt/gfortran/bin >> $GITHUB_PATH
-          gfortran-universal --version
 
           sudo xcode-select -s "/Applications/Xcode_13.4.1.app"
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
