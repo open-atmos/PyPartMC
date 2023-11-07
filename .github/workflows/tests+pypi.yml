@@ -91,7 +91,6 @@ jobs:
     steps:
       - if: startsWith(matrix.platform, 'macos-')
         run: |
-          brew reinstall gcc
           echo "CC=gcc-13" >> $GITHUB_ENV
           echo "CXX=g++-13" >> $GITHUB_ENV
         
