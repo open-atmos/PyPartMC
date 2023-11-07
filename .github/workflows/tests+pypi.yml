@@ -140,7 +140,7 @@ jobs:
       - run: |
           unset CI
           python -m build 2>&1 | tee build.log
-          exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | grep -v "building for macOS-x86_64 but attempting to link with file built for macOS-arm64" | wc -l`
+          exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | wc -l`
 
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*
