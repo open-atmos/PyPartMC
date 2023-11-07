@@ -331,4 +331,44 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  subroutine print_cstring_array_new(ptr_c, aero_data_ptr_c, n, cstring) bind(C)
+
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
+    integer(kind=c_int),               intent(in) :: n
+    type(c_ptr), dimension(n), target, intent(in) :: cstring
+    character, pointer                            :: fstring(:)
+
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    real(kind=dp), allocatable :: masses(:)
+    integer :: j, slen
+    integer                                       :: i
+    character(len=AERO_NAME_LEN), dimension(n) :: include_array
+    character(len=AERO_NAME_LEN) :: string_tmp
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    do i = 1,n
+       slen = 0
+       call c_f_pointer(cstring(i), fstring, [AERO_NAME_LEN])
+       do while(fstring(slen+1) /= c_null_char)
+          slen = slen + 1
+       end do
+       do j = 1,slen
+          string_tmp(j:j) = fstring(j)
+       end do
+       do j = slen+1,AERO_NAME_LEN
+          string_tmp(j:j) = " "
+       end do
+!       write(*,*) trim(string_tmp), slen
+       include_array(i) = trim(string_tmp)
+     end do
+
+     masses = aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array)
+
+     print*, 'in fortran with string array', masses
+
+  end subroutine print_cstring_array_new
+
 end module
