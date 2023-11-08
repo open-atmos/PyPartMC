@@ -454,7 +454,6 @@ target_link_libraries(_PyPartMC PRIVATE partmclib)
 if (APPLE)
   target_link_options(_PyPartMC PRIVATE -Wl,-no_compact_unwind -Wl,-keep_dwarf_unwind)
   if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
-    target_link_libraries(_PyPartMC PRIVATE -static gfortran -dynamic)
     string(REGEX REPLACE
       "CMAKE_CXX_COMPILER"
       CMAKE_Fortran_COMPILER
