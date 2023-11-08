@@ -98,11 +98,12 @@ jobs:
           chmod 755 dr.sh
           sudo mv dr.sh /opt/gfortran/bin/gfortran-universal
           echo /opt/gfortran/bin >> $GITHUB_PATH
+          sudo lipo -create -arch x86_64 /opt/gfortran/lib/gcc/x86_64*/*/libgcc.a -arch arm64 /opt/gfortran/lib/gcc/aarch64*/*/libgcc.a -output /opt/gfortran/lib/libgcc_universal.a
 
           sudo xcode-select -s "/Applications/Xcode_13.4.1.app"
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
           echo "CMAKE_ARGS=-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64" >> $GITHUB_ENV
-          echo FC="gfortran-universal -arch arm64 -arch x86_64" >> $GITHUB_ENV
+          echo FC="gfortran-universal -arch arm64 -arch x86_64 -L/opt/gfortran/lib -lgcc_universal" >> $GITHUB_ENV
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
