@@ -139,7 +139,7 @@ jobs:
       - run: cmake --version
       - run: |
           unset CI
-          python -m build 2>&1 | tee build.log
+          VERBOSE=1 python -m build 2>&1 | tee build.log
           exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | wc -l`
 
       - if: matrix.platform == 'ubuntu-latest'
