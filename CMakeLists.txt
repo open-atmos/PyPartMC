@@ -454,13 +454,9 @@ target_link_libraries(_PyPartMC PRIVATE partmclib)
 if (APPLE)
   target_link_options(_PyPartMC PRIVATE -Wl,-no_compact_unwind -Wl,-keep_dwarf_unwind)
   if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
-    target_link_libraries(_PyPartMC PRIVATE -static gfortran -dynamic)
-    #string(REGEX REPLACE
-    #  "CMAKE_CXX_COMPILER"
-    #  CMAKE_Fortran_COMPILER
-    #  CMAKE_CXX_CREATE_SHARED_MODULE
-    #  "${CMAKE_CXX_CREATE_SHARED_MODULE}" 
-    #)
+    if(NOT DEFINED ENV{FC})
+      target_link_libraries(_PyPartMC PRIVATE -static gfortran -dynamic)
+    endif()
   endif()
 endif()
 if (WIN32)
