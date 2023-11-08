@@ -454,14 +454,13 @@ target_link_libraries(_PyPartMC PRIVATE partmclib)
 if (APPLE)
   target_link_options(_PyPartMC PRIVATE -Wl,-no_compact_unwind -Wl,-keep_dwarf_unwind)
   if(CMAKE_Fortran_COMPILER_ID STREQUAL GNU)
+    target_link_libraries(_PyPartMC PRIVATE -static gfortran -dynamic)
     #string(REGEX REPLACE
     #  "CMAKE_CXX_COMPILER"
     #  CMAKE_Fortran_COMPILER
     #  CMAKE_CXX_CREATE_SHARED_MODULE
     #  "${CMAKE_CXX_CREATE_SHARED_MODULE}" 
     #)
-    # temporarily hardcode to check if it works...
-    set( CMAKE_CXX_CREATE_SHARED_MODULE "/opt/gfortran/bin/gfortran <CMAKE_SHARED_LIBRARY_CXX_FLAGS> <LANGUAGE_COMPILE_FLAGS> <LINK_FLAGS> <CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS> <SONAME_FLAG><TARGET_SONAME> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>")  
   endif()
 endif()
 if (WIN32)
