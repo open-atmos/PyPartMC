@@ -136,10 +136,13 @@ extern "C" void print_cstring_array(
     const void *ptr_aero_data_c,
     const int*, void*) noexcept;
 
-extern "C" void print_cstring_array_new(
+extern "C" void print_cstring_array_test(
     const void *ptr_c,
     const void *ptr_aero_data_c,
-    const int*, void*) noexcept;
+    const int*, void*,
+    double *masses,
+    const int *n_parts
+) noexcept;
 
 struct AeroState {
     PMCResource ptr;
@@ -463,25 +466,32 @@ struct AeroState {
 
    }
 
-   static int print_strings_new(const AeroState &self,
+   static auto print_strings_new(const AeroState &self,
       std::valarray<std::string>&data
       ) {
 
+      int len;
+      f_aero_state_len(
+          self.ptr.f_arg(),
+          &len
+      );
+      std::valarray<double> masses(len);
       const int n = data.size();
+      char **arr = new char *[n];
 
-      char *cstring[4]; // = new char [n];
       int i = 0;
       for (const std::string &x : data){
-        cstring[i] = (char*) malloc(sizeof(char) * 50);
-        strcpy(cstring[i], x.c_str());
-//        std::cout << i << cstring[i] << "\n"; 
+        arr[i] = new char[50];
+        strcpy(arr[i], x.c_str());
         i = i + 1;
       }
- //     std::cout << std::endl;
-      print_cstring_array_new(self.ptr.f_arg(), self.aero_data->ptr.f_arg(),
-            &n, &cstring);
 
-      return n;
+      print_cstring_array_test(self.ptr.f_arg(), self.aero_data->ptr.f_arg(),
+            &n, arr, begin(masses), &len);
+
+      delete[] arr;
+
+      return masses;
    }
 
 };

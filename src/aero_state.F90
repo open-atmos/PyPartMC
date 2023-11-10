@@ -331,20 +331,21 @@ module PyPartMC_aero_state
 
   end subroutine
 
-  subroutine print_cstring_array_new(ptr_c, aero_data_ptr_c, n, cstring) bind(C)
+  subroutine print_cstring_array_test(ptr_c, aero_data_ptr_c, n, cstring, &
+    masses, n_parts) bind(C)
 
     type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
-    integer(kind=c_int),               intent(in) :: n
+    integer(kind=c_int), intent(in) :: n
     type(c_ptr), dimension(n), target, intent(in) :: cstring
-    character, pointer                            :: fstring(:)
-
+    character, pointer :: fstring(:)
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
-    real(kind=dp), allocatable :: masses(:)
-    integer :: j, slen
-    integer                                       :: i
+    integer(c_int), intent(in) :: n_parts
+    real(c_double) :: masses(n_parts)
+
+    integer :: j, slen, i
     character(len=AERO_NAME_LEN), dimension(n) :: include_array
-    character(len=AERO_NAME_LEN) :: string_tmp
+    character(len=:), allocatable :: string_tmp_alloc
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
@@ -355,20 +356,16 @@ module PyPartMC_aero_state
        do while(fstring(slen+1) /= c_null_char)
           slen = slen + 1
        end do
+       allocate(character(len=slen) :: string_tmp_alloc)
        do j = 1,slen
-          string_tmp(j:j) = fstring(j)
+          string_tmp_alloc(j:j) = fstring(j)
        end do
-       do j = slen+1,AERO_NAME_LEN
-          string_tmp(j:j) = " "
-       end do
-!       write(*,*) trim(string_tmp), slen
-       include_array(i) = trim(string_tmp)
+       include_array(i) = trim(string_tmp_alloc)
+       deallocate(string_tmp_alloc)
      end do
 
      masses = aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array)
 
-     print*, 'in fortran with string array', masses
-
-  end subroutine print_cstring_array_new
+  end subroutine print_cstring_array_test
 
 end module
