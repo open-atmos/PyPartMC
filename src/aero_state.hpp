@@ -231,20 +231,27 @@ struct AeroState {
 
         const int include_size = (include.has_value()) ? include.value().size() : 0;
         const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
-        if (include.has_value() and exclude.has_value()){
-        char **include_arr = new char *[include_size];
-        int i = 0;
-        for (const std::string &x : include.value()){
-            include_arr[i] = new char[50];
-            strcpy(include_arr[i], x.c_str());
-            i = i + 1;
+
+        char **include_arr  = NULL;
+        if (include.has_value()){
+           include_arr = new char *[include_size];
+           int i = 0;
+           for (const std::string &x : include.value()){
+              include_arr[i] = new char[50];
+              strcpy(include_arr[i], x.c_str());
+              i = i + 1;
+           }
         }
-        char **exclude_arr = new char *[exclude_size];
-        i = 0;
-        for (const std::string &x : exclude.value()){
-            exclude_arr[i] = new char[50];
-            strcpy(exclude_arr[i], x.c_str());
-            i++;
+
+        char **exclude_arr = NULL;
+        if (exclude.has_value()){
+           exclude_arr = new char *[exclude_size];
+           int i = 0;
+           for (const std::string &x : exclude.value()){
+              exclude_arr[i] = new char[50];
+              strcpy(exclude_arr[i], x.c_str());
+              i = i + 1;
+           }
         }
 
         f_aero_state_masses(
@@ -260,62 +267,6 @@ struct AeroState {
 
         delete[] include_arr;
         delete[] exclude_arr;
-        }
-        else if (include.has_value())
-        {
-        char **include_arr = new char *[include_size];
-        int i = 0;
-        for (const std::string &x : include.value()){
-            include_arr[i] = new char[50];
-            strcpy(include_arr[i], x.c_str());
-            i = i + 1;
-        }
-
-        f_aero_state_masses(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            begin(masses),
-            &len,
-            &include_size,
-            &exclude_size,
-            include_arr,
-            NULL 
-        );
-
-        delete[] include_arr;
-        }
-        else if (exclude.has_value()){
-        char **exclude_arr = new char *[exclude_size];
-        int i = 0;
-        for (const std::string &x : exclude.value()){
-            exclude_arr[i] = new char[50];
-            strcpy(exclude_arr[i], x.c_str());
-            i = i + 1;
-        }
-        f_aero_state_masses(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            begin(masses),
-            &len,
-            &include_size,
-            &exclude_size,
-            NULL,
-            exclude_arr
-        );
-        delete[] exclude_arr;
-        }
-        else{
-        f_aero_state_masses(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            begin(masses),
-            &len,
-            &include_size,
-            &exclude_size,
-            NULL,
-            NULL
-        );
-        }
 
         return masses;
     }
