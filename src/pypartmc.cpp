@@ -206,8 +206,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def("crit_rel_humids", AeroState::crit_rel_humids,
             "returns the critical relative humidity of each particle in the population")
-        .def_property_readonly("mixing_state", AeroState::mixing_state,
-            "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population")
+        .def("mixing_state", AeroState::mixing_state,
+            "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population",
+            py::arg("include") = py::none(), py::arg("exclude") = py::none(), 
+            py::arg("group") = py::none())
         .def("bin_average_comp", AeroState::bin_average_comp,
             "composition-averages population using BinGrid")
         .def("particle", AeroState::get_particle,

@@ -260,7 +260,6 @@ module PyPartMC_aero_state
 
   end subroutine
 
-  ! TODO #130: add include and exclude
   subroutine f_aero_state_volumes(ptr_c, aero_data_ptr_c, volumes, n_parts, &
        include_len, exclude_len, include, exclude) bind(C)
 
@@ -351,9 +350,10 @@ module PyPartMC_aero_state
 
   end subroutine
 
-  ! TODO #130: Add include, exclude, group and groups
+  ! TODO #130: Add groups
   subroutine f_aero_state_mixing_state_metrics(ptr_c, aero_data_ptr_c, & 
-       d_alpha, d_gamma, chi) bind(C)
+       d_alpha, d_gamma, chi, include_len, exclude_len, group_len, &
+       include, exclude, group) bind(C)
 
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
@@ -361,12 +361,98 @@ module PyPartMC_aero_state
     real(c_double) :: d_alpha
     real(c_double) :: d_gamma
     real(c_double) :: chi
+    integer(c_int), intent(in) :: include_len
+    integer(c_int), intent(in) :: exclude_len
+    integer(c_int), intent(in) :: group_len
+    type(c_ptr), dimension(include_len), target, intent(in), optional :: include
+    type(c_ptr), dimension(exclude_len), target, intent(in), optional :: exclude
+    type(c_ptr), dimension(exclude_len), target, intent(in), optional :: group
+
+    character(len=AERO_NAME_LEN), allocatable :: include_array(:)
+    character(len=AERO_NAME_LEN), allocatable :: exclude_array(:)
+    character(len=AERO_NAME_LEN), allocatable :: group_array(:)
+    character, pointer :: fstring(:)
+    integer :: j, slen, i
+    character(len=:), allocatable :: string_tmp_alloc
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
 
-    call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
-         d_gamma, chi)
+    if (present(include)) then
+       allocate(include_array(include_len))
+       do i = 1, include_len
+          slen = 0
+          call c_f_pointer(include(i), fstring, [AERO_NAME_LEN])
+          do while(fstring(slen+1) /= c_null_char)
+             slen = slen + 1
+          end do
+          allocate(character(len=slen) :: string_tmp_alloc)
+          do j = 1,slen
+             string_tmp_alloc(j:j) = fstring(j)
+          end do
+          include_array(i) = trim(string_tmp_alloc)
+          deallocate(string_tmp_alloc)
+      end do
+    end if
+    if (present(exclude)) then
+       allocate(exclude_array(exclude_len))
+       do i = 1,exclude_len
+          slen = 0
+          call c_f_pointer(exclude(i), fstring, [AERO_NAME_LEN])
+          do while(fstring(slen+1) /= c_null_char)
+             slen = slen + 1
+          end do
+          allocate(character(len=slen) :: string_tmp_alloc)
+          do j = 1,slen
+             string_tmp_alloc(j:j) = fstring(j)
+          end do
+          exclude_array(i) = trim(string_tmp_alloc)
+          deallocate(string_tmp_alloc)
+       end do
+    end if
+    if (present(group)) then
+       allocate(group_array(group_len))
+       do i = 1,group_len
+          slen = 0
+          call c_f_pointer(group(i), fstring, [AERO_NAME_LEN])
+          do while(fstring(slen+1) /= c_null_char)
+             slen = slen + 1
+          end do
+          allocate(character(len=slen) :: string_tmp_alloc)
+          do j = 1,slen
+             string_tmp_alloc(j:j) = fstring(j)
+          end do
+          group_array(i) = trim(string_tmp_alloc)
+          deallocate(string_tmp_alloc)
+       end do
+    end if
+
+    if (present(include) .and. present(exclude) .and. present(group)) then
+       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+            d_gamma, chi, include=include_array, exclude=exclude_array, &
+            group=group_array)
+    else if (present(include) .and. present(exclude)) then
+       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+            d_gamma, chi, include=include_array, exclude=exclude_array)
+    else if (present(include) .and. present(group)) then
+       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+            d_gamma, chi, include=include_array, group=group_array)
+    else if (present(exclude) .and. present(group)) then
+       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+            d_gamma, chi, exclude=exclude_array, group=group_array)
+    else if (present(include)) then
+       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+            d_gamma, chi, include=include_array)
+    else if (present(exclude)) then
+       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+            d_gamma, chi, exclude=exclude_array)
+    else if (present(group)) then
+       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+            d_gamma, chi, group=group_array)
+    else
+       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+            d_gamma, chi)
+    end if
 
   end subroutine
 
