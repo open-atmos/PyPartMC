@@ -124,7 +124,7 @@ class TestAeroState:
     @staticmethod
     def test_volumes(sut_minimal):  # pylint: disable=redefined-outer-name
         # act
-        volumes = sut_minimal.volumes
+        volumes = sut_minimal.volumes()
 
         # assert
         assert isinstance(volumes, list)
@@ -142,7 +142,7 @@ class TestAeroState:
     @staticmethod
     def test_diameters(sut_minimal):  # pylint: disable=redefined-outer-name
         # act
-        diameters = sut_minimal.diameters
+        diameters = sut_minimal.diameters()
 
         # assert
         assert isinstance(diameters, list)
@@ -207,7 +207,7 @@ class TestAeroState:
         # act
         i_part = 20
         particle = sut_minimal.particle(i_part)
-        diameters = sut_minimal.diameters
+        diameters = sut_minimal.diameters()
 
         # assert
         assert particle.diameter == diameters[i_part]
