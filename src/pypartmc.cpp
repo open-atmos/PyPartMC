@@ -216,7 +216,6 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "sample particles for AeroState from an AeroDist",
             py::arg("AeroDist"), py::arg("sample_prop") = 1.0, py::arg("create_time") = 0.0,
             py::arg("allow_doubling") = true, py::arg("allow_halving") = true)
-        .def("print_strings_new", &AeroState::print_strings_new, "print strings")
     ;
 
     py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData",

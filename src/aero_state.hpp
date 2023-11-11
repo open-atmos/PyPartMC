@@ -60,10 +60,10 @@ extern "C" void f_aero_state_masses(
     const int *n_parts,
 //    const std::optional<std::string> *include,
 //    const std::optional<std::string> *exclude
-    const char *include,
     const int *include_len,
-    const char *exclude,
-    const int *exclude_len
+    const int *exclude_len,
+    void *include,
+    void *exclude
 ) noexcept;
 
 extern "C" void f_aero_state_dry_diameters(
@@ -129,19 +129,6 @@ extern "C" void f_aero_state_add_aero_dist_sample(
     const bool *allow_doubling,
     const bool *allow_halving,
     int *n_part_add
-) noexcept;
-
-extern "C" void print_cstring_array(
-    const void *ptr_c,
-    const void *ptr_aero_data_c,
-    const int*, void*) noexcept;
-
-extern "C" void print_cstring_array_test(
-    const void *ptr_c,
-    const void *ptr_aero_data_c,
-    const int*, void*,
-    double *masses,
-    const int *n_parts
 ) noexcept;
 
 struct AeroState {
@@ -232,8 +219,8 @@ struct AeroState {
 
     static auto masses(
         const AeroState &self,
-        const std::optional<std::string>&include,
-        const std::optional<std::string>&exclude
+        const std::optional<std::valarray<std::string>>&include,
+        const std::optional<std::valarray<std::string>>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -242,47 +229,80 @@ struct AeroState {
         );
         std::valarray<double> masses(len);
 
-
+        const int include_size = (include.has_value()) ? include.value().size() : 0;
+        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
         if (include.has_value() and exclude.has_value()){
-        const int include_size = include.value().size();
-        const int exclude_size = exclude.value().size();
+        char **include_arr = new char *[include_size];
+        int i = 0;
+        for (const std::string &x : include.value()){
+            include_arr[i] = new char[50];
+            strcpy(include_arr[i], x.c_str());
+            i = i + 1;
+        }
+        char **exclude_arr = new char *[exclude_size];
+        i = 0;
+        for (const std::string &x : exclude.value()){
+            exclude_arr[i] = new char[50];
+            strcpy(exclude_arr[i], x.c_str());
+            i++;
+        }
+
         f_aero_state_masses(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(masses),
             &len,
-            include.value().c_str(),
             &include_size,
-            exclude.value().c_str(),
-            &exclude_size 
+            &exclude_size,
+            include_arr,
+            exclude_arr
         );
+
+        delete[] include_arr;
+        delete[] exclude_arr;
         }
         else if (include.has_value())
         {
-        const int include_size = include.value().size();
+        char **include_arr = new char *[include_size];
+        int i = 0;
+        for (const std::string &x : include.value()){
+            include_arr[i] = new char[50];
+            strcpy(include_arr[i], x.c_str());
+            i = i + 1;
+        }
+
         f_aero_state_masses(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(masses),
             &len,
-            include.value().c_str(),
             &include_size,
-            NULL,
+            &exclude_size,
+            include_arr,
             NULL 
         );
+
+        delete[] include_arr;
         }
         else if (exclude.has_value()){
-        const int exclude_size = exclude.value().size();
+        char **exclude_arr = new char *[exclude_size];
+        int i = 0;
+        for (const std::string &x : exclude.value()){
+            exclude_arr[i] = new char[50];
+            strcpy(exclude_arr[i], x.c_str());
+            i = i + 1;
+        }
         f_aero_state_masses(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(masses),
             &len,
+            &include_size,
+            &exclude_size,
             NULL,
-            NULL,
-            exclude.value().c_str(),
-            &exclude_size 
+            exclude_arr
         );
+        delete[] exclude_arr;
         }
         else{
         f_aero_state_masses(
@@ -290,8 +310,8 @@ struct AeroState {
             self.aero_data->ptr.f_arg(),
             begin(masses),
             &len,
-            NULL,
-            NULL,
+            &include_size,
+            &exclude_size,
             NULL,
             NULL
         );
@@ -464,34 +484,6 @@ struct AeroState {
        );
        return n_part_add;
 
-   }
-
-   static auto print_strings_new(const AeroState &self,
-      std::valarray<std::string>&data
-      ) {
-
-      int len;
-      f_aero_state_len(
-          self.ptr.f_arg(),
-          &len
-      );
-      std::valarray<double> masses(len);
-      const int n = data.size();
-      char **arr = new char *[n];
-
-      int i = 0;
-      for (const std::string &x : data){
-        arr[i] = new char[50];
-        strcpy(arr[i], x.c_str());
-        i = i + 1;
-      }
-
-      print_cstring_array_test(self.ptr.f_arg(), self.aero_data->ptr.f_arg(),
-            &n, arr, begin(masses), &len);
-
-      delete[] arr;
-
-      return masses;
    }
 
 };

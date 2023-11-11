@@ -120,58 +120,66 @@ module PyPartMC_aero_state
 
   ! TODO #130: add include and exclude 
   subroutine f_aero_state_masses(ptr_c, aero_data_ptr_c, masses, n_parts, &
-       include, include_len, exclude, exclude_len) bind(C)
+       include_len, exclude_len, cstring_include, cstring_exclude) bind(C)
 
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
     integer(c_int), intent(in) :: n_parts
-    character(c_char), dimension(*), intent(in), optional :: include
-    integer(c_int), intent(in), optional :: include_len
-    character(c_char), dimension(*), intent(in), optional :: exclude 
-    integer(c_int), intent(in), optional :: exclude_len
-    character(len=AERO_NAME_LEN) :: include_f
-    character(len=AERO_NAME_LEN) :: exclude_f
-    integer :: i
+    integer(c_int), intent(in) :: include_len
+    type(c_ptr), dimension(include_len), target, intent(in), optional :: cstring_include
+    integer(c_int), intent(in) :: exclude_len
+    type(c_ptr), dimension(exclude_len), target, intent(in), optional :: cstring_exclude
     real(c_double) :: masses(n_parts)
     character(len=AERO_NAME_LEN), allocatable :: include_array(:)
     character(len=AERO_NAME_LEN), allocatable :: exclude_array(:)
+    character, pointer :: fstring(:)
+    integer :: j, slen, i
+    character(len=:), allocatable :: string_tmp_alloc
 
-    if (present(include)) then
-    allocate(include_array(1))
-    do i = 1,include_len
-       include_f(i:i) = include(i)
-    end do
-    do i = include_len+1,AERO_NAME_LEN
-       include_f(i:i) = " "
-    end do
-    include_array(1) = include_f
+    if (present(cstring_include)) then
+    allocate(include_array(include_len))
+    do i = 1, include_len
+       slen = 0
+       call c_f_pointer(cstring_include(i), fstring, [AERO_NAME_LEN])
+       do while(fstring(slen+1) /= c_null_char)
+          slen = slen + 1
+       end do
+       allocate(character(len=slen) :: string_tmp_alloc)
+       do j = 1,slen
+          string_tmp_alloc(j:j) = fstring(j)
+       end do
+       include_array(i) = trim(string_tmp_alloc)
+       deallocate(string_tmp_alloc)
+     end do
     end if
-    if (present(exclude)) then
-    allocate(exclude_array(1)) 
+    if (present(cstring_exclude)) then
+    allocate(exclude_array(exclude_len))
     do i = 1,exclude_len
-       exclude_f(i:i) = exclude(i)
-    end do
-    do i = exclude_len+1,AERO_NAME_LEN
-       exclude_f(i:i) = " "
-    end do
-    exclude_array(1) = exclude_f
+       slen = 0
+       call c_f_pointer(cstring_exclude(i), fstring, [AERO_NAME_LEN])
+       do while(fstring(slen+1) /= c_null_char)
+          slen = slen + 1
+       end do
+       allocate(character(len=slen) :: string_tmp_alloc)
+       do j = 1,slen
+          string_tmp_alloc(j:j) = fstring(j)
+       end do
+       exclude_array(i) = trim(string_tmp_alloc)
+       deallocate(string_tmp_alloc)
+     end do
     end if
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
-    if (present(include) .and. present(exclude)) then
-!       print*, 'include and exclude', exclude_array(1), include_array(1)
+    if (present(cstring_include) .and. present(cstring_exclude)) then
        masses =  aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array, &
            exclude=exclude_array)
-    else if(present(exclude)) then
-!       print*, 'exclude only', exclude_array(1)
+    else if(present(cstring_exclude)) then
        masses =  aero_state_masses(ptr_f, aero_data_ptr_f, exclude=exclude_array)
-    else if(present(include)) then
-!       print*, 'include only', include_array(1)
+    else if(present(cstring_include)) then
        masses =  aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array)
     else
-!       print*, 'all'
        masses =  aero_state_masses(ptr_f, aero_data_ptr_f)
     end if 
 
@@ -330,42 +338,5 @@ module PyPartMC_aero_state
        logical(allow_halving), n_part_add)
 
   end subroutine
-
-  subroutine print_cstring_array_test(ptr_c, aero_data_ptr_c, n, cstring, &
-    masses, n_parts) bind(C)
-
-    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
-    integer(kind=c_int), intent(in) :: n
-    type(c_ptr), dimension(n), target, intent(in) :: cstring
-    character, pointer :: fstring(:)
-    type(aero_state_t), pointer :: ptr_f => null()
-    type(aero_data_t), pointer :: aero_data_ptr_f => null()
-    integer(c_int), intent(in) :: n_parts
-    real(c_double) :: masses(n_parts)
-
-    integer :: j, slen, i
-    character(len=AERO_NAME_LEN), dimension(n) :: include_array
-    character(len=:), allocatable :: string_tmp_alloc
-
-    call c_f_pointer(ptr_c, ptr_f)
-    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
-
-    do i = 1,n
-       slen = 0
-       call c_f_pointer(cstring(i), fstring, [AERO_NAME_LEN])
-       do while(fstring(slen+1) /= c_null_char)
-          slen = slen + 1
-       end do
-       allocate(character(len=slen) :: string_tmp_alloc)
-       do j = 1,slen
-          string_tmp_alloc(j:j) = fstring(j)
-       end do
-       include_array(i) = trim(string_tmp_alloc)
-       deallocate(string_tmp_alloc)
-     end do
-
-     masses = aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array)
-
-  end subroutine print_cstring_array_test
 
 end module
