@@ -349,6 +349,9 @@ struct AeroState {
             exclude_arr
         );
 
+        delete[] include_arr;
+        delete[] exclude_arr;
+
         return diameters;
     }
 
@@ -399,6 +402,9 @@ struct AeroState {
             include_arr,
             exclude_arr 
         );
+
+        delete[] include_arr;
+        delete[] exclude_arr;
 
         return volumes;
     }
@@ -490,6 +496,10 @@ struct AeroState {
             exclude_arr,
             group_arr
         );
+
+        delete[] include_arr;
+        delete[] exclude_arr;
+        delete[] group_arr;
 
         return std::make_tuple(d_alpha, d_gamma, chi); 
     }
