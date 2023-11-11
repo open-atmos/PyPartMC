@@ -58,10 +58,8 @@ extern "C" void f_aero_state_masses(
     const void *aero_dataptr,
     double *masses,
     const int *n_parts,
-//    const std::optional<std::string> *include,
-//    const std::optional<std::string> *exclude
-    const int *include_len,
-    const int *exclude_len,
+    const int *include_size,
+    const int *exclude_size,
     void *include,
     void *exclude
 ) noexcept;
@@ -77,14 +75,22 @@ extern "C" void f_aero_state_diameters(
     const void *ptr,
     const void *aero_dataptr,
     double *diameters,
-    const int *n_parts
+    const int *n_parts,
+    const int *include_size,
+    const int *exclude_size,
+    void *include,
+    void *exclude
 ) noexcept;
 
 extern "C" void f_aero_state_volumes(
     const void *ptr,
     const void *aero_dataptr,
     double *volumes,
-    const int *n_parts
+    const int *n_parts,
+    const int *include_size,
+    const int *exclude_size,
+    void *include,
+    void *exclude
 ) noexcept;
 
 extern "C" void f_aero_state_crit_rel_humids(
@@ -290,7 +296,9 @@ struct AeroState {
     }
 
     static auto diameters(
-       const AeroState &self
+       const AeroState &self,
+        const std::optional<std::valarray<std::string>>&include,
+        const std::optional<std::valarray<std::string>>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -299,18 +307,49 @@ struct AeroState {
         );
         std::valarray<double> diameters(len);
 
+        const int include_size = (include.has_value()) ? include.value().size() : 0;
+        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
+
+        char **include_arr  = NULL;
+        if (include.has_value()){
+           include_arr = new char *[include_size];
+           int i = 0;
+           for (const std::string &x : include.value()){
+              include_arr[i] = new char[50];
+              strcpy(include_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
+        char **exclude_arr = NULL;
+        if (exclude.has_value()){
+           exclude_arr = new char *[exclude_size];
+           int i = 0;
+           for (const std::string &x : exclude.value()){
+              exclude_arr[i] = new char[50];
+              strcpy(exclude_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
         f_aero_state_diameters(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(diameters),
-            &len
+            &len,
+            &include_size,
+            &exclude_size,
+            include_arr,
+            exclude_arr
         );
 
         return diameters;
     }
 
     static auto volumes(
-        const AeroState &self
+        const AeroState &self,
+        const std::optional<std::valarray<std::string>>&include,
+        const std::optional<std::valarray<std::string>>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -319,11 +358,40 @@ struct AeroState {
         );
         std::valarray<double> volumes(len);
 
+        const int include_size = (include.has_value()) ? include.value().size() : 0;
+        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
+
+        char **include_arr  = NULL;
+        if (include.has_value()){
+           include_arr = new char *[include_size];
+           int i = 0;
+           for (const std::string &x : include.value()){
+              include_arr[i] = new char[50];
+              strcpy(include_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
+        char **exclude_arr = NULL;
+        if (exclude.has_value()){
+           exclude_arr = new char *[exclude_size];
+           int i = 0;
+           for (const std::string &x : exclude.value()){
+              exclude_arr[i] = new char[50];
+              strcpy(exclude_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
         f_aero_state_volumes(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(volumes),
-            &len
+            &len,
+            &include_size,
+            &exclude_size,
+            include_arr,
+            exclude_arr 
         );
 
         return volumes;

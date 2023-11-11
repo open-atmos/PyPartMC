@@ -196,12 +196,14 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("masses", AeroState::masses,
             "returns the total mass of each particle in the population",
             py::arg("include") = py::none(), py::arg("exclude") = py::none())
-        .def_property_readonly("volumes", AeroState::volumes,
-            "returns the total volume of each particle in the population")
+        .def("volumes", AeroState::volumes,
+            "returns the volume of each particle in the population",
+             py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def_property_readonly("dry_diameters", AeroState::dry_diameters,
             "returns the dry diameter of each particle in the population")
-        .def_property_readonly("diameters", AeroState::diameters,
-            "returns the diameter of each particle in the population")
+        .def("diameters", AeroState::diameters,
+            "returns the diameter of each particle in the population",
+            py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def("crit_rel_humids", AeroState::crit_rel_humids,
             "returns the critical relative humidity of each particle in the population")
         .def_property_readonly("mixing_state", AeroState::mixing_state,

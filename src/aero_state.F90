@@ -118,66 +118,66 @@ module PyPartMC_aero_state
 
   end subroutine
 
-  ! TODO #130: add include and exclude 
   subroutine f_aero_state_masses(ptr_c, aero_data_ptr_c, masses, n_parts, &
-       include_len, exclude_len, cstring_include, cstring_exclude) bind(C)
+       include_len, exclude_len, include, exclude) bind(C)
 
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
     integer(c_int), intent(in) :: n_parts
     integer(c_int), intent(in) :: include_len
-    type(c_ptr), dimension(include_len), target, intent(in), optional :: cstring_include
     integer(c_int), intent(in) :: exclude_len
-    type(c_ptr), dimension(exclude_len), target, intent(in), optional :: cstring_exclude
-    real(c_double) :: masses(n_parts)
+    type(c_ptr), dimension(include_len), target, intent(in), optional :: include
+    type(c_ptr), dimension(exclude_len), target, intent(in), optional :: exclude
+    real(c_double), intent(out) :: masses(n_parts)
+
     character(len=AERO_NAME_LEN), allocatable :: include_array(:)
     character(len=AERO_NAME_LEN), allocatable :: exclude_array(:)
     character, pointer :: fstring(:)
     integer :: j, slen, i
     character(len=:), allocatable :: string_tmp_alloc
 
-    if (present(cstring_include)) then
-    allocate(include_array(include_len))
-    do i = 1, include_len
-       slen = 0
-       call c_f_pointer(cstring_include(i), fstring, [AERO_NAME_LEN])
-       do while(fstring(slen+1) /= c_null_char)
-          slen = slen + 1
-       end do
-       allocate(character(len=slen) :: string_tmp_alloc)
-       do j = 1,slen
-          string_tmp_alloc(j:j) = fstring(j)
-       end do
-       include_array(i) = trim(string_tmp_alloc)
-       deallocate(string_tmp_alloc)
-     end do
+    if (present(include)) then
+       allocate(include_array(include_len))
+       do i = 1, include_len
+          slen = 0
+          call c_f_pointer(include(i), fstring, [AERO_NAME_LEN])
+          do while(fstring(slen+1) /= c_null_char)
+             slen = slen + 1
+          end do
+          allocate(character(len=slen) :: string_tmp_alloc)
+          do j = 1,slen
+             string_tmp_alloc(j:j) = fstring(j)
+          end do
+          include_array(i) = trim(string_tmp_alloc)
+          deallocate(string_tmp_alloc)
+      end do
     end if
-    if (present(cstring_exclude)) then
-    allocate(exclude_array(exclude_len))
-    do i = 1,exclude_len
-       slen = 0
-       call c_f_pointer(cstring_exclude(i), fstring, [AERO_NAME_LEN])
-       do while(fstring(slen+1) /= c_null_char)
-          slen = slen + 1
+    if (present(exclude)) then
+       allocate(exclude_array(exclude_len))
+       do i = 1,exclude_len
+          slen = 0
+          call c_f_pointer(exclude(i), fstring, [AERO_NAME_LEN])
+          do while(fstring(slen+1) /= c_null_char)
+             slen = slen + 1
+          end do
+          allocate(character(len=slen) :: string_tmp_alloc)
+          do j = 1,slen
+             string_tmp_alloc(j:j) = fstring(j)
+          end do
+          exclude_array(i) = trim(string_tmp_alloc)
+          deallocate(string_tmp_alloc)
        end do
-       allocate(character(len=slen) :: string_tmp_alloc)
-       do j = 1,slen
-          string_tmp_alloc(j:j) = fstring(j)
-       end do
-       exclude_array(i) = trim(string_tmp_alloc)
-       deallocate(string_tmp_alloc)
-     end do
     end if
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
-    if (present(cstring_include) .and. present(cstring_exclude)) then
+    if (present(include) .and. present(exclude)) then
        masses =  aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array, &
            exclude=exclude_array)
-    else if(present(cstring_exclude)) then
+    else if(present(exclude)) then
        masses =  aero_state_masses(ptr_f, aero_data_ptr_f, exclude=exclude_array)
-    else if(present(cstring_include)) then
+    else if(present(include)) then
        masses =  aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array)
     else
        masses =  aero_state_masses(ptr_f, aero_data_ptr_f)
@@ -202,35 +202,132 @@ module PyPartMC_aero_state
   end subroutine
 
   subroutine f_aero_state_diameters(ptr_c, aero_data_ptr_c, diameters, &
-       n_parts) bind(C)
+       n_parts, include_len, exclude_len, include, exclude) bind(C)
 
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
-    integer(c_int) :: n_parts
-    real(c_double) :: diameters(n_parts)
+    integer(c_int), intent(in) :: n_parts
+    real(c_double), intent(out) :: diameters(n_parts)
+    integer(c_int), intent(in) :: include_len
+    integer(c_int), intent(in) :: exclude_len
+    type(c_ptr), dimension(include_len), target, intent(in), optional :: include
+    type(c_ptr), dimension(exclude_len), target, intent(in), optional :: exclude
+
+    character(len=AERO_NAME_LEN), allocatable :: include_array(:)
+    character(len=AERO_NAME_LEN), allocatable :: exclude_array(:)
+    character, pointer :: fstring(:)
+    integer :: j, slen, i
+    character(len=:), allocatable :: string_tmp_alloc
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    if (present(include)) then
+       allocate(include_array(include_len))
+       do i = 1, include_len
+          slen = 0
+          call c_f_pointer(include(i), fstring, [AERO_NAME_LEN])
+          do while(fstring(slen+1) /= c_null_char)
+             slen = slen + 1
+          end do
+          allocate(character(len=slen) :: string_tmp_alloc)
+          do j = 1,slen
+             string_tmp_alloc(j:j) = fstring(j)
+          end do
+          include_array(i) = trim(string_tmp_alloc)
+          deallocate(string_tmp_alloc)
+      end do
+    end if
+    if (present(exclude)) then
+       allocate(exclude_array(exclude_len))
+       do i = 1,exclude_len
+          slen = 0
+          call c_f_pointer(exclude(i), fstring, [AERO_NAME_LEN])
+          do while(fstring(slen+1) /= c_null_char)
+             slen = slen + 1
+          end do
+          allocate(character(len=slen) :: string_tmp_alloc)
+          do j = 1,slen
+             string_tmp_alloc(j:j) = fstring(j)
+          end do
+          exclude_array(i) = trim(string_tmp_alloc)
+          deallocate(string_tmp_alloc)
+       end do
+    end if
 
     diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f)
 
   end subroutine
 
   ! TODO #130: add include and exclude
-  subroutine f_aero_state_volumes(ptr_c, aero_data_ptr_c, volumes, n_parts) &
-       bind(C)
+  subroutine f_aero_state_volumes(ptr_c, aero_data_ptr_c, volumes, n_parts, &
+       include_len, exclude_len, include, exclude) bind(C)
 
     type(aero_state_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c
-    integer(c_int) :: n_parts
-    real(c_double) :: volumes(n_parts)
+    integer(c_int), intent(in) :: n_parts
+    real(c_double), intent(out) :: volumes(n_parts)
+    integer(c_int), intent(in) :: include_len
+    integer(c_int), intent(in) :: exclude_len
+    type(c_ptr), dimension(include_len), target, intent(in), optional :: include
+    type(c_ptr), dimension(exclude_len), target, intent(in), optional :: exclude
+
+    character(len=AERO_NAME_LEN), allocatable :: include_array(:)
+    character(len=AERO_NAME_LEN), allocatable :: exclude_array(:)
+    character, pointer :: fstring(:)
+    integer :: j, slen, i
+    character(len=:), allocatable :: string_tmp_alloc
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
 
-    volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f)
+    if (present(include)) then
+       allocate(include_array(include_len))
+       do i = 1, include_len
+          slen = 0
+          call c_f_pointer(include(i), fstring, [AERO_NAME_LEN])
+          do while(fstring(slen+1) /= c_null_char)
+             slen = slen + 1
+          end do
+          allocate(character(len=slen) :: string_tmp_alloc)
+          do j = 1,slen
+             string_tmp_alloc(j:j) = fstring(j)
+          end do
+          include_array(i) = trim(string_tmp_alloc)
+          deallocate(string_tmp_alloc)
+      end do
+    end if
+    if (present(exclude)) then
+       allocate(exclude_array(exclude_len))
+       do i = 1,exclude_len
+          slen = 0
+          call c_f_pointer(exclude(i), fstring, [AERO_NAME_LEN])
+          do while(fstring(slen+1) /= c_null_char)
+             slen = slen + 1
+          end do
+          allocate(character(len=slen) :: string_tmp_alloc)
+          do j = 1,slen
+             string_tmp_alloc(j:j) = fstring(j)
+          end do
+          exclude_array(i) = trim(string_tmp_alloc)
+          deallocate(string_tmp_alloc)
+       end do
+    end if
+
+    if (present(include) .and. present(exclude)) then
+       volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f, &
+            include=include_array, exclude=exclude_array)
+    else if (present(include)) then
+       volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f, &
+            include=include_array)
+    else if (present(exclude)) then
+       volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f, &
+            exclude=exclude_array)
+    else
+       volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f)
+    end if
 
   end subroutine
 
