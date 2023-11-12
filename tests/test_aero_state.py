@@ -17,6 +17,8 @@ from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 AERO_STATE_CTOR_ARG_MINIMAL = 44, "nummass_source"
 
+# pylint: disable=R0904
+
 
 @pytest.fixture
 def sut_minimal():
@@ -139,8 +141,6 @@ class TestAeroState:
 
     @staticmethod
     def test_masses_exclude(sut_full):  # pylint: disable=redefined-outer-name
-        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
-
         # act
         masses = sut_full.masses(exclude=["SO4"])
         masses_so4 = np.zeros(len(sut_full))
@@ -154,8 +154,6 @@ class TestAeroState:
 
     @staticmethod
     def test_masses_include_exclude(sut_full):  # pylint: disable=redefined-outer-name
-        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
-
         # act
         masses = sut_full.masses(include=["SO4"], exclude=["SO4"])
 
@@ -191,8 +189,6 @@ class TestAeroState:
 
     @staticmethod
     def test_volumes_include_exclude(sut_full):  # pylint: disable=redefined-outer-name
-        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
-
         # act
         volumes = sut_full.volumes(include=["SO4"], exclude=["SO4"])
 
