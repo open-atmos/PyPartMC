@@ -172,16 +172,9 @@ module PyPartMC_aero_state
 
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
-    if (present(include) .and. present(exclude)) then
-       masses =  aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array, &
-           exclude=exclude_array)
-    else if(present(exclude)) then
-       masses =  aero_state_masses(ptr_f, aero_data_ptr_f, exclude=exclude_array)
-    else if(present(include)) then
-       masses =  aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array)
-    else
-       masses =  aero_state_masses(ptr_f, aero_data_ptr_f)
-    end if 
+
+    masses =  aero_state_masses(ptr_f, aero_data_ptr_f, include=include_array, &
+        exclude=exclude_array)
 
   end subroutine
 
@@ -256,18 +249,8 @@ module PyPartMC_aero_state
        end do
     end if
 
-    if (present(include) .and. present(exclude)) then
-       diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f, &
-            include=include_array, exclude=exclude_array)
-    else if (present(include)) then
-       diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f, &
-            include=include_array)
-    else if (present(exclude)) then
-       diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f, &
-            exclude=exclude_array)
-    else
-       diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f)
-    end if
+    diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f, &
+         include=include_array, exclude=exclude_array)
 
   end subroutine
 
@@ -326,21 +309,10 @@ module PyPartMC_aero_state
        end do
     end if
 
-    if (present(include) .and. present(exclude)) then
-       volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f, &
-            include=include_array, exclude=exclude_array)
-    else if (present(include)) then
-       volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f, &
-            include=include_array)
-    else if (present(exclude)) then
-       volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f, &
-            exclude=exclude_array)
-    else
-       volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f)
-    end if
+    volumes =  aero_state_volumes(ptr_f, aero_data_ptr_f, &
+         include=include_array, exclude=exclude_array)
 
   end subroutine
-
 
   subroutine f_aero_state_crit_rel_humids(ptr_c, aero_data_ptr_c, &
        env_state_ptr_c, crit_rel_humids, n_parts) bind(C)
@@ -438,32 +410,9 @@ module PyPartMC_aero_state
        end do
     end if
 
-    if (present(include) .and. present(exclude) .and. present(group)) then
-       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
+    call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
             d_gamma, chi, include=include_array, exclude=exclude_array, &
             group=group_array)
-    else if (present(include) .and. present(exclude)) then
-       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
-            d_gamma, chi, include=include_array, exclude=exclude_array)
-    else if (present(include) .and. present(group)) then
-       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
-            d_gamma, chi, include=include_array, group=group_array)
-    else if (present(exclude) .and. present(group)) then
-       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
-            d_gamma, chi, exclude=exclude_array, group=group_array)
-    else if (present(include)) then
-       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
-            d_gamma, chi, include=include_array)
-    else if (present(exclude)) then
-       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
-            d_gamma, chi, exclude=exclude_array)
-    else if (present(group)) then
-       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
-            d_gamma, chi, group=group_array)
-    else
-       call aero_state_mixing_state_metrics(ptr_f, aero_data_ptr_f, d_alpha, &
-            d_gamma, chi)
-    end if
 
   end subroutine
 
