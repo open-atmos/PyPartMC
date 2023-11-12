@@ -256,7 +256,18 @@ module PyPartMC_aero_state
        end do
     end if
 
-    diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f)
+    if (present(include) .and. present(exclude)) then
+       diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f, &
+            include=include_array, exclude=exclude_array)
+    else if (present(include)) then
+       diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f, &
+            include=include_array)
+    else if (present(exclude)) then
+       diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f, &
+            exclude=exclude_array)
+    else
+       diameters =  aero_state_diameters(ptr_f, aero_data_ptr_f)
+    end if
 
   end subroutine
 
