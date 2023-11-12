@@ -249,7 +249,7 @@ struct AeroState {
            include_arr = new char *[include_size];
            int i = 0;
            for (const std::string &x : include.value()){
-              include_arr[i] = new char[50];
+              include_arr[i] = new char[AERO_NAME_LEN];
               strcpy(include_arr[i], x.c_str());
               i = i + 1;
            }
@@ -260,7 +260,7 @@ struct AeroState {
            exclude_arr = new char *[exclude_size];
            int i = 0;
            for (const std::string &x : exclude.value()){
-              exclude_arr[i] = new char[50];
+              exclude_arr[i] = new char[AERO_NAME_LEN];
               strcpy(exclude_arr[i], x.c_str());
               i = i + 1;
            }
@@ -321,7 +321,7 @@ struct AeroState {
            include_arr = new char *[include_size];
            int i = 0;
            for (const std::string &x : include.value()){
-              include_arr[i] = new char[50];
+              include_arr[i] = new char[AERO_NAME_LEN];
               strcpy(include_arr[i], x.c_str());
               i = i + 1;
            }
@@ -332,7 +332,7 @@ struct AeroState {
            exclude_arr = new char *[exclude_size];
            int i = 0;
            for (const std::string &x : exclude.value()){
-              exclude_arr[i] = new char[50];
+              exclude_arr[i] = new char[AERO_NAME_LEN];
               strcpy(exclude_arr[i], x.c_str());
               i = i + 1;
            }
@@ -375,7 +375,7 @@ struct AeroState {
            include_arr = new char *[include_size];
            int i = 0;
            for (const std::string &x : include.value()){
-              include_arr[i] = new char[50];
+              include_arr[i] = new char[AERO_NAME_LEN];
               strcpy(include_arr[i], x.c_str());
               i = i + 1;
            }
@@ -386,7 +386,7 @@ struct AeroState {
            exclude_arr = new char *[exclude_size];
            int i = 0;
            for (const std::string &x : exclude.value()){
-              exclude_arr[i] = new char[50];
+              exclude_arr[i] = new char[AERO_NAME_LEN];
               strcpy(exclude_arr[i], x.c_str());
               i = i + 1;
            }
@@ -455,7 +455,7 @@ struct AeroState {
            include_arr = new char *[include_size];
            int i = 0;
            for (const std::string &x : include.value()){
-              include_arr[i] = new char[50];
+              include_arr[i] = new char[AERO_NAME_LEN];
               strcpy(include_arr[i], x.c_str());
               i = i + 1;
            }
@@ -466,7 +466,7 @@ struct AeroState {
            exclude_arr = new char *[exclude_size];
            int i = 0;
            for (const std::string &x : exclude.value()){
-              exclude_arr[i] = new char[50];
+              exclude_arr[i] = new char[AERO_NAME_LEN];
               strcpy(exclude_arr[i], x.c_str());
               i = i + 1;
            }
@@ -477,7 +477,7 @@ struct AeroState {
            group_arr = new char *[group_size];
            int i = 0;
            for (const std::string &x : group.value()){
-              group_arr[i] = new char[50];
+              group_arr[i] = new char[AERO_NAME_LEN];
               strcpy(group_arr[i], x.c_str());
               i = i + 1;
            }

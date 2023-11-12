@@ -9,6 +9,8 @@
 #include "pmc_resource.hpp"
 #include "gimmicks.hpp"
 
+#define AERO_NAME_LEN 50
+
 extern "C" void f_aero_data_ctor(void *ptr) noexcept;
 extern "C" void f_aero_data_dtor(void *ptr) noexcept;
 extern "C" void f_aero_data_from_json(const void *ptr) noexcept;
