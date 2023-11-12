@@ -167,7 +167,7 @@ class TestAeroState:
     @staticmethod
     def test_mixing_state(sut_minimal):  # pylint: disable=redefined-outer-name
         # act
-        mixing_state = sut_minimal.mixing_state
+        mixing_state = sut_minimal.mixing_state()
 
         # assert
         assert isinstance(mixing_state, tuple)
