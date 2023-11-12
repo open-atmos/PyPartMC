@@ -122,6 +122,49 @@ class TestAeroState:
         assert len(masses) == len(sut_minimal)
 
     @staticmethod
+    def test_masses_include(sut_full):  # pylint: disable=redefined-outer-name
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+
+        # act
+        so4_ind = aero_data.spec_by_name("SO4")
+        masses = sut_full.masses(include=["SO4"])
+        masses_so4 = np.zeros(len(sut_full))
+        for i_part in range(len(sut_full)):
+            masses_so4[i_part] = sut_full.particle(i_part).species_masses[so4_ind]
+
+        # assert
+        assert isinstance(masses, list)
+        assert len(masses) == len(sut_full)
+        np.testing.assert_allclose(masses_so4, masses)
+
+    @staticmethod
+    def test_masses_exclude(sut_full):  # pylint: disable=redefined-outer-name
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+
+        # act
+        masses = sut_full.masses(exclude=["SO4"])
+        masses_so4 = np.zeros(len(sut_full))
+        for i_part in range(len(sut_full)):
+            masses_so4[i_part] = sut_full.particle(i_part).species_mass(1)
+
+        # assert
+        assert isinstance(masses, list)
+        assert len(masses) == len(sut_full)
+        np.testing.assert_allclose(masses_so4, masses)
+
+    @staticmethod
+    def test_masses_include_exclude(sut_full):  # pylint: disable=redefined-outer-name
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+
+        # act
+        masses = sut_full.masses(include=["SO4"], exclude=["SO4"])
+
+        # assert
+        assert isinstance(masses, list)
+        assert len(masses) == len(sut_full)
+        assert np.sum(masses) == 0.0
+
+    @staticmethod
     def test_volumes(sut_minimal):  # pylint: disable=redefined-outer-name
         # act
         volumes = sut_minimal.volumes()
@@ -129,6 +172,53 @@ class TestAeroState:
         # assert
         assert isinstance(volumes, list)
         assert len(volumes) == len(sut_minimal)
+
+    @staticmethod
+    def test_volumes_include(sut_full):  # pylint: disable=redefined-outer-name
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+
+        # act
+        so4_ind = aero_data.spec_by_name("SO4")
+        volumes = sut_full.volumes(include=["SO4"])
+        vol_so4 = np.zeros(len(sut_full))
+        for i_part in range(len(sut_full)):
+            vol_so4[i_part] = sut_full.particle(i_part).volumes[so4_ind]
+
+        # assert
+        assert isinstance(volumes, list)
+        assert len(volumes) == len(sut_full)
+        np.testing.assert_allclose(vol_so4, volumes)
+
+    @staticmethod
+    def test_volumes_include_exclude(sut_full):  # pylint: disable=redefined-outer-name
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+
+        # act
+        volumes = sut_full.volumes(include=["SO4"], exclude=["SO4"])
+
+        # assert
+        assert isinstance(volumes, list)
+        assert len(volumes) == len(sut_full)
+        assert np.sum(volumes) == 0.0
+
+    @staticmethod
+    def test_volumes_exclude(sut_full):  # pylint: disable=redefined-outer-name
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+
+        # act
+        so4_ind = aero_data.spec_by_name("SO4")
+        volumes = sut_full.volumes(exclude=["SO4"])
+        vol_so4 = np.zeros(len(sut_full))
+        for i_part in range(len(sut_full)):
+            vol_so4[i_part] = (
+                np.sum(sut_full.particle(i_part).volumes)
+                - sut_full.particle(i_part).volumes[so4_ind]
+            )
+
+        # assert
+        assert isinstance(volumes, list)
+        assert len(volumes) == len(sut_full)
+        np.testing.assert_allclose(vol_so4, volumes)
 
     @staticmethod
     def test_dry_diameters(sut_minimal):  # pylint: disable=redefined-outer-name
