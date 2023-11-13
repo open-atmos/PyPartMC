@@ -492,6 +492,8 @@ foreach(file ${PyPartMC_headers})
   unset(CMAKE_REQUIRED_INCLUDES)
   if (NOT _header_self_contained_${file})
     message(SEND_ERROR "non-self-contained header: ${file}")
+    file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log" tmp)
+    message(FATAL_ERROR ${tmp})
   endif()
 endforeach()
 
