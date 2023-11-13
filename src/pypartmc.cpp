@@ -31,6 +31,11 @@
 
 namespace py = pybind11;
 
+namespace PYBIND11_NAMESPACE { namespace detail {
+    template <typename T>
+    struct type_caster<tl::optional<T>> : optional_caster<tl::optional<T>> {};
+}}
+
 PYBIND11_MODULE(_PyPartMC, m) {
     m.doc() = R"pbdoc(
         PyPartMC is a Python interface to PartMC.

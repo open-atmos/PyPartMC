@@ -13,7 +13,7 @@
 #include "env_state.hpp"
 #include "bin_grid.hpp"
 #include "pybind11/stl.h"
-#include <optional>
+#include "tl/optional.hpp"
 
 extern "C" void f_aero_state_ctor(
     void *ptr
@@ -231,8 +231,8 @@ struct AeroState {
 
     static auto masses(
         const AeroState &self,
-        const std::optional<std::valarray<std::string>>&include,
-        const std::optional<std::valarray<std::string>>&exclude
+        const tl::optional<std::valarray<std::string>>&include,
+        const tl::optional<std::valarray<std::string>>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -303,8 +303,8 @@ struct AeroState {
 
     static auto diameters(
        const AeroState &self,
-        const std::optional<std::valarray<std::string>>&include,
-        const std::optional<std::valarray<std::string>>&exclude
+        const tl::optional<std::valarray<std::string>>&include,
+        const tl::optional<std::valarray<std::string>>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -357,8 +357,8 @@ struct AeroState {
 
     static auto volumes(
         const AeroState &self,
-        const std::optional<std::valarray<std::string>>&include,
-        const std::optional<std::valarray<std::string>>&exclude
+        const tl::optional<std::valarray<std::string>>&include,
+        const tl::optional<std::valarray<std::string>>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -433,9 +433,9 @@ struct AeroState {
 
     static auto mixing_state(
         const AeroState &self,
-        const std::optional<std::valarray<std::string>>&include,
-        const std::optional<std::valarray<std::string>>&exclude,
-        const std::optional<std::valarray<std::string>>&group
+        const tl::optional<std::valarray<std::string>>&include,
+        const tl::optional<std::valarray<std::string>>&exclude,
+        const tl::optional<std::valarray<std::string>>&group
     ) {
         int len;
         f_aero_state_len(

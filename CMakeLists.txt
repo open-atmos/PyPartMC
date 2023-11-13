@@ -447,6 +447,7 @@ set(PYPARTMC_INCLUDE_DIRS
   "${CMAKE_SOURCE_DIR}/gitmodules/pybind11_json/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/span/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/string_view-standalone/include;"
+  "${CMAKE_SOURCE_DIR}/gitmodules/optional/include;"
 )
 target_include_directories(_PyPartMC PRIVATE ${PYPARTMC_INCLUDE_DIRS})
 target_compile_definitions(_PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
