@@ -513,16 +513,32 @@ m^3) of the i'th aerosol species.</p>
 <div class="desc"><p>Sets the aerosol particle volumes.</p></div>
 </dd>
 <dt id="PyPartMC.AeroParticle.species_mass"><code class="name flex">
-<span>def <span class="ident">species_mass</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: int) ‑> float</span>
+<span>def <span class="ident">species_mass</span></span>(<span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Mass of a single species in the particle (kg).</p></div>
+<div class="desc"><p>Overloaded function.</p>
+<ol>
+<li>species_mass(self: _PyPartMC.AeroParticle, arg0: int) -&gt; float</li>
+</ol>
+<p>Mass of a single species in the particle (kg).</p>
+<ol>
+<li>species_mass(self: _PyPartMC.AeroParticle, arg0: str) -&gt; float</li>
+</ol>
+<p>Mass of a single species in the particle (kg).</p></div>
 </dd>
 <dt id="PyPartMC.AeroParticle.species_volume"><code class="name flex">
-<span>def <span class="ident">species_volume</span></span>(<span>self: _PyPartMC.AeroParticle, arg0: int) ‑> float</span>
+<span>def <span class="ident">species_volume</span></span>(<span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Volume of a single species in the particle (m^3).</p></div>
+<div class="desc"><p>Overloaded function.</p>
+<ol>
+<li>species_volume(self: _PyPartMC.AeroParticle, arg0: int) -&gt; float</li>
+</ol>
+<p>Volume of a single species in the particle (m^3).</p>
+<ol>
+<li>species_volume(self: _PyPartMC.AeroParticle, arg0: str) -&gt; float</li>
+</ol>
+<p>Volume of a single species in the particle (m^3).</p></div>
 </dd>
 <dt id="PyPartMC.AeroParticle.zero"><code class="name flex">
 <span>def <span class="ident">zero</span></span>(<span>self: _PyPartMC.AeroParticle)</span>
@@ -552,21 +568,9 @@ is typically cleared each time we output data to disk.</p>
 </ul>
 <h3>Instance variables</h3>
 <dl>
-<dt id="PyPartMC.AeroState.diameters"><code class="name">var <span class="ident">diameters</span></code></dt>
-<dd>
-<div class="desc"><p>returns the diameter of each particle in the population</p></div>
-</dd>
 <dt id="PyPartMC.AeroState.dry_diameters"><code class="name">var <span class="ident">dry_diameters</span></code></dt>
 <dd>
 <div class="desc"><p>returns the dry diameter of each particle in the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.masses"><code class="name">var <span class="ident">masses</span></code></dt>
-<dd>
-<div class="desc"><p>returns the total mass of each particle in the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.mixing_state"><code class="name">var <span class="ident">mixing_state</span></code></dt>
-<dd>
-<div class="desc"><p>returns the mixing state parameters (chi,d_alpha,d_gamma) of the population</p></div>
 </dd>
 <dt id="PyPartMC.AeroState.num_concs"><code class="name">var <span class="ident">num_concs</span></code></dt>
 <dd>
@@ -579,10 +583,6 @@ is typically cleared each time we output data to disk.</p>
 <dt id="PyPartMC.AeroState.total_num_conc"><code class="name">var <span class="ident">total_num_conc</span></code></dt>
 <dd>
 <div class="desc"><p>returns the total number concentration of the population</p></div>
-</dd>
-<dt id="PyPartMC.AeroState.volumes"><code class="name">var <span class="ident">volumes</span></code></dt>
-<dd>
-<div class="desc"><p>returns the total volume of each particle in the population</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -599,11 +599,29 @@ is typically cleared each time we output data to disk.</p>
 <dd>
 <div class="desc"><p>returns the critical relative humidity of each particle in the population</p></div>
 </dd>
+<dt id="PyPartMC.AeroState.diameters"><code class="name flex">
+<span>def <span class="ident">diameters</span></span>(<span>self: _PyPartMC.AeroState, include: Optional[List[str]] = None, exclude: Optional[List[str]] = None) ‑> List[float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns the diameter of each particle in the population</p></div>
+</dd>
 <dt id="PyPartMC.AeroState.dist_sample"><code class="name flex">
 <span>def <span class="ident">dist_sample</span></span>(<span>self: _PyPartMC.AeroState, AeroDist: _PyPartMC.AeroDist, sample_prop: float = 1.0, create_time: float = 0.0, allow_doubling: bool = True, allow_halving: bool = True) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"><p>sample particles for AeroState from an AeroDist</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.masses"><code class="name flex">
+<span>def <span class="ident">masses</span></span>(<span>self: _PyPartMC.AeroState, include: Optional[List[str]] = None, exclude: Optional[List[str]] = None) ‑> List[float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns the total mass of each particle in the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.mixing_state"><code class="name flex">
+<span>def <span class="ident">mixing_state</span></span>(<span>self: _PyPartMC.AeroState, include: Optional[List[str]] = None, exclude: Optional[List[str]] = None, group: Optional[List[str]] = None) ‑> Tuple[float, float, float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns the mixing state parameters (chi,d_alpha,d_gamma) of the population</p></div>
 </dd>
 <dt id="PyPartMC.AeroState.particle"><code class="name flex">
 <span>def <span class="ident">particle</span></span>(<span>self: _PyPartMC.AeroState, arg0: int) ‑> _PyPartMC.AeroParticle</span>
@@ -616,6 +634,12 @@ is typically cleared each time we output data to disk.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>returns a random particle from the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.volumes"><code class="name flex">
+<span>def <span class="ident">volumes</span></span>(<span>self: _PyPartMC.AeroState, include: Optional[List[str]] = None, exclude: Optional[List[str]] = None) ‑> List[float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns the volume of each particle in the population</p></div>
 </dd>
 </dl>
 </dd>
