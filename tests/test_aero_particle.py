@@ -88,6 +88,10 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
             vol = sut.species_volume(i)
             assert vol == volume
 
+        for i, volume in enumerate(volumes):
+            vol = sut.species_volume(list(aero_data_arg[i])[0])
+            assert vol == volume
+
     @staticmethod
     def test_dry_volume():
         # arrange
@@ -245,6 +249,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
 
         # act
         sodium_mass = sut.species_mass(2)
+        check = aero_data_arg[2]["Na"][0] * volumes[2]
+
+        # assert
+        assert sodium_mass == check
+
+        sodium_mass = sut.species_mass("Na")
         check = aero_data_arg[2]["Na"][0] * volumes[2]
 
         # assert

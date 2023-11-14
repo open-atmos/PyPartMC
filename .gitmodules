@@ -50,3 +50,6 @@
 	path = gitmodules/netcdf-c
 	url = https://github.com/Unidata/netcdf-c.git
 	shallow = true
+[submodule "gitmodules/optional"]
+	path = gitmodules/optional
+	url = https://github.com/TartanLlama/optional.git

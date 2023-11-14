@@ -31,6 +31,11 @@
 
 namespace py = pybind11;
 
+namespace PYBIND11_NAMESPACE { namespace detail {
+    template <typename T>
+    struct type_caster<tl::optional<T>> : optional_caster<tl::optional<T>> {};
+}}
+
 PYBIND11_MODULE(_PyPartMC, m) {
     m.doc() = R"pbdoc(
         PyPartMC is a Python interface to PartMC.
@@ -108,7 +113,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property_readonly("volumes", AeroParticle::volumes)
         .def_property_readonly("volume", AeroParticle::volume,
             "Total volume of the particle (m^3).")
-        .def("species_volume", AeroParticle::species_volume,
+        .def("species_volume",
+            py::overload_cast<const AeroParticle &, const int &>(&AeroParticle::species_volume),
+            "Volume of a single species in the particle (m^3).")
+        .def("species_volume",
+            py::overload_cast<const AeroParticle &, const std::string &>(&AeroParticle::species_volume_by_name),
             "Volume of a single species in the particle (m^3).")
         .def_property_readonly("dry_volume", AeroParticle::dry_volume,
             "Total dry volume of the particle (m^3).")
@@ -122,7 +131,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Total dry diameter of the particle (m).")
         .def_property_readonly("mass", AeroParticle::mass,
             "Total mass of the particle (kg).")
-        .def("species_mass", AeroParticle::species_mass,
+        .def("species_mass", py::overload_cast<const AeroParticle &, const int &>(&AeroParticle::species_mass),
+            "Mass of a single species in the particle (kg).")
+        .def("species_mass", py::overload_cast<const AeroParticle &, const std::string &>(&AeroParticle::species_mass_by_name),
             "Mass of a single species in the particle (kg).")
         .def_property_readonly("species_masses", AeroParticle::species_masses,
             "Mass of all species in the particle (kg).")
@@ -187,18 +198,23 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns the total mass concentration of the population")
         .def_property_readonly("num_concs", AeroState::num_concs,
             "returns the number concentration of each particle in the population")
-        .def_property_readonly("masses", AeroState::masses,
-            "returns the total mass of each particle in the population")
-        .def_property_readonly("volumes", AeroState::volumes,
-            "returns the total volume of each particle in the population")
+        .def("masses", AeroState::masses,
+            "returns the total mass of each particle in the population",
+            py::arg("include") = py::none(), py::arg("exclude") = py::none())
+        .def("volumes", AeroState::volumes,
+            "returns the volume of each particle in the population",
+             py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def_property_readonly("dry_diameters", AeroState::dry_diameters,
             "returns the dry diameter of each particle in the population")
-        .def_property_readonly("diameters", AeroState::diameters,
-            "returns the diameter of each particle in the population")
+        .def("diameters", AeroState::diameters,
+            "returns the diameter of each particle in the population",
+            py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def("crit_rel_humids", AeroState::crit_rel_humids,
             "returns the critical relative humidity of each particle in the population")
-        .def_property_readonly("mixing_state", AeroState::mixing_state,
-            "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population")
+        .def("mixing_state", AeroState::mixing_state,
+            "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population",
+            py::arg("include") = py::none(), py::arg("exclude") = py::none(),
+            py::arg("group") = py::none())
         .def("bin_average_comp", AeroState::bin_average_comp,
             "composition-averages population using BinGrid")
         .def("particle", AeroState::get_particle,

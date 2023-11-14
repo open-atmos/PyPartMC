@@ -13,6 +13,7 @@
 #include "env_state.hpp"
 #include "bin_grid.hpp"
 #include "pybind11/stl.h"
+#include "tl/optional.hpp"
 
 extern "C" void f_aero_state_ctor(
     void *ptr
@@ -56,7 +57,11 @@ extern "C" void f_aero_state_masses(
     const void *ptr,
     const void *aero_dataptr,
     double *masses,
-    const int *n_parts
+    const int *n_parts,
+    const int *include_size,
+    const int *exclude_size,
+    void *include,
+    void *exclude
 ) noexcept;
 
 extern "C" void f_aero_state_dry_diameters(
@@ -70,14 +75,22 @@ extern "C" void f_aero_state_diameters(
     const void *ptr,
     const void *aero_dataptr,
     double *diameters,
-    const int *n_parts
+    const int *n_parts,
+    const int *include_size,
+    const int *exclude_size,
+    void *include,
+    void *exclude
 ) noexcept;
 
 extern "C" void f_aero_state_volumes(
     const void *ptr,
     const void *aero_dataptr,
     double *volumes,
-    const int *n_parts
+    const int *n_parts,
+    const int *include_size,
+    const int *exclude_size,
+    void *include,
+    void *exclude
 ) noexcept;
 
 extern "C" void f_aero_state_crit_rel_humids(
@@ -93,7 +106,13 @@ extern "C" void f_aero_state_mixing_state_metrics(
     const void *aero_data,
     double *d_alpha,
     double *d_gamma,
-    double *chi
+    double *chi,
+    const int *include_size,
+    const int *exclude_size,
+    const int *group_size,
+    void *include,
+    void *exclude,
+    void *group
 ) noexcept;
 
 extern "C" void f_aero_state_bin_average_comp(
@@ -211,7 +230,9 @@ struct AeroState {
     }
 
     static auto masses(
-        const AeroState &self
+        const AeroState &self,
+        const tl::optional<std::valarray<std::string>>&include,
+        const tl::optional<std::valarray<std::string>>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -220,12 +241,44 @@ struct AeroState {
         );
         std::valarray<double> masses(len);
 
+        const int include_size = (include.has_value()) ? include.value().size() : 0;
+        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
+
+        char **include_arr  = NULL;
+        if (include.has_value()){
+           include_arr = new char *[include_size];
+           int i = 0;
+           for (const std::string &x : include.value()){
+              include_arr[i] = new char[AERO_NAME_LEN];
+              strcpy(include_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
+        char **exclude_arr = NULL;
+        if (exclude.has_value()){
+           exclude_arr = new char *[exclude_size];
+           int i = 0;
+           for (const std::string &x : exclude.value()){
+              exclude_arr[i] = new char[AERO_NAME_LEN];
+              strcpy(exclude_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
         f_aero_state_masses(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(masses),
-            &len
+            &len,
+            &include_size,
+            &exclude_size,
+            include_arr,
+            exclude_arr
         );
+
+        delete[] include_arr;
+        delete[] exclude_arr;
 
         return masses;
     }
@@ -249,7 +302,9 @@ struct AeroState {
     }
 
     static auto diameters(
-       const AeroState &self
+       const AeroState &self,
+        const tl::optional<std::valarray<std::string>>&include,
+        const tl::optional<std::valarray<std::string>>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -258,18 +313,52 @@ struct AeroState {
         );
         std::valarray<double> diameters(len);
 
+        const int include_size = (include.has_value()) ? include.value().size() : 0;
+        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
+
+        char **include_arr  = NULL;
+        if (include.has_value()){
+           include_arr = new char *[include_size];
+           int i = 0;
+           for (const std::string &x : include.value()){
+              include_arr[i] = new char[AERO_NAME_LEN];
+              strcpy(include_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
+        char **exclude_arr = NULL;
+        if (exclude.has_value()){
+           exclude_arr = new char *[exclude_size];
+           int i = 0;
+           for (const std::string &x : exclude.value()){
+              exclude_arr[i] = new char[AERO_NAME_LEN];
+              strcpy(exclude_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
         f_aero_state_diameters(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(diameters),
-            &len
+            &len,
+            &include_size,
+            &exclude_size,
+            include_arr,
+            exclude_arr
         );
+
+        delete[] include_arr;
+        delete[] exclude_arr;
 
         return diameters;
     }
 
     static auto volumes(
-        const AeroState &self
+        const AeroState &self,
+        const tl::optional<std::valarray<std::string>>&include,
+        const tl::optional<std::valarray<std::string>>&exclude
     ) {
         int len;
         f_aero_state_len(
@@ -278,12 +367,44 @@ struct AeroState {
         );
         std::valarray<double> volumes(len);
 
+        const int include_size = (include.has_value()) ? include.value().size() : 0;
+        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
+
+        char **include_arr  = NULL;
+        if (include.has_value()){
+           include_arr = new char *[include_size];
+           int i = 0;
+           for (const std::string &x : include.value()){
+              include_arr[i] = new char[AERO_NAME_LEN];
+              strcpy(include_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
+        char **exclude_arr = NULL;
+        if (exclude.has_value()){
+           exclude_arr = new char *[exclude_size];
+           int i = 0;
+           for (const std::string &x : exclude.value()){
+              exclude_arr[i] = new char[AERO_NAME_LEN];
+              strcpy(exclude_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
         f_aero_state_volumes(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             begin(volumes),
-            &len
+            &len,
+            &include_size,
+            &exclude_size,
+            include_arr,
+            exclude_arr 
         );
+
+        delete[] include_arr;
+        delete[] exclude_arr;
 
         return volumes;
     }
@@ -311,7 +432,10 @@ struct AeroState {
     }
 
     static auto mixing_state(
-        const AeroState &self
+        const AeroState &self,
+        const tl::optional<std::valarray<std::string>>&include,
+        const tl::optional<std::valarray<std::string>>&exclude,
+        const tl::optional<std::valarray<std::string>>&group
     ) {
         int len;
         f_aero_state_len(
@@ -322,13 +446,60 @@ struct AeroState {
         double d_alpha;
         double d_gamma;
 
+        const int include_size = (include.has_value()) ? include.value().size() : 0;
+        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
+        const int group_size = (group.has_value()) ? group.value().size() : 0;
+
+        char **include_arr  = NULL;
+        if (include.has_value()){
+           include_arr = new char *[include_size];
+           int i = 0;
+           for (const std::string &x : include.value()){
+              include_arr[i] = new char[AERO_NAME_LEN];
+              strcpy(include_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
+        char **exclude_arr = NULL;
+        if (exclude.has_value()){
+           exclude_arr = new char *[exclude_size];
+           int i = 0;
+           for (const std::string &x : exclude.value()){
+              exclude_arr[i] = new char[AERO_NAME_LEN];
+              strcpy(exclude_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
+        char **group_arr = NULL;
+        if (group.has_value()){
+           group_arr = new char *[group_size];
+           int i = 0;
+           for (const std::string &x : group.value()){
+              group_arr[i] = new char[AERO_NAME_LEN];
+              strcpy(group_arr[i], x.c_str());
+              i = i + 1;
+           }
+        }
+
         f_aero_state_mixing_state_metrics(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
             &d_alpha,
             &d_gamma,
-            &chi
+            &chi,
+            &include_size,
+            &exclude_size,
+            &group_size,
+            include_arr,
+            exclude_arr,
+            group_arr
         );
+
+        delete[] include_arr;
+        delete[] exclude_arr;
+        delete[] group_arr;
 
         return std::make_tuple(d_alpha, d_gamma, chi); 
     }
@@ -395,4 +566,5 @@ struct AeroState {
        return n_part_add;
 
    }
+
 };

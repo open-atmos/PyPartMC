@@ -417,6 +417,19 @@ add_library(partmclib STATIC ${partmclib_SOURCES})
 target_compile_definitions(partmclib PRIVATE PMC_USE_SUNDIALS="1")
 target_compile_definitions(partmclib PRIVATE PMC_USE_CAMP="1")
 add_dependencies(partmclib ${SUNDIALS_items})
+
+string(CONCAT 
+  cmd
+  "import sys;"
+  "print(''.join([f'#define {line.split()[3]} {line.split()[5]}\\n' for line in sys.stdin if 'parameter ::' in line]))"
+)
+include(CheckFunctionExists)
+execute_process(
+  COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
+  INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/partmc/src/aero_data.F90
+  OUTPUT_FILE ${CMAKE_BINARY_DIR}/include/aero_data_parameters.hpp
+)
+
 target_include_directories(partmclib PRIVATE 
   ${SUNDIALS_SOURCE_DIR}/include
   ${CMAKE_BINARY_DIR}/include
@@ -443,10 +456,12 @@ add_subdirectory(gitmodules/pybind11)
 pybind11_add_module(_PyPartMC ${PyPartMC_sources})
 add_dependencies(_PyPartMC partmclib)
 set(PYPARTMC_INCLUDE_DIRS 
+  "${CMAKE_BINARY_DIR}/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/json/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/pybind11_json/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/span/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/string_view-standalone/include;"
+  "${CMAKE_SOURCE_DIR}/gitmodules/optional/include;"
 )
 target_include_directories(_PyPartMC PRIVATE ${PYPARTMC_INCLUDE_DIRS})
 target_compile_definitions(_PyPartMC PRIVATE VERSION_INFO=${VERSION_INFO})
@@ -492,6 +507,8 @@ foreach(file ${PyPartMC_headers})
   unset(CMAKE_REQUIRED_INCLUDES)
   if (NOT _header_self_contained_${file})
     message(SEND_ERROR "non-self-contained header: ${file}")
+    file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log" tmp)
+    message(FATAL_ERROR ${tmp})
   endif()
 endforeach()
 

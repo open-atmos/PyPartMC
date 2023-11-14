@@ -107,7 +107,7 @@ aero_dist = ppmc.AeroDist(
 n_part = 100
 aero_state = ppmc.AeroState(aero_data, n_part, "nummass_source")
 aero_state.dist_sample(aero_dist)
-print(np.dot(aero_state.masses, aero_state.num_concs), "# kg/m3")
+print(np.dot(aero_state.masses(), aero_state.num_concs), "# kg/m3")
 ```
 
 #### Julia
@@ -151,7 +151,7 @@ aero_dist = ppmc.AeroDist(aero_data, (
 n_part = 100
 aero_state = ppmc.AeroState(aero_data, n_part, "nummass_source")
 aero_state.dist_sample(aero_dist)
-print(aero_state.masses'aero_state.num_concs, "# kg/m3")
+print(aero_state.masses()'aero_state.num_concs, "# kg/m3")
 ```
 
 #### usage in other projects

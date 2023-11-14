@@ -95,6 +95,18 @@ struct AeroParticle {
         return vol;
     }
 
+    static auto species_volume_by_name(const AeroParticle &self, const std::string &name) {
+        double vol;
+        const int i_spec = AeroData::spec_by_name(*self.aero_data, name);
+
+        f_aero_particle_species_volume(
+            self.ptr.f_arg(),
+            &i_spec,
+            &vol
+        );
+        return vol;
+    }
+
     static auto dry_volume(const AeroParticle &self) {
         double vol;
         f_aero_particle_dry_volume(
@@ -157,6 +169,18 @@ struct AeroParticle {
 
     static auto species_mass(const AeroParticle &self, const int &i_spec) {
         double mass;
+        f_aero_particle_species_mass(
+            self.ptr.f_arg(),
+            &i_spec,
+            self.aero_data.get(),
+            &mass
+        );
+        return mass;
+    }
+
+    static auto species_mass_by_name(const AeroParticle &self, const std::string &name) {
+        double mass;
+        const int i_spec = AeroData::spec_by_name(*self.aero_data, name);
         f_aero_particle_species_mass(
             self.ptr.f_arg(),
             &i_spec,

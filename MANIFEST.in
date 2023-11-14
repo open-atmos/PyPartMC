@@ -79,6 +79,9 @@ include gitmodules/span/include/tcb/span.hpp
 include gitmodules/string_view-standalone/LICENSE
 graft gitmodules/string_view-standalone/include/bpstd
 
+include gitmodules/optional/include/tl/optional.hpp
+include gitmodules/optional/COPYING
+
 include gitmodules/netcdf-c/COPYRIGHT
 include gitmodules/netcdf-c/CMakeLists.txt
 include gitmodules/netcdf-c/config.h.cmake.in
