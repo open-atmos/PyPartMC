@@ -143,6 +143,20 @@ extern "C" void f_aero_state_add_aero_dist_sample(
     int *n_part_add
 ) noexcept;
 
+
+template <typename arr_t, typename arg_t>
+auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
+    std::vector<char*> pointer_vec(data_vec.size());
+    if (arg.has_value())
+        for (size_t i=0; i < arg.value().size(); ++i)
+            strcpy(
+                pointer_vec[i] = data_vec[i].data(),
+                arg.value()[i].c_str()
+            );
+    return pointer_vec;
+}
+
+
 struct AeroState {
     PMCResource ptr;
     std::shared_ptr<AeroData> aero_data;
@@ -231,8 +245,8 @@ struct AeroState {
 
     static auto masses(
         const AeroState &self,
-        const tl::optional<std::valarray<std::string>>&include,
-        const tl::optional<std::valarray<std::string>>&exclude
+        const tl::optional<std::valarray<std::string>> &include,
+        const tl::optional<std::valarray<std::string>> &exclude
     ) {
         int len;
         f_aero_state_len(
@@ -244,27 +258,9 @@ struct AeroState {
         const int include_size = (include.has_value()) ? include.value().size() : 0;
         const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
 
-        char **include_arr  = NULL;
-        if (include.has_value()){
-           include_arr = new char *[include_size];
-           int i = 0;
-           for (const std::string &x : include.value()){
-              include_arr[i] = new char[AERO_NAME_LEN];
-              strcpy(include_arr[i], x.c_str());
-              i = i + 1;
-           }
-        }
-
-        char **exclude_arr = NULL;
-        if (exclude.has_value()){
-           exclude_arr = new char *[exclude_size];
-           int i = 0;
-           for (const std::string &x : exclude.value()){
-              exclude_arr[i] = new char[AERO_NAME_LEN];
-              strcpy(exclude_arr[i], x.c_str());
-              i = i + 1;
-           }
-        }
+        std::vector<std::array<char, AERO_NAME_LEN>>
+            include_arr(include_size),
+            exclude_arr(exclude_size);
 
         f_aero_state_masses(
             self.ptr.f_arg(),
@@ -273,12 +269,9 @@ struct AeroState {
             &len,
             &include_size,
             &exclude_size,
-            include_arr,
-            exclude_arr
+            pointer_vec_magic(include_arr, include).data(),
+            pointer_vec_magic(exclude_arr, exclude).data()
         );
-
-        delete[] include_arr;
-        delete[] exclude_arr;
 
         return masses;
     }
@@ -302,9 +295,9 @@ struct AeroState {
     }
 
     static auto diameters(
-       const AeroState &self,
-        const tl::optional<std::valarray<std::string>>&include,
-        const tl::optional<std::valarray<std::string>>&exclude
+        const AeroState &self,
+        const tl::optional<std::valarray<std::string>> &include,
+        const tl::optional<std::valarray<std::string>> &exclude
     ) {
         int len;
         f_aero_state_len(
@@ -316,27 +309,9 @@ struct AeroState {
         const int include_size = (include.has_value()) ? include.value().size() : 0;
         const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
 
-        char **include_arr  = NULL;
-        if (include.has_value()){
-           include_arr = new char *[include_size];
-           int i = 0;
-           for (const std::string &x : include.value()){
-              include_arr[i] = new char[AERO_NAME_LEN];
-              strcpy(include_arr[i], x.c_str());
-              i = i + 1;
-           }
-        }
-
-        char **exclude_arr = NULL;
-        if (exclude.has_value()){
-           exclude_arr = new char *[exclude_size];
-           int i = 0;
-           for (const std::string &x : exclude.value()){
-              exclude_arr[i] = new char[AERO_NAME_LEN];
-              strcpy(exclude_arr[i], x.c_str());
-              i = i + 1;
-           }
-        }
+        std::vector<std::array<char, AERO_NAME_LEN>>
+            include_arr(include_size),
+            exclude_arr(exclude_size);
 
         f_aero_state_diameters(
             self.ptr.f_arg(),
@@ -345,20 +320,17 @@ struct AeroState {
             &len,
             &include_size,
             &exclude_size,
-            include_arr,
-            exclude_arr
+            pointer_vec_magic(include_arr, include).data(),
+            pointer_vec_magic(exclude_arr, exclude).data()
         );
-
-        delete[] include_arr;
-        delete[] exclude_arr;
 
         return diameters;
     }
 
     static auto volumes(
         const AeroState &self,
-        const tl::optional<std::valarray<std::string>>&include,
-        const tl::optional<std::valarray<std::string>>&exclude
+        const tl::optional<std::valarray<std::string>> &include,
+        const tl::optional<std::valarray<std::string>> &exclude
     ) {
         int len;
         f_aero_state_len(
@@ -370,27 +342,9 @@ struct AeroState {
         const int include_size = (include.has_value()) ? include.value().size() : 0;
         const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
 
-        char **include_arr  = NULL;
-        if (include.has_value()){
-           include_arr = new char *[include_size];
-           int i = 0;
-           for (const std::string &x : include.value()){
-              include_arr[i] = new char[AERO_NAME_LEN];
-              strcpy(include_arr[i], x.c_str());
-              i = i + 1;
-           }
-        }
-
-        char **exclude_arr = NULL;
-        if (exclude.has_value()){
-           exclude_arr = new char *[exclude_size];
-           int i = 0;
-           for (const std::string &x : exclude.value()){
-              exclude_arr[i] = new char[AERO_NAME_LEN];
-              strcpy(exclude_arr[i], x.c_str());
-              i = i + 1;
-           }
-        }
+        std::vector<std::array<char, AERO_NAME_LEN>>
+            include_arr(include_size),
+            exclude_arr(exclude_size);
 
         f_aero_state_volumes(
             self.ptr.f_arg(),
@@ -399,12 +353,9 @@ struct AeroState {
             &len,
             &include_size,
             &exclude_size,
-            include_arr,
-            exclude_arr 
+            pointer_vec_magic(include_arr, include).data(),
+            pointer_vec_magic(exclude_arr, exclude).data()
         );
-
-        delete[] include_arr;
-        delete[] exclude_arr;
 
         return volumes;
     }
@@ -433,9 +384,9 @@ struct AeroState {
 
     static auto mixing_state(
         const AeroState &self,
-        const tl::optional<std::valarray<std::string>>&include,
-        const tl::optional<std::valarray<std::string>>&exclude,
-        const tl::optional<std::valarray<std::string>>&group
+        const tl::optional<std::valarray<std::string>> &include,
+        const tl::optional<std::valarray<std::string>> &exclude,
+        const tl::optional<std::valarray<std::string>> &group
     ) {
         int len;
         f_aero_state_len(
@@ -450,38 +401,10 @@ struct AeroState {
         const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
         const int group_size = (group.has_value()) ? group.value().size() : 0;
 
-        char **include_arr  = NULL;
-        if (include.has_value()){
-           include_arr = new char *[include_size];
-           int i = 0;
-           for (const std::string &x : include.value()){
-              include_arr[i] = new char[AERO_NAME_LEN];
-              strcpy(include_arr[i], x.c_str());
-              i = i + 1;
-           }
-        }
-
-        char **exclude_arr = NULL;
-        if (exclude.has_value()){
-           exclude_arr = new char *[exclude_size];
-           int i = 0;
-           for (const std::string &x : exclude.value()){
-              exclude_arr[i] = new char[AERO_NAME_LEN];
-              strcpy(exclude_arr[i], x.c_str());
-              i = i + 1;
-           }
-        }
-
-        char **group_arr = NULL;
-        if (group.has_value()){
-           group_arr = new char *[group_size];
-           int i = 0;
-           for (const std::string &x : group.value()){
-              group_arr[i] = new char[AERO_NAME_LEN];
-              strcpy(group_arr[i], x.c_str());
-              i = i + 1;
-           }
-        }
+        std::vector<std::array<char, AERO_NAME_LEN>>
+            include_arr(include_size),
+            exclude_arr(exclude_size),
+            group_arr(group_size);
 
         f_aero_state_mixing_state_metrics(
             self.ptr.f_arg(),
@@ -492,14 +415,10 @@ struct AeroState {
             &include_size,
             &exclude_size,
             &group_size,
-            include_arr,
-            exclude_arr,
-            group_arr
+            pointer_vec_magic(include_arr, include).data(),
+            pointer_vec_magic(exclude_arr, exclude).data(),
+            pointer_vec_magic(group_arr, group).data()
         );
-
-        delete[] include_arr;
-        delete[] exclude_arr;
-        delete[] group_arr;
 
         return std::make_tuple(d_alpha, d_gamma, chi); 
     }
@@ -554,17 +473,16 @@ struct AeroState {
        int n_part_add = 0;
 
        f_aero_state_add_aero_dist_sample(
-       self.ptr.f_arg(),
-       self.aero_data->ptr.f_arg(),
-       aero_dist.ptr.f_arg(),
-       &sample_prop,
-       &create_time,
-       &allow_doubling,
-       &allow_halving,
-       &n_part_add
+           self.ptr.f_arg(),
+           self.aero_data->ptr.f_arg(),
+           aero_dist.ptr.f_arg(),
+           &sample_prop,
+           &create_time,
+           &allow_doubling,
+           &allow_halving,
+           &n_part_add
        );
        return n_part_add;
-
    }
 
 };
