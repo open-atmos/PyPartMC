@@ -500,7 +500,9 @@ foreach(file ${PyPartMC_headers})
   string(REGEX REPLACE "[\-./:]" "_" file_var ${file})
   check_cxx_source_compiles("
       // https://github.com/nlohmann/json/issues/1408
-      //#define HAVE_SNPRINTF
+      #if defined(_WIN32) || defined(_WIN64)
+      #  define HAVE_SNPRINTF
+      #endif
       #include \"${file}\"
       int main() { return 0;}
     "
