@@ -500,7 +500,9 @@ foreach(file ${PyPartMC_headers})
   string(REGEX REPLACE "[\-./]" "_" file_var ${file})
   check_cxx_source_compiles("
       // https://github.com/nlohmann/json/issues/1408
-      #define HAVE_SNPRINTF 
+      #if !defined(HAVE_SNPRINTF)
+      #  define HAVE_SNPRINTF
+      #endif
       #include \"${file}\"
       int main() { return 0;}
     "
@@ -510,7 +512,11 @@ foreach(file ${PyPartMC_headers})
   unset(CMAKE_REQUIRED_FLAGS)
   if (NOT _header_self_contained_${file_var})
     message(SEND_ERROR "non-self-contained header: ${file}")
-    file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log" tmp)
+    if (${CMAKE_VERSION} VERSION_LESS "3.26.0")
+      file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log" tmp)
+    else()
+      file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeConfigureLog.yaml" tmp)
+    endif()
     message(FATAL_ERROR ${tmp})
   endif()
   unset(file_var)
