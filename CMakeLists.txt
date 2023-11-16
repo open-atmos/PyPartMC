@@ -497,7 +497,7 @@ endif()
 foreach(file ${PyPartMC_headers})
   set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS};${pybind11_INCLUDE_DIRS}")
   set(CMAKE_REQUIRED_FLAGS "-Werror")
-  string(REGEX REPLACE "[\-./]" "_" file_var ${file})
+  string(REGEX REPLACE "[\-./:]" "_" file_var ${file})
   check_cxx_source_compiles("
       // https://github.com/nlohmann/json/issues/1408
       //#define HAVE_SNPRINTF
