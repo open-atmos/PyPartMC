@@ -129,8 +129,8 @@ setup(
         "version_scheme": "post-release",
         # "fallback_version": "0.0.0"
     },
-    author="Sylwester Arabas",
-    author_email="sarabas@illinois.edu",
+    author="PyPartMC team (see https://github.com/open-atmos/PyPartMC/graphs/contributors)",
+    author_email="nriemer@illinois.edu",
     description="Python interface to PartMC",
     long_description=(Path(__file__).parent / "README.md").read_text(),
     long_description_content_type="text/markdown",
