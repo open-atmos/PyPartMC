@@ -4,3 +4,4 @@ ipywidgets
 voila
 open-atmos-jupyter-utils
 PySDM
+PyMieScatt
