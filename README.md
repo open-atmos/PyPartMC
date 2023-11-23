@@ -154,6 +154,14 @@ aero_state.dist_sample(aero_dist)
 print(aero_state.masses()'aero_state.num_concs, "# kg/m3")
 ```
 
+####
+````Matlab
+ppmc = py.importlib.import_module('PyPartMC');
+si = py.importlib.import_module('PyPartMC').si;
+
+n_part = 100;
+````
+
 #### usage in other projects
 
 PyPartMC is used within the [test workflow of the PySDM project](https://github.com/atmos-cloud-sim-uj/PySDM/tree/main/tests/smoke_tests/box/partmc).
