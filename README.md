@@ -193,9 +193,9 @@ aero_dist = ppmc.AeroDist(aero_data, py.tuple({ ...
 n_part = 100;
 aero_state = ppmc.AeroState(aero_data, n_part, "nummass_source");
 aero_state.dist_sample(aero_dist);
-masses = cell(aero_state.masses())
-num_concs = cell(aero_state.num_concs)
-disp([dot([masses{:}], [num_concs{:}]), "# kg/m3"])
+masses = cell(aero_state.masses());
+num_concs = cell(aero_state.num_concs);
+fprintf('%g # kg/m3\n', dot([masses{:}], [num_concs{:}]))
 ````
 
 #### usage in other projects
