@@ -159,6 +159,12 @@ print(aero_state.masses()'aero_state.num_concs, "# kg/m3")
 ppmc = py.importlib.import_module('PyPartMC');
 si = py.importlib.import_module('PyPartMC').si;
 
+aero_data = ppmc.AeroData(py.tuple({
+  # (density, ions in solution, molecular weight, kappa)
+  py.dict(pyargs("OC", py.tuple({1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001}))),
+  py.dict(pyargs("BC", py.tuple({1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0})))
+}));
+
 n_part = 100;
 ````
 
