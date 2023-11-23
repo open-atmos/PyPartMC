@@ -168,9 +168,8 @@ jobs:
           for i in dist/*.whl; do pip install $i[tests]; done;
           pip show --verbose PyPartMC
 
-      ### make sure PyPartMC is not picked up from a local folder
       - run: |
-          cd tests
+          cd tests # make sure PyPartMC is not picked up from a local folder
           python -c "import PyPartMC"
           pytest --durations=10 -v -s -We -p no:unraisableexception .
           cd ..
