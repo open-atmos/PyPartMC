@@ -1,4 +1,3 @@
-files: '.py'
 exclude: '.git'
 default_stages: [commit]
 
