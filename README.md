@@ -62,7 +62,7 @@ import PyPartMC
 ## Usage examples
 
 The listings below depict how the identical task of randomly sampling particles from an aerosol size distribution in PartMC can be
-done in three different programming languages.
+done in different programming languages.
 
 For a Fortran equivalent of the Python, Julia and Matlab programs below, see the [`readme_fortran` folder](https://github.com/open-atmos/PyPartMC/tree/main/readme_fortran).
 
