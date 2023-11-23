@@ -143,8 +143,8 @@ jobs:
 
       - uses: matlab-actions/run-command@v0
         with:
-          startup-options: -nojvm -logfile "readme_output/matlab.txt"
-          command: readme
+          startup-options: -nojvm
+          command: diary('readme_output/matlab.txt'), readme
 
       - uses: actions/upload-artifact@v2
         with:
