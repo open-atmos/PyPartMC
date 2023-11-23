@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: "PyPartMC"
+url: "https://github.com/open-atmos/PyPartMC"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "D'Aquino"
+    given-names: "Zachary"
+    orcid: "https://orcid.org/0000-0002-4712-8015"
+  - family-names: "Arabas"
+    given-names: "Sylwester"
+    orcid: "https://orcid.org/0000-0003-2361-0082"
+  - family-names: "Curtis"
+    given-names: "Jeffrey"
+    orcid: "https://orcid.org/0000-0002-1447-2127"
+  - family-names: "Vaishnav"
+    given-names: "Akshunna"
+  - family-names: "Riemer"
+    given-names: "Nicole"
+    orcid: "https://orcid.org/0000-0002-3220-3457"
+  - family-names: "West"
+    given-names: "Matthew"
+  doi: "10.48550/arXiv.2308.02052"
+  journal: "arXiv"
+  title: "PyPartMC: A Pythonic interface to a particle-resolved, Monte Carlo aerosol simulation framework"
+  year: 2023
