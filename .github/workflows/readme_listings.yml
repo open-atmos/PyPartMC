@@ -139,6 +139,15 @@ jobs:
         with:
           release: R2022a
 
+      - run: mkdir readme_output
+
       - uses: matlab-actions/run-command@v0
         with:
+          startup-options: -nojvm -logfile "readme_output/matlab.txt"
           command: readme
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: readme_output
+          path: readme_output
+
