@@ -5,7 +5,7 @@
 PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation.
 PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals.
-The Python API can facilitate using PartMC from other environments - see, e.g., Julia example below.
+The Python API can facilitate using PartMC from other environments - see, e.g., Julia and Matlab examples below.
 
 For an outline of the project, rationale, architecture, and features, refer to: [D'Aquino et al., 2023 (arXiv)](https://doi.org/10.48550/arXiv.2308.02052) (please cite if PyPartMC is used in your research).
 For a list of talks and other relevant resources, please see [project Wiki](https://github.com/open-atmos/PyPartMC/wiki/).
@@ -52,7 +52,7 @@ import PyPartMC
 - ships with [a set of examples](https://github.com/open-atmos/PyPartMC/tree/main/examples) maintained in a form of Jupyter notebooks
 - Pythonic API (but retaining PartMC jargon) incl. Python GC deallocation of Fortran objects
 - specification of parameters using native Python datatypes (lists, dicts) in place of PartMC spec files
-- code snippets in README depicting how to use PyPartMC from Julia (also executed on CI)
+- code snippets in README depicting how to use PyPartMC from Julia and Matlab (also executed on CI)
 - auto-generated [API docs on the web](https://open-atmos.github.io/PyPartMC/)
 - support for [de]serialization of selected wrapped structures using JSON 
 - based on [unmodified PartMC code](https://github.com/open-atmos/PyPartMC/tree/main/gitmodules)
@@ -64,7 +64,7 @@ import PyPartMC
 The listings below depict how the identical task of randomly sampling particles from an aerosol size distribution in PartMC can be
 done in three different programming languages.
 
-For a Fortran equivalent of the Python and Julia programs below, see the [`readme_fortran` folder](https://github.com/open-atmos/PyPartMC/tree/main/readme_fortran).
+For a Fortran equivalent of the Python, Julia and Matlab programs below, see the [`readme_fortran` folder](https://github.com/open-atmos/PyPartMC/tree/main/readme_fortran).
 
 #### Python
 
@@ -182,10 +182,14 @@ flowchart TD
     subgraph J ["Julia"]
         julia_user_code["Julia user code"] --> PyCall.jl
     end
+    subgraph M ["Matlab"]
+        matlab_user_code["Matlab user code"] --> matlab_python["Matlab built-in\nPython interface"]
+    end
     subgraph P ["Python"]
-        PyCall.jl --> PyPartMC
         python_user_code -.-> NumPy
-        python_user_code["Python user code"] ---> PyPartMC["pubind11-generated PyPartMC module"]
+        python_user_code["Python user code"] ---> PyPartMC["pubind11-generated\nPyPartMC module"]
+        matlab_python --> PyPartMC
+        PyCall.jl --> PyPartMC
     end
     subgraph Cpp ["C++"]
         cpp_user_code["C++ user code"] ----> ppmc_cpp
