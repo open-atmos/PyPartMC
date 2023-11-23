@@ -95,7 +95,7 @@ jobs:
 
   assert:
     runs-on: ubuntu-latest
-    needs: [julia, python, matlab-draft, fortran]
+    needs: [julia, python, matlab, fortran]
     steps:
     - uses: actions/setup-python@v2
     - run: pip install numpy
