@@ -110,7 +110,7 @@ aero_state.dist_sample(aero_dist)
 print(np.dot(aero_state.masses(), aero_state.num_concs), "# kg/m3")
 ```
 
-#### Julia
+#### Julia (using [PyCall.jl](https://github.com/JuliaPy/PyCall.jl))
 ```Julia
 using Pkg
 Pkg.add("PyCall")
@@ -154,7 +154,8 @@ aero_state.dist_sample(aero_dist)
 print(aero_state.masses()'aero_state.num_concs, "# kg/m3")
 ```
 
-####
+#### Matlab (using [Matlab's built-in Python interface](https://www.mathworks.com/help/matlab/python-language.html))
+
 ````Matlab
 ppmc = py.importlib.import_module('PyPartMC');
 si = py.importlib.import_module('PyPartMC').si;
