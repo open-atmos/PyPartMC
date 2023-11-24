@@ -5,7 +5,7 @@
 PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation.
 PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals.
-The Python API can facilitate using PartMC from other environments - see, e.g., Julia example below.
+The Python API can facilitate using PartMC from other environments - see, e.g., Julia and Matlab examples below.
 
 For an outline of the project, rationale, architecture, and features, refer to: [D'Aquino et al., 2023 (arXiv)](https://doi.org/10.48550/arXiv.2308.02052) (please cite if PyPartMC is used in your research).
 For a list of talks and other relevant resources, please see [project Wiki](https://github.com/open-atmos/PyPartMC/wiki/).
@@ -52,7 +52,7 @@ import PyPartMC
 - ships with [a set of examples](https://github.com/open-atmos/PyPartMC/tree/main/examples) maintained in a form of Jupyter notebooks
 - Pythonic API (but retaining PartMC jargon) incl. Python GC deallocation of Fortran objects
 - specification of parameters using native Python datatypes (lists, dicts) in place of PartMC spec files
-- code snippets in README depicting how to use PyPartMC from Julia (also executed on CI)
+- code snippets in README depicting how to use PyPartMC from Julia and Matlab (also executed on CI)
 - auto-generated [API docs on the web](https://open-atmos.github.io/PyPartMC/)
 - support for [de]serialization of selected wrapped structures using JSON 
 - based on [unmodified PartMC code](https://github.com/open-atmos/PyPartMC/tree/main/gitmodules)
@@ -62,9 +62,9 @@ import PyPartMC
 ## Usage examples
 
 The listings below depict how the identical task of randomly sampling particles from an aerosol size distribution in PartMC can be
-done in three different programming languages.
+done in different programming languages.
 
-For a Fortran equivalent of the Python and Julia programs below, see the [`readme_fortran` folder](https://github.com/open-atmos/PyPartMC/tree/main/readme_fortran).
+For a Fortran equivalent of the Python, Julia and Matlab programs below, see the [`readme_fortran` folder](https://github.com/open-atmos/PyPartMC/tree/main/readme_fortran).
 
 #### Python
 
@@ -110,7 +110,7 @@ aero_state.dist_sample(aero_dist)
 print(np.dot(aero_state.masses(), aero_state.num_concs), "# kg/m3")
 ```
 
-#### Julia
+#### Julia (using [PyCall.jl](https://github.com/JuliaPy/PyCall.jl))
 ```Julia
 using Pkg
 Pkg.add("PyCall")
@@ -154,6 +154,51 @@ aero_state.dist_sample(aero_dist)
 print(aero_state.masses()'aero_state.num_concs, "# kg/m3")
 ```
 
+#### Matlab (using [Matlab's built-in Python interface](https://www.mathworks.com/help/matlab/python-language.html))
+
+````Matlab
+ppmc = py.importlib.import_module('PyPartMC');
+si = py.importlib.import_module('PyPartMC').si;
+
+aero_data = ppmc.AeroData(py.tuple({ ...
+  py.dict(pyargs("OC", py.tuple({1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001}))), ...
+  py.dict(pyargs("BC", py.tuple({1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0}))) ...
+}));
+
+aero_dist = ppmc.AeroDist(aero_data, py.tuple({ ...
+  py.dict(pyargs( ...
+    "cooking", py.dict(pyargs( ...
+      "mass_frac", py.tuple({py.dict(pyargs("OC", py.tuple({1})))}), ...
+      "diam_type", "geometric", ...
+      "mode_type", "log_normal", ...
+      "num_conc", 3200 / si.cm^3, ...
+      "geom_mean_diam", 8.64 * si.nm, ...
+      "log10_geom_std_dev", .28 ...
+    )) ...
+  )), ...
+  py.dict(pyargs( ... 
+    "diesel", py.dict(pyargs( ...
+      "mass_frac", py.tuple({ ...
+        py.dict(pyargs("OC", py.tuple({.3}))), ...
+        py.dict(pyargs("BC", py.tuple({.7}))), ...
+      }), ...
+      "diam_type", "geometric", ...
+      "mode_type", "log_normal", ...
+      "num_conc", 2900 / si.cm^3, ...
+      "geom_mean_diam", 50 * si.nm, ...
+      "log10_geom_std_dev", .24 ...
+    )) ...
+  )) ...
+}));
+
+n_part = 100;
+aero_state = ppmc.AeroState(aero_data, n_part, "nummass_source");
+aero_state.dist_sample(aero_dist);
+masses = cell(aero_state.masses());
+num_concs = cell(aero_state.num_concs);
+fprintf('%g # kg/m3\n', dot([masses{:}], [num_concs{:}]))
+````
+
 #### usage in other projects
 
 PyPartMC is used within the [test workflow of the PySDM project](https://github.com/atmos-cloud-sim-uj/PySDM/tree/main/tests/smoke_tests/box/partmc).
@@ -174,10 +219,14 @@ flowchart TD
     subgraph J ["Julia"]
         julia_user_code["Julia user code"] --> PyCall.jl
     end
+    subgraph M ["Matlab"]
+        matlab_user_code["Matlab user code"] --> matlab_python["Matlab built-in\nPython interface"]
+    end
     subgraph P ["Python"]
-        PyCall.jl --> PyPartMC
         python_user_code -.-> NumPy
-        python_user_code["Python user code"] ---> PyPartMC["pubind11-generated PyPartMC module"]
+        python_user_code["Python user code"] ---> PyPartMC["pubind11-generated\nPyPartMC module"]
+        matlab_python --> PyPartMC
+        PyCall.jl --> PyPartMC
     end
     subgraph Cpp ["C++"]
         cpp_user_code["C++ user code"] ----> ppmc_cpp
