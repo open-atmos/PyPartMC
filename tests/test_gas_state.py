@@ -130,3 +130,16 @@ class TestGasState:
         for i_spec in range(gas_data.n_spec):
             if not i_spec in idx_set:
                 assert sut[i_spec] == 0
+
+    @staticmethod
+    def test_set_mix_rats_empty():
+        # arrange
+        gas_data = ppmc.GasData(("SO2",))
+        sut = ppmc.GasState(gas_data)
+
+        # act
+        with pytest.raises(RuntimeError) as excinfo:
+            sut.mix_rats = ()
+
+        # assert
+        assert str(excinfo.value) == "Non-empty sequence of mixing ratios expected"
