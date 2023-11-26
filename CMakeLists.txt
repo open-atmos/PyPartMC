@@ -428,11 +428,13 @@ string(CONCAT
   "print(''.join([f'#define {line.split()[3]} {line.split()[5]}\\n' for line in sys.stdin if 'parameter ::' in line]))"
 )
 include(CheckFunctionExists)
-execute_process(
-  COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
-  INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/partmc/src/aero_data.F90
-  OUTPUT_FILE ${CMAKE_BINARY_DIR}/include/aero_data_parameters.hpp
-)
+foreach(file aero_data;output)
+  execute_process(
+    COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
+    INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/partmc/src/${file}.F90
+    OUTPUT_FILE ${CMAKE_BINARY_DIR}/include/${file}_parameters.hpp
+  )
+endforeach()
 
 target_include_directories(partmclib PRIVATE 
   ${SUNDIALS_SOURCE_DIR}/include

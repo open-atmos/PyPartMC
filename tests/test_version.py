@@ -4,8 +4,27 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import pytest
+
 import PyPartMC as ppmc
 
 
 def test_version():
-    print(ppmc.__version__)
+    assert 3 < len(ppmc.__version__) < 20
+
+
+@pytest.mark.parametrize(
+    "pkg",
+    (
+        "PartMC",
+        "pybind11",
+    ),
+)
+def test_versions_of_build_time_dependencies(pkg):
+    sut = ppmc.__versions_of_build_time_dependencies__
+    assert 3 < len(sut[pkg]) < 20
+    assert '"' not in sut[pkg]
+
+
+def test_versions_of_build_time_dependencies_printable():
+    print(ppmc.__versions_of_build_time_dependencies__)
