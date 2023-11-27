@@ -20,7 +20,9 @@ module PyPartMC_run_part
     aero_state_ptr_c, &
     gas_data_ptr_c, &
     gas_state_ptr_c, &
-    run_part_opt_ptr_c &
+    run_part_opt_ptr_c, &
+    camp_core_ptr_c, &
+    photolysis_ptr_c &
   ) bind(C)
 
     type(c_ptr), intent(in) :: scenario_ptr_c
@@ -44,6 +46,11 @@ module PyPartMC_run_part
     type(c_ptr), intent(in) :: run_part_opt_ptr_c
     type(run_part_opt_t), pointer :: run_part_opt_ptr_f => null()
 
+    type(c_ptr), intent(in) :: camp_core_ptr_c
+    type(camp_core_t), pointer :: camp_core_ptr_f => null()
+    type(c_ptr), intent(in) :: photolysis_ptr_c
+    type(photolysis_t), pointer :: photolysis_ptr_f => null()
+
     call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
     call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
@@ -51,11 +58,8 @@ module PyPartMC_run_part
     call c_f_pointer(gas_data_ptr_c, gas_data_ptr_f)
     call c_f_pointer(gas_state_ptr_c, gas_state_ptr_f)
     call c_f_pointer(run_part_opt_ptr_c, run_part_opt_ptr_f)
-
-    if (env_state_ptr_f%elapsed_time < run_part_opt_ptr_f%del_t) then
-       call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
-            run_part_opt_ptr_f%do_optical)
-    end if
+    call c_f_pointer(camp_core_ptr_c, camp_core_ptr_f)
+    call c_f_pointer(photolysis_ptr_c, photolysis_ptr_f)
 
     call run_part( &
       scenario_ptr_f, &
@@ -64,7 +68,9 @@ module PyPartMC_run_part
       aero_state_ptr_f, &
       gas_data_ptr_f, &
       gas_state_ptr_f, &
-      run_part_opt_ptr_f &
+      run_part_opt_ptr_f, &
+      camp_core_ptr_f, &
+      photolysis_ptr_f &
     )
 
   end subroutine
