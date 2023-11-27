@@ -117,8 +117,13 @@ struct GasState {
     }
 
     static void set_mix_rats(const GasState &self, const nlohmann::json &json) {
+        if (json.size() == 0)
+            throw std::runtime_error("Non-empty sequence of mixing ratios expected");
+
         GimmickGuard<InputGimmick> guard(json);
-        f_gas_state_from_json(self.ptr.f_arg(),
-             self.gas_data->ptr.f_arg());
+        f_gas_state_from_json(
+            self.ptr.f_arg(),
+            self.gas_data->ptr.f_arg()
+        );
     }
 };
