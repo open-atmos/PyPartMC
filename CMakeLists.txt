@@ -101,6 +101,7 @@ set(camp_SOURCES
   rxns/rxn_CMAQ_OH_HNO3.F90
   rxns/rxn_condensed_phase_arrhenius.c 
   rxns/rxn_condensed_phase_arrhenius.F90
+  rxns/rxn_condensed_phase_photolysis.c
   rxns/rxn_condensed_phase_photolysis.F90
   rxns/rxn_emission.c 
   rxns/rxn_emission.F90
