@@ -113,6 +113,7 @@ set(camp_SOURCES
   rxns/rxn_SIMPOL_phase_transfer.c 
   rxns/rxn_SIMPOL_phase_transfer.F90
   rxns/rxn_surface.F90
+  rxns/rxn_surface.c
   rxns/rxn_troe.c 
   rxns/rxn_troe.F90
   rxns/rxn_wennberg_no_ro2.c 
