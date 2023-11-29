@@ -80,12 +80,17 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>())
-        .def("spec_by_name", AeroData::spec_by_name)
-        .def("__len__", AeroData::__len__)
-        .def_property_readonly("n_source", AeroData::n_source)
-        .def_property("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim)
-        .def_property("vol_fill_factor", &AeroData::get_vol_fill_factor, &AeroData::set_vol_fill_factor)
-        .def_property("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius)
+        .def("spec_by_name", AeroData::spec_by_name,
+             "Returns the number of the species in AeroData with the given name")
+        .def("__len__", AeroData::__len__, "Number of aerosol species")
+        .def_property_readonly("n_source", AeroData::n_source,
+             "Number of aerosol sources")
+        .def_property("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim,
+             "Volume fractal dimension (1)")
+        .def_property("vol_fill_factor", &AeroData::get_vol_fill_factor,
+             &AeroData::set_vol_fill_factor, "Volume filling factor (1)")
+        .def_property("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius,
+            "Radius of primary particles (m)")
         .def_property_readonly("densities", &AeroData::densities,
             "Return array of aerosol species densities")
         .def("density", &AeroData::density, "Return density of an aerosol species")
@@ -110,7 +115,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<std::shared_ptr<AeroData>, const std::valarray<double>&>())
-        .def_property_readonly("volumes", AeroParticle::volumes)
+        .def_property_readonly("volumes", AeroParticle::volumes,
+            "Constituent species volumes (m^3)")
         .def_property_readonly("volume", AeroParticle::volume,
             "Total volume of the particle (m^3).")
         .def("species_volume",
@@ -191,7 +197,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<std::shared_ptr<AeroData>, const double, const std::string>())
-        .def("__len__", AeroState::__len__)
+        .def("__len__", AeroState::__len__,
+            "returns current number of particles")
         .def_property_readonly("total_num_conc", AeroState::total_num_conc,
             "returns the total number concentration of the population")
         .def_property_readonly("total_mass_conc", AeroState::total_mass_conc,
@@ -212,7 +219,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("crit_rel_humids", AeroState::crit_rel_humids,
             "returns the critical relative humidity of each particle in the population")
         .def("mixing_state", AeroState::mixing_state,
-            "returns the mixing state parameters (chi,d_alpha,d_gamma) of the population",
+            "returns the mixing state parameters (d_alpha, d_gamma, chi) of the population",
             py::arg("include") = py::none(), py::arg("exclude") = py::none(),
             py::arg("group") = py::none())
         .def("bin_average_comp", AeroState::bin_average_comp,
@@ -239,7 +246,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const py::tuple&>())
-        .def("__len__", GasData::__len__)
+        .def("__len__", GasData::__len__,
+            "returns number of gas species")
         .def_property_readonly("n_spec", GasData::__len__)
         .def("__str__", GasData::__str__,
             "returns a string with JSON representation of the object")
@@ -269,8 +277,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns time since start_time (s).")
         .def_property_readonly("start_time", EnvState::get_start_time,
             "returns start time (s since 00:00 UTC on start_day)")
-        .def_property("height", &EnvState::get_height, &EnvState::set_height)
-        .def_property("pressure", &EnvState::get_pressure, &EnvState::set_pressure)
+        .def_property("height", &EnvState::get_height, &EnvState::set_height,
+            "Box height (m)")
+        .def_property("pressure", &EnvState::get_pressure, &EnvState::set_pressure,
+            "Ambient pressure (Pa)")
     ;
 
     py::class_<Photolysis>(m,
@@ -321,14 +331,17 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns aero_emissions AeroDists at a given index")
         .def_property_readonly("aero_emissions_n_times", Scenario::get_emissions_n_times,
             "returns the number of times specified for emissions")
-        .def_property_readonly("aero_emissions_rate_scale", Scenario::emission_rate_scale)
+        .def_property_readonly("aero_emissions_rate_scale", Scenario::emission_rate_scale,
+            "Aerosol emission rate scales at set-points (1)")
         .def_property_readonly("aero_emissions_time", Scenario::emission_time)
         .def("aero_background", Scenario::get_aero_background_dist,
             "returns aero_background AeroDists at a given index")
         .def_property_readonly("aero_dilution_n_times", Scenario::get_aero_dilution_n_times,
             "returns the number of times specified for dilution")
-        .def_property_readonly("aero_dilution_rate", Scenario::aero_dilution_rate)
-        .def_property_readonly("aero_dilution_time", Scenario::aero_dilution_time)
+        .def_property_readonly("aero_dilution_rate", Scenario::aero_dilution_rate,
+            "Aerosol-background dilution rates at set-points (s^{-1})")
+        .def_property_readonly("aero_dilution_time", Scenario::aero_dilution_time,
+            "Aerosol-background dilution set-point times (s)")
 
     ;
 
@@ -352,8 +365,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
         //.def("__setitem__", GasState::set_items)
         .def("__getitem__", GasState::get_item)
         //.def("__getitem__", GasState::get_items)
-        .def("__len__", GasState::__len__)
-        .def_property_readonly("n_spec", GasState::__len__)
+        .def("__len__", GasState::__len__, "returns number of gas species")
+        .def_property_readonly("n_spec", GasState::__len__,
+            "returns number of gas species")
         .def("__str__", GasState::__str__,
             "returns a string with JSON representation of the object")
         .def("set_size", GasState::set_size,
@@ -375,7 +389,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     py::class_<BinGrid>(m,"BinGrid")
         .def(py::init<const double, const py::str, const double, const double>())
-        .def("__len__", BinGrid::__len__)
+        .def("__len__", BinGrid::__len__, "returns number of bins")
         .def_property_readonly("edges", BinGrid::edges, "Bin edges")
         .def_property_readonly("centers", BinGrid::centers, "Bin centers")
     ;
@@ -387,22 +401,27 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("num_dist", &AeroMode::num_dist,
              "returns the binned number concenration of a mode")
         .def_property("vol_frac", &AeroMode::get_vol_frac,
-             &AeroMode::set_vol_frac)
+             &AeroMode::set_vol_frac, "Species fractions by volume")
         .def_property("vol_frac_std", &AeroMode::get_vol_frac_std,
-             &AeroMode::set_vol_frac_std)
+             &AeroMode::set_vol_frac_std, "Species fraction standard deviation")
         .def_property("char_radius", &AeroMode::get_char_radius,
-             &AeroMode::set_char_radius)
+             &AeroMode::set_char_radius,
+             "Characteristic radius, with meaning dependent on mode type (m)")
         .def_property("gsd", &AeroMode::get_gsd,
-             &AeroMode::set_gsd)
+             &AeroMode::set_gsd, "Geometric standard deviation")
         .def("set_sample", &AeroMode::set_sampled)
-        .def_property("type", &AeroMode::get_type, &AeroMode::set_type)
-        .def_property("name", &AeroMode::get_name, &AeroMode::set_name)
+        .def_property("type", &AeroMode::get_type, &AeroMode::set_type,
+             "Mode type (given by module constants)")
+        .def_property("name", &AeroMode::get_name, &AeroMode::set_name,
+             "Mode name, used to track particle sources")
     ;
 
     py::class_<AeroDist>(m,"AeroDist")
         .def(py::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
-        .def_property_readonly("n_mode", &AeroDist::get_n_mode)
-        .def_property_readonly("num_conc", &AeroDist::get_total_num_conc)
+        .def_property_readonly("n_mode", &AeroDist::get_n_mode,
+            "Number of aerosol modes")
+        .def_property_readonly("num_conc", &AeroDist::get_total_num_conc,
+            "Total number concentration of a distribution (#/m^3)")
         .def("mode", AeroDist::get_mode,
             "returns the mode of a given index")
     ;
