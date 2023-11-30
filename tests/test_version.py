@@ -18,6 +18,8 @@ def test_version():
     (
         "PartMC",
         "pybind11",
+        "CAMP",
+        "SUNDIALS",
     ),
 )
 def test_versions_of_build_time_dependencies(pkg):

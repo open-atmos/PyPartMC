@@ -8,6 +8,8 @@
 #include "nlohmann/json.hpp"
 #include "pybind11_json/pybind11_json.hpp"
 #include "pybind11/complex.h"
+#include "sundials/sundials_config.h"
+#include "camp/version.h"
 
 #include "util.hpp"
 #include "rand.hpp"
@@ -475,9 +477,11 @@ PYBIND11_MODULE(_PyPartMC, m) {
     auto vobtd = py::dict();
     vobtd["pybind11"] = MACRO_STRINGIFY(PYBIND11_VERSION_MAJOR) "." MACRO_STRINGIFY(PYBIND11_VERSION_MINOR) "." MACRO_STRINGIFY(PYBIND11_VERSION_PATCH);
     vobtd["PartMC"] = PARTMC_VERSION;
+    vobtd["SUNDIALS"] = SUNDIALS_VERSION;
+    vobtd["CAMP"] = CAMP_VERSION;
     // TODO #164
-    // - should we also expose git hashes?
-    // - more submodules (CAMP, netCDF, ...)
+    // - expose git hashes?
+    // - more submodules (netCDF, ...)
     m.attr("__versions_of_build_time_dependencies__") = vobtd;
 
     m.attr("__all__") = py::make_tuple(
