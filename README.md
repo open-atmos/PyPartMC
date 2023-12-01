@@ -278,6 +278,13 @@ flowchart TD
 - Q: Why some of the constructors expect data to be passed as **lists of single-entry dictionaries** instead of multi-element dictionaries?    
   A: This is intentional and related with PartMC relying on the order of elements within spec-file input; while Python dictionaries preserve ordering (insertion order), JSON format does not, and we intend to make these data structures safe to be [de]serialized using JSON.   
 
+- Q: How to check the version of PartMC that PyPartMC was compiled against?    
+  A: Version numbers of compile-time dependencies of PyPartMC, including PartMC, can be accessed as follows:
+```Python
+import PyPartMC
+PyPartMC.__versions_of_build_time_dependencies__['PartMC']
+```
+
 ## Troubleshooting 
 
 #### Common installation issues 

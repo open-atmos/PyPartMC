@@ -3,6 +3,7 @@ graft gitmodules/partmc/src
 include gitmodules/partmc/src/condense_solver.c
 
 include gitmodules/camp/COPYING
+include gitmodules/camp/CMakeLists.txt
 graft gitmodules/camp/src
 
 include gitmodules/json-fortran/LICENSE
