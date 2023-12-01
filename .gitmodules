@@ -28,7 +28,7 @@
 	shallow = true
 [submodule "gitmodules/camp"]
 	path = gitmodules/camp
-	url = https://github.com/zdaq12/camp
+	url = https://github.com/open-atmos/camp
 	shallow = true
 [submodule "gitmodules/SuiteSparse"]
 	path = gitmodules/SuiteSparse

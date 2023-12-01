@@ -101,6 +101,8 @@ set(camp_SOURCES
   rxns/rxn_CMAQ_OH_HNO3.F90
   rxns/rxn_condensed_phase_arrhenius.c 
   rxns/rxn_condensed_phase_arrhenius.F90
+  rxns/rxn_condensed_phase_photolysis.c
+  rxns/rxn_condensed_phase_photolysis.F90
   rxns/rxn_emission.c 
   rxns/rxn_emission.F90
   rxns/rxn_first_order_loss.c 
@@ -111,6 +113,8 @@ set(camp_SOURCES
   rxns/rxn_photolysis.F90
   rxns/rxn_SIMPOL_phase_transfer.c 
   rxns/rxn_SIMPOL_phase_transfer.F90
+  rxns/rxn_surface.F90
+  rxns/rxn_surface.c
   rxns/rxn_troe.c 
   rxns/rxn_troe.F90
   rxns/rxn_wennberg_no_ro2.c 
