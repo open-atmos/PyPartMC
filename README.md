@@ -16,7 +16,7 @@ For a list of talks and other relevant resources, please see [project Wiki](http
 [![Github Actions Build Status](https://github.com/open-atmos/PyPartMC/workflows/tests+pypi/badge.svg?branch=main)](https://github.com/open-atmos/PyPartMC/actions)
 [![API docs](https://img.shields.io/badge/API_docs-pdoc3-blue.svg)](https://open-atmos.github.io/PyPartMC/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7662635.svg)](https://doi.org/10.5281/zenodo.7662635)
-
+[![PyPI version](https://badge.fury.io/py/PyPartMC.svg)](https://pypi.org/p/PyPartMC)
 
 ## TL;DR (try in a Jupyter notebook)
 
