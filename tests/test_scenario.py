@@ -267,10 +267,16 @@ class TestScenario:
     ERR_MSG_ALL_ELEMS_DICTS = (
         "PROF_profile expected to contain only single-element dicts"
     )
-    ERR_MSG_TIME_KEY_MISSING = "PROF_profile first element is expeced to be a single-element dict with 'time' key"
-    ERR_MSG_PROF_KEY_MISSING = "PROF_profile second element is expeced to be a single-element dict with 'PROF' key"
     ERR_MSG_PROFILE_LEN_MATCH = (
         "PROF_profile 'time' and 'PROF' arrays do not have matching size"
+    )
+    ERR_MSG_TIME_KEY_MISSING = (
+        "PROF_profile first element is expeced to be"
+        " a single-element dict with 'time' key"
+    )
+    ERR_MSG_PROF_KEY_MISSING = (
+        "PROF_profile second element is expeced to be"
+        " a single-element dict with 'PROF' key"
     )
 
     @staticmethod
@@ -309,7 +315,7 @@ class TestScenario:
 
         # act
         with pytest.raises(RuntimeError) as excinfo:
-            sut = ppmc.Scenario(gas_data, aero_data, ctor_arg)
+            _ = ppmc.Scenario(gas_data, aero_data, ctor_arg)
 
         # assert
         assert str(excinfo.value) == msg.replace("PROF", f"{prof}")
