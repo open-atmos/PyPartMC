@@ -96,8 +96,8 @@ struct Scenario {
         json(json)
     {
         // TODO #317 - repeat analogous checks for rates
-        for (auto &prof: std::set({"height", "temp", "pressure"})) {
-            auto prof_key = std::string(prof) + "_profile";
+        for (auto &prof: std::set<std::string>({"height", "temp", "pressure"})) {
+            auto prof_key = prof + "_profile";
             if (json.find(prof_key) != json.end()) {
                 if (!json[prof_key].is_array() || json[prof_key].size() != 2)
                     throw std::runtime_error(prof_key + " expected to be a 2-element list (of single-element dictionaries)");
