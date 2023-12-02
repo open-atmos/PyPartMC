@@ -96,7 +96,7 @@ struct Scenario {
         json(json)
     {
         // TODO #317 - repeat analogous checks for rates
-        for (auto &prof: std::set{"height", "temp", "pressure"}) {
+        for (auto &prof: std::set({"height", "temp", "pressure"})) {
             auto prof_key = std::string(prof) + "_profile";
             if (json.find(prof_key) != json.end()) {
                 if (!json[prof_key].is_array() || json[prof_key].size() != 2)
