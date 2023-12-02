@@ -94,7 +94,7 @@ jobs:
           brew reinstall gcc
           sudo xcode-select -s "/Applications/Xcode_13.4.1.app"
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
-          echo ARCHFLAGS="-arch x86_64" >> $GITHUB_ENV
+          echo ARCHFLAGS="-arch x86_64" >> $GITHUB_ENV  # this seems to have no effect on whl name on Python 3.11!
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
@@ -133,6 +133,9 @@ jobs:
           unset CI
           python -m build 2>&1 | tee build.log
           exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | wc -l`
+
+      - if: startsWith(matrix.platform, 'macos-')
+        run: for whl in dist/*_universal2.whl; do mv $whl ${whl/_universal2/_x86_64}; done
 
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*
