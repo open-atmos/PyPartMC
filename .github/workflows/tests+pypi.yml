@@ -134,7 +134,7 @@ jobs:
           python -m build 2>&1 | tee build.log
           exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | wc -l`
 
-      - if: startsWith(matrix.platform, 'macos-')
+      - if: startsWith(matrix.platform, 'macos-') && matrix.python-version == '3.11'
         run: for whl in dist/*_universal2.whl; do mv $whl ${whl/_universal2/_x86_64}; done
 
       - if: matrix.platform == 'ubuntu-latest'
