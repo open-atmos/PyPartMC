@@ -95,6 +95,34 @@ struct Scenario {
         ptr(f_scenario_ctor, f_scenario_dtor),
         json(json)
     {
+        // TODO #317 - repeat analogous checks for rates
+        for (auto &prof: std::set{"height", "temp", "pressure"}) {
+            auto prof_key = std::string(prof) + "_profile";
+            if (json.find(prof_key) != json.end()) {
+                if (!json[prof_key].is_array() || json[prof_key].size() != 2)
+                    throw std::runtime_error(prof_key + " expected to be a 2-element list (of single-element dictionaries)");
+                for (auto i=0; i<2; ++i)
+                    if (!json[prof_key][i].is_object() || json[prof_key][i].size() != 1)
+                        throw std::runtime_error(prof_key + " expected to contain only single-element dicts");
+                {
+                    auto elem = json[prof_key][0];
+                    if (elem.find("time") == elem.end())
+                        throw std::runtime_error(prof_key + " first element is expeced to be a single-element dict with 'time' key");
+                }
+                {
+                    auto elem = json[prof_key][1];
+                    if (elem.find(prof) == elem.end())
+                        throw std::runtime_error(prof_key + " second element is expeced to be a single-element dict with '" + prof + "' key");
+                }
+                if (
+                    !json[prof_key][0]["time"].is_array() || 
+                    !json[prof_key][1][prof].is_array() || 
+                    json[prof_key][0]["time"].size() != json[prof_key][1][prof].size()
+                )
+                    throw std::runtime_error(prof_key + " 'time' and '" + prof + "' arrays do not have matching size");
+            }
+        }
+
         GimmickGuard<InputGimmick> guard(json, "dist", "mode_name");
         f_scenario_from_json(
             gas_data.ptr.f_arg(),

@@ -71,7 +71,7 @@ class TestScenario:
                     "temp_profile": [{"time": [0, 1, 2]}, {"temp": [1, 2, 3]}],
                     "pressure_profile": [{"time": [0, 1, 2]}, {"pressure": [1, 2, 3]}],
                     "height_profile": [
-                        {"time": [0, 1, 2, 3, 4]},  # TODO #115: should be caught
+                        {"time": [0, 1, 2]},
                         {"height": [1, 2, 3]},
                     ],
                     "gas_emissions": [
@@ -260,3 +260,56 @@ class TestScenario:
                         dist.mode(i_mode).name
                     ]["num_conc"]
                 )
+
+    ERR_MSG_2_ELEM_LIST_EXPECTED = (
+        "PROF_profile expected to be a 2-element list (of single-element dictionaries)"
+    )
+    ERR_MSG_ALL_ELEMS_DICTS = (
+        "PROF_profile expected to contain only single-element dicts"
+    )
+    ERR_MSG_TIME_KEY_MISSING = "PROF_profile first element is expeced to be a single-element dict with 'time' key"
+    ERR_MSG_PROF_KEY_MISSING = "PROF_profile second element is expeced to be a single-element dict with 'PROF' key"
+    ERR_MSG_PROFILE_LEN_MATCH = (
+        "PROF_profile 'time' and 'PROF' arrays do not have matching size"
+    )
+
+    @staticmethod
+    @pytest.mark.parametrize("prof", ("height", "temp", "pressure"))
+    @pytest.mark.parametrize(
+        "data, msg",
+        (
+            ({}, ERR_MSG_2_ELEM_LIST_EXPECTED),
+            ([{}, {}, {}], ERR_MSG_2_ELEM_LIST_EXPECTED),
+            ([[], []], ERR_MSG_ALL_ELEMS_DICTS),
+            ([{}, []], ERR_MSG_ALL_ELEMS_DICTS),
+            ([[], {}], ERR_MSG_ALL_ELEMS_DICTS),
+            ([{"1": 1, "2": 2}, {}], ERR_MSG_ALL_ELEMS_DICTS),
+            ([{"1": 1, "2": 2, "3": 3}, {"1": 1, "2": 2}], ERR_MSG_ALL_ELEMS_DICTS),
+            ([{"xtime": ""}, {"PROF": ""}], ERR_MSG_TIME_KEY_MISSING),
+            ([{"time": ""}, {"xPROF": ""}], ERR_MSG_PROF_KEY_MISSING),
+            ([{"time": ""}, {"PROF": []}], ERR_MSG_PROFILE_LEN_MATCH),
+            ([{"time": []}, {"PROF": ""}], ERR_MSG_PROFILE_LEN_MATCH),
+            ([{"time": [1, 2]}, {"PROF": [1, 2, 3]}], ERR_MSG_PROFILE_LEN_MATCH),
+        ),
+    )
+    def test_throws_if_profile_not_of_proper_form(prof, data, msg):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+
+        data = copy.deepcopy(data)
+        if len(data) == 2 and isinstance(data[1], dict) and len(data[1].keys()) == 1:
+            key = tuple(data[1].keys())[0]
+            new_key = key.replace("PROF", prof)
+            if key != new_key:
+                data[1][new_key] = data[1][key]
+                del data[1][key]
+        ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
+        ctor_arg[f"{prof}_profile"] = data
+
+        # act
+        with pytest.raises(RuntimeError) as excinfo:
+            sut = ppmc.Scenario(gas_data, aero_data, ctor_arg)
+
+        # assert
+        assert str(excinfo.value) == msg.replace("PROF", f"{prof}")
