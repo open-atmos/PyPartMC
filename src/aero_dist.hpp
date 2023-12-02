@@ -51,7 +51,7 @@ struct AeroDist {
     {
         if (!InputGimmick::unique_keys(json))
             throw std::runtime_error("Mode names must be unique");
-        for (const auto mode : json)
+        for (const auto &mode : json)
             AeroMode::check_mode_json(mode.begin().value());
         
         GimmickGuard<InputGimmick> guard(json, "", "mode_name", 1);
