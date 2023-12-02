@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import copy
+
 import numpy as np
 import pytest
 
@@ -251,7 +252,10 @@ class TestAeroMode:
             ppmc.AeroMode(aero_data, fishy_ctor_arg)
 
         # assert
-        assert str(exc_info.value) == "Single-element dict expected with mode name as key and mode params dict as value"
+        assert (
+            str(exc_info.value)
+            == "Single-element dict expected with mode name as key and mode params dict as value"
+        )
 
     @staticmethod
     def test_ctor_fails_with_nonunique_mass_fracs():
@@ -280,4 +284,3 @@ class TestAeroMode:
         )
         print(fishy_ctor_arg)
         ppmc.AeroMode(aero_data, fishy_ctor_arg)
-
