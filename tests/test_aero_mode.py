@@ -4,6 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import copy
 import numpy as np
 import pytest
 
@@ -242,7 +243,7 @@ class TestAeroMode:
     def test_ctor_fails_with_multiple_modes():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        fishy_ctor_arg = AERO_MODE_CTOR_LOG_NORMAL
+        fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
         fishy_ctor_arg["xxx"] = fishy_ctor_arg["test_mode"]
 
         # act
@@ -250,17 +251,15 @@ class TestAeroMode:
             ppmc.AeroMode(aero_data, fishy_ctor_arg)
 
         # assert
-        assert str(exc_info.value) == "Single element expected"
+        assert str(exc_info.value) == "Single-element dict expected with mode name as key and mode params dict as value"
 
     @staticmethod
     def test_ctor_fails_with_nonunique_mass_fracs():
-        pytest.skip("TODO #240")
-
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        fishy_ctor_arg = AERO_MODE_CTOR_LOG_NORMAL
+        fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
         fishy_ctor_arg["test_mode"]["mass_frac"].append(
-            fishy_ctor_arg["test_mode"]["mass_frac"]
+            AERO_MODE_CTOR_LOG_NORMAL["test_mode"]["mass_frac"][0]
         )
 
         # act
@@ -268,4 +267,17 @@ class TestAeroMode:
             ppmc.AeroMode(aero_data, fishy_ctor_arg)
 
         # assert
-        assert str(exc_info.value) == ""
+        assert str(exc_info.value) == "mass_frac keys must be unique"
+
+    @staticmethod
+    def test_segfault_case():  # TODO #319
+        pytest.skip()
+
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
+        fishy_ctor_arg["test_mode"]["mass_frac"].append(
+            fishy_ctor_arg["test_mode"]["mass_frac"]
+        )
+        print(fishy_ctor_arg)
+        ppmc.AeroMode(aero_data, fishy_ctor_arg)
+

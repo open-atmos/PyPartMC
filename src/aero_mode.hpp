@@ -128,11 +128,23 @@ struct AeroMode {
     AeroMode(AeroData &aero_data, const nlohmann::json &json) :
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
-        if (json.size() != 1)
-            throw std::runtime_error("Single element expected");
-
+        if (json.size() != 1 || !json.is_object() || !json.begin().value().is_object())
+            throw std::runtime_error("Single-element dict expected with mode name as key and mode params dict as value");
+        check_mode_json(json.begin().value());
         GimmickGuard<InputGimmick> guard(json, "", "mode_name");
         f_aero_mode_from_json(ptr.f_arg_non_const(), aero_data.ptr.f_arg_non_const());
+    }
+
+    static void check_mode_json(const nlohmann::json &mode) {
+        for (auto key : std::set<std::string>({"mass_frac", "mode_type"})) // TODO #320: more...
+            if (mode.find(key) == mode.end())
+                throw std::runtime_error("mode parameters dict must include key '" + key + "'");
+        auto mass_frac = mode["mass_frac"];
+            
+        if (!mass_frac.is_array()) // TODO #320: check if all are single-element dicts
+            throw std::runtime_error("mass_frac value must be a list of single-element dicts");
+        if (!InputGimmick::unique_keys(mass_frac))
+            throw std::runtime_error("mass_frac keys must be unique");
     }
 
     static auto get_num_conc(const AeroMode &self){

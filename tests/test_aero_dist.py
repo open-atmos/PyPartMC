@@ -163,3 +163,19 @@ class TestAeroDist:
 
         # assert
         assert str(exc_info.value) == "Mode names must be unique"
+
+    @staticmethod
+    def test_ctor_error_on_repeated_massfrac_keys():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = copy.deepcopy(AERO_DIST_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg[0]["test_mode"]["mass_frac"].append(
+            fishy_ctor_arg[0]["test_mode"]["mass_frac"][0]
+        )
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroDist(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert str(exc_info.value) == "mass_frac keys must be unique"
