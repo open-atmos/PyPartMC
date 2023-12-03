@@ -350,7 +350,7 @@ class TestAeroState:
 
         # pylint: disable=unsubscriptable-object
         assert sut.num_concs[0] == sut_minimal.num_concs[0]
-        
+
     @staticmethod
     @pytest.mark.parametrize(
         "args",
