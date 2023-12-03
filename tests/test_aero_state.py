@@ -348,8 +348,9 @@ class TestAeroState:
         sut.copy_weight(sut_minimal)
         sut.add_particle(sut_minimal.particle(0))
 
+        # pylint: disable=unsubscriptable-object
         assert sut.num_concs[0] == sut_minimal.num_concs[0]
-
+        
     @staticmethod
     @pytest.mark.parametrize(
         "args",
