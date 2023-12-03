@@ -135,8 +135,16 @@ jobs:
           exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | wc -l`
 
       - if: startsWith(matrix.platform, 'macos-') && matrix.python-version == '3.11'
-        run: for whl in dist/*_universal2.whl; do mv $whl ${whl/_universal2/_x86_64}; done
-
+        run: |
+          # workaround for buggy universal2 wheel name with Python 3.11 (contains x86_64 binary only)
+          for whl in dist/*_universal2.whl; do
+            mv $whl ${whl/_universal2/_x86_64};
+            python -m wheel unpack $whl;
+            export whl_unpacked=`basename $whl | cut -d- -f-2`;
+            sed -i 's/_universal2/_x86_64/g' $whl_unpacked/$whl_unpacked.dist-info/WHEEL;
+            python -m wheel pack $whl_unpacked;
+          done
+          
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*
 
