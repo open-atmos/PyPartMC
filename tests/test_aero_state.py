@@ -323,14 +323,14 @@ class TestAeroState:
         assert False
 
     @staticmethod
-    def test_remove_particle(sut_minimal):
+    def test_remove_particle(sut_minimal):  # pylint: disable=redefined-outer-name
         diameters = sut_minimal.diameters()
         sut_minimal.remove_particle(len(sut_minimal) - 1)
 
         assert diameters[0:-1] == sut_minimal.diameters()
 
     @staticmethod
-    def test_add_particle(sut_minimal):
+    def test_add_particle(sut_minimal): # pylint: disable=redefined-outer-name
         particle = sut_minimal.particle(1)
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -339,6 +339,16 @@ class TestAeroState:
 
         assert len(sut) == 1
         assert sut.particle(0).diameter == sut_minimal.particle(1).diameter
+
+    @staticmethod
+    def test_copy_weight(sut_minimal): # pylint: disable=redefined-outer-name
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+
+        sut.copy_weight(sut_minimal)
+        sut.add_particle(sut_minimal.particle(0))
+
+        assert sut.num_concs[0] == sut_minimal.num_concs[0]
 
     @staticmethod
     @pytest.mark.parametrize(

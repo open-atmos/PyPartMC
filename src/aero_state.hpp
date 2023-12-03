@@ -517,8 +517,9 @@ struct AeroState {
       const AeroState &aero_state
    ) {
 
-      f_aero_state_copy_weight(self.ptr.f_arg(),
-          aero_state.ptr.f_arg()
+      f_aero_state_copy_weight(
+aero_state.ptr.f_arg(),
+self.ptr.f_arg()
       );
    }
 
