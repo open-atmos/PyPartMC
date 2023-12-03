@@ -330,7 +330,7 @@ class TestAeroState:
         assert diameters[0:-1] == sut_minimal.diameters()
 
     @staticmethod
-    def test_add_particle(sut_minimal): # pylint: disable=redefined-outer-name
+    def test_add_particle(sut_minimal):  # pylint: disable=redefined-outer-name
         particle = sut_minimal.particle(1)
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -341,7 +341,7 @@ class TestAeroState:
         assert sut.particle(0).diameter == sut_minimal.particle(1).diameter
 
     @staticmethod
-    def test_copy_weight(sut_minimal): # pylint: disable=redefined-outer-name
+    def test_copy_weight(sut_minimal):  # pylint: disable=redefined-outer-name
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
 
