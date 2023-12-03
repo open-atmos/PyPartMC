@@ -323,6 +323,24 @@ class TestAeroState:
         assert False
 
     @staticmethod
+    def test_remove_particle(sut_minimal):
+        diameters = sut_minimal.diameters()
+        sut_minimal.remove_particle(len(sut_minimal) - 1)
+
+        assert diameters[0:-1] == sut_minimal.diameters()
+
+    @staticmethod
+    def test_add_particle(sut_minimal):
+        particle = sut_minimal.particle(1)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+
+        sut.add_particle(particle)
+
+        assert len(sut) == 1
+        assert sut.particle(0).diameter == sut_minimal.particle(1).diameter
+
+    @staticmethod
     @pytest.mark.parametrize(
         "args",
         (

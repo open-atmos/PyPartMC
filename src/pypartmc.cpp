@@ -235,6 +235,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "sample particles for AeroState from an AeroDist",
             py::arg("AeroDist"), py::arg("sample_prop") = 1.0, py::arg("create_time") = 0.0,
             py::arg("allow_doubling") = true, py::arg("allow_halving") = true)
+        .def("add_particle", AeroState::add_particle, "add a particle to an AeroState")
+        .def("copy_weight", AeroState::copy_weight, "copy weighting from one AeroState to another")
+        .def("remove_particle", AeroState::remove_particle,
+            "remove particle of a given index")
     ;
 
     py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData",

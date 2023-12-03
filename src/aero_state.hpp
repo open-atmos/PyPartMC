@@ -143,6 +143,21 @@ extern "C" void f_aero_state_add_aero_dist_sample(
     int *n_part_add
 ) noexcept;
 
+extern "C" void f_aero_state_add_particle(
+    const void *ptr_c,
+    const void *ptr_aero_data_c,
+    const void *ptr_aero_particle_c
+) noexcept;
+
+extern "C" void f_aero_state_copy_weight(
+    const void *ptr_c,
+    const void *ptr_aero_state_to_c
+) noexcept;
+
+extern "C" void f_aero_state_remove_particle(
+    const void *ptr_c,
+    const int *i_part
+) noexcept;
 
 template <typename arr_t, typename arg_t>
 auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
@@ -485,4 +500,32 @@ struct AeroState {
        return n_part_add;
    }
 
+   static void add_particle(
+       AeroState &self,
+       const AeroParticle &particle
+   ) {
+
+       f_aero_state_add_particle(self.ptr.f_arg(),
+            self.aero_data->ptr.f_arg(),
+            particle.ptr.f_arg()
+       );
+
+   } 
+
+   static void copy_weight(
+      const AeroState &self,
+      const AeroState &aero_state
+   ) {
+
+      f_aero_state_copy_weight(self.ptr.f_arg(),
+          aero_state.ptr.f_arg()
+      );
+   }
+
+   static void remove_particle(
+      const AeroState &self,
+      const int &i_part
+   ) {
+     f_aero_state_remove_particle(self.ptr.f_arg(), &i_part);
+   }
 };
