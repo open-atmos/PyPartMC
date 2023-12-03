@@ -138,11 +138,12 @@ jobs:
         run: |
           # workaround for buggy universal2 wheel name with Python 3.11 (contains x86_64 binary only)
           for whl in dist/*_universal2.whl; do
-            mv $whl ${whl/_universal2/_x86_64};
-            python -m wheel unpack $whl;
-            export whl_unpacked=`basename $whl | cut -d- -f-2`;
-            sed -i 's/_universal2/_x86_64/g' $whl_unpacked/$whl_unpacked.dist-info/WHEEL;
-            python -m wheel pack $whl_unpacked;
+            export whl_new=${whl/_universal2/_x86_64};
+            mv $whl $whl_new;
+            python -m wheel unpack $whl_new;
+            export whl_new_unpacked=`basename $whl_new | cut -d- -f-2`;
+            sed -i 's/_universal2/_x86_64/g' $whl_new_unpacked/$whl_new_unpacked.dist-info/WHEEL;
+            python -m wheel pack $whl_new_unpacked;
           done
           
       - if: matrix.platform == 'ubuntu-latest'
