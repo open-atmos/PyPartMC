@@ -514,12 +514,11 @@ struct AeroState {
 
    static void copy_weight(
       const AeroState &self,
-      const AeroState &aero_state
+      const AeroState &aero_state_from
    ) {
 
-      f_aero_state_copy_weight(
-aero_state.ptr.f_arg(),
-self.ptr.f_arg()
+      f_aero_state_copy_weight(aero_state_from.ptr.f_arg(),
+           self.ptr.f_arg()
       );
    }
 
