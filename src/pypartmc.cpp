@@ -240,6 +240,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              "copy weighting from another AeroState")
         .def("remove_particle", AeroState::remove_particle,
             "remove particle of a given index")
+        .def("zero", AeroState::zero, "remove all particles from an AeroState")
     ;
 
     py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData",

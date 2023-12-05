@@ -159,6 +159,10 @@ extern "C" void f_aero_state_remove_particle(
     const int *i_part
 ) noexcept;
 
+extern "C" void f_aero_state_zero(
+    void *ptr_c
+) noexcept;
+
 template <typename arr_t, typename arg_t>
 auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
     std::vector<char*> pointer_vec(data_vec.size());
@@ -527,5 +531,11 @@ struct AeroState {
       const int &i_part
    ) {
      f_aero_state_remove_particle(self.ptr.f_arg_non_const(), &i_part);
+   }
+
+   static void zero(
+      AeroState &self
+   ) {
+      f_aero_state_zero(self.ptr.f_arg_non_const());
    }
 };

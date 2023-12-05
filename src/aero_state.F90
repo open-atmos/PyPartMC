@@ -524,4 +524,14 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  subroutine f_aero_state_zero(ptr_c) bind(C)
+    type(c_ptr) :: ptr_c
+    type(aero_state_t), pointer :: ptr_f => null()
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    call aero_state_zero(ptr_f)
+
+  end subroutine
+
 end module
