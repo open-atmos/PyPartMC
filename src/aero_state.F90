@@ -482,4 +482,56 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  subroutine f_aero_state_add_particle(ptr_c, ptr_aero_data_c, &
+       ptr_aero_particle_c) bind(C)
+
+    type(c_ptr) :: ptr_c, ptr_aero_data_c, ptr_aero_particle_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: ptr_aero_data_f => null()
+    type(aero_particle_t), pointer :: ptr_aero_particle_f => null()
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(ptr_aero_data_c, ptr_aero_data_f)
+    call c_f_pointer(ptr_aero_particle_c, ptr_aero_particle_f)
+
+    call aero_state_add_particle(ptr_f, ptr_aero_particle_f, ptr_aero_data_f, &
+        .true.)
+
+  end subroutine
+
+  subroutine f_aero_state_copy_weight(ptr_c, ptr_aero_state_to_c) bind(C)
+
+    type(c_ptr) :: ptr_c, ptr_aero_state_to_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_state_t), pointer :: ptr_aero_state_to_f => null()
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(ptr_aero_state_to_c, ptr_aero_state_to_f)
+
+    call aero_state_copy_weight(ptr_f, ptr_aero_state_to_f)
+
+  end subroutine
+
+  subroutine f_aero_state_remove_particle(ptr_c, i_part) bind(C)
+
+    type(c_ptr) :: ptr_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    integer(c_int) :: i_part
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    call aero_state_remove_particle_no_info(ptr_f, i_part + 1)
+
+  end subroutine
+
+  subroutine f_aero_state_zero(ptr_c) bind(C)
+    type(c_ptr) :: ptr_c
+    type(aero_state_t), pointer :: ptr_f => null()
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    call aero_state_zero(ptr_f)
+
+  end subroutine
+
 end module
