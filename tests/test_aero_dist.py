@@ -11,6 +11,7 @@ import numpy as np
 import pytest
 
 import PyPartMC as ppmc
+from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_mode import (
@@ -29,6 +30,25 @@ AERO_DIST_CTOR_ARG_FULL = [
 
 AERO_DIST_CTOR_ARG_COAGULATION = [
     AERO_MODE_CTOR_LOG_NORMAL_COAGULATION,
+]
+
+AERO_DIST_CTOR_ARG_AVERAGE = [
+    {
+        "test_mode_A": {
+            "mass_frac": [{"SO4": [1]}],
+            "diam_type": "geometric",
+            "mode_type": "mono",
+            "num_conc": 1e12 / si.m**3,
+            "diam": 2 * si.um,
+        },
+        "test_mode_B": {
+            "mass_frac": [{"BC": [1]}],
+            "diam_type": "geometric",
+            "mode_type": "mono",
+            "num_conc": 1e12 / si.m**3,
+            "diam": 0.2 * si.um,
+        },
+    }
 ]
 
 

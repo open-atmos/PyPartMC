@@ -12,7 +12,11 @@ import pytest
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
-from .test_aero_dist import AERO_DIST_CTOR_ARG_FULL, AERO_DIST_CTOR_ARG_MINIMAL
+from .test_aero_dist import (
+    AERO_DIST_CTOR_ARG_AVERAGE,
+    AERO_DIST_CTOR_ARG_FULL,
+    AERO_DIST_CTOR_ARG_MINIMAL,
+)
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 AERO_STATE_CTOR_ARG_MINIMAL = 44, "nummass_source"
@@ -35,6 +39,17 @@ def sut_minimal():
 def sut_full():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
     aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FULL)
+    sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+    _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
+    aero_data = None
+    gc.collect()
+    return sut
+
+
+@pytest.fixture
+def sut_average():
+    aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+    aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_AVERAGE)
     sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
     _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
     aero_data = None
@@ -260,15 +275,25 @@ class TestAeroState:
         assert len(mixing_state) == 3
 
     @staticmethod
-    def test_bin_average_comp(sut_minimal):  # pylint: disable=redefined-outer-name
+    @pytest.mark.parametrize("n_bin", (1, 123))
+    def test_bin_average_comp(
+        sut_average, n_bin
+    ):  # pylint: disable=redefined-outer-name
         # arrange
-        bin_grid = ppmc.BinGrid(123, "log", 1e-9, 1e-4)
+        bin_grid = ppmc.BinGrid(n_bin, "log", 1e-9, 1e-4)
 
         # act
-        sut_minimal.bin_average_comp(bin_grid)
+        sut_average.bin_average_comp(bin_grid)
+        so4_masses = np.array(sut_average.masses(include=["SO4"]))
+        bc_masses = np.array(sut_average.masses(include=["BC"]))
 
         # assert
-        # TODO #179
+        if n_bin == 1:
+            assert np.all(
+                np.isclose(so4_masses / bc_masses, so4_masses[0] / bc_masses[0])
+            )
+        else:
+            assert np.logical_xor(so4_masses > 0, bc_masses > 0).all()
 
     @staticmethod
     def test_get_particle(sut_minimal):  # pylint: disable=redefined-outer-name
