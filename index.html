@@ -591,11 +591,23 @@ is typically cleared each time we output data to disk.</p>
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="PyPartMC.AeroState.add_particle"><code class="name flex">
+<span>def <span class="ident">add_particle</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroParticle)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>add a particle to an AeroState</p></div>
+</dd>
 <dt id="PyPartMC.AeroState.bin_average_comp"><code class="name flex">
 <span>def <span class="ident">bin_average_comp</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.BinGrid)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>composition-averages population using BinGrid</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.copy_weight"><code class="name flex">
+<span>def <span class="ident">copy_weight</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroState)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>copy weighting from another AeroState</p></div>
 </dd>
 <dt id="PyPartMC.AeroState.crit_rel_humids"><code class="name flex">
 <span>def <span class="ident">crit_rel_humids</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.EnvState) ‑> List[float]</span>
@@ -639,11 +651,23 @@ is typically cleared each time we output data to disk.</p>
 <dd>
 <div class="desc"><p>returns a random particle from the population</p></div>
 </dd>
+<dt id="PyPartMC.AeroState.remove_particle"><code class="name flex">
+<span>def <span class="ident">remove_particle</span></span>(<span>self: _PyPartMC.AeroState, arg0: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>remove particle of a given index</p></div>
+</dd>
 <dt id="PyPartMC.AeroState.volumes"><code class="name flex">
 <span>def <span class="ident">volumes</span></span>(<span>self: _PyPartMC.AeroState, include: Optional[List[str]] = None, exclude: Optional[List[str]] = None) ‑> List[float]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>returns the volume of each particle in the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.zero"><code class="name flex">
+<span>def <span class="ident">zero</span></span>(<span>self: _PyPartMC.AeroState)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>remove all particles from an AeroState</p></div>
 </dd>
 </dl>
 </dd>
@@ -1023,7 +1047,9 @@ aero_dist_interp_1d(), respectively.</p>
 <li>
 <h4><code><a title="PyPartMC.AeroState" href="#PyPartMC.AeroState">AeroState</a></code></h4>
 <ul class="two-column">
+<li><code><a title="PyPartMC.AeroState.add_particle" href="#PyPartMC.AeroState.add_particle">add_particle</a></code></li>
 <li><code><a title="PyPartMC.AeroState.bin_average_comp" href="#PyPartMC.AeroState.bin_average_comp">bin_average_comp</a></code></li>
+<li><code><a title="PyPartMC.AeroState.copy_weight" href="#PyPartMC.AeroState.copy_weight">copy_weight</a></code></li>
 <li><code><a title="PyPartMC.AeroState.crit_rel_humids" href="#PyPartMC.AeroState.crit_rel_humids">crit_rel_humids</a></code></li>
 <li><code><a title="PyPartMC.AeroState.diameters" href="#PyPartMC.AeroState.diameters">diameters</a></code></li>
 <li><code><a title="PyPartMC.AeroState.dist_sample" href="#PyPartMC.AeroState.dist_sample">dist_sample</a></code></li>
@@ -1033,9 +1059,11 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.AeroState.num_concs" href="#PyPartMC.AeroState.num_concs">num_concs</a></code></li>
 <li><code><a title="PyPartMC.AeroState.particle" href="#PyPartMC.AeroState.particle">particle</a></code></li>
 <li><code><a title="PyPartMC.AeroState.rand_particle" href="#PyPartMC.AeroState.rand_particle">rand_particle</a></code></li>
+<li><code><a title="PyPartMC.AeroState.remove_particle" href="#PyPartMC.AeroState.remove_particle">remove_particle</a></code></li>
 <li><code><a title="PyPartMC.AeroState.total_mass_conc" href="#PyPartMC.AeroState.total_mass_conc">total_mass_conc</a></code></li>
 <li><code><a title="PyPartMC.AeroState.total_num_conc" href="#PyPartMC.AeroState.total_num_conc">total_num_conc</a></code></li>
 <li><code><a title="PyPartMC.AeroState.volumes" href="#PyPartMC.AeroState.volumes">volumes</a></code></li>
+<li><code><a title="PyPartMC.AeroState.zero" href="#PyPartMC.AeroState.zero">zero</a></code></li>
 </ul>
 </li>
 <li>
