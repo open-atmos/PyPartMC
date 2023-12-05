@@ -334,7 +334,7 @@ class TestAeroState:
         # act
         sut_minimal.zero()
 
-        #assert
+        # assert
         assert len(sut_minimal) == 0
 
     @staticmethod
