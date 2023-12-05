@@ -144,18 +144,18 @@ extern "C" void f_aero_state_add_aero_dist_sample(
 ) noexcept;
 
 extern "C" void f_aero_state_add_particle(
-    const void *ptr_c,
+    void *ptr_c,
     const void *ptr_aero_data_c,
     const void *ptr_aero_particle_c
 ) noexcept;
 
 extern "C" void f_aero_state_copy_weight(
     const void *ptr_c,
-    const void *ptr_aero_state_to_c
+    void *ptr_aero_state_to_c
 ) noexcept;
 
 extern "C" void f_aero_state_remove_particle(
-    const void *ptr_c,
+    void *ptr_c,
     const int *i_part
 ) noexcept;
 
@@ -505,7 +505,7 @@ struct AeroState {
        const AeroParticle &particle
    ) {
 
-       f_aero_state_add_particle(self.ptr.f_arg(),
+       f_aero_state_add_particle(self.ptr.f_arg_non_const(),
             self.aero_data->ptr.f_arg(),
             particle.ptr.f_arg()
        );
@@ -513,19 +513,19 @@ struct AeroState {
    } 
 
    static void copy_weight(
-      const AeroState &self,
+      AeroState &self,
       const AeroState &aero_state_from
    ) {
 
       f_aero_state_copy_weight(aero_state_from.ptr.f_arg(),
-           self.ptr.f_arg()
+           self.ptr.f_arg_non_const()
       );
    }
 
    static void remove_particle(
-      const AeroState &self,
+      AeroState &self,
       const int &i_part
    ) {
-     f_aero_state_remove_particle(self.ptr.f_arg(), &i_part);
+     f_aero_state_remove_particle(self.ptr.f_arg_non_const(), &i_part);
    }
 };
