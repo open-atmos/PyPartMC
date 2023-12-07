@@ -196,4 +196,26 @@ module PyPartMC_aero_data
 
   end subroutine
 
+  subroutine f_aero_data_source_name_by_index(ptr_c, i_source, &
+      name_data, name_size &
+      ) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    character(kind=c_char), dimension(AERO_SOURCE_NAME_LEN) :: name_data
+    integer(c_int) :: name_size
+    integer(c_int), intent(in) :: i_source
+    integer :: i
+    character(len=1000) :: name
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    name = ptr_f%source_name(i_source+1)
+    name_size = len(trim(ptr_f%source_name(i_source+1)))
+    do i = 1,name_size
+       name_data(i) = name(i:i)
+    end do
+    name_data(i) = CHAR(0)
+
+  end subroutine
+
 end module
