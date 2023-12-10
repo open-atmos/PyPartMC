@@ -29,6 +29,8 @@ extern "C" void f_aero_data_vol2diam(const void *ptr, const double*, double*) no
 extern "C" void f_aero_data_get_species_density(const void *ptr, const int *idx, double *val) noexcept;
 extern "C" void f_aero_data_source_name_by_index(const void *ptr, const int *i_source,
     char *name_data) noexcept;
+extern "C" void f_aero_data_spec_name_by_index(const void *ptr, const int *i_spec,
+    char *name_data) noexcept;
 
 struct AeroData {
     PMCResource ptr;
@@ -220,6 +222,27 @@ struct AeroData {
         std::vector<std::string> names(len);
         for (int idx = 0; idx < len; idx++) {
              f_aero_data_source_name_by_index(
+                 self.ptr.f_arg(),
+                 &idx,
+                 name
+            );
+            names[idx] = std::string(name);
+        }
+        return names;
+    }
+
+    static auto names(const AeroData &self) {
+
+        int len;
+        f_aero_data_len(
+            self.ptr.f_arg(),
+            &len
+        );
+
+        char name[AERO_NAME_LEN];
+        std::vector<std::string> names(len);
+        for (int idx = 0; idx < len; idx++) {
+             f_aero_data_spec_name_by_index(
                  self.ptr.f_arg(),
                  &idx,
                  name

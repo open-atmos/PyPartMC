@@ -8,6 +8,7 @@
 
 #include "gimmicks.hpp" // TODO #119: rename to something like json_resource.hpp?
 #include "pmc_resource.hpp"
+#include "gas_data_parameters.hpp"
 #include "pybind11/stl.h"
 #include "pybind11_json/pybind11_json.hpp"
 
@@ -18,6 +19,8 @@ extern "C" void f_gas_data_from_json(const void *ptr) noexcept;
 extern "C" void f_gas_data_to_json(const void *ptr) noexcept;
 extern "C" void f_gas_data_spec_by_name(const void *ptr, int *value, const char *name_data,
     const int *name_size) noexcept;
+extern "C" void f_gas_data_spec_name_by_index(const void *ptr, const int *i_spec,
+    char *name_data) noexcept;
 
 struct GasData {
     PMCResource ptr;
@@ -63,6 +66,27 @@ struct GasData {
         if (value == 0)
             throw std::runtime_error("Element not found.");
         return value - 1;
+    }
+
+    static auto names(const GasData &self) {
+
+        int len;
+        f_gas_data_len(
+            self.ptr.f_arg(),
+            &len
+        );
+
+        char name[GAS_NAME_LEN];
+        std::vector<std::string> names(len);
+        for (int idx = 0; idx < len; idx++) {
+             f_gas_data_spec_name_by_index(
+                 self.ptr.f_arg(),
+                 &idx,
+                 name
+            );
+            names[idx] = std::string(name);
+        }
+        return names;
     }
 };
 
