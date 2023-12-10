@@ -355,6 +355,22 @@ class TestAeroData:
             assert density == val[0]
 
     @staticmethod
+    @pytest.mark.parametrize(
+        "ctor_arg", (AERO_DATA_CTOR_ARG_MINIMAL, AERO_DATA_CTOR_ARG_FULL)
+    )
+    def test_names(ctor_arg):
+        # arrange
+        sut = ppmc.AeroData(ctor_arg)
+        names = sut.species
+
+        # assert
+        i = 0
+        for item in ctor_arg:
+           key = tuple(item.keys())[0]
+           assert names[i] == key
+           i += 1
+
+    @staticmethod
     def test_ctor_error_on_nonunique_keys():
         # act
         with pytest.raises(Exception) as exc_info:

@@ -62,3 +62,18 @@ class TestGasData:
 
         # assert
         assert indices == list(range(len(ctor_arg)))
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "ctor_arg", (GAS_DATA_CTOR_ARG_MINIMAL, ("SO2", "NO2"), ("A", "B", "C"))
+    )
+    def test_species(ctor_arg):
+        # arrange
+        sut = ppmc.GasData(ctor_arg)
+
+        # act
+        names = sut.species
+
+        # assert
+        for i in range(len(sut)):
+            assert names[i] == ctor_arg[i]
