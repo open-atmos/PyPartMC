@@ -366,6 +366,7 @@ class TestAeroData:
         # assert
         for i, item in enumerate(ctor_arg):
             key = tuple(item.keys())[0]
+            # pylint: disable=unsubscriptable-object
             assert names[i] == key
 
     @staticmethod

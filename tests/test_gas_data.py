@@ -76,4 +76,5 @@ class TestGasData:
 
         # assert
         for i in range(len(sut)):
+            # pylint: disable=unsubscriptable-object
             assert names[i] == ctor_arg[i]
