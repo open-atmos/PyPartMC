@@ -364,11 +364,9 @@ class TestAeroData:
         names = sut.species
 
         # assert
-        i = 0
-        for item in ctor_arg:
-           key = tuple(item.keys())[0]
-           assert names[i] == key
-           i += 1
+        for i, item in enumerate(ctor_arg):
+            key = tuple(item.keys())[0]
+            assert names[i] == key
 
     @staticmethod
     def test_ctor_error_on_nonunique_keys():
