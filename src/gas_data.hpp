@@ -77,7 +77,7 @@ struct GasData {
         );
 
         char name[GAS_NAME_LEN];
-        std::vector<std::string> names(len);
+        auto names = pybind11::tuple(len);
         for (int idx = 0; idx < len; idx++) {
              f_gas_data_spec_name_by_index(
                  self.ptr.f_arg(),

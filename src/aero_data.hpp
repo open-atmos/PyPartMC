@@ -8,6 +8,7 @@
 
 #include "pmc_resource.hpp"
 #include "gimmicks.hpp"
+#include "pybind11/stl.h"
 #include "aero_data_parameters.hpp"
 
 extern "C" void f_aero_data_ctor(void *ptr) noexcept;
@@ -219,7 +220,7 @@ struct AeroData {
         );
 
         char name[AERO_SOURCE_NAME_LEN];
-        std::vector<std::string> names(len);
+        auto names = pybind11::tuple(len);
         for (int idx = 0; idx < len; idx++) {
              f_aero_data_source_name_by_index(
                  self.ptr.f_arg(),
@@ -240,7 +241,7 @@ struct AeroData {
         );
 
         char name[AERO_NAME_LEN];
-        std::vector<std::string> names(len);
+        auto names = pybind11::tuple(len);
         for (int idx = 0; idx < len; idx++) {
              f_aero_data_spec_name_by_index(
                  self.ptr.f_arg(),
