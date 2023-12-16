@@ -13,7 +13,7 @@ import pytest
 import PyPartMC as ppmc
 from PyPartMC import si
 
-from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_mode import (
     AERO_MODE_CTOR_LOG_NORMAL,
     AERO_MODE_CTOR_LOG_NORMAL_COAGULATION,
@@ -171,6 +171,20 @@ class TestAeroDist:
 
         # assert
         assert sut_minimal.mode(mode_idx).type != new_type
+
+    @staticmethod
+    def test_get_source_names():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+        _ = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_AVERAGE)
+
+        # act
+        sources = aero_data.sources
+
+        # assert
+        keys = tuple(AERO_DIST_CTOR_ARG_AVERAGE[0].keys())
+        for i, key in enumerate(keys):
+            assert sources[i] == key  # pylint: disable=unsubscriptable-object
 
     @staticmethod
     def test_ctor_multimode_error_on_repeated_mode_names():

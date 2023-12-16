@@ -438,7 +438,7 @@ string(CONCAT
   "print(''.join([f'#define {line.split()[3]} {line.split()[5]}\\n' for line in sys.stdin if 'parameter ::' in line]))"
 )
 include(CheckFunctionExists)
-foreach(file aero_data;output)
+foreach(file aero_data;gas_data;output)
   execute_process(
     COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
     INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/partmc/src/${file}.F90

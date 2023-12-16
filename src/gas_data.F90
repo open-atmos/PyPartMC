@@ -65,4 +65,26 @@ module PyPartMC_gas_data
 
     end subroutine
 
+  subroutine f_gas_data_spec_name_by_index(ptr_c, i_spec, &
+      name_data &
+      ) bind(C)
+    type(gas_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    character(kind=c_char), dimension(GAS_NAME_LEN) :: name_data
+    integer(c_int) :: name_size
+    integer(c_int), intent(in) :: i_spec
+    integer :: i
+    character(len=GAS_NAME_LEN) :: name
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    name = ptr_f%name(i_spec+1)
+    name_size = len(trim(ptr_f%name(i_spec+1)))
+    do i = 1,name_size
+       name_data(i) = name(i:i)
+    end do
+    name_data(i) = CHAR(0)
+
+  end subroutine
+
 end module

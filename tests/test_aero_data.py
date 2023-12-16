@@ -10,6 +10,8 @@ import pytest
 import PyPartMC as ppmc
 from PyPartMC import si
 
+# pylint: disable=R0904
+
 AERO_DATA_CTOR_ARG_MINIMAL = (
     {"H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
 )
@@ -355,6 +357,21 @@ class TestAeroData:
             assert density == val[0]
 
     @staticmethod
+    @pytest.mark.parametrize(
+        "ctor_arg", (AERO_DATA_CTOR_ARG_MINIMAL, AERO_DATA_CTOR_ARG_FULL)
+    )
+    def test_names(ctor_arg):
+        # arrange
+        sut = ppmc.AeroData(ctor_arg)
+        names = sut.species
+
+        # assert
+        for i, item in enumerate(ctor_arg):
+            key = tuple(item.keys())[0]
+            # pylint: disable=unsubscriptable-object
+            assert names[i] == key
+
+    @staticmethod
     def test_ctor_error_on_nonunique_keys():
         # act
         with pytest.raises(Exception) as exc_info:
@@ -374,3 +391,18 @@ class TestAeroData:
 
         # assert
         assert str(exc_info.value) == "No sources defined."
+
+    @staticmethod
+    def test_names_immutable():
+        # arrange
+        sut = ppmc.AeroData(
+            AERO_DATA_CTOR_ARG_MINIMAL,
+        )
+        names = sut.species
+
+        # act
+        with pytest.raises(TypeError) as exc_info:
+            names[0] = "Z"  # pylint: disable=unsupported-assignment-operation
+
+        # assert
+        assert "not support item assignment" in str(exc_info.value)

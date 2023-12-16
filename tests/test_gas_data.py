@@ -62,3 +62,32 @@ class TestGasData:
 
         # assert
         assert indices == list(range(len(ctor_arg)))
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "ctor_arg", (GAS_DATA_CTOR_ARG_MINIMAL, ("SO2", "NO2"), ("A", "B", "C"))
+    )
+    def test_species(ctor_arg):
+        # arrange
+        sut = ppmc.GasData(ctor_arg)
+
+        # act
+        names = sut.species
+
+        # assert
+        for i in range(len(sut)):
+            # pylint: disable=unsubscriptable-object
+            assert names[i] == ctor_arg[i]
+
+    @staticmethod
+    def test_species_immutable():
+        # arrange
+        sut = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        names = sut.species
+
+        # assert
+        with pytest.raises(TypeError) as exc_info:
+            names[0] = "Z"  # pylint: disable=unsupported-assignment-operation
+
+        # assert
+        assert "not support item assignment" in str(exc_info.value)

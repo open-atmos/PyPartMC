@@ -88,6 +88,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("__len__", AeroData::__len__, "Number of aerosol species")
         .def_property_readonly("n_source", AeroData::n_source,
              "Number of aerosol sources")
+        .def_property_readonly("sources", AeroData::sources, "return list of source names")
         .def_property("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim,
              "Volume fractal dimension (1)")
         .def_property("vol_fill_factor", &AeroData::get_vol_fill_factor,
@@ -105,6 +106,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Convert geometric diameter (m) to mass-equivalent volume (m^3).")
         .def("vol2diam", AeroData::vol2diam,
             "Convert mass-equivalent volume (m^3) to geometric diameter (m).")
+        .def_property_readonly("species", AeroData::names,
+            "returns list of aerosol species names")
     ;
 
     py::class_<AeroParticle>(m, "AeroParticle",
@@ -262,6 +265,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns a string with JSON representation of the object")
         .def("spec_by_name", GasData::spec_by_name,
             "returns the number of the species in gas with the given name")
+        .def_property_readonly("species", GasData::names, "returns list of gas species names")
     ;
 
     py::class_<EnvState>(m,

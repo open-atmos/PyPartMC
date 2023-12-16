@@ -8,6 +8,7 @@
 
 #include "pmc_resource.hpp"
 #include "gimmicks.hpp"
+#include "pybind11/stl.h"
 #include "aero_data_parameters.hpp"
 
 extern "C" void f_aero_data_ctor(void *ptr) noexcept;
@@ -27,6 +28,10 @@ extern "C" void f_aero_data_vol2rad(const void *ptr, const double*, double*) noe
 extern "C" void f_aero_data_diam2vol(const void *ptr, const double*, double*) noexcept;
 extern "C" void f_aero_data_vol2diam(const void *ptr, const double*, double*) noexcept;
 extern "C" void f_aero_data_get_species_density(const void *ptr, const int *idx, double *val) noexcept;
+extern "C" void f_aero_data_source_name_by_index(const void *ptr, const int *i_source,
+    char *name_data) noexcept;
+extern "C" void f_aero_data_spec_name_by_index(const void *ptr, const int *i_spec,
+    char *name_data) noexcept;
 
 struct AeroData {
     PMCResource ptr;
@@ -206,5 +211,46 @@ struct AeroData {
         return len;
     }
 
+    static auto sources(const AeroData &self) {
+
+        int len;
+        f_aero_data_n_source(
+            self.ptr.f_arg(),
+            &len
+        );
+
+        char name[AERO_SOURCE_NAME_LEN];
+        auto names = pybind11::tuple(len);
+        for (int idx = 0; idx < len; idx++) {
+             f_aero_data_source_name_by_index(
+                 self.ptr.f_arg(),
+                 &idx,
+                 name
+            );
+            names[idx] = std::string(name);
+        }
+        return names;
+    }
+
+    static auto names(const AeroData &self) {
+
+        int len;
+        f_aero_data_len(
+            self.ptr.f_arg(),
+            &len
+        );
+
+        char name[AERO_NAME_LEN];
+        auto names = pybind11::tuple(len);
+        for (int idx = 0; idx < len; idx++) {
+             f_aero_data_spec_name_by_index(
+                 self.ptr.f_arg(),
+                 &idx,
+                 name
+            );
+            names[idx] = std::string(name);
+        }
+        return names;
+    }
 };
 
