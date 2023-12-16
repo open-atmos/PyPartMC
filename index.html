@@ -243,6 +243,14 @@ same, but without the \c _a suffix.</p>
 <dd>
 <div class="desc"><p>Radius of primary particles (m)</p></div>
 </dd>
+<dt id="PyPartMC.AeroData.sources"><code class="name">var <span class="ident">sources</span></code></dt>
+<dd>
+<div class="desc"><p>return list of source names</p></div>
+</dd>
+<dt id="PyPartMC.AeroData.species"><code class="name">var <span class="ident">species</span></code></dt>
+<dd>
+<div class="desc"><p>returns list of aerosol species names</p></div>
+</dd>
 <dt id="PyPartMC.AeroData.vol_fill_factor"><code class="name">var <span class="ident">vol_fill_factor</span></code></dt>
 <dd>
 <div class="desc"><p>Volume filling factor (1)</p></div>
@@ -779,6 +787,10 @@ is gas_state%%mix_rat(i).</p>
 <dd>
 <div class="desc"><p>(arg0: _PyPartMC.GasData) -&gt; int</p></div>
 </dd>
+<dt id="PyPartMC.GasData.species"><code class="name">var <span class="ident">species</span></code></dt>
+<dd>
+<div class="desc"><p>returns list of gas species names</p></div>
+</dd>
 </dl>
 <h3>Methods</h3>
 <dl>
@@ -981,7 +993,9 @@ aero_dist_interp_1d(), respectively.</p>
 <li><code><a title="PyPartMC.AeroData.n_source" href="#PyPartMC.AeroData.n_source">n_source</a></code></li>
 <li><code><a title="PyPartMC.AeroData.prime_radius" href="#PyPartMC.AeroData.prime_radius">prime_radius</a></code></li>
 <li><code><a title="PyPartMC.AeroData.rad2vol" href="#PyPartMC.AeroData.rad2vol">rad2vol</a></code></li>
+<li><code><a title="PyPartMC.AeroData.sources" href="#PyPartMC.AeroData.sources">sources</a></code></li>
 <li><code><a title="PyPartMC.AeroData.spec_by_name" href="#PyPartMC.AeroData.spec_by_name">spec_by_name</a></code></li>
+<li><code><a title="PyPartMC.AeroData.species" href="#PyPartMC.AeroData.species">species</a></code></li>
 <li><code><a title="PyPartMC.AeroData.vol2diam" href="#PyPartMC.AeroData.vol2diam">vol2diam</a></code></li>
 <li><code><a title="PyPartMC.AeroData.vol2rad" href="#PyPartMC.AeroData.vol2rad">vol2rad</a></code></li>
 <li><code><a title="PyPartMC.AeroData.vol_fill_factor" href="#PyPartMC.AeroData.vol_fill_factor">vol_fill_factor</a></code></li>
@@ -1093,6 +1107,7 @@ aero_dist_interp_1d(), respectively.</p>
 <ul class="">
 <li><code><a title="PyPartMC.GasData.n_spec" href="#PyPartMC.GasData.n_spec">n_spec</a></code></li>
 <li><code><a title="PyPartMC.GasData.spec_by_name" href="#PyPartMC.GasData.spec_by_name">spec_by_name</a></code></li>
+<li><code><a title="PyPartMC.GasData.species" href="#PyPartMC.GasData.species">species</a></code></li>
 </ul>
 </li>
 <li>
