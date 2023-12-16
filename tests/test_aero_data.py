@@ -393,18 +393,16 @@ class TestAeroData:
         assert str(exc_info.value) == "No sources defined."
 
     @staticmethod
-    @pytest.mark.parametrize(
-        "ctor_arg", (AERO_DATA_CTOR_ARG_MINIMAL, AERO_DATA_CTOR_ARG_FULL)
-    )
-    def test_names_immutable(ctor_arg):
+    def test_names_immutable():
         # arrange
-        sut = ppmc.AeroData(ctor_arg)
-
+        sut = ppmc.AeroData(
+            AERO_DATA_CTOR_ARG_MINIMAL,
+        )
         names = sut.species
-        try:
-            # pylint: disable=unsupported-assignment-operation
-            names[0] = "Z"
-        except TypeError:
-            assert True
-        else:
-            assert False
+
+        # act
+        with pytest.raises(TypeError) as exc_info:
+            names[0] = "Z"  # pylint: disable=unsupported-assignment-operation
+
+        # assert
+        assert "not support item assignment" in str(exc_info.value)
