@@ -78,3 +78,20 @@ class TestGasData:
         for i in range(len(sut)):
             # pylint: disable=unsubscriptable-object
             assert names[i] == ctor_arg[i]
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "ctor_arg", (GAS_DATA_CTOR_ARG_MINIMAL, ("SO2", "NO2"), ("A", "B", "C"))
+    )
+    def test_species_immutable(ctor_arg):
+        # arrange
+        sut = ppmc.GasData(ctor_arg)
+
+        # act
+        names = sut.species
+        try:
+            names[0] = 'Z'
+        except TypeError:
+            assert True
+        else:
+            assert False

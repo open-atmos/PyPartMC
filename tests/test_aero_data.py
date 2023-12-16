@@ -10,6 +10,8 @@ import pytest
 import PyPartMC as ppmc
 from PyPartMC import si
 
+# pylint: disable=R0904
+
 AERO_DATA_CTOR_ARG_MINIMAL = (
     {"H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
 )
@@ -389,3 +391,19 @@ class TestAeroData:
 
         # assert
         assert str(exc_info.value) == "No sources defined."
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "ctor_arg", (AERO_DATA_CTOR_ARG_MINIMAL, AERO_DATA_CTOR_ARG_FULL)
+    )
+    def test_names_immutable(ctor_arg):
+        # arrange
+        sut = ppmc.AeroData(ctor_arg)
+
+        names = sut.species
+        try:
+            names[0] = 'Z'
+        except TypeError:
+            assert True
+        else:
+            assert False
