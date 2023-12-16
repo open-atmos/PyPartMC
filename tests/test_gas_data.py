@@ -90,7 +90,7 @@ class TestGasData:
         # act
         names = sut.species
         try:
-            names[0] = 'Z'
+            names[0] = "Z"
         except TypeError:
             assert True
         else:
