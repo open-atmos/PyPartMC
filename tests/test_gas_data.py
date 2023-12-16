@@ -90,6 +90,7 @@ class TestGasData:
         # act
         names = sut.species
         try:
+            # pylint: disable=unsupported-assignment-operation
             names[0] = "Z"
         except TypeError:
             assert True
