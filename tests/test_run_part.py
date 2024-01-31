@@ -12,7 +12,7 @@ from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
-from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_MINIMAL
+from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_SIMULATION
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
 
@@ -31,7 +31,7 @@ def common_args():
         ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL),
         gas_data,
         gas_state,
-        ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_MINIMAL),
+        ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_SIMULATION),
         ppmc.CampCore(),
         ppmc.Photolysis(),
     )
@@ -42,10 +42,29 @@ class TestRunPart:
     def test_run_part(common_args):  # pylint: disable=redefined-outer-name
         ppmc.run_part(*common_args)
 
+        assert common_args[1].elapsed_time == RUN_PART_OPT_CTOR_ARG_SIMULATION["t_max"]
+
     @staticmethod
     def test_run_part_timestep(common_args):  # pylint: disable=redefined-outer-name
-        ppmc.run_part_timestep(*common_args, 0, 0, 0, 0, 0)
+        (last_output_time, last_progress_time, i_output) = ppmc.run_part_timestep(
+            *common_args, 1, 0, 0, 0, 1
+        )
+
+        assert common_args[1].elapsed_time == RUN_PART_OPT_CTOR_ARG_SIMULATION["del_t"]
+        assert last_output_time == 0.0
+        assert last_progress_time == 0.0
+        assert i_output == 1
 
     @staticmethod
     def test_run_part_timeblock(common_args):  # pylint: disable=redefined-outer-name
-        ppmc.run_part_timeblock(*common_args, 0, 0, 0, 0, 0, 0)
+
+        nt = int(
+            RUN_PART_OPT_CTOR_ARG_SIMULATION["t_output"]
+            / RUN_PART_OPT_CTOR_ARG_SIMULATION["del_t"]
+        )
+        (last_output_time, last_progress_time, i_output) = ppmc.run_part_timeblock(
+            *common_args, 1, nt, 0, 0, 0, 1
+        )
+        assert last_output_time == RUN_PART_OPT_CTOR_ARG_SIMULATION["t_output"]
+        assert last_progress_time == 0.0
+        assert i_output == 2
