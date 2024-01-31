@@ -58,12 +58,12 @@ class TestRunPart:
     @staticmethod
     def test_run_part_timeblock(common_args):  # pylint: disable=redefined-outer-name
 
-        nt = int(
+        num_times = int(
             RUN_PART_OPT_CTOR_ARG_SIMULATION["t_output"]
             / RUN_PART_OPT_CTOR_ARG_SIMULATION["del_t"]
         )
         (last_output_time, last_progress_time, i_output) = ppmc.run_part_timeblock(
-            *common_args, 1, nt, 0, 0, 0, 1
+            *common_args, 1, num_times, 0, 0, 0, 1
         )
         assert last_output_time == RUN_PART_OPT_CTOR_ARG_SIMULATION["t_output"]
         assert last_progress_time == 0.0
