@@ -44,8 +44,8 @@ class TestRunPart:
 
     @staticmethod
     def test_run_part_timestep(common_args):  # pylint: disable=redefined-outer-name
-        ppmc.run_part_timestep(*common_args, 0, 0)
+        ppmc.run_part_timestep(*common_args, 0, 0, 0, 0, 0)
 
     @staticmethod
     def test_run_part_timeblock(common_args):  # pylint: disable=redefined-outer-name
-        ppmc.run_part_timeblock(*common_args, 0, 0, 0)
+        ppmc.run_part_timeblock(*common_args, 0, 0, 0, 0, 0, 0)
