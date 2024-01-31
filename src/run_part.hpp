@@ -38,7 +38,10 @@ extern "C" void f_run_part_timestep(
     const void*,
     const void*,
     const int *,
-    const double *
+    const double*,
+    double*,
+    double*,
+    int*
 ) noexcept;
 
 extern "C" void f_run_part_timeblock(
@@ -53,7 +56,10 @@ extern "C" void f_run_part_timeblock(
     const void*,
     const int *,
     const int *,
-    const double *
+    const double *,
+    double*,
+    double*,
+    int*
 ) noexcept;
 
 void run_part(
@@ -68,7 +74,7 @@ void run_part(
     const Photolysis &photolysis
 );
 
-void run_part_timestep(
+std::tuple<double, double, int> run_part_timestep(
     const Scenario &scenario,
     EnvState &env_state,
     const AeroData &aero_data,
@@ -79,10 +85,13 @@ void run_part_timestep(
     const CampCore &camp_core,
     const Photolysis &photolysis,
     const int &i_time,
-    const double &t_start
+    const double &t_start,
+    double &last_output_time,
+    double &last_progress_time,
+    int &i_output
 );
 
-void run_part_timeblock(
+std::tuple<double, double, int> run_part_timeblock(
     const Scenario &scenario,
     EnvState &env_state,
     const AeroData &aero_data,
@@ -94,5 +103,8 @@ void run_part_timeblock(
     const Photolysis &photolysis,
     const int &i_time,
     const int &i_next,
-    const double &t_start
+    const double &t_start,
+    double &last_output_time,
+    double &last_progress_time,
+    int &i_output
 );
