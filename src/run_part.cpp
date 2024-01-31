@@ -5,6 +5,7 @@
 ##################################################################################################*/
 
 #include "run_part.hpp"
+#include "pybind11/stl.h"
 
 void run_part(
     const Scenario &scenario,
@@ -30,7 +31,7 @@ void run_part(
     );
 }
 
-void run_part_timestep(
+std::tuple<double, double, int> run_part_timestep(
     const Scenario &scenario,
     EnvState &env_state,
     const AeroData &aero_data,
@@ -41,7 +42,10 @@ void run_part_timestep(
     const CampCore &camp_core,
     const Photolysis &photolysis,
     const int &i_time,
-    const double &t_start
+    const double &t_start,
+    double &last_output_time,
+    double &last_progress_time,
+    int &i_output
 ) {
     f_run_part_timestep(
         scenario.ptr.f_arg(),
@@ -54,11 +58,16 @@ void run_part_timestep(
         camp_core.ptr.f_arg(),
         photolysis.ptr.f_arg(),
         &i_time,
-        &t_start
+        &t_start,
+        &last_output_time,
+        &last_progress_time,
+        &i_output
     );
+
+    return std::make_tuple(last_output_time, last_progress_time, i_output);
 }
 
-void run_part_timeblock(
+std::tuple<double, double, int> run_part_timeblock(
     const Scenario &scenario,
     EnvState &env_state,
     const AeroData &aero_data,
@@ -70,7 +79,10 @@ void run_part_timeblock(
     const Photolysis &photolysis,
     const int &i_time,
     const int &i_next,
-    const double &t_start
+    const double &t_start,
+    double &last_output_time,
+    double &last_progress_time,
+    int &i_output
 ) {
     f_run_part_timeblock(
         scenario.ptr.f_arg(),
@@ -84,6 +96,11 @@ void run_part_timeblock(
         photolysis.ptr.f_arg(),
         &i_time,
         &i_next,
-        &t_start
+        &t_start,
+        &last_output_time,
+        &last_progress_time,
+        &i_output
     );
+
+    return std::make_tuple(last_output_time, last_progress_time, i_output);
 }

@@ -86,7 +86,10 @@ module PyPartMC_run_part
     camp_core_ptr_c, &
     photolysis_ptr_c, &
     i_time, &
-    t_start &
+    t_start, &
+    last_output_time, &
+    last_progress_time, &
+    i_output &
   ) bind(C)
 
     type(c_ptr), intent(in) :: scenario_ptr_c
@@ -117,8 +120,11 @@ module PyPartMC_run_part
     integer(c_int), intent(in) :: i_time
     real(c_double), intent(in) :: t_start
 
-    real(c_double) :: last_output_time, last_progress_time
-    integer(c_int) :: i_output, progress_n_samp, progress_n_coag, &
+    real(c_double), intent(inout) :: last_output_time
+    real(c_double), intent(inout) :: last_progress_time
+    integer(c_int), intent(inout) :: i_output
+
+    integer(c_int) :: progress_n_samp, progress_n_coag, &
         progress_n_emit, progress_n_dil_in, progress_n_dil_out, &
         progress_n_nuc
 
@@ -142,6 +148,13 @@ module PyPartMC_run_part
     if (env_state_ptr_f%elapsed_time < run_part_opt_ptr_f%del_t) then
        call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
             run_part_opt_ptr_f%do_optical)
+       if (run_part_opt_ptr_f%t_output > 0) then
+          call output_state(run_part_opt_ptr_f%output_prefix, &
+               run_part_opt_ptr_f%output_type, aero_data_ptr_f, aero_state_ptr_f, gas_data_ptr_f, &
+               gas_state_ptr_f, env_state_ptr_f, 1, .0d0, run_part_opt_ptr_f%del_t, &
+               run_part_opt_ptr_f%i_repeat, run_part_opt_ptr_f%record_removals, &
+               run_part_opt_ptr_f%do_optical, run_part_opt_ptr_f%uuid)
+       end if
     end if
     call run_part_timestep(scenario_ptr_f, env_state_ptr_f, aero_data_ptr_f, aero_state_ptr_f, &
        gas_data_ptr_f, gas_state_ptr_f, run_part_opt_ptr_f, camp_core_ptr_f, photolysis_ptr_f, &
@@ -164,7 +177,10 @@ module PyPartMC_run_part
     photolysis_ptr_c, &
     i_time, &
     i_next, &
-    t_start &
+    t_start, &
+    last_output_time, &
+    last_progress_time, &
+    i_output &
   ) bind(C)
 
     type(c_ptr), intent(in) :: scenario_ptr_c
@@ -197,9 +213,11 @@ module PyPartMC_run_part
     integer(c_int), intent(in) :: i_time
     integer(c_int), intent(in) :: i_next
     real(c_double), intent(in) :: t_start
+    real(c_double), intent(inout) :: last_output_time
+    real(c_double), intent(inout) :: last_progress_time
+    integer(c_int), intent(inout) :: i_output
 
-    real(c_double) :: last_output_time, last_progress_time
-    integer(c_int) :: i_output, progress_n_samp, progress_n_coag, &
+    integer(c_int) :: progress_n_samp, progress_n_coag, &
         progress_n_emit, progress_n_dil_in, progress_n_dil_out, &
         progress_n_nuc
 
@@ -223,6 +241,13 @@ module PyPartMC_run_part
     if (env_state_ptr_f%elapsed_time < run_part_opt_ptr_f%del_t) then
        call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
             run_part_opt_ptr_f%do_optical)
+       if (run_part_opt_ptr_f%t_output > 0) then
+          call output_state(run_part_opt_ptr_f%output_prefix, &
+               run_part_opt_ptr_f%output_type, aero_data_ptr_f, aero_state_ptr_f, gas_data_ptr_f, &
+               gas_state_ptr_f, env_state_ptr_f, 1, .0d0, run_part_opt_ptr_f%del_t, &
+               run_part_opt_ptr_f%i_repeat, run_part_opt_ptr_f%record_removals, &
+               run_part_opt_ptr_f%do_optical, run_part_opt_ptr_f%uuid)
+       end if
     end if
 
     call run_part_timeblock(scenario_ptr_f, env_state_ptr_f, aero_data_ptr_f, aero_state_ptr_f, &
