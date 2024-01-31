@@ -17,13 +17,17 @@ from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
 
 @pytest.fixture
-def common_args():
+def common_args(tmp_path):
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
     gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
     gas_state = ppmc.GasState(gas_data)
     scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
     env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
     scenario.init_env_state(env_state, 0.0)
+    filename = tmp_path / "test"
+    run_part_opt = ppmc.RunPartOpt(
+            {**RUN_PART_OPT_CTOR_ARG_SIMULATION, "output_prefix": str(filename)}
+    )
     return (
         scenario,
         env_state,
@@ -31,7 +35,7 @@ def common_args():
         ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL),
         gas_data,
         gas_state,
-        ppmc.RunPartOpt(RUN_PART_OPT_CTOR_ARG_SIMULATION),
+        run_part_opt,
         ppmc.CampCore(),
         ppmc.Photolysis(),
     )
