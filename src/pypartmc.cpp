@@ -60,7 +60,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
     //m.def("run_exact", &run_exact, "Do an exact solution simulation.");
 
-    py::class_<AeroData, std::shared_ptr<AeroData>>(m, "AeroData",
+    py::class_<AeroData, std::shared_ptr<AeroData>>(m, "AeroData", py::metaclass((PyObject *) &PyType_Type),
         R"pbdoc(
              Aerosol material properties and associated data.
 
@@ -110,7 +110,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "returns list of aerosol species names")
     ;
 
-    py::class_<AeroParticle>(m, "AeroParticle",
+    py::class_<AeroParticle>(m, "AeroParticle", py::metaclass((PyObject *) &PyType_Type),
         R"pbdoc(
              Single aerosol particle data structure.
 
@@ -188,7 +188,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Sets the aerosol particle volumes.")
     ;
 
-    py::class_<AeroState>(m, "AeroState",
+    py::class_<AeroState>(m, "AeroState", py::metaclass((PyObject *) &PyType_Type),
         R"pbdoc(
              The current collection of aerosol particles.
 
@@ -246,7 +246,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("zero", AeroState::zero, "remove all particles from an AeroState")
     ;
 
-    py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData",
+    py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData", py::metaclass((PyObject *) &PyType_Type),
         R"pbdoc(
             Constant gas data.
 
@@ -270,6 +270,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     py::class_<EnvState>(m,
         "EnvState",
+        py::metaclass((PyObject *) &PyType_Type),
         R"pbdoc(
             Current environment state.
 
@@ -298,6 +299,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     py::class_<Photolysis>(m,
         "Photolysis",
+        py::metaclass((PyObject *) &PyType_Type),
         R"pbdoc(
             PartMC interface to a photolysis module
         )pbdoc"
@@ -307,6 +309,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     py::class_<CampCore>(m,
         "CampCore",
+        py::metaclass((PyObject *) &PyType_Type),
         R"pbdoc(
             An interface between PartMC and the CAMP
         )pbdoc"
@@ -316,6 +319,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     py::class_<Scenario>(m,
         "Scenario",
+        py::metaclass((PyObject *) &PyType_Type),
         R"pbdoc(
             This is everything needed to drive the scenario being simulated.
 
@@ -360,6 +364,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     py::class_<GasState>(m,
         "GasState",
+        py::metaclass((PyObject *) &PyType_Type),
         R"pbdoc(
             Current state of the gas mixing ratios in the system.
 
@@ -393,6 +398,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     py::class_<RunPartOpt>(m,
         "RunPartOpt",
+        py::metaclass((PyObject *) &PyType_Type),
         "Options controlling the execution of run_part()."
     )
         .def(py::init<const nlohmann::json&>())
@@ -400,14 +406,14 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property_readonly("del_t", RunPartOpt::del_t, "time step")
     ;
 
-    py::class_<BinGrid>(m,"BinGrid")
+    py::class_<BinGrid>(m, "BinGrid", py::metaclass((PyObject *) &PyType_Type))
         .def(py::init<const double, const py::str, const double, const double>())
         .def("__len__", BinGrid::__len__, "returns number of bins")
         .def_property_readonly("edges", BinGrid::edges, "Bin edges")
         .def_property_readonly("centers", BinGrid::centers, "Bin centers")
     ;
 
-    py::class_<AeroMode>(m,"AeroMode")
+    py::class_<AeroMode>(m, "AeroMode", py::metaclass((PyObject *) &PyType_Type))
         .def(py::init<AeroData&, const nlohmann::json&>())
         .def_property("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
              "provides access (read or write) to the total number concentration of a mode")
@@ -429,7 +435,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
              "Mode name, used to track particle sources")
     ;
 
-    py::class_<AeroDist>(m,"AeroDist")
+    py::class_<AeroDist>(m, "AeroDist", py::metaclass((PyObject *) &PyType_Type))
         .def(py::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
         .def_property_readonly("n_mode", &AeroDist::get_n_mode,
             "Number of aerosol modes")
