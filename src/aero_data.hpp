@@ -28,6 +28,8 @@ extern "C" void f_aero_data_vol2rad(const void *ptr, const double*, double*) noe
 extern "C" void f_aero_data_diam2vol(const void *ptr, const double*, double*) noexcept;
 extern "C" void f_aero_data_vol2diam(const void *ptr, const double*, double*) noexcept;
 extern "C" void f_aero_data_get_species_density(const void *ptr, const int *idx, double *val) noexcept;
+extern "C" void f_aero_data_get_species_kappa(const void *ptr, const int *idx, double *val) noexcept;
+extern "C" void f_aero_data_get_species_molecular_weight(const void *ptr, const int *idx, double *val) noexcept;
 extern "C" void f_aero_data_source_name_by_index(const void *ptr, const int *i_source,
     char *name_data) noexcept;
 extern "C" void f_aero_data_spec_name_by_index(const void *ptr, const int *i_spec,
@@ -251,6 +253,42 @@ struct AeroData {
             names[idx] = std::string(name);
         }
         return names;
+    }
+
+    static auto kappa(const AeroData &self) {
+        int len;
+        f_aero_data_len(
+            self.ptr.f_arg(),
+            &len
+        );
+        std::valarray<double> data(len);
+
+        for (int idx = 0; idx < len; idx++) {
+             f_aero_data_get_species_kappa(
+                 self.ptr.f_arg(),
+                 &idx,
+                 &data[idx]
+            );
+        }
+        return data;
+    }
+
+    static auto molecular_weights(const AeroData &self) {
+        int len;
+        f_aero_data_len(
+            self.ptr.f_arg(),
+            &len
+        );
+        std::valarray<double> data(len);
+
+        for (int idx = 0; idx < len; idx++) {
+             f_aero_data_get_species_molecular_weight(
+                 self.ptr.f_arg(),
+                 &idx,
+                 &data[idx]
+            );
+        }
+        return data;
     }
 };
 

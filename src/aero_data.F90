@@ -185,6 +185,28 @@ module PyPartMC_aero_data
 
   end subroutine
 
+  subroutine f_aero_data_get_species_kappa(ptr_c, idx, val) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    integer(c_int), intent(in) :: idx
+    real(c_double), intent(out) :: val
+
+    call c_f_pointer(ptr_c, ptr_f)
+    val = ptr_f%kappa(idx+1)
+
+  end subroutine
+
+  subroutine f_aero_data_get_species_molecular_weight(ptr_c, idx, val) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    integer(c_int), intent(in) :: idx
+    real(c_double), intent(out) :: val
+
+    call c_f_pointer(ptr_c, ptr_f)
+    val = ptr_f%molec_weight(idx+1)
+
+  end subroutine
+
   subroutine f_aero_data_n_source(ptr_c, n_source) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
