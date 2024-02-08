@@ -340,6 +340,100 @@ class TestAeroData:
         assert aero_data_densities == densities
 
     @staticmethod
+    def test_aero_data_kappa():
+        # arrange
+        kappa = [0.65, 0.1, 0.0, 0.0]
+        sut = ppmc.AeroData(
+            (
+                {
+                    "SO4": [
+                        1800.0 * si.kg / si.m**3,
+                        0,
+                        96.0 * si.g / si.mol,
+                        kappa[0],
+                    ]
+                },
+                {
+                    "OC": [
+                        1400.0 * si.kg / si.m**3,
+                        0,
+                        1.0 * si.g / si.mol,
+                        kappa[1],
+                    ]
+                },
+                {
+                    "BC": [
+                        1800.0 * si.kg / si.m**3,
+                        0,
+                        1.0 * si.g / si.mol,
+                        kappa[2],
+                    ]
+                },
+                {
+                    "H2O": [
+                        1000.0 * si.kg / si.m**3,
+                        0,
+                        18.0 * si.g / si.mol,
+                        kappa[3],
+                    ]
+                },
+            )
+        )
+
+        # act
+        aero_data_kappa = sut.kappa
+
+        # assert
+        assert aero_data_kappa == kappa
+
+    @staticmethod
+    def test_aero_data_molecular_weight():
+        # arrange
+        molec_weight = [96.0, 1.0, 1.0, 18.0]
+        sut = ppmc.AeroData(
+            (
+                {
+                    "SO4": [
+                        1800.0 * si.kg / si.m**3,
+                        0,
+                        molec_weight[0] * si.kg / si.mol,
+                        0.65,
+                    ]
+                },
+                {
+                    "OC": [
+                        1400.0 * si.kg / si.m**3,
+                        0,
+                        molec_weight[1] * si.kg / si.mol,
+                        0.1,
+                    ]
+                },
+                {
+                    "BC": [
+                        1800.0 * si.kg / si.m**3,
+                        0,
+                        molec_weight[2] * si.kg / si.mol,
+                        0.0,
+                    ]
+                },
+                {
+                    "H2O": [
+                        1000.0 * si.kg / si.m**3,
+                        0,
+                        molec_weight[3] * si.kg / si.mol,
+                        0.0,
+                    ]
+                },
+            )
+        )
+
+        # act
+        aero_data_molec_weight = sut.molecular_weights
+
+        # assert
+        assert aero_data_molec_weight == molec_weight
+
+    @staticmethod
     def test_aero_data_density():
         # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)

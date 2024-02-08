@@ -97,6 +97,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Radius of primary particles (m)")
         .def_property_readonly("densities", &AeroData::densities,
             "Return array of aerosol species densities")
+        .def_property_readonly("kappa", &AeroData::kappa,
+            "Returns array of aerosol species hygroscopicity parameter kappa")
+        .def_property_readonly("molecular_weights", &AeroData::molecular_weights,
+            "Returns array of aerosol species molecular weights")
         .def("density", &AeroData::density, "Return density of an aerosol species")
         .def("rad2vol", AeroData::rad2vol,
             "Convert geometric radius (m) to mass-equivalent volume (m^3).")
