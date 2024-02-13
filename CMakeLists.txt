@@ -504,7 +504,7 @@ foreach(target _PyPartMC)
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wno-unused-parameter>
   )
 endforeach()
-
+target_compile_definitions(_PyPartMC PRIVATE PMC_USE_SUNDIALS="1")
 include(CheckCXXSourceCompiles)
 file(GLOB PyPartMC_headers ${CMAKE_SOURCE_DIR}/src/*.hpp)
 if (NOT "${CMAKE_REQUIRED_INCLUDES}" STREQUAL "")
