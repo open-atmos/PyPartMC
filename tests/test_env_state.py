@@ -1,6 +1,6 @@
 ####################################################################################################
 # This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
-# Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+# Copyright (C) 2022-2024 University of Illinois Urbana-Champaign                                  #
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
@@ -10,14 +10,10 @@ import pytest
 
 import PyPartMC as ppmc
 
-ENV_STATE_CTOR_ARG_MINIMAL = {
-    "rel_humidity": 0.0,
-    "latitude": 0.0,
-    "longitude": 0.0,
-    "altitude": 0.0,
-    "start_time": 44.0,
-    "start_day": 0,
-}
+from .common import ENV_STATE_CTOR_ARG_MINIMAL
+from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
+from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
 
 class TestEnvState:
@@ -95,3 +91,15 @@ class TestEnvState:
 
         # assert
         assert sut.start_time == ENV_STATE_CTOR_ARG_MINIMAL["start_time"]
+
+    @staticmethod
+    def test_air_density():
+        # arrange
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        scenario.init_env_state(env_state, 0.0)
+
+        # assert
+        assert 1 < env_state.air_density < 1.5
