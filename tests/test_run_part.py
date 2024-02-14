@@ -76,6 +76,9 @@ class TestRunPart:
     @staticmethod
     def test_run_part_do_condensation(common_args, tmp_path):
         filename = tmp_path / "test"
+        env_state = common_args[1]
+        aero_data = common_args[2]
+        aero_state = common_args[3]
         args = list(common_args)
         args[6] = ppmc.RunPartOpt(
             {
@@ -84,4 +87,5 @@ class TestRunPart:
                 "do_condensation": True,
             }
         )
+        ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
         ppmc.run_part(*args)
