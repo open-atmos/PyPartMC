@@ -9,6 +9,7 @@ import gc
 import pytest
 
 import PyPartMC as ppmc
+from PyPartMC import si
 
 from .common import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
@@ -105,4 +106,4 @@ class TestEnvState:
         scenario.init_env_state(env_state, 0.0)
 
         # assert
-        assert 1 < env_state.air_density < 1.5
+        assert 1 * si.kg / si.m**3 < env_state.air_density < 1.5 * si.kg / si.m**3
