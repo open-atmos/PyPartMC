@@ -9,6 +9,7 @@ import pytest
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_dist import AERO_DIST_CTOR_ARG_FULL
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
@@ -78,6 +79,7 @@ class TestRunPart:
         filename = tmp_path / "test"
         env_state = common_args[1]
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FULL)
         aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
 
         args = list(common_args)
@@ -90,5 +92,6 @@ class TestRunPart:
                 "do_condensation": True,
             }
         )
+        aero_state.dist_sample(aero_dist, 1.0, 0.0, True, True)
         ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
         ppmc.run_part(*args)
