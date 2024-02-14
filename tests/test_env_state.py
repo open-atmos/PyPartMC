@@ -15,6 +15,15 @@ from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
+ENV_STATE_CTOR_ARG_HIGH_RH = {
+    "rel_humidity": 0.95,
+    "latitude": 0.0,
+    "longitude": 0.0,
+    "altitude": 0.0,
+    "start_time": 44.0,
+    "start_day": 0,
+}
+
 
 class TestEnvState:
     @staticmethod

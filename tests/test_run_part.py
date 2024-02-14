@@ -4,6 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import numpy as np
 import pytest
 
 import PyPartMC as ppmc
@@ -11,7 +12,7 @@ import PyPartMC as ppmc
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_dist import AERO_DIST_CTOR_ARG_FULL
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
-from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
+from .test_env_state import ENV_STATE_CTOR_ARG_HIGH_RH, ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_SIMULATION
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
@@ -77,12 +78,13 @@ class TestRunPart:
     @staticmethod
     def test_run_part_do_condensation(common_args, tmp_path):
         filename = tmp_path / "test"
-        env_state = common_args[1]
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_HIGH_RH)
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FULL)
         aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
-
         args = list(common_args)
+        args[0].init_env_state(env_state, 0.0)
+        args[1] = env_state
         args[2] = aero_data
         args[3] = aero_state
         args[6] = ppmc.RunPartOpt(
@@ -95,3 +97,5 @@ class TestRunPart:
         aero_state.dist_sample(aero_dist, 1.0, 0.0, True, True)
         ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
         ppmc.run_part(*args)
+
+        assert np.sum(aero_state.masses(include=["H2O"])) > 0.0
