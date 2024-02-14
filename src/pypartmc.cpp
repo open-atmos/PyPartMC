@@ -298,6 +298,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Box height (m)")
         .def_property("pressure", &EnvState::get_pressure, &EnvState::set_pressure,
             "Ambient pressure (Pa)")
+        .def_property_readonly("air_density", &EnvState::air_density,
+            "Air density (kg m^{-3})")
     ;
 
     py::class_<Photolysis>(m,

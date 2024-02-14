@@ -21,6 +21,7 @@ extern "C" void f_env_state_set_pressure(const void *ptr, const double *pressure
 extern "C" void f_env_state_get_pressure(const void *ptr, double *pressure) noexcept;
 extern "C" void f_env_state_get_elapsed_time(const void *ptr, double *elapsed_time) noexcept;
 extern "C" void f_env_state_get_start_time(const void *ptr, double *start_time) noexcept;
+extern "C" void f_env_state_air_dens(const void *ptr, double *air_density) noexcept;
 
 
 struct EnvState {
@@ -112,5 +113,15 @@ struct EnvState {
             &start_time
         );
         return start_time;
+    }
+
+    static auto air_density(const EnvState &self) {
+        double air_density;
+
+        f_env_state_air_dens(
+            self.ptr.f_arg(),
+            &air_density
+        );
+        return air_density;
     }
 };
