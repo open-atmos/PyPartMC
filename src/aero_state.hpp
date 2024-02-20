@@ -163,6 +163,12 @@ extern "C" void f_aero_state_zero(
     void *ptr_c
 ) noexcept;
 
+extern "C" void f_aero_state_ids(
+    const void *ptr_c,
+    int *ids,
+    const int *n_parts
+) noexcept;
+
 template <typename arr_t, typename arg_t>
 auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
     std::vector<char*> pointer_vec(data_vec.size());
@@ -399,6 +405,23 @@ struct AeroState {
         );
 
         return crit_rel_humids;
+    }
+
+    static auto ids(const AeroState &self) {
+        int len;
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
+        std::valarray<int> ids(len);
+
+        f_aero_state_ids(
+            self.ptr.f_arg(),
+            begin(ids),
+            &len
+        );
+
+        return ids;
     }
 
     static auto mixing_state(

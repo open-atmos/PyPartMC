@@ -250,6 +250,16 @@ class TestAeroState:
         assert len(diameters) == len(sut_minimal)
 
     @staticmethod
+    def test_ids(sut_minimal):  # pylint: disable=redefined-outer-name
+        # act
+        ids = sut_minimal.ids
+
+        # assert
+        assert isinstance(ids, list)
+        assert len(ids) == len(sut_minimal)
+        assert (np.asarray(ids) > 0).all()
+
+    @staticmethod
     def test_crit_rel_humids(sut_full):  # pylint: disable=redefined-outer-name
         # arrange
         args = {"rel_humidity": 0.8, **ENV_STATE_CTOR_ARG_MINIMAL}

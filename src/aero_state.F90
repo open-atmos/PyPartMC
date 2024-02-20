@@ -534,4 +534,16 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  subroutine f_aero_state_ids(ptr_c, ids, n_parts) bind(C)
+    type(c_ptr), intent(in) :: ptr_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    integer(c_int) :: n_parts
+    integer(c_int) :: ids(n_parts)
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    ids = aero_state_ids(ptr_f)
+
+  end subroutine
+
 end module
