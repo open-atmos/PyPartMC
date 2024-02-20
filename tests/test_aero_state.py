@@ -241,6 +241,19 @@ class TestAeroState:
         assert len(dry_diameters) == len(sut_minimal)
 
     @staticmethod
+    def test_mobility_diameters(sut_minimal):  # pylint: disable=redefined-outer-name
+        # act
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        env_state.set_temperature(300)
+        env_state.pressure = 1e5
+        diameters = sut_minimal.mobility_diameters(env_state)
+
+        # assert
+        assert isinstance(diameters, list)
+        assert len(diameters) == len(sut_minimal)
+        assert (np.asarray(diameters) > 0).all()
+
+    @staticmethod
     def test_diameters(sut_minimal):  # pylint: disable=redefined-outer-name
         # act
         diameters = sut_minimal.diameters()

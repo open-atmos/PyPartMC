@@ -194,6 +194,25 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  subroutine f_aero_state_mobility_diameters(ptr_c, aero_data_ptr_c, &
+       env_state_ptr_c, diameters, n_parts) bind (C)
+
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(env_state_t) , pointer :: env_state_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, aero_data_ptr_c, env_state_ptr_c
+    integer(c_int) :: n_parts
+    real(c_double) :: diameters(n_parts)
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+    call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
+
+    diameters = aero_state_mobility_diameters(ptr_f, aero_data_ptr_f, &
+         env_state_ptr_f)
+
+  end subroutine
+
   subroutine f_aero_state_diameters(ptr_c, aero_data_ptr_c, diameters, &
        n_parts, include_len, exclude_len, include, exclude) bind(C)
 

@@ -71,6 +71,14 @@ extern "C" void f_aero_state_dry_diameters(
     const int *n_parts
 ) noexcept;
 
+extern "C" void f_aero_state_mobility_diameters(
+    const void *ptr,
+    const void *aero_dataptr,
+    const void *env_stateptr,
+    double *mobility_diameters,
+    const int *n_parts
+) noexcept;
+
 extern "C" void f_aero_state_diameters(
     const void *ptr,
     const void *aero_dataptr,
@@ -317,6 +325,25 @@ struct AeroState {
         );
 
         return dry_diameters;
+    }
+
+    static auto mobility_diameters(const AeroState &self, const EnvState &env_state) {
+        int len;
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
+        std::valarray<double> mobility_diameters(len);
+
+        f_aero_state_mobility_diameters(
+            self.ptr.f_arg(),
+            self.aero_data->ptr.f_arg(),
+            env_state.ptr.f_arg(),
+            begin(mobility_diameters),
+            &len
+        );
+
+        return mobility_diameters;
     }
 
     static auto diameters(

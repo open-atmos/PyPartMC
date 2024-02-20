@@ -223,6 +223,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
              py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def_property_readonly("dry_diameters", AeroState::dry_diameters,
             "returns the dry diameter of each particle in the population")
+        .def("mobility_diameters", AeroState::mobility_diameters,
+            "returns the mobility diameter of each particle in the population")
         .def("diameters", AeroState::diameters,
             "returns the diameter of each particle in the population",
             py::arg("include") = py::none(), py::arg("exclude") = py::none())
