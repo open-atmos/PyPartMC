@@ -109,6 +109,11 @@ extern "C" void f_aero_state_crit_rel_humids(
     const int *n_parts
 ) noexcept;
 
+extern "C" void f_aero_state_make_dry(
+    void *ptr,
+    const void *aero_dataptr
+) noexcept;
+
 extern "C" void f_aero_state_mixing_state_metrics(
     const void *aero_state, 
     const void *aero_data,
@@ -432,6 +437,15 @@ struct AeroState {
         );
 
         return crit_rel_humids;
+    }
+
+    static void make_dry(
+        AeroState &self
+    ) {
+        f_aero_state_make_dry(
+            self.ptr.f_arg_non_const(),
+            self.aero_data->ptr.f_arg()
+        );
     }
 
     static auto ids(const AeroState &self) {

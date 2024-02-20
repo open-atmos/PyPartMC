@@ -230,6 +230,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def("crit_rel_humids", AeroState::crit_rel_humids,
             "returns the critical relative humidity of each particle in the population")
+        .def("make_dry", AeroState::make_dry,
+            "Make all particles dry (water set to zero).")
         .def_property_readonly("ids", AeroState::ids,
             "returns the IDs of all particles.")
         .def("mixing_state", AeroState::mixing_state,

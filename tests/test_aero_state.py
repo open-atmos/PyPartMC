@@ -289,6 +289,14 @@ class TestAeroState:
         assert (np.asarray(crit_rel_humids) < 1.2).all()
 
     @staticmethod
+    def test_make_dry(sut_minimal):  # pylint: disable=redefined-outer-name
+        # act
+        sut_minimal.make_dry()
+
+        masses = sut_minimal.masses(include=["H2O"]) 
+        assert (np.asarray(masses) == 0).all()
+
+    @staticmethod
     def test_mixing_state(sut_minimal):  # pylint: disable=redefined-outer-name
         # act
         mixing_state = sut_minimal.mixing_state()
