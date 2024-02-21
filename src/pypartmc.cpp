@@ -249,6 +249,13 @@ PYBIND11_MODULE(_PyPartMC, m) {
             py::arg("AeroDist"), py::arg("sample_prop") = 1.0, py::arg("create_time") = 0.0,
             py::arg("allow_doubling") = true, py::arg("allow_halving") = true)
         .def("add_particle", AeroState::add_particle, "add a particle to an AeroState")
+        .def("add", AeroState::add,
+            R"pbdoc(aero_state += aero_state_delta, including combining the
+            weights, so the new concentration is the weighted average of the
+            two concentrations.)pbdoc")
+        .def("add_particles", AeroState::add_particles,
+            R"pbdoc(aero_state += aero_state_delta, with the weight left unchanged
+             so the new concentration is the sum of the two concentrations.)pbdoc")
         .def("copy_weight", AeroState::copy_weight,
              "copy weighting from another AeroState")
         .def("remove_particle", AeroState::remove_particle,

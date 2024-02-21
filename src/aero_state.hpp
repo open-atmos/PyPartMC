@@ -182,6 +182,18 @@ extern "C" void f_aero_state_ids(
     const int *n_parts
 ) noexcept;
 
+extern "C" void f_aero_state_add(
+     void *ptr_c,
+     const void *delta_ptr_c,
+     const void *aero_data_ptr
+) noexcept;
+
+extern "C" void f_aero_state_add_particles(
+     void *ptr_c,
+     const void *delta_ptr_c,
+     const void *aero_data_ptr
+) noexcept;
+
 template <typename arr_t, typename arg_t>
 auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
     std::vector<char*> pointer_vec(data_vec.size());
@@ -601,5 +613,25 @@ struct AeroState {
       AeroState &self
    ) {
       f_aero_state_zero(self.ptr.f_arg_non_const());
+   }
+
+   static void add(
+       AeroState &self,
+       const AeroState &delta
+   )  {
+        f_aero_state_add(self.ptr.f_arg_non_const(),
+            delta.ptr.f_arg(),
+            self.aero_data->ptr.f_arg()
+      );
+   }
+
+   static void add_particles(
+       AeroState &self,
+       const AeroState &delta
+   )  {
+        f_aero_state_add_particles(self.ptr.f_arg_non_const(),
+            delta.ptr.f_arg(),
+            self.aero_data->ptr.f_arg()
+      );
    }
 };
