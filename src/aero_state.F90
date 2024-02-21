@@ -606,4 +606,38 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  subroutine f_aero_state_sample(ptr_c, aero_state_to_ptr_c, aero_data_ptr_c, &
+       sample_prob) bind(C)
+    type(c_ptr), intent(in) :: ptr_c, aero_state_to_ptr_c, aero_data_ptr_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_state_t), pointer :: aero_state_to_ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    real(c_double), intent(in) :: sample_prob
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_state_to_ptr_c, aero_state_to_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    call aero_state_sample(ptr_f, aero_state_to_ptr_f, aero_data_ptr_f, & 
+         sample_prob, AERO_INFO_NONE)
+
+  end subroutine
+
+  subroutine f_aero_state_sample_particles(ptr_c, aero_state_to_ptr_c, aero_data_ptr_c, &
+       sample_prob) bind(C)
+    type(c_ptr), intent(in) :: ptr_c, aero_state_to_ptr_c, aero_data_ptr_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_state_t), pointer :: aero_state_to_ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    real(c_double), intent(in) :: sample_prob
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_state_to_ptr_c, aero_state_to_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    call aero_state_sample_particles(ptr_f, aero_state_to_ptr_f, aero_data_ptr_f, &
+         sample_prob, AERO_INFO_NONE)
+
+  end subroutine
+
 end module

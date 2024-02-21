@@ -194,6 +194,20 @@ extern "C" void f_aero_state_add_particles(
      const void *aero_data_ptr
 ) noexcept;
 
+extern "C" void f_aero_state_sample(
+     void *ptr_c,
+     void *aero_state_to_ptr_c,
+     const void *aero_data_ptr,
+     const double *sample_prob
+) noexcept;
+
+extern "C" void f_aero_state_sample_particles(
+     void *ptr_c,
+     void *aero_state_to_ptr_c,
+     const void *aero_data_ptr,
+     const double *sample_prob
+) noexcept;
+
 template <typename arr_t, typename arg_t>
 auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
     std::vector<char*> pointer_vec(data_vec.size());
@@ -632,6 +646,30 @@ struct AeroState {
         f_aero_state_add_particles(self.ptr.f_arg_non_const(),
             delta.ptr.f_arg(),
             self.aero_data->ptr.f_arg()
+      );
+   }
+
+   static void sample(
+       AeroState &self,
+       AeroState &aero_state_sample,
+       const double sample_prob
+   )  {
+        f_aero_state_sample(self.ptr.f_arg_non_const(),
+            aero_state_sample.ptr.f_arg_non_const(),
+            self.aero_data->ptr.f_arg(),
+            &sample_prob
+      );
+   }
+
+   static void sample_particles(
+       AeroState &self,
+       AeroState &aero_state_sample,
+       const double sample_prob
+   )  {
+        f_aero_state_sample_particles(self.ptr.f_arg_non_const(),
+            aero_state_sample.ptr.f_arg_non_const(),
+            self.aero_data->ptr.f_arg(),
+            &sample_prob
       );
    }
 };
