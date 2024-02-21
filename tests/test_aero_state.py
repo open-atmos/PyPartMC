@@ -406,7 +406,6 @@ class TestAeroState:
 
     @staticmethod
     def test_add_particles(sut_minimal):  # pylint: disable=redefined-outer-name
-        particle = sut_minimal.particle(1)
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
         delta = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -420,7 +419,6 @@ class TestAeroState:
 
     @staticmethod
     def test_add(sut_minimal):  # pylint: disable=redefined-outer-name
-        particle = sut_minimal.particle(1)
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
         delta = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
