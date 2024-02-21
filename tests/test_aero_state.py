@@ -405,6 +405,34 @@ class TestAeroState:
         assert sut.particle(0).diameter == sut_minimal.particle(1).diameter
 
     @staticmethod
+    def test_add_particles(sut_minimal):  # pylint: disable=redefined-outer-name
+        particle = sut_minimal.particle(1)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        delta = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = delta.dist_sample(aero_dist, 1.0, 0.0, True, True)
+
+        num_conc = sut_minimal.total_num_conc
+        num_conc_delta = delta.total_num_conc
+        sut_minimal.add_particles(delta)
+
+        assert np.isclose(sut_minimal.total_num_conc,(num_conc + num_conc_delta))
+
+    @staticmethod
+    def test_add(sut_minimal):  # pylint: disable=redefined-outer-name
+        particle = sut_minimal.particle(1)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        delta = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = delta.dist_sample(aero_dist, 1.0, 0.0, True, True)
+
+        num_conc = sut_minimal.total_num_conc
+        num_conc_delta = delta.total_num_conc
+        sut_minimal.add(delta)
+
+        assert np.isclose(sut_minimal.total_num_conc, .5 *(num_conc + num_conc_delta))
+
+    @staticmethod
     def test_copy_weight(sut_minimal):  # pylint: disable=redefined-outer-name
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
