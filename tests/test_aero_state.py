@@ -293,7 +293,7 @@ class TestAeroState:
         # act
         sut_minimal.make_dry()
 
-        masses = sut_minimal.masses(include=["H2O"]) 
+        masses = sut_minimal.masses(include=["H2O"])
         assert (np.asarray(masses) == 0).all()
 
     @staticmethod
@@ -416,7 +416,7 @@ class TestAeroState:
         num_conc_delta = delta.total_num_conc
         sut_minimal.add_particles(delta)
 
-        assert np.isclose(sut_minimal.total_num_conc,(num_conc + num_conc_delta))
+        assert np.isclose(sut_minimal.total_num_conc, (num_conc + num_conc_delta))
 
     @staticmethod
     def test_add(sut_minimal):  # pylint: disable=redefined-outer-name
@@ -430,7 +430,7 @@ class TestAeroState:
         num_conc_delta = delta.total_num_conc
         sut_minimal.add(delta)
 
-        assert np.isclose(sut_minimal.total_num_conc, .5 *(num_conc + num_conc_delta))
+        assert np.isclose(sut_minimal.total_num_conc, 0.5 * (num_conc + num_conc_delta))
 
     @staticmethod
     def test_sample_particles(sut_minimal):  # pylint: disable=redefined-outer-name
@@ -439,11 +439,11 @@ class TestAeroState:
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
 
         # act
-        sut_minimal.sample_particles(sut, .5)
+        sut_minimal.sample_particles(sut, 0.5)
 
-        # assert 
+        # assert
         assert len(sut) > 0
-        assert sut.total_num_conc < 100 
+        assert sut.total_num_conc < 100
 
     @staticmethod
     def test_sample(sut_minimal):  # pylint: disable=redefined-outer-name
@@ -452,12 +452,12 @@ class TestAeroState:
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
 
         # act
-        sut_minimal.sample(sut, .5)
-        
-        # assert 
-        assert len(sut) > 0 
-        assert sut.total_num_conc > 50 
- 
+        sut_minimal.sample(sut, 0.5)
+
+        # assert
+        assert len(sut) > 0
+        assert sut.total_num_conc > 50
+
     @staticmethod
     def test_copy_weight(sut_minimal):  # pylint: disable=redefined-outer-name
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
