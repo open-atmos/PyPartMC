@@ -24,27 +24,51 @@ def __build_extension_env():
             cookie.close()
 
 
-# TODO #113: 2 x loop over prefixes and units
-si = namedtuple("SI", ("m", "cm", "um", "nm", "kg", "g", "s", "K", "Pa", "hPa", "mol"))(
-    m=1.0,
-    cm=0.01,
-    um=1e-6,
-    nm=1e-9,
-    kg=1.0,
-    g=1e-3,
-    s=1.0,
-    K=1.0,
-    Pa=1.0,
-    hPa=100.0,
-    mol=1.0,
-)
-""" TODO #113 """
+def __generate_si():
+    prefixes = {
+        "T": 1e12,
+        "G": 1e9,
+        "M": 1e6,
+        "k": 1e3,
+        "h": 1e2,
+        "da": 1e1,
+        "": 1e0,
+        "d": 1e-1,
+        "c": 1e-2,
+        "m": 1e-3,
+        "u": 1e-6,
+        "n": 1e-9,
+        "p": 1e-12,
+    }
+    units = {
+        "m": 1e0,
+        "g": 1e-3,
+        "s": 1e0,
+        "K": 1e0,
+        "Pa": 1e0,
+        "mol": 1e0,
+        "W": 1e0,
+        "J": 1e0,
+        "N": 1e0,
+    }
+    return namedtuple("SI", [prefix + unit for prefix in prefixes for unit in units])(
+        **{
+            prefix_k + unit_k: prefix_v * unit_v
+            for prefix_k, prefix_v in prefixes.items()
+            for unit_k, unit_v in units.items()
+        }
+    )
+
+
+si = __generate_si()
+""" a utility namedtuple aimed at clrifying physics-related code by providing
+    SI-prefix-aware unit multipliers, resulting in e.g.: `p = 1000 * si.hPa`
+    notation. Note: no dimensional analysis is done! """
 
 with __build_extension_env():
     import _PyPartMC
     from _PyPartMC import *
-    from _PyPartMC import (  # pylint: disable=no-name-in-module
-        __all__,
-        __version__,
-        __versions_of_build_time_dependencies__,
-    )
+    from _PyPartMC import __all__ as _PyPartMC_all  # pylint: disable=no-name-in-module
+    from _PyPartMC import __version__, __versions_of_build_time_dependencies__
+
+    __all__ = tuple([*_PyPartMC_all, "si"])
