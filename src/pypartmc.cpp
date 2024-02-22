@@ -256,7 +256,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("add_particles", AeroState::add_particles,
             R"pbdoc(aero_state += aero_state_delta, with the weight left unchanged
              so the new concentration is the sum of the two concentrations.)pbdoc")
-        .def("sample", AeroState::sample, 
+        .def("sample", AeroState::sample,
              R"pbdoc(Generates a random sample by removing particles from
              aero_state_from and adding them to aero_state_to, transfering
              weight as well. This is the equivalent of aero_state_add().)pbdoc")
