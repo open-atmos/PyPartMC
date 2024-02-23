@@ -24,8 +24,8 @@ AERO_STATE_CTOR_ARG_MINIMAL = 44, "nummass_source"
 # pylint: disable=R0904
 
 
-@pytest.fixture
-def sut_minimal():
+@pytest.fixture(name="sut_minimal")
+def sut_minimal_fixture():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
     aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
     sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -35,8 +35,8 @@ def sut_minimal():
     return sut
 
 
-@pytest.fixture
-def sut_full():
+@pytest.fixture(name="sut_full")
+def sut_full_fixture():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
     aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FULL)
     sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -46,8 +46,8 @@ def sut_full():
     return sut
 
 
-@pytest.fixture
-def sut_average():
+@pytest.fixture(name="sut_average")
+def sut_average_fixture():
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
     aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_AVERAGE)
     sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -103,7 +103,7 @@ class TestAeroState:
         assert int(size) < n_part * 2
 
     @staticmethod
-    def test_total_num_conc(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_total_num_conc(sut_minimal):
         # act
         total_num_conc = sut_minimal.total_num_conc
 
@@ -112,7 +112,7 @@ class TestAeroState:
         assert total_num_conc > 0
 
     @staticmethod
-    def test_total_mass_conc(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_total_mass_conc(sut_minimal):
         # act
         total_mass_conc = sut_minimal.total_mass_conc
 
@@ -121,7 +121,7 @@ class TestAeroState:
         assert total_mass_conc > 0
 
     @staticmethod
-    def test_num_concs(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_num_concs(sut_minimal):
         # act
         num_concs = sut_minimal.num_concs
 
@@ -130,7 +130,7 @@ class TestAeroState:
         assert len(num_concs) == len(sut_minimal)
 
     @staticmethod
-    def test_masses(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_masses(sut_minimal):
         # act
         masses = sut_minimal.masses()
 
@@ -139,7 +139,7 @@ class TestAeroState:
         assert len(masses) == len(sut_minimal)
 
     @staticmethod
-    def test_masses_include(sut_full):  # pylint: disable=redefined-outer-name
+    def test_masses_include(sut_full):
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
 
         # act
@@ -155,7 +155,7 @@ class TestAeroState:
         np.testing.assert_allclose(masses_so4, masses)
 
     @staticmethod
-    def test_masses_exclude(sut_full):  # pylint: disable=redefined-outer-name
+    def test_masses_exclude(sut_full):
         # act
         masses = sut_full.masses(exclude=["SO4"])
         masses_so4 = np.zeros(len(sut_full))
@@ -168,7 +168,7 @@ class TestAeroState:
         np.testing.assert_allclose(masses_so4, masses)
 
     @staticmethod
-    def test_masses_include_exclude(sut_full):  # pylint: disable=redefined-outer-name
+    def test_masses_include_exclude(sut_full):
         # act
         masses = sut_full.masses(include=["SO4"], exclude=["SO4"])
 
@@ -178,7 +178,7 @@ class TestAeroState:
         assert np.sum(masses) == 0.0
 
     @staticmethod
-    def test_volumes(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_volumes(sut_minimal):
         # act
         volumes = sut_minimal.volumes()
 
@@ -187,7 +187,7 @@ class TestAeroState:
         assert len(volumes) == len(sut_minimal)
 
     @staticmethod
-    def test_volumes_include(sut_full):  # pylint: disable=redefined-outer-name
+    def test_volumes_include(sut_full):
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
 
         # act
@@ -203,7 +203,7 @@ class TestAeroState:
         np.testing.assert_allclose(vol_so4, volumes)
 
     @staticmethod
-    def test_volumes_include_exclude(sut_full):  # pylint: disable=redefined-outer-name
+    def test_volumes_include_exclude(sut_full):
         # act
         volumes = sut_full.volumes(include=["SO4"], exclude=["SO4"])
 
@@ -213,7 +213,7 @@ class TestAeroState:
         assert np.sum(volumes) == 0.0
 
     @staticmethod
-    def test_volumes_exclude(sut_full):  # pylint: disable=redefined-outer-name
+    def test_volumes_exclude(sut_full):
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
 
         # act
@@ -232,7 +232,7 @@ class TestAeroState:
         np.testing.assert_allclose(vol_so4, volumes)
 
     @staticmethod
-    def test_dry_diameters(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_dry_diameters(sut_minimal):
         # act
         dry_diameters = sut_minimal.dry_diameters
 
@@ -241,7 +241,7 @@ class TestAeroState:
         assert len(dry_diameters) == len(sut_minimal)
 
     @staticmethod
-    def test_mobility_diameters(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_mobility_diameters(sut_minimal):
         # act
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         env_state.set_temperature(300)
@@ -254,7 +254,7 @@ class TestAeroState:
         assert (np.asarray(diameters) > 0).all()
 
     @staticmethod
-    def test_diameters(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_diameters(sut_minimal):
         # act
         diameters = sut_minimal.diameters()
 
@@ -263,7 +263,7 @@ class TestAeroState:
         assert len(diameters) == len(sut_minimal)
 
     @staticmethod
-    def test_ids(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_ids(sut_minimal):
         # act
         ids = sut_minimal.ids
 
@@ -273,7 +273,7 @@ class TestAeroState:
         assert (np.asarray(ids) > 0).all()
 
     @staticmethod
-    def test_crit_rel_humids(sut_full):  # pylint: disable=redefined-outer-name
+    def test_crit_rel_humids(sut_full):
         # arrange
         args = {"rel_humidity": 0.8, **ENV_STATE_CTOR_ARG_MINIMAL}
         env_state = ppmc.EnvState(args)
@@ -289,7 +289,7 @@ class TestAeroState:
         assert (np.asarray(crit_rel_humids) < 1.2).all()
 
     @staticmethod
-    def test_make_dry(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_make_dry(sut_minimal):
         # act
         sut_minimal.make_dry()
 
@@ -297,7 +297,7 @@ class TestAeroState:
         assert (np.asarray(masses) == 0).all()
 
     @staticmethod
-    def test_mixing_state(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_mixing_state(sut_minimal):
         # act
         mixing_state = sut_minimal.mixing_state()
 
@@ -307,9 +307,7 @@ class TestAeroState:
 
     @staticmethod
     @pytest.mark.parametrize("n_bin", (1, 123))
-    def test_bin_average_comp(
-        sut_average, n_bin
-    ):  # pylint: disable=redefined-outer-name
+    def test_bin_average_comp(sut_average, n_bin):
         # arrange
         bin_grid = ppmc.BinGrid(n_bin, "log", 1e-9, 1e-4)
 
@@ -327,7 +325,7 @@ class TestAeroState:
             assert np.logical_xor(so4_masses > 0, bc_masses > 0).all()
 
     @staticmethod
-    def test_get_particle(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_get_particle(sut_minimal):
         # act
         particle = sut_minimal.particle(1)
 
@@ -335,7 +333,7 @@ class TestAeroState:
         assert isinstance(particle, ppmc.AeroParticle)
 
     @staticmethod
-    def test_get_random_particle(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_get_random_particle(sut_minimal):
         # act
         particle = sut_minimal.rand_particle()
 
@@ -343,9 +341,7 @@ class TestAeroState:
         assert isinstance(particle, ppmc.AeroParticle)
 
     @staticmethod
-    def test_check_correct_particle(
-        sut_minimal,
-    ):  # pylint: disable=redefined-outer-name
+    def test_check_correct_particle(sut_minimal):
         # act
         i_part = 20
         particle = sut_minimal.particle(i_part)
@@ -355,7 +351,7 @@ class TestAeroState:
         assert particle.diameter == diameters[i_part]
 
     @staticmethod
-    def test_different_particles(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_different_particles(sut_minimal):
         # act
         i_part = 20
         particle_1 = sut_minimal.particle(i_part)
@@ -366,9 +362,7 @@ class TestAeroState:
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 500))
-    def test_get_particle_out_of_range(
-        sut_minimal, idx
-    ):  # pylint: disable=redefined-outer-name
+    def test_get_particle_out_of_range(sut_minimal, idx):
         # act
         try:
             _ = sut_minimal.particle(idx)
@@ -379,14 +373,14 @@ class TestAeroState:
         assert False
 
     @staticmethod
-    def test_remove_particle(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_remove_particle(sut_minimal):
         diameters = sut_minimal.diameters()
         sut_minimal.remove_particle(len(sut_minimal) - 1)
 
         assert diameters[0:-1] == sut_minimal.diameters()
 
     @staticmethod
-    def test_zero(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_zero(sut_minimal):
         # act
         sut_minimal.zero()
 
@@ -394,7 +388,7 @@ class TestAeroState:
         assert len(sut_minimal) == 0
 
     @staticmethod
-    def test_add_particle(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_add_particle(sut_minimal):
         particle = sut_minimal.particle(1)
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -405,7 +399,7 @@ class TestAeroState:
         assert sut.particle(0).diameter == sut_minimal.particle(1).diameter
 
     @staticmethod
-    def test_add_particles(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_add_particles(sut_minimal):
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
         delta = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -418,7 +412,7 @@ class TestAeroState:
         assert np.isclose(sut_minimal.total_num_conc, (num_conc + num_conc_delta))
 
     @staticmethod
-    def test_add(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_add(sut_minimal):
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
         delta = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -431,7 +425,7 @@ class TestAeroState:
         assert np.isclose(sut_minimal.total_num_conc, 0.5 * (num_conc + num_conc_delta))
 
     @staticmethod
-    def test_sample_particles(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_sample_particles(sut_minimal):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -448,7 +442,7 @@ class TestAeroState:
         assert np.isclose(sut.total_num_conc + sut_minimal.total_num_conc, num_conc)
 
     @staticmethod
-    def test_sample(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_sample(sut_minimal):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
@@ -470,7 +464,7 @@ class TestAeroState:
         )
 
     @staticmethod
-    def test_copy_weight(sut_minimal):  # pylint: disable=redefined-outer-name
+    def test_copy_weight(sut_minimal):
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
 
