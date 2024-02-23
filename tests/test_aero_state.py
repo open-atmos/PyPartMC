@@ -437,11 +437,15 @@ class TestAeroState:
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
 
         # act
-        sut_minimal.sample_particles(sut, 0.5)
+        num_conc = sut_minimal.total_num_conc
+        samp_prob = 0.25
+        sut_minimal.sample_particles(sut, samp_prob)
 
         # assert
         assert len(sut) > 0
-        assert sut.total_num_conc < 100
+        assert sut.total_num_conc > .5 * samp_prob * num_conc
+        assert sut.total_num_conc < sut_minimal.total_num_conc
+        assert np.isclose(sut.total_num_conc + sut_minimal.total_num_conc, num_conc)
 
     @staticmethod
     def test_sample(sut_minimal):  # pylint: disable=redefined-outer-name
@@ -450,11 +454,15 @@ class TestAeroState:
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
 
         # act
-        sut_minimal.sample(sut, 0.5)
+        num_conc = sut_minimal.total_num_conc
+        samp_prob = .1
+        sut_minimal.sample(sut, samp_prob)
 
         # assert
         assert len(sut) > 0
-        assert sut.total_num_conc > 50
+        assert sut.total_num_conc > .5 * samp_prob * num_conc
+        assert np.isclose((samp_prob * sut.total_num_conc + \
+             (1 - samp_prob) * sut_minimal.total_num_conc), num_conc)
 
     @staticmethod
     def test_copy_weight(sut_minimal):  # pylint: disable=redefined-outer-name
