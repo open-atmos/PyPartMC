@@ -443,7 +443,7 @@ class TestAeroState:
 
         # assert
         assert len(sut) > 0
-        assert sut.total_num_conc > .5 * samp_prob * num_conc
+        assert sut.total_num_conc > 0.5 * samp_prob * num_conc
         assert sut.total_num_conc < sut_minimal.total_num_conc
         assert np.isclose(sut.total_num_conc + sut_minimal.total_num_conc, num_conc)
 
@@ -455,14 +455,19 @@ class TestAeroState:
 
         # act
         num_conc = sut_minimal.total_num_conc
-        samp_prob = .1
+        samp_prob = 0.1
         sut_minimal.sample(sut, samp_prob)
 
         # assert
         assert len(sut) > 0
-        assert sut.total_num_conc > .5 * samp_prob * num_conc
-        assert np.isclose((samp_prob * sut.total_num_conc + \
-             (1 - samp_prob) * sut_minimal.total_num_conc), num_conc)
+        assert sut.total_num_conc > 0.5 * samp_prob * num_conc
+        assert np.isclose(
+            (
+                samp_prob * sut.total_num_conc
+                + (1 - samp_prob) * sut_minimal.total_num_conc
+            ),
+            num_conc,
+        )
 
     @staticmethod
     def test_copy_weight(sut_minimal):  # pylint: disable=redefined-outer-name
