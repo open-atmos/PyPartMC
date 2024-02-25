@@ -592,6 +592,10 @@ is typically cleared each time we output data to disk.</p>
 <dd>
 <div class="desc"><p>returns the dry diameter of each particle in the population</p></div>
 </dd>
+<dt id="PyPartMC.AeroState.ids"><code class="name">var <span class="ident">ids</span></code></dt>
+<dd>
+<div class="desc"><p>returns the IDs of all particles.</p></div>
+</dd>
 <dt id="PyPartMC.AeroState.num_concs"><code class="name">var <span class="ident">num_concs</span></code></dt>
 <dd>
 <div class="desc"><p>returns the number concentration of each particle in the population</p></div>
@@ -607,11 +611,26 @@ is typically cleared each time we output data to disk.</p>
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="PyPartMC.AeroState.add"><code class="name flex">
+<span>def <span class="ident">add</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroState)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>aero_state += aero_state_delta, including combining the
+weights, so the new concentration is the weighted average of the
+two concentrations.</p></div>
+</dd>
 <dt id="PyPartMC.AeroState.add_particle"><code class="name flex">
 <span>def <span class="ident">add_particle</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroParticle)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>add a particle to an AeroState</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.add_particles"><code class="name flex">
+<span>def <span class="ident">add_particles</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroState)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>aero_state += aero_state_delta, with the weight left unchanged
+so the new concentration is the sum of the two concentrations.</p></div>
 </dd>
 <dt id="PyPartMC.AeroState.bin_average_comp"><code class="name flex">
 <span>def <span class="ident">bin_average_comp</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.BinGrid)</span>
@@ -643,6 +662,12 @@ is typically cleared each time we output data to disk.</p>
 <dd>
 <div class="desc"><p>sample particles for AeroState from an AeroDist</p></div>
 </dd>
+<dt id="PyPartMC.AeroState.make_dry"><code class="name flex">
+<span>def <span class="ident">make_dry</span></span>(<span>self: _PyPartMC.AeroState)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Make all particles dry (water set to zero).</p></div>
+</dd>
 <dt id="PyPartMC.AeroState.masses"><code class="name flex">
 <span>def <span class="ident">masses</span></span>(<span>self: _PyPartMC.AeroState, include: Optional[List[str]] = None, exclude: Optional[List[str]] = None) ‑> List[float]</span>
 </code></dt>
@@ -654,6 +679,12 @@ is typically cleared each time we output data to disk.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>returns the mixing state parameters (d_alpha, d_gamma, chi) of the population</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.mobility_diameters"><code class="name flex">
+<span>def <span class="ident">mobility_diameters</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.EnvState) ‑> List[float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>returns the mobility diameter of each particle in the population</p></div>
 </dd>
 <dt id="PyPartMC.AeroState.particle"><code class="name flex">
 <span>def <span class="ident">particle</span></span>(<span>self: _PyPartMC.AeroState, arg0: int) ‑> _PyPartMC.AeroParticle</span>
@@ -672,6 +703,25 @@ is typically cleared each time we output data to disk.</p>
 </code></dt>
 <dd>
 <div class="desc"><p>remove particle of a given index</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.sample"><code class="name flex">
+<span>def <span class="ident">sample</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroState, arg1: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generates a random sample by removing particles from
+aero_state_from and adding them to aero_state_to, transfering
+weight as well. This is the equivalent of aero_state_add().</p></div>
+</dd>
+<dt id="PyPartMC.AeroState.sample_particles"><code class="name flex">
+<span>def <span class="ident">sample_particles</span></span>(<span>self: _PyPartMC.AeroState, arg0: _PyPartMC.AeroState, arg1: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>!&gt; Generates a random sample by removing particles from
+aero_state_from and adding them to aero_state_to, which must be
+already allocated (and should have its weight set).</p>
+<pre><code>       None of the weights are altered by this sampling, making this the
+       equivalent of aero_state_add_particles().
+</code></pre></div>
 </dd>
 <dt id="PyPartMC.AeroState.volumes"><code class="name flex">
 <span>def <span class="ident">volumes</span></span>(<span>self: _PyPartMC.AeroState, include: Optional[List[str]] = None, exclude: Optional[List[str]] = None) ‑> List[float]</span>
@@ -1075,19 +1125,26 @@ aero_dist_interp_1d(), respectively.</p>
 <li>
 <h4><code><a title="PyPartMC.AeroState" href="#PyPartMC.AeroState">AeroState</a></code></h4>
 <ul class="two-column">
+<li><code><a title="PyPartMC.AeroState.add" href="#PyPartMC.AeroState.add">add</a></code></li>
 <li><code><a title="PyPartMC.AeroState.add_particle" href="#PyPartMC.AeroState.add_particle">add_particle</a></code></li>
+<li><code><a title="PyPartMC.AeroState.add_particles" href="#PyPartMC.AeroState.add_particles">add_particles</a></code></li>
 <li><code><a title="PyPartMC.AeroState.bin_average_comp" href="#PyPartMC.AeroState.bin_average_comp">bin_average_comp</a></code></li>
 <li><code><a title="PyPartMC.AeroState.copy_weight" href="#PyPartMC.AeroState.copy_weight">copy_weight</a></code></li>
 <li><code><a title="PyPartMC.AeroState.crit_rel_humids" href="#PyPartMC.AeroState.crit_rel_humids">crit_rel_humids</a></code></li>
 <li><code><a title="PyPartMC.AeroState.diameters" href="#PyPartMC.AeroState.diameters">diameters</a></code></li>
 <li><code><a title="PyPartMC.AeroState.dist_sample" href="#PyPartMC.AeroState.dist_sample">dist_sample</a></code></li>
 <li><code><a title="PyPartMC.AeroState.dry_diameters" href="#PyPartMC.AeroState.dry_diameters">dry_diameters</a></code></li>
+<li><code><a title="PyPartMC.AeroState.ids" href="#PyPartMC.AeroState.ids">ids</a></code></li>
+<li><code><a title="PyPartMC.AeroState.make_dry" href="#PyPartMC.AeroState.make_dry">make_dry</a></code></li>
 <li><code><a title="PyPartMC.AeroState.masses" href="#PyPartMC.AeroState.masses">masses</a></code></li>
 <li><code><a title="PyPartMC.AeroState.mixing_state" href="#PyPartMC.AeroState.mixing_state">mixing_state</a></code></li>
+<li><code><a title="PyPartMC.AeroState.mobility_diameters" href="#PyPartMC.AeroState.mobility_diameters">mobility_diameters</a></code></li>
 <li><code><a title="PyPartMC.AeroState.num_concs" href="#PyPartMC.AeroState.num_concs">num_concs</a></code></li>
 <li><code><a title="PyPartMC.AeroState.particle" href="#PyPartMC.AeroState.particle">particle</a></code></li>
 <li><code><a title="PyPartMC.AeroState.rand_particle" href="#PyPartMC.AeroState.rand_particle">rand_particle</a></code></li>
 <li><code><a title="PyPartMC.AeroState.remove_particle" href="#PyPartMC.AeroState.remove_particle">remove_particle</a></code></li>
+<li><code><a title="PyPartMC.AeroState.sample" href="#PyPartMC.AeroState.sample">sample</a></code></li>
+<li><code><a title="PyPartMC.AeroState.sample_particles" href="#PyPartMC.AeroState.sample_particles">sample_particles</a></code></li>
 <li><code><a title="PyPartMC.AeroState.total_mass_conc" href="#PyPartMC.AeroState.total_mass_conc">total_mass_conc</a></code></li>
 <li><code><a title="PyPartMC.AeroState.total_num_conc" href="#PyPartMC.AeroState.total_num_conc">total_num_conc</a></code></li>
 <li><code><a title="PyPartMC.AeroState.volumes" href="#PyPartMC.AeroState.volumes">volumes</a></code></li>
