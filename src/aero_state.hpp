@@ -71,6 +71,14 @@ extern "C" void f_aero_state_dry_diameters(
     const int *n_parts
 ) noexcept;
 
+extern "C" void f_aero_state_mobility_diameters(
+    const void *ptr,
+    const void *aero_dataptr,
+    const void *env_stateptr,
+    double *mobility_diameters,
+    const int *n_parts
+) noexcept;
+
 extern "C" void f_aero_state_diameters(
     const void *ptr,
     const void *aero_dataptr,
@@ -99,6 +107,11 @@ extern "C" void f_aero_state_crit_rel_humids(
     const void *env_stateptr,
     double *crit_rel_humids,
     const int *n_parts
+) noexcept;
+
+extern "C" void f_aero_state_make_dry(
+    void *ptr,
+    const void *aero_dataptr
 ) noexcept;
 
 extern "C" void f_aero_state_mixing_state_metrics(
@@ -161,6 +174,38 @@ extern "C" void f_aero_state_remove_particle(
 
 extern "C" void f_aero_state_zero(
     void *ptr_c
+) noexcept;
+
+extern "C" void f_aero_state_ids(
+    const void *ptr_c,
+    int *ids,
+    const int *n_parts
+) noexcept;
+
+extern "C" void f_aero_state_add(
+     void *ptr_c,
+     const void *delta_ptr_c,
+     const void *aero_data_ptr
+) noexcept;
+
+extern "C" void f_aero_state_add_particles(
+     void *ptr_c,
+     const void *delta_ptr_c,
+     const void *aero_data_ptr
+) noexcept;
+
+extern "C" void f_aero_state_sample(
+     void *ptr_c,
+     void *aero_state_to_ptr_c,
+     const void *aero_data_ptr,
+     const double *sample_prob
+) noexcept;
+
+extern "C" void f_aero_state_sample_particles(
+     void *ptr_c,
+     void *aero_state_to_ptr_c,
+     const void *aero_data_ptr,
+     const double *sample_prob
 ) noexcept;
 
 template <typename arr_t, typename arg_t>
@@ -313,6 +358,25 @@ struct AeroState {
         return dry_diameters;
     }
 
+    static auto mobility_diameters(const AeroState &self, const EnvState &env_state) {
+        int len;
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
+        std::valarray<double> mobility_diameters(len);
+
+        f_aero_state_mobility_diameters(
+            self.ptr.f_arg(),
+            self.aero_data->ptr.f_arg(),
+            env_state.ptr.f_arg(),
+            begin(mobility_diameters),
+            &len
+        );
+
+        return mobility_diameters;
+    }
+
     static auto diameters(
         const AeroState &self,
         const tl::optional<std::valarray<std::string>> &include,
@@ -399,6 +463,32 @@ struct AeroState {
         );
 
         return crit_rel_humids;
+    }
+
+    static void make_dry(
+        AeroState &self
+    ) {
+        f_aero_state_make_dry(
+            self.ptr.f_arg_non_const(),
+            self.aero_data->ptr.f_arg()
+        );
+    }
+
+    static auto ids(const AeroState &self) {
+        int len;
+        f_aero_state_len(
+            self.ptr.f_arg(),
+            &len
+        );
+        std::valarray<int> ids(len);
+
+        f_aero_state_ids(
+            self.ptr.f_arg(),
+            begin(ids),
+            &len
+        );
+
+        return ids;
     }
 
     static auto mixing_state(
@@ -537,5 +627,49 @@ struct AeroState {
       AeroState &self
    ) {
       f_aero_state_zero(self.ptr.f_arg_non_const());
+   }
+
+   static void add(
+       AeroState &self,
+       const AeroState &delta
+   )  {
+        f_aero_state_add(self.ptr.f_arg_non_const(),
+            delta.ptr.f_arg(),
+            self.aero_data->ptr.f_arg()
+      );
+   }
+
+   static void add_particles(
+       AeroState &self,
+       const AeroState &delta
+   )  {
+        f_aero_state_add_particles(self.ptr.f_arg_non_const(),
+            delta.ptr.f_arg(),
+            self.aero_data->ptr.f_arg()
+      );
+   }
+
+   static void sample(
+       AeroState &self,
+       AeroState &aero_state_sample,
+       const double sample_prob
+   )  {
+        f_aero_state_sample(self.ptr.f_arg_non_const(),
+            aero_state_sample.ptr.f_arg_non_const(),
+            self.aero_data->ptr.f_arg(),
+            &sample_prob
+      );
+   }
+
+   static void sample_particles(
+       AeroState &self,
+       AeroState &aero_state_sample,
+       const double sample_prob
+   )  {
+        f_aero_state_sample_particles(self.ptr.f_arg_non_const(),
+            aero_state_sample.ptr.f_arg_non_const(),
+            self.aero_data->ptr.f_arg(),
+            &sample_prob
+      );
    }
 };

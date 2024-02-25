@@ -223,11 +223,17 @@ PYBIND11_MODULE(_PyPartMC, m) {
              py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def_property_readonly("dry_diameters", AeroState::dry_diameters,
             "returns the dry diameter of each particle in the population")
+        .def("mobility_diameters", AeroState::mobility_diameters,
+            "returns the mobility diameter of each particle in the population")
         .def("diameters", AeroState::diameters,
             "returns the diameter of each particle in the population",
             py::arg("include") = py::none(), py::arg("exclude") = py::none())
         .def("crit_rel_humids", AeroState::crit_rel_humids,
             "returns the critical relative humidity of each particle in the population")
+        .def("make_dry", AeroState::make_dry,
+            "Make all particles dry (water set to zero).")
+        .def_property_readonly("ids", AeroState::ids,
+            "returns the IDs of all particles.")
         .def("mixing_state", AeroState::mixing_state,
             "returns the mixing state parameters (d_alpha, d_gamma, chi) of the population",
             py::arg("include") = py::none(), py::arg("exclude") = py::none(),
@@ -243,6 +249,24 @@ PYBIND11_MODULE(_PyPartMC, m) {
             py::arg("AeroDist"), py::arg("sample_prop") = 1.0, py::arg("create_time") = 0.0,
             py::arg("allow_doubling") = true, py::arg("allow_halving") = true)
         .def("add_particle", AeroState::add_particle, "add a particle to an AeroState")
+        .def("add", AeroState::add,
+            R"pbdoc(aero_state += aero_state_delta, including combining the
+            weights, so the new concentration is the weighted average of the
+            two concentrations.)pbdoc")
+        .def("add_particles", AeroState::add_particles,
+            R"pbdoc(aero_state += aero_state_delta, with the weight left unchanged
+             so the new concentration is the sum of the two concentrations.)pbdoc")
+        .def("sample", AeroState::sample,
+             R"pbdoc(Generates a random sample by removing particles from
+             aero_state_from and adding them to aero_state_to, transfering
+             weight as well. This is the equivalent of aero_state_add().)pbdoc")
+        .def("sample_particles", AeroState::sample_particles,
+             R"pbdoc(  !> Generates a random sample by removing particles from
+             aero_state_from and adding them to aero_state_to, which must be
+             already allocated (and should have its weight set).
+
+             None of the weights are altered by this sampling, making this the
+             equivalent of aero_state_add_particles().)pbdoc")
         .def("copy_weight", AeroState::copy_weight,
              "copy weighting from another AeroState")
         .def("remove_particle", AeroState::remove_particle,
