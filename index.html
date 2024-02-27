@@ -52,35 +52,68 @@ def __build_extension_env():
             cookie.close()
 
 
-# TODO #113: 2 x loop over prefixes and units
-si = namedtuple(&#34;SI&#34;, (&#34;m&#34;, &#34;cm&#34;, &#34;um&#34;, &#34;nm&#34;, &#34;kg&#34;, &#34;g&#34;, &#34;s&#34;, &#34;K&#34;, &#34;Pa&#34;, &#34;hPa&#34;, &#34;mol&#34;))(
-    m=1.0,
-    cm=0.01,
-    um=1e-6,
-    nm=1e-9,
-    kg=1.0,
-    g=1e-3,
-    s=1.0,
-    K=1.0,
-    Pa=1.0,
-    hPa=100.0,
-    mol=1.0,
-)
-&#34;&#34;&#34; TODO #113 &#34;&#34;&#34;
+def __generate_si():
+    prefixes = {
+        &#34;T&#34;: 1e12,
+        &#34;G&#34;: 1e9,
+        &#34;M&#34;: 1e6,
+        &#34;k&#34;: 1e3,
+        &#34;h&#34;: 1e2,
+        &#34;da&#34;: 1e1,
+        &#34;&#34;: 1e0,
+        &#34;d&#34;: 1e-1,
+        &#34;c&#34;: 1e-2,
+        &#34;m&#34;: 1e-3,
+        &#34;u&#34;: 1e-6,
+        &#34;n&#34;: 1e-9,
+        &#34;p&#34;: 1e-12,
+    }
+    units = {
+        &#34;m&#34;: 1e0,
+        &#34;g&#34;: 1e-3,
+        &#34;s&#34;: 1e0,
+        &#34;K&#34;: 1e0,
+        &#34;Pa&#34;: 1e0,
+        &#34;mol&#34;: 1e0,
+        &#34;W&#34;: 1e0,
+        &#34;J&#34;: 1e0,
+        &#34;N&#34;: 1e0,
+    }
+    return namedtuple(&#34;SI&#34;, [prefix + unit for prefix in prefixes for unit in units])(
+        **{
+            prefix_k + unit_k: prefix_v * unit_v
+            for prefix_k, prefix_v in prefixes.items()
+            for unit_k, unit_v in units.items()
+        }
+    )
+
+
+si = __generate_si()
+&#34;&#34;&#34; a utility namedtuple aimed at clrifying physics-related code by providing
+    SI-prefix-aware unit multipliers, resulting in e.g.: `p = 1000 * si.hPa`
+    notation. Note: no dimensional analysis is done! &#34;&#34;&#34;
 
 with __build_extension_env():
     import _PyPartMC
     from _PyPartMC import *
-    from _PyPartMC import (  # pylint: disable=no-name-in-module
-        __all__,
-        __version__,
-        __versions_of_build_time_dependencies__,
-    )</code></pre>
+    from _PyPartMC import __all__ as _PyPartMC_all  # pylint: disable=no-name-in-module
+    from _PyPartMC import __version__, __versions_of_build_time_dependencies__
+
+    __all__ = tuple([*_PyPartMC_all, &#34;si&#34;])</code></pre>
 </details>
 </section>
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="PyPartMC.si"><code class="name">var <span class="ident">si</span></code></dt>
+<dd>
+<div class="desc"><p>a utility namedtuple aimed at clrifying physics-related code by providing
+SI-prefix-aware unit multipliers, resulting in e.g.: <code>p = 1000 * si.hPa</code>
+notation. Note: no dimensional analysis is done!</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
@@ -1021,6 +1054,11 @@ aero_dist_interp_1d(), respectively.</p>
 <ul></ul>
 </div>
 <ul id="index">
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="PyPartMC.si" href="#PyPartMC.si">si</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="PyPartMC.condense_equilib_particle" href="#PyPartMC.condense_equilib_particle">condense_equilib_particle</a></code></li>
