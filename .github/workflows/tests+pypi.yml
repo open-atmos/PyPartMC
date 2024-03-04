@@ -102,9 +102,10 @@ jobs:
       - if: startsWith(matrix.platform, 'macos-')
         run: |
           brew reinstall gcc
-          for i in /Applications/Xcode_*.app; do sudo xcode-select -s "$i"; done;
+          for i in /Applications/Xcode_*.app; do sudo xcode-select -s "$i"; break; done;
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
           echo ARCHFLAGS="-arch `uname -m`" >> $GITHUB_ENV  # this seems to have no effect on whl name on Python 3.11!
+          echo ARCH=`uname -m` >> $GITHUB_ENV
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
@@ -135,6 +136,7 @@ jobs:
       - uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
+          architectuer: ${{ env.ARCH }}
 
       - run: python -m pip install --upgrade pip==22.1.2
       - run: pip install "build<1.1" wheel
