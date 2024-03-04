@@ -34,8 +34,8 @@ jobs:
           path: '.zenodo.json'
           prop_path: 'creators'
 
-  build:
-    needs: [debug_build_ok, zenodo_json]
+  :
+    needs: [debug__ok, zenodo_json]
     strategy:
       matrix:
         include: 
@@ -137,7 +137,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - run: python -m pip install --upgrade pip==22.1.2
-      - run: pip install build wheel
+      - run: pip install build<1.1 wheel
       - run: cmake --version
       - run: |
           unset CI
