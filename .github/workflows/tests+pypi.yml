@@ -102,7 +102,7 @@ jobs:
       - if: startsWith(matrix.platform, 'macos-')
         run: |
           brew reinstall gcc
-          sudo xcode-select -s /Applications/Xcode_*.app
+          for i in /Applications/Xcode_*.app; do sudo xcode-select -s "$i"; done;
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
           echo ARCHFLAGS="-arch `uname -m`" >> $GITHUB_ENV  # this seems to have no effect on whl name on Python 3.11!
 
