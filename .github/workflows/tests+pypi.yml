@@ -136,7 +136,7 @@ jobs:
       - uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-          architectuer: ${{ env.ARCH }}
+          architecture: ${{ env.ARCH }}
 
       - run: python -m pip install --upgrade pip==22.1.2
       - run: pip install "build<1.1" wheel
