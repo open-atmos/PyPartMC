@@ -35,7 +35,7 @@ jobs:
           prop_path: 'creators'
 
   :
-    needs: [debug__ok, zenodo_json]
+    needs: [debug_build_ok, zenodo_json]
     strategy:
       matrix:
         include: 
