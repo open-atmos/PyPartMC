@@ -34,7 +34,7 @@ jobs:
           path: '.zenodo.json'
           prop_path: 'creators'
 
-  :
+  build:
     needs: [debug_build_ok, zenodo_json]
     strategy:
       matrix:
