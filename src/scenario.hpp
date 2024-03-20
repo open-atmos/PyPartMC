@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "gimmicks.hpp"
+#include "json_resource.hpp"
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
 #include "aero_dist.hpp"
@@ -123,7 +123,7 @@ struct Scenario {
             }
         }
 
-        GimmickGuard<InputGimmick> guard(json, "dist", "mode_name");
+        JSONResourceGuard<InputJSONResource> guard(json, "dist", "mode_name");
         f_scenario_from_json(
             gas_data.ptr.f_arg(),
             aero_data.ptr.f_arg(),

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "gimmicks.hpp" // TODO #119: rename to something like json_resource.hpp?
+#include "json_resource.hpp"
 #include "pmc_resource.hpp"
 #include "gas_data_parameters.hpp"
 #include "pybind11/stl.h"
@@ -37,7 +37,7 @@ struct GasData {
                 nlohmann::json::array()
             }}));
 
-        GimmickGuard<InputGimmick> guard(json_array);
+        JSONResourceGuard<InputJSONResource> guard(json_array);
         f_gas_data_from_json(this->ptr.f_arg());
     }
 

@@ -232,7 +232,7 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 - PartMC and selected parts of SUNDIALS are statically linked (and compiled in during `pip install` or `python -m build`) 
 - C (SUNDIALS, netCDF), C++ (pybind11, ...) and Fortran (PartMC, CAMP, netCDF-fortran) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
 - MOSAIC dependency is optionally linked through setting the environmental variable `MOSAIC_HOME`
-- a [drop-in replacement of the PartMC spec file routines](https://github.com/open-atmos/PyPartMC/blob/main/src/fake_spec_file.F90) is used for i/o from/to JSON 
+- a [drop-in replacement of the PartMC spec file routines](https://github.com/open-atmos/PyPartMC/blob/main/src/spec_file_pypartmc.F90) is used for i/o from/to JSON 
 
 ## Implementation architecture
 
@@ -255,10 +255,10 @@ flowchart TD
         PyPartMC --> ppmc_cpp["PyPartMC-C++"]
         ppmc_cpp --> pybind11_json
         pybind11_json ---> nlohmann::JSON
-        fake_spec_file_cpp --> nlohmann::JSON
+        spec_file_pypartmc_cpp --> nlohmann::JSON
     end
     subgraph C ["C"]
-        fake_spec_file_c --> fake_spec_file_cpp["SpecFile-C++"]
+        spec_file_pypartmc_c --> spec_file_pypartmc_cpp["SpecFile-C++"]
         ppmc_cpp --> ppmc_c["PyPartMC-C"]
         netCDF-C
         SUNDIALS
@@ -273,8 +273,8 @@ flowchart TD
         PartMC --> SUNDIALS
         PartMC ---> camp_f
         camp_f["CAMP"] --> camp_c
-        PartMC ----> fake_spec_file_f[SpecFile-F]
-        fake_spec_file_f --> fake_spec_file_c["SpecFile-C"]
+        PartMC ----> spec_file_pypartmc_f[SpecFile-F]
+        spec_file_pypartmc_f --> spec_file_pypartmc_c["SpecFile-C"]
     end
 
     style PartMC fill:#7ae7ff,stroke-width:2px,color:#2B2B2B

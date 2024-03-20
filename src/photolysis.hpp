@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "gimmicks.hpp"
+#include "json_resource.hpp"
 #include "pmc_resource.hpp"
 
 extern "C" void f_photolysis_ctor(void *ptr) noexcept;

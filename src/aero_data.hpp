@@ -7,7 +7,7 @@
 #pragma once
 
 #include "pmc_resource.hpp"
-#include "gimmicks.hpp"
+#include "json_resource.hpp"
 #include "pybind11/stl.h"
 #include "aero_data_parameters.hpp"
 
@@ -41,10 +41,10 @@ struct AeroData {
     AeroData(const nlohmann::json &json) :
         ptr(f_aero_data_ctor, f_aero_data_dtor)
     {
-        if (!InputGimmick::unique_keys(json))
+        if (!InputJSONResource::unique_keys(json))
             throw std::runtime_error("Species names must be unique");
 
-        GimmickGuard<InputGimmick> guard(json);
+        JSONResourceGuard<InputJSONResource> guard(json);
         f_aero_data_from_json(this->ptr.f_arg());
     }
 
