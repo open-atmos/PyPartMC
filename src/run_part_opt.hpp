@@ -7,7 +7,7 @@
 #pragma once
 
 #include "pmc_resource.hpp"
-#include "gimmicks.hpp"
+#include "json_resource.hpp"
 #include "pybind11_json/pybind11_json.hpp"
 
 extern "C" void f_run_part_opt_ctor(void *ptr) noexcept;
@@ -46,7 +46,7 @@ struct RunPartOpt {
             if (json_copy.find(key) == json_copy.end())
                 json_copy[key] = 0;
 
-        GimmickGuard<InputGimmick> guard(json_copy);
+        JSONResourceGuard<InputJSONResource> guard(json_copy);
         f_run_part_opt_from_json(this->ptr.f_arg());
     }
 

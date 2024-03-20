@@ -4,7 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ##################################################################################################*/
 
-#include "gimmicks.hpp"
+#include "json_resource.hpp"
 
 template <class X>
 X& singleton()
@@ -13,7 +13,7 @@ X& singleton()
     return x;
 }
 
-std::unique_ptr<Gimmick> &gimmick_ptr() {
-    return singleton<std::unique_ptr<Gimmick>>();
+std::unique_ptr<JSONResource> &json_resource_ptr() {
+    return singleton<std::unique_ptr<JSONResource>>();
 }
 

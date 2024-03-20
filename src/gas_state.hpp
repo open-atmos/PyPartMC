@@ -8,7 +8,7 @@
 #include <string>
 #include "pybind11_json/pybind11_json.hpp"
 #include "nlohmann/json.hpp"
-#include "gimmicks.hpp"
+#include "json_resource.hpp"
 #include "pmc_resource.hpp"
 #include "gas_data.hpp"
 
@@ -59,10 +59,10 @@ struct GasState {
     }
 
     static auto __str__(const GasState &self) {
-        GimmickGuard<OutputGimmick> guard;
+        JSONResourceGuard<OutputJSONResource> guard;
 
         f_gas_state_to_json(self.ptr.f_arg());
-        auto str = gimmick_ptr()->str();
+        auto str = json_resource_ptr()->str();
 
         return str;
     }
@@ -120,7 +120,7 @@ struct GasState {
         if (json.size() == 0)
             throw std::runtime_error("Non-empty sequence of mixing ratios expected");
 
-        GimmickGuard<InputGimmick> guard(json);
+        JSONResourceGuard<InputJSONResource> guard(json);
         f_gas_state_from_json(
             self.ptr.f_arg(),
             self.gas_data->ptr.f_arg()

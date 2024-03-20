@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "gimmicks.hpp"
+#include "json_resource.hpp"
 #include "pmc_resource.hpp"
 
 extern "C" void f_env_state_ctor(void *ptr) noexcept;
@@ -30,7 +30,7 @@ struct EnvState {
     EnvState(const nlohmann::json &json) :
         ptr(f_env_state_ctor, f_env_state_dtor)
     {
-        GimmickGuard<InputGimmick> guard(json);
+        JSONResourceGuard<InputJSONResource> guard(json);
         f_env_state_from_json(this->ptr.f_arg());
     }
 

@@ -7,7 +7,7 @@
 #include <bpstd/string_view.hpp>
 #include <tcb/span.hpp>
 
-#include "gimmicks.hpp"
+#include "json_resource.hpp"
 
 
 /*********************************************************************************/
@@ -16,7 +16,7 @@ extern "C"
 void c_spec_file_read_real(
     const char *name_data, const int *name_size, double *var
 ) noexcept {
-    gimmick_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
+    json_resource_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
 }
 
 /*********************************************************************************/
@@ -25,7 +25,7 @@ extern "C"
 void c_spec_file_read_integer(
     const char *name_data, const int *name_size, int *var
 ) noexcept {
-    gimmick_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
+    json_resource_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
 }
 
 /*********************************************************************************/
@@ -34,7 +34,7 @@ extern "C"
 void c_spec_file_read_logical(
     const char *name_data, const int *name_size, bool *var
 ) noexcept {
-    gimmick_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
+    json_resource_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
 }
 
 /*********************************************************************************/
@@ -44,7 +44,7 @@ void spec_file_read_string(
     char* var_data,
     int *var_size
 ) noexcept {
-    gimmick_ptr()->read_str(name, var_data, var_size);
+    json_resource_ptr()->read_str(name, var_data, var_size);
 }
 
 extern "C"
@@ -63,7 +63,7 @@ void c_spec_file_read_string(
 /*********************************************************************************/
 
 void spec_file_open(const bpstd::string_view &filename) noexcept {
-    gimmick_ptr()->zoom_in(filename);
+    json_resource_ptr()->zoom_in(filename);
 }
 
 extern "C"
@@ -79,7 +79,7 @@ void c_spec_file_open(
 /*********************************************************************************/
 
 void spec_file_close() noexcept {
-    gimmick_ptr()->zoom_out();
+    json_resource_ptr()->zoom_out();
 }
 
 extern "C"
@@ -94,16 +94,16 @@ void spec_file_read_timed_real_array_size(
     int *times_size,
     int *vals_size
 ) noexcept {
-    times_size[0] = gimmick_ptr()->n_elements("time");
-    vals_size[0] = gimmick_ptr()->n_elements(name);
+    times_size[0] = json_resource_ptr()->n_elements("time");
+    vals_size[0] = json_resource_ptr()->n_elements(name);
 }
 
 extern "C"
 void c_spec_file_read_timed_real_array_size(
     const char *name_data,
     const int *name_size,
-    int *times_size, 
-    int *vals_size 
+    int *times_size,
+    int *vals_size
 ) noexcept {
     spec_file_read_timed_real_array_size(
         bpstd::string_view(name_data, *name_size),
@@ -119,8 +119,8 @@ void spec_file_read_timed_real_array_data(
     const tcb::span<double> &times,
     const tcb::span<double> &vals
 ) noexcept {
-    gimmick_ptr()->read_arr("time", times);
-    gimmick_ptr()->read_arr(name, vals);
+    json_resource_ptr()->read_arr("time", times);
+    json_resource_ptr()->read_arr(name, vals);
 }
 
 extern "C"
@@ -128,9 +128,9 @@ void c_spec_file_read_timed_real_array_data(
     const char *name_data,
     const int *name_size,
     double *times_data,
-    const int *times_size, 
+    const int *times_size,
     double *vals_data,
-    const int *vals_size 
+    const int *vals_size
 ) noexcept {
     spec_file_read_timed_real_array_data(
         bpstd::string_view(name_data, *name_size),
@@ -145,9 +145,9 @@ void spec_file_read_real_named_array_size(
     int *n_rows,
     int *n_cols
 ) noexcept {
-    auto first_field = gimmick_ptr()->first_field_name();
-    *n_rows = gimmick_ptr()->n_numeric_array_entries();
-    *n_cols = gimmick_ptr()->n_elements(first_field);
+    auto first_field = json_resource_ptr()->first_field_name();
+    *n_rows = json_resource_ptr()->n_numeric_array_entries();
+    *n_cols = json_resource_ptr()->n_elements(first_field);
     // TODO #112: check each line has the same number of elements as time
 }
 
@@ -167,9 +167,9 @@ void spec_file_read_real_named_array_data(
     int *name_size,
     const tcb::span<double> &vals
 ) noexcept {
-    auto i = 0u, n_numeric_array_entries = gimmick_ptr()->n_numeric_array_entries();
+    auto i = 0u, n_numeric_array_entries = json_resource_ptr()->n_numeric_array_entries();
     for (
-        auto it = gimmick_ptr()->begin();
+        auto it = json_resource_ptr()->begin();
         i < n_numeric_array_entries;
         ++i, ++it
     ) {
@@ -208,7 +208,7 @@ void c_spec_file_read_real_named_array_data(
 /*********************************************************************************/
 extern "C"
 void c_spec_file_read_line_data_size(int *size) noexcept {
-    *size = gimmick_ptr()->read_line_data_size_and_start_enumerating();
+    *size = json_resource_ptr()->read_line_data_size_and_start_enumerating();
 }
 
 /*********************************************************************************/
@@ -221,7 +221,7 @@ void c_spec_file_read_line(
     bool *eof
 ) noexcept {
     std::string name, data;
-    *eof = gimmick_ptr()->read_line(name, data);
+    *eof = json_resource_ptr()->read_line(name, data);
 
     {
         int i = 0;

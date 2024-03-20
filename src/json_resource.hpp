@@ -14,7 +14,7 @@
 #include <tcb/span.hpp>
 #include <bpstd/string_view.hpp>
 
-struct Gimmick {
+struct JSONResource {
   private:
     std::set<std::string> vars;
     const nlohmann::json *json;
@@ -28,9 +28,9 @@ struct Gimmick {
   protected:
     size_t index = 0;
 
-    Gimmick() {}
+    JSONResource() {}
 
-    Gimmick(const nlohmann::json &json) {
+    JSONResource(const nlohmann::json &json) {
         this->set_current_json_ptr(&json);
         for (auto &entry : this->json->items()) {
             this->vars.insert(entry.key());
@@ -67,9 +67,9 @@ struct Gimmick {
         }
         return key;
     }
- 
+
   public:
-    virtual ~Gimmick() {}
+    virtual ~JSONResource() {}
 
     void zoom_in(const bpstd::string_view &sub) noexcept {
         auto it = this->json->is_array() 
@@ -211,28 +211,28 @@ struct Gimmick {
     virtual std::string str() const = 0;
 
     virtual bool read_line(std::string &name, std::string &data) = 0;
-    
+
     virtual int read_line_data_size_and_start_enumerating() = 0;
 };
 
-struct InputGimmick: Gimmick {
+struct InputJSONResource: JSONResource {
   private:
     std::string key_cond, key_name;
     std::string last_read_line_key = "";
     std::size_t max_zoom_level;
 
   public:
-    InputGimmick(
+    InputJSONResource(
         const nlohmann::json &json,
         const std::string key_cond = "",
         const std::string key_name = "",
         const std::size_t max_zoom_level = 3
-    ) : Gimmick(json), key_cond(key_cond), key_name(key_name), max_zoom_level(max_zoom_level)
+    ) : JSONResource(json), key_cond(key_cond), key_name(key_name), max_zoom_level(max_zoom_level)
     {
     }
 
     std::string str() const {
-        throw std::logic_error("str() called on InputGimmick!");
+        throw std::logic_error("str() called on InputJSONResource!");
     }
 
     bool read_line(std::string &name, std::string &data) {
@@ -286,10 +286,10 @@ struct InputGimmick: Gimmick {
     }
 };
 
-struct OutputGimmick: Gimmick {
+struct OutputJSONResource: JSONResource {
     std::unique_ptr<nlohmann::json> guard;
 
-    OutputGimmick() : guard(std::make_unique<nlohmann::json>()) {
+    OutputJSONResource() : guard(std::make_unique<nlohmann::json>()) {
         this->set_current_json_ptr(this->guard.get());
     }
 
@@ -298,45 +298,45 @@ struct OutputGimmick: Gimmick {
     }
 
     bool read_line(std::string &, std::string &) {
-        throw std::logic_error("read_line() called on OutputGimmick!");
+        throw std::logic_error("read_line() called on OutputJSONResource!");
     }
 
     int read_line_data_size_and_start_enumerating() {
-        throw std::logic_error("read_line_data_size_and_start_enumerating() called on OutputGimmick!");
+        throw std::logic_error("read_line_data_size_and_start_enumerating() called on OutputJSONResource!");
     }
 };
 
-std::unique_ptr<Gimmick> &gimmick_ptr();
+std::unique_ptr<JSONResource> &json_resource_ptr();
 
 template <typename T>
-struct GimmickGuard {
-    GimmickGuard() {
-        gimmick_ptr() = std::make_unique<T>();
-    }   
-
-    GimmickGuard(const nlohmann::json & json) {
-        gimmick_ptr() = std::make_unique<T>(json);
+struct JSONResourceGuard {
+    JSONResourceGuard() {
+        json_resource_ptr() = std::make_unique<T>();
     }
 
-    GimmickGuard(
+    JSONResourceGuard(const nlohmann::json & json) {
+        json_resource_ptr() = std::make_unique<T>(json);
+    }
+
+    JSONResourceGuard(
         const nlohmann::json & json,
         const std::string key_cond,
         const std::string key_name
     ) {
-        gimmick_ptr() = std::make_unique<T>(json, key_cond, key_name);
+        json_resource_ptr() = std::make_unique<T>(json, key_cond, key_name);
     }
 
-    GimmickGuard(
+    JSONResourceGuard(
         const nlohmann::json & json,
         const std::string key_cond,
         const std::string key_name,
         const int max_zoom_level
     ) {
-        gimmick_ptr() = std::make_unique<T>(json, key_cond, key_name, max_zoom_level);
+        json_resource_ptr() = std::make_unique<T>(json, key_cond, key_name, max_zoom_level);
     }
 
-    ~GimmickGuard() {
-        gimmick_ptr().reset();
-    }   
+    ~JSONResourceGuard() {
+        json_resource_ptr().reset();
+    }
 };
 

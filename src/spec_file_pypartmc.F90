@@ -46,7 +46,7 @@ module pmc_spec_file
         subroutine c_spec_file_close() bind(C)
         end subroutine
 
-        subroutine c_spec_file_read_timed_real_array_size(& 
+        subroutine c_spec_file_read_timed_real_array_size(&
             name_data, name_size, &
             times_size, &
             vals_size &
@@ -55,7 +55,7 @@ module pmc_spec_file
             integer, intent(in) :: name_size, times_size, vals_size
         end subroutine
 
-        subroutine c_spec_file_read_timed_real_array_data(& 
+        subroutine c_spec_file_read_timed_real_array_data(&
             name_data, name_size, &
             times_data, times_size, &
             vals_data, vals_size &
@@ -100,7 +100,7 @@ module pmc_spec_file
     end interface
 
     contains
-  
+
     subroutine spec_file_check_line_name(file, line, name)
         type(spec_file_t), intent(in) :: file
         type(spec_line_t), intent(in) :: line
@@ -230,7 +230,7 @@ module pmc_spec_file
         else
             deallocate(line%data)
         end if
-    end subroutine 
+    end subroutine
 
     subroutine spec_file_read_timed_real_array(file, name, times, vals)
         type(spec_file_t), intent(inout) :: file

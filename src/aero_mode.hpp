@@ -131,7 +131,7 @@ struct AeroMode {
         if (json.size() != 1 || !json.is_object() || !json.begin().value().is_object())
             throw std::runtime_error("Single-element dict expected with mode name as key and mode params dict as value");
         check_mode_json(json.begin().value());
-        GimmickGuard<InputGimmick> guard(json, "", "mode_name");
+        JSONResourceGuard<InputJSONResource> guard(json, "", "mode_name");
         f_aero_mode_from_json(ptr.f_arg_non_const(), aero_data.ptr.f_arg_non_const());
     }
 
@@ -143,7 +143,7 @@ struct AeroMode {
             
         if (!mass_frac.is_array()) // TODO #320: check if all are single-element dicts
             throw std::runtime_error("mass_frac value must be a list of single-element dicts");
-        if (!InputGimmick::unique_keys(mass_frac))
+        if (!InputJSONResource::unique_keys(mass_frac))
             throw std::runtime_error("mass_frac keys must be unique");
     }
 
