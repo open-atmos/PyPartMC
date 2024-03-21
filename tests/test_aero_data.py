@@ -67,7 +67,7 @@ class TestAeroData:
         assert value == 0
 
     @staticmethod
-    @pytest.mark.skipif("platform.machine() == 'arm64'")  # TODO #348
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_spec_by_name_not_found():
         # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
