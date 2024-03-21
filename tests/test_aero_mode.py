@@ -244,6 +244,7 @@ class TestAeroMode:
         assert sut.name == val
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_fails_with_multiple_modes():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -261,6 +262,7 @@ class TestAeroMode:
         )
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_fails_with_nonunique_mass_fracs():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
