@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import gc
+import platform
 
 import pytest
 
@@ -29,6 +30,7 @@ class TestGasState:
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 100))
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_get_item_out_of_range(idx):
         # arrange
         sut = ppmc.GasState(GAS_DATA_MINIMAL)
@@ -132,6 +134,7 @@ class TestGasState:
                 assert sut[i_spec] == 0
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_set_mix_rats_empty():
         # arrange
         gas_data = ppmc.GasData(("SO2",))

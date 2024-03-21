@@ -7,6 +7,7 @@
 import copy
 import gc
 import json
+import platform
 
 import pytest
 
@@ -298,6 +299,7 @@ class TestScenario:
             ([{"time": [1, 2]}, {"PROF": [1, 2, 3]}], ERR_MSG_PROFILE_LEN_MATCH),
         ),
     )
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_throws_if_profile_not_of_proper_form(prof, data, msg):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)

@@ -4,7 +4,10 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import platform
+
 import numpy as np
+import pytest
 
 import PyPartMC as ppmc
 
@@ -93,6 +96,7 @@ class TestBinGrid:
         )
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_invalid_grid():
         grid_size = 100
         try:

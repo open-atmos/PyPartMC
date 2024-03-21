@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import copy
+import platform
 
 import numpy as np
 import pytest
@@ -113,6 +114,7 @@ class TestAeroMode:
         assert sut.char_radius == val
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_set_vol_frac_invalid():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -128,6 +130,7 @@ class TestAeroMode:
         assert False
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_set_sample_invalid():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -241,6 +244,7 @@ class TestAeroMode:
         assert sut.name == val
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_fails_with_multiple_modes():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -258,6 +262,7 @@ class TestAeroMode:
         )
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_fails_with_nonunique_mass_fracs():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)

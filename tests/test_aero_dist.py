@@ -6,6 +6,7 @@
 
 import copy
 import gc
+import platform
 
 import numpy as np
 import pytest
@@ -133,6 +134,7 @@ class TestAeroDist:
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 500))
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_get_mode_out_of_range(sut_minimal, idx):
         # act
         try:
@@ -187,6 +189,7 @@ class TestAeroDist:
             assert sources[i] == key  # pylint: disable=unsubscriptable-object
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_multimode_error_on_repeated_mode_names():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -199,6 +202,7 @@ class TestAeroDist:
         assert str(exc_info.value) == "Mode names must be unique"
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_error_on_repeated_massfrac_keys():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)

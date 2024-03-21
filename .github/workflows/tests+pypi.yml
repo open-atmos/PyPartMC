@@ -59,6 +59,8 @@ jobs:
             python-version: "3.10"
           - platform: macos-12
             python-version: "3.11"
+          - platform: macos-14
+            python-version: "system"
           - manylinux: "manylinux2010_x86_64"
             platform: ubuntu-latest
             python-version: "3.7"
@@ -92,9 +94,9 @@ jobs:
       - if: startsWith(matrix.platform, 'macos-')
         run: |
           brew reinstall gcc
-          sudo xcode-select -s "/Applications/Xcode_13.4.1.app"
+          for i in /Applications/Xcode_*.app; do sudo xcode-select -s "$i"; break; done;
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
-          echo ARCHFLAGS="-arch x86_64" >> $GITHUB_ENV  # this seems to have no effect on whl name on Python 3.11!
+          echo ARCHFLAGS="-arch `uname -m`" >> $GITHUB_ENV  # this seems to have no effect on whl name on Python 3.11!
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
@@ -122,9 +124,13 @@ jobs:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
 
-      - uses: actions/setup-python@v1
+      - if: matrix.python-version != 'system'
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+
+      - if: matrix.python-version == 'system'
+        run: sudo ln -s `which python3` /usr/local/bin/python
 
       - run: python -m pip install --upgrade pip==22.1.2
       - run: pip install "build<1.1" wheel
