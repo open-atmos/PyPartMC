@@ -98,7 +98,7 @@ jobs:
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
           echo ARCHFLAGS="-arch `uname -m`" >> $GITHUB_ENV  # this seems to have no effect on whl name on Python 3.11!
       - if: matrix.platform == 'macos-14'
-        run: echo PYTEST_OPTIONS="-k 'not test_spec_by_name_not_found'" >> $GITHUB_ENV  # TODO #348
+        run: echo "PYTEST_OPTIONS=-k 'not test_spec_by_name_not_found'" >> $GITHUB_ENV  # TODO #348
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
