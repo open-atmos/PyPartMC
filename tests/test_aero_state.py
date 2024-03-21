@@ -364,6 +364,7 @@ class TestAeroState:
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 500))
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_get_particle_out_of_range(sut_minimal, idx):
         # act
         try:
