@@ -97,8 +97,6 @@ jobs:
           for i in /Applications/Xcode_*.app; do sudo xcode-select -s "$i"; break; done;
           echo MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` >> $GITHUB_ENV
           echo ARCHFLAGS="-arch `uname -m`" >> $GITHUB_ENV  # this seems to have no effect on whl name on Python 3.11!
-      - if: matrix.platform == 'macos-14'
-        run: echo PYTEST_OPTIONS='-k "not test_spec_by_name_not_found"' >> $GITHUB_ENV  # TODO #348
 
       - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
@@ -193,7 +191,7 @@ jobs:
       - run: |
           cd tests
           python -c "import PyPartMC"
-          pytest --durations=10 -v -s -We -p no:unraisableexception $PYTEST_OPTIONS .
+          pytest --durations=10 -v -s -We -p no:unraisableexception .
           cd ..
 
       - if: matrix.python-version != '3.7'
