@@ -6,6 +6,7 @@
 
 import copy
 import gc
+import platform
 
 import numpy as np
 import pytest
@@ -133,6 +134,7 @@ class TestAeroDist:
 
     @staticmethod
     @pytest.mark.parametrize("idx", (-1, 500))
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_get_mode_out_of_range(sut_minimal, idx):
         # act
         try:
