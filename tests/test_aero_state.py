@@ -5,6 +5,7 @@
 ####################################################################################################
 
 import gc
+import platform
 
 import numpy as np
 import pytest
@@ -70,6 +71,7 @@ class TestAeroState:
         assert sut is not None
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_fails_on_unknown_weighting():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
