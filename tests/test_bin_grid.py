@@ -7,6 +7,7 @@
 import platform
 
 import numpy as np
+import pytest
 
 import PyPartMC as ppmc
 
