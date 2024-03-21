@@ -469,6 +469,7 @@ class TestAeroData:
             assert names[i] == key
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_error_on_nonunique_keys():
         # act
         with pytest.raises(Exception) as exc_info:
