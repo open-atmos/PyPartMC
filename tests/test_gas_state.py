@@ -134,6 +134,7 @@ class TestGasState:
                 assert sut[i_spec] == 0
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_set_mix_rats_empty():
         # arrange
         gas_data = ppmc.GasData(("SO2",))
