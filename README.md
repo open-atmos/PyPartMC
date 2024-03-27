@@ -283,7 +283,10 @@ flowchart TD
 
 ## FAQ
 - Q: How to install PyPartMC with MOSAIC enabled?    
-  A: `MOSAIC_HOME=<<PATH_TO_MOSAIC_LIB>> pip install --force-reinstall --no-binary=PyPartMC PyPartMC`
+  A: Installation can be done using `pip`, however, `pip` needs to be instructed not to use binary packages available at pypi.org but rather to compile from source (pip will download the source from pip.org), and the path to compiled MOSAIC library needs to be provided at compile-time; the following command should convey it:
+```bash
+MOSAIC_HOME=<<PATH_TO_MOSAIC_LIB>> pip install --force-reinstall --no-binary=PyPartMC PyPartMC
+```
 
 - Q: Why `pip install PyPartMC` triggers compilation on my brand new Apple machine, while it quickly downloads and installs binary packages when executed on older Macs, Windows or Linux?    
   A: We are not yet providing binary wheels on PyPI for Apple-silicon (arm64) machines. Cross-compilation with gfortran is only supported with experimental unofficial builds [and is tricky](https://github.com/iains/gcc-12-branch/issues/23), while Github Actions ARM64 virtual machines are [costly](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#minute-multipliers).  
