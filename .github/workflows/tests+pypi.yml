@@ -130,12 +130,14 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - if: matrix.python-version == 'system'
-        run: sudo ln -s `which python3` /usr/local/bin/python
+        run: |
+          sudo ln -s `which python3` /usr/local/bin/python
+          echo PIP_INSTALL_OPTS=--break-system-packages >> $GITHUB_ENV
 
       - if: matrix.python-version != 'system'
         run: python -m pip install --upgrade pip==22.1.2
 
-      - run: python -m pip install "build<1.1" wheel
+      - run: python -m pip install $PIP_INSTALL_OPTS "build<1.1" wheel
       - run: cmake --version
       - run: |
           unset CI
