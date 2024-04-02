@@ -75,7 +75,9 @@ jobs:
         with:
           submodules: recursive
 
-      - run: sudo apt-get install libnetcdff-dev
+      - run: |
+          sudo apt-get update
+          sudo apt-get install libnetcdff-dev
       - run: |
           cd readme_fortran
           mkdir build

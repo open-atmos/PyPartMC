@@ -130,10 +130,14 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - if: matrix.python-version == 'system'
-        run: sudo ln -s `which python3` /usr/local/bin/python
+        run: |
+          sudo ln -s `which python3` /usr/local/bin/python
+          echo PIP_INSTALL_OPTS=--break-system-packages >> $GITHUB_ENV
 
-      - run: python -m pip install --upgrade pip==22.1.2
-      - run: pip install "build<1.1" wheel
+      - if: matrix.python-version != 'system'
+        run: python -m pip install --upgrade pip==22.1.2
+
+      - run: python -m pip install $PIP_INSTALL_OPTS "build<1.1" wheel
       - run: cmake --version
       - run: |
           unset CI
@@ -183,23 +187,23 @@ jobs:
       - env:
           SYSTEM_VERSION_COMPAT: 0 
         run: |
-          pip debug --verbose
-          for i in dist/*.whl; do pip install $i[tests]; done;
-          pip show --verbose PyPartMC
+          python -m pip debug --verbose
+          for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[tests]; done;
+          python -m pip show --verbose PyPartMC
 
       ### make sure PyPartMC is not picked up from a local folder
       - run: |
           cd tests
           python -c "import PyPartMC"
-          pytest --durations=10 -v -s -We -p no:unraisableexception .
+          python -m pytest --durations=10 -v -s -We -p no:unraisableexception .
           cd ..
 
       - if: matrix.python-version != '3.7'
         run: |
-          pip install -r gitmodules/devops_tests/requirements.txt
+          python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
-          pip install -r .binder/requirements.txt
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
+          python -m pip install $PIP_INSTALL_OPTS -r .binder/requirements.txt
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
 ### uncomment to gain ssh access in case of failure
 #      - if: ${{ failure() }}
