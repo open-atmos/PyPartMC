@@ -36,15 +36,15 @@ extern "C" void f_aero_particle_crit_diameter(const void *aero_particle_ptr, con
 extern "C" void f_aero_particle_coagulate(const void *aero_particle_1_ptr, const void *aero_particle_2_ptr, void *new_particle_ptr) noexcept;
 extern "C" void f_aero_particle_zero(void *aero_particle_ptr, const void *aero_data_ptr) noexcept;
 extern "C" void f_aero_particle_set_vols(void *aero_particle_ptr, const int *vol_size, const void *volumes) noexcept;
-extern "C" void f_aero_particle_absorb_cross_sect(const void *aero_particle_ptr, double *val) noexcept;
-extern "C" void f_aero_particle_scatter_cross_sect(const void *aero_particle_ptr, double *val) noexcept;
-extern "C" void f_aero_particle_asymmetry(const void *aero_particle_ptr, double *val) noexcept;
+extern "C" void f_aero_particle_absorb_cross_sect(const void *aero_particle_ptr, double *val, const int *arr_size) noexcept;
+extern "C" void f_aero_particle_scatter_cross_sect(const void *aero_particle_ptr, double *val, const int *arr_size) noexcept;
+extern "C" void f_aero_particle_asymmetry(const void *aero_particle_ptr, double *val, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_greatest_create_time(const void *aero_particle_ptr, double *val) noexcept;
 extern "C" void f_aero_particle_least_create_time(const void *aero_particle_ptr, double *val) noexcept;
 extern "C" void f_aero_particle_n_orig_part(const void *aero_particle_ptr, void *arr_data, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_id(const void *aero_particle_ptr, int *val) noexcept;
-extern "C" void f_aero_particle_refract_shell(const void *aero_particle_ptr, std::complex<double> *val) noexcept;
-extern "C" void f_aero_particle_refract_core(const void *aero_particle_ptr, std::complex<double> *val) noexcept;
+extern "C" void f_aero_particle_refract_shell(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
+extern "C" void f_aero_particle_refract_core(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
 
 namespace py = pybind11;
 struct AeroParticle {
@@ -307,28 +307,34 @@ struct AeroParticle {
     }
 
     static auto scatter_cross_sect(const AeroParticle &self) {
+        int len = 1;
         double val;
         f_aero_particle_scatter_cross_sect(
             self.ptr.f_arg(),
-            &val
+            &val,
+            &len
         );
         return val;
     }
 
     static auto absorb_cross_sect(const AeroParticle &self) {
+        int len = 1;
         double val;
         f_aero_particle_absorb_cross_sect(
             self.ptr.f_arg(),
-            &val
+            &val,
+            &len
         );
         return val;
     }
 
     static auto asymmetry(const AeroParticle &self) {
+        int len = 1;
         double val;
         f_aero_particle_asymmetry(
             self.ptr.f_arg(),
-            &val
+            &val,
+            &len
         );
         return val;
     }
@@ -373,19 +379,23 @@ struct AeroParticle {
     }
 
     static auto refract_shell(const AeroParticle &self) {
+        int len = 1;
         std::complex<double> refract_shell;
         f_aero_particle_refract_shell(
             self.ptr.f_arg(),
-            &refract_shell
+            &refract_shell,
+            &len
         );
         return refract_shell;
     }
 
     static auto refract_core(const AeroParticle &self) {
+        int len = 1;
         std::complex<double> refract_core;
         f_aero_particle_refract_core(
             self.ptr.f_arg(),
-            &refract_core
+            &refract_core,
+            &len
         );
         return refract_core;
     }
