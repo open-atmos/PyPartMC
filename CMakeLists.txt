@@ -435,7 +435,7 @@ add_dependencies(partmclib ${SUNDIALS_items})
 string(CONCAT 
   cmd
   "import sys;"
-  "print(''.join([f'#define {line.split()[3]} {line.split()[5]}\\n' for line in sys.stdin if 'parameter ::' in line]))"
+  "print(''.join([line if line.startswith('#') else f'#define {line.split()[3]} {line.split()[5]}\\n' for line in sys.stdin if 'parameter ::' in line or line.startswith('#')]))"
 )
 include(CheckFunctionExists)
 foreach(file aero_data;gas_data;output)
