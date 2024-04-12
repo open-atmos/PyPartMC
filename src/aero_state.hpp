@@ -178,7 +178,7 @@ extern "C" void f_aero_state_zero(
 
 extern "C" void f_aero_state_ids(
     const void *ptr_c,
-    int *ids,
+    int64_t *ids,
     const int *n_parts
 ) noexcept;
 
@@ -480,7 +480,7 @@ struct AeroState {
             self.ptr.f_arg(),
             &len
         );
-        std::valarray<int> ids(len);
+        std::valarray<int64_t> ids(len);
 
         f_aero_state_ids(
             self.ptr.f_arg(),
