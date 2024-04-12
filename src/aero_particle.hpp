@@ -307,7 +307,7 @@ struct AeroParticle {
     }
 
     static auto scatter_cross_sect(const AeroParticle &self) {
-        int len = 1;
+        int len = n_swbands;
         double val;
         f_aero_particle_scatter_cross_sect(
             self.ptr.f_arg(),
@@ -318,7 +318,7 @@ struct AeroParticle {
     }
 
     static auto absorb_cross_sect(const AeroParticle &self) {
-        int len = 1;
+        int len = n_swbands;
         double val;
         f_aero_particle_absorb_cross_sect(
             self.ptr.f_arg(),
@@ -329,7 +329,7 @@ struct AeroParticle {
     }
 
     static auto asymmetry(const AeroParticle &self) {
-        int len = 1;
+        int len = n_swbands;
         double val;
         f_aero_particle_asymmetry(
             self.ptr.f_arg(),
@@ -379,7 +379,7 @@ struct AeroParticle {
     }
 
     static auto refract_shell(const AeroParticle &self) {
-        int len = 1;
+        int len = n_swbands;
         std::complex<double> refract_shell;
         f_aero_particle_refract_shell(
             self.ptr.f_arg(),
@@ -390,7 +390,7 @@ struct AeroParticle {
     }
 
     static auto refract_core(const AeroParticle &self) {
-        int len = 1;
+        int len = n_swbands;
         std::complex<double> refract_core;
         f_aero_particle_refract_core(
             self.ptr.f_arg(),
