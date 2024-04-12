@@ -485,6 +485,23 @@ module PyPartMC_aero_particle
 
   end subroutine
 
+  subroutine f_aero_particle_get_component_sources( &
+      aero_particle_ptr_c, &
+      source_list, &
+      n_sources &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(in) :: n_sources
+    integer(c_int), dimension(n_sources), intent(inout) :: source_list
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    call aero_particle_get_component_sources(aero_particle_ptr_f, source_list)
+
+  end subroutine
+
   subroutine f_aero_particle_id( & 
       aero_particle_ptr_c, &
       id &

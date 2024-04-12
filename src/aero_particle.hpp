@@ -41,7 +41,7 @@ extern "C" void f_aero_particle_scatter_cross_sect(const void *aero_particle_ptr
 extern "C" void f_aero_particle_asymmetry(const void *aero_particle_ptr, double *val, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_greatest_create_time(const void *aero_particle_ptr, double *val) noexcept;
 extern "C" void f_aero_particle_least_create_time(const void *aero_particle_ptr, double *val) noexcept;
-extern "C" void f_aero_particle_n_orig_part(const void *aero_particle_ptr, void *arr_data, const int *arr_size) noexcept;
+extern "C" void f_aero_particle_get_component_sources(const void *aero_particle_ptr, void *arr_data, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_id(const void *aero_particle_ptr, int *val) noexcept;
 extern "C" void f_aero_particle_refract_shell(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_refract_core(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
@@ -339,11 +339,11 @@ struct AeroParticle {
         return val;
     }
 
-    static auto n_orig_part(const AeroParticle &self) {
+    static auto sources(const AeroParticle &self) {
         int len = AeroData::n_source(*self.aero_data);
         std::valarray<int> data(len);
 
-        f_aero_particle_n_orig_part(
+        f_aero_particle_get_component_sources(
             self.ptr.f_arg(),
             begin(data),
             &len

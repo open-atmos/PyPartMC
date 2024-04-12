@@ -570,7 +570,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         assert isinstance(value, complex)
 
     @staticmethod
-    def test_n_orig_part():
+    def test_sources():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
@@ -578,11 +578,11 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
         sut = aero_state.particle(0)
         # act
-        n_orig_part = sut.n_orig_part
+        sources = sut.sources
 
         # assert
-        assert len(n_orig_part) == aero_dist.n_mode
-        assert isinstance(n_orig_part[0], int)
+        assert len(sources) == aero_dist.n_mode
+        assert isinstance(sources[0], int)
 
     @staticmethod
     def test_least_create_time():
