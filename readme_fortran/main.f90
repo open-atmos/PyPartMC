@@ -20,7 +20,7 @@ program main
   call spec_file_close(f_aero_data)
 
   call spec_file_open("aero_dist.dat", f_aero_dist)
-  call spec_file_read_aero_dist(f_aero_dist, aero_data, aero_dist)
+  call spec_file_read_aero_dist(f_aero_dist, aero_data, .false., aero_dist)
   call spec_file_close(f_aero_dist)
 
   call aero_state_zero(aero_state)
@@ -29,7 +29,7 @@ program main
     AERO_STATE_WEIGHT_NUMMASS_SOURCE)
   call aero_state_set_n_part_ideal(aero_state, dble(n_part))
   call aero_state_add_aero_dist_sample(aero_state, aero_data, &
-    aero_dist, 1d0, 0d0, .true., .true., n_part_add)
+    aero_dist, 1d0, 1d0, 0d0, .true., .true., n_part_add)
 
   num_concs = aero_state_num_concs(aero_state, aero_data)
   masses = aero_state_masses(aero_state, aero_data)
