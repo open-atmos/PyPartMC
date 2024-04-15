@@ -42,7 +42,7 @@ extern "C" void f_aero_particle_asymmetry(const void *aero_particle_ptr, double 
 extern "C" void f_aero_particle_greatest_create_time(const void *aero_particle_ptr, double *val) noexcept;
 extern "C" void f_aero_particle_least_create_time(const void *aero_particle_ptr, double *val) noexcept;
 extern "C" void f_aero_particle_get_component_sources(const void *aero_particle_ptr, void *arr_data, const int *arr_size) noexcept;
-extern "C" void f_aero_particle_id(const void *aero_particle_ptr, int *val) noexcept;
+extern "C" void f_aero_particle_id(const void *aero_particle_ptr, int64_t *val) noexcept;
 extern "C" void f_aero_particle_refract_shell(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_refract_core(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
 
@@ -370,7 +370,7 @@ struct AeroParticle {
     }
 
     static auto id(const AeroParticle &self) {
-        int val;
+        int64_t val;
         f_aero_particle_id(
             self.ptr.f_arg(),
             &val
