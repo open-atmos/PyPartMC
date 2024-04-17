@@ -380,10 +380,12 @@ target_include_directories(netcdf_clib PRIVATE
   ${CMAKE_BINARY_DIR}/netcdf
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
+  ${CMAKE_SOURCE_DIR}/gitmodules/hdf5/src
 )
 target_compile_definitions(netcdf_clib PRIVATE
   HAVE_CONFIG_H
   USE_NETCDF4
+  USE_HDF5
 )
 target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
