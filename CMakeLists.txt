@@ -140,13 +140,21 @@ set(netcdf_c_dispatch_SOURCES dvar.c ddim.c dvarput.c dvarget.c ddispatch.c dcom
 )
 add_prefix(gitmodules/netcdf-c/libdispatch/ netcdf_c_dispatch_SOURCES)
 
+set(netcdf_c_libhdf5_SOURCES hdf5dispatch.c hdf5create.c hdf5open.c hdf5file.c 
+  hdf5attr.c hdf5debug.c hdf5dim.c hdf5filter.c hdf5grp.c hdf5internal.c hdf5set_format_compatibility.c
+  hdf5type.c hdf5var.c 
+)
+add_prefix(gitmodules/netcdf-c/libhdf5/ netcdf_c_libhdf5_SOURCES)
+
 set(netcdf_c_lib_SOURCES nc_initialize.c)
 add_prefix(gitmodules/netcdf-c/liblib/ netcdf_c_lib_SOURCES)
 
 set(netcdf_c_src_SOURCES nc3dispatch.c nc3internal.c dim.c var.c ncio.c v1hpg.c memio.c posixio.c)
 add_prefix(gitmodules/netcdf-c/libsrc/ netcdf_c_src_SOURCES)
 
-set(netcdf_c_src4_SOURCES nc4internal.c ncindex.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c)
+set(netcdf_c_src4_SOURCES nc4internal.c ncindex.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c
+  ncfunc.c nc4dim.c nc4filters.c nc4attr.c
+)
 add_prefix(gitmodules/netcdf-c/libsrc4/ netcdf_c_src4_SOURCES)
 
 set(netcdf_f_SOURCES typeSizes.F90 module_netcdf_nf_data.F90 module_netcdf_nc_data.F90
@@ -321,6 +329,16 @@ execute_process(
   OUTPUT_FILE ${CMAKE_BINARY_DIR}/include/camp/version.h
 )
 
+### HDF5 ###########################################################################################
+
+set(HDF5_EXTERNALLY_CONFIGURED 1)
+set(H5_ENABLE_SHARED_LIB OFF)
+set(BUILD_TESTING OFF)
+set(HDF5_BUILD_TOOLS OFF)
+set(HDF5_BUILD_EXAMPLES OFF)
+set(HDF5_BUILD_HL_LIB ON)
+add_subdirectory(${CMAKE_SOURCE_DIR}/gitmodules/hdf5)
+
 ### netCDF #########################################################################################
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/netcdf)
@@ -349,6 +367,7 @@ LIST(APPEND netcdf_c_SOURCES ${netcdf_c_lib_SOURCES})
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_dispatch_SOURCES})
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_src_SOURCES})
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_src4_SOURCES})
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_libhdf5_SOURCES})
 foreach (f ${m4_SOURCES})
   set(tmp ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
   add_custom_command(
@@ -381,6 +400,9 @@ target_include_directories(netcdf_clib PRIVATE
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
   ${CMAKE_SOURCE_DIR}/gitmodules/hdf5/src
+  ${CMAKE_BINARY_DIR}/gitmodules/hdf5/src
+  ${CMAKE_SOURCE_DIR}/gitmodules/hdf5/hl/src
+  ${CMAKE_SOURCE_DIR}/gitmodules/hdf5/src/H5FDsubfiling
 )
 target_compile_definitions(netcdf_clib PRIVATE
   HAVE_CONFIG_H
@@ -391,6 +413,8 @@ target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
     $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
 )
+target_link_libraries(netcdf_clib PRIVATE ${HDF5_LIB_TARGET})
+target_link_libraries(netcdf_clib PRIVATE ${HDF5_HL_LIB_TARGET})
 
 ### netCDF-FORTRAN #################################################################################
 
