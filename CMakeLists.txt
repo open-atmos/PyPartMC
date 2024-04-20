@@ -142,7 +142,7 @@ add_prefix(gitmodules/netcdf-c/libdispatch/ netcdf_c_dispatch_SOURCES)
 
 set(netcdf_c_libhdf5_SOURCES hdf5dispatch.c hdf5create.c hdf5open.c hdf5file.c 
   hdf5attr.c hdf5debug.c hdf5dim.c hdf5filter.c hdf5grp.c hdf5internal.c hdf5set_format_compatibility.c
-  hdf5type.c hdf5var.c 
+  hdf5type.c hdf5var.c nc4hdf.c nc4info.c nc4mem.c nc4memcb.c
 )
 add_prefix(gitmodules/netcdf-c/libhdf5/ netcdf_c_libhdf5_SOURCES)
 
@@ -346,6 +346,7 @@ string(CONCAT cmd
   "import sys; print(''.join([line for line in sys.stdin"
   " if ('VERSION' in line and line.strip().startswith('SET'))"
   " or 'CHUNK_' in line"
+  " or '_CHUNKS_' in line"
   " or line.strip().startswith('CHECK_INCLUDE_FILE')"
   " or line.strip().startswith('CHECK_TYPE_SIZE')"
   " or line.strip().startswith('CHECK_FUNCTION_EXISTS')"
@@ -413,8 +414,8 @@ target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
     $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
 )
-target_link_libraries(netcdf_clib PRIVATE ${HDF5_LIB_TARGET})
-target_link_libraries(netcdf_clib PRIVATE ${HDF5_HL_LIB_TARGET})
+target_link_libraries(netcdf_clib PRIVATE ${CMAKE_BINARY_DIR}/gitmodules/hdf5/src/libhdf5.a)
+target_link_libraries(netcdf_clib PRIVATE ${CMAKE_BINARY_DIR}/gitmodules/hdf5/hl/src/libhdf5_hl.a)
 
 ### netCDF-FORTRAN #################################################################################
 
