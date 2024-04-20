@@ -332,11 +332,14 @@ execute_process(
 ### HDF5 ###########################################################################################
 
 set(HDF5_EXTERNALLY_CONFIGURED 1)
-set(H5_ENABLE_SHARED_LIB OFF)
+set(BUILD_STATIC_LIBS ON)
+set(HDF5_BUILD_HL_LIB ON)
+set(BUILD_SHARED_LIBS OFF)
 set(BUILD_TESTING OFF)
 set(HDF5_BUILD_TOOLS OFF)
 set(HDF5_BUILD_EXAMPLES OFF)
-set(HDF5_BUILD_HL_LIB ON)
+set(HDF5_ENABLE_Z_LIB_SUPPORT OFF)
+set(HDF5_ENABLE_SZIP_SUPPORT OFF)
 add_subdirectory(${CMAKE_SOURCE_DIR}/gitmodules/hdf5)
 
 ### netCDF #########################################################################################
@@ -415,8 +418,8 @@ target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
     $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
 )
-target_link_libraries(netcdf_clib PRIVATE ${CMAKE_BINARY_DIR}/gitmodules/hdf5/src/libhdf5.a)
-target_link_libraries(netcdf_clib PRIVATE ${CMAKE_BINARY_DIR}/gitmodules/hdf5/hl/src/libhdf5_hl.a)
+target_link_libraries(netcdf_clib PRIVATE hdf5-static)
+target_link_libraries(netcdf_clib PRIVATE hdf5_hl-static)
 
 ### netCDF-FORTRAN #################################################################################
 
