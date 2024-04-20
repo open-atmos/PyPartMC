@@ -347,6 +347,7 @@ string(CONCAT cmd
   " if ('VERSION' in line and line.strip().startswith('SET'))"
   " or 'CHUNK_' in line"
   " or '_CHUNKS_' in line"
+  " or '_CACHE_SIZE' in line"
   " or line.strip().startswith('CHECK_INCLUDE_FILE')"
   " or line.strip().startswith('CHECK_TYPE_SIZE')"
   " or line.strip().startswith('CHECK_FUNCTION_EXISTS')"
