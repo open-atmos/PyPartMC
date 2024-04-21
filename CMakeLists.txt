@@ -348,7 +348,7 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gitmodules/hdf5)
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gitmodules/hdf5/src)
 foreach(file ${hdf5_INPUT_TXT_FILES})
   execute_process(
-    COMMAND ${PYTHON_EXECUTABLE} "-c" "print(''.join([l.replace('\\r','') for l in open(0,'r')]),end='')"
+    COMMAND ${PYTHON_EXECUTABLE} "-c" "sys.stdout.reconfigure(newline='\\n');print(''.join([l.replace('\\r','') for l in open(0,'r')]),end='')"
     INPUT_FILE ${CMAKE_SOURCE_DIR}/${file}
     OUTPUT_FILE ${CMAKE_BINARY_DIR}/${file}
   )
