@@ -344,6 +344,8 @@ set(HDF5_BUILD_EXAMPLES OFF)
 set(HDF5_ENABLE_Z_LIB_SUPPORT OFF)
 set(HDF5_ENABLE_SZIP_SUPPORT OFF)
 
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gitmodules/hdf5)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gitmodules/hdf5/src)
 foreach(file ${hdf5_INPUT_TXT_FILES})
   execute_process(
     COMMAND ${PYTHON_EXECUTABLE} "-c" "print(''.join([l.replace('\\r','') for l in open(0,'r')]),end='')"
