@@ -289,7 +289,7 @@ MOSAIC_HOME=<<PATH_TO_MOSAIC_LIB>> pip install --force-reinstall --no-binary=PyP
 ```
 
 - Q: Why `pip install PyPartMC` triggers compilation on my brand new Apple machine, while it quickly downloads and installs binary packages when executed on older Macs, Windows or Linux?    
-  A: We are not yet providing binary wheels on PyPI for Apple-silicon (arm64) machines. Cross-compilation with gfortran is only supported with experimental unofficial builds [and is tricky](https://github.com/iains/gcc-12-branch/issues/23), while Github Actions ARM64 virtual machines are [costly](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions#minute-multipliers).  
+  A: We are providing binary wheels on PyPI for Apple-silicon (arm64) machines for selected macOS version made available by Github. In case the macOS version you are using is newer, compilation from source is triggered.  
 
 - Q: Why some of the constructors expect data to be passed as **lists of single-entry dictionaries** instead of multi-element dictionaries?    
   A: This is intentional and related with PartMC relying on the order of elements within spec-file input; while Python dictionaries preserve ordering (insertion order), JSON format does not, and we intend to make these data structures safe to be [de]serialized using JSON.   
@@ -300,6 +300,9 @@ MOSAIC_HOME=<<PATH_TO_MOSAIC_LIB>> pip install --force-reinstall --no-binary=PyP
 import PyPartMC
 PyPartMC.__versions_of_build_time_dependencies__['PartMC']
 ```
+
+- Q: Why m4 and perl are required at compile time?    
+  A: PyPartMC includes parts of netCDF and HDF5 codebases which depend on m4 and perl, respectively, for generating source files before compilation.
 
 ## Troubleshooting 
 

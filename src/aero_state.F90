@@ -495,8 +495,8 @@ module PyPartMC_aero_state
     call c_f_pointer(ptr_aero_dist_c,ptr_aero_dist_f)
 
     call aero_state_add_aero_dist_sample(ptr_f, ptr_aero_data_f, &
-       ptr_aero_dist_f, sample_prop, create_time, LOGICAL(allow_doubling), &
-       logical(allow_halving), n_part_add)
+         ptr_aero_dist_f, sample_prop, 1.0d0, create_time, LOGICAL(allow_doubling), &
+         logical(allow_halving), n_part_add)
 
   end subroutine
 
@@ -555,7 +555,7 @@ module PyPartMC_aero_state
   subroutine f_aero_state_ids(ptr_c, ids, n_parts) bind(C)
     type(c_ptr), intent(in) :: ptr_c
     integer(c_int), intent(in) :: n_parts
-    integer(c_int), intent(out) :: ids(n_parts)
+    integer(c_int64_t), intent(out) :: ids(n_parts)
     type(aero_state_t), pointer :: ptr_f => null()
 
     call c_f_pointer(ptr_c, ptr_f)

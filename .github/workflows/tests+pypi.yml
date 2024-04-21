@@ -142,7 +142,7 @@ jobs:
       - run: |
           unset CI
           python -m build 2>&1 | tee build.log
-          exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | wc -l`
+          exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | grep -v "-warnings" | grep -v "All Warnings are enabled" | wc -l`
 
       - if: startsWith(matrix.platform, 'macos-') && matrix.python-version == '3.11'
         run: |
@@ -206,10 +206,10 @@ jobs:
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
 ### uncomment to gain ssh access in case of failure
-#      - if: ${{ failure() }}
-#        uses: mxschmitt/action-tmate@v3
-#        with:
-#          limit-access-to-actor: true
+      - if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
 
   dist_check:
     runs-on: ubuntu-latest

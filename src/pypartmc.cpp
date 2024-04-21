@@ -167,7 +167,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Refractive index of the shell (1).")
         .def_property_readonly("refract_core", AeroParticle::refract_core,
             "Refractive index of the core (1).")
-        .def_property_readonly("n_orig_part", AeroParticle::n_orig_part,
+        .def_property_readonly("sources", AeroParticle::sources,
             "Number of original particles from each source that coagulated to form particle.")
         .def_property_readonly("least_create_time", AeroParticle::least_create_time,
             "First time a constituent was created (s).")

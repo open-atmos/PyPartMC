@@ -7,6 +7,7 @@ add_executable(main
   $ENV{PARTMC_HOME}/src/spec_line.F90
   $ENV{PARTMC_HOME}/src/util.F90
   $ENV{PARTMC_HOME}/src/constants.F90
+  $ENV{PARTMC_HOME}/src/aero_component.F90
   $ENV{PARTMC_HOME}/src/aero_data.F90
   $ENV{PARTMC_HOME}/src/aero_mode.F90
   $ENV{PARTMC_HOME}/src/aero_dist.F90

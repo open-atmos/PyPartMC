@@ -38,7 +38,7 @@ module PyPartMC_aero_dist
     call c_f_pointer(ptr_c, aero_dist)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
 
-    call spec_file_read_aero_dist(file, aero_data_ptr_f, aero_dist)
+    call spec_file_read_aero_dist(file, aero_data_ptr_f, .false., aero_dist)
   end subroutine
 
   subroutine f_aero_dist_n_mode(ptr_c, n_mode) bind(C)

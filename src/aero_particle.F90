@@ -389,12 +389,14 @@ module PyPartMC_aero_particle
 
   subroutine f_aero_particle_absorb_cross_sect( &
       aero_particle_ptr_c, &
-      absorb_cross_sect & 
+      absorb_cross_sect, &
+      n_wavelengths &
     ) bind(C)
 
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_ptr_c
-    real(c_double), intent(out) :: absorb_cross_sect    
+    integer(c_int), intent(in) :: n_wavelengths
+    real(c_double), dimension(n_wavelengths), intent(out) :: absorb_cross_sect    
 
     call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
 
@@ -404,12 +406,14 @@ module PyPartMC_aero_particle
 
   subroutine f_aero_particle_scatter_cross_sect( &
       aero_particle_ptr_c, &
-      scatter_cross_sect &
+      scatter_cross_sect, &
+      n_wavelengths &
     ) bind(C)
 
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_ptr_c
-    real(c_double), intent(out) :: scatter_cross_sect
+    integer(c_int), intent(in) :: n_wavelengths
+    real(c_double), dimension(n_wavelengths), intent(out) :: scatter_cross_sect
 
     call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
 
@@ -419,12 +423,14 @@ module PyPartMC_aero_particle
 
   subroutine f_aero_particle_asymmetry( &
       aero_particle_ptr_c, &
-      asymmetry &
+      asymmetry, &
+      n_wavelengths &
     ) bind(C)
 
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_ptr_c
-    real(c_double), intent(out) :: asymmetry
+    integer(c_int), intent(in) :: n_wavelengths
+    real(c_double), dimension(n_wavelengths), intent(out) :: asymmetry
 
     call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
 
@@ -475,7 +481,24 @@ module PyPartMC_aero_particle
 
     call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
 
-    n_orig_part = aero_particle_ptr_f%n_orig_part
+    n_orig_part = 1 !aero_particle_ptr_f%n_orig_part
+
+  end subroutine
+
+  subroutine f_aero_particle_get_component_sources( &
+      aero_particle_ptr_c, &
+      source_list, &
+      n_sources &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(in) :: n_sources
+    integer(c_int), dimension(n_sources), intent(inout) :: source_list
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    call aero_particle_get_component_sources(aero_particle_ptr_f, source_list)
 
   end subroutine
 
@@ -486,7 +509,7 @@ module PyPartMC_aero_particle
 
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_ptr_c
-    integer(c_int), intent(out) :: id
+    integer(c_int64_t), intent(out) :: id
 
     call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
 
@@ -496,12 +519,14 @@ module PyPartMC_aero_particle
 
   subroutine f_aero_particle_refract_shell( &
       aero_particle_ptr_c, &
-      refract_shell &
+      refract_shell, &
+      n_wavelengths &
     ) bind(C)
 
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_ptr_c
-    complex(c_double_complex), intent(out) :: refract_shell
+    integer(c_int), intent(in) :: n_wavelengths
+    complex(c_double_complex), dimension(n_wavelengths), intent(out) :: refract_shell
 
     call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
 
@@ -511,12 +536,14 @@ module PyPartMC_aero_particle
 
   subroutine f_aero_particle_refract_core( &
       aero_particle_ptr_c, &
-      refract_core &
+      refract_core, &
+      n_wavelengths &
     ) bind(C)
 
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_ptr_c
-    complex(c_double_complex), intent(out) :: refract_core
+    integer(c_int), intent(in) :: n_wavelengths
+    complex(c_double_complex), dimension(n_wavelengths), intent(out) :: refract_core
 
     call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
 

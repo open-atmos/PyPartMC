@@ -179,7 +179,7 @@ module PyPartMC_aero_mode
     call c_f_pointer(ptr_c, ptr_f)
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
 
-    call spec_file_read_aero_mode(file, aero_data_ptr_f, ptr_f, eof)
+    call spec_file_read_aero_mode(file, aero_data_ptr_f, .false., ptr_f, eof)
 
   end subroutine
 

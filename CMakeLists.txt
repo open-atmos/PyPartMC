@@ -132,6 +132,9 @@ set(camp_SOURCES
 )
 add_prefix(gitmodules/camp/src/ camp_SOURCES)
 
+set(hdf5_GENERATED_HEADERS H5Edefin.h H5Einit.h H5Epubgen.h H5Eterm.h H5version.h H5overflow.h)
+add_prefix(gitmodules/hdf5/src/ hdf5_GENERATED_HEADERS)
+
 set(netcdf_c_dispatch_SOURCES dvar.c ddim.c dvarput.c dvarget.c ddispatch.c dcompound.c denum.c daux.c
   dvlen.c nc.c dfile.c dnotnc4.c dstring.c nclist.c nchashmap.c dinstance_intern.c dtype.c dgroup.c
   nclistmgr.c dattget.c dattinq.c dvarinq.c dfilter.c derror.c doffsets.c datt.c dattput.c dcopy.c drc.c
@@ -140,13 +143,21 @@ set(netcdf_c_dispatch_SOURCES dvar.c ddim.c dvarput.c dvarget.c ddispatch.c dcom
 )
 add_prefix(gitmodules/netcdf-c/libdispatch/ netcdf_c_dispatch_SOURCES)
 
+set(netcdf_c_libhdf5_SOURCES hdf5dispatch.c hdf5create.c hdf5open.c hdf5file.c 
+  hdf5attr.c hdf5debug.c hdf5dim.c hdf5filter.c hdf5grp.c hdf5internal.c hdf5set_format_compatibility.c
+  hdf5type.c hdf5var.c nc4hdf.c nc4info.c nc4mem.c nc4memcb.c
+)
+add_prefix(gitmodules/netcdf-c/libhdf5/ netcdf_c_libhdf5_SOURCES)
+
 set(netcdf_c_lib_SOURCES nc_initialize.c)
 add_prefix(gitmodules/netcdf-c/liblib/ netcdf_c_lib_SOURCES)
 
 set(netcdf_c_src_SOURCES nc3dispatch.c nc3internal.c dim.c var.c ncio.c v1hpg.c memio.c posixio.c)
 add_prefix(gitmodules/netcdf-c/libsrc/ netcdf_c_src_SOURCES)
 
-set(netcdf_c_src4_SOURCES nc4internal.c ncindex.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c)
+set(netcdf_c_src4_SOURCES nc4internal.c ncindex.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c
+  ncfunc.c nc4dim.c nc4filters.c nc4attr.c
+)
 add_prefix(gitmodules/netcdf-c/libsrc4/ netcdf_c_src4_SOURCES)
 
 set(netcdf_f_SOURCES typeSizes.F90 module_netcdf_nf_data.F90 module_netcdf_nc_data.F90
@@ -176,7 +187,7 @@ set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 intege
   gas_state.F90 coagulation.F90 exact_soln.F90 coagulation_dist.F90 coag_kernel.F90 spec_line.F90 
   rand.F90 aero_particle.F90 aero_particle_array.F90 mpi.F90 netcdf.F90 aero_info.F90 
   aero_info_array.F90 nucleate.F90 condense.F90 fractal.F90 chamber.F90 camp_interface.F90
-  photolysis.F90
+  photolysis.F90 aero_component.F90
 )
 add_prefix(gitmodules/partmc/src/ partmclib_SOURCES)
 list(APPEND partmclib_SOURCES src/spec_file_pypartmc.F90 src/sys.F90)
@@ -321,6 +332,29 @@ execute_process(
   OUTPUT_FILE ${CMAKE_BINARY_DIR}/include/camp/version.h
 )
 
+### HDF5 ###########################################################################################
+
+set(HDF5_EXTERNALLY_CONFIGURED 1)
+set(BUILD_STATIC_LIBS ON)
+set(HDF5_BUILD_HL_LIB ON)
+set(BUILD_SHARED_LIBS OFF)
+set(BUILD_TESTING OFF)
+set(HDF5_BUILD_TOOLS OFF)
+set(HDF5_BUILD_EXAMPLES OFF)
+set(HDF5_ENABLE_Z_LIB_SUPPORT OFF)
+set(HDF5_ENABLE_SZIP_SUPPORT OFF)
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/gitmodules/hdf5)
+
+foreach(file ${hdf5_GENERATED_HEADERS})
+  execute_process(
+    COMMAND ${PYTHON_EXECUTABLE} "-c" "import re;open(1,'wb').write(re.sub(b'\\r',b'',open(0,'rb').read()))"
+    INPUT_FILE ${CMAKE_SOURCE_DIR}/${file}
+    OUTPUT_FILE ${CMAKE_BINARY_DIR}/${file}
+  )
+  file(REMOVE ${CMAKE_SOURCE_DIR}/${file})
+endforeach()
+
 ### netCDF #########################################################################################
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/netcdf)
@@ -328,6 +362,8 @@ string(CONCAT cmd
   "import sys; print(''.join([line for line in sys.stdin"
   " if ('VERSION' in line and line.strip().startswith('SET'))"
   " or 'CHUNK_' in line"
+  " or '_CHUNKS_' in line"
+  " or '_CACHE_SIZE' in line"
   " or line.strip().startswith('CHECK_INCLUDE_FILE')"
   " or line.strip().startswith('CHECK_TYPE_SIZE')"
   " or line.strip().startswith('CHECK_FUNCTION_EXISTS')"
@@ -349,6 +385,7 @@ LIST(APPEND netcdf_c_SOURCES ${netcdf_c_lib_SOURCES})
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_dispatch_SOURCES})
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_src_SOURCES})
 LIST(APPEND netcdf_c_SOURCES ${netcdf_c_src4_SOURCES})
+LIST(APPEND netcdf_c_SOURCES ${netcdf_c_libhdf5_SOURCES})
 foreach (f ${m4_SOURCES})
   set(tmp ${CMAKE_BINARY_DIR}/netcdf/${f}.c)
   add_custom_command(
@@ -380,15 +417,22 @@ target_include_directories(netcdf_clib PRIVATE
   ${CMAKE_BINARY_DIR}/netcdf
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/include
   ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/libsrc
+  ${CMAKE_SOURCE_DIR}/gitmodules/hdf5/src
+  ${CMAKE_BINARY_DIR}/gitmodules/hdf5/src
+  ${CMAKE_SOURCE_DIR}/gitmodules/hdf5/hl/src
+  ${CMAKE_SOURCE_DIR}/gitmodules/hdf5/src/H5FDsubfiling
 )
 target_compile_definitions(netcdf_clib PRIVATE
   HAVE_CONFIG_H
   USE_NETCDF4
+  USE_HDF5
 )
 target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
     $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
 )
+target_link_libraries(netcdf_clib PRIVATE hdf5-static)
+target_link_libraries(netcdf_clib PRIVATE hdf5_hl-static)
 
 ### netCDF-FORTRAN #################################################################################
 
@@ -435,7 +479,7 @@ add_dependencies(partmclib ${SUNDIALS_items})
 string(CONCAT 
   cmd
   "import sys;"
-  "print(''.join([f'#define {line.split()[3]} {line.split()[5]}\\n' for line in sys.stdin if 'parameter ::' in line]))"
+  "print(''.join([line if line.startswith('#') else f'#define {line.split()[3]} {line.split()[5]}\\n' for line in sys.stdin if 'parameter ::' in line or line.startswith('#')]))"
 )
 include(CheckFunctionExists)
 foreach(file aero_data;gas_data;output)

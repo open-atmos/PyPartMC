@@ -36,7 +36,7 @@ module PyPartMC_scenario
     call c_f_pointer(gas_ptr_c, gas_ptr_f)
     call c_f_pointer(aer_ptr_c, aer_ptr_f)
     call c_f_pointer(ptr_c, ptr_f)
-    call spec_file_read_scenario(file, gas_ptr_f, aer_ptr_f, ptr_f)
+    call spec_file_read_scenario(file, gas_ptr_f, aer_ptr_f, .false., ptr_f)
   end subroutine
 
   subroutine f_scenario_loss_rate( &

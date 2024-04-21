@@ -432,6 +432,7 @@ class TestAeroState:
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        sut.copy_weight(sut_minimal)
 
         # act
         num_conc = sut_minimal.total_num_conc

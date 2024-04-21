@@ -122,6 +122,9 @@ include gitmodules/netcdf-c/include/nchttp.h
 include gitmodules/netcdf-c/include/netcdf_mem.h
 include gitmodules/netcdf-c/include/netcdf_filter.h
 include gitmodules/netcdf-c/include/netcdf_aux.h
+include gitmodules/netcdf-c/include/hdf5internal.h
+include gitmodules/netcdf-c/include/hdf5dispatch.h
+include gitmodules/netcdf-c/include/ncdimscale.h
 include gitmodules/netcdf-c/libdispatch/utf8proc_data.c
 include gitmodules/netcdf-c/libdispatch/utf8proc.h
 include gitmodules/netcdf-c/libdispatch/dvar.c
@@ -188,6 +191,12 @@ include gitmodules/netcdf-c/libsrc4/nc4dispatch.c
 include gitmodules/netcdf-c/libsrc4/nc4type.c
 include gitmodules/netcdf-c/libsrc4/nc4grp.c
 include gitmodules/netcdf-c/libsrc4/nc4var.c
+include gitmodules/netcdf-c/libsrc4/nc4dim.c
+include gitmodules/netcdf-c/libsrc4/nc4attr.c
+include gitmodules/netcdf-c/libsrc4/nc4filters.c
+include gitmodules/netcdf-c/libsrc4/ncfunc.c
+
+graft gitmodules/netcdf-c/libhdf5
 
 include gitmodules/netcdf-fortran/COPYRIGHT
 include gitmodules/netcdf-fortran/CMakeExtras/MatchNetCDFFortranTypes.cmake
@@ -230,3 +239,12 @@ include gitmodules/netcdf-fortran/fortran/netcdf_text_variables.F90
 include gitmodules/netcdf-fortran/fortran/netcdf_expanded.F90
 include gitmodules/netcdf-fortran/fortran/netcdf4_eightbyte.F90
 include gitmodules/netcdf-fortran/fortran/netcdf4_func.F90
+
+include gitmodules/hdf5/COPYING
+include gitmodules/hdf5/CMakeLists.txt
+include gitmodules/hdf5/*.cmake
+graft gitmodules/hdf5/src
+graft gitmodules/hdf5/bin
+graft gitmodules/hdf5/config
+include gitmodules/hdf5/hl/CMakeLists.txt
+graft gitmodules/hdf5/hl/src
