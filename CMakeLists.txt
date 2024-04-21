@@ -344,16 +344,16 @@ set(HDF5_BUILD_EXAMPLES OFF)
 set(HDF5_ENABLE_Z_LIB_SUPPORT OFF)
 set(HDF5_ENABLE_SZIP_SUPPORT OFF)
 
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gitmodules/hdf5)
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gitmodules/hdf5/src)
-foreach(file ${hdf5_INPUT_TXT_FILES})
-  execute_process(
-    COMMAND ${PYTHON_EXECUTABLE} "-c" "sys.stdout.reconfigure(newline='\\n');print(''.join([l.replace('\\r','') for l in open(0,'r')]),end='')"
-    INPUT_FILE ${CMAKE_SOURCE_DIR}/${file}
-    OUTPUT_FILE ${CMAKE_BINARY_DIR}/${file}
-  )
-  file(RENAME ${CMAKE_BINARY_DIR}/${file} ${CMAKE_SOURCE_DIR}/${file})
-endforeach()
+#file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gitmodules/hdf5)
+#file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gitmodules/hdf5/src)
+#foreach(file ${hdf5_INPUT_TXT_FILES})
+#  execute_process(
+#    COMMAND ${PYTHON_EXECUTABLE} "-c" "sys.stdout.reconfigure(newline='\\n');print(''.join([l.replace('\\r','') for l in open(0,'r')]),end='')"
+#    INPUT_FILE ${CMAKE_SOURCE_DIR}/${file}
+#    OUTPUT_FILE ${CMAKE_BINARY_DIR}/${file}
+#  )
+#  file(RENAME ${CMAKE_BINARY_DIR}/${file} ${CMAKE_SOURCE_DIR}/${file})
+#endforeach()
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/gitmodules/hdf5)
 
