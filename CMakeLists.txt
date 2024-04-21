@@ -132,6 +132,9 @@ set(camp_SOURCES
 )
 add_prefix(gitmodules/camp/src/ camp_SOURCES)
 
+set(hdf5_GENERATED_HEADERS H5Edefin.h H5Einit.h H5Epubgen.h H5Eterm.h H5version.h H5overflow.h)
+add_prefix(gitmodules/hdf5/src/ hdf5_GENERATED_HEADERS)
+
 set(netcdf_c_dispatch_SOURCES dvar.c ddim.c dvarput.c dvarget.c ddispatch.c dcompound.c denum.c daux.c
   dvlen.c nc.c dfile.c dnotnc4.c dstring.c nclist.c nchashmap.c dinstance_intern.c dtype.c dgroup.c
   nclistmgr.c dattget.c dattinq.c dvarinq.c dfilter.c derror.c doffsets.c datt.c dattput.c dcopy.c drc.c
@@ -340,7 +343,18 @@ set(HDF5_BUILD_TOOLS OFF)
 set(HDF5_BUILD_EXAMPLES OFF)
 set(HDF5_ENABLE_Z_LIB_SUPPORT OFF)
 set(HDF5_ENABLE_SZIP_SUPPORT OFF)
+
 add_subdirectory(${CMAKE_SOURCE_DIR}/gitmodules/hdf5)
+
+foreach(header ${hdf5_GENERATED_HEADERS})
+  message(STATUS $CMAKE_SOURCE_DIR}/${header} "-->" ${CMAKE_BINARY_DIR}/${header})
+  execute_process(
+    COMMAND ${PYTHON_EXECUTABLE} "-c" "print(''.join([l.replace('\\r','') for l in open(0,'r')]),end='')"
+    INPUT_FILE ${CMAKE_SOURCE_DIR}/${header}
+    OUTPUT_FILE ${CMAKE_BINARY_DIR}/${header}
+  )
+  file(REMOVE ${CMAKE_SOURCE_DIR}/${header})
+endforeach()
 
 ### netCDF #########################################################################################
 
