@@ -305,7 +305,7 @@ class TestAeroMode:
                     "diam_type": "geometric",
                     "mode_type": "sampled",
                     "size_dist": [
-                        {"diam": [1, 2, 3, 4]},
+                        {"diam": [1, 2, 3]},
                         {"num_conc": num_concs},
                     ],
                 }
