@@ -296,6 +296,7 @@ class TestAeroMode:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
         # act
+        num_concs = [1,2,3]
         sut = ppmc.AeroMode(
             aero_data,
             {
@@ -304,12 +305,12 @@ class TestAeroMode:
                     "diam_type": "geometric",
                     "mode_type": "sampled",
                     "size_dist": [
-                        {"diam": [1, 2, 3]},
-                        {"num_conc": [1, 2, 3]},
+                        {"diam": [1, 2, 3, 4]},
+                        {"num_conc": num_concs},
                     ],
                 }
             },
         )
 
         # assert
-        assert sut is not None
+        assert sut.num_conc == np.sum(num_concs) 
