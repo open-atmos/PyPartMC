@@ -289,3 +289,26 @@ class TestAeroMode:
         )
         print(fishy_ctor_arg)
         ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+    @staticmethod
+    def test_sampled():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        # act
+        sut = ppmc.AeroMode(
+            aero_data,
+            {
+                "test_mode": {
+                    "mass_frac": [{"H2O": [1]}],
+                    "diam_type": "geometric",
+                    "mode_type": "sampled",
+                    "size_dist": [
+                        {"diam": [1, 2, 3]},
+                        {"num_conc": [1, 2, 3]},
+                    ],
+                }
+            },
+        )
+
+        # assert
