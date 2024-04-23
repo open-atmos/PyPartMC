@@ -296,7 +296,7 @@ class TestAeroMode:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
         # act
-        num_concs = [1,2,3]
+        num_concs = [1, 2, 3]
         sut = ppmc.AeroMode(
             aero_data,
             {
@@ -313,4 +313,4 @@ class TestAeroMode:
         )
 
         # assert
-        assert sut.num_conc == np.sum(num_concs) 
+        assert sut.num_conc == np.sum(num_concs)
