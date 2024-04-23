@@ -312,3 +312,4 @@ class TestAeroMode:
         )
 
         # assert
+        assert sut is not None
