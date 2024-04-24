@@ -291,7 +291,7 @@ struct AeroMode {
         int type;
         f_aero_mode_get_type(self.ptr.f_arg(), &type);
 
-        if (type < 0 || (unsigned int)type >= AeroMode::types().size())
+        if (type <= 0 || (unsigned int)type > AeroMode::types().size())
             throw std::logic_error("Unknown mode type.");
 
         return AeroMode::types()[type - 1];
