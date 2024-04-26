@@ -291,6 +291,20 @@ class TestAeroMode:
         ppmc.AeroMode(aero_data, fishy_ctor_arg)
 
     @staticmethod
+    def test_sampled_without_size_dist():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
+        fishy_ctor_arg["test_mode"]["mode_type"] = "sampled"
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert str(exc_info.value) == "size_dist key must be set for mode_type=sampled"
+
+    @staticmethod
     def test_sampled():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)

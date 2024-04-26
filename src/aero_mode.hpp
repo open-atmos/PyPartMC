@@ -145,6 +145,10 @@ struct AeroMode {
             throw std::runtime_error("mass_frac value must be a list of single-element dicts");
         if (!InputJSONResource::unique_keys(mass_frac))
             throw std::runtime_error("mass_frac keys must be unique");
+        if (mode["mode_type"] == "sampled") {
+            if (mode.find("size_dist") == mode.end())
+                throw std::runtime_error("size_dist key must be set for mode_type=sampled");
+        }
     }
 
     static auto get_num_conc(const AeroMode &self){
