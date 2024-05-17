@@ -148,6 +148,20 @@ struct AeroMode {
         if (mode["mode_type"] == "sampled") {
             if (mode.find("size_dist") == mode.end())
                 throw std::runtime_error("size_dist key must be set for mode_type=sampled");
+            auto sd = mode["size_dist"];
+            if (
+                sd.size() != 2 || 
+                !sd[0].is_object() || 
+                sd[0].size() != 1 || 
+                sd[1].size() != 1 ||
+                sd[0].find("num_conc") == sd[0].end() ||
+                sd[1].find("diam") == sd[1].end()
+            )
+                throw std::runtime_error("size_dist value must be an iterable of two single-element dicts (first with 'num_conc', second with 'diam' as keys)");
+            auto num_conc = *sd[0].find("num_conc");
+            auto diam = *sd[1].find("diam");
+            if (diam.size() != num_conc.size() + 1)
+                throw std::runtime_error("size_dist['num_conc'] must have len(size_dist['diam'])-1 elements");
         }
     }
 

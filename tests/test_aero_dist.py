@@ -217,3 +217,22 @@ class TestAeroDist:
 
         # assert
         assert str(exc_info.value) == "mass_frac keys must be unique"
+
+    @staticmethod
+    def test_ctor_sampled_mode():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        ctor_arg = copy.deepcopy(AERO_DIST_CTOR_ARG_MINIMAL)
+        ctor_arg[0]["test_mode"]["mode_type"] = "sampled"
+        ctor_arg[0]["test_mode"]["size_dist"] = [
+            {"num_conc": [1, 2, 3]},
+            {"diam": [1, 2, 3, 4]},
+        ]
+
+        # act
+        sut = ppmc.AeroDist(aero_data, ctor_arg)
+
+        # assert
+        assert sut.mode(0).num_conc == sum(
+            ctor_arg[0]["test_mode"]["size_dist"][0]["num_conc"]
+        )

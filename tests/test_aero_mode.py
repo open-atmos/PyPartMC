@@ -305,6 +305,57 @@ class TestAeroMode:
         assert str(exc_info.value) == "size_dist key must be set for mode_type=sampled"
 
     @staticmethod
+    @pytest.mark.parametrize(
+        "fishy",
+        (
+            None,
+            [],
+            [{}, {}, {}],
+            [{}, []],
+            [{"diam": None}, {}],
+            [{"num_conc": None}, {}],
+            [{"diam": None, "": None}, {}],
+            [{"num_conc": None, "": None}, {}],
+        ),
+    )
+    def test_sampled_with_fishy_size_dist(fishy):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
+        fishy_ctor_arg["test_mode"]["mode_type"] = "sampled"
+        fishy_ctor_arg["test_mode"]["size_dist"] = fishy
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert (
+            str(exc_info.value)
+            == "size_dist value must be an iterable of two single-element dicts (first with 'num_conc', second with 'diam' as keys)"
+        )
+
+    def test_sampled_with_diam_of_different_len_than_num_conc(fishy):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
+        fishy_ctor_arg["test_mode"]["mode_type"] = "sampled"
+        fishy_ctor_arg["test_mode"]["size_dist"] = [
+            {"num_conc": [1, 2, 3]},
+            {"diam": [1, 2, 3]},
+        ]
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert (
+            str(exc_info.value)
+            == "size_dist['num_conc'] must have len(size_dist['diam'])-1 elements"
+        )
+
+    @staticmethod
     def test_sampled():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -319,8 +370,8 @@ class TestAeroMode:
                     "diam_type": "geometric",
                     "mode_type": "sampled",
                     "size_dist": [
-                        {"diam": [1, 2, 3, 4]},
                         {"num_conc": num_concs},
+                        {"diam": [1, 2, 3, 4]},
                     ],
                 }
             },
