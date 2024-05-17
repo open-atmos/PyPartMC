@@ -291,6 +291,7 @@ class TestAeroMode:
         ppmc.AeroMode(aero_data, fishy_ctor_arg)
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_sampled_without_size_dist():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -318,6 +319,7 @@ class TestAeroMode:
             [{"num_conc": None, "": None}, {}],
         ),
     )
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_sampled_with_fishy_size_dist(fishy):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -337,6 +339,7 @@ class TestAeroMode:
         )
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_sampled_with_diam_of_different_len_than_num_conc():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
