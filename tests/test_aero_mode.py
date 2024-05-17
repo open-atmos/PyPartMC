@@ -332,10 +332,12 @@ class TestAeroMode:
         # assert
         assert (
             str(exc_info.value)
-            == "size_dist value must be an iterable of two single-element dicts (first with 'num_conc', second with 'diam' as keys)"
+            == "size_dist value must be an iterable of two single-element dicts"
+            + " (first with 'num_conc', second with 'diam' as keys)"
         )
 
-    def test_sampled_with_diam_of_different_len_than_num_conc(fishy):
+    @staticmethod
+    def test_sampled_with_diam_of_different_len_than_num_conc():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
