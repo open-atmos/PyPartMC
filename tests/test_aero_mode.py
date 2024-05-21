@@ -335,7 +335,7 @@ class TestAeroMode:
         assert (
             str(exc_info.value)
             == "size_dist value must be an iterable of two single-element dicts"
-            + " (first with 'num_conc', second with 'diam' as keys)"
+            + " (first with 'diam', second with 'num_conc' as keys)"
         )
 
     @staticmethod
@@ -346,8 +346,8 @@ class TestAeroMode:
         fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
         fishy_ctor_arg["test_mode"]["mode_type"] = "sampled"
         fishy_ctor_arg["test_mode"]["size_dist"] = [
-            {"num_conc": [1, 2, 3]},
             {"diam": [1, 2, 3]},
+            {"num_conc": [1, 2, 3]},
         ]
 
         # act
@@ -375,8 +375,8 @@ class TestAeroMode:
                     "diam_type": "geometric",
                     "mode_type": "sampled",
                     "size_dist": [
-                        {"num_conc": num_concs},
                         {"diam": [1, 2, 3, 4]},
+                        {"num_conc": num_concs},
                     ],
                 }
             },

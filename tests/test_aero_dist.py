@@ -225,8 +225,8 @@ class TestAeroDist:
         ctor_arg = copy.deepcopy(AERO_DIST_CTOR_ARG_MINIMAL)
         ctor_arg[0]["test_mode"]["mode_type"] = "sampled"
         ctor_arg[0]["test_mode"]["size_dist"] = [
-            {"num_conc": [1, 2, 3]},
             {"diam": [1, 2, 3, 4]},
+            {"num_conc": [1, 2, 3]},
         ]
 
         # act
@@ -234,5 +234,5 @@ class TestAeroDist:
 
         # assert
         assert sut.mode(0).num_conc == sum(
-            ctor_arg[0]["test_mode"]["size_dist"][0]["num_conc"]
+            ctor_arg[0]["test_mode"]["size_dist"][1]["num_conc"]
         )

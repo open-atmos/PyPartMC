@@ -145,10 +145,10 @@ void spec_file_read_real_named_array_size(
     int *n_rows,
     int *n_cols
 ) noexcept {
-    auto first_field = json_resource_ptr()->first_field_name();
     *n_rows = json_resource_ptr()->n_numeric_array_entries();
+
+    auto first_field = json_resource_ptr()->first_field_name();
     *n_cols = json_resource_ptr()->n_elements(first_field);
-    // TODO #112: check each line has the same number of elements as time
 }
 
 extern "C"
@@ -174,17 +174,17 @@ void spec_file_read_real_named_array_data(
         ++i, ++it
     ) {
         assert(it->is_object());
-        if (i == row-1) {
+        if (i == (row - 1) + (json_resource_ptr()->n_named_array_read_count() - 1)) {
             assert(it->size() == 1);
             for (auto &entry : it->items()) {
-                // TODO #112: use input name_size as limit param
+                assert(*name_size > entry.key().size());
                 for (auto c=0u; c < entry.key().size(); ++c)
                     name_data[c] = entry.key()[c];
                 *name_size = entry.key().size();
                 for (auto idx=0u; idx < entry.value().size(); ++idx) {
                     vals[idx] = entry.value().at(idx).get<double>();
                 }
-                break; // TODO #112
+                break;
             }
         }
     }

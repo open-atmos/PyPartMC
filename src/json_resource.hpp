@@ -26,7 +26,7 @@ struct JSONResource {
     }
 
   protected:
-    size_t index = 0;
+    size_t index = 0, named_array_read_count = 0;
 
     JSONResource() {}
 
@@ -71,6 +71,10 @@ struct JSONResource {
   public:
     virtual ~JSONResource() {}
 
+    auto n_named_array_read_count() noexcept {
+        return this->named_array_read_count;
+    }
+
     void zoom_in(const bpstd::string_view &sub) noexcept {
         auto it = this->json->is_array() 
             ? this->json->at(this->json->size()-1).find(sub)
@@ -84,6 +88,7 @@ struct JSONResource {
         else
             this->set_current_json_ptr(&(*it));
 
+        this->named_array_read_count = 0;
     }
 
     void zoom_out() noexcept {
@@ -101,13 +106,12 @@ struct JSONResource {
         return this->json->begin();
     }
 
-    // TODO #112: to be removed after initialising GasData with a list, and not JSON?
-    auto first_field_name() const noexcept {
+    auto first_field_name() noexcept {
         // TODO #112: handle errors
         std::string name = "";
         assert(this->json->size() > 0);
         assert(this->json->begin()->size() > 0);
-        for (auto &entry : this->json->at(0).items())
+        for (auto &entry : this->json->at(this->named_array_read_count++).items())
         {
             name = entry.key();
         }

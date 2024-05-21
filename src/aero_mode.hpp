@@ -154,12 +154,12 @@ struct AeroMode {
                 !sd[0].is_object() || 
                 sd[0].size() != 1 || 
                 sd[1].size() != 1 ||
-                sd[0].find("num_conc") == sd[0].end() ||
-                sd[1].find("diam") == sd[1].end()
+                sd[0].find("diam") == sd[0].end() ||
+                sd[1].find("num_conc") == sd[1].end()
             )
-                throw std::runtime_error("size_dist value must be an iterable of two single-element dicts (first with 'num_conc', second with 'diam' as keys)");
-            auto num_conc = *sd[0].find("num_conc");
-            auto diam = *sd[1].find("diam");
+                throw std::runtime_error("size_dist value must be an iterable of two single-element dicts (first with 'diam', second with 'num_conc' as keys)");
+            auto diam = *sd[0].find("diam");
+            auto num_conc = *sd[1].find("num_conc");
             if (diam.size() != num_conc.size() + 1)
                 throw std::runtime_error("size_dist['num_conc'] must have len(size_dist['diam'])-1 elements");
         }
