@@ -177,7 +177,7 @@ void spec_file_read_real_named_array_data(
         if (i == (row - 1) + (json_resource_ptr()->n_named_array_read_count() - 1)) {
             assert(it->size() == 1);
             for (auto &entry : it->items()) {
-                assert(*name_size > (decltype(*name_size))entry.key().size());
+                assert(*name_size > (long)entry.key().size());
                 for (auto c=0u; c < entry.key().size(); ++c)
                     name_data[c] = entry.key()[c];
                 *name_size = entry.key().size();
