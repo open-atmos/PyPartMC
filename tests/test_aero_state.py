@@ -18,6 +18,7 @@ from .test_aero_dist import (
     AERO_DIST_CTOR_ARG_FULL,
     AERO_DIST_CTOR_ARG_MINIMAL,
 )
+from .test_aero_mode import AERO_MODE_CTOR_SAMPLED
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 AERO_STATE_CTOR_ARG_MINIMAL = 44, "nummass_source"
@@ -508,3 +509,50 @@ class TestAeroState:
         # assert
         assert n_added > n_part * 0.5
         assert n_added < n_part * 2
+
+    @staticmethod
+    def test_dist_sample_sampled():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, [AERO_MODE_CTOR_SAMPLED])
+        sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+
+        # act
+        _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
+
+        # assert
+        assert (
+            np.array(sut.diameters())
+            >= AERO_MODE_CTOR_SAMPLED["test_mode"]["size_dist"][0]["diam"][0]
+        ).all()
+        assert (
+            np.array(sut.diameters())
+            <= AERO_MODE_CTOR_SAMPLED["test_mode"]["size_dist"][0]["diam"][-1]
+        ).all()
+
+    @staticmethod
+    def test_dist_sample_mono():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        diam = 2e-6
+        aero_dist = ppmc.AeroDist(
+            aero_data,
+            [
+                {
+                    "test_mode": {
+                        "mass_frac": [{"H2O": [1]}],
+                        "diam_type": "geometric",
+                        "mode_type": "mono",
+                        "num_conc": 1e12,
+                        "diam": diam,
+                    }
+                }
+            ],
+        )
+        sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+
+        # act
+        _ = sut.dist_sample(aero_dist, 1.0, 0.0, True, True)
+
+        # assert
+        assert np.isclose(np.array(sut.diameters()), diam).all()

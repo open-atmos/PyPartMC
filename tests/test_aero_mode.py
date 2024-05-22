@@ -48,6 +48,18 @@ AERO_MODE_CTOR_LOG_NORMAL_COAGULATION = {
     }
 }
 
+AERO_MODE_CTOR_SAMPLED = {
+    "test_mode": {
+        "mass_frac": [{"H2O": [1]}],
+        "diam_type": "geometric",
+        "mode_type": "sampled",
+        "size_dist": [
+            {"diam": [1, 2, 3, 4]},
+            {"num_conc": [100, 200, 300]},
+        ],
+    }
+}
+
 
 class TestAeroMode:
     @staticmethod
@@ -289,3 +301,127 @@ class TestAeroMode:
         )
         print(fishy_ctor_arg)
         ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+    @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
+    def test_sampled_without_size_dist():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
+        fishy_ctor_arg["test_mode"]["mode_type"] = "sampled"
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert str(exc_info.value) == "size_dist key must be set for mode_type=sampled"
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "fishy",
+        (
+            None,
+            [],
+            [{}, {}, {}],
+            [{}, []],
+            [{"diam": None}, {}],
+            [{"num_conc": None}, {}],
+            [{"diam": None, "": None}, {}],
+            [{"num_conc": None, "": None}, {}],
+        ),
+    )
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
+    def test_sampled_with_fishy_size_dist(fishy):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
+        fishy_ctor_arg["test_mode"]["mode_type"] = "sampled"
+        fishy_ctor_arg["test_mode"]["size_dist"] = fishy
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert (
+            str(exc_info.value)
+            == "size_dist value must be an iterable of two single-element dicts"
+            + " (first with 'diam', second with 'num_conc' as keys)"
+        )
+
+    @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
+    def test_sampled_with_diam_of_different_len_than_num_conc():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
+        fishy_ctor_arg["test_mode"]["mode_type"] = "sampled"
+        fishy_ctor_arg["test_mode"]["size_dist"] = [
+            {"diam": [1, 2, 3]},
+            {"num_conc": [1, 2, 3]},
+        ]
+
+        # act
+        with pytest.raises(Exception) as exc_info:
+            ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert (
+            str(exc_info.value)
+            == "size_dist['num_conc'] must have len(size_dist['diam'])-1 elements"
+        )
+
+    @staticmethod
+    def test_sampled():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        # act
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_CTOR_SAMPLED)
+
+        # assert
+        assert sut.type == "sampled"
+        assert sut.num_conc == np.sum(
+            AERO_MODE_CTOR_SAMPLED["test_mode"]["size_dist"][1]["num_conc"]
+        )
+        assert (
+            sut.sample_num_conc
+            == AERO_MODE_CTOR_SAMPLED["test_mode"]["size_dist"][1]["num_conc"]
+        )
+        assert (
+            np.array(sut.sample_radius) * 2
+            == AERO_MODE_CTOR_SAMPLED["test_mode"]["size_dist"][0]["diam"]
+        ).all()
+
+    @staticmethod
+    def test_set_sample():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        diams = [1, 2, 3, 4]
+        num_concs = [100, 200, 300]
+        sut = ppmc.AeroMode(
+            aero_data,
+            {
+                "test_mode": {
+                    "mass_frac": [{"H2O": [1]}],
+                    "diam_type": "geometric",
+                    "mode_type": "sampled",
+                    "size_dist": [
+                        {"diam": diams},
+                        {"num_conc": num_concs},
+                    ],
+                }
+            },
+        )
+        num_conc_orig = sut.num_conc
+        # act
+        diams = [0.5 * x for x in diams]
+        num_concs = [2 * x for x in num_concs]
+        sut.set_sample(diams, num_concs)
+        # assert
+        assert sut.num_conc == np.sum(num_concs)
+        assert sut.sample_num_conc == num_concs
+        assert (np.array(sut.sample_radius) * 2 == diams).all()
+        assert sut.num_conc == num_conc_orig * 2

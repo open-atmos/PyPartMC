@@ -118,6 +118,20 @@ extern "C" void f_aero_mode_from_json(
     void *aero_data_ptr
 ) noexcept;
 
+extern "C" void f_aero_mode_get_sample_num_conc(
+    const void *ptr,
+    void *sample_num_conc_data,
+    const int *sample_num_conc_data_size
+) noexcept;
+
+extern "C" void f_aero_mode_get_sample_radius(
+    const void *ptr,
+    void *sample_radius_data,
+    const int *sample_radius_data_size
+) noexcept;
+
+extern "C" void f_aero_mode_get_sample_bins(const void *ptr, int *n_bins) noexcept;
+
 struct AeroMode {
     PMCResource ptr;
 
@@ -145,6 +159,24 @@ struct AeroMode {
             throw std::runtime_error("mass_frac value must be a list of single-element dicts");
         if (!InputJSONResource::unique_keys(mass_frac))
             throw std::runtime_error("mass_frac keys must be unique");
+        if (mode["mode_type"] == "sampled") {
+            if (mode.find("size_dist") == mode.end())
+                throw std::runtime_error("size_dist key must be set for mode_type=sampled");
+            auto sd = mode["size_dist"];
+            if (
+                sd.size() != 2 || 
+                !sd[0].is_object() || 
+                sd[0].size() != 1 || 
+                sd[1].size() != 1 ||
+                sd[0].find("diam") == sd[0].end() ||
+                sd[1].find("num_conc") == sd[1].end()
+            )
+                throw std::runtime_error("size_dist value must be an iterable of two single-element dicts (first with 'diam', second with 'num_conc' as keys)");
+            auto diam = *sd[0].find("diam");
+            auto num_conc = *sd[1].find("num_conc");
+            if (diam.size() != num_conc.size() + 1)
+                throw std::runtime_error("size_dist['num_conc'] must have len(size_dist['diam'])-1 elements");
+        }
     }
 
     static auto get_num_conc(const AeroMode &self){
@@ -291,7 +323,7 @@ struct AeroMode {
         int type;
         f_aero_mode_get_type(self.ptr.f_arg(), &type);
 
-        if (type < 0 || (unsigned int)type >= AeroMode::types().size())
+        if (type <= 0 || (unsigned int)type > AeroMode::types().size())
             throw std::logic_error("Unknown mode type.");
 
         return AeroMode::types()[type - 1];
@@ -311,5 +343,30 @@ struct AeroMode {
         for (int i = 0; i < size; ++i)
           name[i] = f_ptr[i];
         return name;
+    }
+
+    static auto get_sample_radius(const AeroMode &self) {
+       int len;
+       f_aero_mode_get_sample_bins(self.ptr.f_arg(), &len);
+       len++;
+       std::valarray<double> sample_radius(len);
+       f_aero_mode_get_sample_radius(
+          self.ptr.f_arg(),
+          begin(sample_radius),
+          &len
+       );
+       return sample_radius;
+    }
+
+    static auto get_sample_num_conc(const AeroMode &self) {
+       int len;
+       f_aero_mode_get_sample_bins(self.ptr.f_arg(), &len);
+       std::valarray<double> sample_num_conc(len);
+       f_aero_mode_get_sample_num_conc(
+           self.ptr.f_arg(),
+           begin(sample_num_conc),
+           &len
+       );
+       return sample_num_conc;
     }
 };

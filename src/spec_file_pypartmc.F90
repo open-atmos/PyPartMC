@@ -129,6 +129,8 @@ module pmc_spec_file
             n_rows = max_lines
         end if
 
+        if (allocated(names)) deallocate(names)
+        if (allocated(vals)) deallocate(vals)
         allocate(names(n_rows))
         allocate(vals(n_rows, n_cols))
         allocate(vals_row(max(1, n_cols)))
