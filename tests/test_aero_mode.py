@@ -48,6 +48,18 @@ AERO_MODE_CTOR_LOG_NORMAL_COAGULATION = {
     }
 }
 
+AERO_MODE_CTOR_SAMPLED = {
+    "test_mode": {
+        "mass_frac": [{"H2O": [1]}],
+        "diam_type": "geometric",
+        "mode_type": "sampled",
+        "size_dist": [
+            {"diam": [1, 2, 3, 4]},
+            {"num_conc": [100, 200, 300]},
+        ],
+    }
+}
+
 
 class TestAeroMode:
     @staticmethod
@@ -366,28 +378,21 @@ class TestAeroMode:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
         # act
-        diams = [1, 2, 3, 4]
-        num_concs = [100, 200, 300]
-        sut = ppmc.AeroMode(
-            aero_data,
-            {
-                "test_mode": {
-                    "mass_frac": [{"H2O": [1]}],
-                    "diam_type": "geometric",
-                    "mode_type": "sampled",
-                    "size_dist": [
-                        {"diam": diams},
-                        {"num_conc": num_concs},
-                    ],
-                }
-            },
-        )
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_CTOR_SAMPLED)
 
         # assert
         assert sut.type == "sampled"
-        assert sut.num_conc == np.sum(num_concs)
-        assert sut.sample_num_conc == num_concs
-        assert (np.array(sut.sample_radius) * 2 == diams).all()
+        assert sut.num_conc == np.sum(
+            AERO_MODE_CTOR_SAMPLED["test_mode"]["size_dist"][1]["num_conc"]
+        )
+        assert (
+            sut.sample_num_conc
+            == AERO_MODE_CTOR_SAMPLED["test_mode"]["size_dist"][1]["num_conc"]
+        )
+        assert (
+            np.array(sut.sample_radius) * 2
+            == AERO_MODE_CTOR_SAMPLED["test_mode"]["size_dist"][0]["diam"]
+        ).all()
 
     @staticmethod
     def test_set_sample():
