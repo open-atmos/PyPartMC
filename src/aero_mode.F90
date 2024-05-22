@@ -244,4 +244,40 @@ module PyPartMC_aero_mode
     name_data = c_loc(aero_mode%name)
     name_size = len_trim(aero_mode%name)
   end subroutine
+
+  subroutine f_aero_mode_get_sample_num_conc(ptr_c, arr_data, data_size) bind(C)
+    type(c_ptr), intent(in) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int), intent(in) :: data_size
+    real(c_double), dimension(data_size), intent(inout) :: arr_data
+
+    call c_f_pointer(ptr_c, aero_mode)
+
+    arr_data = aero_mode%sample_num_conc
+
+  end subroutine
+
+  subroutine f_aero_mode_get_sample_radius(ptr_c, arr_data, data_size) bind(C)
+    type(c_ptr), intent(in) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int), intent(in) :: data_size
+    real(c_double), dimension(data_size), intent(inout) :: arr_data
+
+    call c_f_pointer(ptr_c, aero_mode)
+
+    arr_data = aero_mode%sample_radius
+
+  end subroutine
+
+  subroutine f_aero_mode_get_sample_bins(ptr_c, n_bins) bind(c)
+    type(c_ptr), intent(in) :: ptr_c
+    type(aero_mode_t), pointer :: aero_mode => null()
+    integer(c_int), intent(out) :: n_bins
+
+    call c_f_pointer(ptr_c, aero_mode)
+
+    n_bins = size(aero_mode%sample_num_conc)
+
+  end subroutine
+
 end module

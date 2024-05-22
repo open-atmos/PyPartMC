@@ -453,6 +453,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property("gsd", &AeroMode::get_gsd,
              &AeroMode::set_gsd, "Geometric standard deviation")
         .def("set_sample", &AeroMode::set_sampled)
+        .def_property_readonly("sample_num_conc", &AeroMode::get_sample_num_conc,
+             "Sample bin number concentrations (m^{-3})")
+        .def_property_readonly("sample_radius", &AeroMode::get_sample_radius,
+             "Sample bin radii (m).")
         .def_property("type", &AeroMode::get_type, &AeroMode::set_type,
              "Mode type (given by module constants)")
         .def_property("name", &AeroMode::get_name, &AeroMode::set_name,

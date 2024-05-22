@@ -366,6 +366,7 @@ class TestAeroMode:
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
 
         # act
+        diams = [1, 2, 3, 4]
         num_concs = [100, 200, 300]
         sut = ppmc.AeroMode(
             aero_data,
@@ -375,7 +376,7 @@ class TestAeroMode:
                     "diam_type": "geometric",
                     "mode_type": "sampled",
                     "size_dist": [
-                        {"diam": [1, 2, 3, 4]},
+                        {"diam": diams},
                         {"num_conc": num_concs},
                     ],
                 }
@@ -385,3 +386,37 @@ class TestAeroMode:
         # assert
         assert sut.type == "sampled"
         assert sut.num_conc == np.sum(num_concs)
+        assert sut.sample_num_conc == num_concs
+        assert (np.array(sut.sample_radius) * 2 == diams).all()
+
+    @staticmethod
+    def test_set_sample():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        diams = [1, 2, 3, 4]
+        num_concs = [100, 200, 300]
+        sut = ppmc.AeroMode(
+            aero_data,
+            {
+                "test_mode": {
+                    "mass_frac": [{"H2O": [1]}],
+                    "diam_type": "geometric",
+                    "mode_type": "sampled",
+                    "size_dist": [
+                        {"diam": diams},
+                        {"num_conc": num_concs},
+                    ],
+                }
+            },
+        )
+        num_conc_orig = sut.num_conc
+        # act
+        diams = [0.5 * x for x in diams]
+        num_concs = [2 * x for x in num_concs]
+        sut.set_sample(diams, num_concs)
+        # assert
+        assert sut.num_conc == np.sum(num_concs)
+        assert sut.sample_num_conc == num_concs
+        assert (np.array(sut.sample_radius) * 2 == diams).all()
+        assert sut.num_conc == num_conc_orig * 2

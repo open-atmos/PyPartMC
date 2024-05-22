@@ -118,6 +118,20 @@ extern "C" void f_aero_mode_from_json(
     void *aero_data_ptr
 ) noexcept;
 
+extern "C" void f_aero_mode_get_sample_num_conc(
+    const void *ptr,
+    void *sample_num_conc_data,
+    const int *sample_num_conc_data_size
+) noexcept;
+
+extern "C" void f_aero_mode_get_sample_radius(
+    const void *ptr,
+    void *sample_radius_data,
+    const int *sample_radius_data_size
+) noexcept;
+
+extern "C" void f_aero_mode_get_sample_bins(const void *ptr, int *n_bins) noexcept;
+
 struct AeroMode {
     PMCResource ptr;
 
@@ -329,5 +343,30 @@ struct AeroMode {
         for (int i = 0; i < size; ++i)
           name[i] = f_ptr[i];
         return name;
+    }
+
+    static auto get_sample_radius(const AeroMode &self) {
+       int len;
+       f_aero_mode_get_sample_bins(self.ptr.f_arg(), &len);
+       len++;
+       std::valarray<double> sample_radius(len);
+       f_aero_mode_get_sample_radius(
+          self.ptr.f_arg(),
+          begin(sample_radius),
+          &len
+       );
+       return sample_radius;
+    }
+
+    static auto get_sample_num_conc(const AeroMode &self) {
+       int len;
+       f_aero_mode_get_sample_bins(self.ptr.f_arg(), &len);
+       std::valarray<double> sample_num_conc(len);
+       f_aero_mode_get_sample_num_conc(
+           self.ptr.f_arg(),
+           begin(sample_num_conc),
+           &len
+       );
+       return sample_num_conc;
     }
 };
