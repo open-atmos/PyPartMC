@@ -9,6 +9,7 @@ The Python API can facilitate using PartMC from other environments - see, e.g., 
 
 For an outline of the project, rationale, architecture, and features, refer to: [D'Aquino et al., 2024 (SoftwareX)](https://doi.org/10.1016/j.softx.2023.101613) (please cite if PyPartMC is used in your research).
 For a list of talks and other relevant resources, please see [project Wiki](https://github.com/open-atmos/PyPartMC/wiki/).
+If interested in contributing to PyPartMC, please have a look a the [notes for developers](https://github.com/open-atmos/PyPartMC/tree/main/CONTRIBUTING.md).
 
 [![US Funding](https://img.shields.io/static/v1?label=US%20DOE%20Funding%20by&color=267c32&message=ASR&logoWidth=25&logo=image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAQCAMAAAA25D/gAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAASFBMVEVOTXyyIjRDQnNZWINZWITtzdFUU4BVVIFVVYHWiZM9PG/KZnNXVoJaWYT67/FKSXhgX4hgX4lcW4VbWoX03uHQeIN2VXj///9pZChlAAAAAWJLR0QXC9aYjwAAAAd0SU1FB+EICRMGJV+KCCQAAABdSURBVBjThdBJDoAgEETRkkkZBBX0/kd11QTTpH1/STqpAAwWBkobSlkGbt0o5xmEfqxDZJB2Q6XMoBwnVSbTylWp0hi42rmbwTOYPDfR5Kc+07IIUQQvghX9THsBHcES8/SiF0kAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTctMDgtMDlUMTk6MDY6MzcrMDA6MDCX1tBgAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE3LTA4LTA5VDE5OjA2OjM3KzAwOjAw5oto3AAAAABJRU5ErkJggg==)](https://asr.science.energy.gov/) [![PL Funding](https://img.shields.io/static/v1?label=PL%20Funding%20by&color=d21132&message=NCN&logoWidth=25&logo=image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAANCAYAAACpUE5eAAAABmJLR0QA/wD/AP+gvaeTAAAAKUlEQVQ4jWP8////fwYqAiZqGjZqIHUAy4dJS6lqIOMdEZvRZDPcDQQAb3cIaY1Sbi4AAAAASUVORK5CYII=)](https://www.ncn.gov.pl/?language=en)
    
@@ -226,61 +227,6 @@ fprintf('%g # kg/m3\n', dot([masses{:}], [num_concs{:}]))
 
 PyPartMC is used within the [test workflow of the PySDM project](https://github.com/atmos-cloud-sim-uj/PySDM/tree/main/tests/smoke_tests/box/partmc).
 
-## Implementation outline
-
-- PyPartMC is written in C++, Fortran and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
-- JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
-- PartMC and selected parts of SUNDIALS are statically linked (and compiled in during `pip install` or `python -m build`) 
-- C (SUNDIALS, netCDF), C++ (pybind11, ...) and Fortran (PartMC, CAMP, netCDF-fortran) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
-- MOSAIC dependency is optionally linked through setting the environmental variable `MOSAIC_HOME`
-- a [drop-in replacement of the PartMC spec file routines](https://github.com/open-atmos/PyPartMC/blob/main/src/spec_file_pypartmc.F90) is used for i/o from/to JSON 
-
-## Implementation architecture
-
-```mermaid
-flowchart TD
-    subgraph J ["Julia"]
-        julia_user_code["Julia user code"] --> PyCall.jl
-    end
-    subgraph M ["Matlab"]
-        matlab_user_code["Matlab user code"] --> matlab_python["Matlab built-in\nPython interface"]
-    end
-    subgraph P ["Python"]
-        python_user_code -.-> NumPy
-        python_user_code["Python user code"] ---> PyPartMC["pubind11-generated\nPyPartMC module"]
-        matlab_python --> PyPartMC
-        PyCall.jl --> PyPartMC
-    end
-    subgraph Cpp ["C++"]
-        cpp_user_code["C++ user code"] ----> ppmc_cpp
-        PyPartMC --> ppmc_cpp["PyPartMC-C++"]
-        ppmc_cpp --> pybind11_json
-        pybind11_json ---> nlohmann::JSON
-        spec_file_pypartmc_cpp --> nlohmann::JSON
-    end
-    subgraph C ["C"]
-        spec_file_pypartmc_c --> spec_file_pypartmc_cpp["SpecFile-C++"]
-        ppmc_cpp --> ppmc_c["PyPartMC-C"]
-        netCDF-C
-        SUNDIALS
-        camp_c["CAMP C code"]
-    end
-    subgraph Fortran ["Fortran"]
-        PartMC -....-> MOSAIC
-        ppmc_c --> ppmc_f["PyPartMC-F"]
-        ppmc_f ---> PartMC
-        PartMC --> netCDF-F
-        netCDF-F --> netCDF-C
-        PartMC --> SUNDIALS
-        PartMC ---> camp_f
-        camp_f["CAMP"] --> camp_c
-        PartMC ----> spec_file_pypartmc_f[SpecFile-F]
-        spec_file_pypartmc_f --> spec_file_pypartmc_c["SpecFile-C"]
-    end
-
-    style PartMC fill:#7ae7ff,stroke-width:2px,color:#2B2B2B
-```
-
 ## FAQ
 - Q: How to install PyPartMC with MOSAIC enabled?    
   A: Installation can be done using `pip`, however, `pip` needs to be instructed not to use binary packages available at pypi.org but rather to compile from source (pip will download the source from pip.org), and the path to compiled MOSAIC library needs to be provided at compile-time; the following command should convey it:
@@ -321,18 +267,6 @@ Try installing a Fortran compiler (e.g., `brew reinstall gcc` with Homebrew on m
 Could not find NC_M4 using the following names: m4, m4.exe
 ```
 Try installing `m4` (e.g., using [MSYS2](https://packages.msys2.org/package/m4?repo=msys&variant=x86_64) on Windows).
-
-## Notes for developers
-#### How to debug
-```sh
-git clone --recursive git+https://github.com/open-atmos/PyPartMC.git
-cd PyPartMC
-DEBUG=1 VERBOSE=1 pip --verbose install -e .
-gdb python 
-(gdb) run -m pytest -s -vv -We -p no:unraisableexception tests
-```
-#### Pre-commit hooks
-PyPartMC codebase benefits from Pylint, Black and isort code analysis (which are all part of the CI workflows where we also use pre-commit hooks. The pre-commit hooks can be run locally, and then the resultant changes need to be staged before committing. To set up the hooks locally, install pre-commit via `pip install pre-commit` and set up the git hooks via `pre-commit install` (this needs to be done every time you clone the project). To run all pre-commit hooks, run `pre-commit run --all-files`. The `.pre-commit-config.yaml` file can be modified in case new hooks are to be added or existing ones need to be altered.
 
 ## Credits
 
