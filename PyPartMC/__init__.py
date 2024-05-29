@@ -1,3 +1,7 @@
+"""
+.. include::../README.md
+"""
+
 # pylint: disable=invalid-name,wrong-import-position
 import os
 from collections import namedtuple
