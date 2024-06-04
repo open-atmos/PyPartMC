@@ -52,7 +52,7 @@ class TestRunPart:
 
     @staticmethod
     def test_run_part_timestep(common_args):
-        (last_output_time, last_progress_time, i_output) = ppmc.run_part_timestep(
+        last_output_time, last_progress_time, i_output = ppmc.run_part_timestep(
             *common_args, 1, 0, 0, 0, 1
         )
 
@@ -63,14 +63,18 @@ class TestRunPart:
 
     @staticmethod
     def test_run_part_timeblock(common_args):
+        # arrange
         num_times = int(
             RUN_PART_OPT_CTOR_ARG_SIMULATION["t_output"]
             / RUN_PART_OPT_CTOR_ARG_SIMULATION["del_t"]
         )
-        (last_output_time, last_progress_time, i_output) = ppmc.run_part_timeblock(
+
+        # act
+        last_output_time, last_progress_time, i_output = ppmc.run_part_timeblock(
             *common_args, 1, num_times, 0, 0, 0, 1
         )
 
+        # assert
         assert last_output_time == RUN_PART_OPT_CTOR_ARG_SIMULATION["t_output"]
         assert last_progress_time == 0.0
         assert i_output == 2
@@ -116,7 +120,15 @@ class TestRunPart:
             ((False, True), (True, False)),
         ),
     )
-    def test_run_part_allow_flag_mismatch(common_args, tmp_path, flags):
+    @pytest.mark.parametrize(
+        "fun_args",
+        (
+            ("run_part", []),
+            ("run_part_timestep", [0, 0, 0, 0, 0]),
+            ("run_part_timeblock", [0, 0, 0, 0, 0, 0]),
+        ),
+    )
+    def test_run_part_allow_flag_mismatch(common_args, tmp_path, fun_args, flags):
         # arrange
         filename = tmp_path / "test"
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_HIGH_RH)
@@ -140,7 +152,7 @@ class TestRunPart:
 
         # act
         with pytest.raises(RuntimeError) as excinfo:
-            ppmc.run_part(*args)
+            getattr(ppmc, fun_args[0])(*args, *fun_args[1])
 
         # assert
         assert (
