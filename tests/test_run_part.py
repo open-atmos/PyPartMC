@@ -116,7 +116,7 @@ class TestRunPart:
             ((False, True), (True, False)),
         ),
     )
-    def test_run_part_allow_flag_mimatch(common_args, tmp_path, flags):
+    def test_run_part_allow_flag_mismatch(common_args, tmp_path, flags):
         # arrange
         filename = tmp_path / "test"
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_HIGH_RH)
