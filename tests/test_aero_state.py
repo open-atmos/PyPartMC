@@ -587,5 +587,5 @@ class TestAeroState:
         # assert
         assert (
             str(excinfo.value)
-            == f"dist_sample() called with different halving/doubling settings then in last call"
+            == "dist_sample() called with different halving/doubling settings then in last call"
         )

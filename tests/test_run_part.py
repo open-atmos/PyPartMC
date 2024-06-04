@@ -145,5 +145,5 @@ class TestRunPart:
         # assert
         assert (
             str(excinfo.value)
-            == f"allow halving/doubling flags set differently then while sampling"
+            == "allow halving/doubling flags set differently then while sampling"
         )
