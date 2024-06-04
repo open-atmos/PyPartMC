@@ -18,6 +18,7 @@ extern "C" void f_run_part_opt_del_t(const void *ptr, double *del_t) noexcept;
 
 struct RunPartOpt {
     PMCResource ptr;
+    bool allow_halving, allow_doubling;
 
     RunPartOpt(const nlohmann::json &json) :
         ptr(f_run_part_opt_ctor, f_run_part_opt_dtor)
@@ -39,6 +40,8 @@ struct RunPartOpt {
         }))
             if (json_copy.find(key) == json_copy.end())
                 json_copy[key] = true;
+        allow_halving = json_copy["allow_halving"];
+        allow_doubling = json_copy["allow_doubling"];
 
         for (auto key : std::set<std::string>({
             "t_output", "t_progress", "rand_init"

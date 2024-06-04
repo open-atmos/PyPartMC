@@ -68,8 +68,8 @@ class TestOutput:
             aero_dist,
             sample_prop=1.0,
             create_time=0.0,
-            allow_doubling=True,
-            allow_halving=True,
+            allow_doubling=False,
+            allow_halving=False,
         )
 
         num_concs = aero_state.num_concs

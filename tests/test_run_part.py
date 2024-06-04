@@ -94,8 +94,56 @@ class TestRunPart:
                 "do_condensation": True,
             }
         )
-        aero_state.dist_sample(aero_dist, 1.0, 0.0, True, True)
+        aero_state.dist_sample(aero_dist, 1.0, 0.0, False, False)
         ppmc.condense_equilib_particles(env_state, aero_data, aero_state)
         ppmc.run_part(*args)
 
         assert np.sum(aero_state.masses(include=["H2O"])) > 0.0
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "flags",
+        (
+            ((True, True), (True, False)),
+            ((True, True), (False, True)),
+            ((True, True), (False, False)),
+            ((False, False), (True, False)),
+            ((False, False), (False, True)),
+            ((False, False), (True, True)),
+            ((True, False), (False, False)),
+            ((True, False), (False, True)),
+            ((False, True), (False, False)),
+            ((False, True), (True, False)),
+        ),
+    )
+    def test_run_part_allow_flag_mimatch(common_args, tmp_path, flags):
+        # arrange
+        filename = tmp_path / "test"
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_HIGH_RH)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FULL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FULL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        args = list(common_args)
+        args[0].init_env_state(env_state, 0.0)
+        args[1] = env_state
+        args[2] = aero_data
+        args[3] = aero_state
+        args[6] = ppmc.RunPartOpt(
+            {
+                **RUN_PART_OPT_CTOR_ARG_SIMULATION,
+                "output_prefix": str(filename),
+                "allow_doubling": flags[0][0],
+                "allow_halving": flags[0][1],
+            }
+        )
+        aero_state.dist_sample(aero_dist, 1.0, 0.0, flags[1][0], flags[1][1])
+
+        # act
+        with pytest.raises(RuntimeError) as excinfo:
+            ppmc.run_part(*args)
+
+        # assert
+        assert (
+            str(excinfo.value)
+            == f"allow halving/doubling flags set differently then while sampling"
+        )

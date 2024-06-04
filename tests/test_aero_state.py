@@ -556,3 +556,36 @@ class TestAeroState:
 
         # assert
         assert np.isclose(np.array(sut.diameters()), diam).all()
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "args",
+        (
+            ((True, True), (True, False)),
+            ((True, True), (False, True)),
+            ((True, True), (False, False)),
+            ((False, False), (True, False)),
+            ((False, False), (False, True)),
+            ((False, False), (True, True)),
+            ((True, False), (False, False)),
+            ((True, False), (False, True)),
+            ((False, True), (False, False)),
+            ((False, True), (True, False)),
+        ),
+    )
+    def test_dist_sample_different_halving(args):
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, [AERO_MODE_CTOR_SAMPLED])
+        sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+
+        # act
+        with pytest.raises(RuntimeError) as excinfo:
+            _ = sut.dist_sample(aero_dist, 1.0, 0.0, *args[0])
+            _ = sut.dist_sample(aero_dist, 1.0, 0.0, *args[1])
+
+        # assert
+        assert (
+            str(excinfo.value)
+            == f"dist_sample() called with different halving/doubling settings then in last call"
+        )
