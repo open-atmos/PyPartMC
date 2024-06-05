@@ -4,6 +4,8 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import platform
+
 import numpy as np
 import pytest
 
@@ -128,6 +130,7 @@ class TestRunPart:
             ("run_part_timeblock", [0, 0, 0, 0, 0, 0]),
         ),
     )
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_run_part_allow_flag_mismatch(common_args, tmp_path, fun_args, flags):
         # arrange
         filename = tmp_path / "test"

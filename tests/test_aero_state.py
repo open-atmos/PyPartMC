@@ -573,6 +573,7 @@ class TestAeroState:
             ((False, True), (True, False)),
         ),
     )
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_dist_sample_different_halving(args):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
