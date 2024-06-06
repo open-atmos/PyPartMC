@@ -15,7 +15,7 @@ module PyPartMC_camp_core
         type(camp_core_t), pointer :: ptr_f => null()
         type(c_ptr), intent(out) :: ptr_c
 
-        ptr_f => camp_core_t()
+        ptr_f => camp_core_t('config.json')
         call ptr_f%initialize()
         ptr_c = c_loc(ptr_f)
     end subroutine

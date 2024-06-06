@@ -36,6 +36,19 @@ module PyPartMC_aero_data
     call spec_file_read_aero_data(file, ptr_f)
   end subroutine
 
+  subroutine f_aero_data_from_camp(ptr_c, camp_core_ptr_c) bind(C)
+    type(aero_data_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    type(c_ptr), intent(in) :: camp_core_ptr_c
+    type(camp_core_t), pointer :: camp_core_ptr_f => null()
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(camp_core_ptr_c, camp_core_ptr_f)
+
+    call aero_data_initialize(ptr_f, camp_core_ptr_f)
+
+  end subroutine
+
   subroutine f_aero_data_spec_by_name(ptr_c, value, name_data, name_size) bind(C)
     type(aero_data_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
