@@ -83,6 +83,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>())
+        .def(py::init<const CampCore&>())
         .def("spec_by_name", AeroData::spec_by_name,
              "Returns the number of the species in AeroData with the given name")
         .def("__len__", AeroData::__len__, "Number of aerosol species")
@@ -207,6 +208,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<std::shared_ptr<AeroData>, const double, const std::string>())
+        .def(py::init<std::shared_ptr<AeroData>, const double, const std::string,
+             const CampCore&>())
         .def("__len__", AeroState::__len__,
             "returns current number of particles")
         .def_property_readonly("total_num_conc", AeroState::total_num_conc,
@@ -286,6 +289,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const py::tuple&>())
+        .def(py::init<const CampCore&>())
         .def("__len__", GasData::__len__,
             "returns number of gas species")
         .def_property_readonly("n_spec", GasData::__len__)
@@ -333,6 +337,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<>())
+        .def(py::init<const CampCore&>())
     ;
 
     py::class_<CampCore>(m,
