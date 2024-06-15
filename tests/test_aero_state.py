@@ -72,6 +72,17 @@ class TestAeroState:
         assert sut is not None
 
     @staticmethod
+    def test_ctor_empty():
+        # arrange
+        aero_data = ppmc.AeroData()
+
+        # act
+        sut = ppmc.AeroState(aero_data)
+
+        # assert
+        assert sut is not None
+
+    @staticmethod
     @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_fails_on_unknown_weighting():
         # arrange
