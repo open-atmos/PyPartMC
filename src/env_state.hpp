@@ -34,6 +34,11 @@ struct EnvState {
         f_env_state_from_json(this->ptr.f_arg());
     }
 
+    EnvState() :
+        ptr(f_env_state_ctor, f_env_state_dtor)
+    {
+    }
+
     static void set_temperature(const EnvState &self, double &temperature) {
         f_env_state_set_temperature(
             self.ptr.f_arg(),
