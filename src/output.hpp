@@ -52,7 +52,7 @@ void output_state(
     const EnvState &env_state
 );
 
-void input_state(
+std::tuple<AeroData*, GasData*> input_state(
     const std::string &name,
     const AeroData &aero_data,
     const AeroState &aero_state,
