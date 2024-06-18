@@ -224,6 +224,7 @@ auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
 struct AeroState {
     PMCResource ptr;
     std::shared_ptr<AeroData> aero_data;
+    int allow_halving = -1, allow_doubling = -1;
 
     AeroState(
         std::shared_ptr<AeroData> aero_data,
@@ -572,7 +573,7 @@ struct AeroState {
     }
 
    static int dist_sample(
-       const AeroState &self,
+       AeroState &self,
        const AeroDist &aero_dist,
        const double &sample_prop,
        const double &create_time,
@@ -580,6 +581,15 @@ struct AeroState {
        const bool &allow_halving
    ) {
        int n_part_add = 0;
+
+       if (
+           (self.allow_doubling != -1 && self.allow_doubling != allow_doubling) ||
+           (self.allow_halving != -1 && self.allow_halving != allow_halving)
+       )
+           throw std::runtime_error("dist_sample() called with different halving/doubling settings then in last call");
+
+       self.allow_doubling = allow_doubling;
+       self.allow_halving = allow_halving;
 
        f_aero_state_add_aero_dist_sample(
            self.ptr.f_arg(),

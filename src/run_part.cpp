@@ -7,6 +7,17 @@
 #include "run_part.hpp"
 #include "pybind11/stl.h"
 
+void check_allow_flags(
+    const AeroState &aero_state,
+    const RunPartOpt &run_part_opt
+) {
+    if (
+        (aero_state.allow_halving != -1 && run_part_opt.allow_halving != aero_state.allow_halving) ||
+        (aero_state.allow_doubling != -1 && run_part_opt.allow_doubling != aero_state.allow_doubling)
+    )
+        throw std::runtime_error("allow halving/doubling flags set differently then while sampling");
+}
+
 void run_part(
     const Scenario &scenario,
     EnvState &env_state,
@@ -18,6 +29,7 @@ void run_part(
     const CampCore &camp_core,
     const Photolysis &photolysis
 ) {
+    check_allow_flags(aero_state, run_part_opt);
     f_run_part(
         scenario.ptr.f_arg(),
         env_state.ptr.f_arg_non_const(),
@@ -47,6 +59,7 @@ std::tuple<double, double, int> run_part_timestep(
     double &last_progress_time,
     int &i_output
 ) {
+    check_allow_flags(aero_state, run_part_opt);
     f_run_part_timestep(
         scenario.ptr.f_arg(),
         env_state.ptr.f_arg_non_const(),
@@ -84,6 +97,7 @@ std::tuple<double, double, int> run_part_timeblock(
     double &last_progress_time,
     int &i_output
 ) {
+    check_allow_flags(aero_state, run_part_opt);
     f_run_part_timeblock(
         scenario.ptr.f_arg(),
         env_state.ptr.f_arg_non_const(),
