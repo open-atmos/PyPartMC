@@ -36,8 +36,7 @@ struct EnvState {
 
     EnvState() :
         ptr(f_env_state_ctor, f_env_state_dtor)
-    {
-    }
+    {}
 
     static void set_temperature(const EnvState &self, double &temperature) {
         f_env_state_set_temperature(

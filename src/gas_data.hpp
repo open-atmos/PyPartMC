@@ -43,8 +43,7 @@ struct GasData {
 
     GasData() :
         ptr(f_gas_data_ctor, f_gas_data_dtor)
-    {
-    }
+    {}
 
     static auto __str__(const GasData &self) {
         return self.json.dump();

@@ -45,14 +45,15 @@ std::tuple<AeroData*, GasData*, EnvState*> input_state(
     const int name_size = name.size();
 
     // Made in C++ rather than passed in
-    AeroData *aero_data_new = new AeroData();
-    AeroState *aero_state_new = new AeroState(std::shared_ptr<AeroData>(aero_data_new));
-    GasData *gas_data_new = new GasData();
-    GasState *gas_state_new = new GasState(std::shared_ptr<GasData>(gas_data_new));
-    EnvState *env_state_new = new EnvState();
+    AeroData *aero_data = new AeroData();
+    AeroState *aero_state = new AeroState(std::shared_ptr<AeroData>(aero_data));
+    GasData *gas_data = new GasData();
+    GasState *gas_state = new GasState(std::shared_ptr<GasData>(gas_data));
+    EnvState *env_state = new EnvState();
     f_input_state(name.c_str(), &name_size, &index, &time, &del_t, &i_repeat,
-       aero_data_new->ptr.f_arg(), aero_state_new->ptr.f_arg(),
-       gas_data_new->ptr.f_arg(), gas_state_new->ptr.f_arg(), env_state_new->ptr.f_arg());
+       aero_data->ptr.f_arg(), aero_state->ptr.f_arg(),
+       gas_data->ptr.f_arg(), gas_state->ptr.f_arg(),
+       env_state->ptr.f_arg());
 
    int n_source;
    int len_gas_data;
@@ -60,10 +61,10 @@ std::tuple<AeroData*, GasData*, EnvState*> input_state(
    int len_aero_state;
 
    // Quick tests to see if everything works
-   f_aero_data_n_source(aero_data_new->ptr.f_arg(), &n_source);
-   f_gas_data_len(gas_data_new->ptr.f_arg(), &len_gas_data);
-   f_gas_state_len(gas_state_new->ptr.f_arg(), &len_gas_state);
-   f_aero_state_len(aero_state_new->ptr.f_arg(), &len_aero_state);
+   f_aero_data_n_source(aero_data->ptr.f_arg(), &n_source);
+   f_gas_data_len(gas_data->ptr.f_arg(), &len_gas_data);
+   f_gas_state_len(gas_state->ptr.f_arg(), &len_gas_state);
+   f_aero_state_len(aero_state->ptr.f_arg(), &len_aero_state);
 
-   return std::make_tuple(aero_data_new, gas_data_new, env_state_new);
+   return std::make_tuple(aero_data, gas_data, env_state);
 }

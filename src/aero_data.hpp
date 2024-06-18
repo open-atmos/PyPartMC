@@ -50,8 +50,7 @@ struct AeroData {
 
     AeroData() :
         ptr(f_aero_data_ctor, f_aero_data_dtor)
-    {
-    }
+    {}
 
     static auto spec_by_name(const AeroData &self, const std::string &name) {
         int value;
