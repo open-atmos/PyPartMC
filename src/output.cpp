@@ -36,23 +36,13 @@ void output_state(
 }
 
 std::tuple<AeroData*, GasData*, EnvState*> input_state(
-    const std::string &name,
-    const AeroData &aero_data,
-    const AeroState &aero_state,
-    const GasData &gas_data,
-    const GasState &gas_state,
-    const EnvState &env_state
+    const std::string &name
 ){
     int index;
     double time;
     double del_t;
     int i_repeat;
     const int name_size = name.size();
-
-    f_input_state(name.c_str(), &name_size, &index, &time, &del_t, &i_repeat,
-       aero_data.ptr.f_arg(), aero_state.ptr.f_arg(),
-       gas_state.gas_data->ptr.f_arg(), gas_state.ptr.f_arg(), env_state.ptr.f_arg());
-
 
     // Made in C++ rather than passed in
     AeroData *aero_data_new = new AeroData();

@@ -53,10 +53,5 @@ void output_state(
 );
 
 std::tuple<AeroData*, GasData*, EnvState*> input_state(
-    const std::string &name,
-    const AeroData &aero_data,
-    const AeroState &aero_state,
-    const GasData &gas_data,
-    const GasState &gas_state,
-    const EnvState &env_state
+    const std::string &name
 );
