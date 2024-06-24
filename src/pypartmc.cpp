@@ -83,7 +83,6 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>())
-        .def(py::init<>(), "Empty constructor for reading from file.")
         .def("spec_by_name", AeroData::spec_by_name,
              "Returns the number of the species in AeroData with the given name")
         .def("__len__", AeroData::__len__, "Number of aerosol species")
@@ -208,7 +207,6 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<std::shared_ptr<AeroData>, const double, const std::string>())
-        .def(py::init<std::shared_ptr<AeroData>>(), "Empty constructor for reading from file.")
         .def("__len__", AeroState::__len__,
             "returns current number of particles")
         .def_property_readonly("total_num_conc", AeroState::total_num_conc,
@@ -288,7 +286,6 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const py::tuple&>())
-        .def(py::init<>(), "Empty constructor for reading from file.")
         .def("__len__", GasData::__len__,
             "returns number of gas species")
         .def_property_readonly("n_spec", GasData::__len__)
@@ -311,7 +308,6 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<const nlohmann::json&>())
-        .def(py::init<>(), "Empty constructor for reading from file.")
         .def("set_temperature", EnvState::set_temperature,
             "sets the temperature of the environment state")
         .def_property_readonly("temp", EnvState::temp,
