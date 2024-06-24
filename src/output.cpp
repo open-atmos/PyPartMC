@@ -35,7 +35,7 @@ void output_state(
        &i_repeat, &record_removals, &record_optical);
 }
 
-std::tuple<AeroData*, GasData*, EnvState*> input_state(
+std::tuple<AeroData*, AeroState*, GasData*, GasState*, EnvState*, int, int> input_state(
     const std::string &name
 ){
     int index;
@@ -44,27 +44,26 @@ std::tuple<AeroData*, GasData*, EnvState*> input_state(
     int i_repeat;
     const int name_size = name.size();
 
-    // Made in C++ rather than passed in
     AeroData *aero_data = new AeroData();
-    AeroState *aero_state = new AeroState(std::shared_ptr<AeroData>(aero_data));
+    AeroState *aero_state = new AeroState(std::shared_ptr<AeroData>(new AeroData()));
     GasData *gas_data = new GasData();
-    GasState *gas_state = new GasState(std::shared_ptr<GasData>(gas_data));
+    GasState *gas_state = new GasState(std::shared_ptr<GasData>(new GasData()));
     EnvState *env_state = new EnvState();
     f_input_state(name.c_str(), &name_size, &index, &time, &del_t, &i_repeat,
-       aero_data->ptr.f_arg(), aero_state->ptr.f_arg(),
-       gas_data->ptr.f_arg(), gas_state->ptr.f_arg(),
+       aero_state->aero_data->ptr.f_arg(), aero_state->ptr.f_arg(),
+//       aero_data->ptr.f_arg(), aero_state->ptr.f_arg(),
+//       gas_data->ptr.f_arg(), gas_state->ptr.f_arg(),
+       gas_state->gas_data->ptr.f_arg(), gas_state->ptr.f_arg(),
        env_state->ptr.f_arg());
+
 
    int n_source;
    int len_gas_data;
-   int len_gas_state;
-   int len_aero_state;
 
    // Quick tests to see if everything works
-   f_aero_data_n_source(aero_data->ptr.f_arg(), &n_source);
-   f_gas_data_len(gas_data->ptr.f_arg(), &len_gas_data);
-   f_gas_state_len(gas_state->ptr.f_arg(), &len_gas_state);
-   f_aero_state_len(aero_state->ptr.f_arg(), &len_aero_state);
+   f_aero_data_n_source(aero_state->aero_data->ptr.f_arg(), &n_source);
+   f_gas_data_len(gas_state->gas_data->ptr.f_arg(), &len_gas_data);
 
-   return std::make_tuple(aero_data, gas_data, env_state);
+   return std::make_tuple(aero_data, aero_state, gas_data, gas_state, env_state,
+          n_source, len_gas_data);
 }
