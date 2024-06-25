@@ -26,17 +26,6 @@ class TestGasData:
         assert sut is not None
 
     @staticmethod
-    def test_ctor_emtpy():
-        # arrange
-        pass
-
-        # act
-        sut = ppmc.GasData()
-
-        # assert
-        assert sut is not None
-
-    @staticmethod
     def test_len():
         # arrange
         data = ("X", "Y", "Z")

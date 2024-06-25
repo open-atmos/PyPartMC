@@ -88,13 +88,8 @@ class TestOutput:
 
         assert aero_state.num_concs != num_concs
 
-        ppmc.input_state(
-            str(filename) + "_0001_00000001.nc",
-            aero_data,
-            aero_state,
-            gas_data,
-            gas_state,
-            env_state,
+        aero_data, aero_state, gas_data, gas_state, env_state = ppmc.input_state(
+            str(filename) + "_0001_00000001.nc"
         )
 
         # check an integer

@@ -56,16 +56,6 @@ class TestAeroData:
         assert sut is not None
 
     @staticmethod
-    def test_ctor_emtpy():
-        # arrange
-
-        # act
-        sut = ppmc.AeroData()
-
-        # assert
-        assert sut is not None
-
-    @staticmethod
     def test_spec_by_name_found():
         # arrange
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
