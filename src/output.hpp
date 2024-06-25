@@ -52,6 +52,6 @@ void output_state(
     const EnvState &env_state
 );
 
-std::tuple<AeroData*, AeroState*, GasData*, GasState*, EnvState*, int, int> input_state(
+std::tuple<std::shared_ptr<AeroData>, AeroState*, std::shared_ptr<GasData>, GasState*, EnvState*> input_state(
     const std::string &name
 );
