@@ -5,3 +5,4 @@ voila
 open-atmos-jupyter-utils
 PySDM
 PyMieScatt
+SciPy<1.14.0
