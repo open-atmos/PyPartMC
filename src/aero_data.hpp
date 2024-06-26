@@ -48,6 +48,10 @@ struct AeroData {
         f_aero_data_from_json(this->ptr.f_arg());
     }
 
+    AeroData() :
+        ptr(f_aero_data_ctor, f_aero_data_dtor)
+    {}
+
     static auto spec_by_name(const AeroData &self, const std::string &name) {
         int value;
         const int name_size = name.size();

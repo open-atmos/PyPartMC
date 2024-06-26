@@ -261,6 +261,14 @@ struct AeroState {
         );
     }
 
+    AeroState(
+        std::shared_ptr<AeroData> aero_data
+    ):
+        ptr(f_aero_state_ctor, f_aero_state_dtor),
+        aero_data(aero_data)
+    {
+    }
+
     static std::size_t __len__(const AeroState &self) {
         int len;
         f_aero_state_len(

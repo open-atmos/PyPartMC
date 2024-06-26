@@ -41,6 +41,10 @@ struct GasData {
         f_gas_data_from_json(this->ptr.f_arg());
     }
 
+    GasData() :
+        ptr(f_gas_data_ctor, f_gas_data_dtor)
+    {}
+
     static auto __str__(const GasData &self) {
         return self.json.dump();
     }   
