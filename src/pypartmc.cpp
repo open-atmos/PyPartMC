@@ -347,6 +347,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(py::init<>())
+        .def(py::init<const std::string &>())
     ;
 
     py::class_<Scenario>(m,

@@ -11,6 +11,8 @@
 
 extern "C" void f_camp_core_ctor(void *ptr) noexcept;
 extern "C" void f_camp_core_dtor(void *ptr) noexcept;
+extern "C" void f_camp_core_initialize(void *ptr, const char *prefix,
+    const int *prefix_size) noexcept;
 
 struct CampCore {
     PMCResource ptr;
@@ -18,5 +20,12 @@ struct CampCore {
     CampCore() :
         ptr(f_camp_core_ctor, f_camp_core_dtor)
     {
+    }
+
+    CampCore(const std::string &config_name) :
+        ptr(f_camp_core_ctor, f_camp_core_dtor)
+    {
+        const int config_name_size = config_name.size();
+        f_camp_core_initialize(ptr.f_arg_non_const(), config_name.c_str(), &config_name_size);
     }
 };
