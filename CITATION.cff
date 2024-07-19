@@ -20,7 +20,7 @@ preferred-citation:
     orcid: "https://orcid.org/0000-0002-3220-3457"
   - family-names: "West"
     given-names: "Matthew"
-  doi: "10.48550/arXiv.2308.02052"
-  journal: "arXiv"
+  doi: "10.1016/j.softx.2023.101613"
+  journal: "SoftwareX"
   title: "PyPartMC: A Pythonic interface to a particle-resolved, Monte Carlo aerosol simulation framework"
-  year: 2023
+  year: 2024
