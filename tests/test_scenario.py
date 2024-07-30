@@ -9,6 +9,7 @@ import gc
 import json
 import platform
 
+import numpy as np
 import pytest
 
 import PyPartMC as ppmc
@@ -321,3 +322,21 @@ class TestScenario:
 
         # assert
         assert str(excinfo.value) == msg.replace("PROF", f"{prof}")
+
+    @staticmethod
+    def test_loss_function_other_than_none():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
+        ctor_arg["loss_function"] = "chamber"
+        ctor_arg["chamber_vol"] = np.nan
+        ctor_arg["area_diffuse"] = np.nan
+        ctor_arg["area_sedi"] = np.nan
+        ctor_arg["prefactor_BL"] = np.nan
+        ctor_arg["exponent_BL"] = np.nan
+
+        # act
+        sut = ppmc.Scenario(gas_data, aero_data, ctor_arg)
+
+        # assert
