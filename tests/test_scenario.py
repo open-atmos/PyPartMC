@@ -324,19 +324,36 @@ class TestScenario:
         assert str(excinfo.value) == msg.replace("PROF", f"{prof}")
 
     @staticmethod
-    def test_loss_function_other_than_none():
+    def test_loss_function_chamber():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
         ctor_arg["loss_function"] = "chamber"
-        ctor_arg["chamber_vol"] = np.nan
-        ctor_arg["area_diffuse"] = np.nan
-        ctor_arg["area_sedi"] = np.nan
-        ctor_arg["prefactor_BL"] = np.nan
-        ctor_arg["exponent_BL"] = np.nan
+        ctor_arg["chamber_vol"] = 1.0
+        ctor_arg["area_diffuse"] = 1.0
+        ctor_arg["area_sedi"] = 1.0
+        ctor_arg["prefactor_BL"] = 1.0
+        ctor_arg["exponent_BL"] = 1.0
+
+        # act
+        sut = ppmc.Scenario(gas_data, aero_data, ctor_arg)
+        sut.init_env_state(env_state, 0.0)
+
+        # assert
+        assert ppmc.loss_rate(sut, 1e-20, 1000.0, aero_data, env_state) > 0.0
+
+    @staticmethod
+    def test_loss_function_constant():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
+        ctor_arg["loss_function"] = "constant"
 
         # act
         sut = ppmc.Scenario(gas_data, aero_data, ctor_arg)
 
-        # assert
+        assert ppmc.loss_rate(sut, 1e-20, 1000.0, aero_data, env_state) == 0.001
