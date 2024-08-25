@@ -10,7 +10,7 @@ jobs:
   deploy:
     strategy:
       matrix:
-        platform: [ubuntu-latest]
+        platform: [ubuntu-latest, macos-12, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
@@ -19,17 +19,16 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-python@v2
         with:
-          python-version: 3.9
+          python-version: 3.12
       - name: Build
         run: |
-          pip install pdoc3
+          pip install pdoc
           pip install -e .
-          # FIXME #23: add -We
-          python -m pdoc --html PyPartMC
+          PDOC_ALLOW_EXEC=1 python -We -m pdoc -o html PyPartMC
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' && matrix.platform == 'ubuntu-latest' }}
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
           BRANCH: pdoc
-          FOLDER: html/PyPartMC
+          FOLDER: html
           CLEAN: true
