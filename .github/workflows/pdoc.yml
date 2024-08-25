@@ -10,7 +10,7 @@ jobs:
   deploy:
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-12, windows-latest]
+        platform: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
