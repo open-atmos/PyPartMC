@@ -8,6 +8,7 @@
 
 #include "json_resource.hpp"
 #include "pmc_resource.hpp"
+#include "camp_core.hpp"
 
 extern "C" void f_photolysis_ctor(void *ptr) noexcept;
 extern "C" void f_photolysis_dtor(void *ptr) noexcept;
