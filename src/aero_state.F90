@@ -57,7 +57,6 @@ module PyPartMC_aero_state
     call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
 
     call aero_state_zero(ptr_f)
-    call fractal_set_spherical(aero_data_ptr_f%fractal)
     call aero_state_set_weight(ptr_f, aero_data_ptr_f, weight_f)
     call aero_state_set_n_part_ideal(ptr_f, n_part)
   end subroutine
