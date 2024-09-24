@@ -36,7 +36,7 @@ jobs:
       - uses: julia-actions/setup-julia@v1
       - run: mkdir readme_output
       - run: julia readme.jl > readme_output/julia.txt
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: readme_output
           path: readme_output
@@ -63,7 +63,7 @@ jobs:
 
       - run: mkdir readme_output
       - run: python -We readme.py > readme_output/python.txt
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: readme_output
           path: readme_output
@@ -90,7 +90,7 @@ jobs:
           cd readme_fortran
           ./build/main > ../readme_output/fortran.txt
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: readme_output
           path: readme_output
@@ -101,7 +101,7 @@ jobs:
     steps:
     - uses: actions/setup-python@v2
     - run: pip install numpy
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
           name: readme_output
           path: readme_output
@@ -148,7 +148,7 @@ jobs:
           startup-options: -nojvm
           command: diary('readme_output/matlab.txt'), readme
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: readme_output
           path: readme_output
