@@ -179,9 +179,9 @@ jobs:
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*-linux_*
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
-          name: dist
+          name: dist-${{platform}}-${{manylinux}}-${{python-version}}
           path: dist
 
       - env:
@@ -219,9 +219,10 @@ jobs:
       with:
         python-version: "3.11"
     - run: pip install twine auditwheel
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
-        name: dist
+        pattern: dist-*
+        merge-multiple: true
         path: dist
     - run: twine check --strict dist/*
     - run: for i in dist/*-manylinux*.whl; do auditwheel show $i; done;
@@ -232,9 +233,10 @@ jobs:
     permissions:
       id-token: write
     steps:
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
-        name: dist
+        pattern: dist-*
+        merge-multiple: true
         path: dist
     - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: pypa/gh-action-pypi-publish@unstable/v1

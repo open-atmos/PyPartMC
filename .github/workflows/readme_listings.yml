@@ -36,9 +36,9 @@ jobs:
       - uses: julia-actions/setup-julia@v1
       - run: mkdir readme_output
       - run: julia readme.jl > readme_output/julia.txt
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
-          name: readme_output
+          name: readme_output-julia
           path: readme_output
 
   python:
@@ -63,9 +63,9 @@ jobs:
 
       - run: mkdir readme_output
       - run: python -We readme.py > readme_output/python.txt
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
-          name: readme_output
+          name: readme_output-python
           path: readme_output
       
   fortran:
@@ -90,9 +90,9 @@ jobs:
           cd readme_fortran
           ./build/main > ../readme_output/fortran.txt
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
-          name: readme_output
+          name: readme_output-fortran
           path: readme_output
 
   assert:
@@ -101,9 +101,10 @@ jobs:
     steps:
     - uses: actions/setup-python@v2
     - run: pip install numpy
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
-          name: readme_output
+          pattern: readme_output-*
+          merge-multiple: true
           path: readme_output
     - run : python -c 'import numpy as np; import os; dir="readme_output/"; data=[float(np.loadtxt(dir+file)) for file in os.listdir(dir)]; print("data:", data); similar_as_first = np.array([abs(data[0]-k)/data[0] for k in data[1:]]); print("similar_as_first", similar_as_first); assert((similar_as_first < .5).all())'
 
@@ -148,8 +149,8 @@ jobs:
           startup-options: -nojvm
           command: diary('readme_output/matlab.txt'), readme
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
-          name: readme_output
+          name: readme_output-matlab
           path: readme_output
 
