@@ -181,8 +181,7 @@ jobs:
 
       # case sensitivity issue - avoid coexisting PyPartMC-... and pypartmc-... files
       # https://github.com/pypi/warehouse/issues/15824
-      - if: matrix.platform == 'windows-latest'
-        run: rm dist/pypartmc*.tar.gz
+      - run: rm -f dist/pypartmc*.tar.gz
 
       - uses: actions/upload-artifact@v4
         with:
