@@ -181,7 +181,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dist-${{platform}}-${{manylinux}}-${{python-version}}
+          name: dist-${{matrix.platform}}-${{matrix.manylinux}}-${{matrix.python-version}}
           path: dist
 
       - env:
