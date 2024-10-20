@@ -20,6 +20,24 @@ module PyPartMC_camp_core
         ptr_c = c_loc(ptr_f)
     end subroutine
 
+    subroutine f_camp_core_initialize(ptr_c, prefix_data, prefix_size) bind(C)
+        type(camp_core_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(out) :: ptr_c
+
+    character(kind=c_char), dimension(*), intent(in) :: prefix_data
+    integer(c_int), intent(in) :: prefix_size
+    character(len=prefix_size) :: prefix
+    integer :: i
+
+    do i=1, prefix_size
+       prefix(i:i) = prefix_data(i)
+    end do
+
+        ptr_f => camp_core_t(prefix)
+        call ptr_f%initialize()
+        ptr_c = c_loc(ptr_f)
+    end subroutine
+
     subroutine f_camp_core_dtor(ptr_c) bind(C)
         type(camp_core_t), pointer :: ptr_f => null()
         type(c_ptr), intent(in) :: ptr_c
