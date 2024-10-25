@@ -205,11 +205,11 @@ jobs:
           python -m pip install $PIP_INSTALL_OPTS -r .binder/requirements.txt
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
-### uncomment to gain ssh access in case of failure
-#      - if: ${{ failure() }}
-#        uses: mxschmitt/action-tmate@v3
-#        with:
-#          limit-access-to-actor: true
+## uncomment to gain ssh access in case of failure
+      - if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
 
   dist_check:
     runs-on: ubuntu-latest
