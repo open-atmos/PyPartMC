@@ -138,15 +138,16 @@ jobs:
           python -m build 2>&1 | tee build.log
           exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | grep -v "-warnings" | grep -v "All Warnings are enabled" | wc -l`
 
-      - if: startsWith(matrix.platform, 'macos-12') && matrix.python-version == '3.11'
+      - if: startsWith(matrix.platform, 'macos-')
         run: |
-          # workaround for buggy universal2 wheel name with Python 3.11 (contains x86_64 binary only)
+          # workaround for buggy universal2 wheel names (contain single arch binary only!)
           for whl in dist/*_universal2.whl; do
-            export whl_new=${whl/_universal2/_x86_64};
+            export arch=`python -c 'import platform; print(platform.machine())'`;
+            export whl_new=${whl/_universal2/_$arch};
             mv $whl $whl_new;
             python -m wheel unpack $whl_new;
             export whl_new_unpacked=`basename $whl_new | cut -d- -f-2`;
-            sed -i '' 's/_universal2/_x86_64/g' $whl_new_unpacked/$whl_new_unpacked.dist-info/WHEEL;
+            sed -i '' 's/_universal2/_$arch/g' $whl_new_unpacked/$whl_new_unpacked.dist-info/WHEEL;
             python -m wheel pack $whl_new_unpacked;
           done
           
