@@ -90,6 +90,9 @@ jobs:
           - manylinux: "manylinux_2_24_x86_64"
             platform: ubuntu-latest
             python-version: "3.11"
+          - manylinux: "manylinux_2_24_x86_64"
+            platform: ubuntu-latest
+            python-version: "3.12"
       fail-fast: false
     runs-on: ${{ matrix.platform }}
     steps:
