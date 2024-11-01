@@ -169,6 +169,7 @@ jobs:
           python-versions: ${{ env.PV }}
           build-requirements: 'setuptools_scm'
           pre-build-command: 'git config --global --add safe.directory "*"'
+          system-packages: 'python3.12'
 
       - if: matrix.platform == 'ubuntu-latest'
         run: rm dist/*-linux_*
