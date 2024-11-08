@@ -9,6 +9,7 @@
 #include "json_resource.hpp"
 #include "pmc_resource.hpp"
 #include "gas_data_parameters.hpp"
+#include "camp_core.hpp"
 #include "pybind11/stl.h"
 #include "pybind11_json/pybind11_json.hpp"
 
@@ -16,6 +17,7 @@ extern "C" void f_gas_data_ctor(void *ptr) noexcept;
 extern "C" void f_gas_data_dtor(void *ptr) noexcept;
 extern "C" void f_gas_data_len(const void *ptr, int *len) noexcept;
 extern "C" void f_gas_data_from_json(const void *ptr) noexcept;
+extern "C" void f_gas_data_from_camp(const void *ptr, const void *camp_core_ptr) noexcept;
 extern "C" void f_gas_data_to_json(const void *ptr) noexcept;
 extern "C" void f_gas_data_spec_by_name(const void *ptr, int *value, const char *name_data,
     const int *name_size) noexcept;
@@ -25,6 +27,12 @@ extern "C" void f_gas_data_spec_name_by_index(const void *ptr, const int *i_spec
 struct GasData {
     PMCResource ptr;
     const nlohmann::json json;
+
+    GasData(const CampCore &CampCore) :
+        ptr(f_gas_data_ctor, f_gas_data_dtor)
+    {
+        f_gas_data_from_camp(this->ptr.f_arg(), CampCore.ptr.f_arg());
+    }
 
     GasData(const pybind11::tuple &tpl) :
         ptr(f_gas_data_ctor, f_gas_data_dtor),

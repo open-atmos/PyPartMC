@@ -638,4 +638,18 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  subroutine f_aero_state_initialize(ptr_c, aero_data_ptr_c, camp_core_ptr_c) bind(C)
+    type(c_ptr) :: ptr_c, aero_data_ptr_c, camp_core_ptr_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    type(camp_core_t), pointer :: camp_core_ptr_f => null()
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+    call c_f_pointer(camp_core_ptr_c, camp_core_ptr_f)
+
+    call aero_state_initialize(ptr_f, aero_data_ptr_f, camp_core_ptr_f)
+
+  end subroutine
+
 end module
