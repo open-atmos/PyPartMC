@@ -238,9 +238,10 @@ jobs:
         merge-multiple: true
         path: dist
     - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: pypa/gh-action-pypi-publish@unstable/v1
+      uses: pypa/gh-action-pypi-publish@release/v1.12
       with:
         repository_url: https://test.pypi.org/legacy/
+        attestations: false
     - run: |
         echo "github.event_name:" ${{ github.event_name }}
         echo "github.event.action:" ${{ github.event.action }}
@@ -248,4 +249,6 @@ jobs:
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF }}
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF_NAME }}
     - if: github.event_name == 'release' && github.event.prerelease == false
-      uses: pypa/gh-action-pypi-publish@unstable/v1
+      uses: pypa/gh-action-pypi-publish@release/v1.12
+      with:
+        attestations: false
