@@ -4,8 +4,8 @@ import PyPartMC as ppmc
 class TestPhotolysis:
     @staticmethod
     def test_ctor_without_camp():
-        sut = ppmc.Photolysis()
+        _ = ppmc.Photolysis()
 
     @staticmethod
     def test_ctor_with_camp():
-        sut = ppmc.Photolysis(ppmc.CampCore())
+        _ = ppmc.Photolysis(ppmc.CampCore())
