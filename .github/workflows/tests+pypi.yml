@@ -51,13 +51,13 @@ jobs:
             python-version: "3.12"
           - platform: windows-latest
             python-version: "3.13"
-          - platform: macos-12
+          - platform: macos-13
             python-version: "3.8"
-          - platform: macos-12
+          - platform: macos-13
             python-version: "3.9"
-          - platform: macos-12
+          - platform: macos-13
             python-version: "3.10"
-          - platform: macos-12
+          - platform: macos-13
             python-version: "3.11"
           - platform: macos-12
             python-version: "3.12"
@@ -140,7 +140,7 @@ jobs:
           python -m build 2>&1 | tee build.log
           exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | grep -v "-warnings" | grep -v "All Warnings are enabled" | wc -l`
 
-      - if: ${{ (matrix.platform == 'macos-12' && matrix.python-version == '3.11') || matrix.platform == 'macos-14' }}
+      - if: ${{ (matrix.platform == 'macos-13' && matrix.python-version == '3.11') || matrix.platform == 'macos-14' }}
         run: |
           # workaround for buggy universal2 wheel names (contain single arch binary only!)
           for whl in dist/*_universal2.whl; do
@@ -239,9 +239,10 @@ jobs:
         merge-multiple: true
         path: dist
     - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: pypa/gh-action-pypi-publish@unstable/v1
+      uses: pypa/gh-action-pypi-publish@release/v1.12
       with:
         repository_url: https://test.pypi.org/legacy/
+        attestations: false
     - run: |
         echo "github.event_name:" ${{ github.event_name }}
         echo "github.event.action:" ${{ github.event.action }}
@@ -249,4 +250,6 @@ jobs:
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF }}
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF_NAME }}
     - if: github.event_name == 'release' && github.event.prerelease == false
-      uses: pypa/gh-action-pypi-publish@unstable/v1
+      uses: pypa/gh-action-pypi-publish@release/v1.12
+      with:
+        attestations: false
