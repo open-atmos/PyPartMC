@@ -73,6 +73,18 @@ class TestEnvState:
         assert value == sut.pressure
 
     @staticmethod
+    def test_additive_kernel_coefficient():
+        # arrange
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        value = 1500.0
+
+        # act
+        sut.additive_kernel_coefficient = value
+
+        # assert
+        assert value == sut.additive_kernel_coefficient
+
+    @staticmethod
     def test_humidity_ctor():
         # arrange and act
         sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
