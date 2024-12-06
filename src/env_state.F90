@@ -94,25 +94,25 @@ module PyPartMC_env_state
 
     end subroutine
 
-    subroutine f_env_state_set_additive_kernel_coefficient(ptr_c, additive_kernel_coefficient) bind(C)
+    subroutine f_env_state_set_additive_kernel_coefficient(ptr_c, value) bind(C)
         type(env_state_t), pointer :: ptr_f => null()
         type(c_ptr), intent(in) :: ptr_c
-        real(c_double), intent(in) :: additive_kernel_coefficient
+        real(c_double), intent(in) :: value
 
         call c_f_pointer(ptr_c, ptr_f)
 
-        ptr_f%additive_kernel_coefficient = additive_kernel_coefficient
+        ptr_f%additive_kernel_coefficient = value
 
     end subroutine
 
-    subroutine f_env_state_get_additive_kernel_coefficient(ptr_c, additive_kernel_coefficient) bind(C)
+    subroutine f_env_state_get_additive_kernel_coefficient(ptr_c, target) bind(C)
         type(env_state_t), pointer :: ptr_f => null()
         type(c_ptr), intent(in) :: ptr_c
-        real(c_double), intent(out) :: additive_kernel_coefficient
+        real(c_double), intent(out) :: target
         
         call c_f_pointer(ptr_c, ptr_f)
 
-        additive_kernel_coefficient = ptr_f%additive_kernel_coefficient
+        target = ptr_f%additive_kernel_coefficient
 
     end subroutine
 
