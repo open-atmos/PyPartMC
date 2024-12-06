@@ -153,8 +153,7 @@ setup(
             "pytest-order",
             "fastcore!=1.5.8",  # https://github.com/fastai/fastcore/issues/439
             "ghapi",
-            # https://github.com/bsumlin/PyMieScatt/issues/25
-            "scipy" + ("<1.14.0" if "CI" in os.environ else ""),
+            "scipy",
         ]
     },
 )

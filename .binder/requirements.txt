@@ -4,5 +4,5 @@ ipywidgets
 voila
 open-atmos-jupyter-utils
 PySDM
-PyMieScatt
-SciPy<1.14.0
+git+https://github.com/bsumlin/PyMieScatt.git
+SciPy
