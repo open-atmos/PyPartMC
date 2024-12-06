@@ -14,6 +14,8 @@ extern "C" void f_env_state_dtor(void *ptr) noexcept;
 extern "C" void f_env_state_from_json(const void *ptr) noexcept;
 extern "C" void f_env_state_set_temperature(const void *ptr, const double *temperature) noexcept;
 extern "C" void f_env_state_get_temperature(const void *ptr, double *temperature) noexcept;
+extern "C" void f_env_state_set_additive_kernel_coefficient(const void *ptr, const double *additive_kernel_coefficient) noexcept;
+extern "C" void f_env_state_get_additive_kernel_coefficient(const void *ptr, double *additive_kernel_coefficient) noexcept;
 extern "C" void f_env_state_get_rel_humid(const void *ptr, double *rel_humid) noexcept;
 extern "C" void f_env_state_set_height(const void *ptr, const double *height) noexcept;
 extern "C" void f_env_state_get_height(const void *ptr, double *height) noexcept;
@@ -80,6 +82,23 @@ struct EnvState {
             &height
         );
         return height;
+    }
+
+    static void set_additive_kernel_coefficient(const EnvState &self, const double additive_kernel_coefficient) {
+        f_env_state_set_additive_kernel_coefficient(
+            self.ptr.f_arg(),
+            &additive_kernel_coefficient
+        );
+    }
+
+    static auto get_additive_kernel_coefficient(const EnvState &self) {
+        double additive_kernel_coefficient;
+
+        f_env_state_get_additive_kernel_coefficient(
+            self.ptr.f_arg(),
+            &additive_kernel_coefficient
+        );
+        return additive_kernel_coefficient;
     }
 
     static void set_pressure(const EnvState &self, const double pressure) {
