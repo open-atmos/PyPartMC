@@ -67,6 +67,8 @@ jobs:
             python-version: "3.11"
           - platform: macos-14
             python-version: "3.12"
+          - platform: macos-14
+            python-version: "3.13"
           - manylinux: "manylinux2010_x86_64"
             platform: ubuntu-latest
             python-version: "3.8"
@@ -136,6 +138,7 @@ jobs:
           python -m build 2>&1 | tee build.log
           exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | grep -v "-warnings" | grep -v "All Warnings are enabled" | wc -l`
 
+      # TODO #387
       - if: ${{ (matrix.platform == 'macos-13' && matrix.python-version == '3.11') || matrix.platform == 'macos-14' }}
         run: |
           # workaround for buggy universal2 wheel names (contain single arch binary only!)
@@ -195,7 +198,8 @@ jobs:
           python -m pytest --durations=10 -v -s -We -p no:unraisableexception .
           cd ..
 
-      - run: |
+      - if: ${{ !(matrix.platform == 'macos-14' && matrix.python-version == '3.13') }}
+        run: |
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install $PIP_INSTALL_OPTS -r .binder/requirements.txt
