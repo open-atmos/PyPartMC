@@ -3,6 +3,7 @@ matplotlib
 ipywidgets
 voila
 open-atmos-jupyter-utils
+numba>=0.61.0rc1; python_version >= '3.13'
 PySDM
-PyMieScatt
-SciPy<1.14.0
+git+https://github.com/bsumlin/PyMieScatt.git
+SciPy
