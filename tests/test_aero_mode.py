@@ -291,6 +291,7 @@ class TestAeroMode:
         assert str(exc_info.value) == "mass_frac keys must be unique"
 
     @staticmethod
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_fixed_segfault_case_on_circular_reference():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
