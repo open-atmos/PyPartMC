@@ -291,16 +291,21 @@ class TestAeroMode:
         assert str(exc_info.value) == "mass_frac keys must be unique"
 
     @staticmethod
-    def test_segfault_case():  # TODO #319
-        pytest.skip()
-
+    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
+    def test_fixed_segfault_case_on_circular_reference():
+        # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         fishy_ctor_arg = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
         fishy_ctor_arg["test_mode"]["mass_frac"].append(
             fishy_ctor_arg["test_mode"]["mass_frac"]
         )
-        print(fishy_ctor_arg)
-        ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # act
+        with pytest.raises(TypeError) as exc_info:
+            ppmc.AeroMode(aero_data, fishy_ctor_arg)
+
+        # assert
+        assert "incompatible constructor arguments" in str(exc_info.value)
 
     @staticmethod
     @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
