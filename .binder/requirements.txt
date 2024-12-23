@@ -1,5 +1,5 @@
 PyPartMC>=0.0.19
-matplotlib
+matplotlib!=3.10.0
 ipywidgets
 voila
 open-atmos-jupyter-utils
