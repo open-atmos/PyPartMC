@@ -66,6 +66,8 @@ struct JSONResource {
     const nlohmann::json *json;
     std::stack<const nlohmann::json*> json_parent;
 
+    std::unique_ptr<InputGuard> input_guard_ptr;
+
     void warn(const std::exception &exception) {
         std::cerr << "WARN: " << exception.what() << std::endl;
 //        assert(false);
@@ -81,6 +83,8 @@ struct JSONResource {
         for (auto &entry : this->json->items()) {
             this->vars.insert(entry.key());
         }
+
+        input_guard_ptr = std::make_unique<InputGuard>(json);
     };
 
     void set_current_json_ptr(const nlohmann::json *ptr) {
@@ -111,6 +115,9 @@ struct JSONResource {
                 key = item.key();
             }
         }
+
+        input_guard_ptr->mark_used_input(key);
+
         return key;
     }
 
@@ -256,6 +263,10 @@ struct JSONResource {
             this->warn(std::invalid_argument(oss.str()));
         }
         return it;
+    }
+
+    InputGuard *get_input_guard_ptr() {
+        return input_guard_ptr.get();
     }
 
     virtual std::string str() const = 0;

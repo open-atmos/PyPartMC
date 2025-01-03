@@ -1,4 +1,4 @@
-/*##################################################################################################
+    /*##################################################################################################
 # This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
 # Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
@@ -17,6 +17,7 @@ void c_spec_file_read_real(
     const char *name_data, const int *name_size, double *var
 ) noexcept {
     json_resource_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(bpstd::string_view(name_data, *name_size)));
 }
 
 /*********************************************************************************/
@@ -45,6 +46,7 @@ void spec_file_read_string(
     int *var_size
 ) noexcept {
     json_resource_ptr()->read_str(name, var_data, var_size);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(name));
 }
 
 extern "C"
@@ -184,6 +186,9 @@ void spec_file_read_real_named_array_data(
                 for (auto idx=0u; idx < entry.value().size(); ++idx) {
                     vals[idx] = entry.value().at(idx).get<double>();
                 }
+
+                json_resource_ptr()->get_input_guard_ptr()->mark_used_input(entry.key());
+
                 break;
             }
         }
