@@ -10,9 +10,55 @@
 #include <sstream>
 #include <set>
 #include <stack>
+#include <map>
 #include "nlohmann/json.hpp"
 #include <tcb/span.hpp>
 #include <bpstd/string_view.hpp>
+
+struct InputGuard {
+    public:
+        InputGuard(const nlohmann::json &j) {
+            map_inputs_recursive(j);
+        }
+
+        ~InputGuard() {
+            check_used_inputs();
+        }
+
+        void mark_used_input(const std::string &input_name) {
+            this->used_inputs[input_name] = true;
+        }
+
+    private:
+        std::map<std::string, bool> used_inputs;
+
+        void map_inputs_recursive(const nlohmann::json &j) {
+            if (j.is_array()) {
+                for (auto item : j) {
+                    map_inputs_recursive(item);
+                }
+                return;
+            }
+
+            for(auto [key, value] : j.items())
+            {
+                if (value.is_structured()) {
+                    map_inputs_recursive(value);
+                }
+                
+                if (key.find_first_not_of(" \t\n\v\f\r") != std::string::npos) 
+                    this->used_inputs[key] = false;
+            }
+        }
+
+        void check_used_inputs() {
+            for (auto item : used_inputs) {
+                if (!item.second) {
+                    throw std::logic_error(std::string("Failed: \"") + item.first + std::string("\" parameter remains unused."));
+                }
+            }
+        }
+};
 
 struct JSONResource {
   private:
