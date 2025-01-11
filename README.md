@@ -160,7 +160,7 @@ aero_dist = ppmc.AeroDist(aero_data, (
       "geom_mean_diam" => 50 * si.nm,
       "log10_geom_std_dev" => .24,
     )
-  )
+  ),
 ))
 
 n_part = 100
