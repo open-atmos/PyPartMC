@@ -27,6 +27,7 @@ void c_spec_file_read_integer(
     const char *name_data, const int *name_size, int *var
 ) noexcept {
     json_resource_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(bpstd::string_view(name_data, *name_size)));
 }
 
 /*********************************************************************************/
@@ -123,6 +124,7 @@ void spec_file_read_timed_real_array_data(
 ) noexcept {
     json_resource_ptr()->read_arr("time", times);
     json_resource_ptr()->read_arr(name, vals);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(name));
 }
 
 extern "C"
