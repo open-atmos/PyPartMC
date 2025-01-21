@@ -37,6 +37,7 @@ void c_spec_file_read_logical(
     const char *name_data, const int *name_size, bool *var
 ) noexcept {
     json_resource_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(bpstd::string_view(name_data, *name_size)));
 }
 
 /*********************************************************************************/
