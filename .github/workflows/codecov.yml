@@ -1,0 +1,25 @@
+name: codecov
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+      branches: [ main ]
+
+jobs:
+  codecov:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - run: sudo apt install -y lcov
+      - run: |
+          CMAKE_ARGS="-DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -DCMAKE_Fortran_FLAGS=--coverage" pip install -e .[tests]
+          lcov --capture --include="src/*" --initial --directory . --output-file coverage1.info
+          pytest -We tests
+          lcov --capture --include="src/*" --directory . --output-file coverage2.info
+          lcov --add-tracefile ./coverage1.info --add-tracefile ./coverage2.info --output-file coveragefused.info
+          lcov -r coveragefused.info "/usr*" -o coveragefused.info
+      - uses: codecov/codecov-action@v5.3.1
