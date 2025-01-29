@@ -1,0 +1,27 @@
+name: codecov
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+      branches: [ main ]
+
+jobs:
+  codecov:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4.2.2
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - run: sudo apt install -y lcov
+      - run: |
+          set -xe
+          CMAKE_ARGS="-DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -DCMAKE_Fortran_FLAGS=--coverage" pip install -e .[tests]
+          pytest -We tests
+          lcov --capture --directory ./build/*/_PyPartMC/CMakeFiles/_PyPartMC.dir/ --output-file coverage.info --no-external
+      - run: find -name \*.gcno | grep -v pypartmc.cpp | grep -v _PyPartMC.dir | xargs rm
+      - uses: codecov/codecov-action@v5.3.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
