@@ -20,6 +20,10 @@ jobs:
           CMAKE_ARGS="-DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -DCMAKE_Fortran_FLAGS=--coverage" pip install -e .[tests]
           pytest -We tests
           lcov --capture --directory src --output-file coverage.info --no-external
+      - if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
       - uses: codecov/codecov-action@v5.3.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
