@@ -20,12 +20,8 @@ jobs:
           CMAKE_ARGS="-DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -DCMAKE_Fortran_FLAGS=--coverage" pip install -e .[tests]
           pytest -We tests
           lcov --capture --directory ./build/*/_PyPartMC/CMakeFiles/_PyPartMC.dir/ --output-file coverage.info --no-external
-      # - uses: mxschmitt/action-tmate@v3
-      #   with:
-      #     limit-access-to-actor: true
+      - run: find build/*/_PyPartMC/gitmodules -name \*.gcno -delete
       - uses: codecov/codecov-action@v5.3.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          disable_search: true
           fail_ci_if_error: true
-          files: coverage.info
