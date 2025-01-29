@@ -19,7 +19,7 @@ jobs:
           set -xe
           CMAKE_ARGS="-DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -DCMAKE_Fortran_FLAGS=--coverage" pip install -e .[tests]
           pytest -We tests
-          lcov --capture --directory CMakeFiles/_PyPartMC.dir/src/ --output-file coverage.info
+          lcov --capture --directory . --output-file coverage.info
       - uses: codecov/codecov-action@v5.3.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
