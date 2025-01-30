@@ -4,6 +4,13 @@
 
 PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation.
+Development of PyPartMC has been intended to remove limitations to the use of Fortran-implemented PartMC.
+PyPartMC facilitates the dissemination of computational research results by streamlining independent execution 
+  of PartMC simulations (also during peer-review processes).
+Additionally, the ability to easily package examples, simple simulations, and results in a web-based notebook 
+  allows PyPartMC to support the efforts of many members of the scientific community, including researchers,
+  instructors, and students, with nominal software and hardware requirements.
+
 PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals.
 The Python API can facilitate using PartMC from other environments - see, e.g., Julia and Matlab examples below.
 
@@ -20,6 +27,7 @@ If interested in contributing to PyPartMC, please have a look a the [notes for d
 [![codecov](https://codecov.io/gh/open-atmos/PyPartMC/graph/badge.svg?token=27IK9ZIQXE)](https://codecov.io/gh/open-atmos/PyPartMC)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7662635.svg)](https://doi.org/10.5281/zenodo.7662635)
 [![PyPI version](https://badge.fury.io/py/PyPartMC.svg)](https://pypi.org/p/PyPartMC)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 ## TL;DR (try in a Jupyter notebook)
 
@@ -33,6 +41,12 @@ If interested in contributing to PyPartMC, please have a look a the [notes for d
 ! pip install PyPartMC
 import PyPartMC
 ```
+
+Note that, depending on the environment (OS, hardware, Python version), the pip-install invocation 
+  may either trigger a download of a pre-compiled binary, or trigger compilation of PyPartMC.
+In the latter case, a Fortran compiler and some development tools includiong CMake, m4 and perl
+  are required (while all non-Python dependencies are included in the PyPartMC source archive).
+In both cases, all Python dependencies will be resolved by pip.
 
 #### Jupyter notebooks with examples 
 Note: clicking the badges below redirects to cloud-computing platforms. The mybinder.org links allow anonymous execution, Google Colab requires logging in with a Google account, ARM JupyerHub requires logging in with an ARM account (and directing Jupyter to a particular notebook within the `examples` folder).
