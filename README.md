@@ -43,9 +43,9 @@ import PyPartMC
 
 Note that, depending on the environment (OS, hardware, Python version), the pip-install invocation 
   may either trigger a download of a pre-compiled binary, or trigger compilation of PyPartMC.
-In the former case, all dependencies will be resolved by pip.
 In the latter case, a Fortran compiler and some development tools includiong CMake, m4 and perl
-  are required.
+  are required (while all non-Python dependencies are included in the PyPartMC source archive).
+In both cases, all Python dependencies will be resolved by pip.
 
 #### Jupyter notebooks with examples 
 Note: clicking the badges below redirects to cloud-computing platforms. The mybinder.org links allow anonymous execution, Google Colab requires logging in with a Google account, ARM JupyerHub requires logging in with an ARM account (and directing Jupyter to a particular notebook within the `examples` folder).
