@@ -191,7 +191,8 @@ jobs:
           for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[tests]; done;
           python -m pip show --verbose PyPartMC
 
-      - uses: julia-actions/setup-julia@v2
+      - if: matrix.platform != 'windows-latest'
+        uses: julia-actions/setup-julia@v2
         with:
           version: '1.11'
     
