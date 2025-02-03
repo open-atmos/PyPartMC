@@ -30,17 +30,17 @@ If interested in contributing to PyPartMC, please have a look a the [notes for d
 [![PyPI version](https://badge.fury.io/py/PyPartMC.svg)](https://pypi.org/p/PyPartMC)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-## TL;DR (try in a Jupyter notebook)
-
 [![Python 3](https://img.shields.io/static/v1?label=Python&logo=Python&color=3776AB&message=3)](https://www.python.org/)
 [![Linux OK](https://img.shields.io/static/v1?label=Linux&logo=Linux&color=yellow&message=%E2%9C%93)](https://en.wikipedia.org/wiki/Linux)
 [![macOS OK](https://img.shields.io/static/v1?label=macOS&logo=Apple&color=silver&message=%E2%9C%93)](https://en.wikipedia.org/wiki/macOS)
 [![Windows OK](https://img.shields.io/static/v1?label=Windows&logo=Windows&color=white&message=%E2%9C%93)](https://en.wikipedia.org/wiki/Windows)
 [![Jupyter](https://img.shields.io/static/v1?label=Jupyter&logo=Jupyter&color=f37626&message=%E2%9C%93)](https://jupyter.org/)
 
-```python
-! pip install PyPartMC
-import PyPartMC
+## Installation 
+
+### Using the command-line `pip` tool (also applies to conda environments)
+```bash
+pip install PyPartMC
 ```
 
 Note that, depending on the environment (OS, hardware, Python version), the pip-install invocation 
@@ -48,6 +48,13 @@ Note that, depending on the environment (OS, hardware, Python version), the pip-
 In the latter case, a Fortran compiler and some development tools includiong CMake, m4 and perl
   are required (while all non-Python dependencies are included in the PyPartMC source archive).
 In both cases, all Python dependencies will be resolved by pip.
+
+### In a Jupyter notebook cell (also on Colab or jupyter-hub instances)
+
+```python
+! pip install PyPartMC
+import PyPartMC
+```
 
 #### Jupyter notebooks with examples 
 Note: clicking the badges below redirects to cloud-computing platforms. The mybinder.org links allow anonymous execution, Google Colab requires logging in with a Google account, ARM JupyerHub requires logging in with an ARM account (and directing Jupyter to a particular notebook within the `examples` folder).
