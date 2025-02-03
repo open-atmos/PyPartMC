@@ -299,6 +299,47 @@ Could not find NC_M4 using the following names: m4, m4.exe
 ```
 Try installing `m4` (e.g., using [MSYS2](https://packages.msys2.org/package/m4?repo=msys&variant=x86_64) on Windows).
 
+## Acknowledgement and citations
+
+We would greatly appreciate citation of the PartMC model description paper (Riemer et al., 2009) 
+and the PyPartMC description paper (D’Aquino et al., 2024) if PyPartMC was used in your study.
+The citations are:
+- Riemer, N., M. West, R. A. Zaveri, R. C. Easter: Simulating the evolution of soot 
+  mixing-state with a particle-resolved aerosol model    
+  J. Geophys. Res., 114, D09202, 2009, DOI: [10.1029/2008JD011073](https://doi.org/10.1029/2008JD011073)
+- D’Aquino, Z., S. Arabas, J. H. Curtis, A. Vaishnav, N. Riemer, M. West: PyPartMC: A 
+  pythonic interfact to a particle-resolved, Monte Carlo aerosol simulation framework   
+  SoftwareX, 25, 101613, 2024, DOI: [10.1016/j.softx.2023.101613](https://doi.org/10.1016/j.softx.2023.101613)
+
+The following paragraph provides a more substantial description of PartMC (text released into the public domain and can be freely copied by anyone for any purpose):
+
+> PartMC is a stochastic, particle-resolved aerosol box model. It tracks the 
+composition of many computational particles (10⁴ to 10⁶) within a well-mixed air 
+volume, each represented by a composition vector that evolves based on physical 
+and chemical processes. The physical processes—including Brownian coagulation, 
+new particle formation, emissions, dilution, and deposition—are simulated using a 
+stochastic Monte Carlo approach via a Poisson process while chemical processes are
+simulated deterministically for each computational particle. The weighted flow 
+algorithm (DeVille, Riemer, and West, 2011, 2019) enhances efficiency and reduces 
+ensemble variance. Detailed numerical methods are described in Riemer et al. 
+(2009), DeVille et al. (2011, 2019), and Curtis et al. (2016). PartMC is open-source 
+under the GNU GPL v2 and available at 
+[github.com/compdyn/partmc](https://github.com/compdyn/partmc).
+>
+> References:
+> - Curtis, J. H., M. D. Michelotti, N. Riemer, M. T. Heath, M. West: Accelerated 
+simulation of stochastic particle removal processes in particle-resolved aerosol 
+models, J. Computational Phys., 322, 21-32, 2016, DOI: [10.1016/j.jcp.2016.06.029](https://doi.org/10.1016/j.jcp.2016.06.029)
+> - DeVille, L., N. Riemer, M. West, Convergence of a generalized weighted flow 
+algorithm for stochastic particle coagulation, J. Computational Dynamics, 6, 69-94, 
+2019, DOI: [10.3934/jcd.2019003](https://doi.org/10.3934/jcd.2019003)
+> - DeVille, R. E. L., N. Riemer, M. West, The Weighted Flow Algorithm (WFA) for 
+stochastic particle coagulation, J. Computational Phys., 230, 8427-8451, 2011, 
+DOI: [10.1016/j.jcp.2011.07.027](https://doi.org/10.1016/j.jcp.2011.07.027)
+> - Riemer, N., M. West, R. A. Zaveri, R. C. Easter, Simulating the evolution of soot 
+mixing-state with a particle-resolved aerosol model, J. Geophys. Res., 114, D09202, 
+2009., DOI: [10.1029/2008JD011073](https://doi.org/10.1029/2008JD011073)
+
 ## Credits
 
 #### PyPartMC:
