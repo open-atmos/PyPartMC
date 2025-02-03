@@ -29,6 +29,7 @@
     <li><a href="#other-packages-with-relevant-feature-scope">Other packages with relevant feature scope</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#troubleshooting">Troubleshooting</a></li>
+    <li><a href="#acknowledgement-and-citations">Acknowledgement and citations</a></li>
     <li><a href="#credits">Credits</a></li>
   </ul></li>
 </ul>
@@ -891,6 +892,55 @@ A: PyPartMC includes parts of netCDF and HDF5 codebases which depend on m4 and p
 </code></pre>
 
 <p>Try installing <code>m4</code> (e.g., using <a href="https://packages.msys2.org/package/m4?repo=msys&variant=x86_64">MSYS2</a> on Windows).</p>
+
+<h2 id="acknowledgement-and-citations">Acknowledgement and citations</h2>
+
+<p>We would greatly appreciate citation of the PartMC model description paper (Riemer et al., 2009) 
+and the PyPartMC description paper (D’Aquino et al., 2024) if PyPartMC was used in your study.
+The citations are:</p>
+
+<ul>
+<li>Riemer, N., M. West, R. A. Zaveri, R. C. Easter: Simulating the evolution of soot 
+mixing-state with a particle-resolved aerosol model<br />
+J. Geophys. Res., 114, D09202, 2009, DOI: <a href="https://doi.org/10.1029/2008JD011073">10.1029/2008JD011073</a></li>
+<li>D’Aquino, Z., S. Arabas, J. H. Curtis, A. Vaishnav, N. Riemer, M. West: PyPartMC: A 
+pythonic interfact to a particle-resolved, Monte Carlo aerosol simulation framework<br />
+SoftwareX, 25, 101613, 2024, DOI: <a href="https://doi.org/10.1016/j.softx.2023.101613">10.1016/j.softx.2023.101613</a></li>
+</ul>
+
+<p>The following paragraph provides a more substantial description of PartMC (text released into the public domain and can be freely copied by anyone for any purpose):</p>
+
+<blockquote>
+  <p>PartMC is a stochastic, particle-resolved aerosol box model. It tracks the 
+  composition of many computational particles (10⁴ to 10⁶) within a well-mixed air 
+  volume, each represented by a composition vector that evolves based on physical 
+  and chemical processes. The physical processes—including Brownian coagulation, 
+  new particle formation, emissions, dilution, and deposition—are simulated using a 
+  stochastic Monte Carlo approach via a Poisson process while chemical processes are
+  simulated deterministically for each computational particle. The weighted flow 
+  algorithm (DeVille, Riemer, and West, 2011, 2019) enhances efficiency and reduces 
+  ensemble variance. Detailed numerical methods are described in Riemer et al. 
+  (2009), DeVille et al. (2011, 2019), and Curtis et al. (2016). PartMC is open-source 
+  under the GNU GPL v2 and available at 
+  <a href="https://github.com/compdyn/partmc">github.com/compdyn/partmc</a>.</p>
+  
+  <p>References:</p>
+  
+  <ul>
+  <li>Curtis, J. H., M. D. Michelotti, N. Riemer, M. T. Heath, M. West: Accelerated 
+  simulation of stochastic particle removal processes in particle-resolved aerosol 
+  models, J. Computational Phys., 322, 21-32, 2016, DOI: <a href="https://doi.org/10.1016/j.jcp.2016.06.029">10.1016/j.jcp.2016.06.029</a></li>
+  <li>DeVille, L., N. Riemer, M. West, Convergence of a generalized weighted flow 
+  algorithm for stochastic particle coagulation, J. Computational Dynamics, 6, 69-94, 
+  2019, DOI: <a href="https://doi.org/10.3934/jcd.2019003">10.3934/jcd.2019003</a></li>
+  <li>DeVille, R. E. L., N. Riemer, M. West, The Weighted Flow Algorithm (WFA) for 
+  stochastic particle coagulation, J. Computational Phys., 230, 8427-8451, 2011, 
+  DOI: <a href="https://doi.org/10.1016/j.jcp.2011.07.027">10.1016/j.jcp.2011.07.027</a></li>
+  <li>Riemer, N., M. West, R. A. Zaveri, R. C. Easter, Simulating the evolution of soot 
+  mixing-state with a particle-resolved aerosol model, J. Geophys. Res., 114, D09202, 
+  2009., DOI: <a href="https://doi.org/10.1029/2008JD011073">10.1029/2008JD011073</a></li>
+  </ul>
+</blockquote>
 
 <h2 id="credits">Credits</h2>
 
