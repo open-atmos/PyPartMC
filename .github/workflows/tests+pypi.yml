@@ -202,10 +202,13 @@ jobs:
           python -m pytest --durations=10 -v -s -We -p no:unraisableexception .
           cd ..
 
+      - env:
+          SYSTEM_VERSION_COMPAT: 0 
+        run: |
+          for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[examples]; done;
+
       - run: |
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-          ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
-          python -m pip install $PIP_INSTALL_OPTS -r .binder/requirements.txt
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
 ## uncomment to gain ssh access in case of failure

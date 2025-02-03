@@ -153,6 +153,15 @@ setup(
             "fastcore!=1.5.8",  # https://github.com/fastai/fastcore/issues/439
             "ghapi",
             "scipy",
-        ]
+        ],
+        "examples": [
+            "matplotlib!=3.10.0",
+            "ipywidgets",
+            "voila",
+            "open-atmos-jupyter-utils",
+            "PySDM",
+            "git+https://github.com/bsumlin/PyMieScatt.git",
+            "SciPy",
+        ],
     },
 )
