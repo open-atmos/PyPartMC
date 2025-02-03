@@ -11,6 +11,7 @@ Additionally, the ability to easily package examples, simple simulations, and re
   allows PyPartMC to support the efforts of many members of the scientific community, including researchers,
   instructors, and students, with nominal software and hardware requirements.
 
+Documentation of PyPartMC is hosted at https://open-atmos.github.io/PyPartMC.
 PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals.
 The Python API can facilitate using PartMC from other environments - see, e.g., Julia and Matlab examples below.
 
