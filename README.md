@@ -247,6 +247,17 @@ fprintf('%g # kg/m3\n', dot([masses{:}], [num_concs{:}]))
 
 PyPartMC is used within the [test workflow of the PySDM project](https://github.com/atmos-cloud-sim-uj/PySDM/tree/main/tests/smoke_tests/box/partmc).
 
+## Other packages with relevant feature scope
+
+- [aerosolGDEFoam](https://openaerosol.sourceforge.io/): OpenFOAM CFD-coupled aerosol dynamics including nucleation, coagulation, and surface growth 
+- [AIOMFAC and AIOMFAC-web](http://www.aiomfac.caltech.edu/): Fortran-implemented aerosol thermodynamic model for calculation of activity coefficients in organic-inorganic mixtures – from simple binary solutions to complex multicomponent systems
+- [DustPy](https://stammler.github.io/dustpy/): Python package for modelling dust evolution in protoplanetary disks (differences: focus on astrophysical applications vs. atmospheric aerosol)
+- [multilayerpy](https://github.com/tintin554/multilayerpy): kinetic multi-layer model for aerosol particles and films 
+- [PyBox](https://pybox.readthedocs.io): aerosol simulation model featuring gas and particle chamistry (differences: PyBox focuses on chemical mechanisms; PyPartMC is an interface to PartMC which focuses on physics - e.g., collisions of aerosol particles - while chemical processes are handled with external software, e.g., CAMP or MOSAIC)
+- [PyCHAM](https://github.com/simonom/PyCHAM): CHemistry with Aerosol Microphysics in Python Box Model for modelling of indoor environments, including aerosol chambers
+- [PySDM](https://open-atmos.github.io/PySDM): particle-based Monte-Carlo aerosol-cloud simulation package (differences: PySDM focuses on growth and breakup processes relevant to cloud droplets; PyPartMC focuses on processes relevant to air pollutants and their chemical and physical transformations)
+- [SSH-aerosol](https://github.com/sshaerosol/ssh-aerosol): C++/Fortran package for simulating evolution of primary and secondary atmospheric aerosols
+
 ## FAQ
 - Q: How to install PyPartMC with MOSAIC enabled?    
   A: Installation can be done using `pip`, however, `pip` needs to be instructed not to use binary packages available at pypi.org but rather to compile from source (pip will download the source from pip.org), and the path to compiled MOSAIC library needs to be provided at compile-time; the following command should convey it:
