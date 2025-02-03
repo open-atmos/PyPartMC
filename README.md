@@ -23,7 +23,7 @@ If interested in contributing to PyPartMC, please have a look a the [notes for d
    
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Copyright](https://img.shields.io/static/v1?label=Copyright&color=249fe2&message=UIUC&)](https://atmos.illinois.edu/)
-[![Github Actions Build Status](https://github.com/open-atmos/PyPartMC/workflows/tests+pypi/badge.svg?branch=main)](https://github.com/open-atmos/PyPartMC/actions)
+[![tests+pypi](https://github.com/open-atmos/PyPartMC/actions/workflows/tests+pypi.yml/badge.svg)](https://github.com/open-atmos/PyPartMC/actions/workflows/tests+pypi.yml)
 [![API docs](https://shields.mitmproxy.org/badge/docs-pdoc.dev-brightgreen.svg)](https://open-atmos.github.io/PyPartMC/)
 [![codecov](https://codecov.io/gh/open-atmos/PyPartMC/graph/badge.svg?token=27IK9ZIQXE)](https://codecov.io/gh/open-atmos/PyPartMC)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7662635.svg)](https://doi.org/10.5281/zenodo.7662635)
