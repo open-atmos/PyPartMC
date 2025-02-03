@@ -327,7 +327,7 @@ The citations are:
 The following paragraph provides a more substantial description of PartMC (text released into the public domain and can be freely copied by anyone for any purpose):
 
 > PartMC is a stochastic, particle-resolved aerosol box model. It tracks the 
-composition of many computational particles (10⁴ to 10⁶) within a well-mixed air 
+composition of many computational particles (10<sup>4</sup> to 10<sup>6</sup>) within a well-mixed air 
 volume, each represented by a composition vector that evolves based on physical 
 and chemical processes. The physical processes—including Brownian coagulation, 
 new particle formation, emissions, dilution, and deposition—are simulated using a 
