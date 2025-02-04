@@ -1,9 +1,2 @@
-PyPartMC>=0.0.19
-matplotlib!=3.10.0
-ipywidgets
-voila
-open-atmos-jupyter-utils
-numba>=0.61.0rc1; python_version >= '3.13'
-PySDM
+PyPartMC[examples]
 git+https://github.com/bsumlin/PyMieScatt.git
-SciPy
