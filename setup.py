@@ -160,7 +160,7 @@ setup(
             "voila",
             "open-atmos-jupyter-utils",
             "PySDM",
-            "PyMieScatt@git+https://github.com/bsumlin/PyMieScatt.git",
+            "PyMieScatt",
             "SciPy",
         ],
     },
