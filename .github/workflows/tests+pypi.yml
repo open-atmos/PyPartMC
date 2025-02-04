@@ -207,7 +207,7 @@ jobs:
         run: |
           for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[examples]; done;
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
-          python -m pip install $PIP_INSTALL_OPTS -r .binder/requirements.txt
+          python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
 
       - run: |
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
