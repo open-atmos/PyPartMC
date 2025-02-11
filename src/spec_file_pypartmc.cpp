@@ -68,6 +68,7 @@ void c_spec_file_read_string(
 
 void spec_file_open(const bpstd::string_view &filename) noexcept {
     json_resource_ptr()->zoom_in(filename);
+    json_resource_ptr()->get_input_guard_ptr()->open_spec_file(static_cast<std::string>(filename));
 }
 
 extern "C"
@@ -84,6 +85,7 @@ void c_spec_file_open(
 
 void spec_file_close() noexcept {
     json_resource_ptr()->zoom_out();
+    json_resource_ptr()->get_input_guard_ptr()->close_spec_file();
 }
 
 extern "C"
@@ -126,6 +128,7 @@ void spec_file_read_timed_real_array_data(
     json_resource_ptr()->read_arr("time", times);
     json_resource_ptr()->read_arr(name, vals);
     json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(name));
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input("time");
 }
 
 extern "C"
@@ -247,4 +250,6 @@ void c_spec_file_read_line(
         }
         *data0_size = i;
     }
+
+    json_resource_ptr()->get_input_guard_ptr()->check_read_line(std::string(name_data, *name_size));
 }
