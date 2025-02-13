@@ -26,6 +26,7 @@ AERO_MODE_CTOR_LOG_NORMAL = {
     }
 }
 
+
 AERO_MODE_CTOR_LOG_NORMAL_FULL = {
     "test_mode": {
         "mass_frac": [{"SO4": [1]}],
@@ -199,7 +200,6 @@ class TestAeroMode:
                     "mode_type": "exp",
                     "num_conc": 100 / si.m**3,
                     "diam_at_mean_vol": 2 * si.um,
-                    "temp": 300 * si.K,
                 }
             },
         ),

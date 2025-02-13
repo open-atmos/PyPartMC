@@ -1,4 +1,4 @@
-/*##################################################################################################
+    /*##################################################################################################
 # This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
 # Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
@@ -17,6 +17,7 @@ void c_spec_file_read_real(
     const char *name_data, const int *name_size, double *var
 ) noexcept {
     json_resource_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(bpstd::string_view(name_data, *name_size)));
 }
 
 /*********************************************************************************/
@@ -26,6 +27,7 @@ void c_spec_file_read_integer(
     const char *name_data, const int *name_size, int *var
 ) noexcept {
     json_resource_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(bpstd::string_view(name_data, *name_size)));
 }
 
 /*********************************************************************************/
@@ -35,6 +37,7 @@ void c_spec_file_read_logical(
     const char *name_data, const int *name_size, bool *var
 ) noexcept {
     json_resource_ptr()->read_value(bpstd::string_view(name_data, *name_size), var);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(bpstd::string_view(name_data, *name_size)));
 }
 
 /*********************************************************************************/
@@ -45,6 +48,7 @@ void spec_file_read_string(
     int *var_size
 ) noexcept {
     json_resource_ptr()->read_str(name, var_data, var_size);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(name));
 }
 
 extern "C"
@@ -64,6 +68,7 @@ void c_spec_file_read_string(
 
 void spec_file_open(const bpstd::string_view &filename) noexcept {
     json_resource_ptr()->zoom_in(filename);
+    json_resource_ptr()->get_input_guard_ptr()->open_spec_file(static_cast<std::string>(filename));
 }
 
 extern "C"
@@ -80,6 +85,7 @@ void c_spec_file_open(
 
 void spec_file_close() noexcept {
     json_resource_ptr()->zoom_out();
+    json_resource_ptr()->get_input_guard_ptr()->close_spec_file();
 }
 
 extern "C"
@@ -121,6 +127,8 @@ void spec_file_read_timed_real_array_data(
 ) noexcept {
     json_resource_ptr()->read_arr("time", times);
     json_resource_ptr()->read_arr(name, vals);
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input(static_cast<std::string>(name));
+    json_resource_ptr()->get_input_guard_ptr()->mark_used_input("time");
 }
 
 extern "C"
@@ -184,6 +192,9 @@ void spec_file_read_real_named_array_data(
                 for (auto idx=0u; idx < entry.value().size(); ++idx) {
                     vals[idx] = entry.value().at(idx).get<double>();
                 }
+
+                json_resource_ptr()->get_input_guard_ptr()->mark_used_input(entry.key());
+
                 break;
             }
         }
@@ -239,4 +250,6 @@ void c_spec_file_read_line(
         }
         *data0_size = i;
     }
+
+    json_resource_ptr()->get_input_guard_ptr()->check_read_line(std::string(name_data, *name_size));
 }
