@@ -13,7 +13,12 @@ struct InputGuard {
     }
 
     ~InputGuard() {
-        check_used_inputs();
+        try {
+            check_used_inputs();
+        }
+        catch (const std::exception &e) {
+            std::cerr << e.what() << std::endl;
+        }
     }
 
     void mark_used_input(const std::string &input_name) {
@@ -67,7 +72,7 @@ struct InputGuard {
     void check_used_inputs() {
         for (auto item : this->used_inputs) {
             if (!item.second) {
-                std::string err = std::string("Failed: \"") + item.first + std::string("\" parameter remains unused.");
+                std::string err = std::string("WARNING: \"") + item.first + std::string("\" parameter remains unused.");
                 throw std::runtime_error(err);
             }
         }
