@@ -123,7 +123,7 @@ class CMakeBuild(build_ext):
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
-    name="PyPartMC",
+    name="pypartmc",
     use_scm_version={
         "local_scheme": "no-local-version",
         "version_scheme": "post-release",
