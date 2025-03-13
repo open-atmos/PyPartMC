@@ -61,7 +61,7 @@ flowchart TD
 ```sh
 git clone --recursive git+https://github.com/open-atmos/PyPartMC.git
 cd PyPartMC
-DEBUG=1 VERBOSE=1 pip --verbose install -e .
+DEBUG=1 VERBOSE=1 pip --verbose install -e .[tests]
 gdb python 
 (gdb) run -m pytest -s -vv -We -p no:unraisableexception tests
 ```
