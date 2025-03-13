@@ -143,9 +143,7 @@ aero_dist = ppmc.AeroDist(
             "num_conc": 3200 / si.cm**3,
             "geom_mean_diam": 8.64 * si.nm,
             "log10_geom_std_dev": 0.28,
-        }
-    },
-    {
+        },
         "diesel": {
             "mass_frac": [{"OC": [0.3]}, {"BC": [0.7]}],
             "diam_type": "geometric",
@@ -187,9 +185,7 @@ aero_dist = ppmc.AeroDist(aero_data, (
       "num_conc" => 3200 / si.cm^3,
       "geom_mean_diam" => 8.64 * si.nm,
       "log10_geom_std_dev" => .28,
-    )
-  ),
-  Dict( 
+    ),
     "diesel" => Dict(
       "mass_frac" => (Dict("OC" => (.3,)), Dict("BC" => (.7,))),
       "diam_type" => "geometric",
@@ -198,7 +194,7 @@ aero_dist = ppmc.AeroDist(aero_data, (
       "geom_mean_diam" => 50 * si.nm,
       "log10_geom_std_dev" => .24,
     )
-  )
+  ),
 ))
 
 n_part = 100
@@ -232,9 +228,7 @@ aero_dist = ppmc.AeroDist(aero_data, py.tuple({ ...
       "num_conc", 3200 / si.cm^3, ...
       "geom_mean_diam", 8.64 * si.nm, ...
       "log10_geom_std_dev", .28 ...
-    )) ...
-  )), ...
-  py.dict(pyargs( ... 
+    )), ...
     "diesel", py.dict(pyargs( ...
       "mass_frac", py.tuple({ ...
         py.dict(pyargs("OC", py.tuple({.3}))), ...
