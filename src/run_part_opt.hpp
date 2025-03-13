@@ -51,6 +51,7 @@ struct RunPartOpt {
 
         JSONResourceGuard<InputJSONResource> guard(json_copy);
         f_run_part_opt_from_json(this->ptr.f_arg());
+        guard.check_parameters();
     }
 
     static auto t_max(const RunPartOpt &self){

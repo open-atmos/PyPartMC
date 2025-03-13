@@ -34,6 +34,7 @@ struct EnvState {
     {
         JSONResourceGuard<InputJSONResource> guard(json);
         f_env_state_from_json(this->ptr.f_arg());
+        guard.check_parameters();
     }
 
     EnvState() :
