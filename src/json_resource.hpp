@@ -355,5 +355,9 @@ struct JSONResourceGuard {
     ~JSONResourceGuard() {
         json_resource_ptr().reset();
     }
+
+    void check_parameters() {
+        json_resource_ptr()->get_input_guard_ptr()->check_used_inputs();
+    }
 };
 

@@ -12,12 +12,14 @@ struct InputGuard {
         this->dict_key_present = false;
     }
 
-    ~InputGuard() {
-        try {
-            check_used_inputs();
-        }
-        catch (const std::exception &e) {
-            std::cerr << e.what() << std::endl;
+    ~InputGuard() {}
+
+    void check_used_inputs() {
+        for (auto item : this->used_inputs) {
+            if (!item.second) {
+                std::string err = std::string("WARNING: \"") + item.first + std::string("\" parameter remains unused.");
+                throw std::runtime_error(err);
+            }
         }
     }
 
@@ -68,15 +70,6 @@ struct InputGuard {
     std::vector<std::string> curr_prefix;
 
     bool dict_key_present;
-
-    void check_used_inputs() {
-        for (auto item : this->used_inputs) {
-            if (!item.second) {
-                std::string err = std::string("WARNING: \"") + item.first + std::string("\" parameter remains unused.");
-                throw std::runtime_error(err);
-            }
-        }
-    }
 
     void process_json(const nlohmann::json &j) {
         nlohmann::json flat = j.flatten();
