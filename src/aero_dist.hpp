@@ -56,6 +56,7 @@ struct AeroDist {
         
         JSONResourceGuard<InputJSONResource> guard(json, "", "mode_name", 1);
         f_aero_dist_from_json(ptr.f_arg_non_const(), aero_data->ptr.f_arg_non_const());
+        guard.check_parameters();
     }
 
     AeroDist() :
