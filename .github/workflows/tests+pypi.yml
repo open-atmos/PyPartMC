@@ -191,6 +191,10 @@ jobs:
           for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[tests]; done;
           python -m pip show --verbose PyPartMC
 
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.11'
+    
       ### make sure PyPartMC is not picked up from a local folder
       - run: |
           cd tests
@@ -198,18 +202,22 @@ jobs:
           python -m pytest --durations=10 -v -s -We -p no:unraisableexception .
           cd ..
 
-      - if: ${{ !(matrix.platform == 'macos-14' && matrix.python-version == '3.13') }}
+      - env:
+          SYSTEM_VERSION_COMPAT: 0 
         run: |
-          python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
+          for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[examples]; done;
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
-          python -m pip install $PIP_INSTALL_OPTS -r .binder/requirements.txt
+          python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
+
+      - run: |
+          python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
-### uncomment to gain ssh access in case of failure
-#      - if: ${{ failure() }}
-#        uses: mxschmitt/action-tmate@v3
-#        with:
-#          limit-access-to-actor: true
+## uncomment to gain ssh access in case of failure
+      # - if: ${{ failure() }}
+      #   uses: mxschmitt/action-tmate@v3
+      #   with:
+      #     limit-access-to-actor: true
 
   dist_check:
     runs-on: ubuntu-latest

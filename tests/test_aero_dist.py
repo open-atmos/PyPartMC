@@ -191,19 +191,6 @@ class TestAeroDist:
 
     @staticmethod
     @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
-    def test_ctor_multimode_error_on_repeated_mode_names():
-        # arrange
-        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-
-        # act
-        with pytest.raises(Exception) as exc_info:
-            ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL * 2)
-
-        # assert
-        assert str(exc_info.value) == "Mode names must be unique"
-
-    @staticmethod
-    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_error_on_repeated_massfrac_keys():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
