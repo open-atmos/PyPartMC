@@ -49,8 +49,6 @@ struct AeroDist {
         ptr(f_aero_dist_ctor, f_aero_dist_dtor),
         aero_data(aero_data)
     {
-        if (!InputJSONResource::unique_keys(json))
-            throw std::runtime_error("Mode names must be unique");
         for (const auto &mode : json)
             AeroMode::check_mode_json(mode.begin().value());
         
