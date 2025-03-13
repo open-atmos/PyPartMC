@@ -124,10 +124,6 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="PyPartMC",
-    use_scm_version={
-        "local_scheme": "no-local-version",
-        "version_scheme": "post-release",
-    },
     author="PyPartMC team (see https://github.com/open-atmos/PyPartMC/graphs/contributors)",
     author_email="nriemer@illinois.edu",
     description="Python interface to PartMC",
@@ -138,7 +134,6 @@ setup(
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
     python_requires=">=3.7",
-    setup_requires=["setuptools_scm"],
     install_requires=["numpy"],
     license="GPL-3.0",
     project_urls={
