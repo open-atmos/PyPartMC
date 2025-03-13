@@ -1,6 +1,8 @@
 #include <iostream>
 #include <set>
 #include <map>
+#include <string>
+#include <sstream>
 #include "pybind11_json/pybind11_json.hpp"
 #include "nlohmann/json.hpp"
 
