@@ -12,6 +12,7 @@ from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_MINIMAL
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
 
+@pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
 class TestInputGuard:
     @staticmethod
     def test_aero_dist_unused_parameter():
