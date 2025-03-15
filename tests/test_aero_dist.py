@@ -19,6 +19,7 @@ from .test_aero_mode import (
     AERO_MODE_CTOR_LOG_NORMAL,
     AERO_MODE_CTOR_LOG_NORMAL_COAGULATION,
     AERO_MODE_CTOR_LOG_NORMAL_FULL,
+    AERO_MODE_CTOR_SAMPLED,
 )
 
 AERO_DIST_CTOR_ARG_MINIMAL = [
@@ -209,12 +210,7 @@ class TestAeroDist:
     def test_ctor_sampled_mode():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        ctor_arg = copy.deepcopy(AERO_DIST_CTOR_ARG_MINIMAL)
-        ctor_arg[0]["test_mode"]["mode_type"] = "sampled"
-        ctor_arg[0]["test_mode"]["size_dist"] = [
-            {"diam": [1, 2, 3, 4]},
-            {"num_conc": [1, 2, 3]},
-        ]
+        ctor_arg = [AERO_MODE_CTOR_SAMPLED]
 
         # act
         sut = ppmc.AeroDist(aero_data, ctor_arg)

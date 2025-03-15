@@ -39,6 +39,7 @@ struct GasData {
 
         JSONResourceGuard<InputJSONResource> guard(json_array);
         f_gas_data_from_json(this->ptr.f_arg());
+        guard.check_parameters();
     }
 
     GasData() :
