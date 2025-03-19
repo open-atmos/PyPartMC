@@ -57,7 +57,7 @@ flowchart TD
     style PartMC fill:#7ae7ff,stroke-width:2px,color:#2B2B2B
 ```
 
-## How to debug
+## How to run tests (using pytest) and debug (using gdb)
 ```sh
 git clone --recursive git+https://github.com/open-atmos/PyPartMC.git
 cd PyPartMC
