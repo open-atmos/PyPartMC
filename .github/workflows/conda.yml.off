@@ -1,0 +1,29 @@
+name: conda
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9"]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+            submodules: recursive
+            fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install --upgrade pip
+      - run: pip install -e .[tests]
+      - run: |
+          cd tests
+          pytest -v -s -We -p no:unraisableexception -k 'not test_todos_annotated' .

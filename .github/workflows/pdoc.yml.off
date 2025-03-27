@@ -1,0 +1,38 @@
+name: pdoc
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          persist-credentials: false
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.12
+      - name: Build
+        run: |
+          pip install pdoc
+          pip install -e .
+          PDOC_ALLOW_EXEC=1 python -We -m pdoc -o html PyPartMC
+      - name: Deploy
+        if: ${{ github.ref == 'refs/heads/main' && matrix.platform == 'ubuntu-latest' }}
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          BRANCH: pdoc
+          FOLDER: html
+          CLEAN: true

@@ -1,0 +1,27 @@
+name: pylint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - run: |
+        python -m pip install --upgrade pip
+        pip install pylint nbqa
+        pip install -e .[tests]
+        pip install -r .binder/requirements.txt
+    - run: pylint --unsafe-load-any-extension=y --disable=fixme,no-member,trailing-newlines,missing-module-docstring,missing-class-docstring,missing-function-docstring,unnecessary-pass $(git ls-files '*.py')
+    - run: nbqa pylint --unsafe-load-any-extension=y --disable=fixme,no-member,duplicate-code,wrong-import-position,ungrouped-imports,trailing-whitespace,missing-function-docstring,missing-module-docstring,unsubscriptable-object,invalid-name $(git ls-files '*.ipynb')
