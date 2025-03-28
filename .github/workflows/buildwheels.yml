@@ -18,6 +18,9 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
+      - run: pytest -v -s -We -p no:unraisableexception tests
+      
       - uses: actions/setup-python@v5
 
       - if: matrix.platform == 'windows-latest'
