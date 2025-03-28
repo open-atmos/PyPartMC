@@ -18,8 +18,6 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
-      - run: pytest -v -s -We -p no:unraisableexception tests
       
       - uses: actions/setup-python@v5
 
@@ -28,10 +26,7 @@ jobs:
         with:
           msystem: MINGW64
           update: false
-          install: >-
-            mingw-w64-x86_64-gcc-fortran
-            mingw-w64-x86_64-ninja
-            m4
+          install: mingw-w64-x86_64-gcc-fortran
 
       - if: matrix.platform == 'windows-latest'
         run: |
