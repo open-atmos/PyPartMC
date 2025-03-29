@@ -15,19 +15,15 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
-      - name: Provide gfortran (macOS)
-        if: matrix.os == 'macOS'
-        run: |
-          # https://github.com/actions/virtual-environments/issues/2524
-          # https://github.com/cbg-ethz/dce/blob/master/.github/workflows/pkgdown.yaml
-          sudo ln -s /usr/local/bin/gfortran-11 /usr/local/bin/gfortran
-          sudo mkdir /usr/local/gfortran
-          sudo ln -s /usr/local/Cellar/gcc@11/*/lib/gcc/11 /usr/local/gfortran/lib
-          gfortran --version
-
-      - name: Provide gfortran (Windows)
-        if: matrix.os == 'Windows'
+      - if: matrix.platform == 'windows-latest'
         uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: false
+          install: >-
+            mingw-w64-x86_64-gcc-fortran
+            mingw-w64-x86_64-ninja
+            m4
 
       - uses: actions/checkout@v4
         with:
