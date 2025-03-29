@@ -15,15 +15,23 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
-      - if: matrix.platform == 'windows-latest'
+      - name: Provide gfortran (Windows)
+        if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          update: false
-          install: >-
-            mingw-w64-x86_64-gcc-fortran
-            mingw-w64-x86_64-ninja
-            m4
+
+      - name: Tell distutils to use mingw (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          echo "[build]`ncompiler=mingw32" | Out-File -Encoding ASCII ~/pydistutils.cfg
+      # - if: matrix.platform == 'windows-latest'
+      #   uses: msys2/setup-msys2@v2
+      #   with:
+      #     msystem: MINGW64
+      #     update: false
+      #     install: >-
+      #       mingw-w64-x86_64-gcc-fortran
+      #       mingw-w64-x86_64-ninja
+      #       m4
 
       - uses: actions/checkout@v4
         with:
@@ -37,7 +45,8 @@ jobs:
 
       - name: Build wheels
         env:
-          CIBW_ENVIRONMENT_WINDOWS: CC=gcc CXX=g++ FC=gfortran
+          CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel show {wheel} && delvewheel repair -w {dest_dir} {wheel} --no-mangle-all"
         run: python -m cibuildwheel --output-dir dist
 
       - uses: actions/upload-artifact@v4
