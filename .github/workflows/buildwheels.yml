@@ -14,26 +14,26 @@ jobs:
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
+      - name: Provide gfortran (macOS)
+        if: matrix.os == 'macOS'
+        run: |
+          # https://github.com/actions/virtual-environments/issues/2524
+          # https://github.com/cbg-ethz/dce/blob/master/.github/workflows/pkgdown.yaml
+          sudo ln -s /usr/local/bin/gfortran-11 /usr/local/bin/gfortran
+          sudo mkdir /usr/local/gfortran
+          sudo ln -s /usr/local/Cellar/gcc@11/*/lib/gcc/11 /usr/local/gfortran/lib
+          gfortran --version
+
+      - name: Provide gfortran (Windows)
+        if: matrix.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+
       - uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
       
       - uses: actions/setup-python@v5
-
-      - if: matrix.platform == 'windows-latest'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          update: false
-          install: mingw-w64-x86_64-gcc-fortran
-
-      - if: matrix.platform == 'windows-latest'
-        run: |
-          echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" >> $GITHUB_ENV
-          echo CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
-          echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
-          echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
 
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.23.2
