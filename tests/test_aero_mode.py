@@ -61,6 +61,15 @@ AERO_MODE_CTOR_SAMPLED = {
     }
 }
 
+AERO_MODE_CTOR_EXP = {
+    "test_mode": {
+        "mass_frac": [{"H2O": [1]}],
+        "diam_type": "geometric",
+        "mode_type": "exp",
+        "num_conc": 1e9 / si.m**3,
+        "diam_at_mean_vol": 20 * si.um,
+    }
+}
 
 class TestAeroMode:
     @staticmethod
