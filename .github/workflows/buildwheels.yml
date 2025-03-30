@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         # os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest, macos-13, macos-14, macos-latest]
-        os: [windows-latest]
+        os: [ubuntu-latest]
         python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
@@ -29,22 +29,22 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - if: matrix.platform == 'windows-latest'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          update: false
-          install: >-
-            mingw-w64-x86_64-gcc-fortran
-            mingw-w64-x86_64-ninja
-            m4
+      # - if: matrix.platform == 'windows-latest'
+      #   uses: msys2/setup-msys2@v2
+      #   with:
+      #     msystem: MINGW64
+      #     update: false
+      #     install: >-
+      #       mingw-w64-x86_64-gcc-fortran
+      #       mingw-w64-x86_64-ninja
+      #       m4
 
-      - if: matrix.platform == 'windows-latest'
-        run: |
-          echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" >> $GITHUB_ENV
-          echo CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
-          echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
-          echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
+      # - if: matrix.platform == 'windows-latest'
+      #   run: |
+      #     echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" >> $GITHUB_ENV
+      #     echo CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
+      #     echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
+      #     echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
       
       - uses: actions/setup-python@v5
 
@@ -53,7 +53,7 @@ jobs:
 
       - name: Build wheels
         env:
-          CIBW_ENVIRONMENT_WINDOWS: CC=gcc CXX=g++ FC=gfortran
+          # CIBW_ENVIRONMENT_WINDOWS: CC=gcc CXX=g++ FC=gfortran
           # CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel
           # CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel show {wheel} && delvewheel repair -w {dest_dir} {wheel} --no-mangle-all"
         run: python -m cibuildwheel --output-dir dist
