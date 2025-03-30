@@ -15,6 +15,8 @@
 #include "rand.hpp"
 #include "run_part.hpp"
 #include "run_part_opt.hpp"
+#include "run_sect.hpp"
+#include "run_sect_opt.hpp"
 #include "aero_data.hpp"
 #include "aero_dist.hpp"
 #include "aero_mode.hpp"
@@ -47,6 +49,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     m.def("run_part", &run_part, "Do a particle-resolved Monte Carlo simulation.");
     m.def("run_part_timestep", &run_part_timestep, "Do a single time step");
     m.def("run_part_timeblock", &run_part_timeblock, "Do a time block");
+
     m.def("condense_equilib_particles", &condense_equilib_particles, R"pbdoc(
       Call condense_equilib_particle() on each particle in the aerosol
       to ensure that every particle has its water content in
@@ -57,7 +60,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
     )pbdoc");
 
     // TODO #65
-    //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
+    m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
     //m.def("run_exact", &run_exact, "Do an exact solution simulation.");
 
     py::class_<AeroData, std::shared_ptr<AeroData>>(m, "AeroData",
@@ -432,6 +435,15 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def_property_readonly("del_t", RunPartOpt::del_t, "time step")
     ;
 
+    py::class_<RunSectOpt>(m,
+        "RunSectOpt",
+        "Options controlling the execution of run_sect()."
+    )
+        .def(py::init<const nlohmann::json&>())
+        .def_property_readonly("t_max", RunSectOpt::t_max, "total simulation time")
+        .def_property_readonly("del_t", RunSectOpt::del_t, "time step")
+    ;
+
     py::class_<BinGrid>(m,"BinGrid")
         .def(py::init<const double, const py::str, const double, const double>())
         .def("__len__", BinGrid::__len__, "returns number of bins")
@@ -563,11 +575,13 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "GasState",
         "Photolysis",
         "RunPartOpt",
+        "RunSectOpt",
         "Scenario",
         "condense_equilib_particles",
         "run_part",
         "run_part_timeblock",
         "run_part_timestep",
+        "run_sect",
         "pow2_above",
         "condense_equilib_particle",
         "histogram_1d",
