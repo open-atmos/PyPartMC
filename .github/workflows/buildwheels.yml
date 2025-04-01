@@ -54,7 +54,7 @@ jobs:
       - name: Build wheels
         env:
           CIBW_ENVIRONMENT_WINDOWS: CC=gcc CXX=g++ FC=gfortran
-          CIBW_BEFORE_BUILD_WINDOWS: FC=gfortran
+          CIBW_BEFORE_BUILD_WINDOWS: CMAKE_Fortran_COMPILER="C:/MinGW/bin/gfortran.exe"
           # CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: "delvewheel show {wheel} && delvewheel repair -w {dest_dir} {wheel} --no-mangle-all"
         run: python -m cibuildwheel --output-dir dist
 
