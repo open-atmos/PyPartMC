@@ -10,8 +10,8 @@
 #include "aero_data.hpp"
 #include "pybind11/stl.h"
 
-extern "C" void f_bin_grid_ctor(void *ptr) noexcept;
-extern "C" void f_bin_grid_dtor(void *ptr) noexcept;
+extern "C" void f_aero_binned_ctor(void *ptr) noexcept;
+extern "C" void f_aero_binned_dtor(void *ptr) noexcept;
 extern "C" void f_aero_binned_len(
     const void *ptr, int *len
 ) noexcept;
@@ -26,7 +26,7 @@ struct AeroBinned {
     PMCResource ptr;
     std::shared_ptr<AeroData> aero_data;
     AeroBinned(std::shared_ptr<AeroData> aero_data) : 
-        ptr(f_bin_grid_ctor, f_bin_grid_dtor),
+        ptr(f_aero_binned_ctor, f_aero_binned_dtor),
         aero_data(aero_data)
     {
     }
