@@ -27,4 +27,27 @@ module PyPartMC_aero_binned
     deallocate(ptr_f)
   end subroutine
 
+  subroutine f_aero_binned_num_conc(ptr_c, num_conc, n_bins) bind(C)
+    type(aero_binned_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    integer(c_int) :: n_bins
+    real(c_double) :: num_conc(n_bins)
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    num_conc = ptr_f%num_conc
+
+  end subroutine
+
+  subroutine f_aero_binned_len(ptr_c, len) bind(C)
+    type(aero_binned_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    integer(c_int) :: len 
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    len = size(ptr_f%num_conc)
+
+  end subroutine
+
 end module

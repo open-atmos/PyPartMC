@@ -70,7 +70,9 @@ PYBIND11_MODULE(_PyPartMC, m) {
         R"pbdoc(
         )pbdoc"
     )
-        .def(py::init<std::shared_ptr<AeroData>>()) 
+        .def(py::init<std::shared_ptr<AeroData>>())
+        .def_property_readonly("num_conc", AeroBinned::num_conc,
+            "Returns the number concentration of each bin (m^{-3})")
     ;
 
     py::class_<AeroData, std::shared_ptr<AeroData>>(m, "AeroData",

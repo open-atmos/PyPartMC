@@ -74,6 +74,11 @@ struct BinGrid {
         f_bin_grid_init(ptr.f_arg(), &n_bin, &type, &min, &max);
     }
 
+    BinGrid():
+        ptr(f_bin_grid_ctor, f_bin_grid_dtor)
+    {
+    }
+
     static std::size_t __len__(const BinGrid &self) {
         int len;
         f_bin_grid_size(
