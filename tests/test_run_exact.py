@@ -4,16 +4,13 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
-import platform
-
-import numpy as np
 import pytest
 
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_dist import AERO_DIST_CTOR_ARG_EXP
-from .test_env_state import ENV_STATE_CTOR_ARG_HIGH_RH, ENV_STATE_CTOR_ARG_MINIMAL
+from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_run_exact_opt import RUN_EXACT_OPT_CTOR_ARG_SIMULATION
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
@@ -24,7 +21,6 @@ def common_args_fixture(tmp_path):
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
     aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_EXP)
     gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
-    gas_state = ppmc.GasState(gas_data)
     scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
     env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
     scenario.init_env_state(env_state, 0.0)
@@ -42,6 +38,7 @@ def common_args_fixture(tmp_path):
         run_exact_opt,
     )
 
+# pylint: disable=too-few-public-methods
 class TestRunPart:
     @staticmethod
     def test_run_exact(common_args):

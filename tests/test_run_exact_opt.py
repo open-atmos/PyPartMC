@@ -22,7 +22,7 @@ RUN_EXACT_OPT_CTOR_ARG_SIMULATION = {
     "do_coagulation": True,
     "coag_kernel": "additive",
     "t_max": 86400.0,
-    "t_output": 3600.0,
+    "t_output": 3600.0 * si.s,
 }
 
 
