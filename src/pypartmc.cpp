@@ -19,6 +19,7 @@
 #include "run_sect_opt.hpp"
 #include "run_exact.hpp"
 #include "run_exact_opt.hpp"
+#include "aero_binned.hpp"
 #include "aero_data.hpp"
 #include "aero_dist.hpp"
 #include "aero_mode.hpp"
@@ -64,6 +65,13 @@ PYBIND11_MODULE(_PyPartMC, m) {
     // TODO #65
     m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
     m.def("run_exact", &run_exact, "Do an exact solution simulation.");
+
+    py::class_<AeroBinned>(m, "AeroBinned",
+        R"pbdoc(
+        )pbdoc"
+    )
+        .def(py::init<std::shared_ptr<AeroData>>()) 
+    ;
 
     py::class_<AeroData, std::shared_ptr<AeroData>>(m, "AeroData",
         R"pbdoc(
@@ -552,6 +560,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
     );
 
     m.def(
+        "input_sectional", &input_sectional, "Read current state from netCDF output file."
+    );
+
+    m.def(
         "rand_init", &rand_init, "Initializes the random number generator to the state defined by the given seed. If the seed is 0 then a seed is auto-generated from the current time"
     );
 
@@ -573,6 +585,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
 
     m.attr("__all__") = py::make_tuple(
         "__version__",
+        "AeroBinned",
         "AeroData",
         "AeroDist",
         "AeroMode",
@@ -606,6 +619,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "loss_rate",
         "output_state",
         "input_state",
+        "input_sectional",
         "rand_init",
         "rand_normal"
     );

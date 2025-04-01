@@ -43,6 +43,20 @@ extern "C" void f_input_state(
     const void *env_state
 ) noexcept;
 
+extern "C" void f_input_sectional(
+    const char *filename,
+    const int *filename_size,
+    int *index,
+    double *time,
+    int *i_repeat,
+    double *del_t,
+    const void *aero_data,
+    const void *aero_state,
+    const void *gas_data,
+    const void *gas_state,
+    const void *env_state
+) noexcept;
+
 void output_state(
     const std::string &prefix,
     const AeroData &aero_data,
@@ -53,5 +67,9 @@ void output_state(
 );
 
 std::tuple<std::shared_ptr<AeroData>, AeroState*, std::shared_ptr<GasData>, GasState*, EnvState*> input_state(
+    const std::string &name
+);
+
+std::tuple<std::shared_ptr<AeroData>, AeroState*, std::shared_ptr<GasData>, GasState*, EnvState*> input_sectional(
     const std::string &name
 );
