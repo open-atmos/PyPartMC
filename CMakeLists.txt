@@ -14,6 +14,8 @@ foreach(mod ${mods})
   endif()
 endforeach()
 
+enable_language(Fortran)
+
 project(_PyPartMC LANGUAGES C CXX Fortran)
 
 find_package(PythonInterp REQUIRED)
