@@ -40,8 +40,6 @@ jobs:
       matrix:
         include: 
           - platform: windows-latest
-            python-version: "3.7"
-          - platform: windows-latest
             python-version: "3.8"
           - platform: windows-latest
             python-version: "3.9"
@@ -49,21 +47,29 @@ jobs:
             python-version: "3.10"
           - platform: windows-latest
             python-version: "3.11"
-          - platform: macos-12
-            python-version: "3.7"
-          - platform: macos-12
+          - platform: windows-latest
+            python-version: "3.12"
+          - platform: macos-13
             python-version: "3.8"
-          - platform: macos-12
+          - platform: macos-13
             python-version: "3.9"
-          - platform: macos-12
+          - platform: macos-13
             python-version: "3.10"
-          - platform: macos-12
+          - platform: macos-13
             python-version: "3.11"
+          - platform: macos-13
+            python-version: "3.12"
+          - platform: macos-13
+            python-version: "3.13"
+          # ipykernel dies on notebook runs 
+          # - platform: macos-14
+          #   python-version: "3.10"
+          # - platform: macos-14
+          #   python-version: "3.11"
           - platform: macos-14
-            python-version: "system"
-          - manylinux: "manylinux2010_x86_64"
-            platform: ubuntu-latest
-            python-version: "3.7"
+            python-version: "3.12"
+          - platform: macos-14
+            python-version: "3.13"
           - manylinux: "manylinux2010_x86_64"
             platform: ubuntu-latest
             python-version: "3.8"
@@ -73,9 +79,6 @@ jobs:
           - manylinux: "manylinux2010_x86_64"
             platform: ubuntu-latest
             python-version: "3.10"
-          - manylinux: "manylinux_2_24_x86_64"
-            platform: ubuntu-latest
-            python-version: "3.7"
           - manylinux: "manylinux_2_24_x86_64"
             platform: ubuntu-latest
             python-version: "3.8"
@@ -124,18 +127,10 @@ jobs:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
 
-      - if: matrix.python-version != 'system'
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5.0.0
         with:
           python-version: ${{ matrix.python-version }}
-
-      - if: matrix.python-version == 'system'
-        run: |
-          sudo ln -s `which python3` /usr/local/bin/python
-          echo PIP_INSTALL_OPTS=--break-system-packages >> $GITHUB_ENV
-
-      - if: matrix.python-version != 'system'
-        run: python -m pip install --upgrade pip==22.1.2
+      - run: python -m pip install --upgrade pip==24.3.1
 
       - run: python -m pip install $PIP_INSTALL_OPTS "build<1.1" wheel
       - run: cmake --version
@@ -144,15 +139,17 @@ jobs:
           python -m build 2>&1 | tee build.log
           exit `fgrep -i warning build.log | grep -v "WARNING setuptools_scm" | grep -v "-warnings" | grep -v "All Warnings are enabled" | wc -l`
 
-      - if: startsWith(matrix.platform, 'macos-') && matrix.python-version == '3.11'
+      # TODO #387
+      - if: ${{ (matrix.platform == 'macos-13' && matrix.python-version == '3.11') || matrix.platform == 'macos-14' }}
         run: |
-          # workaround for buggy universal2 wheel name with Python 3.11 (contains x86_64 binary only)
+          # workaround for buggy universal2 wheel names (contain single arch binary only!)
           for whl in dist/*_universal2.whl; do
-            export whl_new=${whl/_universal2/_x86_64};
+            export arch=`python -c 'import platform; print(platform.machine())'`;
+            export whl_new=${whl/_universal2/_$arch};
             mv $whl $whl_new;
             python -m wheel unpack $whl_new;
             export whl_new_unpacked=`basename $whl_new | cut -d- -f-2`;
-            sed -i '' 's/_universal2/_x86_64/g' $whl_new_unpacked/$whl_new_unpacked.dist-info/WHEEL;
+            sed -i '' 's/_universal2/_$arch/g' $whl_new_unpacked/$whl_new_unpacked.dist-info/WHEEL;
             python -m wheel pack $whl_new_unpacked;
           done
           
@@ -195,6 +192,10 @@ jobs:
           for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[tests]; done;
           python -m pip show --verbose PyPartMC
 
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.11'
+    
       ### make sure PyPartMC is not picked up from a local folder
       - run: |
           cd tests
@@ -202,24 +203,28 @@ jobs:
           python -m pytest --durations=10 -v -s -We -p no:unraisableexception .
           cd ..
 
-      - if: matrix.python-version != '3.7'
+      - env:
+          SYSTEM_VERSION_COMPAT: 0 
         run: |
-          python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
+          for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[examples]; done;
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
-          python -m pip install $PIP_INSTALL_OPTS -r .binder/requirements.txt
+          python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
+
+      - run: |
+          python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
-### uncomment to gain ssh access in case of failure
-#      - if: ${{ failure() }}
-#        uses: mxschmitt/action-tmate@v3
-#        with:
-#          limit-access-to-actor: true
+## uncomment to gain ssh access in case of failure
+      # - if: ${{ failure() }}
+      #   uses: mxschmitt/action-tmate@v3
+      #   with:
+      #     limit-access-to-actor: true
 
   dist_check:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v5.0.0
       with:
         python-version: "3.11"
     - run: pip install twine auditwheel
@@ -243,9 +248,10 @@ jobs:
         merge-multiple: true
         path: dist
     - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: pypa/gh-action-pypi-publish@unstable/v1
+      uses: pypa/gh-action-pypi-publish@release/v1.12
       with:
         repository_url: https://test.pypi.org/legacy/
+        attestations: false
     - run: |
         echo "github.event_name:" ${{ github.event_name }}
         echo "github.event.action:" ${{ github.event.action }}
@@ -253,4 +259,6 @@ jobs:
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF }}
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF_NAME }}
     - if: github.event_name == 'release' && github.event.prerelease == false
-      uses: pypa/gh-action-pypi-publish@unstable/v1
+      uses: pypa/gh-action-pypi-publish@release/v1.12
+      with:
+        attestations: false

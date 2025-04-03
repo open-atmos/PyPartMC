@@ -1,8 +1,2 @@
-PyPartMC>=0.0.19
-matplotlib
-ipywidgets
-voila
-open-atmos-jupyter-utils
-PySDM
-PyMieScatt
-SciPy<1.14.0
+PyPartMC[examples]
+git+https://github.com/bsumlin/PyMieScatt.git
