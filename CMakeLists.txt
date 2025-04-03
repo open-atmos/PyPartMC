@@ -15,6 +15,7 @@ foreach(mod ${mods})
 endforeach()
 
 set(CMAKE_Fortran_COMPILER ${FC})
+message(CMAKE_Fortran_COMPILER="${CMAKE_Fortran_COMPILER}")
 
 project(_PyPartMC LANGUAGES C CXX Fortran)
 
