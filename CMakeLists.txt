@@ -14,7 +14,7 @@ foreach(mod ${mods})
   endif()
 endforeach()
 
-enable_language(Fortran)
+set(CMAKE_Fortran_COMPILER ${FC})
 
 project(_PyPartMC LANGUAGES C CXX Fortran)
 
