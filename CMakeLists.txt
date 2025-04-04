@@ -14,9 +14,6 @@ foreach(mod ${mods})
   endif()
 endforeach()
 
-# set(CMAKE_Fortran_COMPILER ${Fortran_path})
-message(CMAKE_Fortran_COMPILER="${CMAKE_Fortran_COMPILER}")
-
 project(_PyPartMC LANGUAGES C CXX Fortran)
 
 find_package(PythonInterp REQUIRED)
