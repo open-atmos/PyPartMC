@@ -29,7 +29,7 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - if: matrix.platform == 'windows-latest'
+      - if: matrix.os == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -39,7 +39,7 @@ jobs:
             mingw-w64-x86_64-ninja
             m4
 
-      - if: matrix.platform == 'windows-latest'
+      - if: matrix.os == 'windows-latest'
         run: |
           echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" >> $GITHUB_ENV
           echo CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
