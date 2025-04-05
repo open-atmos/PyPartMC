@@ -18,15 +18,15 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      # - if: matrix.os == 'windows-latest'
-        # uses: msys2/setup-msys2@v2
-        # with:
-        #   msystem: MINGW64
-        #   update: false
-        #   install: >-
-        #     mingw-w64-x86_64-gcc-fortran
-        #     mingw-w64-x86_64-ninja
-        #     m4
+      - if: matrix.os == 'windows-latest'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: false
+          install: >-
+            mingw-w64-x86_64-gcc-fortran
+            mingw-w64-x86_64-ninja
+            m4
       
       - uses: actions/setup-python@v5
 
@@ -36,15 +36,6 @@ jobs:
       - name: Build wheels
         env:
           CIBW_SKIP: "*-win32 *-manylinux_i686 pp* *musllinux*"
-          CIBW_BEFORE_BUILD_WINDOWS:
-            uses: msys2/setup-msys2@v2
-            with:
-              msystem: MINGW64
-              update: false
-              install: >-
-                mingw-w64-x86_64-gcc-fortran
-                mingw-w64-x86_64-ninja
-                m4
           CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
           CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion`
