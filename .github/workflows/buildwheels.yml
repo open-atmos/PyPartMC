@@ -33,18 +33,15 @@ jobs:
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.23.2
 
-      - name: Build wheels
+      - name: Build and test wheels
         env:
           CIBW_SKIP: "*-win32 *-manylinux_i686 pp* *musllinux*"
           CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
           CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion`
-        run: python -m cibuildwheel --output-dir dist
-
-      - name: Run tests
-        env:
           CIBW_TEST_REQUIRES: pytest
           CIBW_TEST_COMMAND: pytest {package}/tests
+        run: python -m cibuildwheel --output-dir dist
 
       - uses: actions/upload-artifact@v4
         with:
