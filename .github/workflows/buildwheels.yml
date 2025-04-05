@@ -39,6 +39,7 @@ jobs:
           CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
           CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion`
+          CIBW_BEFORE_TEST: python -m pip debug --verbose
           CIBW_TEST_REQUIRES: pytest
           CIBW_TEST_COMMAND: pytest {package}/tests
         run: python -m cibuildwheel --output-dir dist
