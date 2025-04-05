@@ -41,6 +41,11 @@ jobs:
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion`
         run: python -m cibuildwheel --output-dir dist
 
+      - name: Run tests
+        env:
+          CIBW_TEST_REQUIRES: pytest
+          CIBW_TEST_COMMAND: pytest {package}/tests
+
       - uses: actions/upload-artifact@v4
         with:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
