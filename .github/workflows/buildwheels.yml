@@ -36,7 +36,7 @@ jobs:
 
       - name: Build wheels
         env:
-          CIBW_SKIP: "*-win32 *-manylinux_i686"
+          CIBW_SKIP: "*-win32 *-manylinux_i686 pp*"
           CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
         run: python -m cibuildwheel --output-dir dist
 
