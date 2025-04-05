@@ -44,6 +44,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dist-${{matrix.os}}-${{matrix.manylinux}}-${{matrix.python-version}}
+          name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
 
