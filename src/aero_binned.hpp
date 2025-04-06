@@ -76,8 +76,8 @@ struct AeroBinned {
     {
         f_aero_binned_add_aero_dist(
             self.ptr.f_arg_non_const(),
-            self.aero_data->ptr.f_arg(),
             bin_grid.ptr.f_arg(),
+            self.aero_data->ptr.f_arg(),
             aero_dist.ptr.f_arg()
         );
     }
