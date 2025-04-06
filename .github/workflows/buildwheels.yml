@@ -5,7 +5,27 @@ on:
     branches: [ main ]
 
 jobs:
+  debug_build_ok:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
+      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
+      - run: pytest -v -s -We -p no:unraisableexception tests
+
+  zenodo_json:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: notiz-dev/github-action-json-property@release
+        with: 
+          path: '.zenodo.json'
+          prop_path: 'creators'
+
   build_wheels:
+    needs: [debug_build_ok, zenodo_json]
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
