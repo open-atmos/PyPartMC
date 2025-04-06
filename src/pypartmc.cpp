@@ -471,6 +471,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def("__len__", BinGrid::__len__, "returns number of bins")
         .def_property_readonly("edges", BinGrid::edges, "Bin edges")
         .def_property_readonly("centers", BinGrid::centers, "Bin centers")
+        .def_property_readonly("widths", BinGrid::widths, "Bin widths")
     ;
 
     py::class_<AeroMode>(m,"AeroMode")

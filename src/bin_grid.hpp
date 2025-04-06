@@ -38,6 +38,12 @@ extern "C" void f_bin_grid_centers(
     const int *arr_size
 ) noexcept;
 
+extern "C" void f_bin_grid_widths(
+    const void *ptr,
+    void *arr_data,
+    const int *arr_size
+) noexcept;
+
 extern "C" void f_bin_grid_histogram_1d(
     const void *x_bin_grid_ptr_c,
     const void *x_data,
@@ -120,6 +126,23 @@ struct BinGrid {
         );
         return data;
     }
+
+    static auto widths(const BinGrid &self)
+    {
+        int len;
+        f_bin_grid_size(
+            self.ptr.f_arg(),
+            &len
+        );
+        std::valarray<double> data(len);
+        f_bin_grid_widths(
+            self.ptr.f_arg(),
+            begin(data),
+            &len
+        );
+        return data;
+    }
+
 };
 
 std::valarray<double> histogram_1d(
