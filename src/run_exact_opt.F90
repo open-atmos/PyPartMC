@@ -29,12 +29,14 @@ module PyPartMC_run_exact_opt
     deallocate(ptr_f)
   end subroutine
 
-  subroutine f_run_exact_opt_from_json(ptr_c) bind(C)
+  subroutine f_run_exact_opt_from_json(ptr_c, env_state_ptr_c) bind(C)
     type(run_exact_opt_t), pointer :: run_exact_opt => null()
-    type(c_ptr), intent(in) :: ptr_c
+    type(env_state_t), pointer :: env_state_ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c, env_state_ptr_c
     type(spec_file_t) :: file
 
     call c_f_pointer(ptr_c, run_exact_opt)
+    call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
 
     call spec_file_read_string(file, 'output_prefix', run_exact_opt%prefix)
 
@@ -46,6 +48,10 @@ module PyPartMC_run_exact_opt
     if (run_exact_opt%do_coagulation) then
        call spec_file_read_coag_kernel_type(file, &
            run_exact_opt%coag_kernel_type)
+       if (run_exact_opt%coag_kernel_type == COAG_KERNEL_TYPE_ADDITIVE) then
+          call spec_file_read_real(file, 'additive_kernel_coeff', &
+               env_state_ptr_f%additive_kernel_coefficient)
+       end if
     else
        run_exact_opt%coag_kernel_type = COAG_KERNEL_TYPE_INVALID
     end if

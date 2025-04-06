@@ -462,7 +462,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "RunExactOpt",
         "Options controlling the execution of run_exact()."
     )
-        .def(py::init<const nlohmann::json&>())
+        .def(py::init<const nlohmann::json&, EnvState&>())
         .def_property_readonly("t_max", RunExactOpt::t_max, "total simulation time")
     ;
 
@@ -561,11 +561,15 @@ PYBIND11_MODULE(_PyPartMC, m) {
     );
 
     m.def(
-        "input_state", &input_state, "Read current state from netCDF output file."
+        "input_state", &input_state, "Read current state from run_part netCDF output file."
     );
 
     m.def(
-        "input_sectional", &input_sectional, "Read current state from netCDF output file."
+        "input_sectional", &input_sectional, "Read current state from run_sect netCDF output file."
+    );
+
+    m.def(
+        "input_exact", &input_exact, "Read current state from run_exact netCDF output file."
     );
 
     m.def(
@@ -625,6 +629,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "output_state",
         "input_state",
         "input_sectional",
+        "input_exact",
         "rand_init",
         "rand_normal"
     );

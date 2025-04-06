@@ -59,6 +59,20 @@ extern "C" void f_input_sectional(
     const void *env_state
 ) noexcept;
 
+extern "C" void f_input_exact(
+    const char *filename,
+    const int *filename_size,
+    int *index,
+    double *time,
+    double *del_t,
+    const void *bin_grid,
+    const void *aero_data,
+    const void *aero_binned,
+    const void *gas_data,
+    const void *gas_state,
+    const void *env_state
+) noexcept;
+
 void output_state(
     const std::string &prefix,
     const AeroData &aero_data,
@@ -73,5 +87,10 @@ std::tuple<std::shared_ptr<AeroData>, AeroState*, std::shared_ptr<GasData>, GasS
 );
 
 std::tuple<std::shared_ptr<AeroData>, BinGrid*, AeroBinned*, std::shared_ptr<GasData>, GasState*, EnvState*> input_sectional(
+    const std::string &name
+);
+
+std::tuple<std::shared_ptr<AeroData>, BinGrid*, AeroBinned*, std::shared_ptr<GasData>, GasState*,
+    EnvState*> input_exact(
     const std::string &name
 );
