@@ -61,7 +61,7 @@ jobs:
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` SYSTEM_VERSION_COMPAT=0
           CIBW_BEFORE_TEST: python -m pip debug --verbose
           CIBW_TEST_REQUIRES: pytest
-          CIBW_TEST_COMMAND: pytest {package}/tests
+          CIBW_TEST_COMMAND: pytest -v -s -We -p no:unraisableexception tests
         run: python -m cibuildwheel --output-dir dist
 
       - uses: actions/upload-artifact@v4
