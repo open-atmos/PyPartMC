@@ -15,6 +15,7 @@ from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_run_sect_opt import RUN_SECT_OPT_CTOR_ARG_SIMULATION
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
+# pylint: disable=duplicate-code
 @pytest.fixture(name="common_args")
 def common_args_fixture(tmp_path):
     bin_grid = ppmc.BinGrid(100, 'log', 1e-9,1e-5)
