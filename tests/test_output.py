@@ -124,8 +124,8 @@ class TestOutput:
 
         assert os.path.exists(str(filename) + "_00000001.nc")
 
-        aero_data, bin_grid, aero_binned, gas_data, _, env_state = (
-            ppmc.input_sectional(str(filename) + "_00000001.nc")
+        aero_data, bin_grid, aero_binned, gas_data, _, env_state = ppmc.input_sectional(
+            str(filename) + "_00000001.nc"
         )
 
         assert np.isclose(
