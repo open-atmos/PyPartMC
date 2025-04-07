@@ -15,10 +15,11 @@ from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_run_sect_opt import RUN_SECT_OPT_CTOR_ARG_SIMULATION
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
+
 # pylint: disable=duplicate-code
 @pytest.fixture(name="common_args")
 def common_args_fixture(tmp_path):
-    bin_grid = ppmc.BinGrid(100, 'log', 1e-9,1e-5)
+    bin_grid = ppmc.BinGrid(100, "log", 1e-9, 1e-5)
     aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
     aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
     gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
@@ -38,6 +39,7 @@ def common_args_fixture(tmp_path):
         env_state,
         run_sect_opt,
     )
+
 
 # pylint: disable=too-few-public-methods
 class TestRunPart:

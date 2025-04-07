@@ -7,10 +7,12 @@
 import numpy as np
 
 import PyPartMC as ppmc
+
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_dist import (
     AERO_DIST_CTOR_ARG_MINIMAL,
 )
+
 
 class TestAeroBinned:
     @staticmethod
@@ -36,5 +38,8 @@ class TestAeroBinned:
         num_conc = sut.num_conc
 
         # assert
-        assert np.isclose(np.sum(np.array(num_conc) * np.array(bin_grid.widths)),
-            aero_dist.num_conc, rtol=1e-6)
+        assert np.isclose(
+            np.sum(np.array(num_conc) * np.array(bin_grid.widths)),
+            aero_dist.num_conc,
+            rtol=1e-6,
+        )

@@ -71,6 +71,7 @@ AERO_MODE_CTOR_EXP = {
     }
 }
 
+
 class TestAeroMode:
     @staticmethod
     def test_ctor():

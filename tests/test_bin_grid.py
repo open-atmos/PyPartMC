@@ -120,9 +120,13 @@ class TestBinGrid:
 
         # assert
         np.testing.assert_array_almost_equal(
-            np.log(np.logspace(np.log10(left_edge), np.log10(right_edge), n_bins + 1)[1:] /
-            np.logspace(np.log10(left_edge), np.log10(right_edge), n_bins + 1)[:-1]),
-            widths
+            np.log(
+                np.logspace(np.log10(left_edge), np.log10(right_edge), n_bins + 1)[1:]
+                / np.logspace(np.log10(left_edge), np.log10(right_edge), n_bins + 1)[
+                    :-1
+                ]
+            ),
+            widths,
         )
 
     @staticmethod

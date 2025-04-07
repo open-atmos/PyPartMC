@@ -10,13 +10,14 @@ import pytest
 
 import PyPartMC as ppmc
 from PyPartMC import si
+
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 RUN_EXACT_OPT_CTOR_ARG_MINIMAL = {
     "output_prefix": "tests/test",
     "do_coagulation": False,
     "t_max": 3600,
-    "t_output": 0 * si.s
+    "t_output": 0 * si.s,
 }
 
 RUN_EXACT_OPT_CTOR_ARG_SIMULATION = {
