@@ -25,7 +25,7 @@ RUN_SECT_OPT_CTOR_ARG_SIMULATION = {
     "t_max": 86400.0,
     "del_t": 60 * si.s,
     "t_output": 3600.0,
-    "t_progress": 0.0,
+    "t_progress": 3600.0,
 }
 
 
