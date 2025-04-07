@@ -11,9 +11,14 @@ import numpy as np
 import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
-from .test_aero_dist import AERO_DIST_CTOR_ARG_COAGULATION, AERO_DIST_CTOR_ARG_MINIMAL
+from .test_aero_dist import (
+    AERO_DIST_CTOR_ARG_COAGULATION,
+    AERO_DIST_CTOR_ARG_EXP,
+    AERO_DIST_CTOR_ARG_MINIMAL,
+)
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
+from .test_run_exact_opt import RUN_EXACT_OPT_CTOR_ARG_SIMULATION
 from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_SIMULATION
 from .test_run_sect_opt import RUN_SECT_OPT_CTOR_ARG_SIMULATION
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL, SCENARIO_CTOR_ARG_SIMULATION
@@ -125,6 +130,41 @@ class TestOutput:
         assert os.path.exists(str(filename) + "_00000001.nc")
 
         aero_data, bin_grid, aero_binned, gas_data, _, env_state = ppmc.input_sectional(
+            str(filename) + "_00000001.nc"
+        )
+
+        assert np.isclose(
+            np.sum(np.array(aero_binned.num_conc) * np.array(bin_grid.widths)),
+            aero_dist.num_conc,
+        )
+
+    @staticmethod
+    def test_input_exact_netcdf(tmp_path):
+        bin_grid = ppmc.BinGrid(100, "log", 1e-9, 1e-3)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_EXP)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        scenario.init_env_state(env_state, 0.0)
+        filename = tmp_path / "test"
+        run_exact_opt = ppmc.RunExactOpt(
+            {**RUN_EXACT_OPT_CTOR_ARG_SIMULATION, "output_prefix": str(filename)},
+            env_state,
+        )
+        ppmc.run_exact(
+            bin_grid,
+            gas_data,
+            aero_data,
+            aero_dist,
+            scenario,
+            env_state,
+            run_exact_opt,
+        )
+
+        assert os.path.exists(str(filename) + "_00000001.nc")
+
+        aero_data, bin_grid, aero_binned, gas_data, _, env_state = ppmc.input_exact(
             str(filename) + "_00000001.nc"
         )
 
