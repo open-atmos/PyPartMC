@@ -10,17 +10,20 @@ import pytest
 
 import PyPartMC as ppmc
 from PyPartMC import si
+from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 RUN_EXACT_OPT_CTOR_ARG_MINIMAL = {
     "output_prefix": "tests/test",
     "do_coagulation": False,
-    "t_max": 0,
+    "t_max": 3600,
+    "t_output": 0 * si.s
 }
 
 RUN_EXACT_OPT_CTOR_ARG_SIMULATION = {
     "output_prefix": "tests/test",
     "do_coagulation": True,
     "coag_kernel": "additive",
+    "additive_kernel_coeff": 1000.0,
     "t_max": 86400.0,
     "t_output": 3600.0 * si.s,
 }
@@ -33,8 +36,9 @@ class TestRunExactOpt:
     )
     def test_ctor(ctor_arg):
         # arrange
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         # act
-        run_exact_opt = ppmc.RunExactOpt(ctor_arg)
+        run_exact_opt = ppmc.RunExactOpt(ctor_arg, env_state)
 
         # assert
         assert run_exact_opt is not None
@@ -42,8 +46,9 @@ class TestRunExactOpt:
     @staticmethod
     def test_dtor():
         # arrange
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         # pylint: disable=unused-variable
-        run_exact_opt = ppmc.RunExactOpt(RUN_EXACT_OPT_CTOR_ARG_MINIMAL)
+        run_exact_opt = ppmc.RunExactOpt(RUN_EXACT_OPT_CTOR_ARG_MINIMAL, env_state)
         gc.collect()
 
         # act
@@ -55,20 +60,11 @@ class TestRunExactOpt:
 
     @staticmethod
     def test_get_t_max():
-        run_exact_opt = ppmc.RunExactOpt(RUN_EXACT_OPT_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        run_exact_opt = ppmc.RunExactOpt(RUN_EXACT_OPT_CTOR_ARG_MINIMAL, env_state)
 
         # act
         t_max = run_exact_opt.t_max
 
         # assert
         assert t_max == RUN_EXACT_OPT_CTOR_ARG_MINIMAL["t_max"]
-
-    @staticmethod
-    def test_aero_del_t():
-        run_exact_opt = ppmc.RunExactOpt(RUN_EXACT_OPT_CTOR_ARG_MINIMAL)
-
-        # act
-        del_t = run_exact_opt.del_t
-
-        # assert
-        assert del_t == RUN_EXACT_OPT_CTOR_ARG_MINIMAL["del_t"]
