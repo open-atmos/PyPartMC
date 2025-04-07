@@ -10,12 +10,13 @@ import numpy as np
 
 import PyPartMC as ppmc
 
-from .test_aero_data import AERO_DATA_CTOR_ARG_FULL
-from .test_aero_dist import AERO_DIST_CTOR_ARG_COAGULATION
+from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
+from .test_aero_dist import AERO_DIST_CTOR_ARG_COAGULATION, AERO_DIST_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_SIMULATION
-from .test_scenario import SCENARIO_CTOR_ARG_SIMULATION
+from .test_run_sect_opt import RUN_SECT_OPT_CTOR_ARG_SIMULATION
+from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL, SCENARIO_CTOR_ARG_SIMULATION
 
 
 class TestOutput:
@@ -97,3 +98,37 @@ class TestOutput:
         assert len(num_concs) == len(aero_state)
         np.testing.assert_allclose(np.array(aero_state.num_concs), np.array(num_concs))
         np.testing.assert_array_equal(gas_state.mix_rats, mix_rats)
+
+    @staticmethod
+    def test_input_sectional_netcdf(tmp_path):
+        bin_grid = ppmc.BinGrid(100, "log", 1e-9, 1e-5)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        scenario.init_env_state(env_state, 0.0)
+        filename = tmp_path / "test"
+        run_sect_opt = ppmc.RunSectOpt(
+            {**RUN_SECT_OPT_CTOR_ARG_SIMULATION, "output_prefix": str(filename)}
+        )
+        ppmc.run_sect(
+            bin_grid,
+            gas_data,
+            aero_data,
+            aero_dist,
+            scenario,
+            env_state,
+            run_sect_opt,
+        )
+
+        assert os.path.exists(str(filename) + "_00000001.nc")
+
+        aero_data, bin_grid, aero_binned, gas_data, _, env_state = (
+            ppmc.input_sectional(str(filename) + "_00000001.nc")
+        )
+
+        assert np.isclose(
+            np.sum(np.array(aero_binned.num_conc) * np.array(bin_grid.widths)),
+            aero_dist.num_conc,
+        )
