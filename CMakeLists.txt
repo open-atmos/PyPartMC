@@ -50,7 +50,7 @@ add_definitions("-DSUNDIALS_INT64_T=1")
 
 set(PyPartMC_sources 
   pypartmc.cpp json_resource.cpp spec_file_pypartmc.cpp sys.cpp
-  run_sect.F90 run_sect_opt.F90 run_exact.F90 run_exact_opt.F90
+  run_sect.F90 run_sect_opt.F90 run_exact.F90 run_exact_opt.F90 aero_binned.F90
   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
   gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90
   camp_core.F90 photolysis.F90 aero_mode.F90 aero_dist.F90 bin_grid.cpp condense.cpp run_part.cpp
