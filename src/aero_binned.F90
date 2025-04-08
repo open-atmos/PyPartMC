@@ -39,6 +39,18 @@ module PyPartMC_aero_binned
 
   end subroutine
 
+  subroutine f_aero_binned_species_vol_conc(ptr_c, vol_conc, n_bins, i_spec) bind(C)
+    type(aero_binned_t), pointer :: ptr_f => null()
+    type(c_ptr), intent(in) :: ptr_c
+    integer(c_int) :: n_bins, i_spec
+    real(c_double) :: vol_conc(n_bins)
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    vol_conc = ptr_f%vol_conc(:,i_spec+1)
+
+  end subroutine
+
   subroutine f_aero_binned_len(ptr_c, len) bind(C)
     type(aero_binned_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c

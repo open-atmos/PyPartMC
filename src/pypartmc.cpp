@@ -74,7 +74,10 @@ PYBIND11_MODULE(_PyPartMC, m) {
         .def(py::init<std::shared_ptr<AeroData>, const BinGrid&>())
         .def_property_readonly("num_conc", AeroBinned::num_conc,
             "Returns the number concentration of each bin (m^{-3})")
-        .def("add_aero_dist", AeroBinned::add_aero_dist)
+        .def_property_readonly("vol_conc", AeroBinned::vol_conc,
+            "Returns the volume concentration per bin per species (m^{-3})")
+        .def("add_aero_dist", AeroBinned::add_aero_dist,
+            "Adds an AeroDist to an AeroBinned")
     ;
 
     py::class_<AeroData, std::shared_ptr<AeroData>>(m, "AeroData",
@@ -506,6 +509,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Number of aerosol modes")
         .def_property_readonly("num_conc", &AeroDist::get_total_num_conc,
             "Total number concentration of a distribution (#/m^3)")
+        ,def_property_readonly("vol_conc", &AeroDist:get_vol_conc,
+            "Returns the binned per-speices volume concentration")
         .def("mode", AeroDist::get_mode,
             "returns the mode of a given index")
     ;
