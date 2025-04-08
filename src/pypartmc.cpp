@@ -511,7 +511,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Number of aerosol modes")
         .def_property_readonly("num_conc", &AeroDist::get_total_num_conc,
             "Total number concentration of a distribution (#/m^3)")
-        ,def_property_readonly("vol_conc", &AeroDist:get_vol_conc,
+        .def_property_readonly("vol_conc", &AeroDist:get_vol_conc,
             "Returns the binned per-speices volume concentration")
         .def("mode", AeroDist::get_mode,
             "returns the mode of a given index")
