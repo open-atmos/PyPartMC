@@ -69,6 +69,8 @@ jobs:
       #   run: if [[ `python --version` =~ .*3.13.* ]]; then python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests ; fi
       - name: Run example notebooks
         run: |
+          for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[examples]; done; 
+          ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt 
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
