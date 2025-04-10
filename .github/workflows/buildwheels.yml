@@ -77,6 +77,24 @@ jobs:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
 
+  dist_check:
+    runs-on: ${{ matrix.os }}
+    needs: [build_wheels]
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm]
+    steps:
+    - uses: actions/setup-python@v5.0.0
+      with:
+        python-version: "3.11"
+    - run: pip install twine auditwheel
+    - uses: actions/download-artifact@v4
+      with:
+        name: dist-${{matrix.os}}-${{matrix.manylinux}}
+        path: dist
+    - run: twine check --strict dist/*
+    - run: for i in dist/*-manylinux*.whl; do auditwheel show $i; done;
+
   # dist_check:
   #   runs-on: ubuntu-latest
   #   needs: [build_wheels]
