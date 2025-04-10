@@ -106,10 +106,10 @@ contains
     integer(c_int), intent(in) :: filename_size
     type(c_ptr) :: aero_data_ptr_c, gas_data_ptr_c, &
          gas_state_ptr_c, env_state_ptr_c, aero_binned_ptr_c, bin_grid_ptr_c
+
     integer(c_int), intent(out) :: index
     real(c_double), intent(out) :: time, del_t
     character(len=PMC_UUID_LEN) :: uuid
-
     character(len=filename_size) :: filename
     integer :: i
 
@@ -144,10 +144,10 @@ contains
     integer(c_int), intent(in) :: filename_size
     type(c_ptr) :: aero_data_ptr_c, gas_data_ptr_c, &
          gas_state_ptr_c, env_state_ptr_c, aero_binned_ptr_c, bin_grid_ptr_c
+
     integer(c_int), intent(out) :: index
     real(c_double), intent(out) :: time, del_t
     character(len=PMC_UUID_LEN) :: uuid
-
     character(len=filename_size) :: filename
     integer :: i
 
@@ -162,6 +162,7 @@ contains
     call c_f_pointer(gas_state_ptr_c, gas_state_ptr_f)
     call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
 
+    ! At this time, there is no PartMC subroutine for reading exact data
     call input_sectional(filename, index, time, del_t, uuid, bin_grid_ptr_f, &
          aero_data_ptr_f, aero_binned_ptr_f, gas_data_ptr_f, gas_state_ptr_f, &
          env_state_ptr_f)
