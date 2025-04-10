@@ -458,7 +458,7 @@ PYBIND11_MODULE(_PyPartMC, m) {
         "RunSectOpt",
         "Options controlling the execution of run_sect()."
     )
-        .def(py::init<const nlohmann::json&>())
+        .def(py::init<const nlohmann::json&, EnvState&>())
         .def_property_readonly("t_max", RunSectOpt::t_max, "total simulation time")
         .def_property_readonly("del_t", RunSectOpt::del_t, "time step")
     ;

@@ -8,18 +8,19 @@
 
 #include "pmc_resource.hpp"
 #include "json_resource.hpp"
+#include "env_state.hpp"
 #include "pybind11_json/pybind11_json.hpp"
 
 extern "C" void f_run_sect_opt_ctor(void *ptr) noexcept;
 extern "C" void f_run_sect_opt_dtor(void *ptr) noexcept;
-extern "C" void f_run_sect_opt_from_json(const void *ptr) noexcept;
+extern "C" void f_run_sect_opt_from_json(const void *ptr, const void *env_state_ptr) noexcept;
 extern "C" void f_run_sect_opt_t_max(const void *ptr, double *t_max) noexcept;
 extern "C" void f_run_sect_opt_del_t(const void *ptr, double *del_t) noexcept;
 
 struct RunSectOpt {
     PMCResource ptr;
 
-    RunSectOpt(const nlohmann::json &json) :
+    RunSectOpt(const nlohmann::json &json, EnvState &env_state) :
         ptr(f_run_sect_opt_ctor, f_run_sect_opt_dtor)
     {
         nlohmann::json json_copy(json);
@@ -31,7 +32,7 @@ struct RunSectOpt {
                 json_copy[key] = 0;
 
         JSONResourceGuard<InputJSONResource> guard(json_copy);
-        f_run_sect_opt_from_json(this->ptr.f_arg());
+        f_run_sect_opt_from_json(this->ptr.f_arg(), env_state.ptr.f_arg());
         guard.check_parameters();
     }
 

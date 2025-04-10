@@ -11,6 +11,8 @@ import pytest
 import PyPartMC as ppmc
 from PyPartMC import si
 
+from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
+
 RUN_SECT_OPT_CTOR_ARG_MINIMAL = {
     "output_prefix": "tests/test",
     "do_coagulation": False,
@@ -36,8 +38,9 @@ class TestRunSectOpt:
     )
     def test_ctor(ctor_arg):
         # arrange
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         # act
-        run_sect_opt = ppmc.RunSectOpt(ctor_arg)
+        run_sect_opt = ppmc.RunSectOpt(ctor_arg, env_state)
 
         # assert
         assert run_sect_opt is not None
@@ -45,8 +48,9 @@ class TestRunSectOpt:
     @staticmethod
     def test_dtor():
         # arrange
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         # pylint: disable=unused-variable
-        run_sect_opt = ppmc.RunSectOpt(RUN_SECT_OPT_CTOR_ARG_MINIMAL)
+        run_sect_opt = ppmc.RunSectOpt(RUN_SECT_OPT_CTOR_ARG_MINIMAL, env_state)
         gc.collect()
 
         # act
@@ -58,7 +62,8 @@ class TestRunSectOpt:
 
     @staticmethod
     def test_get_t_max():
-        run_sect_opt = ppmc.RunSectOpt(RUN_SECT_OPT_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        run_sect_opt = ppmc.RunSectOpt(RUN_SECT_OPT_CTOR_ARG_MINIMAL, env_state)
 
         # act
         t_max = run_sect_opt.t_max
@@ -68,7 +73,8 @@ class TestRunSectOpt:
 
     @staticmethod
     def test_aero_del_t():
-        run_sect_opt = ppmc.RunSectOpt(RUN_SECT_OPT_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        run_sect_opt = ppmc.RunSectOpt(RUN_SECT_OPT_CTOR_ARG_MINIMAL, env_state)
 
         # act
         del_t = run_sect_opt.del_t

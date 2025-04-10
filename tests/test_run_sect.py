@@ -28,7 +28,7 @@ def common_args_fixture(tmp_path):
     scenario.init_env_state(env_state, 0.0)
     filename = tmp_path / "test"
     run_sect_opt = ppmc.RunSectOpt(
-        {**RUN_SECT_OPT_CTOR_ARG_SIMULATION, "output_prefix": str(filename)}
+        {**RUN_SECT_OPT_CTOR_ARG_SIMULATION, "output_prefix": str(filename)}, env_state
     )
     return (
         bin_grid,
