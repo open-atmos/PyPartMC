@@ -28,10 +28,10 @@ module PyPartMC_aero_binned
   end subroutine
 
   subroutine f_aero_binned_num_conc(ptr_c, num_conc, n_bins) bind(C)
-    type(aero_binned_t), pointer :: ptr_f => null()
+    type(aero_binned_t), intent(in), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
-    integer(c_int) :: n_bins
-    real(c_double) :: num_conc(n_bins)
+    integer(c_int), intent(in) :: n_bins
+    real(c_double), intent(inout) :: num_conc(n_bins)
 
     call c_f_pointer(ptr_c, ptr_f)
 
@@ -40,10 +40,10 @@ module PyPartMC_aero_binned
   end subroutine
 
   subroutine f_aero_binned_species_vol_conc(ptr_c, vol_conc, n_bins, i_spec) bind(C)
-    type(aero_binned_t), pointer :: ptr_f => null()
+    type(aero_binned_t), intent(in), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
-    integer(c_int) :: n_bins, i_spec
-    real(c_double) :: vol_conc(n_bins)
+    integer(c_int), intent(in) :: n_bins, i_spec
+    real(c_double), intent(inout) :: vol_conc(n_bins)
 
     call c_f_pointer(ptr_c, ptr_f)
 
@@ -52,9 +52,9 @@ module PyPartMC_aero_binned
   end subroutine
 
   subroutine f_aero_binned_len(ptr_c, len) bind(C)
-    type(aero_binned_t), pointer :: ptr_f => null()
+    type(aero_binned_t), intent(in), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c
-    integer(c_int) :: len 
+    integer(c_int), intent(out) :: len
 
     call c_f_pointer(ptr_c, ptr_f)
 
@@ -64,9 +64,9 @@ module PyPartMC_aero_binned
 
   subroutine f_aero_binned_add_aero_dist(ptr_c, bin_grid_ptr_c, aero_data_ptr_c, &
        aero_dist_ptr_c) bind(C)
-    type(aero_binned_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c, bin_grid_ptr_c, aero_data_ptr_c, &
         aero_dist_ptr_c
+    type(aero_binned_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(aero_dist_t), pointer :: aero_dist_ptr_f => null()
     type(bin_grid_t), pointer :: bin_grid_ptr_f => null()
@@ -82,8 +82,8 @@ module PyPartMC_aero_binned
   end subroutine
 
   subroutine f_aero_binned_set_sizes(ptr_c, aero_data_ptr_c, bin_grid_ptr_c) bind(C)
-    type(aero_binned_t), pointer :: ptr_f => null()
     type(c_ptr), intent(in) :: ptr_c, bin_grid_ptr_c, aero_data_ptr_c
+    type(aero_binned_t), pointer :: ptr_f => null()
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(bin_grid_t), pointer :: bin_grid_ptr_f => null()
 
