@@ -70,6 +70,16 @@ module PyPartMC_bin_grid
     arr_data = bin_grid%centers
   end subroutine
 
+  subroutine f_bin_grid_widths(ptr_c, arr_data, arr_size) bind(C)
+    type(c_ptr), intent(in) :: ptr_c
+    type(bin_grid_t), pointer :: bin_grid => null()
+    integer(c_int), intent(in) :: arr_size
+    real(c_double), dimension(arr_size), intent(out) :: arr_data
+
+    call c_f_pointer(ptr_c, bin_grid)
+    arr_data = bin_grid%widths
+  end subroutine
+
   subroutine f_bin_grid_histogram_1d(x_bin_grid_ptr_c, x_data, weight_data, &
        arr_size, output_data, bin_grid_size) bind(C)
 
