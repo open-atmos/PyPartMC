@@ -115,7 +115,8 @@ class TestOutput:
         scenario.init_env_state(env_state, 0.0)
         filename = tmp_path / "test"
         run_sect_opt = ppmc.RunSectOpt(
-            {**RUN_SECT_OPT_CTOR_ARG_SIMULATION, "output_prefix": str(filename)}
+            {**RUN_SECT_OPT_CTOR_ARG_SIMULATION, "output_prefix": str(filename)},
+            env_state,
         )
         ppmc.run_sect(
             bin_grid,
