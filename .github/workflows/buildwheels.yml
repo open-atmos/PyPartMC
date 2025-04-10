@@ -60,7 +60,7 @@ jobs:
           CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
           CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` SYSTEM_VERSION_COMPAT=0
-          CIBW_BEFORE_TEST: python -m pip debug --verbose
+          # CIBW_BEFORE_TEST: python -m pip debug --verbose
           CIBW_TEST_REQUIRES: pytest pytest-order
           CIBW_TEST_COMMAND: pytest -v -s -We -p no:unraisableexception {package}/tests
         run: python -m cibuildwheel --output-dir dist
@@ -69,6 +69,9 @@ jobs:
         with:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
+
+      - name: Run example notebooks
+        run: if [[ python --version =~ .*3.13.* ]]; then python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests ; fi
 
   # dist_check:
   #   runs-on: ubuntu-latest
