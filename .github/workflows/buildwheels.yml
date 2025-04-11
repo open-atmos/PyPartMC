@@ -90,21 +90,21 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
 
-      steps:
-      - uses: actions/setup-python@v5.0.0
-        with:
-          python-version: "3.13"
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist-${{matrix.os}}-${{matrix.manylinux}}
-          path: dist
-      
-      - name: Run example notebooks
-        run: |
-          python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
-          python -m pip install *cp313*.whl 
-          python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
+    steps:
+    - uses: actions/setup-python@v5.0.0
+      with:
+        python-version: "3.13"
+    - uses: actions/download-artifact@v4
+      with:
+        name: dist-${{matrix.os}}-${{matrix.manylinux}}
+        path: dist
+    
+    - name: Run example notebooks
+      run: |
+        python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
+        python -m pip install *cp313*.whl 
+        python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
+        GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
 
   dist_check:
