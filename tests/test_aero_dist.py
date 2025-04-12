@@ -19,6 +19,7 @@ from .test_aero_mode import (
     AERO_MODE_CTOR_LOG_NORMAL,
     AERO_MODE_CTOR_LOG_NORMAL_COAGULATION,
     AERO_MODE_CTOR_LOG_NORMAL_FULL,
+    AERO_MODE_CTOR_SAMPLED,
 )
 
 AERO_DIST_CTOR_ARG_MINIMAL = [
@@ -190,19 +191,6 @@ class TestAeroDist:
 
     @staticmethod
     @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
-    def test_ctor_multimode_error_on_repeated_mode_names():
-        # arrange
-        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-
-        # act
-        with pytest.raises(Exception) as exc_info:
-            ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL * 2)
-
-        # assert
-        assert str(exc_info.value) == "Mode names must be unique"
-
-    @staticmethod
-    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_ctor_error_on_repeated_massfrac_keys():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -222,12 +210,7 @@ class TestAeroDist:
     def test_ctor_sampled_mode():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        ctor_arg = copy.deepcopy(AERO_DIST_CTOR_ARG_MINIMAL)
-        ctor_arg[0]["test_mode"]["mode_type"] = "sampled"
-        ctor_arg[0]["test_mode"]["size_dist"] = [
-            {"diam": [1, 2, 3, 4]},
-            {"num_conc": [1, 2, 3]},
-        ]
+        ctor_arg = [AERO_MODE_CTOR_SAMPLED]
 
         # act
         sut = ppmc.AeroDist(aero_data, ctor_arg)

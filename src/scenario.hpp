@@ -129,6 +129,7 @@ struct Scenario {
             aero_data.ptr.f_arg(),
             this->ptr.f_arg()
         );
+        guard.check_parameters();
     }
 
     static auto __str__(const Scenario &self) {

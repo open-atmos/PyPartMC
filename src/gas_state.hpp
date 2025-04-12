@@ -125,5 +125,6 @@ struct GasState {
             self.ptr.f_arg(),
             self.gas_data->ptr.f_arg()
         );
+        guard.check_parameters();
     }
 };
