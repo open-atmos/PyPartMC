@@ -103,6 +103,7 @@ jobs:
       run: |
         python -m pip install dist/*cp313*.whl 
         ls
+        ls dist
         python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
         GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
