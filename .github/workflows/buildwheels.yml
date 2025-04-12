@@ -117,6 +117,7 @@ jobs:
         ls dist
         python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
         python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
+        python -m pip install matplotlib ipywidgets PySDM
         GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
   # python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
