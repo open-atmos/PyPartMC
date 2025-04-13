@@ -88,7 +88,8 @@ jobs:
           ls dist
           pwd
           cd dist
-          python -m pip install *cp313*.whl[examples]
+          temp=`find . -name "*cp313*.whl"`
+          python -m pip install $temp[examples]
           ls
           ls dist
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
