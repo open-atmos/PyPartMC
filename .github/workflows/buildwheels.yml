@@ -83,21 +83,14 @@ jobs:
       
       - name: Run example notebooks
         run: |
-          ls .. 
-          ls
-          ls dist
-          pwd
           cd dist
           temp=`find . -name "*cp313*.whl"`
           python -m pip install $temp[examples]
-          ls
-          ls dist
+          cd ..
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
           python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
-          ls
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-          ls
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
       - uses: actions/upload-artifact@v4
