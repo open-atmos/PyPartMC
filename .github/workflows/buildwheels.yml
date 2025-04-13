@@ -87,7 +87,7 @@ jobs:
           ls
           ls dist
           pwd
-          python -m pip install $PIP_INSTALL_OPTS ${pwd}/dist/*cp313*.whl
+          python -m pip install dist/*cp313*.whl
           ls
           ls dist
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
