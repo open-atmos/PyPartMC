@@ -87,12 +87,13 @@ jobs:
           ls
           ls dist
           pwd
-          python -m pip install dist/*cp313*.whl
+          cd dist
+          python -m pip install *cp313*.whl[examples]
           ls
           ls dist
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
-          python -m pip install matplotlib ipywidgets PySDM
+          python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
           ls
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           ls
