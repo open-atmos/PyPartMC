@@ -92,6 +92,7 @@ jobs:
           ls dist
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
+          python -m pip install matplotlib ipywidgets PySDM
           ls
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           ls
