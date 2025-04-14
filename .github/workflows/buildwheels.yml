@@ -37,7 +37,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-
+        
       - if: matrix.os == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
@@ -94,6 +94,7 @@ jobs:
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
 
       - if: matrix.os == 'ubuntu-latest'
+        name: Check if todos are annotated
         run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_todos_annotated.py
 
       - uses: actions/upload-artifact@v4
@@ -101,36 +102,36 @@ jobs:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
 
-  run_notebooks:
-    runs-on: ${{ matrix.os }}
-    needs: [build_wheels]
-    strategy:
-      matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm]
+  # run_notebooks:
+  #   runs-on: ${{ matrix.os }}
+  #   needs: [build_wheels]
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest, ubuntu-24.04-arm]
 
-    steps:
-    - uses: actions/setup-python@v5.0.0
-      with:
-        python-version: "3.13"
-    - uses: actions/download-artifact@v4
-      with:
-        name: dist-${{matrix.os}}-${{matrix.manylinux}}
-        path: dist
+  #   steps:
+  #   - uses: actions/setup-python@v5.0.0
+  #     with:
+  #       python-version: "3.13"
+  #   - uses: actions/download-artifact@v4
+  #     with:
+  #       name: dist-${{matrix.os}}-${{matrix.manylinux}}
+  #       path: dist
     
-    - name: Run example notebooks
-      run: |
-        cd dist
-        temp=`find . -name "*cp313*.whl"`
-        python -m pip install $temp[examples]
-        cd ..
-        ls
-        ls dist
-        ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
-        python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
-        ls
-        python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-        ls
-        GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
+  #   - name: Run example notebooks
+  #     run: |
+  #       cd dist
+  #       temp=`find . -name "*cp313*.whl"`
+  #       python -m pip install $temp[examples]
+  #       cd ..
+  #       ls
+  #       ls dist
+  #       ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
+  #       python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
+  #       ls
+  #       python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
+  #       ls
+  #       GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
 
   # python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
   # python -m pip install matplotlib ipywidgets PySDM
