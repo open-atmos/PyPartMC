@@ -67,20 +67,21 @@ jobs:
         with:
           python-version: "3.13"
       
-      - name: Run example notebooks
-        if: matrix.os == 'windows-latest'
+      - if: matrix.os == 'windows-latest'
         run: |
           cd dist
           $temp = "$(gci -r -fi "*cp313*.whl")[examples]"
           python -m pip install $temp.toString()
           cd ..
 
-        if: startsWith(matrix.os, 'macos-') || startsWith(matrix.os, 'ubuntu-')
+      - if: startsWith(matrix.os, 'macos-') || startsWith(matrix.os, 'ubuntu-')
         run: |
           cd dist
           temp=`find . -name "*cp313*.whl"`
           python -m pip install $temp[examples]
           cd ..
+
+      - name: Run example notebooks
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
           python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
