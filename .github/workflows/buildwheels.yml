@@ -74,6 +74,8 @@ jobs:
           $temp = "$(gci -r -fi "*cp313*.whl")[examples]"
           python -m pip install $temp.toString()
           cd ..
+
+        if: startsWith(matrix.os, 'macos-') || startsWith(matrix.os, 'ubuntu-')
         run: |
           cd dist
           temp=`find . -name "*cp313*.whl"`
