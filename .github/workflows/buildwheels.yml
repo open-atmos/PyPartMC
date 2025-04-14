@@ -56,85 +56,38 @@ jobs:
       - name: Build and test wheels
         env:
           CIBW_SKIP: "*-win32 *-manylinux_i686 pp* *musllinux*"
-          # CIBW_BEFORE_ALL: python -c "import sys; print(sys.version)"
           CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
           CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` SYSTEM_VERSION_COMPAT=0
-          # CIBW_BEFORE_TEST: python -m pip debug --verbose
           CIBW_TEST_REQUIRES: pytest pytest-order
           CIBW_TEST_COMMAND: pytest -v -s -We -p no:unraisableexception {package}/tests
         run: python -m cibuildwheel --output-dir dist
 
-      # - name: Run example notebooks
-      #   run: if [[ `python --version` =~ .*3.13.* ]]; then python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests ; fi
-      # - name: Run example notebooks
-      #   run: |
-      #     python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
-      #     python -m pip install --use-pep517
-      #     python -m pip install pypartmc-1.5.0.post68-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl 
-      #     python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-      #     GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
-
-        # for i in dist/*.whl; do python -m pip install $PIP_INSTALL_OPTS $i[examples]; done; 
-        # ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt 
       - uses: actions/setup-python@v5.0.0
         with:
           python-version: "3.13"
       
       - name: Run example notebooks
         run: |
-          cd dist
-          temp=`find . -name "*cp313*.whl"`
-          python -m pip install $temp[examples]
-          cd ..
+          python -m pip install dist/*cp313*.whl\[examples\]
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
           python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
 
-      - if: matrix.os == 'ubuntu-latest'
-        name: Check if todos are annotated
+        # cd dist
+        # temp=`find . -name "*cp313*.whl"`
+        # cd ..
+
+      - name: Check if todos are annotated
+        if: matrix.os == 'ubuntu-latest'
         run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_todos_annotated.py
 
       - uses: actions/upload-artifact@v4
         with:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
-
-  # run_notebooks:
-  #   runs-on: ${{ matrix.os }}
-  #   needs: [build_wheels]
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest, ubuntu-24.04-arm]
-
-  #   steps:
-  #   - uses: actions/setup-python@v5.0.0
-  #     with:
-  #       python-version: "3.13"
-  #   - uses: actions/download-artifact@v4
-  #     with:
-  #       name: dist-${{matrix.os}}-${{matrix.manylinux}}
-  #       path: dist
-    
-  #   - name: Run example notebooks
-  #     run: |
-  #       cd dist
-  #       temp=`find . -name "*cp313*.whl"`
-  #       python -m pip install $temp[examples]
-  #       cd ..
-  #       ls
-  #       ls dist
-  #       ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
-  #       python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
-  #       ls
-  #       python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-  #       ls
-  #       GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
-
-  # python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
-  # python -m pip install matplotlib ipywidgets PySDM
 
   dist_check:
     runs-on: ${{ matrix.os }}
@@ -153,22 +106,6 @@ jobs:
         path: dist
     - run: twine check --strict dist/*
     - run: for i in dist/*-manylinux*.whl; do auditwheel show $i; done;
-
-  # dist_check:
-  #   runs-on: ubuntu-latest
-  #   needs: [build_wheels]
-  #   steps:
-  #   - uses: actions/setup-python@v5.0.0
-  #     with:
-  #       python-version: "3.11"
-  #   - run: pip install twine auditwheel
-  #   - uses: actions/download-artifact@v4
-  #     with:
-  #       pattern: dist-*
-  #       merge-multiple: true
-  #       path: dist
-  #   - run: twine check --strict dist/*
-  #   - run: for i in dist/*-manylinux*.whl; do auditwheel show $i; done;
 
   dist_upload:
     runs-on: ubuntu-latest
