@@ -91,7 +91,10 @@ jobs:
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
           python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
+
+      - if: matrix.os == 'ubuntu-latest'
+        run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_todos_annotated.py
 
       - uses: actions/upload-artifact@v4
         with:
@@ -116,7 +119,10 @@ jobs:
     
     - name: Run example notebooks
       run: |
-        python -m pip install $PIP_INSTALL_OPTS dist/*cp313*.whl[examples]
+        cd dist
+        temp=`find . -name "*cp313*.whl"`
+        python -m pip install $temp[examples]
+        cd ..
         ls
         ls dist
         ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
