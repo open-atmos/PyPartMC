@@ -42,6 +42,7 @@ jobs:
           submodules: recursive
           fetch-depth: 0
         
+      # download C and Fortran compiler on windows
       - if: matrix.os == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
@@ -71,18 +72,18 @@ jobs:
         with:
           python-version: "3.13"
 
+      # run example notebooks once for each platform
       - name: Run example notebooks
-        run: |
-          cd dist
-          temp=`find . -name "*cp313*.whl"`
+        run: | 
+          temp=`find dist/ -name "*cp313*.whl"`
           python -m pip install $temp[examples]
-          cd ..
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
           python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
 
+      # check if all todos are annotated once per CI run
       - name: Check if todos are annotated
         if: matrix.os == 'ubuntu-latest'
         run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_todos_annotated.py
