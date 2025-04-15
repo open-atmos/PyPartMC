@@ -1,4 +1,4 @@
-name: buildwheels
+name: build_wheels+tests
 
 defaults:
   run:
