@@ -77,7 +77,7 @@ jobs:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
 
-  Run example notebooks:
+  Run_example_notebooks:
       runs-on: ${{ matrix.os }}
       name: Run example notebooks on ${{ matrix.os }}
       strategy:
