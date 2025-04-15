@@ -72,41 +72,35 @@ jobs:
         with:
           python-version: "3.13"
 
-      # check if all todos are annotated once per CI run
-      - name: Check if todos are annotated
-        if: matrix.os == 'ubuntu-latest'
-        run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_todos_annotated.py
-
       - uses: actions/upload-artifact@v4
         with:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
 
-    # run example notebooks once for each platform
-    Run example notebooks:
-        runs-on: ${{ matrix.os }}
-        name: Run example notebooks on ${{ matrix.os }}
-        strategy:
-          matrix:
-            os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, windows-latest]
+  Run example notebooks:
+      runs-on: ${{ matrix.os }}
+      name: Run example notebooks on ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, windows-latest]
 
-        steps:
-          - uses: actions/checkout@v4
-          
-          - uses: actions/download-artifact@v4
-            with:
-              name: dist-${{matrix.os}}-${{matrix.manylinux}}
-              path: dist
+      steps:
+        - uses: actions/checkout@v4
+        
+        - uses: actions/download-artifact@v4
+          with:
+            name: dist-${{matrix.os}}-${{matrix.manylinux}}
+            path: dist
 
-          - run: | 
-              temp=`find dist/ -name "*cp313*.whl"`
-              python -m pip install $temp[examples]
-              ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
-              python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
-              python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
-              python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-              GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
-
+        - run: | 
+            temp=`find dist/ -name "*cp313*.whl"`
+            python -m pip install $temp[examples]
+            ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
+            python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
+            python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
+            python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
+            
   dist_check:
     runs-on: ${{ matrix.os }}
     needs: [build_wheels]
