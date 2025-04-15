@@ -100,7 +100,16 @@ jobs:
             python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
             python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
-            
+
+  Check_annotated_todos:
+      runs-on: ubuntu-latest
+      name: Check if todos are annotated
+
+      steps:
+        - uses: actions/checkout@v4
+
+        - run: GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_todos_annotated.py
+
   dist_check:
     runs-on: ${{ matrix.os }}
     needs: [build_wheels]
