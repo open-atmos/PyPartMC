@@ -78,28 +78,29 @@ jobs:
           path: dist
 
   Run_example_notebooks:
-      runs-on: ${{ matrix.os }}
-      name: Run example notebooks on ${{ matrix.os }}
-      strategy:
-        matrix:
-          os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, macos-13-arm, windows-latest]
+    needs: [build_wheels]
+    runs-on: ${{ matrix.os }}
+    name: Run example notebooks on ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, macos-13-arm, windows-latest]
 
-      steps:
-        - uses: actions/checkout@v4
-        
-        - uses: actions/download-artifact@v4
-          with:
-            name: dist-${{matrix.os}}-${{matrix.manylinux}}
-            path: dist
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-${{matrix.os}}-${{matrix.manylinux}}
+          path: dist
 
-        - run: | 
-            temp=`find dist/ -name "*cp313*.whl"`
-            python -m pip install $temp[examples]
-            ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
-            python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
-            python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
-            python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
+      - run: | 
+          temp=`find dist/ -name "*cp313*.whl"`
+          python -m pip install $temp[examples]
+          ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
+          python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
+          python -m pip install matplotlib ipywidgets PySDM open_atmos_jupyter_utils
+          python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
 
   Check_annotated_todos:
       runs-on: ubuntu-latest
