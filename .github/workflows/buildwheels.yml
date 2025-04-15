@@ -77,7 +77,7 @@ jobs:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
 
-  Run_example_notebooks:
+  run_example_notebooks:
     needs: [build_wheels]
     runs-on: ${{ matrix.os }}
     name: Run example notebooks on ${{ matrix.os }}
@@ -104,7 +104,7 @@ jobs:
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
 
-  Check_annotated_todos:
+  check_annotated_todos:
       runs-on: ubuntu-latest
       name: Check if todos are annotated
 
