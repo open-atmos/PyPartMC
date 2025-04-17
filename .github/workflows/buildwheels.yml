@@ -68,7 +68,7 @@ jobs:
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: delvewheel repair -w {dest_dir} {wheel}
           CIBW_ARCHS_MACOS: "universal2"
           CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc
-          CIBW_ENVIRONMENT_MACOS: CMAKE_ARGS='-DCMAKE_Fortran_FLAGS="-arch arm64 -arch x86_64"' ARCHFLAGS="-arch `uname -m`" MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` SYSTEM_VERSION_COMPAT=0
+          CIBW_ENVIRONMENT_MACOS: temp="-arch arm64 -arch x86_64" CMAKE_ARGS="-DCMAKE_Fortran_FLAGS=$temp" ARCHFLAGS="-arch `uname -m`" MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` SYSTEM_VERSION_COMPAT=0
           CIBW_TEST_REQUIRES: pytest pytest-order
           CIBW_TEST_COMMAND: pytest -v -s -We -p no:unraisableexception {package}/tests
         run: python -m cibuildwheel --output-dir dist
