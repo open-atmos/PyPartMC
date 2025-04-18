@@ -67,7 +67,7 @@ jobs:
           CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: delvewheel repair -w {dest_dir} {wheel}
           CIBW_ARCHS_MACOS: "universal2"
-          CIBW_BEFORE_BUILD_MACOS: brew uninstall gcc
+          CIBW_BEFORE_BUILD_MACOS: brew uninstall gcc &&
                                     wget -nv https://github.com/R-macos/gcc-12-branch/releases/download/12.2-darwin-r0.1/gfortran-12.2-universal.pkg &&
                                     sudo installer -pkg gfortran-12.2-universal.pkg -target / &&
                                     wget https://raw.githubusercontent.com/R-macos/gcc-12-branch/gcc-12-2-darwin/build/dr.sh &&
