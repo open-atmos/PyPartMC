@@ -328,6 +328,8 @@ PYBIND11_MODULE(_PyPartMC, m) {
             "Ambient pressure (Pa)")
         .def_property_readonly("air_density", &EnvState::air_density,
             "Air density (kg m^{-3})")
+        .def_property("additive_kernel_coefficient", &EnvState::get_additive_kernel_coefficient, &EnvState::set_additive_kernel_coefficient,
+            "Scaling coefficient for additive coagulation kernel.")
     ;
 
     py::class_<Photolysis>(m,

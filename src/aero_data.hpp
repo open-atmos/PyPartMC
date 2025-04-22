@@ -54,6 +54,7 @@ struct AeroData {
 
         JSONResourceGuard<InputJSONResource> guard(json);
         f_aero_data_from_json(this->ptr.f_arg());
+        guard.check_parameters();
     }
 
     AeroData() :

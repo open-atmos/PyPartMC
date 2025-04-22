@@ -42,7 +42,7 @@ class TestCondense:
     def test_equilib_particle(aero_data_params: dict):
         # arrange
         env_state_ctor_arg = ENV_STATE_CTOR_ARG_MINIMAL
-        env_state_ctor_arg["rel_humid"] = 0.99
+        env_state_ctor_arg["rel_humidity"] = 0.99
         env_state = ppmc.EnvState(env_state_ctor_arg)
         env_state.set_temperature(300)
         aero_data = ppmc.AeroData(

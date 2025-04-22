@@ -30,7 +30,7 @@ struct RunPartOpt {
         json_copy["do_parallel"] = false;
 
         for (auto key : std::set<std::string>({
-            "do_mosaic", "do_camp_chem", "do_condensation", "do_optical", "do_nucleation",
+            "do_mosaic", "do_camp_chem", "do_condensation", "do_nucleation",
         }))
             if (json_copy.find(key) == json_copy.end())
                 json_copy[key] = false;
@@ -51,6 +51,7 @@ struct RunPartOpt {
 
         JSONResourceGuard<InputJSONResource> guard(json_copy);
         f_run_part_opt_from_json(this->ptr.f_arg());
+        guard.check_parameters();
     }
 
     static auto t_max(const RunPartOpt &self){

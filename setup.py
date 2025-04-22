@@ -123,11 +123,10 @@ class CMakeBuild(build_ext):
 # The information here can also be placed in setup.cfg - better separation of
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
-    name="PyPartMC",
+    name="pypartmc",
     use_scm_version={
-        "local_scheme": lambda _: "",
+        "local_scheme": "no-local-version",
         "version_scheme": "post-release",
-        # "fallback_version": "0.0.0"
     },
     author="PyPartMC team (see https://github.com/open-atmos/PyPartMC/graphs/contributors)",
     author_email="nriemer@illinois.edu",
@@ -153,8 +152,16 @@ setup(
             "pytest-order",
             "fastcore!=1.5.8",  # https://github.com/fastai/fastcore/issues/439
             "ghapi",
-            # https://github.com/bsumlin/PyMieScatt/issues/25
-            "scipy" + ("<1.14.0" if "CI" in os.environ else ""),
-        ]
+            "scipy",
+        ],
+        "examples": [
+            "matplotlib!=3.10.0",
+            "ipywidgets",
+            "voila",
+            "open-atmos-jupyter-utils",
+            "PySDM",
+            "PyMieScatt",
+            "SciPy",
+        ],
     },
 )

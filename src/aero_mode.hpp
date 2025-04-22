@@ -147,6 +147,7 @@ struct AeroMode {
         check_mode_json(json.begin().value());
         JSONResourceGuard<InputJSONResource> guard(json, "", "mode_name");
         f_aero_mode_from_json(ptr.f_arg_non_const(), aero_data.ptr.f_arg_non_const());
+        guard.check_parameters();
     }
 
     static void check_mode_json(const nlohmann::json &mode) {

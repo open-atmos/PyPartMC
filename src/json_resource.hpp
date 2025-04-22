@@ -10,15 +10,19 @@
 #include <sstream>
 #include <set>
 #include <stack>
+#include <map>
 #include "nlohmann/json.hpp"
 #include <tcb/span.hpp>
 #include <bpstd/string_view.hpp>
+#include "input_guard.hpp"
 
 struct JSONResource {
   private:
     std::set<std::string> vars;
     const nlohmann::json *json;
     std::stack<const nlohmann::json*> json_parent;
+
+    std::unique_ptr<InputGuard> input_guard_ptr;
 
     void warn(const std::exception &exception) {
         std::cerr << "WARN: " << exception.what() << std::endl;
@@ -35,6 +39,8 @@ struct JSONResource {
         for (auto &entry : this->json->items()) {
             this->vars.insert(entry.key());
         }
+
+        input_guard_ptr = std::make_unique<InputGuard>(json);
     };
 
     void set_current_json_ptr(const nlohmann::json *ptr) {
@@ -65,6 +71,9 @@ struct JSONResource {
                 key = item.key();
             }
         }
+
+        input_guard_ptr->update_dict_key(key);
+
         return key;
     }
 
@@ -212,6 +221,10 @@ struct JSONResource {
         return it;
     }
 
+    InputGuard *get_input_guard_ptr() {
+        return input_guard_ptr.get();
+    }
+
     virtual std::string str() const = 0;
 
     virtual bool read_line(std::string &name, std::string &data) = 0;
@@ -341,6 +354,10 @@ struct JSONResourceGuard {
 
     ~JSONResourceGuard() {
         json_resource_ptr().reset();
+    }
+
+    void check_parameters() {
+        json_resource_ptr()->get_input_guard_ptr()->check_used_inputs();
     }
 };
 
