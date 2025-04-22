@@ -118,19 +118,19 @@ jobs:
 
       - uses: actions/setup-python@v1
         with:
-          python-version: 3.9
+          python-version: 3.10
 
-      - uses: matlab-actions/setup-matlab@v0
+      - uses: matlab-actions/setup-matlab@v2.5.0
         with:
-          release: R2022b
+          release: R2024a
 
       - uses: jwlawson/actions-setup-cmake@v1.13
         with:
           cmake-version: '3.26.x'
 
       - run: |
-          echo "CC=gcc-9" >> $GITHUB_ENV
-          echo "CXX=g++-9" >> $GITHUB_ENV
+          echo "CC=gcc-12" >> $GITHUB_ENV
+          echo "CXX=g++-12" >> $GITHUB_ENV
           VERBOSE=1 pip install --verbose -e .
 
       - run: pip install pytest-codeblocks pytest
