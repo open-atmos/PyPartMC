@@ -1,6 +1,6 @@
 !###################################################################################################
 ! This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
-! Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+! Copyright (C) 2022-2025 University of Illinois Urbana-Champaign                                  #
 ! Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 !###################################################################################################
 
