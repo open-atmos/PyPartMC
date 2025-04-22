@@ -140,7 +140,7 @@ jobs:
 
       - uses: matlab-actions/setup-matlab@v0
         with:
-          release: R2022a
+          release: R2022b
 
       - run: mkdir readme_output
 
