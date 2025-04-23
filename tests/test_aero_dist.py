@@ -1,6 +1,6 @@
 ####################################################################################################
 # This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
-# Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+# Copyright (C) 2022-2025 University of Illinois Urbana-Champaign                                  #
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
@@ -16,6 +16,7 @@ from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_mode import (
+    AERO_MODE_CTOR_EXP,
     AERO_MODE_CTOR_LOG_NORMAL,
     AERO_MODE_CTOR_LOG_NORMAL_COAGULATION,
     AERO_MODE_CTOR_LOG_NORMAL_FULL,
@@ -32,6 +33,10 @@ AERO_DIST_CTOR_ARG_FULL = [
 
 AERO_DIST_CTOR_ARG_COAGULATION = [
     AERO_MODE_CTOR_LOG_NORMAL_COAGULATION,
+]
+
+AERO_DIST_CTOR_ARG_EXP = [
+    AERO_MODE_CTOR_EXP,
 ]
 
 AERO_DIST_CTOR_ARG_AVERAGE = [
