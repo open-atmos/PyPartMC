@@ -42,6 +42,24 @@
                     <a class="variable" href="#__version__">__version__</a>
             </li>
             <li>
+                    <a class="class" href="#AeroBinned">AeroBinned</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#AeroBinned.__init__">AeroBinned</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroBinned.num_conc">num_conc</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroBinned.vol_conc">vol_conc</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroBinned.add_aero_dist">add_aero_dist</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
                     <a class="class" href="#AeroData">AeroData</a>
                             <ul class="memberlist">
                         <li>
@@ -347,6 +365,9 @@
                         <li>
                                 <a class="variable" href="#BinGrid.centers">centers</a>
                         </li>
+                        <li>
+                                <a class="variable" href="#BinGrid.widths">widths</a>
+                        </li>
                 </ul>
 
             </li>
@@ -459,6 +480,33 @@
 
             </li>
             <li>
+                    <a class="class" href="#RunSectOpt">RunSectOpt</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#RunSectOpt.__init__">RunSectOpt</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#RunSectOpt.t_max">t_max</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#RunSectOpt.del_t">del_t</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#RunExactOpt">RunExactOpt</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#RunExactOpt.__init__">RunExactOpt</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#RunExactOpt.t_max">t_max</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
                     <a class="class" href="#Scenario">Scenario</a>
                             <ul class="memberlist">
                         <li>
@@ -507,6 +555,12 @@
                     <a class="function" href="#run_part_timestep">run_part_timestep</a>
             </li>
             <li>
+                    <a class="function" href="#run_sect">run_sect</a>
+            </li>
+            <li>
+                    <a class="function" href="#run_exact">run_exact</a>
+            </li>
+            <li>
                     <a class="function" href="#pow2_above">pow2_above</a>
             </li>
             <li>
@@ -541,6 +595,12 @@
             </li>
             <li>
                     <a class="function" href="#input_state">input_state</a>
+            </li>
+            <li>
+                    <a class="function" href="#input_sectional">input_sectional</a>
+            </li>
+            <li>
+                    <a class="function" href="#input_exact">input_exact</a>
             </li>
             <li>
                     <a class="function" href="#rand_init">rand_init</a>
@@ -1066,6 +1126,86 @@ licence: <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL v2
     
     
 
+                </section>
+                <section id="AeroBinned">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">AeroBinned</span><wbr>(<span class="base">pybind11_builtins.pybind11_object</span>):
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned"></a>
+    
+            <div class="docstring"><p>Aerosol number and volume distributions stored per size bin.
+These quantities are densities both in volume (per m^3) and in radius
+(per log_width).</p>
+</div>
+
+
+                            <div id="AeroBinned.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">AeroBinned</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned.__init__"></a>
+    
+            <div class="docstring"><p>__init__(<em>args, *</em>kwargs)
+Overloaded function.</p>
+
+<ol>
+<li><p>__init__(self: _PyPartMC.AeroBinned, arg0: AeroData) -> None</p></li>
+<li><p>__init__(self: _PyPartMC.AeroBinned, arg0: AeroData, arg1: BinGrid) -> None</p></li>
+</ol>
+</div>
+
+
+                            </div>
+                            <div id="AeroBinned.num_conc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_conc</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned.num_conc"></a>
+    
+            <div class="docstring"><p>(arg0: _PyPartMC.AeroBinned) -> List[float]</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroBinned.vol_conc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">vol_conc</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned.vol_conc"></a>
+    
+            <div class="docstring"><p>(arg0: _PyPartMC.AeroBinned) -> List[List[float]]</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroBinned.add_aero_dist" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">add_aero_dist</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned.add_aero_dist"></a>
+    
+            <div class="docstring"><p>add_aero_dist(self: _PyPartMC.AeroBinned, arg0: BinGrid, arg1: AeroDist) -> None</p>
+
+<p>Adds an AeroDist to an AeroBinned</p>
+</div>
+
+
+                            </div>
                 </section>
                 <section id="AeroData">
                     <div class="attr class">
@@ -2549,6 +2689,19 @@ Overloaded function.</p>
 
 
                             </div>
+                            <div id="BinGrid.widths" class="classattr">
+                                <div class="attr variable">
+            <span class="name">widths</span>
+
+        
+    </div>
+    <a class="headerlink" href="#BinGrid.widths"></a>
+    
+            <div class="docstring"><p>(arg0: _PyPartMC.BinGrid) -> List[float]</p>
+</div>
+
+
+                            </div>
                 </section>
                 <section id="CampCore">
                     <div class="attr class">
@@ -2995,6 +3148,103 @@ it. This will be the case for new \c gas_state_t structures.</p>
 
                             </div>
                 </section>
+                <section id="RunSectOpt">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">RunSectOpt</span><wbr>(<span class="base">pybind11_builtins.pybind11_object</span>):
+
+        
+    </div>
+    <a class="headerlink" href="#RunSectOpt"></a>
+    
+            <div class="docstring"><p>Options controlling the execution of run_sect().</p>
+</div>
+
+
+                            <div id="RunSectOpt.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">RunSectOpt</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunSectOpt.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self: _PyPartMC.RunSectOpt, arg0: json, arg1: _PyPartMC.EnvState) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="RunSectOpt.t_max" class="classattr">
+                                <div class="attr variable">
+            <span class="name">t_max</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunSectOpt.t_max"></a>
+    
+            <div class="docstring"><p>(arg0: _PyPartMC.RunSectOpt) -> float</p>
+</div>
+
+
+                            </div>
+                            <div id="RunSectOpt.del_t" class="classattr">
+                                <div class="attr variable">
+            <span class="name">del_t</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunSectOpt.del_t"></a>
+    
+            <div class="docstring"><p>(arg0: _PyPartMC.RunSectOpt) -> float</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="RunExactOpt">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">RunExactOpt</span><wbr>(<span class="base">pybind11_builtins.pybind11_object</span>):
+
+        
+    </div>
+    <a class="headerlink" href="#RunExactOpt"></a>
+    
+            <div class="docstring"><p>Options controlling the execution of run_exact().</p>
+</div>
+
+
+                            <div id="RunExactOpt.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">RunExactOpt</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunExactOpt.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self: _PyPartMC.RunExactOpt, arg0: json, arg1: _PyPartMC.EnvState) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="RunExactOpt.t_max" class="classattr">
+                                <div class="attr variable">
+            <span class="name">t_max</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunExactOpt.t_max"></a>
+    
+            <div class="docstring"><p>(arg0: _PyPartMC.RunExactOpt) -> float</p>
+</div>
+
+
+                            </div>
+                </section>
                 <section id="Scenario">
                     <div class="attr class">
             
@@ -3233,6 +3483,40 @@ equilibrium.</p>
 
 
                 </section>
+                <section id="run_sect">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">run_sect</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#run_sect"></a>
+    
+            <div class="docstring"><p>run_sect(arg0: BinGrid, arg1: GasData, arg2: AeroData, arg3: AeroDist, arg4: Scenario, arg5: EnvState, arg6: RunSectOpt) -> None</p>
+
+<p>Do a 1D sectional simulation (Bott 1998 scheme).</p>
+</div>
+
+
+                </section>
+                <section id="run_exact">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">run_exact</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#run_exact"></a>
+    
+            <div class="docstring"><p>run_exact(arg0: BinGrid, arg1: GasData, arg2: AeroData, arg3: AeroDist, arg4: Scenario, arg5: EnvState, arg6: RunExactOpt) -> None</p>
+
+<p>Do an exact solution simulation.</p>
+</div>
+
+
+                </section>
                 <section id="pow2_above">
                     <div class="attr function">
             
@@ -3432,7 +3716,41 @@ equilibrium.</p>
     
             <div class="docstring"><p>input_state(arg0: str) -> Tuple[_PyPartMC.AeroData, _PyPartMC.AeroState, _PyPartMC.GasData, _PyPartMC.GasState, _PyPartMC.EnvState]</p>
 
-<p>Read current state from netCDF output file.</p>
+<p>Read current state from run_part netCDF output file.</p>
+</div>
+
+
+                </section>
+                <section id="input_sectional">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">input_sectional</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#input_sectional"></a>
+    
+            <div class="docstring"><p>input_sectional(arg0: str) -> Tuple[_PyPartMC.AeroData, _PyPartMC.BinGrid, _PyPartMC.AeroBinned, _PyPartMC.GasData, _PyPartMC.GasState, _PyPartMC.EnvState]</p>
+
+<p>Read current state from run_sect netCDF output file.</p>
+</div>
+
+
+                </section>
+                <section id="input_exact">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">input_exact</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#input_exact"></a>
+    
+            <div class="docstring"><p>input_exact(arg0: str) -> Tuple[_PyPartMC.AeroData, _PyPartMC.BinGrid, _PyPartMC.AeroBinned, _PyPartMC.GasData, _PyPartMC.GasState, _PyPartMC.EnvState]</p>
+
+<p>Read current state from run_exact netCDF output file.</p>
 </div>
 
 
