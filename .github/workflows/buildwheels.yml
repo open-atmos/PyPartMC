@@ -5,8 +5,14 @@ defaults:
     shell: bash
 
 on:
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: '0 13 * * 4'
+  release:
+    types: [published]
 
 jobs:
   debug_build_ok:
