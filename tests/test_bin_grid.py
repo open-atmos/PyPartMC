@@ -1,6 +1,6 @@
 ####################################################################################################
 # This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
-# Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+# Copyright (C) 2022-2025 University of Illinois Urbana-Champaign                                  #
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
@@ -93,6 +93,40 @@ class TestBinGrid:
                 1:-1:2
             ],
             centers,
+        )
+
+    @staticmethod
+    def test_bin_widths_len():
+        # arrange
+        grid_size = 44
+        sut = ppmc.BinGrid(grid_size, "log", 1, 100)
+
+        # act
+        widths = sut.widths
+
+        # assert
+        assert grid_size == len(widths)
+
+    @staticmethod
+    def test_bin_widths_values():
+        # arrange
+        n_bins = 10
+        left_edge = 1
+        right_edge = 100
+        sut = ppmc.BinGrid(n_bins, "log", left_edge, right_edge)
+
+        # act
+        widths = sut.widths
+
+        # assert
+        np.testing.assert_array_almost_equal(
+            np.log(
+                np.logspace(np.log10(left_edge), np.log10(right_edge), n_bins + 1)[1:]
+                / np.logspace(np.log10(left_edge), np.log10(right_edge), n_bins + 1)[
+                    :-1
+                ]
+            ),
+            widths,
         )
 
     @staticmethod
