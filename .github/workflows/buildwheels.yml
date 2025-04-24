@@ -105,6 +105,18 @@ jobs:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
 
+      # install fortran compiler needed by dustpy
+      - if: startsWith(matrix.platform, 'macos-')
+        run: |
+          brew reinstall gcc
+      - if: startsWith(matrix.platform, 'windows-')
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: false
+          install: >-
+            mingw-w64-x86_64-gcc-fortran
+
       - run: | 
           temp=`find dist/ -name "*cp313*.whl"`
           python -m pip install $temp[examples]
