@@ -87,6 +87,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: Run example notebooks on ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, windows-latest]
 
