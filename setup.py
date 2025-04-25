@@ -162,7 +162,7 @@ setup(
             "PySDM",
             "PyMieScatt",
             "SciPy",
-            "dustpy",
+            "dustpy; platform_system == 'Linux'",
         ],
     },
 )
