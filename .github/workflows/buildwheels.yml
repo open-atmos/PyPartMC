@@ -107,7 +107,7 @@ jobs:
           path: dist
 
       # install fortran compiler needed by dustpy
-      - if: startsWith(matrix.platform, 'macos-')
+      - if: startsWith(matrix.os, 'macos-')
         run: |
           brew install gfortran
 
