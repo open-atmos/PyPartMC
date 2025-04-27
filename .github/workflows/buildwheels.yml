@@ -87,6 +87,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: Run example notebooks on ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, windows-latest]
 
@@ -104,6 +105,11 @@ jobs:
         with:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
+
+      # install fortran compiler needed by dustpy
+      - if: startsWith(matrix.os, 'macos-')
+        run: |
+          brew reinstall gcc
 
       - run: | 
           temp=`find dist/ -name "*cp313*.whl"`
