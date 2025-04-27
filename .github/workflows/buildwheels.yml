@@ -109,7 +109,7 @@ jobs:
       # install fortran compiler needed by dustpy
       - if: startsWith(matrix.os, 'macos-')
         run: |
-          brew install gfortran
+          brew reinstall gcc
 
       - run: | 
           temp=`find dist/ -name "*cp313*.whl"`
