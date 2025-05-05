@@ -5,6 +5,11 @@
 ####################################################################################################
 
 cmake_minimum_required(VERSION 3.8)  # CXX17
+include(CheckCSourceCompiles)
+include(CheckCXXSourceCompiles)
+include(CheckFunctionExists)
+include(CheckFortranCompilerFlag)
+include(CheckFunctionExists)
 
 file(GLOB mods RELATIVE ${CMAKE_SOURCE_DIR} gitmodules/*)
 foreach(mod ${mods})
@@ -296,6 +301,7 @@ endfunction()
 scoped_sundials_setup_config()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SUNDIALS_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${SUNDIALS_SOURCE_DIR}/cmake/tpl)
 include(${SUNDIALS_SOURCE_DIR}/cmake/SundialsSetupCompilers.cmake)
 
 foreach(item cvode;sunmatrix;sunlinsol;sunnonlinsol;nvector;sundials;sunlinsol/klu)
@@ -372,7 +378,6 @@ string(CONCAT cmd
   " or '_T TRUE)' in line"
   "]))"
 )
-include(CheckFunctionExists)
 execute_process(
   COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
   INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/CMakeLists.txt
@@ -437,7 +442,6 @@ target_link_libraries(netcdf_clib PRIVATE hdf5_hl-static)
 
 ### netCDF-FORTRAN #################################################################################
 
-include(CheckFortranCompilerFlag)
 add_library(netcdf_flib STATIC ${netcdf_f_SOURCES})
 target_link_libraries(netcdf_flib PRIVATE netcdf_clib)
 target_compile_definitions(netcdf_flib PRIVATE
@@ -482,7 +486,6 @@ string(CONCAT
   "import sys;"
   "print(''.join([line if line.startswith('#') else f'#define {line.split()[3]} {line.split()[5]}\\n' for line in sys.stdin if 'parameter ::' in line or line.startswith('#')]))"
 )
-include(CheckFunctionExists)
 foreach(file aero_data;gas_data;output)
   execute_process(
     COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
@@ -550,7 +553,6 @@ foreach(target _PyPartMC)
   )
 endforeach()
 target_compile_definitions(_PyPartMC PRIVATE PMC_USE_SUNDIALS="1")
-include(CheckCXXSourceCompiles)
 file(GLOB PyPartMC_headers ${CMAKE_SOURCE_DIR}/src/*.hpp)
 if (NOT "${CMAKE_REQUIRED_INCLUDES}" STREQUAL "")
   message("CMAKE_REQUIRED_INCLUDES not empty! (${CMAKE_REQUIRED_INCLUDES})")
