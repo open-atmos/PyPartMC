@@ -69,10 +69,11 @@ si = __generate_si()
     SI-prefix-aware unit multipliers, resulting in e.g.: `p = 1000 * si.hPa`
     notation. Note: no dimensional analysis is done! """
 
-with __build_extension_env():
-    import _PyPartMC
-    from _PyPartMC import *
-    from _PyPartMC import __all__ as _PyPartMC_all  # pylint: disable=no-name-in-module
-    from _PyPartMC import __version__, __versions_of_build_time_dependencies__
+# with __build_extension_env():
+# from . import _PyPartMC
+from ._PyPartMC import *
 
-    __all__ = tuple([*_PyPartMC_all, "si"])
+#    from ._PyPartMC import __all__ as _PyPartMC_all  # pylint: disable=no-name-in-module
+#    from ._PyPartMC import __version__, __versions_of_build_time_dependencies__
+
+#    __all__ = tuple([*_PyPartMC_all, "si"])
