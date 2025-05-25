@@ -495,25 +495,25 @@ NB_MODULE(_PyPartMC, m) {
         "Return the least power-of-2 that is at least equal to n."
     );
 
-    // m.def(
-    //     "sphere_vol2rad", &sphere_vol2rad, py::return_value_policy::copy,
-    //     "Convert mass-equivalent volume (m^3) to geometric radius (m) for spherical particles."
-    // );
+    m.def(
+        "sphere_vol2rad", &sphere_vol2rad, nb::rv_policy::copy,
+        "Convert mass-equivalent volume (m^3) to geometric radius (m) for spherical particles."
+    );
 
-    // m.def(
-    //     "rad2diam", &rad2diam, py::return_value_policy::copy,
-    //     "Convert radius (m) to diameter (m)."
-    // );
+    m.def(
+        "rad2diam", &rad2diam, nb::rv_policy::copy,
+        "Convert radius (m) to diameter (m)."
+    );
 
-    // m.def(
-    //     "sphere_rad2vol", &sphere_rad2vol, py::return_value_policy::copy,
-    //     "Convert geometric radius (m) to mass-equivalent volume for spherical particles."
-    // );
+    m.def(
+        "sphere_rad2vol", &sphere_rad2vol, nb::rv_policy::copy,
+        "Convert geometric radius (m) to mass-equivalent volume for spherical particles."
+    );
 
-    // m.def(
-    //     "diam2rad", &diam2rad, py::return_value_policy::copy,
-    //     "Convert diameter (m) to radius (m)."
-    // );
+    m.def(
+        "diam2rad", &diam2rad, nb::rv_policy::copy,
+        "Convert diameter (m) to radius (m)."
+    );
 
     // m.def(
     //     "loss_rate_dry_dep", &loss_rate_dry_dep, py::return_value_policy::copy,
