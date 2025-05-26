@@ -6,6 +6,7 @@
 
 // #include "pybind11/pybind11.h"
 #include "nanobind/nanobind.h"
+#include "nanobind/stl/vector.h"
 #include "nlohmann/json.hpp"
 // #include "nanobind_json/nanobind_json.hpp"
 // #include "pybind11_json/pybind11_json.hpp"
@@ -17,7 +18,7 @@
 #include "rand.hpp"
 // #include "run_part.hpp"
 // #include "run_part_opt.hpp"
-// #include "aero_data.hpp"
+#include "aero_data.hpp"
 // #include "aero_dist.hpp"
 // #include "aero_mode.hpp"
 // #include "aero_state.hpp"
@@ -37,6 +38,189 @@
 // namespace py = pybind11;
 
 namespace nb = nanobind;
+namespace nl = nlohmann;
+
+namespace pyjson
+{
+    inline nb::handle from_json(const nl::json& j)
+    {
+        if (j.is_null())
+        {
+            return nb::none();
+        }
+        else if (j.is_boolean())
+        {
+            return nb::bool_(j.get<bool>());
+        }
+        else if (j.is_number_integer())
+        {
+            return nb::int_(j.get<long>());
+        }
+        else if (j.is_number_float())
+        {
+            return nb::float_(j.get<double>());
+        }
+        else if (j.is_string())
+        {
+            std::string temp = j.get<std::string>();
+            return nb::str(temp.c_str(), temp.length());
+        }
+        else if (j.is_array())
+        {
+            nb::list obj;
+            for (const auto& el : j)
+            {
+                obj.append(from_json(el));
+            }
+            return std::move(obj);
+        }
+        else // Object
+        {
+            nb::dict obj;
+            for (nl::json::const_iterator it = j.cbegin(); it != j.cend(); ++it)
+            {
+                std::string key = it.key();
+                obj[nb::str(key.c_str(), key.length())] = from_json(it.value());
+            }
+            return obj.release();
+        }
+    }
+
+    nl::json to_json(const nb::handle& obj)
+    {
+        if (obj.ptr() == nullptr || obj.is_none())
+        {
+            return nullptr;
+        }
+        if (nb::isinstance<nb::bool_>(obj))
+        {
+            return nb::cast<bool>(obj);
+        }
+        if (nb::isinstance<nb::int_>(obj))
+        {
+            return nb::cast<long>(obj);
+        }
+        if (nb::isinstance<nb::float_>(obj))
+        {
+            return nb::cast<double>(obj);
+        }
+        // if (nb::isinstance<nb::bytes>(obj))
+        // {
+        //     nb::module base64 = nb::module::import("base64");
+        //     // return base64.attr("b64encode")(obj).attr("decode")("utf-8").cast<std::string>();
+        //     return nb::cast<std::string>(base64.attr("b64encode")(obj).attr("decode")("utf-8"));
+        // }
+        if (nb::isinstance<nb::str>(obj))
+        {
+            return nb::cast<std::string>(obj);
+        }
+        if (nb::isinstance<nb::tuple>(obj) || nb::isinstance<nb::list>(obj))
+        {
+            auto out = nl::json::array();
+            for (const nb::handle value : obj)
+            {
+                out.push_back(to_json(value));
+            }
+
+            return out;
+        }
+        if (nb::isinstance<nb::dict>(obj) || nb::isinstance<nb::tuple>(obj) || nb::isinstance<nb::list>(obj))
+        {
+            auto out = nl::json::object();
+            for (const nb::handle key : obj)
+            {
+                out[nb::cast<std::string>(nb::str(key))] = to_json(obj[key]);
+            }
+            return out;
+        }
+        throw std::runtime_error("to_json not implemented for this type of object: ");
+        // throw std::runtime_error("to_json not implemented for this type of object: " + nb::repr(obj).cast<std::string>());
+    }
+}
+
+// nlohmann_json serializers
+// namespace nlohmann
+// {
+//     #define MAKE_NLJSON_SERIALIZER_DESERIALIZER(T)         \
+//     template <>                                            \
+//     struct adl_serializer<T>                               \
+//     {                                                      \
+//         inline static void to_json(json& j, const T& obj)  \
+//         {                                                  \
+//             std::cout << "dupa dupa dupa" << std::endl;   \
+//             j = pyjson::to_json(obj);  \
+//             std::cout << "you just got JSONed!" << std::endl;                    \
+//         }                                                  \
+//                                                            \
+//         inline static nb::handle from_json(const json& j)           \
+//         {                                                  \
+//             return pyjson::from_json(j);                   \
+//         }                                                  \
+//     };
+
+//     #define MAKE_NLJSON_SERIALIZER_ONLY(T)                 \
+//     template <>                                            \
+//     struct adl_serializer<T>                               \
+//     {                                                      \
+//         inline static void to_json(json& j, const T& obj)  \
+//         {                                                  \
+//             j = pyjson::to_json(obj);                      \
+//         }                                                  \
+//     };
+
+//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::object);
+
+//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::bool_);
+//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::int_);
+//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::float_);
+//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::str);
+
+//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::list);
+//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::tuple);
+//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::dict);
+
+//     MAKE_NLJSON_SERIALIZER_ONLY(nb::handle);
+//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::item_accessor);
+//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::list_accessor);
+//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::tuple_accessor);
+//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::sequence_accessor);
+//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::str_attr_accessor);
+//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::obj_attr_accessor);
+
+//     #undef MAKE_NLJSON_SERIALIZER_DESERIALIZER
+//     #undef MAKE_NLJSON_SERIALIZER_ONLY
+// }
+
+// nanobind caster
+namespace nanobind
+{
+    namespace detail
+    {
+        template <> struct type_caster<nl::json>
+        {
+        public:
+            NB_TYPE_CASTER(nl::json, const_name("[") +
+                             const_name("]"));
+
+            bool from_python(handle src, uint8_t flags, cleanup_list *cleanup) noexcept {
+                try {
+                    value = pyjson::to_json(src);
+                    return true;
+                }
+                catch (...)
+                {
+                    return false;
+                }
+            }
+
+            template <typename T>
+            static handle from_cpp(T &&src, rv_policy policy, cleanup_list *cleanup) {
+                handle obj = pyjson::from_json(src);
+                return obj;
+            }
+        };
+    }
+}
 
 // namespace PYBIND11_NAMESPACE { namespace detail {
 //     template <typename T>
@@ -64,59 +248,59 @@ NB_MODULE(_PyPartMC, m) {
     // //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
     // //m.def("run_exact", &run_exact, "Do an exact solution simulation.");
 
-    // py::class_<AeroData, std::shared_ptr<AeroData>>(m, "AeroData",
-    //     R"pbdoc(
-    //          Aerosol material properties and associated data.
+    nb::class_<AeroData>(m, "AeroData",
+        R"pbdoc(
+             Aerosol material properties and associated data.
 
-    //          The data in this structure is constant, as it represents physical
-    //          quantities that cannot change over time.
+             The data in this structure is constant, as it represents physical
+             quantities that cannot change over time.
 
-    //          Each aerosol species is identified by an index <tt>i =
-    //          1,...,aero_data_n_spec(aero_data)</tt>. Then \c name(i) is the name of
-    //          that species, \c density(i) is its density, etc. The ordering of the
-    //          species is arbitrary and should not be relied upon (currently it is the
-    //          order in the species data file). The only exception is that it is
-    //          possible to find out which species is water from the \c i_water
-    //          variable.
+             Each aerosol species is identified by an index <tt>i =
+             1,...,aero_data_n_spec(aero_data)</tt>. Then \c name(i) is the name of
+             that species, \c density(i) is its density, etc. The ordering of the
+             species is arbitrary and should not be relied upon (currently it is the
+             order in the species data file). The only exception is that it is
+             possible to find out which species is water from the \c i_water
+             variable.
 
-    //          The names of the aerosol species are not important to PartMC, as
-    //          only the material properties are used. The names are used for
-    //          input and output, and also for communication with MOSAIC. For the
-    //          MOSAIC interface to work correctly the species must be named the
-    //          same, but without the \c _a suffix.
-    //     )pbdoc"
-    // )
-    //     .def(py::init<const nlohmann::json&>())
-    //     .def("spec_by_name", AeroData::spec_by_name,
-    //          "Returns the number of the species in AeroData with the given name")
-    //     .def("__len__", AeroData::__len__, "Number of aerosol species")
-    //     .def_property_readonly("n_source", AeroData::n_source,
-    //          "Number of aerosol sources")
-    //     .def_property_readonly("sources", AeroData::sources, "return list of source names")
-    //     .def_property("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim,
-    //          "Volume fractal dimension (1)")
-    //     .def_property("vol_fill_factor", &AeroData::get_vol_fill_factor,
-    //          &AeroData::set_vol_fill_factor, "Volume filling factor (1)")
-    //     .def_property("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius,
-    //         "Radius of primary particles (m)")
-    //     .def_property_readonly("densities", &AeroData::densities,
-    //         "Return array of aerosol species densities")
-    //     .def_property_readonly("kappa", &AeroData::kappa,
-    //         "Returns array of aerosol species hygroscopicity parameter kappa")
-    //     .def_property_readonly("molecular_weights", &AeroData::molecular_weights,
-    //         "Returns array of aerosol species molecular weights")
-    //     .def("density", &AeroData::density, "Return density of an aerosol species")
-    //     .def("rad2vol", AeroData::rad2vol,
-    //         "Convert geometric radius (m) to mass-equivalent volume (m^3).")
-    //     .def("vol2rad", AeroData::vol2rad,
-    //         "Convert mass-equivalent volume (m^3) to geometric radius (m)")
-    //     .def("diam2vol", AeroData::diam2vol,
-    //         "Convert geometric diameter (m) to mass-equivalent volume (m^3).")
-    //     .def("vol2diam", AeroData::vol2diam,
-    //         "Convert mass-equivalent volume (m^3) to geometric diameter (m).")
-    //     .def_property_readonly("species", AeroData::names,
-    //         "returns list of aerosol species names")
-    // ;
+             The names of the aerosol species are not important to PartMC, as
+             only the material properties are used. The names are used for
+             input and output, and also for communication with MOSAIC. For the
+             MOSAIC interface to work correctly the species must be named the
+             same, but without the \c _a suffix.
+        )pbdoc"
+    )
+        .def(nb::init<const nlohmann::json&>())
+        .def("spec_by_name", AeroData::spec_by_name,
+             "Returns the number of the species in AeroData with the given name")
+        .def("__len__", AeroData::__len__, "Number of aerosol species")
+        .def_prop_ro("n_source", AeroData::n_source,
+             "Number of aerosol sources")
+        .def_prop_ro("sources", AeroData::sources, "return list of source names")
+        .def_prop_rw("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim,
+             "Volume fractal dimension (1)")
+        .def_prop_rw("vol_fill_factor", &AeroData::get_vol_fill_factor,
+             &AeroData::set_vol_fill_factor, "Volume filling factor (1)")
+        .def_prop_rw("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius,
+            "Radius of primary particles (m)")
+        .def_prop_ro("densities", &AeroData::densities,
+            "Return array of aerosol species densities")
+        .def_prop_ro("kappa", &AeroData::kappa,
+            "Returns array of aerosol species hygroscopicity parameter kappa")
+        .def_prop_ro("molecular_weights", &AeroData::molecular_weights,
+            "Returns array of aerosol species molecular weights")
+        .def("density", &AeroData::density, "Return density of an aerosol species")
+        .def("rad2vol", AeroData::rad2vol,
+            "Convert geometric radius (m) to mass-equivalent volume (m^3).")
+        .def("vol2rad", AeroData::vol2rad,
+            "Convert mass-equivalent volume (m^3) to geometric radius (m)")
+        .def("diam2vol", AeroData::diam2vol,
+            "Convert geometric diameter (m) to mass-equivalent volume (m^3).")
+        .def("vol2diam", AeroData::vol2diam,
+            "Convert mass-equivalent volume (m^3) to geometric diameter (m).")
+        .def_prop_ro("species", AeroData::names,
+            "returns list of aerosol species names")
+    ;
 
     // py::class_<AeroParticle>(m, "AeroParticle",
     //     R"pbdoc(
