@@ -661,12 +661,12 @@ NB_MODULE(_PyPartMC, m) {
     //     .def_property_readonly("del_t", RunPartOpt::del_t, "time step")
     // ;
 
-    // nb::class_<BinGrid>(m,"BinGrid")
-    //     .def(nb::init<const double, const nb::str, const double, const double>())
-    //     .def("__len__", BinGrid::__len__, "returns number of bins")
-    //     .def_prop_ro("edges", BinGrid::edges, "Bin edges")
-    //     .def_prop_ro("centers", BinGrid::centers, "Bin centers")
-    // ;
+    nb::class_<BinGrid>(m,"BinGrid")
+        .def(nb::init<const double, const nb::str, const double, const double>())
+        .def("__len__", BinGrid::__len__, "returns number of bins")
+        .def_prop_ro("edges", BinGrid::edges, "Bin edges")
+        .def_prop_ro("centers", BinGrid::centers, "Bin centers")
+    ;
 
     // py::class_<AeroMode>(m,"AeroMode")
     //     .def(py::init<AeroData&, const nlohmann::json&>())
@@ -704,15 +704,15 @@ NB_MODULE(_PyPartMC, m) {
     //         "returns the mode of a given index")
     // ;
 
-    // m.def(
-    //     "histogram_1d", &histogram_1d, nb::rv_policy::copy,
-    //     "Return a 1D histogram with of the given weighted data, scaled by the bin sizes."
-    // );
+    m.def(
+        "histogram_1d", &histogram_1d, nb::rv_policy::copy,
+        "Return a 1D histogram with of the given weighted data, scaled by the bin sizes."
+    );
 
-    // m.def(
-    //     "histogram_2d", &histogram_2d, nb::rv_policy::copy,
-    //     "Return a 2D histogram with of the given weighted data, scaled by the bin sizes."
-    // );
+    m.def(
+        "histogram_2d", &histogram_2d, nb::rv_policy::copy,
+        "Return a 2D histogram with of the given weighted data, scaled by the bin sizes."
+    );
 
     //  TODO #120: auto util = m.def_submodule("util", "...");
     m.def(
