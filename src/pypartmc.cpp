@@ -7,6 +7,8 @@
 // #include "pybind11/pybind11.h"
 #include "nanobind/nanobind.h"
 #include "nanobind/stl/vector.h"
+#include "nanobind/stl/string.h"
+#include <nanobind/ndarray.h>
 #include "nlohmann/json.hpp"
 // #include "nanobind_json/nanobind_json.hpp"
 // #include "pybind11_json/pybind11_json.hpp"
@@ -26,11 +28,13 @@
 // // #include "gas_data.hpp"
 // #include "gas_state.hpp"
 // #include "condense.hpp"
-// #include "bin_grid.hpp"
+#include "bin_grid.hpp"
 // #include "camp_core.hpp"
 // #include "photolysis.hpp"
 // #include "output.hpp"
 // #include "output_parameters.hpp"
+
+#include <valarray>
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -40,6 +44,7 @@
 namespace nb = nanobind;
 namespace nl = nlohmann;
 
+#include <iostream>
 namespace pyjson
 {
     inline nb::handle from_json(const nl::json& j)
@@ -199,8 +204,7 @@ namespace nanobind
         template <> struct type_caster<nl::json>
         {
         public:
-            NB_TYPE_CASTER(nl::json, const_name("[") +
-                             const_name("]"));
+            NB_TYPE_CASTER(nl::json, const_name("[") + const_name("JSON") +const_name("]"));
 
             bool from_python(handle src, uint8_t flags, cleanup_list *cleanup) noexcept {
                 try {
@@ -219,13 +223,50 @@ namespace nanobind
                 return obj;
             }
         };
+
+        template <typename Type> struct type_caster<std::valarray<Type>> {
+            NB_TYPE_CASTER(std::valarray<Type>, const_name("[") +
+                                    const_name("valarray") +
+                                    const_name("]"))
+
+            using Caster = make_caster<Type>;
+
+            bool from_python(handle src, uint8_t flags, cleanup_list *cleanup) noexcept {
+                if (nb::isinstance<nb::list>(src) || nb::isinstance<nb::ndarray<Type, nb::ndim<1>>>(src)) {
+                    try {
+                        auto py_array = nb::cast<nb::ndarray<Type, nb::ndim<1>>>(src);
+                        size_t size = py_array.size();
+                        auto *data = py_array.data();
+
+                        value.resize(size);
+
+                        for (size_t i = 0; i < size; i++) {
+                            value[i] = data[i];
+                        }
+
+                        return true;
+                    }
+                    catch (...) {
+                        PyErr_Clear();
+                        return false;
+                    }
+                }
+
+                return false;
+            }
+
+            template <typename T>
+            static handle from_cpp(T &&src, rv_policy policy, cleanup_list *cleanup) {
+                nb::list obj;
+                for (const auto& elem : src) {
+                    obj.append(elem);
+                }
+
+                return obj.release();
+            }
+        };
     }
 }
-
-// namespace PYBIND11_NAMESPACE { namespace detail {
-//     template <typename T>
-//     struct type_caster<tl::optional<T>> : optional_caster<tl::optional<T>> {};
-// }}
 
 NB_MODULE(_PyPartMC, m) {
     // m.doc() = R"pbdoc(
@@ -620,11 +661,11 @@ NB_MODULE(_PyPartMC, m) {
     //     .def_property_readonly("del_t", RunPartOpt::del_t, "time step")
     // ;
 
-    // py::class_<BinGrid>(m,"BinGrid")
-    //     .def(py::init<const double, const py::str, const double, const double>())
+    // nb::class_<BinGrid>(m,"BinGrid")
+    //     .def(nb::init<const double, const nb::str, const double, const double>())
     //     .def("__len__", BinGrid::__len__, "returns number of bins")
-    //     .def_property_readonly("edges", BinGrid::edges, "Bin edges")
-    //     .def_property_readonly("centers", BinGrid::centers, "Bin centers")
+    //     .def_prop_ro("edges", BinGrid::edges, "Bin edges")
+    //     .def_prop_ro("centers", BinGrid::centers, "Bin centers")
     // ;
 
     // py::class_<AeroMode>(m,"AeroMode")
@@ -664,12 +705,12 @@ NB_MODULE(_PyPartMC, m) {
     // ;
 
     // m.def(
-    //     "histogram_1d", &histogram_1d, py::return_value_policy::copy,
+    //     "histogram_1d", &histogram_1d, nb::rv_policy::copy,
     //     "Return a 1D histogram with of the given weighted data, scaled by the bin sizes."
     // );
 
     // m.def(
-    //     "histogram_2d", &histogram_2d, py::return_value_policy::copy,
+    //     "histogram_2d", &histogram_2d, nb::rv_policy::copy,
     //     "Return a 2D histogram with of the given weighted data, scaled by the bin sizes."
     // );
 
