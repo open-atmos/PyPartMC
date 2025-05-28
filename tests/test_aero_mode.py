@@ -305,7 +305,7 @@ class TestAeroMode:
             ppmc.AeroMode(aero_data, fishy_ctor_arg)
 
         # assert
-        assert "incompatible constructor arguments" in str(exc_info.value)
+        assert "incompatible function arguments" in str(exc_info.value)
 
     @staticmethod
     @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")

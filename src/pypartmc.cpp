@@ -8,7 +8,7 @@
 #include "nanobind/nanobind.h"
 #include "nanobind/stl/vector.h"
 #include "nanobind/stl/string.h"
-#include <nanobind/ndarray.h>
+#include "nanobind/ndarray.h"
 #include "nlohmann/json.hpp"
 // #include "nanobind_json/nanobind_json.hpp"
 // #include "pybind11_json/pybind11_json.hpp"
@@ -22,7 +22,7 @@
 // #include "run_part_opt.hpp"
 #include "aero_data.hpp"
 // #include "aero_dist.hpp"
-// #include "aero_mode.hpp"
+#include "aero_mode.hpp"
 // #include "aero_state.hpp"
 // #include "env_state.hpp"
 // // #include "gas_data.hpp"
@@ -39,12 +39,9 @@
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
-// namespace py = pybind11;
-
 namespace nb = nanobind;
 namespace nl = nlohmann;
 
-#include <iostream>
 namespace pyjson
 {
     inline nb::handle from_json(const nl::json& j)
@@ -91,7 +88,7 @@ namespace pyjson
         }
     }
 
-    nl::json to_json(const nb::handle& obj)
+    inline nl::json to_json(const nb::handle& obj, std::set<const PyObject*> prevs)
     {
         if (obj.ptr() == nullptr || obj.is_none())
         {
@@ -109,32 +106,43 @@ namespace pyjson
         {
             return nb::cast<double>(obj);
         }
-        // if (nb::isinstance<nb::bytes>(obj))
-        // {
-        //     nb::module base64 = nb::module::import("base64");
-        //     // return base64.attr("b64encode")(obj).attr("decode")("utf-8").cast<std::string>();
-        //     return nb::cast<std::string>(base64.attr("b64encode")(obj).attr("decode")("utf-8"));
-        // }
+        if (nb::isinstance<nb::bytes>(obj))
+        {
+            nb::module_ base64 = nb::module_::import_("base64");
+            return nb::cast<std::string>(base64.attr("b64encode")(obj).attr("decode")("utf-8"));
+        }
         if (nb::isinstance<nb::str>(obj))
         {
             return nb::cast<std::string>(obj);
         }
         if (nb::isinstance<nb::tuple>(obj) || nb::isinstance<nb::list>(obj))
         {
+            auto insert_return = prevs.insert(obj.ptr());
+            if (!insert_return.second) {
+                throw std::runtime_error("Circular reference detected");
+            }
+
             auto out = nl::json::array();
+
             for (const nb::handle value : obj)
             {
-                out.push_back(to_json(value));
+                out.push_back(to_json(value, prevs));
             }
 
             return out;
         }
-        if (nb::isinstance<nb::dict>(obj) || nb::isinstance<nb::tuple>(obj) || nb::isinstance<nb::list>(obj))
+        if (nb::isinstance<nb::dict>(obj))
         {
+            auto insert_return = prevs.insert(obj.ptr());
+            if (!insert_return.second) {
+                throw std::runtime_error("Circular reference detected");
+            }
+
             auto out = nl::json::object();
+
             for (const nb::handle key : obj)
             {
-                out[nb::cast<std::string>(nb::str(key))] = to_json(obj[key]);
+                out[nb::cast<std::string>(nb::str(key))] = to_json(obj[key], prevs);
             }
             return out;
         }
@@ -208,7 +216,7 @@ namespace nanobind
 
             bool from_python(handle src, uint8_t flags, cleanup_list *cleanup) noexcept {
                 try {
-                    value = pyjson::to_json(src);
+                    value = pyjson::to_json(src, std::set<const PyObject*>());
                     return true;
                 }
                 catch (...)
@@ -225,14 +233,30 @@ namespace nanobind
         };
 
         template <typename Type> struct type_caster<std::valarray<Type>> {
-            NB_TYPE_CASTER(std::valarray<Type>, const_name("[") +
-                                    const_name("valarray") +
-                                    const_name("]"))
+            NB_TYPE_CASTER(std::valarray<Type>, const_name("[") + const_name("std::valarray") + const_name("]"))
 
             using Caster = make_caster<Type>;
 
             bool from_python(handle src, uint8_t flags, cleanup_list *cleanup) noexcept {
-                if (nb::isinstance<nb::list>(src) || nb::isinstance<nb::ndarray<Type, nb::ndim<1>>>(src)) {
+                if (nb::isinstance<nb::list>(src)) {
+                    try {
+                        auto py_array = nb::cast<nb::list>(src);
+                        size_t size = py_array.size();
+
+                        value.resize(size);
+
+                        for (size_t i = 0; i < size; i++) {
+                            value[i] = nb::cast<Type>(py_array[i]);
+                        }
+
+                        return true;
+                    }
+                    catch (...) {
+                        PyErr_Clear();
+                        return false;
+                    }
+                }
+                else if (nb::isinstance<nb::ndarray<Type, nb::ndim<1>>>(src)) {
                     try {
                         auto py_array = nb::cast<nb::ndarray<Type, nb::ndim<1>>>(src);
                         size_t size = py_array.size();
@@ -668,31 +692,31 @@ NB_MODULE(_PyPartMC, m) {
         .def_prop_ro("centers", BinGrid::centers, "Bin centers")
     ;
 
-    // py::class_<AeroMode>(m,"AeroMode")
-    //     .def(py::init<AeroData&, const nlohmann::json&>())
-    //     .def_property("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
-    //          "provides access (read or write) to the total number concentration of a mode")
-    //     .def("num_dist", &AeroMode::num_dist,
-    //          "returns the binned number concenration of a mode")
-    //     .def_property("vol_frac", &AeroMode::get_vol_frac,
-    //          &AeroMode::set_vol_frac, "Species fractions by volume")
-    //     .def_property("vol_frac_std", &AeroMode::get_vol_frac_std,
-    //          &AeroMode::set_vol_frac_std, "Species fraction standard deviation")
-    //     .def_property("char_radius", &AeroMode::get_char_radius,
-    //          &AeroMode::set_char_radius,
-    //          "Characteristic radius, with meaning dependent on mode type (m)")
-    //     .def_property("gsd", &AeroMode::get_gsd,
-    //          &AeroMode::set_gsd, "Geometric standard deviation")
-    //     .def("set_sample", &AeroMode::set_sampled)
-    //     .def_property_readonly("sample_num_conc", &AeroMode::get_sample_num_conc,
-    //          "Sample bin number concentrations (m^{-3})")
-    //     .def_property_readonly("sample_radius", &AeroMode::get_sample_radius,
-    //          "Sample bin radii (m).")
-    //     .def_property("type", &AeroMode::get_type, &AeroMode::set_type,
-    //          "Mode type (given by module constants)")
-    //     .def_property("name", &AeroMode::get_name, &AeroMode::set_name,
-    //          "Mode name, used to track particle sources")
-    // ;
+    nb::class_<AeroMode>(m,"AeroMode")
+        .def(nb::init<AeroData&, const nlohmann::json&>())
+        .def_prop_rw("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
+             "provides access (read or write) to the total number concentration of a mode")
+        .def("num_dist", &AeroMode::num_dist,
+             "returns the binned number concenration of a mode")
+        .def_prop_rw("vol_frac", &AeroMode::get_vol_frac,
+             &AeroMode::set_vol_frac, "Species fractions by volume")
+        .def_prop_rw("vol_frac_std", &AeroMode::get_vol_frac_std,
+             &AeroMode::set_vol_frac_std, "Species fraction standard deviation")
+        .def_prop_rw("char_radius", &AeroMode::get_char_radius,
+             &AeroMode::set_char_radius,
+             "Characteristic radius, with meaning dependent on mode type (m)")
+        .def_prop_rw("gsd", &AeroMode::get_gsd,
+             &AeroMode::set_gsd, "Geometric standard deviation")
+        .def("set_sample", &AeroMode::set_sampled)
+        .def_prop_ro("sample_num_conc", &AeroMode::get_sample_num_conc,
+             "Sample bin number concentrations (m^{-3})")
+        .def_prop_ro("sample_radius", &AeroMode::get_sample_radius,
+             "Sample bin radii (m).")
+        .def_prop_rw("type", &AeroMode::get_type, &AeroMode::set_type,
+             "Mode type (given by module constants)")
+        .def_prop_rw("name", &AeroMode::get_name, &AeroMode::set_name,
+             "Mode name, used to track particle sources")
+    ;
 
     // py::class_<AeroDist>(m,"AeroDist")
     //     .def(py::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
