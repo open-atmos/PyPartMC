@@ -64,6 +64,11 @@ set(PyPartMC_sources
   sys.cpp
   rand.cpp
   rand.F90
+  aero_data.F90
+  spec_file_pypartmc.cpp
+  json_resource.cpp
+  bin_grid.F90
+  bin_grid.cpp
 #   json_resource.cpp spec_file_pypartmc.cpp sys.cpp
 #   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
 #   gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90
@@ -535,6 +540,7 @@ add_dependencies(_PyPartMC partmclib)
 set(PYPARTMC_INCLUDE_DIRS 
   "${CMAKE_BINARY_DIR}/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/json/include;"
+  "${CMAKE_SOURCE_DIR}/gitmodules/nanobind/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/nanobind_json/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/span/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/string_view-standalone/include;"
