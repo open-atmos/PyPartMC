@@ -8,9 +8,6 @@
 
 #include "pmc_resource.hpp"
 #include "json_resource.hpp"
-#include "nanobind/stl/string.h"
-#include "nanobind/stl/array.h"
-// #include "nanobind_json/nanobind_json.hpp"
 #include "aero_data_parameters.hpp"
 
 extern "C" void f_aero_data_ctor(void *ptr) noexcept;
@@ -172,8 +169,6 @@ struct AeroData {
             &len
         );
         std::valarray<double> data(len);
-        std::vector<double> data_vec;
-        data_vec.reserve(len);
 
         for (int idx = 0; idx < len; idx++) {
              f_aero_data_get_species_density(
@@ -182,12 +177,8 @@ struct AeroData {
                  &data[idx]
             );
         }
-        
-        for (const auto &elem : data) {
-            data_vec.push_back(elem);
-        }
 
-        return data_vec;
+        return data;
     }
 
     static auto density(const AeroData &self, const std::string &name) {
@@ -275,8 +266,6 @@ struct AeroData {
             &len
         );
         std::valarray<double> data(len);
-        std::vector<double> data_vec;
-        data_vec.reserve(len);
 
         for (int idx = 0; idx < len; idx++) {
              f_aero_data_get_species_kappa(
@@ -286,11 +275,7 @@ struct AeroData {
             );
         }
 
-        for (const auto &elem : data) {
-            data_vec.push_back(elem);
-        }
-
-        return data_vec;
+        return data;
     }
 
     static auto molecular_weights(const AeroData &self) {
@@ -300,8 +285,6 @@ struct AeroData {
             &len
         );
         std::valarray<double> data(len);
-        std::vector<double> data_vec;
-        data_vec.reserve(len);
 
         for (int idx = 0; idx < len; idx++) {
              f_aero_data_get_species_molecular_weight(
@@ -311,11 +294,7 @@ struct AeroData {
             );
         }
 
-        for (const auto &elem : data) {
-            data_vec.push_back(elem);
-        }
-
-        return data_vec;
+        return data;
     }
 };
 
