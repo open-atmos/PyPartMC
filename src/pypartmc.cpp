@@ -690,6 +690,7 @@ NB_MODULE(_PyPartMC, m) {
         .def("__len__", BinGrid::__len__, "returns number of bins")
         .def_prop_ro("edges", BinGrid::edges, "Bin edges")
         .def_prop_ro("centers", BinGrid::centers, "Bin centers")
+        .def_prop_ro("widths", BinGrid::widths, "Bin widths")
     ;
 
     nb::class_<AeroMode>(m,"AeroMode")
