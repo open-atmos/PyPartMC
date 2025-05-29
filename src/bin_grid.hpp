@@ -8,7 +8,7 @@
 
 #include "pmc_resource.hpp"
 #include <valarray>
-#include <vector>   
+#include <vector>
 #include "nanobind/stl/string.h"
 
 extern "C" void f_bin_grid_ctor(void *ptr) noexcept;

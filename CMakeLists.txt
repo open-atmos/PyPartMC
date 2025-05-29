@@ -70,6 +70,7 @@ set(PyPartMC_sources
   bin_grid.F90
   bin_grid.cpp
   aero_mode.F90
+  aero_dist.F90
 #   json_resource.cpp spec_file_pypartmc.cpp sys.cpp
 #   run_part.F90 run_part_opt.F90 util.F90 aero_data.F90 aero_state.F90 env_state.F90 gas_data.F90 
 #   gas_state.F90 scenario.F90 condense.F90 aero_particle.F90 bin_grid.F90

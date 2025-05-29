@@ -8,11 +8,11 @@
 #include "nanobind/nanobind.h"
 #include "nanobind/stl/vector.h"
 #include "nanobind/stl/string.h"
+#include "nanobind/stl/shared_ptr.h"
 #include "nanobind/ndarray.h"
 #include "nlohmann/json.hpp"
 // #include "nanobind_json/nanobind_json.hpp"
 // #include "pybind11_json/pybind11_json.hpp"
-// #include "nanobind/complex.h"
 #include "sundials/sundials_config.h"
 #include "camp/version.h"
 
@@ -21,7 +21,7 @@
 // #include "run_part.hpp"
 // #include "run_part_opt.hpp"
 #include "aero_data.hpp"
-// #include "aero_dist.hpp"
+#include "aero_dist.hpp"
 #include "aero_mode.hpp"
 // #include "aero_state.hpp"
 // #include "env_state.hpp"
@@ -719,15 +719,15 @@ NB_MODULE(_PyPartMC, m) {
              "Mode name, used to track particle sources")
     ;
 
-    // py::class_<AeroDist>(m,"AeroDist")
-    //     .def(py::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
-    //     .def_property_readonly("n_mode", &AeroDist::get_n_mode,
-    //         "Number of aerosol modes")
-    //     .def_property_readonly("num_conc", &AeroDist::get_total_num_conc,
-    //         "Total number concentration of a distribution (#/m^3)")
-    //     .def("mode", AeroDist::get_mode,
-    //         "returns the mode of a given index")
-    // ;
+    nb::class_<AeroDist>(m,"AeroDist")
+        .def(nb::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
+        .def_prop_ro("n_mode", &AeroDist::get_n_mode,
+            "Number of aerosol modes")
+        .def_prop_ro("num_conc", &AeroDist::get_total_num_conc,
+            "Total number concentration of a distribution (#/m^3)")
+        .def("mode", AeroDist::get_mode,
+            "returns the mode of a given index")
+    ;
 
     m.def(
         "histogram_1d", &histogram_1d, nb::rv_policy::copy,
