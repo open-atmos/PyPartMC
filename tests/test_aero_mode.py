@@ -1,6 +1,6 @@
 ####################################################################################################
 # This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
-# Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+# Copyright (C) 2022-2025 University of Illinois Urbana-Champaign                                  #
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
@@ -25,6 +25,7 @@ AERO_MODE_CTOR_LOG_NORMAL = {
         "log10_geom_std_dev": np.log10(1.6),
     }
 }
+
 
 AERO_MODE_CTOR_LOG_NORMAL_FULL = {
     "test_mode": {
@@ -57,6 +58,16 @@ AERO_MODE_CTOR_SAMPLED = {
             {"diam": [1, 2, 3, 4]},
             {"num_conc": [100, 200, 300]},
         ],
+    }
+}
+
+AERO_MODE_CTOR_EXP = {
+    "test_mode": {
+        "mass_frac": [{"H2O": [1]}],
+        "diam_type": "geometric",
+        "mode_type": "exp",
+        "num_conc": 1e9 / si.m**3,
+        "diam_at_mean_vol": 20 * si.um,
     }
 }
 
@@ -199,7 +210,6 @@ class TestAeroMode:
                     "mode_type": "exp",
                     "num_conc": 100 / si.m**3,
                     "diam_at_mean_vol": 2 * si.um,
-                    "temp": 300 * si.K,
                 }
             },
         ),

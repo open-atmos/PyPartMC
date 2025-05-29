@@ -1,6 +1,6 @@
 /*##################################################################################################
 # This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
-# Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
+# Copyright (C) 2022-2025 University of Illinois Urbana-Champaign                                  #
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ##################################################################################################*/
 
@@ -35,6 +35,12 @@ extern "C" void f_bin_grid_edges(
 ) noexcept;
 
 extern "C" void f_bin_grid_centers(
+    const void *ptr,
+    void *arr_data,
+    const int *arr_size
+) noexcept;
+
+extern "C" void f_bin_grid_widths(
     const void *ptr,
     void *arr_data,
     const int *arr_size
@@ -78,6 +84,11 @@ struct BinGrid {
             throw std::invalid_argument( "Invalid grid spacing." );
 
         f_bin_grid_init(ptr.f_arg(), &n_bin, &type, &min, &max);
+    }
+
+    BinGrid():
+        ptr(f_bin_grid_ctor, f_bin_grid_dtor)
+    {
     }
 
     static std::size_t __len__(const BinGrid &self) {
@@ -124,6 +135,23 @@ struct BinGrid {
         
         return data;
     }
+
+    static auto widths(const BinGrid &self)
+    {
+        int len;
+        f_bin_grid_size(
+            self.ptr.f_arg(),
+            &len
+        );
+        std::valarray<double> data(len);
+        f_bin_grid_widths(
+            self.ptr.f_arg(),
+            begin(data),
+            &len
+        );
+        return data;
+    }
+
 };
 
 std::valarray<double> histogram_1d(

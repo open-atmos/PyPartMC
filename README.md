@@ -4,6 +4,14 @@
 
 PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation.
+Development of PyPartMC has been intended to remove limitations to the use of Fortran-implemented PartMC.
+PyPartMC facilitates the dissemination of computational research results by streamlining independent execution 
+  of PartMC simulations (also during peer-review processes).
+Additionally, the ability to easily package examples, simple simulations, and results in a web-based notebook 
+  allows PyPartMC to support the efforts of many members of the scientific community, including researchers,
+  instructors, and students, with nominal software and hardware requirements.
+
+Documentation of PyPartMC is hosted at https://open-atmos.github.io/PyPartMC.
 PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals.
 The Python API can facilitate using PartMC from other environments - see, e.g., Julia and Matlab examples below.
 
@@ -15,18 +23,34 @@ If interested in contributing to PyPartMC, please have a look a the [notes for d
    
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Copyright](https://img.shields.io/static/v1?label=Copyright&color=249fe2&message=UIUC&)](https://atmos.illinois.edu/)
-[![Github Actions Build Status](https://github.com/open-atmos/PyPartMC/workflows/tests+pypi/badge.svg?branch=main)](https://github.com/open-atmos/PyPartMC/actions)
+[![tests+pypi](https://github.com/open-atmos/PyPartMC/actions/workflows/buildwheels.yml/badge.svg)](https://github.com/open-atmos/PyPartMC/actions/workflows/buildwheels.yml)
 [![API docs](https://shields.mitmproxy.org/badge/docs-pdoc.dev-brightgreen.svg)](https://open-atmos.github.io/PyPartMC/)
+[![codecov](https://codecov.io/gh/open-atmos/PyPartMC/graph/badge.svg?token=27IK9ZIQXE)](https://codecov.io/gh/open-atmos/PyPartMC)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7662635.svg)](https://doi.org/10.5281/zenodo.7662635)
 [![PyPI version](https://badge.fury.io/py/PyPartMC.svg)](https://pypi.org/p/PyPartMC)
-
-## TL;DR (try in a Jupyter notebook)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![pyOpenSci Peer-Reviewed](https://pyopensci.org/badges/peer-reviewed.svg)](https://github.com/pyOpenSci/software-review/issues/179)
 
 [![Python 3](https://img.shields.io/static/v1?label=Python&logo=Python&color=3776AB&message=3)](https://www.python.org/)
 [![Linux OK](https://img.shields.io/static/v1?label=Linux&logo=Linux&color=yellow&message=%E2%9C%93)](https://en.wikipedia.org/wiki/Linux)
 [![macOS OK](https://img.shields.io/static/v1?label=macOS&logo=Apple&color=silver&message=%E2%9C%93)](https://en.wikipedia.org/wiki/macOS)
 [![Windows OK](https://img.shields.io/static/v1?label=Windows&logo=Windows&color=white&message=%E2%9C%93)](https://en.wikipedia.org/wiki/Windows)
 [![Jupyter](https://img.shields.io/static/v1?label=Jupyter&logo=Jupyter&color=f37626&message=%E2%9C%93)](https://jupyter.org/)
+
+## Installation 
+
+### Using the command-line `pip` tool (also applies to conda environments)
+```bash
+pip install PyPartMC
+```
+
+Note that, depending on the environment (OS, hardware, Python version), the pip-install invocation 
+  may either trigger a download of a pre-compiled binary, or trigger compilation of PyPartMC.
+In the latter case, a Fortran compiler and some development tools includiong CMake, m4 and perl
+  are required (while all non-Python dependencies are included in the PyPartMC source archive).
+In both cases, all Python dependencies will be resolved by pip.
+
+### In a Jupyter notebook cell (also on Colab or jupyter-hub instances)
 
 ```python
 ! pip install PyPartMC
@@ -35,6 +59,11 @@ import PyPartMC
 
 #### Jupyter notebooks with examples 
 Note: clicking the badges below redirects to cloud-computing platforms. The mybinder.org links allow anonymous execution, Google Colab requires logging in with a Google account, ARM JupyerHub requires logging in with an ARM account (and directing Jupyter to a particular notebook within the `examples` folder).
+
+The example notebooks feature additional dependencies that can be installed with:
+```bash
+pip install PyPartMC[examples]
+```
 
 - Urban plume scenario demo (as in [PartMC](https://github.com/compdyn/partmc/tree/master/scenarios/1_urban_plume)):    
 [![View notebook](https://img.shields.io/static/v1?label=render%20on&logo=github&color=87ce3e&message=GitHub)](https://github.com/open-atmos/PyPartMC/blob/main/examples/particle_simulation.ipynb) 
@@ -62,6 +91,11 @@ Note: clicking the badges below redirects to cloud-computing platforms. The mybi
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/cloud_parcel.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/cloud_parcel.ipynb)
 [![ARM JupyterHub](https://img.shields.io/static/v1?label=launch%20in&logo=jupyter&color=lightblue&message=ARM+JupyterHub)](https://jupyterhub.arm.gov/hub/user-redirect/git-pull?repo=https%3A//github.com/open-atmos/PyPartMC&branch=main&urlPath=)
+- Coagulation model intercomparison for additive (Golovin) kernel with: PyPartMC, [PySDM](https://open-atmos.github.io/PySDM), [Droplets.jl](https://github.com/emmacware/droplets.jl) and [dustpy](https://stammler.github.io/dustpy/):    
+[![View notebook](https://img.shields.io/static/v1?label=render%20on&logo=github&color=87ce3e&message=GitHub)](https://github.com/open-atmos//PyPartMC/blob/main/examples/additive_coag_comparison.ipynb) 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/additive_coag_comparison.ipynb) 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/additive_coag_comparison.ipynb)
+[![ARM JupyterHub](https://img.shields.io/static/v1?label=launch%20in&logo=jupyter&color=lightblue&message=ARM+JupyterHub)](https://jupyterhub.arm.gov/hub/user-redirect/git-pull?repo=https%3A//github.com/open-atmos/PyPartMC&branch=main&urlPath=)   
 
 ## Features
 
@@ -109,9 +143,7 @@ aero_dist = ppmc.AeroDist(
             "num_conc": 3200 / si.cm**3,
             "geom_mean_diam": 8.64 * si.nm,
             "log10_geom_std_dev": 0.28,
-        }
-    },
-    {
+        },
         "diesel": {
             "mass_frac": [{"OC": [0.3]}, {"BC": [0.7]}],
             "diam_type": "geometric",
@@ -153,9 +185,7 @@ aero_dist = ppmc.AeroDist(aero_data, (
       "num_conc" => 3200 / si.cm^3,
       "geom_mean_diam" => 8.64 * si.nm,
       "log10_geom_std_dev" => .28,
-    )
-  ),
-  Dict( 
+    ),
     "diesel" => Dict(
       "mass_frac" => (Dict("OC" => (.3,)), Dict("BC" => (.7,))),
       "diam_type" => "geometric",
@@ -164,7 +194,7 @@ aero_dist = ppmc.AeroDist(aero_data, (
       "geom_mean_diam" => 50 * si.nm,
       "log10_geom_std_dev" => .24,
     )
-  )
+  ),
 ))
 
 n_part = 100
@@ -198,9 +228,7 @@ aero_dist = ppmc.AeroDist(aero_data, py.tuple({ ...
       "num_conc", 3200 / si.cm^3, ...
       "geom_mean_diam", 8.64 * si.nm, ...
       "log10_geom_std_dev", .28 ...
-    )) ...
-  )), ...
-  py.dict(pyargs( ... 
+    )), ...
     "diesel", py.dict(pyargs( ...
       "mass_frac", py.tuple({ ...
         py.dict(pyargs("OC", py.tuple({.3}))), ...
@@ -226,6 +254,17 @@ fprintf('%g # kg/m3\n', dot([masses{:}], [num_concs{:}]))
 #### usage in other projects
 
 PyPartMC is used within the [test workflow of the PySDM project](https://github.com/atmos-cloud-sim-uj/PySDM/tree/main/tests/smoke_tests/box/partmc).
+
+## Other packages with relevant feature scope
+
+- [aerosolGDEFoam](https://openaerosol.sourceforge.io/): OpenFOAM CFD-coupled aerosol dynamics including nucleation, coagulation, and surface growth 
+- [AIOMFAC and AIOMFAC-web](http://www.aiomfac.caltech.edu/): Fortran-implemented aerosol thermodynamic model for calculation of activity coefficients in organic-inorganic mixtures – from simple binary solutions to complex multicomponent systems
+- [DustPy](https://stammler.github.io/dustpy/): Python package for modelling dust evolution in protoplanetary disks (differences: focus on astrophysical applications vs. atmospheric aerosol)
+- [multilayerpy](https://github.com/tintin554/multilayerpy): kinetic multi-layer model for aerosol particles and films 
+- [PyBox](https://pybox.readthedocs.io): aerosol simulation model featuring gas and particle chamistry (differences: PyBox focuses on chemical mechanisms; PyPartMC is an interface to PartMC which focuses on physics - e.g., collisions of aerosol particles - while chemical processes are handled with external software, e.g., CAMP or MOSAIC)
+- [PyCHAM](https://github.com/simonom/PyCHAM): CHemistry with Aerosol Microphysics in Python Box Model for modelling of indoor environments, including aerosol chambers
+- [PySDM](https://open-atmos.github.io/PySDM): particle-based Monte-Carlo aerosol-cloud simulation package (differences: PySDM focuses on growth and breakup processes relevant to cloud droplets; PyPartMC focuses on processes relevant to air pollutants and their chemical and physical transformations)
+- [SSH-aerosol](https://github.com/sshaerosol/ssh-aerosol): C++/Fortran package for simulating evolution of primary and secondary atmospheric aerosols
 
 ## FAQ
 - Q: How to install PyPartMC with MOSAIC enabled?    
@@ -267,6 +306,47 @@ Try installing a Fortran compiler (e.g., `brew reinstall gcc` with Homebrew on m
 Could not find NC_M4 using the following names: m4, m4.exe
 ```
 Try installing `m4` (e.g., using [MSYS2](https://packages.msys2.org/package/m4?repo=msys&variant=x86_64) on Windows).
+
+## Acknowledgement and citations
+
+We would greatly appreciate citation of the PartMC model description paper (Riemer et al., 2009) 
+and the PyPartMC description paper (D’Aquino et al., 2024) if PyPartMC was used in your study.
+The citations are:
+- Riemer, N., M. West, R. A. Zaveri, R. C. Easter: Simulating the evolution of soot 
+  mixing-state with a particle-resolved aerosol model    
+  J. Geophys. Res., 114, D09202, 2009, DOI: [10.1029/2008JD011073](https://doi.org/10.1029/2008JD011073)
+- D’Aquino, Z., S. Arabas, J. H. Curtis, A. Vaishnav, N. Riemer, M. West: PyPartMC: A 
+  pythonic interfact to a particle-resolved, Monte Carlo aerosol simulation framework   
+  SoftwareX, 25, 101613, 2024, DOI: [10.1016/j.softx.2023.101613](https://doi.org/10.1016/j.softx.2023.101613)
+
+The following paragraph provides a more substantial description of PartMC (text released into the public domain and can be freely copied by anyone for any purpose):
+
+> PartMC is a stochastic, particle-resolved aerosol box model. It tracks the 
+composition of many computational particles (10<sup>4</sup> to 10<sup>6</sup>) within a well-mixed air 
+volume, each represented by a composition vector that evolves based on physical 
+and chemical processes. The physical processes—including Brownian coagulation, 
+new particle formation, emissions, dilution, and deposition—are simulated using a 
+stochastic Monte Carlo approach via a Poisson process while chemical processes are
+simulated deterministically for each computational particle. The weighted flow 
+algorithm (DeVille, Riemer, and West, 2011, 2019) enhances efficiency and reduces 
+ensemble variance. Detailed numerical methods are described in Riemer et al. 
+(2009), DeVille et al. (2011, 2019), and Curtis et al. (2016). PartMC is open-source 
+under the GNU GPL v2 and available at 
+[github.com/compdyn/partmc](https://github.com/compdyn/partmc).
+>
+> References:
+> - Curtis, J. H., M. D. Michelotti, N. Riemer, M. T. Heath, M. West: Accelerated 
+simulation of stochastic particle removal processes in particle-resolved aerosol 
+models, J. Computational Phys., 322, 21-32, 2016, DOI: [10.1016/j.jcp.2016.06.029](https://doi.org/10.1016/j.jcp.2016.06.029)
+> - DeVille, L., N. Riemer, M. West, Convergence of a generalized weighted flow 
+algorithm for stochastic particle coagulation, J. Computational Dynamics, 6, 69-94, 
+2019, DOI: [10.3934/jcd.2019003](https://doi.org/10.3934/jcd.2019003)
+> - DeVille, R. E. L., N. Riemer, M. West, The Weighted Flow Algorithm (WFA) for 
+stochastic particle coagulation, J. Computational Phys., 230, 8427-8451, 2011, 
+DOI: [10.1016/j.jcp.2011.07.027](https://doi.org/10.1016/j.jcp.2011.07.027)
+> - Riemer, N., M. West, R. A. Zaveri, R. C. Easter, Simulating the evolution of soot 
+mixing-state with a particle-resolved aerosol model, J. Geophys. Res., 114, D09202, 
+2009., DOI: [10.1029/2008JD011073](https://doi.org/10.1029/2008JD011073)
 
 ## Credits
 
