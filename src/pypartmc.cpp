@@ -25,7 +25,7 @@
 #include "aero_mode.hpp"
 // #include "aero_state.hpp"
 #include "env_state.hpp"
-// // #include "gas_data.hpp"
+#include "gas_data.hpp"
 // #include "gas_state.hpp"
 // #include "condense.hpp"
 #include "bin_grid.hpp"
@@ -34,263 +34,13 @@
 // #include "output.hpp"
 // #include "output_parameters.hpp"
 
-#include <valarray>
+#include "temp_nb_casters.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
 namespace nb = nanobind;
 namespace nl = nlohmann;
-
-namespace pyjson
-{
-    inline nb::handle from_json(const nl::json& j)
-    {
-        if (j.is_null())
-        {
-            return nb::none();
-        }
-        else if (j.is_boolean())
-        {
-            return nb::bool_(j.get<bool>());
-        }
-        else if (j.is_number_integer())
-        {
-            return nb::int_(j.get<long>());
-        }
-        else if (j.is_number_float())
-        {
-            return nb::float_(j.get<double>());
-        }
-        else if (j.is_string())
-        {
-            std::string temp = j.get<std::string>();
-            return nb::str(temp.c_str(), temp.length());
-        }
-        else if (j.is_array())
-        {
-            nb::list obj;
-            for (const auto& el : j)
-            {
-                obj.append(from_json(el));
-            }
-            return std::move(obj);
-        }
-        else // Object
-        {
-            nb::dict obj;
-            for (nl::json::const_iterator it = j.cbegin(); it != j.cend(); ++it)
-            {
-                std::string key = it.key();
-                obj[nb::str(key.c_str(), key.length())] = from_json(it.value());
-            }
-            return obj.release();
-        }
-    }
-
-    inline nl::json to_json(const nb::handle& obj, std::set<const PyObject*> prevs)
-    {
-        if (obj.ptr() == nullptr || obj.is_none())
-        {
-            return nullptr;
-        }
-        if (nb::isinstance<nb::bool_>(obj))
-        {
-            return nb::cast<bool>(obj);
-        }
-        if (nb::isinstance<nb::int_>(obj))
-        {
-            return nb::cast<long>(obj);
-        }
-        if (nb::isinstance<nb::float_>(obj))
-        {
-            return nb::cast<double>(obj);
-        }
-        if (nb::isinstance<nb::bytes>(obj))
-        {
-            nb::module_ base64 = nb::module_::import_("base64");
-            return nb::cast<std::string>(base64.attr("b64encode")(obj).attr("decode")("utf-8"));
-        }
-        if (nb::isinstance<nb::str>(obj))
-        {
-            return nb::cast<std::string>(obj);
-        }
-        if (nb::isinstance<nb::tuple>(obj) || nb::isinstance<nb::list>(obj))
-        {
-            auto insert_return = prevs.insert(obj.ptr());
-            if (!insert_return.second) {
-                throw std::runtime_error("Circular reference detected");
-            }
-
-            auto out = nl::json::array();
-
-            for (const nb::handle value : obj)
-            {
-                out.push_back(to_json(value, prevs));
-            }
-
-            return out;
-        }
-        if (nb::isinstance<nb::dict>(obj))
-        {
-            auto insert_return = prevs.insert(obj.ptr());
-            if (!insert_return.second) {
-                throw std::runtime_error("Circular reference detected");
-            }
-
-            auto out = nl::json::object();
-
-            for (const nb::handle key : obj)
-            {
-                out[nb::cast<std::string>(nb::str(key))] = to_json(obj[key], prevs);
-            }
-            return out;
-        }
-        throw std::runtime_error("to_json not implemented for this type of object: ");
-        // throw std::runtime_error("to_json not implemented for this type of object: " + nb::repr(obj).cast<std::string>());
-    }
-}
-
-// nlohmann_json serializers
-// namespace nlohmann
-// {
-//     #define MAKE_NLJSON_SERIALIZER_DESERIALIZER(T)         \
-//     template <>                                            \
-//     struct adl_serializer<T>                               \
-//     {                                                      \
-//         inline static void to_json(json& j, const T& obj)  \
-//         {                                                  \
-//             std::cout << "dupa dupa dupa" << std::endl;   \
-//             j = pyjson::to_json(obj);  \
-//             std::cout << "you just got JSONed!" << std::endl;                    \
-//         }                                                  \
-//                                                            \
-//         inline static nb::handle from_json(const json& j)           \
-//         {                                                  \
-//             return pyjson::from_json(j);                   \
-//         }                                                  \
-//     };
-
-//     #define MAKE_NLJSON_SERIALIZER_ONLY(T)                 \
-//     template <>                                            \
-//     struct adl_serializer<T>                               \
-//     {                                                      \
-//         inline static void to_json(json& j, const T& obj)  \
-//         {                                                  \
-//             j = pyjson::to_json(obj);                      \
-//         }                                                  \
-//     };
-
-//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::object);
-
-//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::bool_);
-//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::int_);
-//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::float_);
-//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::str);
-
-//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::list);
-//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::tuple);
-//     MAKE_NLJSON_SERIALIZER_DESERIALIZER(nb::dict);
-
-//     MAKE_NLJSON_SERIALIZER_ONLY(nb::handle);
-//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::item_accessor);
-//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::list_accessor);
-//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::tuple_accessor);
-//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::sequence_accessor);
-//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::str_attr_accessor);
-//     // MAKE_NLJSON_SERIALIZER_ONLY(nb::detail::obj_attr_accessor);
-
-//     #undef MAKE_NLJSON_SERIALIZER_DESERIALIZER
-//     #undef MAKE_NLJSON_SERIALIZER_ONLY
-// }
-
-// nanobind caster
-namespace nanobind
-{
-    namespace detail
-    {
-        template <> struct type_caster<nl::json>
-        {
-        public:
-            NB_TYPE_CASTER(nl::json, const_name("[") + const_name("JSON") +const_name("]"));
-
-            bool from_python(handle src, uint8_t flags, cleanup_list *cleanup) noexcept {
-                try {
-                    value = pyjson::to_json(src, std::set<const PyObject*>());
-                    return true;
-                }
-                catch (...)
-                {
-                    return false;
-                }
-            }
-
-            template <typename T>
-            static handle from_cpp(T &&src, rv_policy policy, cleanup_list *cleanup) {
-                handle obj = pyjson::from_json(src);
-                return obj;
-            }
-        };
-
-        template <typename Type> struct type_caster<std::valarray<Type>> {
-            NB_TYPE_CASTER(std::valarray<Type>, const_name("[") + const_name("std::valarray") + const_name("]"))
-
-            using Caster = make_caster<Type>;
-
-            bool from_python(handle src, uint8_t flags, cleanup_list *cleanup) noexcept {
-                if (nb::isinstance<nb::list>(src)) {
-                    try {
-                        auto py_array = nb::cast<nb::list>(src);
-                        size_t size = py_array.size();
-
-                        value.resize(size);
-
-                        for (size_t i = 0; i < size; i++) {
-                            value[i] = nb::cast<Type>(py_array[i]);
-                        }
-
-                        return true;
-                    }
-                    catch (...) {
-                        PyErr_Clear();
-                        return false;
-                    }
-                }
-                else if (nb::isinstance<nb::ndarray<Type, nb::ndim<1>>>(src)) {
-                    try {
-                        auto py_array = nb::cast<nb::ndarray<Type, nb::ndim<1>>>(src);
-                        size_t size = py_array.size();
-                        auto *data = py_array.data();
-
-                        value.resize(size);
-
-                        for (size_t i = 0; i < size; i++) {
-                            value[i] = data[i];
-                        }
-
-                        return true;
-                    }
-                    catch (...) {
-                        PyErr_Clear();
-                        return false;
-                    }
-                }
-
-                return false;
-            }
-
-            template <typename T>
-            static handle from_cpp(T &&src, rv_policy policy, cleanup_list *cleanup) {
-                nb::list obj;
-                for (const auto& elem : src) {
-                    obj.append(elem);
-                }
-
-                return obj.release();
-            }
-        };
-    }
-}
 
 NB_MODULE(_PyPartMC, m) {
     // m.doc() = R"pbdoc(
@@ -527,27 +277,27 @@ NB_MODULE(_PyPartMC, m) {
     //     .def("zero", AeroState::zero, "remove all particles from an AeroState")
     // ;
 
-    // py::class_<GasData, std::shared_ptr<GasData>>(m, "GasData",
-    //     R"pbdoc(
-    //         Constant gas data.
+    nb::class_<GasData>(m, "GasData",
+        R"pbdoc(
+            Constant gas data.
 
-    //         Each gas species is identified by an integer \c i between 1 and
-    //         \c gas_data_n_spec(gas_data). Species \c i has name \c gas_data%%name(i).
-    //         The variable gas data describing the current mixing ratios is stored
-    //         in the gas_state_t structure, so the mixing ratio of species \c i
-    //         is gas_state%%mix_rat(i).
-    //     )pbdoc"
-    // )
-    //     .def(py::init<const py::tuple&>())
-    //     .def("__len__", GasData::__len__,
-    //         "returns number of gas species")
-    //     .def_property_readonly("n_spec", GasData::__len__)
-    //     .def("__str__", GasData::__str__,
-    //         "returns a string with JSON representation of the object")
-    //     .def("spec_by_name", GasData::spec_by_name,
-    //         "returns the number of the species in gas with the given name")
-    //     .def_property_readonly("species", GasData::names, "returns list of gas species names")
-    // ;
+            Each gas species is identified by an integer \c i between 1 and
+            \c gas_data_n_spec(gas_data). Species \c i has name \c gas_data%%name(i).
+            The variable gas data describing the current mixing ratios is stored
+            in the gas_state_t structure, so the mixing ratio of species \c i
+            is gas_state%%mix_rat(i).
+        )pbdoc"
+    )
+        .def(nb::init<const nb::tuple&>())
+        .def("__len__", GasData::__len__,
+            "returns number of gas species")
+        .def_prop_ro("n_spec", GasData::__len__)
+        .def("__str__", GasData::__str__,
+            "returns a string with JSON representation of the object")
+        .def("spec_by_name", GasData::spec_by_name,
+            "returns the number of the species in gas with the given name")
+        .def_prop_ro("species", GasData::names, "returns list of gas species names")
+    ;
 
     nb::class_<EnvState>(m, "EnvState",
         R"pbdoc(
