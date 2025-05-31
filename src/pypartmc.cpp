@@ -24,7 +24,7 @@
 #include "aero_dist.hpp"
 #include "aero_mode.hpp"
 // #include "aero_state.hpp"
-// #include "env_state.hpp"
+#include "env_state.hpp"
 // // #include "gas_data.hpp"
 // #include "gas_state.hpp"
 // #include "condense.hpp"
@@ -549,37 +549,36 @@ NB_MODULE(_PyPartMC, m) {
     //     .def_property_readonly("species", GasData::names, "returns list of gas species names")
     // ;
 
-    // py::class_<EnvState>(m,
-    //     "EnvState",
-    //     R"pbdoc(
-    //         Current environment state.
+    nb::class_<EnvState>(m, "EnvState",
+        R"pbdoc(
+            Current environment state.
 
-    //         All quantities are instantaneous, describing the state at a
-    //         particular instant of time. Constant data and other data not
-    //         associated with the current environment state is stored in
-    //         scenario_t.
-    //     )pbdoc"
-    // )
-    //     .def(py::init<const nlohmann::json&>())
-    //     .def("set_temperature", EnvState::set_temperature,
-    //         "sets the temperature of the environment state")
-    //     .def_property_readonly("temp", EnvState::temp,
-    //         "returns the current temperature of the environment state")
-    //     .def_property_readonly("rh", EnvState::rh,
-    //         "returns the current relative humidity of the environment state")
-    //     .def_property_readonly("elapsed_time", EnvState::get_elapsed_time,
-    //         "returns time since start_time (s).")
-    //     .def_property_readonly("start_time", EnvState::get_start_time,
-    //         "returns start time (s since 00:00 UTC on start_day)")
-    //     .def_property("height", &EnvState::get_height, &EnvState::set_height,
-    //         "Box height (m)")
-    //     .def_property("pressure", &EnvState::get_pressure, &EnvState::set_pressure,
-    //         "Ambient pressure (Pa)")
-    //     .def_property_readonly("air_density", &EnvState::air_density,
-    //         "Air density (kg m^{-3})")
-    //     .def_property("additive_kernel_coefficient", &EnvState::get_additive_kernel_coefficient, &EnvState::set_additive_kernel_coefficient,
-    //         "Scaling coefficient for additive coagulation kernel.")
-    // ;
+            All quantities are instantaneous, describing the state at a
+            particular instant of time. Constant data and other data not
+            associated with the current environment state is stored in
+            scenario_t.
+        )pbdoc"
+    )
+        .def(nb::init<const nlohmann::json&>())
+        .def("set_temperature", EnvState::set_temperature,
+            "sets the temperature of the environment state")
+        .def_prop_ro("temp", EnvState::temp,
+            "returns the current temperature of the environment state")
+        .def_prop_ro("rh", EnvState::rh,
+            "returns the current relative humidity of the environment state")
+        .def_prop_ro("elapsed_time", EnvState::get_elapsed_time,
+            "returns time since start_time (s).")
+        .def_prop_ro("start_time", EnvState::get_start_time,
+            "returns start time (s since 00:00 UTC on start_day)")
+        .def_prop_rw("height", &EnvState::get_height, &EnvState::set_height,
+            "Box height (m)")
+        .def_prop_rw("pressure", &EnvState::get_pressure, &EnvState::set_pressure,
+            "Ambient pressure (Pa)")
+        .def_prop_ro("air_density", &EnvState::air_density,
+            "Air density (kg m^{-3})")
+        .def_prop_rw("additive_kernel_coefficient", &EnvState::get_additive_kernel_coefficient, &EnvState::set_additive_kernel_coefficient,
+            "Scaling coefficient for additive coagulation kernel.")
+    ;
 
     // py::class_<Photolysis>(m,
     //     "Photolysis",
