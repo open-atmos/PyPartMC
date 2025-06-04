@@ -8,15 +8,22 @@
 
 #include "json_resource.hpp"
 #include "pmc_resource.hpp"
+#include "camp_core.hpp"
 
 extern "C" void f_photolysis_ctor(void *ptr) noexcept;
 extern "C" void f_photolysis_dtor(void *ptr) noexcept;
-
+extern "C" void f_photolysis_create(const void *ptr, const void *camp_core) noexcept;
 struct Photolysis {
     PMCResource ptr;
 
     Photolysis() :
         ptr(f_photolysis_ctor, f_photolysis_dtor)
     {
+    }
+
+    Photolysis(const CampCore &camp_core) :
+        ptr(f_photolysis_ctor, f_photolysis_dtor)
+    {
+        f_photolysis_create(this->ptr.f_arg(), camp_core.ptr.f_arg());
     }
 };
