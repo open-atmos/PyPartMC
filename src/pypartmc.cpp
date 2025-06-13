@@ -9,11 +9,14 @@
 #include "nanobind/stl/vector.h"
 #include "nanobind/stl/string.h"
 #include "nanobind/stl/shared_ptr.h"
+#include "nanobind/stl/tuple.h"
+#include "nanobind/stl/detail/nb_optional.h"
 #include "nanobind/ndarray.h"
 #include "nlohmann/json.hpp"
 #include "nanobind_json/nanobind_json.hpp"
 #include "sundials/sundials_config.h"
 #include "camp/version.h"
+#include "tl/optional.hpp"
 
 #include "util.hpp"
 #include "rand.hpp"
@@ -23,7 +26,7 @@
 #include "aero_dist.hpp"
 #include "aero_mode.hpp"
 #include "aero_particle.hpp"
-// #include "aero_state.hpp"
+#include "aero_state.hpp"
 #include "env_state.hpp"
 #include "gas_data.hpp"
 // #include "gas_state.hpp"
@@ -100,6 +103,8 @@ template <typename Type> struct type_caster<std::valarray<Type>> {
         return obj.release();
     }
 };
+
+template <typename Type> struct type_caster<tl::optional<Type>> : optional_caster<tl::optional<Type>> {};
 
 NAMESPACE_END(detail)
 NAMESPACE_END(nanobind)
@@ -257,87 +262,88 @@ NB_MODULE(_PyPartMC, m) {
             "Sets the aerosol particle volumes.")
     ;
 
-    // py::class_<AeroState>(m, "AeroState",
-    //     R"pbdoc(
-    //          The current collection of aerosol particles.
+    nb::class_<AeroState>(m, "AeroState",
+        R"pbdoc(
+             The current collection of aerosol particles.
 
-    //          The particles in \c aero_state_t are stored in a single flat
-    //          array (the \c apa data member), with a sorting into size bins and
-    //          weight groups/classes possibly stored in the \c aero_sorted data
-    //          member (if \c valid_sort is true).
+             The particles in \c aero_state_t are stored in a single flat
+             array (the \c apa data member), with a sorting into size bins and
+             weight groups/classes possibly stored in the \c aero_sorted data
+             member (if \c valid_sort is true).
 
-    //          Every time we remove particles we keep track of the particle ID
-    //          and the action performed in the aero_info_array_t structure. This
-    //          is typically cleared each time we output data to disk.
-    //     )pbdoc"
-    // )
-    //     .def(py::init<std::shared_ptr<AeroData>, const double, const std::string>())
-    //     .def("__len__", AeroState::__len__,
-    //         "returns current number of particles")
-    //     .def_property_readonly("total_num_conc", AeroState::total_num_conc,
-    //         "returns the total number concentration of the population")
-    //     .def_property_readonly("total_mass_conc", AeroState::total_mass_conc,
-    //         "returns the total mass concentration of the population")
-    //     .def_property_readonly("num_concs", AeroState::num_concs,
-    //         "returns the number concentration of each particle in the population")
-    //     .def("masses", AeroState::masses,
-    //         "returns the total mass of each particle in the population",
-    //         py::arg("include") = py::none(), py::arg("exclude") = py::none())
-    //     .def("volumes", AeroState::volumes,
-    //         "returns the volume of each particle in the population",
-    //          py::arg("include") = py::none(), py::arg("exclude") = py::none())
-    //     .def_property_readonly("dry_diameters", AeroState::dry_diameters,
-    //         "returns the dry diameter of each particle in the population")
-    //     .def("mobility_diameters", AeroState::mobility_diameters,
-    //         "returns the mobility diameter of each particle in the population")
-    //     .def("diameters", AeroState::diameters,
-    //         "returns the diameter of each particle in the population",
-    //         py::arg("include") = py::none(), py::arg("exclude") = py::none())
-    //     .def("crit_rel_humids", AeroState::crit_rel_humids,
-    //         "returns the critical relative humidity of each particle in the population")
-    //     .def("make_dry", AeroState::make_dry,
-    //         "Make all particles dry (water set to zero).")
-    //     .def_property_readonly("ids", AeroState::ids,
-    //         "returns the IDs of all particles.")
-    //     .def("mixing_state", AeroState::mixing_state,
-    //         "returns the mixing state parameters (d_alpha, d_gamma, chi) of the population",
-    //         py::arg("include") = py::none(), py::arg("exclude") = py::none(),
-    //         py::arg("group") = py::none())
-    //     .def("bin_average_comp", AeroState::bin_average_comp,
-    //         "composition-averages population using BinGrid")
-    //     .def("particle", AeroState::get_particle,
-    //         "returns the particle of a given index")
-    //     .def("rand_particle", AeroState::get_random_particle,
-    //         "returns a random particle from the population")
-    //     .def("dist_sample", AeroState::dist_sample,
-    //         "sample particles for AeroState from an AeroDist",
-    //         py::arg("AeroDist"), py::arg("sample_prop") = 1.0, py::arg("create_time") = 0.0,
-    //         py::arg("allow_doubling") = true, py::arg("allow_halving") = true)
-    //     .def("add_particle", AeroState::add_particle, "add a particle to an AeroState")
-    //     .def("add", AeroState::add,
-    //         R"pbdoc(aero_state += aero_state_delta, including combining the
-    //         weights, so the new concentration is the weighted average of the
-    //         two concentrations.)pbdoc")
-    //     .def("add_particles", AeroState::add_particles,
-    //         R"pbdoc(aero_state += aero_state_delta, with the weight left unchanged
-    //          so the new concentration is the sum of the two concentrations.)pbdoc")
-    //     .def("sample", AeroState::sample,
-    //          R"pbdoc(Generates a random sample by removing particles from
-    //          aero_state_from and adding them to aero_state_to, transfering
-    //          weight as well. This is the equivalent of aero_state_add().)pbdoc")
-    //     .def("sample_particles", AeroState::sample_particles,
-    //          R"pbdoc(  !> Generates a random sample by removing particles from
-    //          aero_state_from and adding them to aero_state_to, which must be
-    //          already allocated (and should have its weight set).
+             Every time we remove particles we keep track of the particle ID
+             and the action performed in the aero_info_array_t structure. This
+             is typically cleared each time we output data to disk.
+        )pbdoc"
+    )
+        .def(nb::init<std::shared_ptr<AeroData>, const double, const std::string>())
+        .def("__len__", AeroState::__len__,
+            "returns current number of particles")
+        .def_prop_ro("total_num_conc", AeroState::total_num_conc,
+            "returns the total number concentration of the population")
+        .def_prop_ro("total_mass_conc", AeroState::total_mass_conc,
+            "returns the total mass concentration of the population")
+        .def_prop_ro("num_concs", AeroState::num_concs,
+            "returns the number concentration of each particle in the population")
+        .def("masses", AeroState::masses,
+            "returns the total mass of each particle in the population",
+            nb::arg("include") = nb::none(), nb::arg("exclude") = nb::none()
+        )
+        .def("volumes", AeroState::volumes,
+            "returns the volume of each particle in the population",
+            nb::arg("include") = nb::none(), nb::arg("exclude") = nb::none())
+        .def_prop_ro("dry_diameters", AeroState::dry_diameters,
+            "returns the dry diameter of each particle in the population")
+        .def("mobility_diameters", AeroState::mobility_diameters,
+            "returns the mobility diameter of each particle in the population")
+        .def("diameters", AeroState::diameters,
+            "returns the diameter of each particle in the population",
+            nb::arg("include") = nb::none(), nb::arg("exclude") = nb::none())
+        .def("crit_rel_humids", AeroState::crit_rel_humids,
+            "returns the critical relative humidity of each particle in the population")
+        .def("make_dry", AeroState::make_dry,
+            "Make all particles dry (water set to zero).")
+        .def_prop_ro("ids", AeroState::ids,
+            "returns the IDs of all particles.")
+        .def("mixing_state", AeroState::mixing_state,
+            "returns the mixing state parameters (d_alpha, d_gamma, chi) of the population",
+            nb::arg("include") = nb::none(), nb::arg("exclude") = nb::none(),
+            nb::arg("group") = nb::none())
+        .def("bin_average_comp", AeroState::bin_average_comp,
+            "composition-averages population using BinGrid")
+        .def("particle", AeroState::get_particle,
+            "returns the particle of a given index")
+        .def("rand_particle", AeroState::get_random_particle,
+            "returns a random particle from the population")
+        .def("dist_sample", AeroState::dist_sample,
+            "sample particles for AeroState from an AeroDist",
+            nb::arg("AeroDist"), nb::arg("sample_prop") = 1.0, nb::arg("create_time") = 0.0,
+            nb::arg("allow_doubling") = true, nb::arg("allow_halving") = true)
+        .def("add_particle", AeroState::add_particle, "add a particle to an AeroState")
+        .def("add", AeroState::add,
+            R"pbdoc(aero_state += aero_state_delta, including combining the
+            weights, so the new concentration is the weighted average of the
+            two concentrations.)pbdoc")
+        .def("add_particles", AeroState::add_particles,
+            R"pbdoc(aero_state += aero_state_delta, with the weight left unchanged
+             so the new concentration is the sum of the two concentrations.)pbdoc")
+        .def("sample", AeroState::sample,
+             R"pbdoc(Generates a random sample by removing particles from
+             aero_state_from and adding them to aero_state_to, transfering
+             weight as well. This is the equivalent of aero_state_add().)pbdoc")
+        .def("sample_particles", AeroState::sample_particles,
+             R"pbdoc(  !> Generates a random sample by removing particles from
+             aero_state_from and adding them to aero_state_to, which must be
+             already allocated (and should have its weight set).
 
-    //          None of the weights are altered by this sampling, making this the
-    //          equivalent of aero_state_add_particles().)pbdoc")
-    //     .def("copy_weight", AeroState::copy_weight,
-    //          "copy weighting from another AeroState")
-    //     .def("remove_particle", AeroState::remove_particle,
-    //         "remove particle of a given index")
-    //     .def("zero", AeroState::zero, "remove all particles from an AeroState")
-    // ;
+             None of the weights are altered by this sampling, making this the
+             equivalent of aero_state_add_particles().)pbdoc")
+        .def("copy_weight", AeroState::copy_weight,
+             "copy weighting from another AeroState")
+        .def("remove_particle", AeroState::remove_particle,
+            "remove particle of a given index")
+        .def("zero", AeroState::zero, "remove all particles from an AeroState")
+    ;
 
     nb::class_<GasData>(m, "GasData",
         R"pbdoc(
