@@ -7,7 +7,9 @@
 #pragma once
 
 #include "pmc_resource.hpp"
-#include "pybind11/stl.h"
+#include <valarray>
+#include <vector>
+#include "nanobind/stl/string.h"
 
 extern "C" void f_bin_grid_ctor(void *ptr) noexcept;
 
@@ -65,15 +67,19 @@ extern "C" void f_bin_grid_histogram_2d(
     const int *y_grid_size
 ) noexcept;
 
+namespace nb = nanobind;
+
 struct BinGrid {
     PMCResource ptr;
 
-    BinGrid(const int &n_bin, const std::string &grid_type, const double &min, const double &max) :
+    BinGrid(const int &n_bin, const nb::str &grid_type, const double &min, const double &max) :
         ptr(f_bin_grid_ctor, f_bin_grid_dtor)
     {
+        const std::string grid_type_str {grid_type.c_str()}; 
+
         int type = 0;
-        if (grid_type == "log") type = 1;
-        if (grid_type == "linear") type = 2;
+        if (grid_type_str == "log") type = 1;
+        if (grid_type_str == "linear") type = 2;
         if (type == 0)
             throw std::invalid_argument( "Invalid grid spacing." );
 
@@ -108,6 +114,7 @@ struct BinGrid {
             begin(data),
             &len
         );
+
         return data;
     }
 
@@ -119,11 +126,13 @@ struct BinGrid {
             &len
         );
         std::valarray<double> data(len);
+
         f_bin_grid_centers(
             self.ptr.f_arg(),
             begin(data),
             &len
         );
+        
         return data;
     }
 
