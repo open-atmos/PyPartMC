@@ -12,7 +12,6 @@
 #include "aero_particle.hpp"
 #include "env_state.hpp"
 #include "bin_grid.hpp"
-#include "pybind11/stl.h"
 #include "tl/optional.hpp"
 
 extern "C" void f_aero_state_ctor(

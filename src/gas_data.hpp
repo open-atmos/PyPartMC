@@ -10,8 +10,7 @@
 #include "pmc_resource.hpp"
 #include "gas_data_parameters.hpp"
 #include "nanobind/nanobind.h"
-
-#include "temp_nb_casters.hpp"
+#include "nanobind_json/nanobind_json.hpp"
 
 extern "C" void f_gas_data_ctor(void *ptr) noexcept;
 extern "C" void f_gas_data_dtor(void *ptr) noexcept;

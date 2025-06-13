@@ -4,15 +4,13 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ##################################################################################################*/
 
-// #include "pybind11/pybind11.h"
 #include "nanobind/nanobind.h"
 #include "nanobind/stl/vector.h"
 #include "nanobind/stl/string.h"
 #include "nanobind/stl/shared_ptr.h"
 #include "nanobind/ndarray.h"
 #include "nlohmann/json.hpp"
-// #include "nanobind_json/nanobind_json.hpp"
-// #include "pybind11_json/pybind11_json.hpp"
+#include "nanobind_json/nanobind_json.hpp"
 #include "sundials/sundials_config.h"
 #include "camp/version.h"
 
@@ -34,13 +32,75 @@
 // #include "output.hpp"
 // #include "output_parameters.hpp"
 
-#include "temp_nb_casters.hpp"
-
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
 
 namespace nb = nanobind;
 namespace nl = nlohmann;
+
+NAMESPACE_BEGIN(nanobind)
+NAMESPACE_BEGIN(detail)
+
+template <typename Type> struct type_caster<std::valarray<Type>> {
+    NB_TYPE_CASTER(std::valarray<Type>, const_name("[") + const_name("std::valarray") + const_name("]"))
+
+    using Caster = make_caster<Type>;
+
+    bool from_python(handle src, uint8_t flags, cleanup_list *cleanup) noexcept {
+        if (nb::isinstance<nb::list>(src)) {
+            try {
+                auto py_array = nb::cast<nb::list>(src);
+                size_t size = py_array.size();
+
+                value.resize(size);
+
+                for (size_t i = 0; i < size; i++) {
+                    value[i] = nb::cast<Type>(py_array[i]);
+                }
+
+                return true;
+            }
+            catch (...) {
+                PyErr_Clear();
+                return false;
+            }
+        }
+        else if (nb::isinstance<nb::ndarray<Type, nb::ndim<1>>>(src)) {
+            try {
+                auto py_array = nb::cast<nb::ndarray<Type, nb::ndim<1>>>(src);
+                size_t size = py_array.size();
+                auto *data = py_array.data();
+
+                value.resize(size);
+
+                for (size_t i = 0; i < size; i++) {
+                    value[i] = data[i];
+                }
+
+                return true;
+            }
+            catch (...) {
+                PyErr_Clear();
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    template <typename T>
+    static handle from_cpp(T &&src, rv_policy policy, cleanup_list *cleanup) {
+        nb::list obj;
+        for (const auto& elem : src) {
+            obj.append(elem);
+        }
+
+        return obj.release();
+    }
+};
+
+NAMESPACE_END(detail)
+NAMESPACE_END(nanobind)
 
 NB_MODULE(_PyPartMC, m) {
     // m.doc() = R"pbdoc(

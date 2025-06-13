@@ -75,7 +75,7 @@ struct BinGrid {
     BinGrid(const int &n_bin, const nb::str &grid_type, const double &min, const double &max) :
         ptr(f_bin_grid_ctor, f_bin_grid_dtor)
     {
-        const std::string grid_type_str{grid_type.c_str()}; 
+        const std::string grid_type_str {grid_type.c_str()}; 
 
         int type = 0;
         if (grid_type_str == "log") type = 1;
