@@ -5,6 +5,7 @@
 ##################################################################################################*/
 
 #include "nanobind/nanobind.h"
+#include "nanobind/stl/complex.h"
 #include "nanobind/stl/vector.h"
 #include "nanobind/stl/string.h"
 #include "nanobind/stl/shared_ptr.h"
@@ -21,6 +22,7 @@
 #include "aero_data.hpp"
 #include "aero_dist.hpp"
 #include "aero_mode.hpp"
+#include "aero_particle.hpp"
 // #include "aero_state.hpp"
 #include "env_state.hpp"
 #include "gas_data.hpp"
@@ -177,83 +179,83 @@ NB_MODULE(_PyPartMC, m) {
             "returns list of aerosol species names")
     ;
 
-    // py::class_<AeroParticle>(m, "AeroParticle",
-    //     R"pbdoc(
-    //          Single aerosol particle data structure.
+    nb::class_<AeroParticle>(m, "AeroParticle",
+        R"pbdoc(
+             Single aerosol particle data structure.
 
-    //          The \c vol array stores the total volumes of the different
-    //          species that make up the particle. This array must have length
-    //          equal to aero_data%%n_spec, so that \c vol(i) is the volume (in
-    //          m^3) of the i'th aerosol species.
-    //     )pbdoc"
-    // )
-    //     .def(py::init<std::shared_ptr<AeroData>, const std::valarray<double>&>())
-    //     .def_property_readonly("volumes", AeroParticle::volumes,
-    //         "Constituent species volumes (m^3)")
-    //     .def_property_readonly("volume", AeroParticle::volume,
-    //         "Total volume of the particle (m^3).")
-    //     .def("species_volume",
-    //         py::overload_cast<const AeroParticle &, const int &>(&AeroParticle::species_volume),
-    //         "Volume of a single species in the particle (m^3).")
-    //     .def("species_volume",
-    //         py::overload_cast<const AeroParticle &, const std::string &>(&AeroParticle::species_volume_by_name),
-    //         "Volume of a single species in the particle (m^3).")
-    //     .def_property_readonly("dry_volume", AeroParticle::dry_volume,
-    //         "Total dry volume of the particle (m^3).")
-    //     .def_property_readonly("radius", AeroParticle::radius,
-    //         "Total radius of the particle (m).")
-    //     .def_property_readonly("dry_radius", AeroParticle::dry_radius,
-    //         "Total dry radius of the particle (m).")
-    //     .def_property_readonly("diameter", AeroParticle::diameter,
-    //         "Total diameter of the particle (m).")
-    //     .def_property_readonly("dry_diameter", AeroParticle::dry_diameter,
-    //         "Total dry diameter of the particle (m).")
-    //     .def_property_readonly("mass", AeroParticle::mass,
-    //         "Total mass of the particle (kg).")
-    //     .def("species_mass", py::overload_cast<const AeroParticle &, const int &>(&AeroParticle::species_mass),
-    //         "Mass of a single species in the particle (kg).")
-    //     .def("species_mass", py::overload_cast<const AeroParticle &, const std::string &>(&AeroParticle::species_mass_by_name),
-    //         "Mass of a single species in the particle (kg).")
-    //     .def_property_readonly("species_masses", AeroParticle::species_masses,
-    //         "Mass of all species in the particle (kg).")
-    //     .def_property_readonly("solute_kappa", AeroParticle::solute_kappa,
-    //         "Returns the average of the solute kappas (1).")
-    //     .def_property_readonly("moles", AeroParticle::moles,
-    //         "Total moles in the particle (1).")
-    //     .def_property_readonly("absorb_cross_sect", AeroParticle::absorb_cross_sect,
-    //         "Absorption cross-section (m^-2).")
-    //     .def_property_readonly("scatter_cross_sect", AeroParticle::scatter_cross_sect,
-    //         "Scattering cross-section (m^-2).")
-    //     .def_property_readonly("asymmetry", AeroParticle::asymmetry,
-    //         "Asymmetry parameter (1).")
-    //     .def_property_readonly("refract_shell", AeroParticle::refract_shell,
-    //         "Refractive index of the shell (1).")
-    //     .def_property_readonly("refract_core", AeroParticle::refract_core,
-    //         "Refractive index of the core (1).")
-    //     .def_property_readonly("sources", AeroParticle::sources,
-    //         "Number of original particles from each source that coagulated to form particle.")
-    //     .def_property_readonly("least_create_time", AeroParticle::least_create_time,
-    //         "First time a constituent was created (s).")
-    //     .def_property_readonly("greatest_create_time", AeroParticle::greatest_create_time,
-    //         "Last time a constituent was created (s).")
-    //     .def_property_readonly("id", AeroParticle::id, "Unique ID number.")
-    //     .def("mobility_diameter", AeroParticle::mobility_diameter,
-    //         "Mobility diameter of the particle (m).")
-    //     .def_property_readonly("density", AeroParticle::density,
-    //         "Average density of the particle (kg/m^3)")
-    //     .def("approx_crit_rel_humid", AeroParticle::approx_crit_rel_humid,
-    //         "Returns the approximate critical relative humidity (1).")
-    //     .def("crit_rel_humid", AeroParticle::crit_rel_humid,
-    //         "Returns the critical relative humidity (1).")
-    //     .def("crit_diameter", AeroParticle::crit_diameter,
-    //         "Returns the critical diameter (m).")
-    //     .def("coagulate", AeroParticle::coagulate,
-    //         "Coagulate two particles together to make a new one. The new particle will not have its ID set.")
-    //     .def("zero", AeroParticle::zero,
-    //         "Resets an aero_particle to be zero.")
-    //     .def("set_vols", AeroParticle::set_vols,
-    //         "Sets the aerosol particle volumes.")
-    // ;
+             The \c vol array stores the total volumes of the different
+             species that make up the particle. This array must have length
+             equal to aero_data%%n_spec, so that \c vol(i) is the volume (in
+             m^3) of the i'th aerosol species.
+        )pbdoc"
+    )
+        .def(nb::init<std::shared_ptr<AeroData>, const std::valarray<double>&>())
+        .def_prop_ro("volumes", AeroParticle::volumes,
+            "Constituent species volumes (m^3)")
+        .def_prop_ro("volume", AeroParticle::volume,
+            "Total volume of the particle (m^3).")
+        .def("species_volume",
+            nb::overload_cast<const AeroParticle &, const int &>(&AeroParticle::species_volume),
+            "Volume of a single species in the particle (m^3).")
+        .def("species_volume",
+            nb::overload_cast<const AeroParticle &, const std::string &>(&AeroParticle::species_volume_by_name),
+            "Volume of a single species in the particle (m^3).")
+        .def_prop_ro("dry_volume", AeroParticle::dry_volume,
+            "Total dry volume of the particle (m^3).")
+        .def_prop_ro("radius", AeroParticle::radius,
+            "Total radius of the particle (m).")
+        .def_prop_ro("dry_radius", AeroParticle::dry_radius,
+            "Total dry radius of the particle (m).")
+        .def_prop_ro("diameter", AeroParticle::diameter,
+            "Total diameter of the particle (m).")
+        .def_prop_ro("dry_diameter", AeroParticle::dry_diameter,
+            "Total dry diameter of the particle (m).")
+        .def_prop_ro("mass", AeroParticle::mass,
+            "Total mass of the particle (kg).")
+        .def("species_mass", nb::overload_cast<const AeroParticle &, const int &>(&AeroParticle::species_mass),
+            "Mass of a single species in the particle (kg).")
+        .def("species_mass", nb::overload_cast<const AeroParticle &, const std::string &>(&AeroParticle::species_mass_by_name),
+            "Mass of a single species in the particle (kg).")
+        .def_prop_ro("species_masses", AeroParticle::species_masses,
+            "Mass of all species in the particle (kg).")
+        .def_prop_ro("solute_kappa", AeroParticle::solute_kappa,
+            "Returns the average of the solute kappas (1).")
+        .def_prop_ro("moles", AeroParticle::moles,
+            "Total moles in the particle (1).")
+        .def_prop_ro("absorb_cross_sect", AeroParticle::absorb_cross_sect,
+            "Absorption cross-section (m^-2).")
+        .def_prop_ro("scatter_cross_sect", AeroParticle::scatter_cross_sect,
+            "Scattering cross-section (m^-2).")
+        .def_prop_ro("asymmetry", AeroParticle::asymmetry,
+            "Asymmetry parameter (1).")
+        .def_prop_ro("refract_shell", AeroParticle::refract_shell,
+            "Refractive index of the shell (1).")
+        .def_prop_ro("refract_core", AeroParticle::refract_core,
+            "Refractive index of the core (1).")
+        .def_prop_ro("sources", AeroParticle::sources,
+            "Number of original particles from each source that coagulated to form particle.")
+        .def_prop_ro("least_create_time", AeroParticle::least_create_time,
+            "First time a constituent was created (s).")
+        .def_prop_ro("greatest_create_time", AeroParticle::greatest_create_time,
+            "Last time a constituent was created (s).")
+        .def_prop_ro("id", AeroParticle::id, "Unique ID number.")
+        .def("mobility_diameter", AeroParticle::mobility_diameter,
+            "Mobility diameter of the particle (m).")
+        .def_prop_ro("density", AeroParticle::density,
+            "Average density of the particle (kg/m^3)")
+        .def("approx_crit_rel_humid", AeroParticle::approx_crit_rel_humid,
+            "Returns the approximate critical relative humidity (1).")
+        .def("crit_rel_humid", AeroParticle::crit_rel_humid,
+            "Returns the critical relative humidity (1).")
+        .def("crit_diameter", AeroParticle::crit_diameter,
+            "Returns the critical diameter (m).")
+        .def("coagulate", AeroParticle::coagulate,
+            "Coagulate two particles together to make a new one. The new particle will not have its ID set.")
+        .def("zero", AeroParticle::zero,
+            "Resets an aero_particle to be zero.")
+        .def("set_vols", AeroParticle::set_vols,
+            "Sets the aerosol particle volumes.")
+    ;
 
     // py::class_<AeroState>(m, "AeroState",
     //     R"pbdoc(
