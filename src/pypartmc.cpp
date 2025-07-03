@@ -30,7 +30,7 @@
 #include "env_state.hpp"
 #include "gas_data.hpp"
 #include "gas_state.hpp"
-// #include "condense.hpp"
+#include "condense.hpp"
 #include "bin_grid.hpp"
 // #include "camp_core.hpp"
 // #include "photolysis.hpp"
@@ -117,14 +117,14 @@ NB_MODULE(_PyPartMC, m) {
     // m.def("run_part", &run_part, "Do a particle-resolved Monte Carlo simulation.");
     // m.def("run_part_timestep", &run_part_timestep, "Do a single time step");
     // m.def("run_part_timeblock", &run_part_timeblock, "Do a time block");
-    // m.def("condense_equilib_particles", &condense_equilib_particles, R"pbdoc(
-    //   Call condense_equilib_particle() on each particle in the aerosol
-    //   to ensure that every particle has its water content in
-    //   equilibrium.
-    // )pbdoc");
-    // m.def("condense_equilib_particle", &condense_equilib_particle, R"pbdoc(
-    //     Determine the water equilibrium state of a single particle.
-    // )pbdoc");
+    m.def("condense_equilib_particles", &condense_equilib_particles, R"pbdoc(
+      Call condense_equilib_particle() on each particle in the aerosol
+      to ensure that every particle has its water content in
+      equilibrium.
+    )pbdoc");
+    m.def("condense_equilib_particle", &condense_equilib_particle, R"pbdoc(
+        Determine the water equilibrium state of a single particle.
+    )pbdoc");
 
     // // TODO #65
     // //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");

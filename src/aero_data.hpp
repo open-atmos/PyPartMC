@@ -9,6 +9,7 @@
 #include "pmc_resource.hpp"
 #include "json_resource.hpp"
 #include "aero_data_parameters.hpp"
+#include "nanobind/nanobind.h"
 
 extern "C" void f_aero_data_ctor(void *ptr) noexcept;
 extern "C" void f_aero_data_dtor(void *ptr) noexcept;
