@@ -21,7 +21,7 @@
 #include "util.hpp"
 #include "rand.hpp"
 // #include "run_part.hpp"
-// #include "run_part_opt.hpp"
+#include "run_part_opt.hpp"
 #include "aero_data.hpp"
 #include "aero_dist.hpp"
 #include "aero_mode.hpp"
@@ -29,7 +29,7 @@
 #include "aero_state.hpp"
 #include "env_state.hpp"
 #include "gas_data.hpp"
-// #include "gas_state.hpp"
+#include "gas_state.hpp"
 // #include "condense.hpp"
 #include "bin_grid.hpp"
 // #include "camp_core.hpp"
@@ -460,47 +460,47 @@ NB_MODULE(_PyPartMC, m) {
 
     // ;
 
-    // py::class_<GasState>(m,
-    //     "GasState",
-    //     R"pbdoc(
-    //         Current state of the gas mixing ratios in the system.
+    nb::class_<GasState>(m,
+        "GasState",
+        R"pbdoc(
+            Current state of the gas mixing ratios in the system.
 
-    //         The gas species are defined by the gas_data_t structure, so that
-    //         \c gas_state%%mix_rat(i) is the current mixing ratio of the gas
-    //         with name \c gas_data%%name(i), etc.
+            The gas species are defined by the gas_data_t structure, so that
+            \c gas_state%%mix_rat(i) is the current mixing ratio of the gas
+            with name \c gas_data%%name(i), etc.
 
-    //         By convention, if gas_state_is_allocated() return \c .false.,
-    //         then the gas_state is treated as zero for all operations on
-    //         it. This will be the case for new \c gas_state_t structures.
-    //     )pbdoc"
-    // )
-    //     .def(py::init<std::shared_ptr<GasData>>(),
-    //         "instantiates and initializes based on GasData")
-    //     .def("__setitem__", GasState::set_item)
-    //     //.def("__setitem__", GasState::set_items)
-    //     .def("__getitem__", GasState::get_item)
-    //     //.def("__getitem__", GasState::get_items)
-    //     .def("__len__", GasState::__len__, "returns number of gas species")
-    //     .def_property_readonly("n_spec", GasState::__len__,
-    //         "returns number of gas species")
-    //     .def("__str__", GasState::__str__,
-    //         "returns a string with JSON representation of the object")
-    //     .def("set_size", GasState::set_size,
-    //         "sets the GasState to the size of GasData")
-    //     .def("mix_rat", GasState::mix_rat,
-    //         "returns the mixing ratio of a gas species")
-    //     .def_property("mix_rats", &GasState::mix_rats, &GasState::set_mix_rats,
-    //         "provides access (read of write) to the array of mixing ratios")
-    // ;
+            By convention, if gas_state_is_allocated() return \c .false.,
+            then the gas_state is treated as zero for all operations on
+            it. This will be the case for new \c gas_state_t structures.
+        )pbdoc"
+    )
+        .def(nb::init<std::shared_ptr<GasData>>(),
+            "instantiates and initializes based on GasData")
+        .def("__setitem__", GasState::set_item)
+        //.def("__setitem__", GasState::set_items)
+        .def("__getitem__", GasState::get_item)
+        //.def("__getitem__", GasState::get_items)
+        .def("__len__", GasState::__len__, "returns number of gas species")
+        .def_prop_ro("n_spec", GasState::__len__,
+            "returns number of gas species")
+        .def("__str__", GasState::__str__,
+            "returns a string with JSON representation of the object")
+        .def("set_size", GasState::set_size,
+            "sets the GasState to the size of GasData")
+        .def("mix_rat", GasState::mix_rat,
+            "returns the mixing ratio of a gas species")
+        .def_prop_rw("mix_rats", &GasState::mix_rats, &GasState::set_mix_rats,
+            "provides access (read of write) to the array of mixing ratios")
+    ;
 
-    // py::class_<RunPartOpt>(m,
-    //     "RunPartOpt",
-    //     "Options controlling the execution of run_part()."
-    // )
-    //     .def(py::init<const nlohmann::json&>())
-    //     .def_property_readonly("t_max", RunPartOpt::t_max, "total simulation time")
-    //     .def_property_readonly("del_t", RunPartOpt::del_t, "time step")
-    // ;
+    nb::class_<RunPartOpt>(m,
+        "RunPartOpt",
+        "Options controlling the execution of run_part()."
+    )
+        .def(nb::init<const nlohmann::json&>())
+        .def_prop_ro("t_max", RunPartOpt::t_max, "total simulation time")
+        .def_prop_ro("del_t", RunPartOpt::del_t, "time step")
+    ;
 
     nb::class_<BinGrid>(m,"BinGrid")
         .def(nb::init<const double, const nb::str, const double, const double>())

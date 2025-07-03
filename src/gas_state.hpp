@@ -6,7 +6,6 @@
 
 #pragma once
 #include <string>
-#include "pybind11_json/pybind11_json.hpp"
 #include "nlohmann/json.hpp"
 #include "json_resource.hpp"
 #include "pmc_resource.hpp"
