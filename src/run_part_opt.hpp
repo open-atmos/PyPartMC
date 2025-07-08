@@ -8,7 +8,6 @@
 
 #include "pmc_resource.hpp"
 #include "json_resource.hpp"
-#include "pybind11_json/pybind11_json.hpp"
 
 extern "C" void f_run_part_opt_ctor(void *ptr) noexcept;
 extern "C" void f_run_part_opt_dtor(void *ptr) noexcept;
