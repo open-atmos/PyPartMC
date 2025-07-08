@@ -20,7 +20,7 @@
 
 #include "util.hpp"
 #include "rand.hpp"
-// #include "run_part.hpp"
+#include "run_part.hpp"
 #include "run_part_opt.hpp"
 #include "aero_data.hpp"
 #include "aero_dist.hpp"
@@ -110,13 +110,13 @@ NAMESPACE_END(detail)
 NAMESPACE_END(nanobind)
 
 NB_MODULE(_PyPartMC, m) {
-    // m.doc() = R"pbdoc(
-    //     PyPartMC is a Python interface to PartMC.
-    // )pbdoc";
+    m.doc() = R"pbdoc(
+        PyPartMC is a Python interface to PartMC.
+    )pbdoc";
 
-    // m.def("run_part", &run_part, "Do a particle-resolved Monte Carlo simulation.");
-    // m.def("run_part_timestep", &run_part_timestep, "Do a single time step");
-    // m.def("run_part_timeblock", &run_part_timeblock, "Do a time block");
+    m.def("run_part", &run_part, "Do a particle-resolved Monte Carlo simulation.");
+    m.def("run_part_timestep", &run_part_timestep, "Do a single time step");
+    m.def("run_part_timeblock", &run_part_timeblock, "Do a time block");
     m.def("condense_equilib_particles", &condense_equilib_particles, R"pbdoc(
       Call condense_equilib_particle() on each particle in the aerosol
       to ensure that every particle has its water content in
@@ -416,49 +416,48 @@ NB_MODULE(_PyPartMC, m) {
         .def(nb::init<>())
     ;
 
-    // py::class_<Scenario>(m,
-    //     "Scenario",
-    //     R"pbdoc(
-    //         This is everything needed to drive the scenario being simulated.
+    nb::class_<Scenario>(m,
+        "Scenario",
+        R"pbdoc(
+            This is everything needed to drive the scenario being simulated.
 
-    //         The temperature, pressure, emissions and background states are profiles
-    //         prescribed as functions of time by giving a number of times and
-    //         the corresponding data. Simple data such as temperature and pressure is
-    //         linearly interpolated between times, with constant interpolation
-    //         outside of the range of times. Gases and aerosols are
-    //         interpolated with gas_state_interp_1d() and
-    //         aero_dist_interp_1d(), respectively.
-    //     )pbdoc"
-    // )
-    //     .def(
-    //         py::init<
-    //             const GasData&,
-    //             const AeroData&,
-    //             const nlohmann::json&
-    //         >(),
-    //         "instantiates and initializes from a JSON object"
-    //     )
-    //     .def("__str__", Scenario::__str__,
-    //         "returns a string with JSON representation of the object")
-    //     .def("init_env_state", Scenario::init_env_state,
-    //         "initializes the EnvState")
-    //     .def("aero_emissions", Scenario::get_dist,
-    //         "returns aero_emissions AeroDists at a given index")
-    //     .def_property_readonly("aero_emissions_n_times", Scenario::get_emissions_n_times,
-    //         "returns the number of times specified for emissions")
-    //     .def_property_readonly("aero_emissions_rate_scale", Scenario::emission_rate_scale,
-    //         "Aerosol emission rate scales at set-points (1)")
-    //     .def_property_readonly("aero_emissions_time", Scenario::emission_time)
-    //     .def("aero_background", Scenario::get_aero_background_dist,
-    //         "returns aero_background AeroDists at a given index")
-    //     .def_property_readonly("aero_dilution_n_times", Scenario::get_aero_dilution_n_times,
-    //         "returns the number of times specified for dilution")
-    //     .def_property_readonly("aero_dilution_rate", Scenario::aero_dilution_rate,
-    //         "Aerosol-background dilution rates at set-points (s^{-1})")
-    //     .def_property_readonly("aero_dilution_time", Scenario::aero_dilution_time,
-    //         "Aerosol-background dilution set-point times (s)")
-
-    // ;
+            The temperature, pressure, emissions and background states are profiles
+            prescribed as functions of time by giving a number of times and
+            the corresponding data. Simple data such as temperature and pressure is
+            linearly interpolated between times, with constant interpolation
+            outside of the range of times. Gases and aerosols are
+            interpolated with gas_state_interp_1d() and
+            aero_dist_interp_1d(), respectively.
+        )pbdoc"
+    )
+        .def(
+            nb::init<
+                const GasData&,
+                const AeroData&,
+                const nlohmann::json&
+            >(),
+            "instantiates and initializes from a JSON object"
+        )
+        .def("__str__", Scenario::__str__,
+            "returns a string with JSON representation of the object")
+        .def("init_env_state", Scenario::init_env_state,
+            "initializes the EnvState")
+        .def("aero_emissions", Scenario::get_dist,
+            "returns aero_emissions AeroDists at a given index")
+        .def_prop_ro("aero_emissions_n_times", Scenario::get_emissions_n_times,
+            "returns the number of times specified for emissions")
+        .def_prop_ro("aero_emissions_rate_scale", Scenario::emission_rate_scale,
+            "Aerosol emission rate scales at set-points (1)")
+        .def_prop_ro("aero_emissions_time", Scenario::emission_time)
+        .def("aero_background", Scenario::get_aero_background_dist,
+            "returns aero_background AeroDists at a given index")
+        .def_prop_ro("aero_dilution_n_times", Scenario::get_aero_dilution_n_times,
+            "returns the number of times specified for dilution")
+        .def_prop_ro("aero_dilution_rate", Scenario::aero_dilution_rate,
+            "Aerosol-background dilution rates at set-points (s^{-1})")
+        .def_prop_ro("aero_dilution_time", Scenario::aero_dilution_time,
+            "Aerosol-background dilution set-point times (s)")
+    ;
 
     nb::class_<GasState>(m,
         "GasState",
@@ -582,15 +581,15 @@ NB_MODULE(_PyPartMC, m) {
         "Convert diameter (m) to radius (m)."
     );
 
-    // m.def(
-    //     "loss_rate_dry_dep", &loss_rate_dry_dep, py::return_value_policy::copy,
-    //     "Compute and return the dry deposition rate for a given particle."
-    // );
+    m.def(
+        "loss_rate_dry_dep", &loss_rate_dry_dep, nb::rv_policy::copy,
+        "Compute and return the dry deposition rate for a given particle."
+    );
 
-    // m.def(
-    //     "loss_rate", &loss_rate, py::return_value_policy::copy,
-    //     "Evaluate a loss rate function."
-    // );
+    m.def(
+        "loss_rate", &loss_rate, nb::rv_policy::copy,
+        "Evaluate a loss rate function."
+    );
 
     m.def(
         "output_state", &output_state, "Output current state to netCDF file."
