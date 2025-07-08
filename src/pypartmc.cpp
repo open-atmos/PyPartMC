@@ -32,10 +32,10 @@
 #include "gas_state.hpp"
 #include "condense.hpp"
 #include "bin_grid.hpp"
-// #include "camp_core.hpp"
-// #include "photolysis.hpp"
-// #include "output.hpp"
-// #include "output_parameters.hpp"
+#include "camp_core.hpp"
+#include "photolysis.hpp"
+#include "output.hpp"
+#include "output_parameters.hpp"
 
 #define STRINGIFY(x) #x
 #define MACRO_STRINGIFY(x) STRINGIFY(x)
@@ -398,23 +398,23 @@ NB_MODULE(_PyPartMC, m) {
             "Scaling coefficient for additive coagulation kernel.")
     ;
 
-    // py::class_<Photolysis>(m,
-    //     "Photolysis",
-    //     R"pbdoc(
-    //         PartMC interface to a photolysis module
-    //     )pbdoc"
-    // )
-    //     .def(py::init<>())
-    // ;
+    nb::class_<Photolysis>(m,
+        "Photolysis",
+        R"pbdoc(
+            PartMC interface to a photolysis module
+        )pbdoc"
+    )
+        .def(nb::init<>())
+    ;
 
-    // py::class_<CampCore>(m,
-    //     "CampCore",
-    //     R"pbdoc(
-    //         An interface between PartMC and the CAMP
-    //     )pbdoc"
-    // )
-    //     .def(py::init<>())
-    // ;
+    nb::class_<CampCore>(m,
+        "CampCore",
+        R"pbdoc(
+            An interface between PartMC and the CAMP
+        )pbdoc"
+    )
+        .def(nb::init<>())
+    ;
 
     // py::class_<Scenario>(m,
     //     "Scenario",
@@ -592,13 +592,13 @@ NB_MODULE(_PyPartMC, m) {
     //     "Evaluate a loss rate function."
     // );
 
-    // m.def(
-    //     "output_state", &output_state, "Output current state to netCDF file."
-    // );
+    m.def(
+        "output_state", &output_state, "Output current state to netCDF file."
+    );
 
-    // m.def(
-    //     "input_state", &input_state, "Read current state from netCDF output file."
-    // );
+    m.def(
+        "input_state", &input_state, "Read current state from netCDF output file."
+    );
 
     m.def(
         "rand_init", &rand_init, "Initializes the random number generator to the state defined by the given seed. If the seed is 0 then a seed is auto-generated from the current time"
