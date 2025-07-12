@@ -522,6 +522,23 @@ NB_MODULE(_PyPartMC, m) {
         .def_prop_ro("del_t", RunPartOpt::del_t, "time step")
     ;
 
+    nb::class_<RunSectOpt>(m,
+        "RunSectOpt",
+        "Options controlling the execution of run_sect()."
+    )
+        .def(nb::init<const nlohmann::json&, EnvState&>())
+        .def_prop_ro("t_max", RunSectOpt::t_max, "total simulation time")
+        .def_prop_ro("del_t", RunSectOpt::del_t, "time step")
+    ;
+
+    nb::class_<RunExactOpt>(m,
+        "RunExactOpt",
+        "Options controlling the execution of run_exact()."
+    )
+        .def(nb::init<const nlohmann::json&, EnvState&>())
+        .def_prop_ro("t_max", RunExactOpt::t_max, "total simulation time")
+    ;
+
     nb::class_<BinGrid>(m,"BinGrid")
         .def(nb::init<const double, const nb::str, const double, const double>())
         .def("__len__", BinGrid::__len__, "returns number of bins")
