@@ -22,10 +22,14 @@
 #include "rand.hpp"
 #include "run_part.hpp"
 #include "run_part_opt.hpp"
+#include "run_sect.hpp"
+#include "run_sect_opt.hpp"
+#include "run_exact.hpp"
+#include "run_exact_opt.hpp"
+#include "aero_binned.hpp"
 #include "aero_data.hpp"
 #include "aero_dist.hpp"
 #include "aero_mode.hpp"
-#include "aero_particle.hpp"
 #include "aero_state.hpp"
 #include "env_state.hpp"
 #include "gas_data.hpp"
@@ -126,9 +130,26 @@ NB_MODULE(_PyPartMC, m) {
         Determine the water equilibrium state of a single particle.
     )pbdoc");
 
-    // // TODO #65
-    // //m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
-    // //m.def("run_exact", &run_exact, "Do an exact solution simulation.");
+    // TODO #65
+    m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
+    m.def("run_exact", &run_exact, "Do an exact solution simulation.");
+
+    nb::class_<AeroBinned>(m, "AeroBinned",
+        R"pbdoc(
+             Aerosol number and volume distributions stored per size bin.
+             These quantities are densities both in volume (per m^3) and in radius
+             (per log_width).
+        )pbdoc"
+    )
+        .def(nb::init<std::shared_ptr<AeroData>>())
+        .def(nb::init<std::shared_ptr<AeroData>, const BinGrid&>())
+        .def_prop_ro("num_conc", AeroBinned::num_conc,
+            "Returns the number concentration of each bin (#/m^3/log_width)")
+        .def_prop_ro("vol_conc", AeroBinned::vol_conc,
+            "Returns the volume concentration per bin per species (m^3/m^3/log_width)")
+        .def("add_aero_dist", AeroBinned::add_aero_dist,
+            "Adds an AeroDist to an AeroBinned")
+    ;
 
     nb::class_<AeroData>(m, "AeroData",
         R"pbdoc(
