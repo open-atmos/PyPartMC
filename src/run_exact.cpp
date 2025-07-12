@@ -5,7 +5,6 @@
 ##################################################################################################*/
 
 #include "run_exact.hpp"
-#include "pybind11/stl.h"
 
 void run_exact(
     const BinGrid &bin_grid,

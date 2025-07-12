@@ -5,7 +5,6 @@
 ##################################################################################################*/
 
 #include "run_sect.hpp"
-#include "pybind11/stl.h"
 
 void run_sect(
     const BinGrid &bin_grid,

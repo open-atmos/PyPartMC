@@ -9,8 +9,8 @@
 #include "json_resource.hpp"
 #include "pmc_resource.hpp"
 #include "gas_data_parameters.hpp"
-#include "pybind11/stl.h"
-#include "pybind11_json/pybind11_json.hpp"
+#include "nanobind/nanobind.h"
+#include "nanobind_json/nanobind_json.hpp"
 
 extern "C" void f_gas_data_ctor(void *ptr) noexcept;
 extern "C" void f_gas_data_dtor(void *ptr) noexcept;
@@ -26,14 +26,14 @@ struct GasData {
     PMCResource ptr;
     const nlohmann::json json;
 
-    GasData(const pybind11::tuple &tpl) :
+    GasData(const nanobind::tuple &tpl) :
         ptr(f_gas_data_ctor, f_gas_data_dtor),
         json(tpl)
     {
         auto json_array = nlohmann::json::array();
         for (const auto item : tpl)
             json_array.push_back(nlohmann::json::object({{
-                item.cast<std::string>(),
+                nanobind::cast<std::string>(item),
                 nlohmann::json::array()
             }}));
 
@@ -82,16 +82,16 @@ struct GasData {
         );
 
         char name[GAS_NAME_LEN];
-        auto names = pybind11::tuple(len);
+        nanobind::list names;
         for (int idx = 0; idx < len; idx++) {
              f_gas_data_spec_name_by_index(
                  self.ptr.f_arg(),
                  &idx,
                  name
             );
-            names[idx] = std::string(name);
+            names.append(nanobind::str(name));
         }
-        return names;
+        return nanobind::tuple(names);
     }
 };
 

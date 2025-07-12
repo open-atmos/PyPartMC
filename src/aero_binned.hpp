@@ -11,7 +11,6 @@
 #include "bin_grid.hpp"
 #include "aero_dist.hpp"
 #include "aero_data.hpp"
-#include "pybind11/stl.h"
 
 extern "C" void f_aero_binned_ctor(void *ptr) noexcept;
 extern "C" void f_aero_binned_dtor(void *ptr) noexcept;
