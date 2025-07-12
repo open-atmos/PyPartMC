@@ -638,6 +638,14 @@ NB_MODULE(_PyPartMC, m) {
     );
 
     m.def(
+        "input_sectional", &input_sectional, "Read current state from run_sect netCDF output file."
+    );
+
+    m.def(
+        "input_exact", &input_exact, "Read current state from run_exact netCDF output file."
+    );
+
+    m.def(
         "rand_init", &rand_init, "Initializes the random number generator to the state defined by the given seed. If the seed is 0 then a seed is auto-generated from the current time"
     );
 
