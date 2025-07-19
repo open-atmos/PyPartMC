@@ -2,6 +2,8 @@
 .. include::../README.md
 """
 
+import importlib.metadata
+
 # pylint: disable=invalid-name,wrong-import-position
 import os
 from collections import namedtuple
@@ -69,11 +71,12 @@ si = __generate_si()
     SI-prefix-aware unit multipliers, resulting in e.g.: `p = 1000 * si.hPa`
     notation. Note: no dimensional analysis is done! """
 
+#    from ._PyPartMC import __all__ as _PyPartMC_all  # pylint: disable=no-name-in-module
 # with __build_extension_env():
 # from . import _PyPartMC
 from ._PyPartMC import *
+from ._PyPartMC import __versions_of_build_time_dependencies__
 
-#    from ._PyPartMC import __all__ as _PyPartMC_all  # pylint: disable=no-name-in-module
-#    from ._PyPartMC import __version__, __versions_of_build_time_dependencies__
+__version__ = importlib.metadata.version(__package__)
 
 #    __all__ = tuple([*_PyPartMC_all, "si"])

@@ -130,7 +130,6 @@ NB_MODULE(_PyPartMC, m) {
         Determine the water equilibrium state of a single particle.
     )pbdoc");
 
-    // TODO #65
     m.def("run_sect", &run_sect, "Do a 1D sectional simulation (Bott 1998 scheme).");
     m.def("run_exact", &run_exact, "Do an exact solution simulation.");
 
@@ -653,17 +652,15 @@ NB_MODULE(_PyPartMC, m) {
         "rand_normal", &rand_normal, "Generates a normally distributed random number with the given mean and standard deviation"
     );
 
-    // m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
-
-    // auto vobtd = py::dict();
-    // vobtd["pybind11"] = MACRO_STRINGIFY(PYBIND11_VERSION_MAJOR) "." MACRO_STRINGIFY(PYBIND11_VERSION_MINOR) "." MACRO_STRINGIFY(PYBIND11_VERSION_PATCH);
-    // vobtd["PartMC"] = PARTMC_VERSION;
-    // vobtd["SUNDIALS"] = SUNDIALS_VERSION;
-    // vobtd["CAMP"] = CAMP_VERSION;
-    // // TODO #164
-    // // - expose git hashes?
-    // // - more submodules (netCDF, ...)
-    // m.attr("__versions_of_build_time_dependencies__") = vobtd;
+    auto vobtd = nb::dict();
+    vobtd["nanobind"] = MACRO_STRINGIFY(NB_VERSION_MAJOR) "." MACRO_STRINGIFY(NB_VERSION_MINOR) "." MACRO_STRINGIFY(NB_VERSION_PATCH);
+    vobtd["PartMC"] = PARTMC_VERSION;
+    vobtd["SUNDIALS"] = SUNDIALS_VERSION;
+    vobtd["CAMP"] = CAMP_VERSION;
+    // TODO #164
+    // - expose git hashes?
+    // - more submodules (netCDF, ...)
+    m.attr("__versions_of_build_time_dependencies__") = vobtd;
 
     // m.attr("__all__") = py::make_tuple(
     //     "__version__",
