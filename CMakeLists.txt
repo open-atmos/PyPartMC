@@ -520,10 +520,9 @@ if(DEFINED ENV{MOSAIC_HOME})
   )
 endif()
 
-### PYBIND11 & PyPartMC ############################################################################
+### NANOBIND & PyPartMC ############################################################################
 find_package(nanobind CONFIG REQUIRED)
 
-# add_subdirectory(gitmodules/pybind11)
 add_subdirectory(gitmodules/nanobind)
 nanobind_add_module(_PyPartMC STABLE_ABI ${PyPartMC_sources})
 add_dependencies(_PyPartMC partmclib)

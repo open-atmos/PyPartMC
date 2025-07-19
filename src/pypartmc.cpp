@@ -661,39 +661,4 @@ NB_MODULE(_PyPartMC, m) {
     // - expose git hashes?
     // - more submodules (netCDF, ...)
     m.attr("__versions_of_build_time_dependencies__") = vobtd;
-
-    // m.attr("__all__") = py::make_tuple(
-    //     "__version__",
-    //     "AeroData",
-    //     "AeroDist",
-    //     "AeroMode",
-    //     "AeroState",
-    //     "AeroParticle",
-    //     "BinGrid",
-    //     "CampCore",
-    //     "EnvState",
-    //     "GasData",
-    //     "GasState",
-    //     "Photolysis",
-    //     "RunPartOpt",
-    //     "Scenario",
-    //     "condense_equilib_particles",
-    //     "run_part",
-    //     "run_part_timeblock",
-    //     "run_part_timestep",
-    //     "pow2_above",
-    //     "condense_equilib_particle",
-    //     "histogram_1d",
-    //     "histogram_2d",
-    //     "sphere_vol2rad",
-    //     "rad2diam",
-    //     "sphere_rad2vol",
-    //     "diam2rad",
-    //     "loss_rate_dry_dep",
-    //     "loss_rate",
-    //     "output_state",
-    //     "input_state",
-    //     "rand_init",
-    //     "rand_normal"
-    // );
 }
