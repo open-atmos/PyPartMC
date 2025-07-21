@@ -25,6 +25,7 @@ dependencies = [
 [project.optional-dependencies]
 tests = [
     "pytest",
+    "pytest-order",
 ]
 
 [project.urls]
