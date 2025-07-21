@@ -18,6 +18,14 @@ authors = [
 classifiers = [
     "License :: GPL-3.0",
 ]
+dependencies = [
+    "numpy",
+]
+
+[project.optional-dependencies]
+tests = [
+    "pytest",
+]
 
 [project.urls]
 Documentation = "https://open-atmos.github.io/PyPartMC"
