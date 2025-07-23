@@ -28,14 +28,14 @@ tests = [
     "pytest-order",
 ]
 examples = [
-    "matplotlib!=3.10.0",
+    "matplotlib != 3.10.0",
     "ipywidgets",
     "voila",
     "open-atmos-jupyter-utils",
     "PySDM",
     "PyMieScatt",
     "SciPy",
-    "dustpy; platform != windows"
+    "dustpy; os_name != windows"
 ]
 
 [project.urls]
