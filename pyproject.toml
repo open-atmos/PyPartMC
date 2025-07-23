@@ -33,7 +33,7 @@ examples = [
     "voila",
     "open-atmos-jupyter-utils",
     "PySDM",
-    PyMieScatt,
+    "PyMieScatt",
     "SciPy",
     "dustpy; platform != windows"
 ]
