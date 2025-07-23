@@ -12,6 +12,7 @@
 #include "nanobind/stl/tuple.h"
 #include "nanobind/stl/detail/nb_optional.h"
 #include "nanobind/ndarray.h"
+#undef snprintf
 #include "nlohmann/json.hpp"
 #include "nanobind_json/nanobind_json.hpp"
 #include "sundials/sundials_config.h"
