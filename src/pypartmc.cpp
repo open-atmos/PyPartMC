@@ -12,7 +12,7 @@
 #include "nanobind/stl/tuple.h"
 #include "nanobind/stl/detail/nb_optional.h"
 #include "nanobind/ndarray.h"
-#undef snprintf
+#undef snprintf // required to fix an issue with std::snprintf in nlohmann::json
 #include "nlohmann/json.hpp"
 #include "nanobind_json/nanobind_json.hpp"
 #include "sundials/sundials_config.h"

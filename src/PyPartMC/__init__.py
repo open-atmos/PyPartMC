@@ -10,6 +10,8 @@ from collections import namedtuple
 from contextlib import contextmanager
 from pathlib import Path
 
+import nanobind
+
 
 # https://github.com/diegoferigo/cmake-build-extension/blob/master/src/cmake_build_extension/__init__.py
 @contextmanager
@@ -76,7 +78,5 @@ from ._PyPartMC import __versions_of_build_time_dependencies__
 
 __version__ = importlib.metadata.version(__package__)
 
-import nanobind
-
-meta_cls = type(_PyPartMC.AeroData)
-setattr(nanobind, "nb_type_0", meta_cls)
+# walkaround for MATLAB bindings
+setattr(nanobind, "nb_type_0", type(_PyPartMC.AeroData))
