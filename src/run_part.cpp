@@ -5,7 +5,6 @@
 ##################################################################################################*/
 
 #include "run_part.hpp"
-#include "pybind11/stl.h"
 
 void check_allow_flags(
     const AeroState &aero_state,

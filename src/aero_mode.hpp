@@ -7,7 +7,6 @@
 #pragma once
 
 #include "pmc_resource.hpp"
-#include "pybind11/stl.h"
 #include "aero_data.hpp"
 #include "bin_grid.hpp"
 

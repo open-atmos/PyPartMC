@@ -18,6 +18,7 @@ std::valarray<double> histogram_1d(
     );
     int data_size = values.size();
     std::valarray<double> data(len);
+
     f_bin_grid_histogram_1d(
         bin_grid.ptr.f_arg(),
         begin(values),
