@@ -4,7 +4,7 @@
 # Author: Sylwester Arabas                                                                         #
 ####################################################################################################
 
-cmake_minimum_required(VERSION 3.8)  # CXX17
+cmake_minimum_required(VERSION 3.15)  # CXX17
 
 file(GLOB mods RELATIVE ${CMAKE_SOURCE_DIR} gitmodules/*)
 foreach(mod ${mods})
