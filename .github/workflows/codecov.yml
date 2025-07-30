@@ -14,10 +14,12 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
       - run: sudo apt install -y lcov
       - run: |
           set -xe
-          pip install "pip<23" setuptools==65.2
           CMAKE_ARGS="-DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -DCMAKE_Fortran_FLAGS=--coverage" pip install -e .[tests]
           pytest -We tests
           lcov --capture --directory ./build/*/_PyPartMC/CMakeFiles/_PyPartMC.dir/ --output-file coverage.info --no-external
