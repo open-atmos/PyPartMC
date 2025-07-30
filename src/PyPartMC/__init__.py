@@ -1,6 +1,7 @@
 """
 .. include::../../README.md
 """
+
 #  pylint: disable=invalid-name
 import importlib.metadata
 
