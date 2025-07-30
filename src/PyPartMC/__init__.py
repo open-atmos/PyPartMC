@@ -82,6 +82,5 @@ from ._PyPartMC import (  # pylint: disable=import-error
 __version__ = importlib.metadata.version(__package__)
 
 # walkaround for MATLAB bindings
-setattr(  # pylint: disable=undefined-variable
-    nanobind, "nb_type_0", type(_PyPartMC.AeroData)
-)
+# pylint: disable=undefined-variable
+setattr(nanobind, "nb_type_0", type(_PyPartMC.AeroData))
