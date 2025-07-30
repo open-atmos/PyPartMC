@@ -8,8 +8,8 @@
 
 #include "pmc_resource.hpp"
 #include "json_resource.hpp"
-#include "pybind11/stl.h"
 #include "aero_data_parameters.hpp"
+#include "nanobind/nanobind.h"
 
 extern "C" void f_aero_data_ctor(void *ptr) noexcept;
 extern "C" void f_aero_data_dtor(void *ptr) noexcept;
@@ -179,6 +179,7 @@ struct AeroData {
                  &data[idx]
             );
         }
+
         return data;
     }
 
@@ -227,16 +228,16 @@ struct AeroData {
         );
 
         char name[AERO_SOURCE_NAME_LEN];
-        auto names = pybind11::tuple(len);
+        auto names = nanobind::list();
         for (int idx = 0; idx < len; idx++) {
              f_aero_data_source_name_by_index(
                  self.ptr.f_arg(),
                  &idx,
                  name
             );
-            names[idx] = std::string(name);
+            names.append(std::string(name));
         }
-        return names;
+        return nanobind::tuple(names);
     }
 
     static auto names(const AeroData &self) {
@@ -248,16 +249,16 @@ struct AeroData {
         );
 
         char name[AERO_NAME_LEN];
-        auto names = pybind11::tuple(len);
+        auto names = nanobind::list();
         for (int idx = 0; idx < len; idx++) {
              f_aero_data_spec_name_by_index(
                  self.ptr.f_arg(),
                  &idx,
                  name
             );
-            names[idx] = std::string(name);
+            names.append(std::string(name));
         }
-        return names;
+        return nanobind::tuple(names);
     }
 
     static auto kappa(const AeroData &self) {
@@ -275,6 +276,7 @@ struct AeroData {
                  &data[idx]
             );
         }
+
         return data;
     }
 
@@ -293,6 +295,7 @@ struct AeroData {
                  &data[idx]
             );
         }
+
         return data;
     }
 };

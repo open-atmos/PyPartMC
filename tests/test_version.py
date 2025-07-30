@@ -17,7 +17,7 @@ def test_version():
     "pkg",
     (
         "PartMC",
-        "pybind11",
+        "nanobind",
         "CAMP",
         "SUNDIALS",
     ),

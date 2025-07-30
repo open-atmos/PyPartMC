@@ -1,14 +1,6 @@
-[submodule "pybind11"]
-	path = gitmodules/pybind11
-	url = https://github.com/pybind/pybind11
-	shallow = true
 [submodule "partmc"]
 	path = gitmodules/partmc
 	url = https://github.com/compdyn/partmc
-	shallow = true
-[submodule "pybind11_json"]
-	path = gitmodules/pybind11_json
-	url = https://github.com/pybind/pybind11_json
 	shallow = true
 [submodule "json"]
 	path = gitmodules/json
@@ -58,3 +50,13 @@
 	path = gitmodules/hdf5
 	url = https://github.com/HDFGroup/hdf5.git
 	shallow = true
+[submodule "gitmodules/nanobind"]
+	path = gitmodules/nanobind
+	url = https://github.com/wjakob/nanobind
+[submodule "gitmodules/nanobind_json"]
+	path = gitmodules/nanobind_json
+	url = https://github.com/Griger5/nanobind_json
+[submodule "."]
+	branch = pypartmc
+[submodule "nanobind_json"]
+	branch = pypartmc

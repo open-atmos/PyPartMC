@@ -9,7 +9,6 @@
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
 #include "env_state.hpp"
-#include "pybind11/stl.h"
 #include <complex>
 
 extern "C" void f_aero_particle_ctor(void *ptr) noexcept;
@@ -46,7 +45,6 @@ extern "C" void f_aero_particle_id(const void *aero_particle_ptr, int64_t *val) 
 extern "C" void f_aero_particle_refract_shell(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_refract_core(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
 
-namespace py = pybind11;
 struct AeroParticle {
     PMCResource ptr;
     std::shared_ptr<AeroData> aero_data;

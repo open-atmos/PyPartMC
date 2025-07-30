@@ -1,12 +1,17 @@
 """
-.. include::../README.md
+.. include::../../README.md
 """
+
+#  pylint: disable=invalid-name
+import importlib.metadata
 
 # pylint: disable=invalid-name,wrong-import-position
 import os
 from collections import namedtuple
 from contextlib import contextmanager
 from pathlib import Path
+
+import nanobind
 
 
 # https://github.com/diegoferigo/cmake-build-extension/blob/master/src/cmake_build_extension/__init__.py
@@ -69,10 +74,13 @@ si = __generate_si()
     SI-prefix-aware unit multipliers, resulting in e.g.: `p = 1000 * si.hPa`
     notation. Note: no dimensional analysis is done! """
 
-with __build_extension_env():
-    import _PyPartMC
-    from _PyPartMC import *
-    from _PyPartMC import __all__ as _PyPartMC_all  # pylint: disable=no-name-in-module
-    from _PyPartMC import __version__, __versions_of_build_time_dependencies__
+from ._PyPartMC import *  # pylint: disable=import-error
+from ._PyPartMC import (  # pylint: disable=import-error
+    __versions_of_build_time_dependencies__,
+)
 
-    __all__ = tuple([*_PyPartMC_all, "si"])
+__version__ = importlib.metadata.version(__package__)
+
+# walkaround for MATLAB bindings
+# pylint: disable=undefined-variable
+setattr(nanobind, "nb_type_0", type(_PyPartMC.AeroData))
