@@ -135,6 +135,7 @@ jobs:
       - uses: matlab-actions/setup-matlab@v0
         with:
           release: R2022a
+          cache: true
 
       - run: mkdir readme_output
 
