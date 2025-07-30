@@ -1,7 +1,7 @@
 """
 .. include::../../README.md
 """
-
+#  pylint: disable=invalid-name
 import importlib.metadata
 
 # pylint: disable=invalid-name,wrong-import-position
@@ -73,10 +73,14 @@ si = __generate_si()
     SI-prefix-aware unit multipliers, resulting in e.g.: `p = 1000 * si.hPa`
     notation. Note: no dimensional analysis is done! """
 
-from ._PyPartMC import *
-from ._PyPartMC import __versions_of_build_time_dependencies__
+from ._PyPartMC import *  # pylint: disable=import-error
+from ._PyPartMC import (  # pylint: disable=import-error
+    __versions_of_build_time_dependencies__,
+)
 
 __version__ = importlib.metadata.version(__package__)
 
 # walkaround for MATLAB bindings
-setattr(nanobind, "nb_type_0", type(_PyPartMC.AeroData))
+setattr(
+    nanobind, "nb_type_0", type(_PyPartMC.AeroData)
+)  # pylint: disable=undefined-variable
