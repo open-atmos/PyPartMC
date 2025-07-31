@@ -7,7 +7,6 @@
 import copy
 import gc
 import json
-import platform
 
 import pytest
 
@@ -156,7 +155,6 @@ class TestScenario:
 
     @staticmethod
     @pytest.mark.xfail(strict=True)
-    @pytest.mark.skipif("sys.platform != 'linux'")
     def test_ctor_fails_with_no_values_in_time_array():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
@@ -299,7 +297,6 @@ class TestScenario:
             ([{"time": [1, 2]}, {"PROF": [1, 2, 3]}], ERR_MSG_PROFILE_LEN_MATCH),
         ),
     )
-    @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")
     def test_throws_if_profile_not_of_proper_form(prof, data, msg):
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
