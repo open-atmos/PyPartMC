@@ -1,7 +1,7 @@
 ####################################################################################################
 # This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
-# Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
-# Author: Sylwester Arabas                                                                         #
+# Copyright (C) 2022-2025 University of Illinois Urbana-Champaign                                  #
+# Author: PyPartMC developers (https://github.com/open-atmos/PyPartMC/graphs/contributors)         #
 ####################################################################################################
 
 cmake_minimum_required(VERSION 3.15)  # CXX17
@@ -567,7 +567,7 @@ if (NOT "${CMAKE_REQUIRED_INCLUDES}" STREQUAL "")
   message("CMAKE_REQUIRED_INCLUDES not empty! (${CMAKE_REQUIRED_INCLUDES})")
 endif()
 foreach(file ${PyPartMC_headers})
-  set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS}")
+  set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS};${Python_INCLUDE_DIRS}")
   set(CMAKE_REQUIRED_FLAGS "-Werror")
   string(REGEX REPLACE "[\-./:]" "_" file_var ${file})
   check_cxx_source_compiles("
