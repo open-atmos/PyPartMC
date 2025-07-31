@@ -1,7 +1,7 @@
 ####################################################################################################
 # This file is a part of PyPartMC licensed under the GNU General Public License v3 (LICENSE file)  #
-# Copyright (C) 2022 University of Illinois Urbana-Champaign                                       #
-# Author: Sylwester Arabas                                                                         #
+# Copyright (C) 2022-2025 University of Illinois Urbana-Champaign                                  #
+# Author: PyPartMC developers (https://github.com/open-atmos/PyPartMC/graphs/contributors)         #
 ####################################################################################################
 
 cmake_minimum_required(VERSION 3.15)  # CXX17
@@ -566,32 +566,32 @@ file(GLOB PyPartMC_headers ${CMAKE_SOURCE_DIR}/src/*.hpp)
 if (NOT "${CMAKE_REQUIRED_INCLUDES}" STREQUAL "")
   message("CMAKE_REQUIRED_INCLUDES not empty! (${CMAKE_REQUIRED_INCLUDES})")
 endif()
-# foreach(file ${PyPartMC_headers})
-#   set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS};${pybind11_INCLUDE_DIRS}")
-#   set(CMAKE_REQUIRED_FLAGS "-Werror")
-#   string(REGEX REPLACE "[\-./:]" "_" file_var ${file})
-#   check_cxx_source_compiles("
-#       // https://github.com/nlohmann/json/issues/1408
-#       #if defined(_WIN32) || defined(_WIN64)
-#       #  define HAVE_SNPRINTF
-#       #endif
-#       #include \"${file}\"
-#       int main() { return 0;}
-#     "
-#     _header_self_contained_${file_var}
-#   )
-#   unset(CMAKE_REQUIRED_INCLUDES)
-#   unset(CMAKE_REQUIRED_FLAGS)
-#   if (NOT _header_self_contained_${file_var})
-#     message(SEND_ERROR "non-self-contained header: ${file}")
-#     if (${CMAKE_VERSION} VERSION_LESS "3.26.0")
-#       file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log" tmp)
-#     else()
-#       file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeConfigureLog.yaml" tmp)
-#     endif()
-#     message(FATAL_ERROR ${tmp})
-#   endif()
-#   unset(file_var)
-# endforeach()
+foreach(file ${PyPartMC_headers})
+  set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS};${Python_INCLUDE_DIRS}")
+  set(CMAKE_REQUIRED_FLAGS "-Werror")
+  string(REGEX REPLACE "[\-./:]" "_" file_var ${file})
+  check_cxx_source_compiles("
+      // https://github.com/nlohmann/json/issues/1408
+      #if defined(_WIN32) || defined(_WIN64)
+      #  define HAVE_SNPRINTF
+      #endif
+      #include \"${file}\"
+      int main() { return 0;}
+    "
+    _header_self_contained_${file_var}
+  )
+  unset(CMAKE_REQUIRED_INCLUDES)
+  unset(CMAKE_REQUIRED_FLAGS)
+  if (NOT _header_self_contained_${file_var})
+    message(SEND_ERROR "non-self-contained header: ${file}")
+    if (${CMAKE_VERSION} VERSION_LESS "3.26.0")
+      file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log" tmp)
+    else()
+      file(READ "${CMAKE_BINARY_DIR}/CMakeFiles/CMakeConfigureLog.yaml" tmp)
+    endif()
+    message(FATAL_ERROR ${tmp})
+  endif()
+  unset(file_var)
+endforeach()
 
 _install(TARGETS _PyPartMC LIBRARY DESTINATION PyPartMC)
