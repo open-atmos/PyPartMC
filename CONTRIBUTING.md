@@ -59,7 +59,7 @@ flowchart TD
 
 ## How to debug
 ```sh
-git clone --recursive git+https://github.com/open-atmos/PyPartMC.git
+git clone --recursive https://github.com/open-atmos/PyPartMC.git
 cd PyPartMC
 DEBUG=1 VERBOSE=1 pip --verbose install -e .[tests]
 gdb python 
