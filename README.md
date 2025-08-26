@@ -23,7 +23,7 @@ If interested in contributing to PyPartMC, please have a look a the [notes for d
    
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html)
 [![Copyright](https://img.shields.io/static/v1?label=Copyright&color=249fe2&message=UIUC&)](https://atmos.illinois.edu/)
-[![tests+pypi](https://github.com/open-atmos/PyPartMC/actions/workflows/tests+pypi.yml/badge.svg)](https://github.com/open-atmos/PyPartMC/actions/workflows/tests+pypi.yml)
+[![tests+pypi](https://github.com/open-atmos/PyPartMC/actions/workflows/buildwheels.yml/badge.svg)](https://github.com/open-atmos/PyPartMC/actions/workflows/buildwheels.yml)
 [![API docs](https://shields.mitmproxy.org/badge/docs-pdoc.dev-brightgreen.svg)](https://open-atmos.github.io/PyPartMC/)
 [![codecov](https://codecov.io/gh/open-atmos/PyPartMC/graph/badge.svg?token=27IK9ZIQXE)](https://codecov.io/gh/open-atmos/PyPartMC)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7662635.svg)](https://doi.org/10.5281/zenodo.7662635)
@@ -91,7 +91,7 @@ pip install PyPartMC[examples]
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/cloud_parcel.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/cloud_parcel.ipynb)
 [![ARM JupyterHub](https://img.shields.io/static/v1?label=launch%20in&logo=jupyter&color=lightblue&message=ARM+JupyterHub)](https://jupyterhub.arm.gov/hub/user-redirect/git-pull?repo=https%3A//github.com/open-atmos/PyPartMC&branch=main&urlPath=)
-- Coagulation Model Intercomparison with PySDM, Droplets.jl:    
+- Coagulation model intercomparison for additive (Golovin) kernel with: PyPartMC, [PySDM](https://open-atmos.github.io/PySDM), [Droplets.jl](https://github.com/emmacware/droplets.jl) and [dustpy](https://stammler.github.io/dustpy/):    
 [![View notebook](https://img.shields.io/static/v1?label=render%20on&logo=github&color=87ce3e&message=GitHub)](https://github.com/open-atmos//PyPartMC/blob/main/examples/additive_coag_comparison.ipynb) 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/additive_coag_comparison.ipynb) 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/additive_coag_comparison.ipynb)
@@ -99,7 +99,7 @@ pip install PyPartMC[examples]
 
 ## Features
 
-- works on Linux, macOS and Windows (compatibility assured with [CI builds](https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/tests.yml))
+- works on Linux, macOS and Windows (compatibility assured with [CI builds](https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/buildwheels.yml))
 - hassle-free installation using `pip` (prior PartMC installation **not needed**)
 - works out of the box on [mybinder.org](https://mybinder.org/), [Google Colab](colab.research.google.com/) and alike
 - ships with [a set of examples](https://github.com/open-atmos/PyPartMC/tree/main/examples) maintained in a form of Jupyter notebooks
@@ -208,7 +208,6 @@ print(aero_state.masses()'aero_state.num_concs, "# kg/m3")
 notes (see the [PyPartMC Matlab CI workflow](https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/readme_listings.yml) for an example on how to achieve it on Ubuntu 20):
 - Matlab ships with convenience copies of C, C++ and Fortran runtime libraries which are `dlopened()` by default; one way to make PyPartMC OK with it is to [pip-]install by compiling from source using the very same version of GCC that Matlab borrowed these libraries from (e.g., [GCC 9 for Matlab R2022a, etc](https://www.mathworks.com/support/requirements/supported-compilers-linux.html));
 - Matlab needs to [use the same Python interpretter/venv](https://www.mathworks.com/support/requirements/python-compatibility.html) as the pip invocation used to install PyPartMC;
-- a single-line `pybind11_builtins.py` file with just `pybind11_type=type` inside needs to be placed within Matlab's `PYTHONPATH` to sort out a [Matlab-pybind11 incompatibility](https://github.com/pybind/pybind11/issues/3945). 
 
 ````Matlab
 ppmc = py.importlib.import_module('PyPartMC');

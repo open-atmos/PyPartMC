@@ -4,10 +4,10 @@
 
 ## Implementation outline
 
-- PyPartMC is written in C++, Fortran and uses [pybind11](https://pybind11.readthedocs.io/en/stable/) and [CMake](https://cmake.org/).
-- JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [pybind11_json](https://github.com/pybind/pybind11_json)
+- PyPartMC is written in C++, Fortran and uses [nanobind](https://nanobind.readthedocs.io/) and [CMake](https://cmake.org/).
+- JSON support is handled with [nlohmann::json](https://github.com/nlohmann/json) and [nanobind_json](https://github.com/ianhbell/nanobind_json)
 - PartMC and selected parts of SUNDIALS are statically linked (and compiled in during `pip install` or `python -m build`) 
-- C (SUNDIALS, netCDF), C++ (pybind11, ...) and Fortran (PartMC, CAMP, netCDF-fortran) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
+- C (SUNDIALS, netCDF), C++ (nanobind, ...) and Fortran (PartMC, CAMP, netCDF-fortran) dependencies are linked through [git submodules](https://github.com/open-atmos/PyPartMC/blob/main/.gitmodules)
 - MOSAIC dependency is optionally linked through setting the environmental variable `MOSAIC_HOME`
 - a [drop-in replacement of the PartMC spec file routines](https://github.com/open-atmos/PyPartMC/blob/main/src/spec_file_pypartmc.F90) is used for i/o from/to JSON 
 
@@ -23,15 +23,15 @@ flowchart TD
     end
     subgraph P ["Python"]
         python_user_code -.-> NumPy
-        python_user_code["Python user code"] ---> PyPartMC["pubind11-generated\nPyPartMC module"]
+        python_user_code["Python user code"] ---> PyPartMC["nanobind-generated\nPyPartMC module"]
         matlab_python --> PyPartMC
         PyCall.jl --> PyPartMC
     end
     subgraph Cpp ["C++"]
         cpp_user_code["C++ user code"] ----> ppmc_cpp
         PyPartMC --> ppmc_cpp["PyPartMC-C++"]
-        ppmc_cpp --> pybind11_json
-        pybind11_json ---> nlohmann::JSON
+        ppmc_cpp --> nanobind_json
+        nanobind_json ---> nlohmann::JSON
         spec_file_pypartmc_cpp --> nlohmann::JSON
     end
     subgraph C ["C"]
@@ -59,7 +59,7 @@ flowchart TD
 
 ## How to debug
 ```sh
-git clone --recursive git+https://github.com/open-atmos/PyPartMC.git
+git clone --recursive https://github.com/open-atmos/PyPartMC.git
 cd PyPartMC
 DEBUG=1 VERBOSE=1 pip --verbose install -e .[tests]
 gdb python 
