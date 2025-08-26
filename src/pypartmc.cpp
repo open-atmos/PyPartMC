@@ -173,7 +173,7 @@ NB_MODULE(_PyPartMC, m) {
              same, but without the \c _a suffix.
         )pbdoc"
     )
-        .def(nb::init<const nlohmann::json&, const CampCore&>())
+        .def(nb::init<const CampCore&>())
         .def(nb::init<const nlohmann::json&>())
         .def("spec_by_name", AeroData::spec_by_name,
              "Returns the number of the species in AeroData with the given name")

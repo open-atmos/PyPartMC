@@ -40,7 +40,10 @@ extern "C" void f_aero_data_spec_name_by_index(const void *ptr, const int *i_spe
 struct AeroData {
     PMCResource ptr;
 
-    AeroData(const nlohmann::json &json, const CampCore &camp_core) :
+    AeroData(
+//const nlohmann::json &json, 
+        const CampCore &camp_core
+    ) :
         ptr(f_aero_data_ctor, f_aero_data_dtor)
     {
         f_aero_data_from_camp(this->ptr.f_arg(), camp_core.ptr.f_arg());
