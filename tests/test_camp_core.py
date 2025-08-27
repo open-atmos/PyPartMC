@@ -2,6 +2,8 @@ import os
 from contextlib import contextmanager
 from pathlib import Path
 
+import pytest
+
 import PyPartMC as ppmc
 
 CAMP_INPUT_PATH = (
@@ -31,7 +33,9 @@ class TestCampCore:
         assert sut is not None
 
     @staticmethod
-    @pytest.mark.skipif("site-packages" in ppmc.__file__, reason="Skipped for wheel install")
+    @pytest.mark.skipif(
+        "site-packages" in ppmc.__file__, reason="Skipped for wheel install"
+    )
     def test_ctor_with_args_assuming_installed_in_editable_mode_from_checkout():
         # arrange
         assert CAMP_INPUT_PATH.exists()
