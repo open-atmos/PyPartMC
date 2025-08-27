@@ -10,6 +10,8 @@ import pytest
 
 import PyPartMC as ppmc
 
+from .test_camp_core import CAMP_INPUT_PATH, chdir
+
 GAS_DATA_CTOR_ARG_MINIMAL = ("SO2",)
 
 
@@ -21,6 +23,19 @@ class TestGasData:
 
         # act
         sut = ppmc.GasData(("SO2",))
+
+        # assert
+        assert sut is not None
+
+    @staticmethod
+    def test_ctor_with_camp():
+        # arrange
+        assert CAMP_INPUT_PATH.exists()
+        with chdir(CAMP_INPUT_PATH):
+            camp_core = ppmc.CampCore("config.json")
+
+        # act
+        sut = ppmc.GasData(camp_core)
 
         # assert
         assert sut is not None

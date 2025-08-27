@@ -12,6 +12,8 @@ import pytest
 import PyPartMC as ppmc
 from PyPartMC import si
 
+from .test_camp_core import CAMP_INPUT_PATH, chdir
+
 # pylint: disable=R0904
 
 AERO_DATA_CTOR_ARG_MINIMAL = (
@@ -51,6 +53,19 @@ class TestAeroData:
 
         # act
         sut = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+
+        # assert
+        assert sut is not None
+
+    @staticmethod
+    def test_ctor_with_camp():
+        # arrange
+        assert CAMP_INPUT_PATH.exists()
+        with chdir(CAMP_INPUT_PATH):
+            camp_core = ppmc.CampCore("config.json")
+
+        # act
+        sut = ppmc.AeroData(camp_core)
 
         # assert
         assert sut is not None

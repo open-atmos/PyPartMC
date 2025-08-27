@@ -4,6 +4,10 @@ from pathlib import Path
 
 import PyPartMC as ppmc
 
+CAMP_INPUT_PATH = (
+    Path(ppmc.__file__).parent.parent.parent / "gitmodules" / "partmc" / "test" / "camp"
+)
+
 
 @contextmanager
 def chdir(path):
@@ -29,15 +33,8 @@ class TestCampCore:
     @staticmethod
     def test_ctor_with_args_assuming_installed_in_editable_mode_from_checkout():
         # arrange
-        config_path = (
-            Path(ppmc.__file__).parent.parent.parent
-            / "gitmodules"
-            / "partmc"
-            / "test"
-            / "camp"
-        )
-        assert config_path.exists()
+        assert CAMP_INPUT_PATH.exists()
 
         # act
-        with chdir(config_path):
+        with chdir(CAMP_INPUT_PATH):
             _ = ppmc.CampCore("config.json")
