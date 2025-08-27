@@ -61,7 +61,7 @@ class TestAeroData:
     @pytest.mark.skipif(
         "site-packages" in ppmc.__file__, reason="Skipped for wheel install"
     )
-    def test_ctor_with_args_assuming_installed_in_editable_mode_from_checkout():
+    def test_ctor_with_camp_assuming_installed_in_editable_mode_from_checkout():
         # arrange
         assert CAMP_INPUT_PATH.exists()
         with chdir(CAMP_INPUT_PATH):

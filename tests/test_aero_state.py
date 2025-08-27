@@ -19,6 +19,7 @@ from .test_aero_dist import (
     AERO_DIST_CTOR_ARG_MINIMAL,
 )
 from .test_aero_mode import AERO_MODE_CTOR_SAMPLED
+from .test_camp_core import CAMP_INPUT_PATH, chdir
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
 AERO_STATE_CTOR_ARG_MINIMAL = 44, "nummass_source"
@@ -67,6 +68,23 @@ class TestAeroState:
 
         # act
         sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+
+        # assert
+        assert sut is not None
+
+    @staticmethod
+    @pytest.mark.skipif(
+        "site-packages" in ppmc.__file__, reason="Skipped for wheel install"
+    )
+    def test_ctor_with_camp_assuming_installed_in_editable_mode_from_checkout():
+        # arrange
+        assert CAMP_INPUT_PATH.exists()
+        with chdir(CAMP_INPUT_PATH):
+            camp_core = ppmc.CampCore("config.json")
+        aero_data = ppmc.AeroData(camp_core)
+
+        # act
+        sut = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL, camp_core)
 
         # assert
         assert sut is not None
