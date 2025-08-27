@@ -181,7 +181,6 @@ class TestRunPart:
 
         filename = tmp_path / "test"
         aero_data = ppmc.AeroData(camp_core)
-        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL, camp_core)
         gas_data = ppmc.GasData(camp_core)
         gas_state = ppmc.GasState(gas_data)
 
@@ -201,6 +200,8 @@ class TestRunPart:
             }
         )
         photolysis = ppmc.Photolysis(camp_core)
+
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL, camp_core)
 
         common_args = (
             scenario,
