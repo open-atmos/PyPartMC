@@ -328,23 +328,27 @@ module PyPartMC_aero_particle
   subroutine f_aero_particle_coagulate( &
       aero_particle_1_ptr_c, &
       aero_particle_2_ptr_c, &
-      aero_particle_new_ptr_c &
+      aero_particle_new_ptr_c, &
+      aero_data_ptr_c &
     ) bind(C)
 
     type(aero_particle_t), pointer :: aero_particle_1_ptr_f => null()
     type(aero_particle_t), pointer :: aero_particle_2_ptr_f => null()
     type(aero_particle_t), pointer :: aero_particle_new_ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_1_ptr_c, aero_particle_2_ptr_c
     type(c_ptr), intent(inout) :: aero_particle_new_ptr_c
 
     call c_f_pointer(aero_particle_1_ptr_c, aero_particle_1_ptr_f)
     call c_f_pointer(aero_particle_2_ptr_c, aero_particle_2_ptr_f)
     call c_f_pointer(aero_particle_new_ptr_c, aero_particle_new_ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
 
     call aero_particle_coagulate( &
         aero_particle_1_ptr_f, &
         aero_particle_2_ptr_f, &
-        aero_particle_new_ptr_f &
+        aero_particle_new_ptr_f, &
+        aero_data_ptr_c &
       )
 
     aero_particle_new_ptr_c = c_loc(aero_particle_new_ptr_f)
