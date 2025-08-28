@@ -170,9 +170,16 @@ class TestRunPart:
     @pytest.mark.skipif(
         "site-packages" in ppmc.__file__, reason="Skipped for wheel install"
     )
-    @pytest.mark.parametrize("t_output", (0, 60))
+    @pytest.mark.parametrize(
+        "run_part_variant, variant_args",
+        (
+            ("run_part", ()),
+            ("run_part_timeblock", (1, 0, 0, 0, 1, 0)),
+            ("run_part_timestep", (1, 0, 0, 0, 1)),
+        ),
+    )
     def test_run_part_with_camp_assuming_installed_in_editable_mode_from_checkout(
-        tmp_path, t_output
+        tmp_path, run_part_variant, variant_args
     ):
         # arrange
         assert CAMP_INPUT_PATH.exists()
@@ -196,7 +203,7 @@ class TestRunPart:
                 **RUN_PART_OPT_CTOR_ARG_SIMULATION,
                 "output_prefix": str(filename),
                 "do_camp_chem": True,
-                "t_output": t_output,
+                "t_output": 60,
             }
         )
         photolysis = ppmc.Photolysis(camp_core)
@@ -204,7 +211,7 @@ class TestRunPart:
         aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL, camp_core)
 
         # act
-        ppmc.run_part(
+        getattr(ppmc, run_part_variant)(
             scenario,
             env_state,
             aero_data,
@@ -214,6 +221,7 @@ class TestRunPart:
             run_part_opt,
             camp_core,
             photolysis,
+            *variant_args,
         )
 
         # assert
