@@ -41,7 +41,6 @@ struct AeroData {
     PMCResource ptr;
 
     AeroData(
-//const nlohmann::json &json, 
         const CampCore &camp_core
     ) :
         ptr(f_aero_data_ctor, f_aero_data_dtor)
