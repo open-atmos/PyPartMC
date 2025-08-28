@@ -10,6 +10,7 @@ import os
 from collections import namedtuple
 from contextlib import contextmanager
 from pathlib import Path
+import inspect
 
 import nanobind
 
@@ -78,6 +79,18 @@ from ._PyPartMC import *  # pylint: disable=import-error
 from ._PyPartMC import (  # pylint: disable=import-error
     __versions_of_build_time_dependencies__,
 )
+
+if os.getenv("PDOC_GENERATE_PYPARTMC_DOCS") == "True":
+    all_items = []
+    for name, obj in inspect.getmembers(_PyPartMC):
+        if callable(obj):
+            if not inspect.isclass(obj):
+                exec(name + " = lambda : 0")
+                temp = "_PyPartMC." + name + ".__doc__"
+                setattr(eval(name), "__doc__", eval(temp))
+            all_items.append(name)
+
+    __all__ = tuple([*all_items, "si"])
 
 __version__ = importlib.metadata.version(__package__)
 
