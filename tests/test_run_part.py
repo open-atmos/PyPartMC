@@ -174,7 +174,7 @@ class TestRunPart:
         "run_part_variant, variant_args",
         (
             ("run_part", ()),
-            ("run_part_timeblock", (1, 0, 0, 0, 1, 0)),
+            ("run_part_timeblock", (1, 10, 0, 0, 0, 1)),
             ("run_part_timestep", (1, 0, 0, 0, 1)),
         ),
     )
