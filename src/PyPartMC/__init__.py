@@ -80,6 +80,13 @@ from ._PyPartMC import (  # pylint: disable=import-error
     __versions_of_build_time_dependencies__,
 )
 
+# Hacky walkaround for missing docs in pdoc auto-generated documentation.
+# After the switch to nanobind, the docs became empty despite "__doc__" being 
+# accessible in all of PyPartMC's objects. The code below manually populates
+# the "__all__" atrribute of the package. Additionally, functions in the generated
+# docs would be listed as nanobind objects with no additional documentation.
+# To solve that, dummy functions of the same name are created, and their "__doc__"
+# attribute is manually set to the "original" objects' "__doc__"
 if os.getenv("PDOC_GENERATE_PYPARTMC_DOCS") == "True":
     all_items = []
     for name, obj in inspect.getmembers(_PyPartMC):
