@@ -138,9 +138,9 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 aero_data = ppmc.AeroData((
-    #      [density, ions in solution, molecular weight, kappa]
-    {"OC": [1000 *si.kg/si.m**3, 0, 1e-3 *si.kg/si.mol, 0.001]},
-    {"BC": [1800 *si.kg/si.m**3, 0, 1e-3 *si.kg/si.mol, 0]},
+    #      [density, ions in solution, molecular weight, kappa, abifm_m, abifm_c]
+    {"OC": [1000 *si.kg/si.m**3, 0, 1e-3 *si.kg/si.mol, 0.001, 0, 0]},
+    {"BC": [1800 *si.kg/si.m**3, 0, 1e-3 *si.kg/si.mol, 0, 0 , 0]},
 ))
 
 aero_dist = ppmc.AeroDist(
@@ -181,9 +181,9 @@ ppmc = pyimport("PyPartMC")
 si = ppmc["si"]
 
 aero_data = ppmc.AeroData((
-  #       (density, ions in solution, molecular weight, kappa)
-  Dict("OC"=>(1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001)),
-  Dict("BC"=>(1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0))
+  #       (density, ions in solution, molecular weight, kappa, abifm_m, abifm_c)
+  Dict("OC"=>(1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001, 0, 0)),
+  Dict("BC"=>(1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0, 0, 0))
 ))
 
 aero_dist = ppmc.AeroDist(aero_data, (
@@ -224,8 +224,8 @@ ppmc = py.importlib.import_module('PyPartMC');
 si = py.importlib.import_module('PyPartMC').si;
 
 aero_data = ppmc.AeroData(py.tuple({ ...
-  py.dict(pyargs("OC", py.tuple({1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001}))), ...
-  py.dict(pyargs("BC", py.tuple({1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0}))) ...
+  py.dict(pyargs("OC", py.tuple({1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001, 0, 0}))), ...
+  py.dict(pyargs("BC", py.tuple({1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0, 0, 0}))) ...
 }));
 
 aero_dist = ppmc.AeroDist(aero_data, py.tuple({ ...
