@@ -108,6 +108,29 @@ class TestAeroState:
         )
 
     @staticmethod
+    @pytest.mark.skipif(
+        "site-packages" in ppmc.__file__, reason="Skipped for wheel install"
+    )
+    def test_ctor_fails_on_unknown_weighting_with_camp_assuming_editable_mode_from_checkout():
+        # arrange
+        assert CAMP_INPUT_PATH.exists()
+        with chdir(CAMP_INPUT_PATH):
+            camp_core = ppmc.CampCore("config.json")
+        aero_data = ppmc.AeroData(camp_core)
+        name = "kopytko"
+
+        # act
+        with pytest.raises(RuntimeError) as excinfo:
+            _ = ppmc.AeroState(aero_data, 1, name, camp_core)
+
+        # assert
+        assert (
+            str(excinfo.value)
+            == f"unknown weighting scheme '{name}', valid options are: "
+            + "flat, flat_source, nummass, nummass_source"
+        )
+
+    @staticmethod
     @pytest.mark.parametrize("n_part", (44, 666))
     def test_len(n_part):
         # arrange
