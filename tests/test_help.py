@@ -1,8 +1,9 @@
+import pydoc
+
 import pytest
 
 import PyPartMC as ppmc
 
-import pydoc
 
 @pytest.mark.parametrize(
     "obj",

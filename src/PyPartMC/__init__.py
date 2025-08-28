@@ -4,13 +4,13 @@
 
 #  pylint: disable=invalid-name
 import importlib.metadata
+import inspect
 
 # pylint: disable=invalid-name,wrong-import-position
 import os
 from collections import namedtuple
 from contextlib import contextmanager
 from pathlib import Path
-import inspect
 
 import nanobind
 
@@ -81,7 +81,7 @@ from ._PyPartMC import (  # pylint: disable=import-error
 )
 
 # Hacky walkaround for missing docs in pdoc auto-generated documentation.
-# After the switch to nanobind, the docs became empty despite "__doc__" being 
+# After the switch to nanobind, the docs became empty despite "__doc__" being
 # accessible in all of PyPartMC's objects. The code below manually populates
 # the "__all__" atrribute of the package. Additionally, functions in the generated
 # docs would be listed as nanobind objects with no additional documentation.
