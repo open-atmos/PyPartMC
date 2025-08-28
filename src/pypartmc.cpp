@@ -306,6 +306,8 @@ NB_MODULE(_PyPartMC, m) {
             "returns the total number concentration of the population")
         .def_prop_ro("total_mass_conc", AeroState::total_mass_conc,
             "returns the total mass concentration of the population")
+        .def_prop_ro("frozen_fraction", AeroState::frozen_fraction,
+            "returns the fraction of ice particles in the population")
         .def_prop_ro("num_concs", AeroState::num_concs,
             "returns the number concentration of each particle in the population")
         .def("masses", AeroState::masses,
