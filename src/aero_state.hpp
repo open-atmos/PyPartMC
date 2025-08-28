@@ -228,11 +228,33 @@ auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
     return pointer_vec;
 }
 
+static const std::map<bpstd::string_view, char> weight_c{
+    //{"none", '-'},
+    {"flat", 'f'},
+    {"flat_source", 'F'},
+    //{"power", 'p'},
+    //{"power_source", 'P'},
+    {"nummass", 'n'},
+    {"nummass_source", 'N'},
+};
 
 struct AeroState {
     PMCResource ptr;
     std::shared_ptr<AeroData> aero_data;
     int allow_halving = -1, allow_doubling = -1;
+
+    const char* check_and_convert_weight(const bpstd::string_view &weight)
+    {
+        if (weight_c.find(weight) == weight_c.end()) {
+            std::ostringstream msg;
+            msg << "unknown weighting scheme '" << weight << "', valid options are: ";
+            auto index = 0;
+            for (auto const& pair: weight_c)
+                msg << (!index++ ? "" : ", ") << pair.first;
+            throw std::runtime_error(msg.str());
+        }
+        return &weight_c.at(weight);
+    }
 
     AeroState(
         std::shared_ptr<AeroData> aero_data,
@@ -242,30 +264,11 @@ struct AeroState {
         ptr(f_aero_state_ctor, f_aero_state_dtor),
         aero_data(aero_data)
     {
-        static const std::map<bpstd::string_view, char> weight_c{
-          //{"none", '-'},
-          {"flat", 'f'},
-          {"flat_source", 'F'},
-          //{"power", 'p'},
-          //{"power_source", 'P'},
-          {"nummass", 'n'},
-          {"nummass_source", 'N'},
-        };
-
-        if (weight_c.find(weight) == weight_c.end()) {
-            std::ostringstream msg;
-            msg << "unknown weighting scheme '" << weight << "', valid options are: ";
-            auto index = 0;
-            for (auto const& pair: weight_c)
-                msg << (!index++ ? "" : ", ") << pair.first;
-            throw std::runtime_error(msg.str());
-        }
-
         f_aero_state_init(
             ptr.f_arg(),
             aero_data->ptr.f_arg(),
             &n_part,
-            &weight_c.at(weight)
+            check_and_convert_weight(weight)
         );
     }
 
@@ -286,30 +289,11 @@ struct AeroState {
         ptr(f_aero_state_ctor, f_aero_state_dtor),
         aero_data(aero_data)
     {
-        static const std::map<bpstd::string_view, char> weight_c{
-          //{"none", '-'},
-          {"flat", 'f'},
-          {"flat_source", 'F'},
-          //{"power", 'p'},
-          //{"power_source", 'P'},
-          {"nummass", 'n'},
-          {"nummass_source", 'N'},
-        };
-
-        if (weight_c.find(weight) == weight_c.end()) {
-            std::ostringstream msg;
-            msg << "unknown weighting scheme '" << weight << "', valid options are: ";
-            auto index = 0;
-            for (auto const& pair: weight_c)
-                msg << (!index++ ? "" : ", ") << pair.first;
-            throw std::runtime_error(msg.str());
-        }
-
         f_aero_state_init(
             ptr.f_arg(),
             aero_data->ptr.f_arg(),
             &n_part,
-            &weight_c.at(weight)
+            check_and_convert_weight(weight)
         );
         f_aero_state_initialize(ptr.f_arg_non_const(), aero_data->ptr.f_arg(),
            camp_core.ptr.f_arg());
