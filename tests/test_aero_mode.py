@@ -71,6 +71,18 @@ AERO_MODE_CTOR_EXP = {
     }
 }
 
+AERO_MODE_CTOR_CAMP = {
+    "test_mode": {
+        "mass_frac": [{"organic_matter.POA": [1]}],
+        "diam_type": "geometric",
+        "mode_type": "sampled",
+        "size_dist": [
+            {"diam": [1, 2, 3, 4]},
+            {"num_conc": [100, 200, 300]},
+        ],
+    }
+}
+
 
 class TestAeroMode:
     @staticmethod

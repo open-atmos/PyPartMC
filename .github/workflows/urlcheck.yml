@@ -21,5 +21,5 @@ jobs:
           timeout: 7
           retry_count: 3
           exclude_urls: https://www.gnu.org/licenses/gpl-3.0.en.html,https://www.gnu.org/licenses/gpl-3.0.html,https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-          exclude_patterns: http://purl.org,http://www.w3.org
+          exclude_patterns: http://purl.org,http://www.w3.org,https://github.com/open-atmos/PyPartMC/blob/main/examples/
           exclude_files: .github/workflows/urlcheck.yml

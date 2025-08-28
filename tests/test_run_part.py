@@ -4,6 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import copy
 import platform
 
 import numpy as np
@@ -13,7 +14,9 @@ import PyPartMC as ppmc
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_dist import AERO_DIST_CTOR_ARG_FULL
+from .test_aero_mode import AERO_MODE_CTOR_CAMP
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
+from .test_camp_core import CAMP_INPUT_PATH, chdir
 from .test_env_state import ENV_STATE_CTOR_ARG_HIGH_RH, ENV_STATE_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_run_part_opt import RUN_PART_OPT_CTOR_ARG_SIMULATION
@@ -162,3 +165,60 @@ class TestRunPart:
             str(excinfo.value)
             == "allow halving/doubling flags set differently then while sampling"
         )
+
+    @staticmethod
+    @pytest.mark.skipif(
+        "site-packages" in ppmc.__file__, reason="Skipped for wheel install"
+    )
+    @pytest.mark.parametrize(
+        "run_part_variant, variant_args",
+        (
+            ("run_part", ()),
+            ("run_part_timeblock", (1, 10, 0, 0, 0, 1)),
+            ("run_part_timestep", (1, 0, 0, 0, 1)),
+        ),
+    )
+    def test_run_part_with_camp_assuming_installed_in_editable_mode_from_checkout(
+        tmp_path, run_part_variant, variant_args
+    ):
+        # arrange
+        assert CAMP_INPUT_PATH.exists()
+        with chdir(CAMP_INPUT_PATH):
+            camp_core = ppmc.CampCore("config.json")
+
+        filename = tmp_path / "test"
+        aero_data = ppmc.AeroData(camp_core)
+        gas_data = ppmc.GasData(camp_core)
+        gas_state = ppmc.GasState(gas_data)
+
+        scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
+        for key in ("aero_emissions", "aero_background"):
+            scenario_ctor_arg[key][2]["dist"] = [[AERO_MODE_CTOR_CAMP]]
+
+        scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        scenario.init_env_state(env_state, 0)
+
+        # act
+        getattr(ppmc, run_part_variant)(
+            scenario,
+            env_state,
+            aero_data,
+            ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL, camp_core),
+            gas_data,
+            gas_state,
+            ppmc.RunPartOpt(
+                {
+                    **RUN_PART_OPT_CTOR_ARG_SIMULATION,
+                    "output_prefix": str(filename),
+                    "do_camp_chem": True,
+                    "t_output": 60,
+                }
+            ),
+            camp_core,
+            ppmc.Photolysis(camp_core),
+            *variant_args,
+        )
+
+        # assert
+        assert len(aero_data) == 5

@@ -173,6 +173,7 @@ NB_MODULE(_PyPartMC, m) {
              same, but without the \c _a suffix.
         )pbdoc"
     )
+        .def(nb::init<const CampCore&>())
         .def(nb::init<const nlohmann::json&>())
         .def("spec_by_name", AeroData::spec_by_name,
              "Returns the number of the species in AeroData with the given name")
@@ -298,6 +299,7 @@ NB_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(nb::init<std::shared_ptr<AeroData>, const double, const std::string>())
+        .def(nb::init<std::shared_ptr<AeroData>, const double, const std::string, const CampCore&>())
         .def("__len__", AeroState::__len__,
             "returns current number of particles")
         .def_prop_ro("total_num_conc", AeroState::total_num_conc,
@@ -377,6 +379,7 @@ NB_MODULE(_PyPartMC, m) {
             is gas_state%%mix_rat(i).
         )pbdoc"
     )
+        .def(nb::init<const CampCore&>())
         .def(nb::init<const nb::tuple&>())
         .def("__len__", GasData::__len__,
             "returns number of gas species")
@@ -426,6 +429,7 @@ NB_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(nb::init<>())
+        .def(nb::init<const CampCore&>())
     ;
 
     nb::class_<CampCore>(m,
@@ -435,6 +439,7 @@ NB_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(nb::init<>())
+        .def(nb::init<const std::string &>())
     ;
 
     nb::class_<Scenario>(m,

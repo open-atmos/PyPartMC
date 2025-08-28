@@ -8,12 +8,14 @@
 
 #include "pmc_resource.hpp"
 #include "json_resource.hpp"
+#include "camp_core.hpp"
 #include "aero_data_parameters.hpp"
 #include "nanobind/nanobind.h"
 
 extern "C" void f_aero_data_ctor(void *ptr) noexcept;
 extern "C" void f_aero_data_dtor(void *ptr) noexcept;
 extern "C" void f_aero_data_from_json(const void *ptr) noexcept;
+extern "C" void f_aero_data_from_camp(const void *ptr, const void *camp_core_ptr) noexcept;
 extern "C" void f_aero_data_spec_by_name(const void *ptr, int *value, const char *name_data, const int *name_size) noexcept;
 extern "C" void f_aero_data_len(const void *ptr, int *len) noexcept;
 extern "C" void f_aero_data_n_source(const void *ptr, int *len) noexcept;
@@ -37,6 +39,14 @@ extern "C" void f_aero_data_spec_name_by_index(const void *ptr, const int *i_spe
 
 struct AeroData {
     PMCResource ptr;
+
+    AeroData(
+        const CampCore &camp_core
+    ) :
+        ptr(f_aero_data_ctor, f_aero_data_dtor)
+    {
+        f_aero_data_from_camp(this->ptr.f_arg(), camp_core.ptr.f_arg());
+    }
 
     AeroData(const nlohmann::json &json) :
         ptr(f_aero_data_ctor, f_aero_data_dtor)
