@@ -203,7 +203,8 @@ class TestRunPart:
 
         aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL, camp_core)
 
-        common_args = (
+        # act
+        ppmc.run_part(
             scenario,
             env_state,
             aero_data,
@@ -215,8 +216,5 @@ class TestRunPart:
             photolysis,
         )
 
-        # act
-        ppmc.run_part(*common_args)
-
         # assert
-        pass
+        assert len(aero_data) == 5
