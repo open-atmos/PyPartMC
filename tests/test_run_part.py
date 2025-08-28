@@ -198,29 +198,25 @@ class TestRunPart:
         scenario = ppmc.Scenario(gas_data, aero_data, scenario_ctor_arg)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
         scenario.init_env_state(env_state, 0)
-        run_part_opt = ppmc.RunPartOpt(
-            {
-                **RUN_PART_OPT_CTOR_ARG_SIMULATION,
-                "output_prefix": str(filename),
-                "do_camp_chem": True,
-                "t_output": 60,
-            }
-        )
-        photolysis = ppmc.Photolysis(camp_core)
-
-        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL, camp_core)
 
         # act
         getattr(ppmc, run_part_variant)(
             scenario,
             env_state,
             aero_data,
-            aero_state,
+            ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL, camp_core),
             gas_data,
             gas_state,
-            run_part_opt,
+            ppmc.RunPartOpt(
+                {
+                    **RUN_PART_OPT_CTOR_ARG_SIMULATION,
+                    "output_prefix": str(filename),
+                    "do_camp_chem": True,
+                    "t_output": 60,
+                }
+            ),
             camp_core,
-            photolysis,
+            ppmc.Photolysis(camp_core),
             *variant_args,
         )
 
