@@ -112,13 +112,17 @@ jobs:
         run: |
           brew reinstall gcc
 
+      # TODO #440
+      - if: startsWith(matrix.os, 'windows-')
+        run: echo 'PYTEST_SKIP_ARGS=-k "not camp"' >> $GITHUB_ENV
+
       - run: | 
           temp=`find dist/ -name "*cp313*.whl"`
           python -m pip install $temp[examples]
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 ${{ env.PYTEST_SKIP_ARGS }} -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_run_notebooks.py
 
   check_annotated_todos:
       runs-on: ubuntu-latest

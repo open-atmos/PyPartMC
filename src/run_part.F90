@@ -8,6 +8,8 @@ module PyPartMC_run_part
 
   use iso_c_binding
   use pmc_run_part
+  use camp_camp_core
+  use pmc_photolysis
 
   implicit none
 
@@ -60,6 +62,10 @@ module PyPartMC_run_part
     call c_f_pointer(run_part_opt_ptr_c, run_part_opt_ptr_f)
     call c_f_pointer(camp_core_ptr_c, camp_core_ptr_f)
     call c_f_pointer(photolysis_ptr_c, photolysis_ptr_f)
+
+    if (run_part_opt_ptr_f%do_camp_chem) then
+       call camp_core_ptr_f%solver_initialize()
+    end if
 
     call run_part( &
       scenario_ptr_f, &
@@ -148,6 +154,9 @@ module PyPartMC_run_part
     if (env_state_ptr_f%elapsed_time < run_part_opt_ptr_f%del_t) then
        call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
             run_part_opt_ptr_f%do_optical)
+       if (run_part_opt_ptr_f%do_camp_chem) then
+          call camp_core_ptr_f%solver_initialize()
+       end if
        if (run_part_opt_ptr_f%t_output > 0) then
           call output_state(run_part_opt_ptr_f%output_prefix, &
                run_part_opt_ptr_f%output_type, aero_data_ptr_f, aero_state_ptr_f, gas_data_ptr_f, &
@@ -156,6 +165,7 @@ module PyPartMC_run_part
                run_part_opt_ptr_f%do_optical, run_part_opt_ptr_f%uuid)
        end if
     end if
+
     call run_part_timestep(scenario_ptr_f, env_state_ptr_f, aero_data_ptr_f, aero_state_ptr_f, &
        gas_data_ptr_f, gas_state_ptr_f, run_part_opt_ptr_f, camp_core_ptr_f, photolysis_ptr_f, &
        i_time, t_start, last_output_time, &
@@ -241,6 +251,9 @@ module PyPartMC_run_part
     if (env_state_ptr_f%elapsed_time < run_part_opt_ptr_f%del_t) then
        call mosaic_init(env_state_ptr_f, aero_data_ptr_f, run_part_opt_ptr_f%del_t, &
             run_part_opt_ptr_f%do_optical)
+       if (run_part_opt_ptr_f%do_camp_chem) then
+          call camp_core_ptr_f%solver_initialize()
+       end if
        if (run_part_opt_ptr_f%t_output > 0) then
           call output_state(run_part_opt_ptr_f%output_prefix, &
                run_part_opt_ptr_f%output_type, aero_data_ptr_f, aero_state_ptr_f, gas_data_ptr_f, &
