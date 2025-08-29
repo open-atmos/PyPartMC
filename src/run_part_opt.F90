@@ -125,6 +125,29 @@ module PyPartMC_run_part_opt
        call spec_file_read_logical(file, 'do_immersion_freezing', &
             run_part_opt%do_immersion_freezing)
 
+
+if (run_part_opt%do_immersion_freezing) then
+       call spec_file_read_immersion_freezing_scheme_type(file, &
+            run_part_opt%immersion_freezing_scheme_type)
+
+       if (run_part_opt%immersion_freezing_scheme_type .eq. &
+            IMMERSION_FREEZING_SCHEME_CONST) then
+          call spec_file_read_real(file, 'freezing_rate', &
+               run_part_opt%freezing_rate)
+
+       else if (run_part_opt%immersion_freezing_scheme_type .eq.&
+            IMMERSION_FREEZING_SCHEME_ABIFM) then
+          continue
+
+       else if (run_part_opt%immersion_freezing_scheme_type .eq.&
+            IMMERSION_FREEZING_SCHEME_SINGULAR) then
+          continue
+       else
+          call assert_msg(121370299, .false., &
+               "Error type of immersion freezing scheme")
+       endif
+end if
+
        run_part_opt%output_type = OUTPUT_TYPE_SINGLE
 
        run_part_opt%i_repeat = 1
