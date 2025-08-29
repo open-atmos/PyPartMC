@@ -17,32 +17,32 @@ from .test_camp_core import CAMP_INPUT_PATH, chdir
 # pylint: disable=R0904
 
 AERO_DATA_CTOR_ARG_MINIMAL = (
-    {"H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
+    {"H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0, 0, 0]},
 )
 
 AERO_DATA_CTOR_ARG_FULL = (
-    #         density  ions in soln (1) molecular weight    kappa (1)
+    # density, ions in soln (1), molecular weight, kappa (1), ABIFM_m, ABIFM_c
     #         |                     |   |                   |
-    {"SO4": [1800 * si.kg / si.m**3, 1, 96.0 * si.g / si.mol, 0.00]},
-    {"NO3": [1800 * si.kg / si.m**3, 1, 62.0 * si.g / si.mol, 0.00]},
-    {"Cl": [2200 * si.kg / si.m**3, 1, 35.5 * si.g / si.mol, 0.00]},
-    {"NH4": [1800 * si.kg / si.m**3, 1, 18.0 * si.g / si.mol, 0.00]},
-    {"MSA": [1800 * si.kg / si.m**3, 0, 95.0 * si.g / si.mol, 0.53]},
-    {"ARO1": [1400 * si.kg / si.m**3, 0, 150.0 * si.g / si.mol, 0.10]},
-    {"ARO2": [1400 * si.kg / si.m**3, 0, 150.0 * si.g / si.mol, 0.10]},
-    {"ALK1": [1400 * si.kg / si.m**3, 0, 140.0 * si.g / si.mol, 0.10]},
-    {"OLE1": [1400 * si.kg / si.m**3, 0, 140.0 * si.g / si.mol, 0.10]},
-    {"API1": [1400 * si.kg / si.m**3, 0, 184.0 * si.g / si.mol, 0.10]},
-    {"API2": [1400 * si.kg / si.m**3, 0, 184.0 * si.g / si.mol, 0.10]},
-    {"LIM1": [1400 * si.kg / si.m**3, 0, 200.0 * si.g / si.mol, 0.10]},
-    {"LIM2": [1400 * si.kg / si.m**3, 0, 200.0 * si.g / si.mol, 0.10]},
-    {"CO3": [2600 * si.kg / si.m**3, 1, 60.0 * si.g / si.mol, 0.00]},
-    {"Na": [2200 * si.kg / si.m**3, 1, 23.0 * si.g / si.mol, 0.00]},
-    {"Ca": [2600 * si.kg / si.m**3, 1, 40.0 * si.g / si.mol, 0.00]},
-    {"OIN": [2600 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.10]},
-    {"OC": [1400 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.10]},
-    {"BC": [1800 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.00]},
-    {"H2O": [1000 * si.kg / si.m**3, 0, 18.0 * si.g / si.mol, 0.00]},
+    {"SO4": [1800 * si.kg / si.m**3, 1, 96.0 * si.g / si.mol, 0.00, 0.00, 0.00]},
+    {"NO3": [1800 * si.kg / si.m**3, 1, 62.0 * si.g / si.mol, 0.00, 0.00, 0.00]},
+    {"Cl": [2200 * si.kg / si.m**3, 1, 35.5 * si.g / si.mol, 0.00, 0.00, 0.00]},
+    {"NH4": [1800 * si.kg / si.m**3, 1, 18.0 * si.g / si.mol, 0.00, 0.00, 0.00]},
+    {"MSA": [1800 * si.kg / si.m**3, 0, 95.0 * si.g / si.mol, 0.53, 0.00, 0.00]},
+    {"ARO1": [1400 * si.kg / si.m**3, 0, 150.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"ARO2": [1400 * si.kg / si.m**3, 0, 150.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"ALK1": [1400 * si.kg / si.m**3, 0, 140.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"OLE1": [1400 * si.kg / si.m**3, 0, 140.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"API1": [1400 * si.kg / si.m**3, 0, 184.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"API2": [1400 * si.kg / si.m**3, 0, 184.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"LIM1": [1400 * si.kg / si.m**3, 0, 200.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"LIM2": [1400 * si.kg / si.m**3, 0, 200.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"CO3": [2600 * si.kg / si.m**3, 1, 60.0 * si.g / si.mol, 0.00, 0.00, 0.00]},
+    {"Na": [2200 * si.kg / si.m**3, 1, 23.0 * si.g / si.mol, 0.00, 0.00, 0.00]},
+    {"Ca": [2600 * si.kg / si.m**3, 1, 40.0 * si.g / si.mol, 0.00, 0.00, 0.00]},
+    {"OIN": [2600 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"OC": [1400 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.10, 0.00, 0.00]},
+    {"BC": [1800 * si.kg / si.m**3, 0, 1.0 * si.g / si.mol, 0.00, 0.00, 0.00]},
+    {"H2O": [1000 * si.kg / si.m**3, 0, 18.0 * si.g / si.mol, 0.00, 0.00, 0.00]},
 )
 
 
@@ -325,6 +325,8 @@ class TestAeroData:
                         1,
                         96.0 * si.g / si.mol,
                         0.00,
+                        0.00,
+                        0.00,
                     ]
                 },
                 {
@@ -333,6 +335,8 @@ class TestAeroData:
                         0,
                         1.0 * si.g / si.mol,
                         0.10,
+                        0.00,
+                        0.00,
                     ]
                 },
                 {
@@ -341,6 +345,8 @@ class TestAeroData:
                         0,
                         1.0 * si.g / si.mol,
                         0.00,
+                        0.00,
+                        0.00,
                     ]
                 },
                 {
@@ -348,6 +354,8 @@ class TestAeroData:
                         densities[3] * si.kg / si.m**3,
                         0,
                         18.0 * si.g / si.mol,
+                        0.00,
+                        0.00,
                         0.00,
                     ]
                 },
@@ -372,6 +380,8 @@ class TestAeroData:
                         0,
                         96.0 * si.g / si.mol,
                         kappa[0],
+                        0.00,
+                        0.00,
                     ]
                 },
                 {
@@ -380,6 +390,8 @@ class TestAeroData:
                         0,
                         1.0 * si.g / si.mol,
                         kappa[1],
+                        0.00,
+                        0.00,
                     ]
                 },
                 {
@@ -388,6 +400,8 @@ class TestAeroData:
                         0,
                         1.0 * si.g / si.mol,
                         kappa[2],
+                        0.00,
+                        0.00,
                     ]
                 },
                 {
@@ -396,6 +410,8 @@ class TestAeroData:
                         0,
                         18.0 * si.g / si.mol,
                         kappa[3],
+                        0.00,
+                        0.00,
                     ]
                 },
             )
@@ -419,6 +435,8 @@ class TestAeroData:
                         0,
                         molec_weight[0] * si.kg / si.mol,
                         0.65,
+                        0.0,
+                        0.0,
                     ]
                 },
                 {
@@ -427,6 +445,8 @@ class TestAeroData:
                         0,
                         molec_weight[1] * si.kg / si.mol,
                         0.1,
+                        0.0,
+                        0.0,
                     ]
                 },
                 {
@@ -435,6 +455,8 @@ class TestAeroData:
                         0,
                         molec_weight[2] * si.kg / si.mol,
                         0.0,
+                        0.0,
+                        0.0,
                     ]
                 },
                 {
@@ -442,6 +464,8 @@ class TestAeroData:
                         1000.0 * si.kg / si.m**3,
                         0,
                         molec_weight[3] * si.kg / si.mol,
+                        0.0,
+                        0.0,
                         0.0,
                     ]
                 },
