@@ -521,6 +521,21 @@ module PyPartMC_aero_particle
 
   end subroutine
 
+  subroutine f_aero_particle_frozen( &
+      aero_particle_ptr_c, &
+      is_frozen &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(out) :: is_frozen 
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    is_frozen = aero_particle_ptr_f%frozen
+
+  end subroutine
+
   subroutine f_aero_particle_refract_shell( &
       aero_particle_ptr_c, &
       refract_shell, &

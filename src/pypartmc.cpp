@@ -266,6 +266,7 @@ NB_MODULE(_PyPartMC, m) {
         .def_prop_ro("greatest_create_time", AeroParticle::greatest_create_time,
             "Last time a constituent was created (s).")
         .def_prop_ro("id", AeroParticle::id, "Unique ID number.")
+        .def_prop_ro("is_frozen", AeroParticle::is_frozen, "Frozen status - particle is ice if 1.")
         .def("mobility_diameter", AeroParticle::mobility_diameter,
             "Mobility diameter of the particle (m).")
         .def_prop_ro("density", AeroParticle::density,

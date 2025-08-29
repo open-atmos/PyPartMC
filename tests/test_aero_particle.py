@@ -543,3 +543,20 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         assert isinstance(ids[0], int)
         assert min(ids) > 0
         assert len(np.unique(ids)) == len(aero_state)
+
+    @staticmethod
+    def test_is_frozen():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
+
+        # act
+        frozen = []
+        for i_part in range(len(aero_state)):
+            frozen.append(aero_state.particle(i_part).is_frozen)
+
+        # assert
+        assert isinstance(frozen[0], int)
+        assert all(x == 0 for x in frozen)
