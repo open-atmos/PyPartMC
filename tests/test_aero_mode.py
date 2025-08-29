@@ -230,10 +230,10 @@ class TestAeroMode:
     def test_from_json_mono(modes, diam_type):
         # arrange
         densities = [
-            {"A": [1234 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
-            {"B": [4321 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
-            {"C": [1111 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
-            {"D": [2222 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
+            {"A": [1234 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0, 0, 0]},
+            {"B": [4321 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0, 0, 0]},
+            {"C": [1111 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0, 0, 0]},
+            {"D": [2222 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0, 0, 0]},
         ]
         aero_data = ppmc.AeroData(densities)
         for mode in modes.values():

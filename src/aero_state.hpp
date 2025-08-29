@@ -48,6 +48,12 @@ extern "C" void f_aero_state_total_mass_conc(
     double *total_mass_conc
 ) noexcept;
 
+extern "C" void f_aero_state_frozen_fraction(
+    const void *ptr,
+    const void *aero_dataptr,
+    double *frozen_fraction
+) noexcept;
+
 extern "C" void f_aero_state_num_concs(
     const void *ptr,
     const void *aero_dataptr, 
@@ -377,6 +383,16 @@ struct AeroState {
         );
 
         return masses;
+    }
+
+    static auto frozen_fraction(const AeroState &self) {
+        double frozen_fraction;
+        f_aero_state_frozen_fraction(
+            self.ptr.f_arg(),
+            self.aero_data->ptr.f_arg(),
+            &frozen_fraction
+        );
+        return frozen_fraction;
     }
 
     static auto dry_diameters(const AeroState &self) {
@@ -720,4 +736,5 @@ struct AeroState {
             &sample_prob
       );
    }
+
 };

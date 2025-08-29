@@ -197,7 +197,7 @@ set(partmclib_SOURCES condense_solver.c aero_state.F90 integer_varray.F90 intege
   gas_state.F90 coagulation.F90 exact_soln.F90 coagulation_dist.F90 coag_kernel.F90 spec_line.F90 
   rand.F90 aero_particle.F90 aero_particle_array.F90 mpi.F90 netcdf.F90 aero_info.F90 
   aero_info_array.F90 nucleate.F90 condense.F90 fractal.F90 chamber.F90 camp_interface.F90
-  photolysis.F90 aero_component.F90 tchem_interface.F90
+  photolysis.F90 aero_component.F90 tchem_interface.F90 ice_nucleation.F90
 )
 add_prefix(gitmodules/partmc/src/ partmclib_SOURCES)
 list(APPEND partmclib_SOURCES src/spec_file_pypartmc.F90 src/sys.F90)

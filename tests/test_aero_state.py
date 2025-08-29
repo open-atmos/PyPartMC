@@ -165,6 +165,15 @@ class TestAeroState:
         assert total_mass_conc > 0
 
     @staticmethod
+    def test_frozen_fraction(sut_minimal):
+        # act
+        frozen_fraction = sut_minimal.frozen_fraction
+
+        # assert
+        assert isinstance(frozen_fraction, float)
+        assert frozen_fraction == 0
+
+    @staticmethod
     def test_num_concs(sut_minimal):
         # act
         num_concs = sut_minimal.num_concs
