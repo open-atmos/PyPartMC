@@ -47,8 +47,8 @@ import PyPartMC as ppmc
     ),
 )
 def test_help_output(obj):
-    # help_output = pydoc.render_doc(obj)
-    help_output = obj.__doc__
+    help_output = pydoc.render_doc(obj, renderer=pydoc.plaintext)
+    # help_output = obj.__doc__
 
     processed_help_output = "".join(help_output.replace("|", "").split())
     # processed_help_output = re.sub("\x08.", "", processed_help_output)
