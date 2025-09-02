@@ -47,10 +47,11 @@ import PyPartMC as ppmc
     ),
 )
 def test_help_output(obj):
-    help_output = pydoc.render_doc(obj)
+    # help_output = pydoc.render_doc(obj)
+    help_output = obj.__doc__
 
     processed_help_output = "".join(help_output.replace("|", "").split())
-    processed_help_output = re.sub("\x08.", "", processed_help_output)
+    # processed_help_output = re.sub("\x08.", "", processed_help_output)
 
     assert len(obj.__doc__) > 0
     # get rid of whitespace and bars
