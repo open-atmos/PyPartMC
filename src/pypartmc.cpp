@@ -545,7 +545,7 @@ NB_MODULE(_PyPartMC, m) {
     ;
 
     nb::class_<BinGrid>(m,"BinGrid")
-        .def(nb::init<const double, const nb::str, const double, const double>())
+        .def(nb::init<const int, const nb::str, const double, const double>())
         .def("__len__", BinGrid::__len__, "returns number of bins")
         .def_prop_ro("edges", BinGrid::edges, "Bin edges")
         .def_prop_ro("centers", BinGrid::centers, "Bin centers")
