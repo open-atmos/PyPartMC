@@ -89,7 +89,9 @@ from ._PyPartMC import (  # pylint: disable=import-error
 # attribute is manually set to the "original" objects' "__doc__"
 if os.getenv("PDOC_GENERATE_PYPARTMC_DOCS") == "True":
     all_items = []
-    for name, obj in inspect.getmembers(_PyPartMC):  # pylint: disble=undefined-variable
+    for name, obj in inspect.getmembers(
+        _PyPartMC
+    ):  # pylint: disable=undefined-variable
         if callable(obj):
             if not inspect.isclass(obj):
                 exec(name + " = lambda : 0")  # pylint: disable=exec-used
