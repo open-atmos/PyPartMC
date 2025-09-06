@@ -47,9 +47,9 @@ class TestCondense:
         env_state.set_temperature(300)
         aero_data = ppmc.AeroData(
             (
-                {"H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0]},
-                {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-                {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
+                {"H2O": [1000 * si.kg / si.m**3, 1, 18e-3 * si.kg / si.mol, 0, 0, 0]},
+                {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0, 0, 0]},
+                {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0, 0, 0]},
             )
         )
         for key, value in aero_data_params.items():

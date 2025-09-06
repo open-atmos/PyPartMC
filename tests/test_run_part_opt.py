@@ -14,6 +14,7 @@ from PyPartMC import si
 RUN_PART_OPT_CTOR_ARG_MINIMAL = {
     "output_prefix": "tests/test",
     "do_coagulation": False,
+    "do_immersion_freezing": False,
     "t_max": 0,
     "del_t": 1 * si.s,
 }
@@ -27,6 +28,7 @@ RUN_PART_OPT_CTOR_ARG_SIMULATION = {
     "do_mosaic": False,
     "do_condensation": False,
     "do_camp_chem": False,
+    "do_immersion_freezing": False,
     "t_max": 86400.0,
     "del_t": 60 * si.s,
     "t_output": 3600.0,

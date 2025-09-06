@@ -91,6 +91,11 @@ pip install PyPartMC[examples]
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/cloud_parcel.ipynb)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/cloud_parcel.ipynb)
 [![ARM JupyterHub](https://img.shields.io/static/v1?label=launch%20in&logo=jupyter&color=lightblue&message=ARM+JupyterHub)](https://jupyterhub.arm.gov/hub/user-redirect/git-pull?repo=https%3A//github.com/open-atmos/PyPartMC&branch=main&urlPath=)
+- Immersion freezing example:   
+[![View notebook](https://img.shields.io/static/v1?label=render%20on&logo=github&color=87ce3e&message=GitHub)](https://github.com/open-atmos/PyPartMC/blob/main/examples/immersion_freezing.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/immersion_freezing.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/immersion_freezing.ipynb)
+[![ARM JupyterHub](https://img.shields.io/static/v1?label=launch%20in&logo=jupyter&color=lightblue&message=ARM+JupyterHub)](https://jupyterhub.arm.gov/hub/user-redirect/git-pull?repo=https%3A//github.com/open-atmos/PyPartMC&branch=main&urlPath=)
 - Coagulation model intercomparison for additive (Golovin) kernel with: PyPartMC, [PySDM](https://open-atmos.github.io/PySDM), [Droplets.jl](https://github.com/emmacware/droplets.jl) and [dustpy](https://stammler.github.io/dustpy/):    
 [![View notebook](https://img.shields.io/static/v1?label=render%20on&logo=github&color=87ce3e&message=GitHub)](https://github.com/open-atmos/PyPartMC/blob/main/examples/additive_coag_comparison.ipynb) 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/additive_coag_comparison.ipynb) 
@@ -133,9 +138,9 @@ import PyPartMC as ppmc
 from PyPartMC import si
 
 aero_data = ppmc.AeroData((
-    #      [density, ions in solution, molecular weight, kappa]
-    {"OC": [1000 *si.kg/si.m**3, 0, 1e-3 *si.kg/si.mol, 0.001]},
-    {"BC": [1800 *si.kg/si.m**3, 0, 1e-3 *si.kg/si.mol, 0]},
+    #      [density, ions in solution, molecular weight, kappa, abifm_m, abifm_c]
+    {"OC": [1000 *si.kg/si.m**3, 0, 1e-3 *si.kg/si.mol, 0.001, 0, 0]},
+    {"BC": [1800 *si.kg/si.m**3, 0, 1e-3 *si.kg/si.mol, 0, 0 , 0]},
 ))
 
 aero_dist = ppmc.AeroDist(
@@ -176,9 +181,9 @@ ppmc = pyimport("PyPartMC")
 si = ppmc["si"]
 
 aero_data = ppmc.AeroData((
-  #       (density, ions in solution, molecular weight, kappa)
-  Dict("OC"=>(1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001)),
-  Dict("BC"=>(1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0))
+  #       (density, ions in solution, molecular weight, kappa, abifm_m, abifm_c)
+  Dict("OC"=>(1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001, 0, 0)),
+  Dict("BC"=>(1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0, 0, 0))
 ))
 
 aero_dist = ppmc.AeroDist(aero_data, (
@@ -219,8 +224,8 @@ ppmc = py.importlib.import_module('PyPartMC');
 si = py.importlib.import_module('PyPartMC').si;
 
 aero_data = ppmc.AeroData(py.tuple({ ...
-  py.dict(pyargs("OC", py.tuple({1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001}))), ...
-  py.dict(pyargs("BC", py.tuple({1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0}))) ...
+  py.dict(pyargs("OC", py.tuple({1000 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0.001, 0, 0}))), ...
+  py.dict(pyargs("BC", py.tuple({1800 * si.kg/si.m^3, 0, 1e-3 * si.kg/si.mol, 0, 0, 0}))) ...
 }));
 
 aero_dist = ppmc.AeroDist(aero_data, py.tuple({ ...
