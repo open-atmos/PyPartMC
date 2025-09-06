@@ -80,7 +80,7 @@ from ._PyPartMC import (  # pylint: disable=import-error
     __versions_of_build_time_dependencies__,
 )
 
-# Hacky walkaround for missing docs in pdoc auto-generated documentation.
+# Hacky workaround for missing docs in pdoc auto-generated documentation.
 # After the switch to nanobind, the docs became empty despite "__doc__" being
 # accessible in all of PyPartMC's objects. The code below manually populates
 # the "__all__" atrribute of the package. Additionally, functions in the generated
@@ -89,18 +89,18 @@ from ._PyPartMC import (  # pylint: disable=import-error
 # attribute is manually set to the "original" objects' "__doc__"
 if os.getenv("PDOC_GENERATE_PYPARTMC_DOCS") == "True":
     all_items = []
-    for name, obj in inspect.getmembers(_PyPartMC):
+    for name, obj in inspect.getmembers(_PyPartMC):  # pylint: disble=undefined-variable
         if callable(obj):
             if not inspect.isclass(obj):
-                exec(name + " = lambda : 0")
+                exec(name + " = lambda : 0")  # pylint: disable=exec-used
                 temp = "_PyPartMC." + name + ".__doc__"
-                setattr(eval(name), "__doc__", eval(temp))
+                setattr(eval(name), "__doc__", eval(temp))  # pylint: disable=eval-used
             all_items.append(name)
 
     __all__ = tuple([*all_items, "si"])
 
 __version__ = importlib.metadata.version(__package__)
 
-# walkaround for MATLAB bindings
+# workaround for MATLAB bindings
 # pylint: disable=undefined-variable
 setattr(nanobind, "nb_type_0", type(_PyPartMC.AeroData))
