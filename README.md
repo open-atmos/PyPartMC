@@ -262,7 +262,7 @@ PyPartMC is used within the [test workflow of the PySDM project](https://github.
 ## Other packages with relevant feature scope
 
 - [aerosolGDEFoam](https://openaerosol.sourceforge.io/): OpenFOAM CFD-coupled aerosol dynamics including nucleation, coagulation, and surface growth 
-- [AIOMFAC and AIOMFAC-web](http://www.aiomfac.caltech.edu/): Fortran-implemented aerosol thermodynamic model for calculation of activity coefficients in organic-inorganic mixtures – from simple binary solutions to complex multicomponent systems
+- [AIOMFAC and AIOMFAC-web](http://web.archive.org/web/20250730204937/https://www.aiomfac.caltech.edu/): Fortran-implemented aerosol thermodynamic model for calculation of activity coefficients in organic-inorganic mixtures – from simple binary solutions to complex multicomponent systems
 - [DustPy](https://stammler.github.io/dustpy/): Python package for modelling dust evolution in protoplanetary disks (differences: focus on astrophysical applications vs. atmospheric aerosol)
 - [multilayerpy](https://github.com/tintin554/multilayerpy): kinetic multi-layer model for aerosol particles and films 
 - [PyBox](https://pybox.readthedocs.io): aerosol simulation model featuring gas and particle chamistry (differences: PyBox focuses on chemical mechanisms; PyPartMC is an interface to PartMC which focuses on physics - e.g., collisions of aerosol particles - while chemical processes are handled with external software, e.g., CAMP or MOSAIC)
