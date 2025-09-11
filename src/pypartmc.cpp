@@ -120,8 +120,8 @@ NB_MODULE(_PyPartMC, m) {
     )pbdoc";
 
     m.def("run_part", &run_part, "Do a particle-resolved Monte Carlo simulation.");
-    m.def("run_part_timestep", &run_part_timestep, "Do a single time step");
-    m.def("run_part_timeblock", &run_part_timeblock, "Do a time block");
+    m.def("run_part_timestep", &run_part_timestep, "Do a single time step.");
+    m.def("run_part_timeblock", &run_part_timeblock, "Do multiple time steps over a block of time.");
     m.def("condense_equilib_particles", &condense_equilib_particles, R"pbdoc(
       Call condense_equilib_particle() on each particle in the aerosol
       to ensure that every particle has its water content in
@@ -148,7 +148,7 @@ NB_MODULE(_PyPartMC, m) {
         .def_prop_ro("vol_conc", AeroBinned::vol_conc,
             "Returns the volume concentration per bin per species (m^3/m^3/log_width)")
         .def("add_aero_dist", AeroBinned::add_aero_dist,
-            "Adds an AeroDist to an AeroBinned")
+            "Add an AeroDist to an AeroBinned.")
     ;
 
     nb::class_<AeroData>(m, "AeroData",
@@ -176,34 +176,34 @@ NB_MODULE(_PyPartMC, m) {
         .def(nb::init<const CampCore&>())
         .def(nb::init<const nlohmann::json&>())
         .def("spec_by_name", AeroData::spec_by_name,
-             "Returns the number of the species in AeroData with the given name")
-        .def("__len__", AeroData::__len__, "Number of aerosol species")
+             "Return the number of the species in AeroData with the given name.")
+        .def("__len__", AeroData::__len__, "Return number of aerosol species.")
         .def_prop_ro("n_source", AeroData::n_source,
-             "Number of aerosol sources")
-        .def_prop_ro("sources", AeroData::sources, "return list of source names")
+             "Number of aerosol sources.")
+        .def_prop_ro("sources", AeroData::sources, "Return list of source names.")
         .def_prop_rw("frac_dim", &AeroData::get_frac_dim, &AeroData::set_frac_dim,
-             "Volume fractal dimension (1)")
+             "Volume fractal dimension (1).")
         .def_prop_rw("vol_fill_factor", &AeroData::get_vol_fill_factor,
-             &AeroData::set_vol_fill_factor, "Volume filling factor (1)")
+             &AeroData::set_vol_fill_factor, "Volume filling factor (1).")
         .def_prop_rw("prime_radius", &AeroData::get_prime_radius, &AeroData::set_prime_radius,
-            "Radius of primary particles (m)")
+            "Radius of primary particles (m).")
         .def_prop_ro("densities", &AeroData::densities,
-            "Return array of aerosol species densities")
+            "Return array of aerosol species densities.")
         .def_prop_ro("kappa", &AeroData::kappa,
-            "Returns array of aerosol species hygroscopicity parameter kappa")
+            "Returns array of aerosol species hygroscopicity parameter kappa.")
         .def_prop_ro("molecular_weights", &AeroData::molecular_weights,
-            "Returns array of aerosol species molecular weights")
-        .def("density", &AeroData::density, "Return density of an aerosol species")
+            "Return array of aerosol species molecular weights.")
+        .def("density", &AeroData::density, "Return density of an aerosol species.")
         .def("rad2vol", AeroData::rad2vol,
             "Convert geometric radius (m) to mass-equivalent volume (m^3).")
         .def("vol2rad", AeroData::vol2rad,
-            "Convert mass-equivalent volume (m^3) to geometric radius (m)")
+            "Convert mass-equivalent volume (m^3) to geometric radius (m).")
         .def("diam2vol", AeroData::diam2vol,
             "Convert geometric diameter (m) to mass-equivalent volume (m^3).")
         .def("vol2diam", AeroData::vol2diam,
             "Convert mass-equivalent volume (m^3) to geometric diameter (m).")
         .def_prop_ro("species", AeroData::names,
-            "returns list of aerosol species names")
+            "Return list of aerosol species names.")
     ;
 
     nb::class_<AeroParticle>(m, "AeroParticle",
@@ -246,7 +246,7 @@ NB_MODULE(_PyPartMC, m) {
         .def_prop_ro("species_masses", AeroParticle::species_masses,
             "Mass of all species in the particle (kg).")
         .def_prop_ro("solute_kappa", AeroParticle::solute_kappa,
-            "Returns the average of the solute kappas (1).")
+            "Return the average of the solute kappas (1).")
         .def_prop_ro("moles", AeroParticle::moles,
             "Total moles in the particle (1).")
         .def_prop_ro("absorb_cross_sect", AeroParticle::absorb_cross_sect,
@@ -271,17 +271,17 @@ NB_MODULE(_PyPartMC, m) {
         .def_prop_ro("density", AeroParticle::density,
             "Average density of the particle (kg/m^3)")
         .def("approx_crit_rel_humid", AeroParticle::approx_crit_rel_humid,
-            "Returns the approximate critical relative humidity (1).")
+            "Return the approximate critical relative humidity (1).")
         .def("crit_rel_humid", AeroParticle::crit_rel_humid,
-            "Returns the critical relative humidity (1).")
+            "Return the critical relative humidity (1).")
         .def("crit_diameter", AeroParticle::crit_diameter,
-            "Returns the critical diameter (m).")
+            "Return the critical diameter (m).")
         .def("coagulate", AeroParticle::coagulate,
             "Coagulate two particles together to make a new one. The new particle will not have its ID set.")
         .def("zero", AeroParticle::zero,
-            "Resets an aero_particle to be zero.")
+            "Reset an aero_particle to be zero.")
         .def("set_vols", AeroParticle::set_vols,
-            "Sets the aerosol particle volumes.")
+            "Set the aerosol particle volumes.")
     ;
 
     nb::class_<AeroState>(m, "AeroState",
@@ -301,48 +301,48 @@ NB_MODULE(_PyPartMC, m) {
         .def(nb::init<std::shared_ptr<AeroData>, const double, const std::string>())
         .def(nb::init<std::shared_ptr<AeroData>, const double, const std::string, const CampCore&>())
         .def("__len__", AeroState::__len__,
-            "returns current number of particles")
+            "Return current number of particles in the AeroState.")
         .def_prop_ro("total_num_conc", AeroState::total_num_conc,
-            "returns the total number concentration of the population")
+            "Return the total number concentration of the population.")
         .def_prop_ro("total_mass_conc", AeroState::total_mass_conc,
-            "returns the total mass concentration of the population")
+            "Return the total mass concentration of the population.")
         .def_prop_ro("num_concs", AeroState::num_concs,
-            "returns the number concentration of each particle in the population")
+            "Return the number concentration of each particle in the population.")
         .def("masses", AeroState::masses,
-            "returns the total mass of each particle in the population",
+            "Return the total mass of each particle in the population.",
             nb::arg("include") = nb::none(), nb::arg("exclude") = nb::none()
         )
         .def("volumes", AeroState::volumes,
-            "returns the volume of each particle in the population",
+            "Return the volume of each particle in the population.",
             nb::arg("include") = nb::none(), nb::arg("exclude") = nb::none())
         .def_prop_ro("dry_diameters", AeroState::dry_diameters,
-            "returns the dry diameter of each particle in the population")
+            "Return the dry diameter of each particle in the population.")
         .def("mobility_diameters", AeroState::mobility_diameters,
-            "returns the mobility diameter of each particle in the population")
+            "Return the mobility diameter of each particle in the population.")
         .def("diameters", AeroState::diameters,
-            "returns the diameter of each particle in the population",
+            "Return the diameter of each particle in the population.",
             nb::arg("include") = nb::none(), nb::arg("exclude") = nb::none())
         .def("crit_rel_humids", AeroState::crit_rel_humids,
-            "returns the critical relative humidity of each particle in the population")
+            "Return the critical relative humidity of each particle in the population.")
         .def("make_dry", AeroState::make_dry,
             "Make all particles dry (water set to zero).")
         .def_prop_ro("ids", AeroState::ids,
-            "returns the IDs of all particles.")
+            "Return the IDs of all particles.")
         .def("mixing_state", AeroState::mixing_state,
             "returns the mixing state parameters (d_alpha, d_gamma, chi) of the population",
             nb::arg("include") = nb::none(), nb::arg("exclude") = nb::none(),
             nb::arg("group") = nb::none())
         .def("bin_average_comp", AeroState::bin_average_comp,
-            "composition-averages population using BinGrid")
+            "Composition-averages population using BinGrid.")
         .def("particle", AeroState::get_particle,
-            "returns the particle of a given index")
+            "Return the particle of a given index.")
         .def("rand_particle", AeroState::get_random_particle,
-            "returns a random particle from the population")
+            "Return a random particle from the population.")
         .def("dist_sample", AeroState::dist_sample,
             "sample particles for AeroState from an AeroDist",
             nb::arg("AeroDist"), nb::arg("sample_prop") = 1.0, nb::arg("create_time") = 0.0,
             nb::arg("allow_doubling") = true, nb::arg("allow_halving") = true)
-        .def("add_particle", AeroState::add_particle, "add a particle to an AeroState")
+        .def("add_particle", AeroState::add_particle, "Add a particle to an AeroState.")
         .def("add", AeroState::add,
             R"pbdoc(aero_state += aero_state_delta, including combining the
             weights, so the new concentration is the weighted average of the
@@ -362,10 +362,10 @@ NB_MODULE(_PyPartMC, m) {
              None of the weights are altered by this sampling, making this the
              equivalent of aero_state_add_particles().)pbdoc")
         .def("copy_weight", AeroState::copy_weight,
-             "copy weighting from another AeroState")
+             "Copy weighting from another AeroState.")
         .def("remove_particle", AeroState::remove_particle,
-            "remove particle of a given index")
-        .def("zero", AeroState::zero, "remove all particles from an AeroState")
+            "Remove particle of a given index.")
+        .def("zero", AeroState::zero, "Remove all particles from an AeroState.")
     ;
 
     nb::class_<GasData>(m, "GasData",
@@ -382,13 +382,13 @@ NB_MODULE(_PyPartMC, m) {
         .def(nb::init<const CampCore&>())
         .def(nb::init<const nb::tuple&>())
         .def("__len__", GasData::__len__,
-            "returns number of gas species")
+            "Return the number of gas species.")
         .def_prop_ro("n_spec", GasData::__len__)
         .def("__str__", GasData::__str__,
-            "returns a string with JSON representation of the object")
+            "Return a string with JSON representation of the object.")
         .def("spec_by_name", GasData::spec_by_name,
-            "returns the number of the species in gas with the given name")
-        .def_prop_ro("species", GasData::names, "returns list of gas species names")
+            "Return the number of the species in gas with the given name.")
+        .def_prop_ro("species", GasData::names, "Return list of gas species names.")
     ;
 
     nb::class_<EnvState>(m, "EnvState",
@@ -403,21 +403,21 @@ NB_MODULE(_PyPartMC, m) {
     )
         .def(nb::init<const nlohmann::json&>())
         .def("set_temperature", EnvState::set_temperature,
-            "sets the temperature of the environment state")
+            "Set the temperature of the environment state.")
         .def_prop_ro("temp", EnvState::temp,
-            "returns the current temperature of the environment state")
+            "Return the current temperature of the environment state.")
         .def_prop_ro("rh", EnvState::rh,
-            "returns the current relative humidity of the environment state")
+            "Return the current relative humidity of the environment state.")
         .def_prop_ro("elapsed_time", EnvState::get_elapsed_time,
-            "returns time since start_time (s).")
+            "Return time since start_time (s).")
         .def_prop_ro("start_time", EnvState::get_start_time,
-            "returns start time (s since 00:00 UTC on start_day)")
+            "Return the simulation start time (s since 00:00 UTC on start_day).")
         .def_prop_rw("height", &EnvState::get_height, &EnvState::set_height,
-            "Box height (m)")
+            "Box height (m).")
         .def_prop_rw("pressure", &EnvState::get_pressure, &EnvState::set_pressure,
-            "Ambient pressure (Pa)")
+            "Ambient pressure (Pa).")
         .def_prop_ro("air_density", &EnvState::air_density,
-            "Air density (kg m^{-3})")
+            "Air density (kg m^{-3}).")
         .def_prop_rw("additive_kernel_coefficient", &EnvState::get_additive_kernel_coefficient, &EnvState::set_additive_kernel_coefficient,
             "Scaling coefficient for additive coagulation kernel.")
     ;
@@ -465,24 +465,24 @@ NB_MODULE(_PyPartMC, m) {
             "instantiates and initializes from a JSON object"
         )
         .def("__str__", Scenario::__str__,
-            "returns a string with JSON representation of the object")
+            "Return a string with JSON representation of the object.")
         .def("init_env_state", Scenario::init_env_state,
-            "initializes the EnvState")
+            "Initialize the EnvState.")
         .def("aero_emissions", Scenario::get_dist,
-            "returns aero_emissions AeroDists at a given index")
+            "Return aero_emissions AeroDists at a given index.")
         .def_prop_ro("aero_emissions_n_times", Scenario::get_emissions_n_times,
-            "returns the number of times specified for emissions")
+            "Return the number of times specified for emissions.")
         .def_prop_ro("aero_emissions_rate_scale", Scenario::emission_rate_scale,
-            "Aerosol emission rate scales at set-points (1)")
+            "Aerosol emission rate scales at set-points (1).")
         .def_prop_ro("aero_emissions_time", Scenario::emission_time)
         .def("aero_background", Scenario::get_aero_background_dist,
-            "returns aero_background AeroDists at a given index")
+            "Return aero_background AeroDists at a given index.")
         .def_prop_ro("aero_dilution_n_times", Scenario::get_aero_dilution_n_times,
-            "returns the number of times specified for dilution")
+            "Return the number of times specified for dilution.")
         .def_prop_ro("aero_dilution_rate", Scenario::aero_dilution_rate,
-            "Aerosol-background dilution rates at set-points (s^{-1})")
+            "Aerosol-background dilution rates at set-points (s^{-1}).")
         .def_prop_ro("aero_dilution_time", Scenario::aero_dilution_time,
-            "Aerosol-background dilution set-point times (s)")
+            "Aerosol-background dilution set-point times (s).")
     ;
 
     nb::class_<GasState>(m,
@@ -500,22 +500,22 @@ NB_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(nb::init<std::shared_ptr<GasData>>(),
-            "instantiates and initializes based on GasData")
+            "Instantiate and initialize based on GasData.")
         .def("__setitem__", GasState::set_item)
         //.def("__setitem__", GasState::set_items)
         .def("__getitem__", GasState::get_item)
         //.def("__getitem__", GasState::get_items)
-        .def("__len__", GasState::__len__, "returns number of gas species")
+        .def("__len__", GasState::__len__, "Return number of gas species.")
         .def_prop_ro("n_spec", GasState::__len__,
-            "returns number of gas species")
+            "Return number of gas species.")
         .def("__str__", GasState::__str__,
-            "returns a string with JSON representation of the object")
+            "Return a string with JSON representation of the object.")
         .def("set_size", GasState::set_size,
-            "sets the GasState to the size of GasData")
+            "Set the GasState to the size of GasData.")
         .def("mix_rat", GasState::mix_rat,
-            "returns the mixing ratio of a gas species")
+            "Return the mixing ratio of a gas species.")
         .def_prop_rw("mix_rats", &GasState::mix_rats, &GasState::set_mix_rats,
-            "provides access (read of write) to the array of mixing ratios")
+            "Provide access (read or write) to the array of mixing ratios.")
     ;
 
     nb::class_<RunPartOpt>(m,
@@ -523,8 +523,8 @@ NB_MODULE(_PyPartMC, m) {
         "Options controlling the execution of run_part()."
     )
         .def(nb::init<const nlohmann::json&>())
-        .def_prop_ro("t_max", RunPartOpt::t_max, "total simulation time")
-        .def_prop_ro("del_t", RunPartOpt::del_t, "time step")
+        .def_prop_ro("t_max", RunPartOpt::t_max, "Total simulation time.")
+        .def_prop_ro("del_t", RunPartOpt::del_t, "Time step.")
     ;
 
     nb::class_<RunSectOpt>(m,
@@ -532,8 +532,8 @@ NB_MODULE(_PyPartMC, m) {
         "Options controlling the execution of run_sect()."
     )
         .def(nb::init<const nlohmann::json&, EnvState&>())
-        .def_prop_ro("t_max", RunSectOpt::t_max, "total simulation time")
-        .def_prop_ro("del_t", RunSectOpt::del_t, "time step")
+        .def_prop_ro("t_max", RunSectOpt::t_max, "Total simulation time.")
+        .def_prop_ro("del_t", RunSectOpt::del_t, "Time step.")
     ;
 
     nb::class_<RunExactOpt>(m,
@@ -541,51 +541,53 @@ NB_MODULE(_PyPartMC, m) {
         "Options controlling the execution of run_exact()."
     )
         .def(nb::init<const nlohmann::json&, EnvState&>())
-        .def_prop_ro("t_max", RunExactOpt::t_max, "total simulation time")
+        .def_prop_ro("t_max", RunExactOpt::t_max, "Total simulation time.")
     ;
 
-    nb::class_<BinGrid>(m,"BinGrid")
+    nb::class_<BinGrid>(m,"BinGrid",
+        "1D grid, either logarithmic or linear.")
         .def(nb::init<const int, const nb::str, const double, const double>())
-        .def("__len__", BinGrid::__len__, "returns number of bins")
-        .def_prop_ro("edges", BinGrid::edges, "Bin edges")
-        .def_prop_ro("centers", BinGrid::centers, "Bin centers")
-        .def_prop_ro("widths", BinGrid::widths, "Bin widths")
+        .def("__len__", BinGrid::__len__, "Return number of bins in the BinGrid.")
+        .def_prop_ro("edges", BinGrid::edges, "Return bin edges.")
+        .def_prop_ro("centers", BinGrid::centers, "Return bin centers.")
+        .def_prop_ro("widths", BinGrid::widths, "Return bin widths.")
     ;
 
-    nb::class_<AeroMode>(m,"AeroMode")
+    nb::class_<AeroMode>(m,"AeroMode",
+        "An aerosol size distribution mode.")
         .def(nb::init<AeroData&, const nlohmann::json&>())
         .def_prop_rw("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
-             "provides access (read or write) to the total number concentration of a mode")
+             "Provide access (read or write) to the total number concentration of a mode.")
         .def("num_dist", &AeroMode::num_dist,
-             "returns the binned number concenration of a mode")
+             "Return the binned number concenration of a mode.")
         .def_prop_rw("vol_frac", &AeroMode::get_vol_frac,
-             &AeroMode::set_vol_frac, "Species fractions by volume")
+             &AeroMode::set_vol_frac, "Species fractions by volume.")
         .def_prop_rw("vol_frac_std", &AeroMode::get_vol_frac_std,
-             &AeroMode::set_vol_frac_std, "Species fraction standard deviation")
+             &AeroMode::set_vol_frac_std, "Species fraction standard deviation.")
         .def_prop_rw("char_radius", &AeroMode::get_char_radius,
              &AeroMode::set_char_radius,
-             "Characteristic radius, with meaning dependent on mode type (m)")
+             "Characteristic radius, with meaning dependent on mode type (m).")
         .def_prop_rw("gsd", &AeroMode::get_gsd,
-             &AeroMode::set_gsd, "Geometric standard deviation")
+             &AeroMode::set_gsd, "Geometric standard deviation.")
         .def("set_sample", &AeroMode::set_sampled)
         .def_prop_ro("sample_num_conc", &AeroMode::get_sample_num_conc,
-             "Sample bin number concentrations (m^{-3})")
+             "Sample bin number concentrations (m^{-3}).")
         .def_prop_ro("sample_radius", &AeroMode::get_sample_radius,
              "Sample bin radii (m).")
         .def_prop_rw("type", &AeroMode::get_type, &AeroMode::set_type,
-             "Mode type (given by module constants)")
+             "Mode type (given by module constants).")
         .def_prop_rw("name", &AeroMode::get_name, &AeroMode::set_name,
-             "Mode name, used to track particle sources")
+             "Mode name, used to track particle sources.")
     ;
 
     nb::class_<AeroDist>(m,"AeroDist")
         .def(nb::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
         .def_prop_ro("n_mode", &AeroDist::get_n_mode,
-            "Number of aerosol modes")
+            "Number of aerosol modes in the distribution.")
         .def_prop_ro("num_conc", &AeroDist::get_total_num_conc,
-            "Total number concentration of a distribution (#/m^3)")
+            "Total number concentration of a distribution (#/m^3).")
         .def("mode", AeroDist::get_mode,
-            "returns the mode of a given index")
+            "Return the mode of a given index.")
     ;
 
     m.def(
@@ -651,11 +653,11 @@ NB_MODULE(_PyPartMC, m) {
     );
 
     m.def(
-        "rand_init", &rand_init, "Initializes the random number generator to the state defined by the given seed. If the seed is 0 then a seed is auto-generated from the current time"
+        "rand_init", &rand_init, "Initialize the random number generator to the state defined by the given seed. If the seed is 0 then a seed is auto-generated from the current time."
     );
 
     m.def(
-        "rand_normal", &rand_normal, "Generates a normally distributed random number with the given mean and standard deviation"
+        "rand_normal", &rand_normal, "Generate a normally distributed random number with the given mean and standard deviation."
     );
 
     auto vobtd = nb::dict();
