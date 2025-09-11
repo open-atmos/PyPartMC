@@ -1219,7 +1219,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>add_aero_dist(self, arg0: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, arg1: <a href="#AeroDist">PyPartMC._PyPartMC.AeroDist</a>, /) -> None</p>
 
-<p>Adds an AeroDist to an AeroBinned</p>
+<p>Add an AeroDist to an AeroBinned.</p>
 </div>
 
 
@@ -1283,7 +1283,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>spec_by_name(self, arg: str, /) -> int</p>
 
-<p>Returns the number of the species in AeroData with the given name</p>
+<p>Return the number of the species in AeroData with the given name.</p>
 </div>
 
 
@@ -1298,7 +1298,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> int</p>
 
-<p>Number of aerosol sources</p>
+<p>Number of aerosol sources.</p>
 </div>
 
 
@@ -1313,7 +1313,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> tuple</p>
 
-<p>return list of source names</p>
+<p>Return list of source names.</p>
 </div>
 
 
@@ -1328,7 +1328,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Volume fractal dimension (1)</p>
+<p>Volume fractal dimension (1).</p>
 </div>
 
 
@@ -1343,7 +1343,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Volume filling factor (1)</p>
+<p>Volume filling factor (1).</p>
 </div>
 
 
@@ -1358,7 +1358,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Radius of primary particles (m)</p>
+<p>Radius of primary particles (m).</p>
 </div>
 
 
@@ -1373,7 +1373,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Return array of aerosol species densities</p>
+<p>Return array of aerosol species densities.</p>
 </div>
 
 
@@ -1388,7 +1388,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Returns array of aerosol species hygroscopicity parameter kappa</p>
+<p>Returns array of aerosol species hygroscopicity parameter kappa.</p>
 </div>
 
 
@@ -1403,7 +1403,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Returns array of aerosol species molecular weights</p>
+<p>Return array of aerosol species molecular weights.</p>
 </div>
 
 
@@ -1420,7 +1420,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>density(self, arg: str, /) -> float</p>
 
-<p>Return density of an aerosol species</p>
+<p>Return density of an aerosol species.</p>
 </div>
 
 
@@ -1454,7 +1454,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>vol2rad(self, arg: float, /) -> float</p>
 
-<p>Convert mass-equivalent volume (m^3) to geometric radius (m)</p>
+<p>Convert mass-equivalent volume (m^3) to geometric radius (m).</p>
 </div>
 
 
@@ -1503,7 +1503,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> tuple</p>
 
-<p>returns list of aerosol species names</p>
+<p>Return list of aerosol species names.</p>
 </div>
 
 
@@ -1545,7 +1545,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> int</p>
 
-<p>Number of aerosol modes</p>
+<p>Number of aerosol modes in the distribution.</p>
 </div>
 
 
@@ -1560,7 +1560,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Total number concentration of a distribution (#/m^3)</p>
+<p>Total number concentration of a distribution (#/m^3).</p>
 </div>
 
 
@@ -1577,7 +1577,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>mode(self, arg: int, /) -> <a href="#AeroMode">PyPartMC._PyPartMC.AeroMode</a></p>
 
-<p>returns the mode of a given index</p>
+<p>Return the mode of a given index.</p>
 </div>
 
 
@@ -1593,7 +1593,9 @@ __init__(self, arg: [JSON], /) -> None</p>
     </div>
     <a class="headerlink" href="#AeroMode"></a>
     
-    
+            <div class="docstring"><p>An aerosol size distribution mode.</p>
+</div>
+
 
                             <div id="AeroMode.__init__" class="classattr">
                                 <div class="attr function">
@@ -1619,7 +1621,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>provides access (read or write) to the total number concentration of a mode</p>
+<p>Provide access (read or write) to the total number concentration of a mode.</p>
 </div>
 
 
@@ -1636,7 +1638,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>num_dist(self, arg0: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, arg1: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, /) -> [std::valarray]</p>
 
-<p>returns the binned number concenration of a mode</p>
+<p>Return the binned number concenration of a mode.</p>
 </div>
 
 
@@ -1651,7 +1653,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Species fractions by volume</p>
+<p>Species fractions by volume.</p>
 </div>
 
 
@@ -1666,7 +1668,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Species fraction standard deviation</p>
+<p>Species fraction standard deviation.</p>
 </div>
 
 
@@ -1681,7 +1683,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Characteristic radius, with meaning dependent on mode type (m)</p>
+<p>Characteristic radius, with meaning dependent on mode type (m).</p>
 </div>
 
 
@@ -1696,7 +1698,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Geometric standard deviation</p>
+<p>Geometric standard deviation.</p>
 </div>
 
 
@@ -1726,7 +1728,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Sample bin number concentrations (m^{-3})</p>
+<p>Sample bin number concentrations (m^{-3}).</p>
 </div>
 
 
@@ -1756,7 +1758,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> str</p>
 
-<p>Mode type (given by module constants)</p>
+<p>Mode type (given by module constants).</p>
 </div>
 
 
@@ -1771,7 +1773,7 @@ __init__(self, arg: [JSON], /) -> None</p>
     
             <div class="docstring"><p>(self) -> str</p>
 
-<p>Mode name, used to track particle sources</p>
+<p>Mode name, used to track particle sources.</p>
 </div>
 
 
@@ -1991,7 +1993,7 @@ species_mass(self, arg: str, /) -> float</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Returns the average of the solute kappas (1).</p>
+<p>Return the average of the solute kappas (1).</p>
 </div>
 
 
@@ -2190,7 +2192,7 @@ species_mass(self, arg: str, /) -> float</p>
     
             <div class="docstring"><p>approx_crit_rel_humid(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> float</p>
 
-<p>Returns the approximate critical relative humidity (1).</p>
+<p>Return the approximate critical relative humidity (1).</p>
 </div>
 
 
@@ -2207,7 +2209,7 @@ species_mass(self, arg: str, /) -> float</p>
     
             <div class="docstring"><p>crit_rel_humid(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> float</p>
 
-<p>Returns the critical relative humidity (1).</p>
+<p>Return the critical relative humidity (1).</p>
 </div>
 
 
@@ -2224,7 +2226,7 @@ species_mass(self, arg: str, /) -> float</p>
     
             <div class="docstring"><p>crit_diameter(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> float</p>
 
-<p>Returns the critical diameter (m).</p>
+<p>Return the critical diameter (m).</p>
 </div>
 
 
@@ -2258,7 +2260,7 @@ species_mass(self, arg: str, /) -> float</p>
     
             <div class="docstring"><p>zero(self) -> None</p>
 
-<p>Resets an aero_particle to be zero.</p>
+<p>Reset an aero_particle to be zero.</p>
 </div>
 
 
@@ -2275,7 +2277,7 @@ species_mass(self, arg: str, /) -> float</p>
     
             <div class="docstring"><p>set_vols(self, arg: [std::valarray], /) -> None</p>
 
-<p>Sets the aerosol particle volumes.</p>
+<p>Set the aerosol particle volumes.</p>
 </div>
 
 
@@ -2329,7 +2331,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>returns the total number concentration of the population</p>
+<p>Return the total number concentration of the population.</p>
 </div>
 
 
@@ -2344,7 +2346,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>returns the total mass concentration of the population</p>
+<p>Return the total mass concentration of the population.</p>
 </div>
 
 
@@ -2359,7 +2361,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>returns the number concentration of each particle in the population</p>
+<p>Return the number concentration of each particle in the population.</p>
 </div>
 
 
@@ -2376,7 +2378,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>masses(self, include: collections.abc.Sequence[str] | None | None = None, exclude: collections.abc.Sequence[str] | None | None = None) -> [std::valarray]</p>
 
-<p>returns the total mass of each particle in the population</p>
+<p>Return the total mass of each particle in the population.</p>
 </div>
 
 
@@ -2393,7 +2395,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>volumes(self, include: collections.abc.Sequence[str] | None | None = None, exclude: collections.abc.Sequence[str] | None | None = None) -> [std::valarray]</p>
 
-<p>returns the volume of each particle in the population</p>
+<p>Return the volume of each particle in the population.</p>
 </div>
 
 
@@ -2408,7 +2410,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>returns the dry diameter of each particle in the population</p>
+<p>Return the dry diameter of each particle in the population.</p>
 </div>
 
 
@@ -2425,7 +2427,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>mobility_diameters(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> [std::valarray]</p>
 
-<p>returns the mobility diameter of each particle in the population</p>
+<p>Return the mobility diameter of each particle in the population.</p>
 </div>
 
 
@@ -2442,7 +2444,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>diameters(self, include: collections.abc.Sequence[str] | None | None = None, exclude: collections.abc.Sequence[str] | None | None = None) -> [std::valarray]</p>
 
-<p>returns the diameter of each particle in the population</p>
+<p>Return the diameter of each particle in the population.</p>
 </div>
 
 
@@ -2459,7 +2461,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>crit_rel_humids(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> [std::valarray]</p>
 
-<p>returns the critical relative humidity of each particle in the population</p>
+<p>Return the critical relative humidity of each particle in the population.</p>
 </div>
 
 
@@ -2491,7 +2493,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>returns the IDs of all particles.</p>
+<p>Return the IDs of all particles.</p>
 </div>
 
 
@@ -2525,7 +2527,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>bin_average_comp(self, arg: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, /) -> None</p>
 
-<p>composition-averages population using BinGrid</p>
+<p>Composition-averages population using BinGrid.</p>
 </div>
 
 
@@ -2542,7 +2544,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>particle(self, arg: int, /) -> <a href="#AeroParticle">PyPartMC._PyPartMC.AeroParticle</a></p>
 
-<p>returns the particle of a given index</p>
+<p>Return the particle of a given index.</p>
 </div>
 
 
@@ -2559,7 +2561,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>rand_particle(self) -> <a href="#AeroParticle">PyPartMC._PyPartMC.AeroParticle</a></p>
 
-<p>returns a random particle from the population</p>
+<p>Return a random particle from the population.</p>
 </div>
 
 
@@ -2593,7 +2595,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>add_particle(self, arg: <a href="#AeroParticle">PyPartMC._PyPartMC.AeroParticle</a>, /) -> None</p>
 
-<p>add a particle to an AeroState</p>
+<p>Add a particle to an AeroState.</p>
 </div>
 
 
@@ -2689,7 +2691,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>copy_weight(self, arg: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, /) -> None</p>
 
-<p>copy weighting from another AeroState</p>
+<p>Copy weighting from another AeroState.</p>
 </div>
 
 
@@ -2706,7 +2708,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>remove_particle(self, arg: int, /) -> None</p>
 
-<p>remove particle of a given index</p>
+<p>Remove particle of a given index.</p>
 </div>
 
 
@@ -2723,7 +2725,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>zero(self) -> None</p>
 
-<p>remove all particles from an AeroState</p>
+<p>Remove all particles from an AeroState.</p>
 </div>
 
 
@@ -2739,7 +2741,9 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     </div>
     <a class="headerlink" href="#BinGrid"></a>
     
-    
+            <div class="docstring"><p>1D grid, either logarithmic or linear.</p>
+</div>
+
 
                             <div id="BinGrid.__init__" class="classattr">
                                 <div class="attr function">
@@ -2765,7 +2769,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Bin edges</p>
+<p>Return bin edges.</p>
 </div>
 
 
@@ -2780,7 +2784,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Bin centers</p>
+<p>Return bin centers.</p>
 </div>
 
 
@@ -2795,7 +2799,7 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Bin widths</p>
+<p>Return bin widths.</p>
 </div>
 
 
@@ -2876,7 +2880,7 @@ scenario_t.</p>
     
             <div class="docstring"><p>set_temperature(self, arg: float, /) -> None</p>
 
-<p>sets the temperature of the environment state</p>
+<p>Set the temperature of the environment state.</p>
 </div>
 
 
@@ -2891,7 +2895,7 @@ scenario_t.</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>returns the current temperature of the environment state</p>
+<p>Return the current temperature of the environment state.</p>
 </div>
 
 
@@ -2906,7 +2910,7 @@ scenario_t.</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>returns the current relative humidity of the environment state</p>
+<p>Return the current relative humidity of the environment state.</p>
 </div>
 
 
@@ -2921,7 +2925,7 @@ scenario_t.</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>returns time since start_time (s).</p>
+<p>Return time since start_time (s).</p>
 </div>
 
 
@@ -2936,7 +2940,7 @@ scenario_t.</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>returns start time (s since 00:00 UTC on start_day)</p>
+<p>Return the simulation start time (s since 00:00 UTC on start_day).</p>
 </div>
 
 
@@ -2951,7 +2955,7 @@ scenario_t.</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Box height (m)</p>
+<p>Box height (m).</p>
 </div>
 
 
@@ -2966,7 +2970,7 @@ scenario_t.</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Ambient pressure (Pa)</p>
+<p>Ambient pressure (Pa).</p>
 </div>
 
 
@@ -2981,7 +2985,7 @@ scenario_t.</p>
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>Air density (kg m^{-3})</p>
+<p>Air density (kg m^{-3}).</p>
 </div>
 
 
@@ -3062,7 +3066,7 @@ __init__(self, arg: tuple, /) -> None</p>
     
             <div class="docstring"><p>spec_by_name(self, arg: str, /) -> int</p>
 
-<p>returns the number of the species in gas with the given name</p>
+<p>Return the number of the species in gas with the given name.</p>
 </div>
 
 
@@ -3077,7 +3081,7 @@ __init__(self, arg: tuple, /) -> None</p>
     
             <div class="docstring"><p>(self) -> tuple</p>
 
-<p>returns list of gas species names</p>
+<p>Return list of gas species names.</p>
 </div>
 
 
@@ -3116,7 +3120,7 @@ it. This will be the case for new \c gas_state_t structures.</p>
     
             <div class="docstring"><p>__init__(self, arg: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, /) -> None</p>
 
-<p>instantiates and initializes based on GasData</p>
+<p>Instantiate and initialize based on GasData.</p>
 </div>
 
 
@@ -3131,7 +3135,7 @@ it. This will be the case for new \c gas_state_t structures.</p>
     
             <div class="docstring"><p>(self) -> int</p>
 
-<p>returns number of gas species</p>
+<p>Return number of gas species.</p>
 </div>
 
 
@@ -3148,7 +3152,7 @@ it. This will be the case for new \c gas_state_t structures.</p>
     
             <div class="docstring"><p>set_size(self) -> None</p>
 
-<p>sets the GasState to the size of GasData</p>
+<p>Set the GasState to the size of GasData.</p>
 </div>
 
 
@@ -3165,7 +3169,7 @@ it. This will be the case for new \c gas_state_t structures.</p>
     
             <div class="docstring"><p>mix_rat(self, arg: str, /) -> float</p>
 
-<p>returns the mixing ratio of a gas species</p>
+<p>Return the mixing ratio of a gas species.</p>
 </div>
 
 
@@ -3180,7 +3184,7 @@ it. This will be the case for new \c gas_state_t structures.</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>provides access (read of write) to the array of mixing ratios</p>
+<p>Provide access (read or write) to the array of mixing ratios.</p>
 </div>
 
 
@@ -3254,7 +3258,7 @@ __init__(self, arg: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, /) -> N
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>total simulation time</p>
+<p>Total simulation time.</p>
 </div>
 
 
@@ -3298,7 +3302,7 @@ __init__(self, arg: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, /) -> N
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>total simulation time</p>
+<p>Total simulation time.</p>
 </div>
 
 
@@ -3313,7 +3317,7 @@ __init__(self, arg: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, /) -> N
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>time step</p>
+<p>Time step.</p>
 </div>
 
 
@@ -3357,7 +3361,7 @@ __init__(self, arg: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, /) -> N
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>total simulation time</p>
+<p>Total simulation time.</p>
 </div>
 
 
@@ -3372,7 +3376,7 @@ __init__(self, arg: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, /) -> N
     
             <div class="docstring"><p>(self) -> float</p>
 
-<p>time step</p>
+<p>Time step.</p>
 </div>
 
 
@@ -3428,7 +3432,7 @@ aero_dist_interp_1d(), respectively.</p>
     
             <div class="docstring"><p>init_env_state(self, arg0: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg1: float, /) -> None</p>
 
-<p>initializes the EnvState</p>
+<p>Initialize the EnvState.</p>
 </div>
 
 
@@ -3445,7 +3449,7 @@ aero_dist_interp_1d(), respectively.</p>
     
             <div class="docstring"><p>aero_emissions(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: int, /) -> <a href="#AeroDist">PyPartMC._PyPartMC.AeroDist</a></p>
 
-<p>returns aero_emissions AeroDists at a given index</p>
+<p>Return aero_emissions AeroDists at a given index.</p>
 </div>
 
 
@@ -3460,7 +3464,7 @@ aero_dist_interp_1d(), respectively.</p>
     
             <div class="docstring"><p>(self) -> int</p>
 
-<p>returns the number of times specified for emissions</p>
+<p>Return the number of times specified for emissions.</p>
 </div>
 
 
@@ -3475,7 +3479,7 @@ aero_dist_interp_1d(), respectively.</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Aerosol emission rate scales at set-points (1)</p>
+<p>Aerosol emission rate scales at set-points (1).</p>
 </div>
 
 
@@ -3505,7 +3509,7 @@ aero_dist_interp_1d(), respectively.</p>
     
             <div class="docstring"><p>aero_background(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: int, /) -> <a href="#AeroDist">PyPartMC._PyPartMC.AeroDist</a></p>
 
-<p>returns aero_background AeroDists at a given index</p>
+<p>Return aero_background AeroDists at a given index.</p>
 </div>
 
 
@@ -3520,7 +3524,7 @@ aero_dist_interp_1d(), respectively.</p>
     
             <div class="docstring"><p>(self) -> int</p>
 
-<p>returns the number of times specified for dilution</p>
+<p>Return the number of times specified for dilution.</p>
 </div>
 
 
@@ -3535,7 +3539,7 @@ aero_dist_interp_1d(), respectively.</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Aerosol-background dilution rates at set-points (s^{-1})</p>
+<p>Aerosol-background dilution rates at set-points (s^{-1}).</p>
 </div>
 
 
@@ -3550,7 +3554,7 @@ aero_dist_interp_1d(), respectively.</p>
     
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
-<p>Aerosol-background dilution set-point times (s)</p>
+<p>Aerosol-background dilution set-point times (s).</p>
 </div>
 
 
@@ -3791,7 +3795,7 @@ equilibrium.</p>
     
             <div class="docstring"><p>rand_init(arg: int, /) -> None</p>
 
-<p>Initializes the random number generator to the state defined by the given seed. If the seed is 0 then a seed is auto-generated from the current time</p>
+<p>Initialize the random number generator to the state defined by the given seed. If the seed is 0 then a seed is auto-generated from the current time.</p>
 </div>
 
 
@@ -3808,7 +3812,7 @@ equilibrium.</p>
     
             <div class="docstring"><p>rand_normal(arg0: float, arg1: float, /) -> float</p>
 
-<p>Generates a normally distributed random number with the given mean and standard deviation</p>
+<p>Generate a normally distributed random number with the given mean and standard deviation.</p>
 </div>
 
 
@@ -3859,7 +3863,7 @@ equilibrium.</p>
     
             <div class="docstring"><p>run_part_timeblock(arg0: <a href="#Scenario">PyPartMC._PyPartMC.Scenario</a>, arg1: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg2: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg3: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, arg4: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, arg5: <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, arg6: <a href="#RunPartOpt">PyPartMC._PyPartMC.RunPartOpt</a>, arg7: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, arg8: <a href="#Photolysis">PyPartMC._PyPartMC.Photolysis</a>, arg9: int, arg10: int, arg11: float, arg12: float, arg13: float, arg14: int, /) -> tuple[float, float, int]</p>
 
-<p>Do a time block</p>
+<p>Do multiple time steps over a block of time.</p>
 </div>
 
 
@@ -3876,7 +3880,7 @@ equilibrium.</p>
     
             <div class="docstring"><p>run_part_timestep(arg0: <a href="#Scenario">PyPartMC._PyPartMC.Scenario</a>, arg1: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg2: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg3: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, arg4: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, arg5: <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, arg6: <a href="#RunPartOpt">PyPartMC._PyPartMC.RunPartOpt</a>, arg7: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, arg8: <a href="#Photolysis">PyPartMC._PyPartMC.Photolysis</a>, arg9: int, arg10: float, arg11: float, arg12: float, arg13: int, /) -> tuple[float, float, int]</p>
 
-<p>Do a single time step</p>
+<p>Do a single time step.</p>
 </div>
 
 
