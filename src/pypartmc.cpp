@@ -507,7 +507,7 @@ NB_MODULE(_PyPartMC, m) {
         //.def("__getitem__", GasState::get_items)
         .def("__len__", GasState::__len__, "Return number of gas species.")
         .def_prop_ro("n_spec", GasState::__len__,
-            "returns number of gas species")
+            "Return number of gas species.")
         .def("__str__", GasState::__str__,
             "Return a string with JSON representation of the object.")
         .def("set_size", GasState::set_size,
@@ -541,7 +541,7 @@ NB_MODULE(_PyPartMC, m) {
         "Options controlling the execution of run_exact()."
     )
         .def(nb::init<const nlohmann::json&, EnvState&>())
-        .def_prop_ro("t_max", RunExactOpt::t_max, "total simulation time")
+        .def_prop_ro("t_max", RunExactOpt::t_max, "Total simulation time.")
     ;
 
     nb::class_<BinGrid>(m,"BinGrid",
@@ -583,7 +583,7 @@ NB_MODULE(_PyPartMC, m) {
     nb::class_<AeroDist>(m,"AeroDist")
         .def(nb::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
         .def_prop_ro("n_mode", &AeroDist::get_n_mode,
-            "Number of aerosol modes")
+            "Number of aerosol modes in the distribution.")
         .def_prop_ro("num_conc", &AeroDist::get_total_num_conc,
             "Total number concentration of a distribution (#/m^3).")
         .def("mode", AeroDist::get_mode,
