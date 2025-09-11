@@ -29,9 +29,7 @@ jobs:
           pip install pdoc
           pip install -e .
           PDOC_ALLOW_EXEC=1 PDOC_GENERATE_PYPARTMC_DOCS=True python -We -m pdoc -o html PyPartMC
-      - uses: actions/checkout@v4
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+          ls html/
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' && matrix.platform == 'ubuntu-latest' }}
         uses: JamesIves/github-pages-deploy-action@4.1.1
