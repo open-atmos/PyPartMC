@@ -26,10 +26,9 @@ jobs:
           python-version: 3.12
       - name: Build
         run: |
-          echo "PDOC_GENERATE_PYPARTMC_DOCS=True" >> $GITHUB_ENV
           pip install pdoc
           pip install -e .
-          PDOC_ALLOW_EXEC=1 python -We -m pdoc -o html PyPartMC
+          PDOC_ALLOW_EXEC=1 PDOC_GENERATE_PYPARTMC_DOCS=1 python -We -m pdoc -o html PyPartMC
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' && matrix.platform == 'ubuntu-latest' }}
         uses: JamesIves/github-pages-deploy-action@4.1.1
