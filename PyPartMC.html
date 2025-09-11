@@ -18,8 +18,6 @@
         <input id="togglestate" type="checkbox" aria-hidden="true" tabindex="-1">
         <div>
 
-            <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
-                   pattern=".+" required>
 
             <h2>Contents</h2>
             <ul>
@@ -40,6 +38,573 @@
 
             <h2>API Documentation</h2>
                 <ul class="memberlist">
+            <li>
+                    <a class="class" href="#AeroBinned">AeroBinned</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#AeroBinned.__init__">AeroBinned</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroBinned.num_conc">num_conc</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroBinned.vol_conc">vol_conc</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroBinned.add_aero_dist">add_aero_dist</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#AeroData">AeroData</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#AeroData.__init__">AeroData</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroData.spec_by_name">spec_by_name</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroData.n_source">n_source</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroData.sources">sources</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroData.frac_dim">frac_dim</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroData.vol_fill_factor">vol_fill_factor</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroData.prime_radius">prime_radius</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroData.densities">densities</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroData.kappa">kappa</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroData.molecular_weights">molecular_weights</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroData.density">density</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroData.rad2vol">rad2vol</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroData.vol2rad">vol2rad</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroData.diam2vol">diam2vol</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroData.vol2diam">vol2diam</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroData.species">species</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#AeroDist">AeroDist</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#AeroDist.__init__">AeroDist</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroDist.n_mode">n_mode</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroDist.num_conc">num_conc</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroDist.mode">mode</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#AeroMode">AeroMode</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#AeroMode.__init__">AeroMode</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroMode.num_conc">num_conc</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroMode.num_dist">num_dist</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroMode.vol_frac">vol_frac</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroMode.vol_frac_std">vol_frac_std</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroMode.char_radius">char_radius</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroMode.gsd">gsd</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroMode.set_sample">set_sample</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroMode.sample_num_conc">sample_num_conc</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroMode.sample_radius">sample_radius</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroMode.type">type</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroMode.name">name</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#AeroParticle">AeroParticle</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#AeroParticle.__init__">AeroParticle</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.volumes">volumes</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.volume">volume</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroParticle.species_volume">species_volume</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.dry_volume">dry_volume</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.radius">radius</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.dry_radius">dry_radius</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.diameter">diameter</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.dry_diameter">dry_diameter</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.mass">mass</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroParticle.species_mass">species_mass</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.species_masses">species_masses</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.solute_kappa">solute_kappa</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.moles">moles</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.absorb_cross_sect">absorb_cross_sect</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.scatter_cross_sect">scatter_cross_sect</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.asymmetry">asymmetry</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.refract_shell">refract_shell</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.refract_core">refract_core</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.sources">sources</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.least_create_time">least_create_time</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.greatest_create_time">greatest_create_time</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.id">id</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroParticle.mobility_diameter">mobility_diameter</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroParticle.density">density</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroParticle.approx_crit_rel_humid">approx_crit_rel_humid</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroParticle.crit_rel_humid">crit_rel_humid</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroParticle.crit_diameter">crit_diameter</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroParticle.coagulate">coagulate</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroParticle.zero">zero</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroParticle.set_vols">set_vols</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#AeroState">AeroState</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#AeroState.__init__">AeroState</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroState.total_num_conc">total_num_conc</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroState.total_mass_conc">total_mass_conc</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroState.num_concs">num_concs</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.masses">masses</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.volumes">volumes</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroState.dry_diameters">dry_diameters</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.mobility_diameters">mobility_diameters</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.diameters">diameters</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.crit_rel_humids">crit_rel_humids</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.make_dry">make_dry</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroState.ids">ids</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.mixing_state">mixing_state</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.bin_average_comp">bin_average_comp</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.particle">particle</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.rand_particle">rand_particle</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.dist_sample">dist_sample</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.add_particle">add_particle</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.add">add</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.add_particles">add_particles</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.sample">sample</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.sample_particles">sample_particles</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.copy_weight">copy_weight</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.remove_particle">remove_particle</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#AeroState.zero">zero</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#BinGrid">BinGrid</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#BinGrid.__init__">BinGrid</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#BinGrid.edges">edges</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#BinGrid.centers">centers</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#BinGrid.widths">widths</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#CampCore">CampCore</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#CampCore.__init__">CampCore</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#EnvState">EnvState</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#EnvState.__init__">EnvState</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#EnvState.set_temperature">set_temperature</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.temp">temp</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.rh">rh</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.elapsed_time">elapsed_time</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.start_time">start_time</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.height">height</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.pressure">pressure</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.air_density">air_density</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.additive_kernel_coefficient">additive_kernel_coefficient</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#GasData">GasData</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#GasData.__init__">GasData</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#GasData.n_spec">n_spec</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#GasData.spec_by_name">spec_by_name</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#GasData.species">species</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#GasState">GasState</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#GasState.__init__">GasState</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#GasState.n_spec">n_spec</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#GasState.set_size">set_size</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#GasState.mix_rat">mix_rat</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#GasState.mix_rats">mix_rats</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#Photolysis">Photolysis</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#Photolysis.__init__">Photolysis</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#RunExactOpt">RunExactOpt</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#RunExactOpt.__init__">RunExactOpt</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#RunExactOpt.t_max">t_max</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#RunPartOpt">RunPartOpt</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#RunPartOpt.__init__">RunPartOpt</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#RunPartOpt.t_max">t_max</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#RunPartOpt.del_t">del_t</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#RunSectOpt">RunSectOpt</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#RunSectOpt.__init__">RunSectOpt</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#RunSectOpt.t_max">t_max</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#RunSectOpt.del_t">del_t</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#Scenario">Scenario</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#Scenario.__init__">Scenario</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Scenario.init_env_state">init_env_state</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Scenario.aero_emissions">aero_emissions</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.aero_emissions_n_times">aero_emissions_n_times</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.aero_emissions_rate_scale">aero_emissions_rate_scale</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.aero_emissions_time">aero_emissions_time</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Scenario.aero_background">aero_background</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.aero_dilution_n_times">aero_dilution_n_times</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.aero_dilution_rate">aero_dilution_rate</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#Scenario.aero_dilution_time">aero_dilution_time</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="function" href="#condense_equilib_particle">condense_equilib_particle</a>
+            </li>
+            <li>
+                    <a class="function" href="#condense_equilib_particles">condense_equilib_particles</a>
+            </li>
+            <li>
+                    <a class="function" href="#diam2rad">diam2rad</a>
+            </li>
+            <li>
+                    <a class="function" href="#histogram_1d">histogram_1d</a>
+            </li>
+            <li>
+                    <a class="function" href="#histogram_2d">histogram_2d</a>
+            </li>
+            <li>
+                    <a class="function" href="#input_exact">input_exact</a>
+            </li>
+            <li>
+                    <a class="function" href="#input_sectional">input_sectional</a>
+            </li>
+            <li>
+                    <a class="function" href="#input_state">input_state</a>
+            </li>
+            <li>
+                    <a class="function" href="#loss_rate">loss_rate</a>
+            </li>
+            <li>
+                    <a class="function" href="#loss_rate_dry_dep">loss_rate_dry_dep</a>
+            </li>
+            <li>
+                    <a class="function" href="#output_state">output_state</a>
+            </li>
+            <li>
+                    <a class="function" href="#pow2_above">pow2_above</a>
+            </li>
+            <li>
+                    <a class="function" href="#rad2diam">rad2diam</a>
+            </li>
+            <li>
+                    <a class="function" href="#rand_init">rand_init</a>
+            </li>
+            <li>
+                    <a class="function" href="#rand_normal">rand_normal</a>
+            </li>
+            <li>
+                    <a class="function" href="#run_exact">run_exact</a>
+            </li>
+            <li>
+                    <a class="function" href="#run_part">run_part</a>
+            </li>
+            <li>
+                    <a class="function" href="#run_part_timeblock">run_part_timeblock</a>
+            </li>
+            <li>
+                    <a class="function" href="#run_part_timestep">run_part_timestep</a>
+            </li>
+            <li>
+                    <a class="function" href="#run_sect">run_sect</a>
+            </li>
+            <li>
+                    <a class="function" href="#sphere_rad2vol">sphere_rad2vol</a>
+            </li>
+            <li>
+                    <a class="function" href="#sphere_vol2rad">sphere_vol2rad</a>
+            </li>
             <li>
                     <a class="variable" href="#si">si</a>
             </li>
@@ -558,7 +1123,7 @@ licence: <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL v2
 </span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="c1"># docs would be listed as nanobind objects with no additional documentation.</span>
 </span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="c1"># To solve that, dummy functions of the same name are created, and their &quot;__doc__&quot;</span>
 </span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="c1"># attribute is manually set to the &quot;original&quot; objects&#39; &quot;__doc__&quot;</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;PDOC_GENERATE_PYPARTMC_DOCS&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;True&quot;</span><span class="p">:</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;PDOC_GENERATE_PYPARTMC_DOCS&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
 </span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>    <span class="n">all_items</span> <span class="o">=</span> <span class="p">[]</span>
 </span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span>
 </span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>        <span class="n">_PyPartMC</span>  <span class="c1"># pylint: disable=undefined-variable</span>
@@ -581,6 +1146,2792 @@ licence: <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL v2
 
 
             </section>
+                <section id="AeroBinned">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">AeroBinned</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned"></a>
+    
+            <div class="docstring"><p>Aerosol number and volume distributions stored per size bin.
+These quantities are densities both in volume (per m^3) and in radius
+(per log_width).</p>
+</div>
+
+
+                            <div id="AeroBinned.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">AeroBinned</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, /) -> None
+__init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroBinned.num_conc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_conc</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned.num_conc"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Returns the number concentration of each bin (#/m^3/log_width)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroBinned.vol_conc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">vol_conc</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned.vol_conc"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Returns the volume concentration per bin per species (m^3/m^3/log_width)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroBinned.add_aero_dist" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">add_aero_dist</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroBinned.add_aero_dist"></a>
+    
+            <div class="docstring"><p>add_aero_dist(self, arg0: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, arg1: <a href="#AeroDist">PyPartMC._PyPartMC.AeroDist</a>, /) -> None</p>
+
+<p>Adds an AeroDist to an AeroBinned</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="AeroData">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">AeroData</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData"></a>
+    
+            <div class="docstring"><p>Aerosol material properties and associated data.</p>
+
+<p>The data in this structure is constant, as it represents physical
+quantities that cannot change over time.</p>
+
+<p>Each aerosol species is identified by an index <tt>i =
+1,...,aero_data_n_spec(aero_data)</tt>. Then \c name(i) is the name of
+that species, \c density(i) is its density, etc. The ordering of the
+species is arbitrary and should not be relied upon (currently it is the
+order in the species data file). The only exception is that it is
+possible to find out which species is water from the \c i_water
+variable.</p>
+
+<p>The names of the aerosol species are not important to PartMC, as
+only the material properties are used. The names are used for
+input and output, and also for communication with MOSAIC. For the
+MOSAIC interface to work correctly the species must be named the
+same, but without the \c _a suffix.</p>
+</div>
+
+
+                            <div id="AeroData.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">AeroData</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, /) -> None
+__init__(self, arg: [JSON], /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.spec_by_name" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">spec_by_name</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.spec_by_name"></a>
+    
+            <div class="docstring"><p>spec_by_name(self, arg: str, /) -> int</p>
+
+<p>Returns the number of the species in AeroData with the given name</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.n_source" class="classattr">
+                                <div class="attr variable">
+            <span class="name">n_source</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.n_source"></a>
+    
+            <div class="docstring"><p>(self) -> int</p>
+
+<p>Number of aerosol sources</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.sources" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sources</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.sources"></a>
+    
+            <div class="docstring"><p>(self) -> tuple</p>
+
+<p>return list of source names</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.frac_dim" class="classattr">
+                                <div class="attr variable">
+            <span class="name">frac_dim</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.frac_dim"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Volume fractal dimension (1)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.vol_fill_factor" class="classattr">
+                                <div class="attr variable">
+            <span class="name">vol_fill_factor</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.vol_fill_factor"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Volume filling factor (1)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.prime_radius" class="classattr">
+                                <div class="attr variable">
+            <span class="name">prime_radius</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.prime_radius"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Radius of primary particles (m)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.densities" class="classattr">
+                                <div class="attr variable">
+            <span class="name">densities</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.densities"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Return array of aerosol species densities</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.kappa" class="classattr">
+                                <div class="attr variable">
+            <span class="name">kappa</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.kappa"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Returns array of aerosol species hygroscopicity parameter kappa</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.molecular_weights" class="classattr">
+                                <div class="attr variable">
+            <span class="name">molecular_weights</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.molecular_weights"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Returns array of aerosol species molecular weights</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.density" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">density</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.density"></a>
+    
+            <div class="docstring"><p>density(self, arg: str, /) -> float</p>
+
+<p>Return density of an aerosol species</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.rad2vol" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">rad2vol</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.rad2vol"></a>
+    
+            <div class="docstring"><p>rad2vol(self, arg: float, /) -> float</p>
+
+<p>Convert geometric radius (m) to mass-equivalent volume (m^3).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.vol2rad" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">vol2rad</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.vol2rad"></a>
+    
+            <div class="docstring"><p>vol2rad(self, arg: float, /) -> float</p>
+
+<p>Convert mass-equivalent volume (m^3) to geometric radius (m)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.diam2vol" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">diam2vol</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.diam2vol"></a>
+    
+            <div class="docstring"><p>diam2vol(self, arg: float, /) -> float</p>
+
+<p>Convert geometric diameter (m) to mass-equivalent volume (m^3).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.vol2diam" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">vol2diam</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.vol2diam"></a>
+    
+            <div class="docstring"><p>vol2diam(self, arg: float, /) -> float</p>
+
+<p>Convert mass-equivalent volume (m^3) to geometric diameter (m).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroData.species" class="classattr">
+                                <div class="attr variable">
+            <span class="name">species</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroData.species"></a>
+    
+            <div class="docstring"><p>(self) -> tuple</p>
+
+<p>returns list of aerosol species names</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="AeroDist">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">AeroDist</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#AeroDist"></a>
+    
+    
+
+                            <div id="AeroDist.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">AeroDist</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroDist.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: [JSON], /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroDist.n_mode" class="classattr">
+                                <div class="attr variable">
+            <span class="name">n_mode</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroDist.n_mode"></a>
+    
+            <div class="docstring"><p>(self) -> int</p>
+
+<p>Number of aerosol modes</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroDist.num_conc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_conc</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroDist.num_conc"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Total number concentration of a distribution (#/m^3)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroDist.mode" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">mode</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroDist.mode"></a>
+    
+            <div class="docstring"><p>mode(self, arg: int, /) -> <a href="#AeroMode">PyPartMC._PyPartMC.AeroMode</a></p>
+
+<p>returns the mode of a given index</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="AeroMode">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">AeroMode</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode"></a>
+    
+    
+
+                            <div id="AeroMode.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">AeroMode</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: [JSON], /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.num_conc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_conc</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.num_conc"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>provides access (read or write) to the total number concentration of a mode</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.num_dist" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">num_dist</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.num_dist"></a>
+    
+            <div class="docstring"><p>num_dist(self, arg0: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, arg1: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, /) -> [std::valarray]</p>
+
+<p>returns the binned number concenration of a mode</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.vol_frac" class="classattr">
+                                <div class="attr variable">
+            <span class="name">vol_frac</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.vol_frac"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Species fractions by volume</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.vol_frac_std" class="classattr">
+                                <div class="attr variable">
+            <span class="name">vol_frac_std</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.vol_frac_std"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Species fraction standard deviation</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.char_radius" class="classattr">
+                                <div class="attr variable">
+            <span class="name">char_radius</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.char_radius"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Characteristic radius, with meaning dependent on mode type (m)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.gsd" class="classattr">
+                                <div class="attr variable">
+            <span class="name">gsd</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.gsd"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Geometric standard deviation</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.set_sample" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">set_sample</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.set_sample"></a>
+    
+            <div class="docstring"><p>set_sample(self, arg0: [std::valarray], arg1: [std::valarray], /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.sample_num_conc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sample_num_conc</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.sample_num_conc"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Sample bin number concentrations (m^{-3})</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.sample_radius" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sample_radius</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.sample_radius"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Sample bin radii (m).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.type" class="classattr">
+                                <div class="attr variable">
+            <span class="name">type</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.type"></a>
+    
+            <div class="docstring"><p>(self) -> str</p>
+
+<p>Mode type (given by module constants)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroMode.name" class="classattr">
+                                <div class="attr variable">
+            <span class="name">name</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroMode.name"></a>
+    
+            <div class="docstring"><p>(self) -> str</p>
+
+<p>Mode name, used to track particle sources</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="AeroParticle">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">AeroParticle</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle"></a>
+    
+            <div class="docstring"><p>Single aerosol particle data structure.</p>
+
+<p>The \c vol array stores the total volumes of the different
+species that make up the particle. This array must have length
+equal to aero_data%%n_spec, so that \c vol(i) is the volume (in
+m^3) of the i'th aerosol species.</p>
+</div>
+
+
+                            <div id="AeroParticle.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">AeroParticle</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: [std::valarray], /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.volumes" class="classattr">
+                                <div class="attr variable">
+            <span class="name">volumes</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.volumes"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Constituent species volumes (m^3)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.volume" class="classattr">
+                                <div class="attr variable">
+            <span class="name">volume</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.volume"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Total volume of the particle (m^3).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.species_volume" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">species_volume</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.species_volume"></a>
+    
+            <div class="docstring"><p>species_volume(self, arg: int, /) -> float
+species_volume(self, arg: str, /) -> float</p>
+
+<p>Volume of a single species in the particle (m^3).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.dry_volume" class="classattr">
+                                <div class="attr variable">
+            <span class="name">dry_volume</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.dry_volume"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Total dry volume of the particle (m^3).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.radius" class="classattr">
+                                <div class="attr variable">
+            <span class="name">radius</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.radius"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Total radius of the particle (m).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.dry_radius" class="classattr">
+                                <div class="attr variable">
+            <span class="name">dry_radius</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.dry_radius"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Total dry radius of the particle (m).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.diameter" class="classattr">
+                                <div class="attr variable">
+            <span class="name">diameter</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.diameter"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Total diameter of the particle (m).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.dry_diameter" class="classattr">
+                                <div class="attr variable">
+            <span class="name">dry_diameter</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.dry_diameter"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Total dry diameter of the particle (m).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.mass" class="classattr">
+                                <div class="attr variable">
+            <span class="name">mass</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.mass"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Total mass of the particle (kg).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.species_mass" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">species_mass</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.species_mass"></a>
+    
+            <div class="docstring"><p>species_mass(self, arg: int, /) -> float
+species_mass(self, arg: str, /) -> float</p>
+
+<p>Mass of a single species in the particle (kg).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.species_masses" class="classattr">
+                                <div class="attr variable">
+            <span class="name">species_masses</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.species_masses"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Mass of all species in the particle (kg).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.solute_kappa" class="classattr">
+                                <div class="attr variable">
+            <span class="name">solute_kappa</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.solute_kappa"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Returns the average of the solute kappas (1).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.moles" class="classattr">
+                                <div class="attr variable">
+            <span class="name">moles</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.moles"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Total moles in the particle (1).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.absorb_cross_sect" class="classattr">
+                                <div class="attr variable">
+            <span class="name">absorb_cross_sect</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.absorb_cross_sect"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Absorption cross-section (m^-2).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.scatter_cross_sect" class="classattr">
+                                <div class="attr variable">
+            <span class="name">scatter_cross_sect</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.scatter_cross_sect"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Scattering cross-section (m^-2).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.asymmetry" class="classattr">
+                                <div class="attr variable">
+            <span class="name">asymmetry</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.asymmetry"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Asymmetry parameter (1).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.refract_shell" class="classattr">
+                                <div class="attr variable">
+            <span class="name">refract_shell</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.refract_shell"></a>
+    
+            <div class="docstring"><p>(self) -> complex</p>
+
+<p>Refractive index of the shell (1).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.refract_core" class="classattr">
+                                <div class="attr variable">
+            <span class="name">refract_core</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.refract_core"></a>
+    
+            <div class="docstring"><p>(self) -> complex</p>
+
+<p>Refractive index of the core (1).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.sources" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sources</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.sources"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Number of original particles from each source that coagulated to form particle.</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.least_create_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">least_create_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.least_create_time"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>First time a constituent was created (s).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.greatest_create_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">greatest_create_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.greatest_create_time"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Last time a constituent was created (s).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.id" class="classattr">
+                                <div class="attr variable">
+            <span class="name">id</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.id"></a>
+    
+            <div class="docstring"><p>(self) -> int</p>
+
+<p>Unique ID number.</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.mobility_diameter" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">mobility_diameter</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.mobility_diameter"></a>
+    
+            <div class="docstring"><p>mobility_diameter(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> float</p>
+
+<p>Mobility diameter of the particle (m).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.density" class="classattr">
+                                <div class="attr variable">
+            <span class="name">density</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.density"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Average density of the particle (kg/m^3)</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.approx_crit_rel_humid" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">approx_crit_rel_humid</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.approx_crit_rel_humid"></a>
+    
+            <div class="docstring"><p>approx_crit_rel_humid(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> float</p>
+
+<p>Returns the approximate critical relative humidity (1).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.crit_rel_humid" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">crit_rel_humid</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.crit_rel_humid"></a>
+    
+            <div class="docstring"><p>crit_rel_humid(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> float</p>
+
+<p>Returns the critical relative humidity (1).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.crit_diameter" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">crit_diameter</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.crit_diameter"></a>
+    
+            <div class="docstring"><p>crit_diameter(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> float</p>
+
+<p>Returns the critical diameter (m).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.coagulate" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">coagulate</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.coagulate"></a>
+    
+            <div class="docstring"><p>coagulate(self, arg: <a href="#AeroParticle">PyPartMC._PyPartMC.AeroParticle</a>, /) -> <a href="#AeroParticle">PyPartMC._PyPartMC.AeroParticle</a></p>
+
+<p>Coagulate two particles together to make a new one. The new particle will not have its ID set.</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.zero" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">zero</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.zero"></a>
+    
+            <div class="docstring"><p>zero(self) -> None</p>
+
+<p>Resets an aero_particle to be zero.</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroParticle.set_vols" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">set_vols</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.set_vols"></a>
+    
+            <div class="docstring"><p>set_vols(self, arg: [std::valarray], /) -> None</p>
+
+<p>Sets the aerosol particle volumes.</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="AeroState">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">AeroState</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState"></a>
+    
+            <div class="docstring"><p>The current collection of aerosol particles.</p>
+
+<p>The particles in \c aero_state_t are stored in a single flat
+array (the \c apa data member), with a sorting into size bins and
+weight groups/classes possibly stored in the \c aero_sorted data
+member (if \c valid_sort is true).</p>
+
+<p>Every time we remove particles we keep track of the particle ID
+and the action performed in the aero_info_array_t structure. This
+is typically cleared each time we output data to disk.</p>
+</div>
+
+
+                            <div id="AeroState.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">AeroState</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: float, arg2: str, /) -> None
+__init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: float, arg2: str, arg3: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.total_num_conc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">total_num_conc</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.total_num_conc"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>returns the total number concentration of the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.total_mass_conc" class="classattr">
+                                <div class="attr variable">
+            <span class="name">total_mass_conc</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.total_mass_conc"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>returns the total mass concentration of the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.num_concs" class="classattr">
+                                <div class="attr variable">
+            <span class="name">num_concs</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.num_concs"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>returns the number concentration of each particle in the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.masses" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">masses</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.masses"></a>
+    
+            <div class="docstring"><p>masses(self, include: collections.abc.Sequence[str] | None | None = None, exclude: collections.abc.Sequence[str] | None | None = None) -> [std::valarray]</p>
+
+<p>returns the total mass of each particle in the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.volumes" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">volumes</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.volumes"></a>
+    
+            <div class="docstring"><p>volumes(self, include: collections.abc.Sequence[str] | None | None = None, exclude: collections.abc.Sequence[str] | None | None = None) -> [std::valarray]</p>
+
+<p>returns the volume of each particle in the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.dry_diameters" class="classattr">
+                                <div class="attr variable">
+            <span class="name">dry_diameters</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.dry_diameters"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>returns the dry diameter of each particle in the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.mobility_diameters" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">mobility_diameters</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.mobility_diameters"></a>
+    
+            <div class="docstring"><p>mobility_diameters(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> [std::valarray]</p>
+
+<p>returns the mobility diameter of each particle in the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.diameters" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">diameters</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.diameters"></a>
+    
+            <div class="docstring"><p>diameters(self, include: collections.abc.Sequence[str] | None | None = None, exclude: collections.abc.Sequence[str] | None | None = None) -> [std::valarray]</p>
+
+<p>returns the diameter of each particle in the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.crit_rel_humids" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">crit_rel_humids</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.crit_rel_humids"></a>
+    
+            <div class="docstring"><p>crit_rel_humids(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> [std::valarray]</p>
+
+<p>returns the critical relative humidity of each particle in the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.make_dry" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">make_dry</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.make_dry"></a>
+    
+            <div class="docstring"><p>make_dry(self) -> None</p>
+
+<p>Make all particles dry (water set to zero).</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.ids" class="classattr">
+                                <div class="attr variable">
+            <span class="name">ids</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.ids"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>returns the IDs of all particles.</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.mixing_state" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">mixing_state</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.mixing_state"></a>
+    
+            <div class="docstring"><p>mixing_state(self, include: collections.abc.Sequence[str] | None | None = None, exclude: collections.abc.Sequence[str] | None | None = None, group: collections.abc.Sequence[str] | None | None = None) -> tuple[float, float, float]</p>
+
+<p>returns the mixing state parameters (d_alpha, d_gamma, chi) of the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.bin_average_comp" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">bin_average_comp</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.bin_average_comp"></a>
+    
+            <div class="docstring"><p>bin_average_comp(self, arg: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, /) -> None</p>
+
+<p>composition-averages population using BinGrid</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.particle" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">particle</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.particle"></a>
+    
+            <div class="docstring"><p>particle(self, arg: int, /) -> <a href="#AeroParticle">PyPartMC._PyPartMC.AeroParticle</a></p>
+
+<p>returns the particle of a given index</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.rand_particle" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">rand_particle</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.rand_particle"></a>
+    
+            <div class="docstring"><p>rand_particle(self) -> <a href="#AeroParticle">PyPartMC._PyPartMC.AeroParticle</a></p>
+
+<p>returns a random particle from the population</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.dist_sample" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">dist_sample</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.dist_sample"></a>
+    
+            <div class="docstring"><p>dist_sample(self, AeroDist: <a href="#AeroDist">PyPartMC._PyPartMC.AeroDist</a>, sample_prop: float = 1.0, create_time: float = 0.0, allow_doubling: bool = True, allow_halving: bool = True) -> int</p>
+
+<p>sample particles for AeroState from an AeroDist</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.add_particle" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">add_particle</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.add_particle"></a>
+    
+            <div class="docstring"><p>add_particle(self, arg: <a href="#AeroParticle">PyPartMC._PyPartMC.AeroParticle</a>, /) -> None</p>
+
+<p>add a particle to an AeroState</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.add" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">add</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.add"></a>
+    
+            <div class="docstring"><p>add(self, arg: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, /) -> None</p>
+
+<p>aero_state += aero_state_delta, including combining the
+            weights, so the new concentration is the weighted average of the
+            two concentrations.</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.add_particles" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">add_particles</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.add_particles"></a>
+    
+            <div class="docstring"><p>add_particles(self, arg: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, /) -> None</p>
+
+<p>aero_state += aero_state_delta, with the weight left unchanged
+             so the new concentration is the sum of the two concentrations.</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.sample" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">sample</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.sample"></a>
+    
+            <div class="docstring"><p>sample(self, arg0: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, arg1: float, /) -> None</p>
+
+<p>Generates a random sample by removing particles from
+             aero_state_from and adding them to aero_state_to, transfering
+             weight as well. This is the equivalent of aero_state_add().</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.sample_particles" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">sample_particles</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.sample_particles"></a>
+    
+            <div class="docstring"><p>sample_particles(self, arg0: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, arg1: float, /) -> None</p>
+
+<p>!> Generates a random sample by removing particles from
+           aero_state_from and adding them to aero_state_to, which must be
+           already allocated (and should have its weight set).</p>
+
+<pre><code>       None of the weights are altered by this sampling, making this the
+       equivalent of aero_state_add_particles().
+</code></pre>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.copy_weight" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">copy_weight</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.copy_weight"></a>
+    
+            <div class="docstring"><p>copy_weight(self, arg: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, /) -> None</p>
+
+<p>copy weighting from another AeroState</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.remove_particle" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">remove_particle</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.remove_particle"></a>
+    
+            <div class="docstring"><p>remove_particle(self, arg: int, /) -> None</p>
+
+<p>remove particle of a given index</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.zero" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">zero</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.zero"></a>
+    
+            <div class="docstring"><p>zero(self) -> None</p>
+
+<p>remove all particles from an AeroState</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="BinGrid">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">BinGrid</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#BinGrid"></a>
+    
+    
+
+                            <div id="BinGrid.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">BinGrid</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#BinGrid.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg0: int, arg1: str, arg2: float, arg3: float, /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="BinGrid.edges" class="classattr">
+                                <div class="attr variable">
+            <span class="name">edges</span>
+
+        
+    </div>
+    <a class="headerlink" href="#BinGrid.edges"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Bin edges</p>
+</div>
+
+
+                            </div>
+                            <div id="BinGrid.centers" class="classattr">
+                                <div class="attr variable">
+            <span class="name">centers</span>
+
+        
+    </div>
+    <a class="headerlink" href="#BinGrid.centers"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Bin centers</p>
+</div>
+
+
+                            </div>
+                            <div id="BinGrid.widths" class="classattr">
+                                <div class="attr variable">
+            <span class="name">widths</span>
+
+        
+    </div>
+    <a class="headerlink" href="#BinGrid.widths"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Bin widths</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="CampCore">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">CampCore</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#CampCore"></a>
+    
+            <div class="docstring"><p>An interface between PartMC and the CAMP</p>
+</div>
+
+
+                            <div id="CampCore.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">CampCore</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#CampCore.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self) -> None
+__init__(self, arg: str, /) -> None</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="EnvState">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">EnvState</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState"></a>
+    
+            <div class="docstring"><p>Current environment state.</p>
+
+<p>All quantities are instantaneous, describing the state at a
+particular instant of time. Constant data and other data not
+associated with the current environment state is stored in
+scenario_t.</p>
+</div>
+
+
+                            <div id="EnvState.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">EnvState</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg: [JSON], /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.set_temperature" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">set_temperature</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.set_temperature"></a>
+    
+            <div class="docstring"><p>set_temperature(self, arg: float, /) -> None</p>
+
+<p>sets the temperature of the environment state</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.temp" class="classattr">
+                                <div class="attr variable">
+            <span class="name">temp</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.temp"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>returns the current temperature of the environment state</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.rh" class="classattr">
+                                <div class="attr variable">
+            <span class="name">rh</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.rh"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>returns the current relative humidity of the environment state</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.elapsed_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">elapsed_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.elapsed_time"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>returns time since start_time (s).</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.start_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">start_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.start_time"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>returns start time (s since 00:00 UTC on start_day)</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.height" class="classattr">
+                                <div class="attr variable">
+            <span class="name">height</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.height"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Box height (m)</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.pressure" class="classattr">
+                                <div class="attr variable">
+            <span class="name">pressure</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.pressure"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Ambient pressure (Pa)</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.air_density" class="classattr">
+                                <div class="attr variable">
+            <span class="name">air_density</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.air_density"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Air density (kg m^{-3})</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.additive_kernel_coefficient" class="classattr">
+                                <div class="attr variable">
+            <span class="name">additive_kernel_coefficient</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.additive_kernel_coefficient"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Scaling coefficient for additive coagulation kernel.</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="GasData">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">GasData</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#GasData"></a>
+    
+            <div class="docstring"><p>Constant gas data.</p>
+
+<p>Each gas species is identified by an integer \c i between 1 and
+\c gas_data_n_spec(gas_data). Species \c i has name \c gas_data%%name(i).
+The variable gas data describing the current mixing ratios is stored
+in the gas_state_t structure, so the mixing ratio of species \c i
+is gas_state%%mix_rat(i).</p>
+</div>
+
+
+                            <div id="GasData.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">GasData</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasData.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, /) -> None
+__init__(self, arg: tuple, /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="GasData.n_spec" class="classattr">
+                                <div class="attr variable">
+            <span class="name">n_spec</span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasData.n_spec"></a>
+    
+            <div class="docstring"><p>(self) -> int</p>
+</div>
+
+
+                            </div>
+                            <div id="GasData.spec_by_name" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">spec_by_name</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasData.spec_by_name"></a>
+    
+            <div class="docstring"><p>spec_by_name(self, arg: str, /) -> int</p>
+
+<p>returns the number of the species in gas with the given name</p>
+</div>
+
+
+                            </div>
+                            <div id="GasData.species" class="classattr">
+                                <div class="attr variable">
+            <span class="name">species</span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasData.species"></a>
+    
+            <div class="docstring"><p>(self) -> tuple</p>
+
+<p>returns list of gas species names</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="GasState">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">GasState</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#GasState"></a>
+    
+            <div class="docstring"><p>Current state of the gas mixing ratios in the system.</p>
+
+<p>The gas species are defined by the gas_data_t structure, so that
+\c gas_state%%mix_rat(i) is the current mixing ratio of the gas
+with name \c gas_data%%name(i), etc.</p>
+
+<p>By convention, if gas_state_is_allocated() return \c .false.,
+then the gas_state is treated as zero for all operations on
+it. This will be the case for new \c gas_state_t structures.</p>
+</div>
+
+
+                            <div id="GasState.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">GasState</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasState.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, /) -> None</p>
+
+<p>instantiates and initializes based on GasData</p>
+</div>
+
+
+                            </div>
+                            <div id="GasState.n_spec" class="classattr">
+                                <div class="attr variable">
+            <span class="name">n_spec</span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasState.n_spec"></a>
+    
+            <div class="docstring"><p>(self) -> int</p>
+
+<p>returns number of gas species</p>
+</div>
+
+
+                            </div>
+                            <div id="GasState.set_size" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">set_size</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasState.set_size"></a>
+    
+            <div class="docstring"><p>set_size(self) -> None</p>
+
+<p>sets the GasState to the size of GasData</p>
+</div>
+
+
+                            </div>
+                            <div id="GasState.mix_rat" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">mix_rat</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasState.mix_rat"></a>
+    
+            <div class="docstring"><p>mix_rat(self, arg: str, /) -> float</p>
+
+<p>returns the mixing ratio of a gas species</p>
+</div>
+
+
+                            </div>
+                            <div id="GasState.mix_rats" class="classattr">
+                                <div class="attr variable">
+            <span class="name">mix_rats</span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasState.mix_rats"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>provides access (read of write) to the array of mixing ratios</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="Photolysis">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">Photolysis</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#Photolysis"></a>
+    
+            <div class="docstring"><p>PartMC interface to a photolysis module</p>
+</div>
+
+
+                            <div id="Photolysis.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">Photolysis</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Photolysis.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self) -> None
+__init__(self, arg: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, /) -> None</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="RunExactOpt">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">RunExactOpt</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#RunExactOpt"></a>
+    
+            <div class="docstring"><p>Options controlling the execution of run_exact().</p>
+</div>
+
+
+                            <div id="RunExactOpt.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">RunExactOpt</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunExactOpt.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg0: [JSON], arg1: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="RunExactOpt.t_max" class="classattr">
+                                <div class="attr variable">
+            <span class="name">t_max</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunExactOpt.t_max"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>total simulation time</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="RunPartOpt">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">RunPartOpt</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#RunPartOpt"></a>
+    
+            <div class="docstring"><p>Options controlling the execution of run_part().</p>
+</div>
+
+
+                            <div id="RunPartOpt.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">RunPartOpt</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunPartOpt.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg: [JSON], /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="RunPartOpt.t_max" class="classattr">
+                                <div class="attr variable">
+            <span class="name">t_max</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunPartOpt.t_max"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>total simulation time</p>
+</div>
+
+
+                            </div>
+                            <div id="RunPartOpt.del_t" class="classattr">
+                                <div class="attr variable">
+            <span class="name">del_t</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunPartOpt.del_t"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>time step</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="RunSectOpt">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">RunSectOpt</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#RunSectOpt"></a>
+    
+            <div class="docstring"><p>Options controlling the execution of run_sect().</p>
+</div>
+
+
+                            <div id="RunSectOpt.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">RunSectOpt</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunSectOpt.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg0: [JSON], arg1: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> None</p>
+</div>
+
+
+                            </div>
+                            <div id="RunSectOpt.t_max" class="classattr">
+                                <div class="attr variable">
+            <span class="name">t_max</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunSectOpt.t_max"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>total simulation time</p>
+</div>
+
+
+                            </div>
+                            <div id="RunSectOpt.del_t" class="classattr">
+                                <div class="attr variable">
+            <span class="name">del_t</span>
+
+        
+    </div>
+    <a class="headerlink" href="#RunSectOpt.del_t"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>time step</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="Scenario">
+                    <div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">Scenario</span>:
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario"></a>
+    
+            <div class="docstring"><p>This is everything needed to drive the scenario being simulated.</p>
+
+<p>The temperature, pressure, emissions and background states are profiles
+prescribed as functions of time by giving a number of times and
+the corresponding data. Simple data such as temperature and pressure is
+linearly interpolated between times, with constant interpolation
+outside of the range of times. Gases and aerosols are
+interpolated with gas_state_interp_1d() and
+aero_dist_interp_1d(), respectively.</p>
+</div>
+
+
+                            <div id="Scenario.__init__" class="classattr">
+                                <div class="attr function">
+            
+        <span class="name">Scenario</span><span class="signature pdoc-code condensed">()</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.__init__"></a>
+    
+            <div class="docstring"><p>__init__(self, arg0: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, arg1: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg2: [JSON], /) -> None</p>
+
+<p>instantiates and initializes from a JSON object</p>
+</div>
+
+
+                            </div>
+                            <div id="Scenario.init_env_state" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">init_env_state</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.init_env_state"></a>
+    
+            <div class="docstring"><p>init_env_state(self, arg0: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg1: float, /) -> None</p>
+
+<p>initializes the EnvState</p>
+</div>
+
+
+                            </div>
+                            <div id="Scenario.aero_emissions" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">aero_emissions</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.aero_emissions"></a>
+    
+            <div class="docstring"><p>aero_emissions(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: int, /) -> <a href="#AeroDist">PyPartMC._PyPartMC.AeroDist</a></p>
+
+<p>returns aero_emissions AeroDists at a given index</p>
+</div>
+
+
+                            </div>
+                            <div id="Scenario.aero_emissions_n_times" class="classattr">
+                                <div class="attr variable">
+            <span class="name">aero_emissions_n_times</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.aero_emissions_n_times"></a>
+    
+            <div class="docstring"><p>(self) -> int</p>
+
+<p>returns the number of times specified for emissions</p>
+</div>
+
+
+                            </div>
+                            <div id="Scenario.aero_emissions_rate_scale" class="classattr">
+                                <div class="attr variable">
+            <span class="name">aero_emissions_rate_scale</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.aero_emissions_rate_scale"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Aerosol emission rate scales at set-points (1)</p>
+</div>
+
+
+                            </div>
+                            <div id="Scenario.aero_emissions_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">aero_emissions_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.aero_emissions_time"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+</div>
+
+
+                            </div>
+                            <div id="Scenario.aero_background" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">aero_background</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.aero_background"></a>
+    
+            <div class="docstring"><p>aero_background(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: int, /) -> <a href="#AeroDist">PyPartMC._PyPartMC.AeroDist</a></p>
+
+<p>returns aero_background AeroDists at a given index</p>
+</div>
+
+
+                            </div>
+                            <div id="Scenario.aero_dilution_n_times" class="classattr">
+                                <div class="attr variable">
+            <span class="name">aero_dilution_n_times</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.aero_dilution_n_times"></a>
+    
+            <div class="docstring"><p>(self) -> int</p>
+
+<p>returns the number of times specified for dilution</p>
+</div>
+
+
+                            </div>
+                            <div id="Scenario.aero_dilution_rate" class="classattr">
+                                <div class="attr variable">
+            <span class="name">aero_dilution_rate</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.aero_dilution_rate"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Aerosol-background dilution rates at set-points (s^{-1})</p>
+</div>
+
+
+                            </div>
+                            <div id="Scenario.aero_dilution_time" class="classattr">
+                                <div class="attr variable">
+            <span class="name">aero_dilution_time</span>
+
+        
+    </div>
+    <a class="headerlink" href="#Scenario.aero_dilution_time"></a>
+    
+            <div class="docstring"><p>(self) -> [std::valarray]</p>
+
+<p>Aerosol-background dilution set-point times (s)</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="condense_equilib_particle">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">condense_equilib_particle</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#condense_equilib_particle"></a>
+    
+            <div class="docstring"><p>condense_equilib_particle(arg0: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg1: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg2: <a href="#AeroParticle">PyPartMC._PyPartMC.AeroParticle</a>, /) -> None</p>
+
+<p>Determine the water equilibrium state of a single particle.</p>
+</div>
+
+
+                </section>
+                <section id="condense_equilib_particles">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">condense_equilib_particles</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#condense_equilib_particles"></a>
+    
+            <div class="docstring"><p>condense_equilib_particles(arg0: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg1: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg2: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, /) -> None</p>
+
+<p>Call condense_equilib_particle() on each particle in the aerosol
+to ensure that every particle has its water content in
+equilibrium.</p>
+</div>
+
+
+                </section>
+                <section id="diam2rad">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">diam2rad</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#diam2rad"></a>
+    
+            <div class="docstring"><p>diam2rad(arg: float, /) -> float</p>
+
+<p>Convert diameter (m) to radius (m).</p>
+</div>
+
+
+                </section>
+                <section id="histogram_1d">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">histogram_1d</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#histogram_1d"></a>
+    
+            <div class="docstring"><p>histogram_1d(arg0: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, arg1: [std::valarray], arg2: [std::valarray], /) -> [std::valarray]</p>
+
+<p>Return a 1D histogram with of the given weighted data, scaled by the bin sizes.</p>
+</div>
+
+
+                </section>
+                <section id="histogram_2d">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">histogram_2d</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#histogram_2d"></a>
+    
+            <div class="docstring"><p>histogram_2d(arg0: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, arg1: [std::valarray], arg2: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, arg3: [std::valarray], arg4: [std::valarray], /) -> list[list[float]]</p>
+
+<p>Return a 2D histogram with of the given weighted data, scaled by the bin sizes.</p>
+</div>
+
+
+                </section>
+                <section id="input_exact">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">input_exact</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#input_exact"></a>
+    
+            <div class="docstring"><p>input_exact(arg: str, /) -> tuple[<a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, <a href="#AeroBinned">PyPartMC._PyPartMC.AeroBinned</a>, <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>]</p>
+
+<p>Read current state from run_exact netCDF output file.</p>
+</div>
+
+
+                </section>
+                <section id="input_sectional">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">input_sectional</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#input_sectional"></a>
+    
+            <div class="docstring"><p>input_sectional(arg: str, /) -> tuple[<a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, <a href="#AeroBinned">PyPartMC._PyPartMC.AeroBinned</a>, <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>]</p>
+
+<p>Read current state from run_sect netCDF output file.</p>
+</div>
+
+
+                </section>
+                <section id="input_state">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">input_state</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#input_state"></a>
+    
+            <div class="docstring"><p>input_state(arg: str, /) -> tuple[<a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>]</p>
+
+<p>Read current state from netCDF output file.</p>
+</div>
+
+
+                </section>
+                <section id="loss_rate">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">loss_rate</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#loss_rate"></a>
+    
+            <div class="docstring"><p>loss_rate(arg0: <a href="#Scenario">PyPartMC._PyPartMC.Scenario</a>, arg1: float, arg2: float, arg3: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg4: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> float</p>
+
+<p>Evaluate a loss rate function.</p>
+</div>
+
+
+                </section>
+                <section id="loss_rate_dry_dep">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">loss_rate_dry_dep</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#loss_rate_dry_dep"></a>
+    
+            <div class="docstring"><p>loss_rate_dry_dep(arg0: float, arg1: float, arg2: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg3: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> float</p>
+
+<p>Compute and return the dry deposition rate for a given particle.</p>
+</div>
+
+
+                </section>
+                <section id="output_state">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">output_state</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#output_state"></a>
+    
+            <div class="docstring"><p>output_state(arg0: str, arg1: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg2: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, arg3: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, arg4: <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, arg5: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> None</p>
+
+<p>Output current state to netCDF file.</p>
+</div>
+
+
+                </section>
+                <section id="pow2_above">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">pow2_above</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#pow2_above"></a>
+    
+            <div class="docstring"><p>pow2_above(arg: int, /) -> int</p>
+
+<p>Return the least power-of-2 that is at least equal to n.</p>
+</div>
+
+
+                </section>
+                <section id="rad2diam">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">rad2diam</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#rad2diam"></a>
+    
+            <div class="docstring"><p>rad2diam(arg: float, /) -> float</p>
+
+<p>Convert radius (m) to diameter (m).</p>
+</div>
+
+
+                </section>
+                <section id="rand_init">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">rand_init</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#rand_init"></a>
+    
+            <div class="docstring"><p>rand_init(arg: int, /) -> None</p>
+
+<p>Initializes the random number generator to the state defined by the given seed. If the seed is 0 then a seed is auto-generated from the current time</p>
+</div>
+
+
+                </section>
+                <section id="rand_normal">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">rand_normal</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#rand_normal"></a>
+    
+            <div class="docstring"><p>rand_normal(arg0: float, arg1: float, /) -> float</p>
+
+<p>Generates a normally distributed random number with the given mean and standard deviation</p>
+</div>
+
+
+                </section>
+                <section id="run_exact">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">run_exact</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#run_exact"></a>
+    
+            <div class="docstring"><p>run_exact(arg0: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, arg1: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, arg2: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg3: <a href="#AeroDist">PyPartMC._PyPartMC.AeroDist</a>, arg4: <a href="#Scenario">PyPartMC._PyPartMC.Scenario</a>, arg5: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg6: <a href="#RunExactOpt">PyPartMC._PyPartMC.RunExactOpt</a>, /) -> None</p>
+
+<p>Do an exact solution simulation.</p>
+</div>
+
+
+                </section>
+                <section id="run_part">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">run_part</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#run_part"></a>
+    
+            <div class="docstring"><p>run_part(arg0: <a href="#Scenario">PyPartMC._PyPartMC.Scenario</a>, arg1: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg2: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg3: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, arg4: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, arg5: <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, arg6: <a href="#RunPartOpt">PyPartMC._PyPartMC.RunPartOpt</a>, arg7: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, arg8: <a href="#Photolysis">PyPartMC._PyPartMC.Photolysis</a>, /) -> None</p>
+
+<p>Do a particle-resolved Monte Carlo simulation.</p>
+</div>
+
+
+                </section>
+                <section id="run_part_timeblock">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">run_part_timeblock</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#run_part_timeblock"></a>
+    
+            <div class="docstring"><p>run_part_timeblock(arg0: <a href="#Scenario">PyPartMC._PyPartMC.Scenario</a>, arg1: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg2: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg3: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, arg4: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, arg5: <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, arg6: <a href="#RunPartOpt">PyPartMC._PyPartMC.RunPartOpt</a>, arg7: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, arg8: <a href="#Photolysis">PyPartMC._PyPartMC.Photolysis</a>, arg9: int, arg10: int, arg11: float, arg12: float, arg13: float, arg14: int, /) -> tuple[float, float, int]</p>
+
+<p>Do a time block</p>
+</div>
+
+
+                </section>
+                <section id="run_part_timestep">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">run_part_timestep</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#run_part_timestep"></a>
+    
+            <div class="docstring"><p>run_part_timestep(arg0: <a href="#Scenario">PyPartMC._PyPartMC.Scenario</a>, arg1: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg2: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg3: <a href="#AeroState">PyPartMC._PyPartMC.AeroState</a>, arg4: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, arg5: <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, arg6: <a href="#RunPartOpt">PyPartMC._PyPartMC.RunPartOpt</a>, arg7: <a href="#CampCore">PyPartMC._PyPartMC.CampCore</a>, arg8: <a href="#Photolysis">PyPartMC._PyPartMC.Photolysis</a>, arg9: int, arg10: float, arg11: float, arg12: float, arg13: int, /) -> tuple[float, float, int]</p>
+
+<p>Do a single time step</p>
+</div>
+
+
+                </section>
+                <section id="run_sect">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">run_sect</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#run_sect"></a>
+    
+            <div class="docstring"><p>run_sect(arg0: <a href="#BinGrid">PyPartMC._PyPartMC.BinGrid</a>, arg1: <a href="#GasData">PyPartMC._PyPartMC.GasData</a>, arg2: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg3: <a href="#AeroDist">PyPartMC._PyPartMC.AeroDist</a>, arg4: <a href="#Scenario">PyPartMC._PyPartMC.Scenario</a>, arg5: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, arg6: <a href="#RunSectOpt">PyPartMC._PyPartMC.RunSectOpt</a>, /) -> None</p>
+
+<p>Do a 1D sectional simulation (Bott 1998 scheme).</p>
+</div>
+
+
+                </section>
+                <section id="sphere_rad2vol">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">sphere_rad2vol</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#sphere_rad2vol"></a>
+    
+            <div class="docstring"><p>sphere_rad2vol(arg: float, /) -> float</p>
+
+<p>Convert geometric radius (m) to mass-equivalent volume for spherical particles.</p>
+</div>
+
+
+                </section>
+                <section id="sphere_vol2rad">
+                    <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">sphere_vol2rad</span><span class="signature pdoc-code condensed">(<span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#sphere_vol2rad"></a>
+    
+            <div class="docstring"><p>sphere_vol2rad(arg: float, /) -> float</p>
+
+<p>Convert mass-equivalent volume (m^3) to geometric radius (m) for spherical particles.</p>
+</div>
+
+
+                </section>
                 <section id="si">
                     <div class="attr variable">
             <span class="name">si</span>        =
@@ -599,186 +3950,5 @@ notation. Note: no dimensional analysis is done!</p>
 
                 </section>
     </main>
-<script>
-    function escapeHTML(html) {
-        return document.createElement('div').appendChild(document.createTextNode(html)).parentNode.innerHTML;
-    }
-
-    const originalContent = document.querySelector("main.pdoc");
-    let currentContent = originalContent;
-
-    function setContent(innerHTML) {
-        let elem;
-        if (innerHTML) {
-            elem = document.createElement("main");
-            elem.classList.add("pdoc");
-            elem.innerHTML = innerHTML;
-        } else {
-            elem = originalContent;
-        }
-        if (currentContent !== elem) {
-            currentContent.replaceWith(elem);
-            currentContent = elem;
-        }
-    }
-
-    function getSearchTerm() {
-        return (new URL(window.location)).searchParams.get("search");
-    }
-
-    const searchBox = document.querySelector(".pdoc input[type=search]");
-    searchBox.addEventListener("input", function () {
-        let url = new URL(window.location);
-        if (searchBox.value.trim()) {
-            url.hash = "";
-            url.searchParams.set("search", searchBox.value);
-        } else {
-            url.searchParams.delete("search");
-        }
-        history.replaceState("", "", url.toString());
-        onInput();
-    });
-    window.addEventListener("popstate", onInput);
-
-
-    let search, searchErr;
-
-    async function initialize() {
-        try {
-            search = await new Promise((resolve, reject) => {
-                const script = document.createElement("script");
-                script.type = "text/javascript";
-                script.async = true;
-                script.onload = () => resolve(window.pdocSearch);
-                script.onerror = (e) => reject(e);
-                script.src = "search.js";
-                document.getElementsByTagName("head")[0].appendChild(script);
-            });
-        } catch (e) {
-            console.error("Cannot fetch pdoc search index");
-            searchErr = "Cannot fetch search index.";
-        }
-        onInput();
-
-        document.querySelector("nav.pdoc").addEventListener("click", e => {
-            if (e.target.hash) {
-                searchBox.value = "";
-                searchBox.dispatchEvent(new Event("input"));
-            }
-        });
-    }
-
-    function onInput() {
-        setContent((() => {
-            const term = getSearchTerm();
-            if (!term) {
-                return null
-            }
-            if (searchErr) {
-                return `<h3>Error: ${searchErr}</h3>`
-            }
-            if (!search) {
-                return "<h3>Searching...</h3>"
-            }
-
-            window.scrollTo({top: 0, left: 0, behavior: 'auto'});
-
-            const results = search(term);
-
-            let html;
-            if (results.length === 0) {
-                html = `No search results for '${escapeHTML(term)}'.`
-            } else {
-                html = `<h4>${results.length} search result${results.length > 1 ? "s" : ""} for '${escapeHTML(term)}'.</h4>`;
-            }
-            for (let result of results.slice(0, 10)) {
-                let doc = result.doc;
-                let url = `${doc.modulename.replaceAll(".", "/")}.html`;
-                if (doc.qualname) {
-                    url += `#${doc.qualname}`;
-                }
-
-                let heading;
-                switch (result.doc.kind) {
-                    case "function":
-                        if (doc.fullname.endsWith(".__init__")) {
-                            heading = `<span class="name">${doc.fullname.replace(/\.__init__$/, "")}</span>${doc.signature}`;
-                        } else {
-                            heading = `<span class="def">${doc.funcdef}</span> <span class="name">${doc.fullname}</span>${doc.signature}`;
-                        }
-                        break;
-                    case "class":
-                        heading = `<span class="def">class</span> <span class="name">${doc.fullname}</span>`;
-                        if (doc.bases)
-                            heading += `<wbr>(<span class="base">${doc.bases}</span>)`;
-                        heading += `:`;
-                        break;
-                    case "variable":
-                        heading = `<span class="name">${doc.fullname}</span>`;
-                        if (doc.annotation)
-                            heading += `<span class="annotation">${doc.annotation}</span>`;
-                        if (doc.default_value)
-                            heading += `<span class="default_value"> = ${doc.default_value}</span>`;
-                        break;
-                    default:
-                        heading = `<span class="name">${doc.fullname}</span>`;
-                        break;
-                }
-                html += `
-                        <section class="search-result">
-                        <a href="${url}" class="attr ${doc.kind}">${heading}</a>
-                        <div class="docstring">${doc.doc}</div>
-                        </section>
-                    `;
-
-            }
-            return html;
-        })());
-    }
-
-    if (getSearchTerm()) {
-        initialize();
-        searchBox.value = getSearchTerm();
-        onInput();
-    } else {
-        searchBox.addEventListener("focus", initialize, {once: true});
-    }
-
-    searchBox.addEventListener("keydown", e => {
-        if (["ArrowDown", "ArrowUp", "Enter"].includes(e.key)) {
-            let focused = currentContent.querySelector(".search-result.focused");
-            if (!focused) {
-                currentContent.querySelector(".search-result").classList.add("focused");
-            } else if (
-                e.key === "ArrowDown"
-                && focused.nextElementSibling
-                && focused.nextElementSibling.classList.contains("search-result")
-            ) {
-                focused.classList.remove("focused");
-                focused.nextElementSibling.classList.add("focused");
-                focused.nextElementSibling.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest",
-                    inline: "nearest"
-                });
-            } else if (
-                e.key === "ArrowUp"
-                && focused.previousElementSibling
-                && focused.previousElementSibling.classList.contains("search-result")
-            ) {
-                focused.classList.remove("focused");
-                focused.previousElementSibling.classList.add("focused");
-                focused.previousElementSibling.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest",
-                    inline: "nearest"
-                });
-            } else if (
-                e.key === "Enter"
-            ) {
-                focused.querySelector("a").click();
-            }
-        }
-    });
-</script></body>
+</body>
 </html>
