@@ -1,6 +1,6 @@
 [submodule "partmc"]
 	path = gitmodules/partmc
-	url = https://github.com/tangwhiap/partmc
+	url = https://github.com/compdyn/partmc
 	shallow = true
 [submodule "json"]
 	path = gitmodules/json
