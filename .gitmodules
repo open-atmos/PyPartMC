@@ -60,3 +60,6 @@
 	branch = pypartmc
 [submodule "nanobind_json"]
 	branch = pypartmc
+[submodule "gitmodules/partmc"]
+	path = gitmodules/partmc
+	url = git@github.com:compdyn/partmc.git
