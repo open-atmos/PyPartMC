@@ -243,6 +243,9 @@
                                 <a class="variable" href="#AeroParticle.id">id</a>
                         </li>
                         <li>
+                                <a class="variable" href="#AeroParticle.is_frozen">is_frozen</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#AeroParticle.mobility_diameter">mobility_diameter</a>
                         </li>
                         <li>
@@ -280,6 +283,9 @@
                         </li>
                         <li>
                                 <a class="variable" href="#AeroState.total_mass_conc">total_mass_conc</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#AeroState.frozen_fraction">frozen_fraction</a>
                         </li>
                         <li>
                                 <a class="variable" href="#AeroState.num_concs">num_concs</a>
@@ -724,6 +730,11 @@ In both cases, all Python dependencies will be resolved by pip.</p>
 <a href="https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/cloud_parcel.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
 <a href="https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/cloud_parcel.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a>
 <a href="https://jupyterhub.arm.gov/hub/user-redirect/git-pull?repo=https%3A//github.com/open-atmos/PyPartMC&branch=main&urlPath="><img src="https://img.shields.io/static/v1?label=launch%20in&logo=jupyter&color=lightblue&message=ARM+JupyterHub" alt="ARM JupyterHub" /></a></li>
+<li>Immersion freezing example:<br />
+<a href="https://github.com/open-atmos/PyPartMC/blob/main/examples/immersion_freezing.ipynb"><img src="https://img.shields.io/static/v1?label=render%20on&logo=github&color=87ce3e&message=GitHub" alt="View notebook" /></a>
+<a href="https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/immersion_freezing.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
+<a href="https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/immersion_freezing.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder" /></a>
+<a href="https://jupyterhub.arm.gov/hub/user-redirect/git-pull?repo=https%3A//github.com/open-atmos/PyPartMC&branch=main&urlPath="><img src="https://img.shields.io/static/v1?label=launch%20in&logo=jupyter&color=lightblue&message=ARM+JupyterHub" alt="ARM JupyterHub" /></a></li>
 <li>Coagulation model intercomparison for additive (Golovin) kernel with: PyPartMC, <a href="https://open-atmos.github.io/PySDM">PySDM</a>, <a href="https://github.com/emmacware/droplets.jl">Droplets.jl</a> and <a href="https://stammler.github.io/dustpy/">dustpy</a>:<br />
 <a href="https://github.com/open-atmos/PyPartMC/blob/main/examples/additive_coag_comparison.ipynb"><img src="https://img.shields.io/static/v1?label=render%20on&logo=github&color=87ce3e&message=GitHub" alt="View notebook" /></a> 
 <a href="https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/additive_coag_comparison.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a> 
@@ -769,9 +780,9 @@ done in different programming languages.</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">PyPartMC</span><span class="w"> </span><span class="kn">import</span> <span class="n">si</span>
 
 <span class="n">aero_data</span> <span class="o">=</span> <span class="n">ppmc</span><span class="o">.</span><span class="n">AeroData</span><span class="p">((</span>
-    <span class="c1">#      [density, ions in solution, molecular weight, kappa]</span>
-    <span class="p">{</span><span class="s2">&quot;OC&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1000</span> <span class="o">*</span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1e-3</span> <span class="o">*</span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">]},</span>
-    <span class="p">{</span><span class="s2">&quot;BC&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1800</span> <span class="o">*</span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1e-3</span> <span class="o">*</span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span> <span class="mi">0</span><span class="p">]},</span>
+    <span class="c1">#      [density, ions in solution, molecular weight, kappa, abifm_m, abifm_c]</span>
+    <span class="p">{</span><span class="s2">&quot;OC&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1000</span> <span class="o">*</span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1e-3</span> <span class="o">*</span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]},</span>
+    <span class="p">{</span><span class="s2">&quot;BC&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1800</span> <span class="o">*</span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">m</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1e-3</span> <span class="o">*</span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="mi">0</span><span class="p">]},</span>
 <span class="p">))</span>
 
 <span class="n">aero_dist</span> <span class="o">=</span> <span class="n">ppmc</span><span class="o">.</span><span class="n">AeroDist</span><span class="p">(</span>
@@ -814,9 +825,9 @@ done in different programming languages.</p>
 <span class="n">si</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ppmc</span><span class="p">[</span><span class="s">&quot;si&quot;</span><span class="p">]</span>
 
 <span class="n">aero_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ppmc</span><span class="o">.</span><span class="n">AeroData</span><span class="p">((</span>
-<span class="w">  </span><span class="c">#       (density, ions in solution, molecular weight, kappa)</span>
-<span class="w">  </span><span class="kt">Dict</span><span class="p">(</span><span class="s">&quot;OC&quot;</span><span class="o">=&gt;</span><span class="p">(</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">m</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001</span><span class="p">)),</span>
-<span class="w">  </span><span class="kt">Dict</span><span class="p">(</span><span class="s">&quot;BC&quot;</span><span class="o">=&gt;</span><span class="p">(</span><span class="mi">1800</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">m</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+<span class="w">  </span><span class="c">#       (density, ions in solution, molecular weight, kappa, abifm_m, abifm_c)</span>
+<span class="w">  </span><span class="kt">Dict</span><span class="p">(</span><span class="s">&quot;OC&quot;</span><span class="o">=&gt;</span><span class="p">(</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">m</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)),</span>
+<span class="w">  </span><span class="kt">Dict</span><span class="p">(</span><span class="s">&quot;BC&quot;</span><span class="o">=&gt;</span><span class="p">(</span><span class="mi">1800</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">m</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="o">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
 <span class="p">))</span>
 
 <span class="n">aero_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ppmc</span><span class="o">.</span><span class="n">AeroDist</span><span class="p">(</span><span class="n">aero_data</span><span class="p">,</span><span class="w"> </span><span class="p">(</span>
@@ -861,8 +872,8 @@ done in different programming languages.</p>
 <span class="n">si</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">py</span><span class="p">.</span><span class="n">importlib</span><span class="p">.</span><span class="n">import_module</span><span class="p">(</span><span class="s">&#39;PyPartMC&#39;</span><span class="p">).</span><span class="n">si</span><span class="p">;</span>
 
 <span class="n">aero_data</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ppmc</span><span class="p">.</span><span class="n">AeroData</span><span class="p">(</span><span class="n">py</span><span class="p">.</span><span class="n">tuple</span><span class="p">({</span><span class="w"> </span><span class="k">...</span>
-<span class="w">  </span><span class="n">py</span><span class="p">.</span><span class="n">dict</span><span class="p">(</span><span class="nb">pyargs</span><span class="p">(</span><span class="s">&quot;OC&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="p">.</span><span class="n">tuple</span><span class="p">({</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="p">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="p">.</span><span class="n">m</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="p">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="p">.</span><span class="n">mol</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001</span><span class="p">}))),</span><span class="w"> </span><span class="k">...</span>
-<span class="w">  </span><span class="n">py</span><span class="p">.</span><span class="n">dict</span><span class="p">(</span><span class="nb">pyargs</span><span class="p">(</span><span class="s">&quot;BC&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="p">.</span><span class="n">tuple</span><span class="p">({</span><span class="mi">1800</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="p">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="p">.</span><span class="n">m</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="p">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="p">.</span><span class="n">mol</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">})))</span><span class="w"> </span><span class="k">...</span>
+<span class="w">  </span><span class="n">py</span><span class="p">.</span><span class="n">dict</span><span class="p">(</span><span class="nb">pyargs</span><span class="p">(</span><span class="s">&quot;OC&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="p">.</span><span class="n">tuple</span><span class="p">({</span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="p">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="p">.</span><span class="n">m</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="p">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="p">.</span><span class="n">mol</span><span class="p">,</span><span class="w"> </span><span class="mf">0.001</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">}))),</span><span class="w"> </span><span class="k">...</span>
+<span class="w">  </span><span class="n">py</span><span class="p">.</span><span class="n">dict</span><span class="p">(</span><span class="nb">pyargs</span><span class="p">(</span><span class="s">&quot;BC&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="p">.</span><span class="n">tuple</span><span class="p">({</span><span class="mi">1800</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="p">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="p">.</span><span class="n">m</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">si</span><span class="p">.</span><span class="n">kg</span><span class="o">/</span><span class="n">si</span><span class="p">.</span><span class="n">mol</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">})))</span><span class="w"> </span><span class="k">...</span>
 <span class="p">}));</span>
 
 <span class="n">aero_dist</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">ppmc</span><span class="p">.</span><span class="n">AeroDist</span><span class="p">(</span><span class="n">aero_data</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="p">.</span><span class="n">tuple</span><span class="p">({</span><span class="w"> </span><span class="k">...</span>
@@ -2148,6 +2159,21 @@ species_mass(self, arg: str, /) -> float</p>
 
 
                             </div>
+                            <div id="AeroParticle.is_frozen" class="classattr">
+                                <div class="attr variable">
+            <span class="name">is_frozen</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroParticle.is_frozen"></a>
+    
+            <div class="docstring"><p>(self) -> int</p>
+
+<p>Frozen status - particle is ice if 1.</p>
+</div>
+
+
+                            </div>
                             <div id="AeroParticle.mobility_diameter" class="classattr">
                                 <div class="attr function">
             
@@ -2347,6 +2373,21 @@ __init__(self, arg0: <a href="#AeroData">PyPartMC._PyPartMC.AeroData</a>, arg1: 
             <div class="docstring"><p>(self) -> float</p>
 
 <p>Return the total mass concentration of the population.</p>
+</div>
+
+
+                            </div>
+                            <div id="AeroState.frozen_fraction" class="classattr">
+                                <div class="attr variable">
+            <span class="name">frozen_fraction</span>
+
+        
+    </div>
+    <a class="headerlink" href="#AeroState.frozen_fraction"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Return the fraction of ice particles in the population.</p>
 </div>
 
 
