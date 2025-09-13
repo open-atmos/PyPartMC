@@ -236,7 +236,7 @@ class TestRunPart:
         aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FREEZING)
         aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
         scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
-        scenario_ctor_arg["temp_profile"][0]["time"] = [0, 3600]
+        scenario_ctor_arg["temp_profile"][0]["time"] = [0, 900]
         scenario_ctor_arg["temp_profile"][1]["temp"] = [263.0, 243.0]
         args = list(common_args)
         args[0] = ppmc.Scenario(args[4], aero_data, scenario_ctor_arg)
@@ -252,7 +252,7 @@ class TestRunPart:
                     "t_max": 3600,
                     "do_immersion_freezing": True,
                     "immersion_freezing_scheme": scheme,
-                    "freezing_rate": -1e-5,
+                    "freezing_rate": -1e-4,
                 }
             )
         else:
