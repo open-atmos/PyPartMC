@@ -266,6 +266,7 @@ NB_MODULE(_PyPartMC, m) {
         .def_prop_ro("greatest_create_time", AeroParticle::greatest_create_time,
             "Last time a constituent was created (s).")
         .def_prop_ro("id", AeroParticle::id, "Unique ID number.")
+        .def_prop_ro("is_frozen", AeroParticle::is_frozen, "Frozen status - particle is ice if 1.")
         .def("mobility_diameter", AeroParticle::mobility_diameter,
             "Mobility diameter of the particle (m).")
         .def_prop_ro("density", AeroParticle::density,
@@ -306,6 +307,8 @@ NB_MODULE(_PyPartMC, m) {
             "Return the total number concentration of the population.")
         .def_prop_ro("total_mass_conc", AeroState::total_mass_conc,
             "Return the total mass concentration of the population.")
+        .def_prop_ro("frozen_fraction", AeroState::frozen_fraction,
+            "Return the fraction of ice particles in the population.")
         .def_prop_ro("num_concs", AeroState::num_concs,
             "Return the number concentration of each particle in the population.")
         .def("masses", AeroState::masses,
