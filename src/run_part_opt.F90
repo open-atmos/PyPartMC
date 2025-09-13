@@ -134,17 +134,6 @@ module PyPartMC_run_part_opt
                IMMERSION_FREEZING_SCHEME_CONST) then
              call spec_file_read_real(file, 'freezing_rate', &
                   run_part_opt%freezing_rate)
-
-          else if (run_part_opt%immersion_freezing_scheme_type .eq.&
-               IMMERSION_FREEZING_SCHEME_ABIFM) then
-             continue
-
-          else if (run_part_opt%immersion_freezing_scheme_type .eq.&
-               IMMERSION_FREEZING_SCHEME_SINGULAR) then
-             continue
-          else
-             call assert_msg(121370299, .false., &
-                  "Error type of immersion freezing scheme")
           endif
        end if
 
