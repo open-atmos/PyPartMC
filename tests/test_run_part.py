@@ -12,8 +12,12 @@ import pytest
 
 import PyPartMC as ppmc
 
-from .test_aero_data import AERO_DATA_CTOR_ARG_FULL, AERO_DATA_CTOR_ARG_MINIMAL
-from .test_aero_dist import AERO_DIST_CTOR_ARG_FULL
+from .test_aero_data import (
+    AERO_DATA_CTOR_ARG_FREEZING,
+    AERO_DATA_CTOR_ARG_FULL,
+    AERO_DATA_CTOR_ARG_MINIMAL,
+)
+from .test_aero_dist import AERO_DIST_CTOR_ARG_FREEZING, AERO_DIST_CTOR_ARG_FULL
 from .test_aero_mode import AERO_MODE_CTOR_CAMP
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 from .test_camp_core import CAMP_INPUT_PATH, chdir
@@ -222,3 +226,44 @@ class TestRunPart:
 
         # assert
         assert len(aero_data) == 5
+
+    @staticmethod
+    @pytest.mark.parametrize("scheme", ["ABIFM", "singular", "const"])
+    def test_run_part_do_freezing(common_args, tmp_path, scheme):
+        filename = tmp_path / "test"
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_HIGH_RH)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_FREEZING)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_FREEZING)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        scenario_ctor_arg = copy.deepcopy(SCENARIO_CTOR_ARG_MINIMAL)
+        scenario_ctor_arg["temp_profile"][0]["time"] = [0, 3600]
+        scenario_ctor_arg["temp_profile"][1]["temp"] = [263.0, 243.0]
+        args = list(common_args)
+        args[0] = ppmc.Scenario(args[4], aero_data, scenario_ctor_arg)
+        args[1] = env_state
+        args[0].init_env_state(env_state, 0.0)
+        args[2] = aero_data
+        args[3] = aero_state
+        if scheme == "const":
+            args[6] = ppmc.RunPartOpt(
+                {
+                    **RUN_PART_OPT_CTOR_ARG_SIMULATION,
+                    "output_prefix": str(filename),
+                    "do_immersion_freezing": True,
+                    "immersion_freezing_scheme": scheme,
+                    "freezing_rate": -1e-5,
+                }
+            )
+        else:
+            args[6] = ppmc.RunPartOpt(
+                {
+                    **RUN_PART_OPT_CTOR_ARG_SIMULATION,
+                    "output_prefix": str(filename),
+                    "do_immersion_freezing": True,
+                    "immersion_freezing_scheme": scheme,
+                }
+            )
+        aero_state.dist_sample(aero_dist, 1.0, 0.0, False, False)
+        ppmc.run_part(*args)
+
+        assert aero_state.frozen_fraction > 0.0

@@ -45,6 +45,30 @@ AERO_DATA_CTOR_ARG_FULL = (
     {"H2O": [1000 * si.kg / si.m**3, 0, 18.0 * si.g / si.mol, 0.00, 0.00, 0.00]},
 )
 
+AERO_DATA_CTOR_ARG_FREEZING = (
+    {"H2O": [1000 * si.kg / si.m**3, 0, 18.0 * si.g / si.mol, 0.00, 0, 0]},
+    {
+        "ILT": [
+            2700 * si.kg / si.m**3,
+            0,
+            389.34 * si.g / si.mol,
+            0.003,
+            54.48075,
+            -10.66873,
+        ]
+    },
+    {
+        "Fe2O3": [
+            5240 * si.kg / si.m**3,
+            0,
+            159.69 * si.g / si.mol,
+            0.01,
+            17.62106,
+            1.42411,
+        ]
+    },
+)
+
 
 class TestAeroData:
     @staticmethod
