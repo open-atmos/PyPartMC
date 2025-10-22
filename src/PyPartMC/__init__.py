@@ -87,7 +87,7 @@ from ._PyPartMC import (  # pylint: disable=import-error
 # docs would be listed as nanobind objects with no additional documentation.
 # To solve that, dummy functions of the same name are created, and their "__doc__"
 # attribute is manually set to the "original" objects' "__doc__"
-if os.getenv("PDOC_GENERATE_PYPARTMC_DOCS") == "True":
+if os.getenv("PDOC_GENERATE_PYPARTMC_DOCS") == "1":
     all_items = []
     for name, obj in inspect.getmembers(
         _PyPartMC  # pylint: disable=undefined-variable
