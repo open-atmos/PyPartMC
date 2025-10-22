@@ -50,7 +50,7 @@ jobs:
           fetch-depth: 0
         
       # download C and Fortran compiler on windows
-      - if: matrix.os == 'windows-latest'
+      - if: matrix.os == 'windows-2022'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
