@@ -17,6 +17,12 @@ from .test_aero_dist import AERO_DIST_CTOR_ARG_MINIMAL
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
+aero_data_arg = (
+    {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0, 0, 0]},
+    {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0, 0, 0]},
+    {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0, 0, 0]},
+)
+
 
 class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
@@ -52,11 +58,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_volume():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -72,11 +73,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_species_volume():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -95,11 +91,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_dry_volume():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -116,11 +107,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_particle_radius():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
         aero_data.vol_fill_factor = 1.0
@@ -140,11 +126,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_dry_radius():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
         aero_data.vol_fill_factor = 1.0
@@ -164,11 +145,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_diameter():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
         aero_data.vol_fill_factor = 1.0
@@ -188,11 +164,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_dry_diameter():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         aero_data.frac_dim = 3.0
         aero_data.vol_fill_factor = 1.0
@@ -212,11 +183,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_mass():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -236,11 +202,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_species_mass():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -263,11 +224,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_species_masses():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -287,11 +243,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_solute_kappa():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -308,11 +259,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_moles():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -330,11 +276,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_mobility_diameter():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -353,11 +294,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_density():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -374,11 +310,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_approx_crit_rel_humid():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -398,11 +329,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_crit_rel_humid():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -422,11 +348,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_crit_diameter():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -446,11 +367,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_coagulate():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes_1 = [1, 2, 3]
         volumes_2 = [3, 2, 1]
@@ -470,11 +386,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_zero():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -491,11 +402,6 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     @staticmethod
     def test_set_vols():
         # arrange
-        aero_data_arg = (
-            {"H2O": [1000 * si.kg / si.m**3, 0, 18e-3 * si.kg / si.mol, 0]},
-            {"Cl": [2200 * si.kg / si.m**3, 1, 35.5e-3 * si.kg / si.mol, 0]},
-            {"Na": [2200 * si.kg / si.m**3, 1, 23e-3 * si.kg / si.mol, 0]},
-        )
         aero_data = ppmc.AeroData(aero_data_arg)
         volumes = [1, 2, 3]
         sut = ppmc.AeroParticle(aero_data, volumes)
@@ -637,3 +543,20 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         assert isinstance(ids[0], int)
         assert min(ids) > 0
         assert len(np.unique(ids)) == len(aero_state)
+
+    @staticmethod
+    def test_is_frozen():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
+
+        # act
+        frozen = []
+        for i_part in range(len(aero_state)):
+            frozen.append(aero_state.particle(i_part).is_frozen)
+
+        # assert
+        assert isinstance(frozen[0], int)
+        assert all(x == 0 for x in frozen)

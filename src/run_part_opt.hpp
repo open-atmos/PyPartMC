@@ -29,7 +29,7 @@ struct RunPartOpt {
         json_copy["do_parallel"] = false;
 
         for (auto key : std::set<std::string>({
-            "do_mosaic", "do_camp_chem", "do_condensation", "do_nucleation",
+            "do_mosaic", "do_camp_chem", "do_condensation", "do_nucleation", "do_immersion_freezing",
         }))
             if (json_copy.find(key) == json_copy.end())
                 json_copy[key] = false;
