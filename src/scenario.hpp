@@ -148,7 +148,7 @@ struct Scenario {
         );
     }
 
-    static AeroDist* get_dist(const Scenario &self, const AeroData &aero_data, const int &idx) {
+    static AeroDist* get_aero_emission_dist(const Scenario &self, const AeroData &aero_data, const int &idx) {
 //        if (idx < 0 || idx >= AeroDist::get_n_mode(self))
 //            throw std::out_of_range("Index out of range");
         AeroDist *ptr = new AeroDist();

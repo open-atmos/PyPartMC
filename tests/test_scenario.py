@@ -201,7 +201,12 @@ class TestScenario:
             emissions.mode(i).name for i in range(emissions.n_mode)
         )
         assert mode_names == actual_mode_names
-        # TODO #223 : same for background
+
+        background = sut.aero_background(aero_data, 0)
+        actual_mode_names = tuple(
+            background.mode(i).name for i in range(background.n_mode)
+        )
+        assert mode_names == actual_mode_names
 
     @staticmethod
     @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
