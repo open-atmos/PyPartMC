@@ -570,4 +570,64 @@ module PyPartMC_aero_particle
 
   end subroutine
 
+  subroutine f_aero_particle_set_weight_class( &
+      aero_particle_ptr_c, &
+      weight_class &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(in) :: weight_class
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    call aero_particle_set_weight(aero_particle_ptr_f, i_class=weight_class)
+
+  end subroutine
+
+  subroutine f_aero_particle_get_weight_class( &
+      aero_particle_ptr_c, &
+      weight_class &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(out) :: weight_class
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    weight_class = aero_particle_ptr_f%weight_class
+
+  end subroutine
+
+  subroutine f_aero_particle_set_weight_group( &
+      aero_particle_ptr_c, &
+      weight_group &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(in) :: weight_group
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    call aero_particle_set_weight(aero_particle_ptr_f, i_group=weight_group)
+
+  end subroutine
+
+  subroutine f_aero_particle_get_weight_group( &
+      aero_particle_ptr_c, &
+      weight_group &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    integer(c_int), intent(out) :: weight_group
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    weight_group = aero_particle_ptr_f%weight_group
+
+  end subroutine
+
 end module
