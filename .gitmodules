@@ -53,3 +53,8 @@
 [submodule "gitmodules/nanobind"]
 	path = gitmodules/nanobind
 	url = https://github.com/wjakob/nanobind
+	shallow = true
+[submodule "nanobind_json"]
+	path = gitmodules/nanobind_json
+	url = https://github.com/Griger5/nanobind_json.git
+	shallow = true
