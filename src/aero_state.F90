@@ -652,4 +652,18 @@ module PyPartMC_aero_state
 
   end subroutine
 
+  subroutine f_aero_state_frozen_fraction(ptr_c, aero_data_ptr_c, &
+       frozen_fraction) bind(C)
+    type(c_ptr) :: ptr_c, aero_data_ptr_c
+    type(aero_state_t), pointer :: ptr_f => null()
+    type(aero_data_t), pointer :: aero_data_ptr_f => null()
+    real(c_double), intent(out) :: frozen_fraction
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(aero_data_ptr_c, aero_data_ptr_f)
+
+    frozen_fraction = aero_state_frozen_fraction(ptr_f, aero_data_ptr_f)
+
+  end subroutine
+
 end module

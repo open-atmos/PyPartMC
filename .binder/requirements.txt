@@ -1,2 +1,2 @@
-PyPartMC[examples]
+PyPartMC[examples]>=2.0.0rc8
 git+https://github.com/bsumlin/PyMieScatt.git

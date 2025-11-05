@@ -39,6 +39,19 @@ AERO_DIST_CTOR_ARG_EXP = [
     AERO_MODE_CTOR_EXP,
 ]
 
+AERO_DIST_CTOR_ARG_FREEZING = [
+    {
+        "init_illite": {
+            "mass_frac": [{"H2O": [0.9]}, {"ILT": [0.1]}],
+            "diam_type": "geometric",
+            "mode_type": "log_normal",
+            "num_conc": 100.0,
+            "geom_mean_diam": 2 * si.um,
+            "log10_geom_std_dev": 0.5,
+        },
+    }
+]
+
 AERO_DIST_CTOR_ARG_AVERAGE = [
     {
         "test_mode_A": {

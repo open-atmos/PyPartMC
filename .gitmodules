@@ -10,47 +10,47 @@
 	path = gitmodules/sundials
 	url = https://github.com/LLNL/sundials
 	shallow = true
-[submodule "gitmodules/span"]
+[submodule "span"]
 	path = gitmodules/span
 	url = https://github.com/tcbrindle/span.git
 	shallow = true
-[submodule "gitmodules/string_view-standalone"]
+[submodule "string_view-standalone"]
 	path = gitmodules/string_view-standalone
 	url = https://github.com/bitwizeshift/string_view-standalone.git
 	shallow = true
-[submodule "gitmodules/camp"]
+[submodule "camp"]
 	path = gitmodules/camp
 	url = https://github.com/open-atmos/camp
 	shallow = true
-[submodule "gitmodules/SuiteSparse"]
+[submodule "SuiteSparse"]
 	path = gitmodules/SuiteSparse
 	url = https://github.com/DrTimothyAldenDavis/SuiteSparse
 	shallow = true
-[submodule "gitmodules/json-fortran"]
+[submodule "json-fortran"]
 	path = gitmodules/json-fortran
 	url = https://github.com/jacobwilliams/json-fortran
 	shallow = true
-[submodule "gitmodules/devops_tests"]
+[submodule "devops_tests"]
 	path = gitmodules/devops_tests
 	url = https://github.com/open-atmos/devops_tests
 	shallow = true
-[submodule "gitmodules/netcdf-fortran"]
+[submodule "netcdf-fortran"]
 	path = gitmodules/netcdf-fortran
 	url = https://github.com/Unidata/netcdf-fortran.git
 	shallow = true
-[submodule "gitmodules/netcdf-c"]
+[submodule "netcdf-c"]
 	path = gitmodules/netcdf-c
 	url = https://github.com/Unidata/netcdf-c.git
 	shallow = true
-[submodule "gitmodules/optional"]
+[submodule "optional"]
 	path = gitmodules/optional
 	url = https://github.com/TartanLlama/optional.git
 	shallow = true
-[submodule "gitmodules/hdf5"]
+[submodule "hdf5"]
 	path = gitmodules/hdf5
 	url = https://github.com/HDFGroup/hdf5.git
 	shallow = true
-[submodule "gitmodules/nanobind"]
+[submodule "nanobind"]
 	path = gitmodules/nanobind
 	url = https://github.com/wjakob/nanobind
 	shallow = true
