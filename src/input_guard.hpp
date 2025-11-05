@@ -6,7 +6,7 @@
 
 struct InputGuard {
   public:
-    InputGuard(const nlohmann::json &j) {
+    InputGuard(const nlohmann::ordered_json &j) {
         process_json(j);
 
         this->dict_key_present = false;
@@ -71,8 +71,8 @@ struct InputGuard {
 
     bool dict_key_present;
 
-    void process_json(const nlohmann::json &j) {
-        nlohmann::json flat = j.flatten();
+    void process_json(const nlohmann::ordered_json &j) {
+        nlohmann::ordered_json flat = j.flatten();
 
         // JSON Pointer, as in a string syntax for identifying a specific value in JSON
         std::vector<std::string> json_pointers;

@@ -19,8 +19,8 @@
 struct JSONResource {
   private:
     std::set<std::string> vars;
-    const nlohmann::json *json;
-    std::stack<const nlohmann::json*> json_parent;
+    const nlohmann::ordered_json *json;
+    std::stack<const nlohmann::ordered_json*> json_parent;
 
     std::unique_ptr<InputGuard> input_guard_ptr;
 
@@ -34,7 +34,7 @@ struct JSONResource {
 
     JSONResource() {}
 
-    JSONResource(const nlohmann::json &json) {
+    JSONResource(const nlohmann::ordered_json &json) {
         this->set_current_json_ptr(&json);
         for (auto &entry : this->json->items()) {
             this->vars.insert(entry.key());
@@ -43,7 +43,7 @@ struct JSONResource {
         input_guard_ptr = std::make_unique<InputGuard>(json);
     };
 
-    void set_current_json_ptr(const nlohmann::json *ptr) {
+    void set_current_json_ptr(const nlohmann::ordered_json *ptr) {
         this->json = ptr;
     }
 
@@ -86,8 +86,8 @@ struct JSONResource {
 
     void zoom_in(const bpstd::string_view &sub) noexcept {
         auto it = this->json->is_array() 
-            ? this->json->at(this->json->size()-1).find(sub)
-            : this->json->find(sub);
+            ? this->json->at(this->json->size()-1).find(sub.to_string())
+            : this->json->find(sub.to_string());
 
         assert(*it != NULL);
         this->json_parent.push(this->json);
@@ -157,7 +157,7 @@ struct JSONResource {
         const bpstd::string_view name,
         T *var
     ) {
-        *var = this->find(name)->get<T>();
+        *var = this->find(name.to_string())->get<T>();
     }
 
     void read_str(
@@ -165,7 +165,7 @@ struct JSONResource {
         char* var_data,
         int* var_size
     ) noexcept {
-        auto it = this->find(name);
+        auto it = this->find(name.to_string());
         if (it == this->json->end())
         {
             assert(false);
@@ -240,7 +240,7 @@ struct InputJSONResource: JSONResource {
 
   public:
     InputJSONResource(
-        const nlohmann::json &json,
+        const nlohmann::ordered_json &json,
         const std::string key_cond = "",
         const std::string key_name = "",
         const std::size_t max_zoom_level = 3
@@ -290,7 +290,7 @@ struct InputJSONResource: JSONResource {
         return 1;
     }
 
-    static bool unique_keys(const nlohmann::json &json) {
+    static bool unique_keys(const nlohmann::ordered_json &json) {
         std::set<std::string> keys;
         for (auto i=0u; i<json.size(); ++i) {
             for (auto &entry : json.at(i).items()) {
@@ -304,9 +304,9 @@ struct InputJSONResource: JSONResource {
 };
 
 struct OutputJSONResource: JSONResource {
-    std::unique_ptr<nlohmann::json> guard;
+    std::unique_ptr<nlohmann::ordered_json> guard;
 
-    OutputJSONResource() : guard(std::make_unique<nlohmann::json>()) {
+    OutputJSONResource() : guard(std::make_unique<nlohmann::ordered_json>()) {
         this->set_current_json_ptr(this->guard.get());
     }
 
@@ -331,12 +331,12 @@ struct JSONResourceGuard {
         json_resource_ptr() = std::make_unique<T>();
     }
 
-    JSONResourceGuard(const nlohmann::json & json) {
+    JSONResourceGuard(const nlohmann::ordered_json & json) {
         json_resource_ptr() = std::make_unique<T>(json);
     }
 
     JSONResourceGuard(
-        const nlohmann::json & json,
+        const nlohmann::ordered_json & json,
         const std::string key_cond,
         const std::string key_name
     ) {
@@ -344,7 +344,7 @@ struct JSONResourceGuard {
     }
 
     JSONResourceGuard(
-        const nlohmann::json & json,
+        const nlohmann::ordered_json & json,
         const std::string key_cond,
         const std::string key_name,
         const int max_zoom_level

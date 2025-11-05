@@ -87,10 +87,7 @@ class TestAeroDist:
         "order",
         (
             range,
-            pytest.param(
-                lambda n_modes: reversed(range(n_modes)),
-                marks=(pytest.mark.xfail(strict=True),),
-            ),  # TODO #213
+            lambda n_modes: reversed(range(n_modes)),
         ),
     )
     def test_ctor_multimode(n_modes, order):
@@ -111,11 +108,14 @@ class TestAeroDist:
 
         # assert
         assert sut.n_mode == n_modes
-        assert sut.num_conc == np.sum(num_concs)
+        np.testing.assert_approx_equal(
+            actual=sut.num_conc, desired=np.sum(num_concs), significant=10
+        )
         for i in range(sut.n_mode):
-            assert sut.mode(i).type == modes[i]["mode_type"]
-            assert sut.mode(i).num_conc == modes[i]["num_conc"]
-            assert sut.mode(i).name == f"mode_{tuple(order(n_modes))[i]}"
+            j = tuple(order(n_modes))[i]
+            assert sut.mode(i).type == modes[j]["mode_type"]
+            assert sut.mode(i).num_conc == modes[j]["num_conc"]
+            assert sut.mode(i).name == f"mode_{j}"
 
     @staticmethod
     def test_ctor_modes_in_order(n_modes=4):

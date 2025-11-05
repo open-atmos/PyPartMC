@@ -174,7 +174,7 @@ NB_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(nb::init<const CampCore&>())
-        .def(nb::init<const nlohmann::json&>())
+        .def(nb::init<const nlohmann::ordered_json&>())
         .def("spec_by_name", AeroData::spec_by_name,
              "Returns the number of the species in AeroData with the given name")
         .def("__len__", AeroData::__len__, "Number of aerosol species")
@@ -553,7 +553,7 @@ NB_MODULE(_PyPartMC, m) {
     ;
 
     nb::class_<AeroMode>(m,"AeroMode")
-        .def(nb::init<AeroData&, const nlohmann::json&>())
+        .def(nb::init<AeroData&, const nlohmann::ordered_json&>())
         .def_prop_rw("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
              "provides access (read or write) to the total number concentration of a mode")
         .def("num_dist", &AeroMode::num_dist,
@@ -579,7 +579,7 @@ NB_MODULE(_PyPartMC, m) {
     ;
 
     nb::class_<AeroDist>(m,"AeroDist")
-        .def(nb::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
+        .def(nb::init<std::shared_ptr<AeroData>, const nlohmann::ordered_json&>())
         .def_prop_ro("n_mode", &AeroDist::get_n_mode,
             "Number of aerosol modes")
         .def_prop_ro("num_conc", &AeroDist::get_total_num_conc,
