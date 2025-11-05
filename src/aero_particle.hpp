@@ -45,10 +45,11 @@ extern "C" void f_aero_particle_id(const void *aero_particle_ptr, int64_t *val) 
 extern "C" void f_aero_particle_frozen(const void *aero_particle_ptr, int *val) noexcept;
 extern "C" void f_aero_particle_refract_shell(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_refract_core(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
-extern "C" void f_aero_particle_set_weight_class(const void *ptr, const int *weight_class) noexcept;
+extern "C" void f_aero_particle_set_weight_class(void *ptr, const int *weight_class) noexcept;
 extern "C" void f_aero_particle_get_weight_class(const void *ptr, int *weight_class) noexcept;
-extern "C" void f_aero_particle_set_weight_group(const void *ptr, const int *weight_group) noexcept;
+extern "C" void f_aero_particle_set_weight_group(void *ptr, const int *weight_group) noexcept;
 extern "C" void f_aero_particle_get_weight_group(const void *ptr, int *weight_group) noexcept;
+extern "C" void f_aero_particle_new_id(void *ptr) noexcept;
 
 struct AeroParticle {
     PMCResource ptr;
@@ -413,9 +414,9 @@ struct AeroParticle {
         return refract_core;
     }
 
-    static void set_weight_class(const AeroParticle &self, const int weight_class) {
+    static void set_weight_class(AeroParticle &self, const int weight_class) {
         f_aero_particle_set_weight_class(
-            self.ptr.f_arg(),
+            self.ptr.f_arg_non_const(),
             &weight_class
         );
     }
@@ -430,9 +431,9 @@ struct AeroParticle {
         return weight_class;
     }
 
-    static void set_weight_group(const AeroParticle &self, const int weight_group) {
+    static void set_weight_group(AeroParticle &self, const int weight_group) {
         f_aero_particle_set_weight_group(
-            self.ptr.f_arg(),
+            self.ptr.f_arg_non_const(),
             &weight_group
         );
     }
@@ -447,4 +448,8 @@ struct AeroParticle {
         return weight_group;
     }
 
+    static void new_id(AeroParticle &self) {
+
+        f_aero_particle_new_id(self.ptr.f_arg_non_const());
+    }
 };

@@ -581,6 +581,19 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         assert len(np.unique(ids)) == len(aero_state)
 
     @staticmethod
+    def test_new_id():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroParticle(aero_data, [123])
+
+        # act
+        id_orig = sut.id
+        sut.new_id()
+
+        # assert
+        assert sut.id != id_orig
+
+    @staticmethod
     def test_is_frozen():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)

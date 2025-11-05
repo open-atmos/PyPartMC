@@ -287,6 +287,7 @@ NB_MODULE(_PyPartMC, m) {
             "Weighting function group number.")
         .def_prop_rw("weight_class", AeroParticle::get_weight_class, AeroParticle::set_weight_class,
             "Weighting function class number.")
+        .def("new_id", AeroParticle::new_id, "Assigns a new unique particle ID")
     ;
 
     nb::class_<AeroState>(m, "AeroState",
