@@ -29,7 +29,7 @@ extern "C" void f_env_state_air_dens(const void *ptr, double *air_density) noexc
 struct EnvState {
     PMCResource ptr;
 
-    EnvState(const nlohmann::json &json) :
+    EnvState(const nlohmann::ordered_json &json) :
         ptr(f_env_state_ctor, f_env_state_dtor)
     {
         JSONResourceGuard<InputJSONResource> guard(json);

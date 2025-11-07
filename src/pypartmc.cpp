@@ -14,7 +14,7 @@
 #include "nanobind/ndarray.h"
 #undef snprintf // required to fix an issue with std::snprintf in nlohmann::json
 #include "nlohmann/json.hpp"
-#include "nanobind_json/nanobind_json.hpp"
+#include "nanobind_json/nanobind_json.h"
 #include "sundials/sundials_config.h"
 #include "camp/version.h"
 #include "tl/optional.hpp"
@@ -404,7 +404,7 @@ NB_MODULE(_PyPartMC, m) {
             scenario_t.
         )pbdoc"
     )
-        .def(nb::init<const nlohmann::json&>())
+        .def(nb::init<const nlohmann::ordered_json&>())
         .def("set_temperature", EnvState::set_temperature,
             "Set the temperature of the environment state.")
         .def_prop_ro("temp", EnvState::temp,
@@ -463,7 +463,7 @@ NB_MODULE(_PyPartMC, m) {
             nb::init<
                 const GasData&,
                 const AeroData&,
-                const nlohmann::json&
+                const nlohmann::ordered_json&
             >(),
             "instantiates and initializes from a JSON object"
         )
@@ -525,7 +525,7 @@ NB_MODULE(_PyPartMC, m) {
         "RunPartOpt",
         "Options controlling the execution of run_part()."
     )
-        .def(nb::init<const nlohmann::json&>())
+        .def(nb::init<const nlohmann::ordered_json&>())
         .def_prop_ro("t_max", RunPartOpt::t_max, "Total simulation time.")
         .def_prop_ro("del_t", RunPartOpt::del_t, "Time step.")
     ;
@@ -534,7 +534,7 @@ NB_MODULE(_PyPartMC, m) {
         "RunSectOpt",
         "Options controlling the execution of run_sect()."
     )
-        .def(nb::init<const nlohmann::json&, EnvState&>())
+        .def(nb::init<const nlohmann::ordered_json&, EnvState&>())
         .def_prop_ro("t_max", RunSectOpt::t_max, "Total simulation time.")
         .def_prop_ro("del_t", RunSectOpt::del_t, "Time step.")
     ;
@@ -543,7 +543,7 @@ NB_MODULE(_PyPartMC, m) {
         "RunExactOpt",
         "Options controlling the execution of run_exact()."
     )
-        .def(nb::init<const nlohmann::json&, EnvState&>())
+        .def(nb::init<const nlohmann::ordered_json&, EnvState&>())
         .def_prop_ro("t_max", RunExactOpt::t_max, "Total simulation time.")
     ;
 

@@ -11,7 +11,7 @@
 #include "gas_data_parameters.hpp"
 #include "camp_core.hpp"
 #include "nanobind/nanobind.h"
-#include "nanobind_json/nanobind_json.hpp"
+#include "nanobind_json/nanobind_json.h"
 
 extern "C" void f_gas_data_ctor(void *ptr) noexcept;
 extern "C" void f_gas_data_dtor(void *ptr) noexcept;
@@ -26,7 +26,7 @@ extern "C" void f_gas_data_spec_name_by_index(const void *ptr, const int *i_spec
 
 struct GasData {
     PMCResource ptr;
-    const nlohmann::json json;
+    const nlohmann::ordered_json json;
 
     GasData(const CampCore &CampCore) :
         ptr(f_gas_data_ctor, f_gas_data_dtor)
@@ -38,11 +38,11 @@ struct GasData {
         ptr(f_gas_data_ctor, f_gas_data_dtor),
         json(tpl)
     {
-        auto json_array = nlohmann::json::array();
+        auto json_array = nlohmann::ordered_json::array();
         for (const auto item : tpl)
-            json_array.push_back(nlohmann::json::object({{
+            json_array.push_back(nlohmann::ordered_json::object({{
                 nanobind::cast<std::string>(item),
-                nlohmann::json::array()
+                nlohmann::ordered_json::array()
             }}));
 
         JSONResourceGuard<InputJSONResource> guard(json_array);

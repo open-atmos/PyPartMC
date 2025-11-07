@@ -19,10 +19,10 @@ extern "C" void f_run_sect_opt_del_t(const void *ptr, double *del_t) noexcept;
 struct RunSectOpt {
     PMCResource ptr;
 
-    RunSectOpt(const nlohmann::json &json, EnvState &env_state) :
+    RunSectOpt(const nlohmann::ordered_json &json, EnvState &env_state) :
         ptr(f_run_sect_opt_ctor, f_run_sect_opt_dtor)
     {
-        nlohmann::json json_copy(json);
+        nlohmann::ordered_json json_copy(json);
 
         for (auto key : std::set<std::string>({
             "t_output", "t_progress"

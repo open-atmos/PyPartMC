@@ -19,10 +19,10 @@ struct RunPartOpt {
     PMCResource ptr;
     bool allow_halving, allow_doubling;
 
-    RunPartOpt(const nlohmann::json &json) :
+    RunPartOpt(const nlohmann::ordered_json &json) :
         ptr(f_run_part_opt_ctor, f_run_part_opt_dtor)
     {
-        nlohmann::json json_copy(json);
+        nlohmann::ordered_json json_copy(json);
 
         if (json_copy.find("do_parallel") != json_copy.end() && json_copy["do_parallel"])
             throw std::runtime_error("setting do_parallel=true not supported in PyPartMC");
