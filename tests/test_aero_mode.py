@@ -323,11 +323,11 @@ class TestAeroMode:
         )
 
         # act
-        with pytest.raises(TypeError) as exc_info:
+        with pytest.raises(RuntimeError) as exc_info:
             ppmc.AeroMode(aero_data, fishy_ctor_arg)
 
         # assert
-        assert "incompatible function arguments" in str(exc_info.value)
+        assert "Circular reference detected" in str(exc_info.value)
 
     @staticmethod
     @pytest.mark.skipif(platform.machine() == "arm64", reason="TODO #348")

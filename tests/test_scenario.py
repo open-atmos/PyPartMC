@@ -170,12 +170,7 @@ class TestScenario:
     @staticmethod
     @pytest.mark.parametrize(
         "mode_names",
-        (
-            ("A", "B"),
-            pytest.param(
-                ("B", "A"), marks=(pytest.mark.xfail(strict=True),)
-            ),  # TODO #213
-        ),
+        (("A", "B"), pytest.param(("B", "A"))),
     )
     def test_multi_mode(mode_names):
         # arrange
@@ -207,12 +202,7 @@ class TestScenario:
     @pytest.mark.parametrize("key", ("aero_emissions", "aero_background"))
     @pytest.mark.parametrize(
         "mode_names",
-        (
-            ("A", "B"),
-            pytest.param(
-                ("B", "A"), marks=(pytest.mark.xfail(strict=True),)
-            ),  # TODO #213
-        ),
+        (("A", "B"), pytest.param(("B", "A"))),
     )
     def test_time_varying_aero_multimode(key, mode_names):
         # arrange
