@@ -1,3 +1,4 @@
 examples/tmp*.pdf
 examples/tmp*.svg
 examples/tmp*.gif
+**/__pycache__/
