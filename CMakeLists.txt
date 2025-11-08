@@ -99,10 +99,6 @@ set(camp_C_SOURCES
   sub_models/sub_model_ZSR_aerosol_water.c 
 )
 add_prefix(gitmodules/camp/src/ camp_C_SOURCES)
-set_source_files_properties(
-    ${camp_C_SOURCES}
-    PROPERTIES COMPILE_FLAGS -std=c89
-)
 
 set(camp_F_SOURCES
   aero_phase_data.F90 
@@ -336,6 +332,8 @@ add_prefix(sundials_ SUNDIALS_items)
 ### CAMP ###########################################################################################
 
 add_library(camplib STATIC ${camp_C_SOURCES} ${camp_F_SOURCES} ${json_fortran_SOURCES})
+target_compile_options(camplib PRIVATE $<$<COMPILE_LANGUAGE:C>:-std=c99>)
+target_compile_definitions(camplib PRIVATE $<$<COMPILE_LANGUAGE:C>:__bool_true_false_are_defined>)
 target_compile_definitions(camplib PRIVATE CAMP_USE_JSON="1")
 target_compile_definitions(camplib PRIVATE CAMP_USE_SUNDIALS="1")
 target_include_directories(camplib PRIVATE 
