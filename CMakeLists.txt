@@ -358,7 +358,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/gitmodules/hdf5)
 
 if (MINGW)
   # https://github.com/HDFGroup/hdf5/issues/5885
-  target_compile_definitions(hdf5-static PRIVATE HAVE_VASPRINTF)
+  target_compile_definitions(hdf5-static PRIVATE _GNU_SOURCE)
 endif()
 
 foreach(file ${hdf5_GENERATED_HEADERS})
