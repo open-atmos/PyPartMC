@@ -141,6 +141,10 @@ set(camp_SOURCES
   sub_models/sub_model_ZSR_aerosol_water.c 
 )
 add_prefix(gitmodules/camp/src/ camp_SOURCES)
+set_source_files_properties(
+    ${CAMP_C_SOURCES}
+    PROPERTIES COMPILE_FLAGS -std=c89
+)
 
 set(hdf5_GENERATED_HEADERS H5Edefin.h H5Einit.h H5Epubgen.h H5Eterm.h H5version.h H5overflow.h)
 add_prefix(gitmodules/hdf5/src/ hdf5_GENERATED_HEADERS)
