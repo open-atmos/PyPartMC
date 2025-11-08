@@ -100,7 +100,7 @@ set(camp_C_SOURCES
 )
 add_prefix(gitmodules/camp/src/ camp_C_SOURCES)
 set_source_files_properties(
-    ${CAMP_C_SOURCES}
+    ${camp_C_SOURCES}
     PROPERTIES COMPILE_FLAGS -std=c89
 )
 
