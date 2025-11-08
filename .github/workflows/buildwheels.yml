@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, windows-2022] # https://github.com/HDFGroup/hdf5/issues/5885
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
           fetch-depth: 0
         
       # download C and Fortran compiler on windows
-      - if: matrix.os == 'windows-2022'
+      - if: matrix.os == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
