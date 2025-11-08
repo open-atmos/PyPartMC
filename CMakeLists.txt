@@ -356,8 +356,8 @@ set(HDF5_ENABLE_SZIP_SUPPORT OFF)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/gitmodules/hdf5)
 
-if (WIN32)
-  target_compile_definitions(hdf5-static PRIVATE _GNU_SOURCE)
+if (MINGW)
+  target_compile_definitions(hdf5-static PRIVATE HAVE_VASPRINTF)
 endif()
 
 foreach(file ${hdf5_GENERATED_HEADERS})
