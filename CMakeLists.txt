@@ -354,11 +354,11 @@ set(HDF5_BUILD_EXAMPLES OFF)
 set(HDF5_ENABLE_Z_LIB_SUPPORT OFF)
 set(HDF5_ENABLE_SZIP_SUPPORT OFF)
 
-if (WIN32)
-  add_definitions(-D_GNU_SOURCE)
-endif()
-
 add_subdirectory(${CMAKE_SOURCE_DIR}/gitmodules/hdf5)
+
+if (WIN32)
+  target_compile_definitions(hdf5-static PRIVATE _GNU_SOURCE)
+endif()
 
 foreach(file ${hdf5_GENERATED_HEADERS})
   execute_process(
