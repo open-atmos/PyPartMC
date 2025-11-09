@@ -450,7 +450,7 @@ target_compile_definitions(netcdf_clib PRIVATE
   USE_HDF5
 )
 if (MINGW)
-  target_compile_definitions(netcdf_clib PRIVATE _USE_32BIT_TIME_T)
+  target_compile_definitions(netcdf_clib PRIVATE __MINGW_USE_VC2005_COMPAT)
 endif()
 target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
