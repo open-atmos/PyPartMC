@@ -449,6 +449,9 @@ target_compile_definitions(netcdf_clib PRIVATE
   USE_NETCDF4
   USE_HDF5
 )
+if (MINGW)
+  target_compile_definitions(netcdf_clib PRIVATE _USE_32BIT_TIME_T)
+endif()
 target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
     $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
