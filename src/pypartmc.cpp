@@ -14,7 +14,7 @@
 #include "nanobind/ndarray.h"
 #undef snprintf // required to fix an issue with std::snprintf in nlohmann::json
 #include "nlohmann/json.hpp"
-#include "nanobind_json/nanobind_json.hpp"
+#include "nanobind_json/nanobind_json.h"
 #include "sundials/sundials_config.h"
 #include "camp/version.h"
 #include "tl/optional.hpp"
@@ -174,7 +174,7 @@ NB_MODULE(_PyPartMC, m) {
         )pbdoc"
     )
         .def(nb::init<const CampCore&>())
-        .def(nb::init<const nlohmann::json&>())
+        .def(nb::init<const nlohmann::ordered_json&>())
         .def("spec_by_name", AeroData::spec_by_name,
              "Return the number of the species in AeroData with the given name.")
         .def("__len__", AeroData::__len__, "Return number of aerosol species.")
@@ -409,7 +409,7 @@ NB_MODULE(_PyPartMC, m) {
             scenario_t.
         )pbdoc"
     )
-        .def(nb::init<const nlohmann::json&>())
+        .def(nb::init<const nlohmann::ordered_json&>())
         .def("set_temperature", EnvState::set_temperature,
             "Set the temperature of the environment state.")
         .def_prop_ro("temp", EnvState::temp,
@@ -468,7 +468,7 @@ NB_MODULE(_PyPartMC, m) {
             nb::init<
                 const GasData&,
                 const AeroData&,
-                const nlohmann::json&
+                const nlohmann::ordered_json&
             >(),
             "instantiates and initializes from a JSON object"
         )
@@ -530,7 +530,7 @@ NB_MODULE(_PyPartMC, m) {
         "RunPartOpt",
         "Options controlling the execution of run_part()."
     )
-        .def(nb::init<const nlohmann::json&>())
+        .def(nb::init<const nlohmann::ordered_json&>())
         .def_prop_ro("t_max", RunPartOpt::t_max, "Total simulation time.")
         .def_prop_ro("del_t", RunPartOpt::del_t, "Time step.")
     ;
@@ -539,7 +539,7 @@ NB_MODULE(_PyPartMC, m) {
         "RunSectOpt",
         "Options controlling the execution of run_sect()."
     )
-        .def(nb::init<const nlohmann::json&, EnvState&>())
+        .def(nb::init<const nlohmann::ordered_json&, EnvState&>())
         .def_prop_ro("t_max", RunSectOpt::t_max, "Total simulation time.")
         .def_prop_ro("del_t", RunSectOpt::del_t, "Time step.")
     ;
@@ -548,7 +548,7 @@ NB_MODULE(_PyPartMC, m) {
         "RunExactOpt",
         "Options controlling the execution of run_exact()."
     )
-        .def(nb::init<const nlohmann::json&, EnvState&>())
+        .def(nb::init<const nlohmann::ordered_json&, EnvState&>())
         .def_prop_ro("t_max", RunExactOpt::t_max, "Total simulation time.")
     ;
 
@@ -561,9 +561,8 @@ NB_MODULE(_PyPartMC, m) {
         .def_prop_ro("widths", BinGrid::widths, "Return bin widths.")
     ;
 
-    nb::class_<AeroMode>(m,"AeroMode",
-        "An aerosol size distribution mode.")
-        .def(nb::init<AeroData&, const nlohmann::json&>())
+    nb::class_<AeroMode>(m,"AeroMode")
+        .def(nb::init<AeroData&, const nlohmann::ordered_json&>())
         .def_prop_rw("num_conc", &AeroMode::get_num_conc, &AeroMode::set_num_conc,
              "Provide access (read or write) to the total number concentration of a mode.")
         .def("num_dist", &AeroMode::num_dist,
@@ -589,7 +588,7 @@ NB_MODULE(_PyPartMC, m) {
     ;
 
     nb::class_<AeroDist>(m,"AeroDist")
-        .def(nb::init<std::shared_ptr<AeroData>, const nlohmann::json&>())
+        .def(nb::init<std::shared_ptr<AeroData>, const nlohmann::ordered_json&>())
         .def_prop_ro("n_mode", &AeroDist::get_n_mode,
             "Number of aerosol modes in the distribution.")
         .def_prop_ro("num_conc", &AeroDist::get_total_num_conc,

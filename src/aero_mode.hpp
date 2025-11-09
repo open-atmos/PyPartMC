@@ -138,7 +138,7 @@ struct AeroMode {
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {}
 
-    AeroMode(AeroData &aero_data, const nlohmann::json &json) :
+    AeroMode(AeroData &aero_data, const nlohmann::ordered_json &json) :
         ptr(f_aero_mode_ctor, f_aero_mode_dtor)
     {
         if (json.size() != 1 || !json.is_object() || !json.begin().value().is_object())
@@ -149,7 +149,7 @@ struct AeroMode {
         guard.check_parameters();
     }
 
-    static void check_mode_json(const nlohmann::json &mode) {
+    static void check_mode_json(const nlohmann::ordered_json &mode) {
         for (auto key : std::set<std::string>({"mass_frac", "mode_type"})) // TODO #320: more...
             if (mode.find(key) == mode.end())
                 throw std::runtime_error("mode parameters dict must include key '" + key + "'");

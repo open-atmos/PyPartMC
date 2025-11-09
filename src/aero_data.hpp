@@ -48,7 +48,7 @@ struct AeroData {
         f_aero_data_from_camp(this->ptr.f_arg(), camp_core.ptr.f_arg());
     }
 
-    AeroData(const nlohmann::json &json) :
+    AeroData(const nlohmann::ordered_json &json) :
         ptr(f_aero_data_ctor, f_aero_data_dtor)
     {
         if (!InputJSONResource::unique_keys(json))

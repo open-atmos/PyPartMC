@@ -115,7 +115,7 @@ struct GasState {
         return data;
     }
 
-    static void set_mix_rats(const GasState &self, const nlohmann::json &json) {
+    static void set_mix_rats(const GasState &self, const nlohmann::ordered_json &json) {
         if (json.size() == 0)
             throw std::runtime_error("Non-empty sequence of mixing ratios expected");
 

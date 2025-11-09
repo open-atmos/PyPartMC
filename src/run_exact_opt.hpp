@@ -18,10 +18,10 @@ extern "C" void f_run_exact_opt_t_max(const void *ptr, double *t_max) noexcept;
 struct RunExactOpt {
     PMCResource ptr;
 
-    RunExactOpt(const nlohmann::json &json, EnvState &env_state) :
+    RunExactOpt(const nlohmann::ordered_json &json, EnvState &env_state) :
         ptr(f_run_exact_opt_ctor, f_run_exact_opt_dtor)
     {
-        nlohmann::json json_copy(json);
+        nlohmann::ordered_json json_copy(json);
 
         for (auto key : std::set<std::string>({
             "t_output"

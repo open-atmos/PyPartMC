@@ -44,7 +44,7 @@ struct AeroDist {
 
     AeroDist(
         std::shared_ptr<AeroData> aero_data,
-        const nlohmann::json &json
+        const nlohmann::ordered_json &json
     ):
         ptr(f_aero_dist_ctor, f_aero_dist_dtor),
         aero_data(aero_data)

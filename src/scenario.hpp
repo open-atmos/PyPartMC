@@ -85,12 +85,12 @@ extern "C" void f_scenario_aero_background_time(
 
 struct Scenario {
     PMCResource ptr;
-    const nlohmann::json json;
+    const nlohmann::ordered_json json;
 
     Scenario(
         const GasData &gas_data,
         const AeroData &aero_data,
-        const nlohmann::json &json
+        const nlohmann::ordered_json &json
     ) :
         ptr(f_scenario_ctor, f_scenario_dtor),
         json(json)
