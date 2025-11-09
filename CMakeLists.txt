@@ -138,7 +138,7 @@ set(camp_SOURCES
   sub_models/sub_model_UNIFAC.c 
   sub_models/sub_model_UNIFAC.F90
   sub_models/sub_model_ZSR_aerosol_water.F90
-  sub_models/sub_model_ZSR_aerosol_water.c 
+  sub_models/sub_model_ZSR_aerosol_water.c
 )
 add_prefix(gitmodules/camp/src/ camp_SOURCES)
 
@@ -328,6 +328,8 @@ add_prefix(sundials_ SUNDIALS_items)
 ### CAMP ###########################################################################################
 
 add_library(camplib STATIC ${camp_SOURCES} ${json_fortran_SOURCES})
+target_compile_options(camplib PRIVATE $<$<COMPILE_LANGUAGE:C>:-std=c99>)
+target_compile_definitions(camplib PRIVATE $<$<COMPILE_LANGUAGE:C>:__bool_true_false_are_defined>)
 target_compile_definitions(camplib PRIVATE CAMP_USE_JSON="1")
 target_compile_definitions(camplib PRIVATE CAMP_USE_SUNDIALS="1")
 target_include_directories(camplib PRIVATE 
@@ -353,8 +355,14 @@ set(HDF5_BUILD_TOOLS OFF)
 set(HDF5_BUILD_EXAMPLES OFF)
 set(HDF5_ENABLE_Z_LIB_SUPPORT OFF)
 set(HDF5_ENABLE_SZIP_SUPPORT OFF)
+set(HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16 OFF)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/gitmodules/hdf5)
+
+if (MINGW)
+  # https://github.com/HDFGroup/hdf5/issues/5885
+  target_compile_definitions(hdf5-static PRIVATE _GNU_SOURCE)
+endif()
 
 foreach(file ${hdf5_GENERATED_HEADERS})
   execute_process(
@@ -437,6 +445,20 @@ target_compile_definitions(netcdf_clib PRIVATE
   USE_NETCDF4
   USE_HDF5
 )
+if (MINGW)
+  file(WRITE "${CMAKE_BINARY_DIR}/fix_mingw_wstat64.h" "
+#pragma once
+#include <sys/stat.h>
+#ifdef _WIN64
+#  undef _wstat64
+#  define _wstat64(path, buf) _wstat64((path), (struct _stat64*)(buf))
+#endif
+")
+  target_compile_options(netcdf_clib PRIVATE
+    -include${CMAKE_BINARY_DIR}/fix_mingw_wstat64.h
+  )
+endif()
+
 target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
     $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
