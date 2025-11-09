@@ -471,7 +471,7 @@ NB_MODULE(_PyPartMC, m) {
             "Return a string with JSON representation of the object.")
         .def("init_env_state", Scenario::init_env_state,
             "Initialize the EnvState.")
-        .def("aero_emissions", Scenario::get_dist,
+        .def("aero_emissions", Scenario::get_aero_emission_dist,
             "Return aero_emissions AeroDists at a given index.")
         .def_prop_ro("aero_emissions_n_times", Scenario::get_emissions_n_times,
             "Return the number of times specified for emissions.")
