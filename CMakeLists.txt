@@ -67,45 +67,16 @@ set(PyPartMC_sources
 )
 add_prefix(src/ PyPartMC_sources)
 
-set(camp_C_SOURCES
+set(camp_SOURCES
   Jacobian.c 
-  aero_phase_solver.c 
-  aero_rep_solver.c 
-  camp_solver.c 
-  rxn_solver.c 
-  sub_model_solver.c 
-  time_derivative.c
-  aero_reps/aero_rep_modal_binned_mass.c
-  aero_reps/aero_rep_single_particle.c
-  rxns/rxn_aqueous_equilibrium.c 
-  rxns/rxn_ternary_chemical_activation.c 
-  rxns/rxn_arrhenius.c
-  rxns/rxn_CMAQ_H2O2.c 
-  rxns/rxn_CMAQ_OH_HNO3.c 
-  rxns/rxn_condensed_phase_arrhenius.c 
-  rxns/rxn_condensed_phase_photolysis.c
-  rxns/rxn_emission.c 
-  rxns/rxn_first_order_loss.c 
-  rxns/rxn_HL_phase_transfer.c 
-  rxns/rxn_photolysis.c 
-  rxns/rxn_SIMPOL_phase_transfer.c 
-  rxns/rxn_surface.c
-  rxns/rxn_troe.c 
-  rxns/rxn_wennberg_no_ro2.c 
-  rxns/rxn_wennberg_tunneling.c 
-  rxns/rxn_wet_deposition.c 
-  sub_models/sub_model_PDFiTE.c
-  sub_models/sub_model_UNIFAC.c 
-  sub_models/sub_model_ZSR_aerosol_water.c 
-)
-add_prefix(gitmodules/camp/src/ camp_C_SOURCES)
-
-set(camp_F_SOURCES
   aero_phase_data.F90 
+  aero_phase_solver.c 
   aero_rep_data.F90
+  aero_rep_solver.c 
   aero_rep_factory.F90
   camp_core.F90
   camp_solver_data.F90 
+  camp_solver.c 
   camp_state.F90 
   chem_spec_data.F90
   constants.F90 
@@ -117,34 +88,59 @@ set(camp_F_SOURCES
   rand.F90
   rxn_data.F90 
   rxn_factory.F90
+  rxn_solver.c 
   solver_stats.F90
   sub_model_data.F90
+  sub_model_solver.c 
   sub_model_factory.F90
+  time_derivative.c
   util.F90 
   aero_reps/aero_rep_modal_binned_mass.F90
   aero_reps/aero_rep_single_particle.F90
+  aero_reps/aero_rep_modal_binned_mass.c
+  aero_reps/aero_rep_single_particle.c
+  rxns/rxn_aqueous_equilibrium.c 
   rxns/rxn_aqueous_equilibrium.F90
+  rxns/rxn_ternary_chemical_activation.c 
   rxns/rxn_ternary_chemical_activation.F90
+  rxns/rxn_arrhenius.c
   rxns/rxn_arrhenius.F90
+  rxns/rxn_CMAQ_H2O2.c 
   rxns/rxn_CMAQ_H2O2.F90
+  rxns/rxn_CMAQ_OH_HNO3.c 
   rxns/rxn_CMAQ_OH_HNO3.F90
+  rxns/rxn_condensed_phase_arrhenius.c 
   rxns/rxn_condensed_phase_arrhenius.F90
+  rxns/rxn_condensed_phase_photolysis.c
   rxns/rxn_condensed_phase_photolysis.F90
+  rxns/rxn_emission.c 
   rxns/rxn_emission.F90
+  rxns/rxn_first_order_loss.c 
   rxns/rxn_first_order_loss.F90
+  rxns/rxn_HL_phase_transfer.c 
   rxns/rxn_HL_phase_transfer.F90
+  rxns/rxn_photolysis.c 
   rxns/rxn_photolysis.F90
+  rxns/rxn_SIMPOL_phase_transfer.c 
   rxns/rxn_SIMPOL_phase_transfer.F90
   rxns/rxn_surface.F90
+  rxns/rxn_surface.c
+  rxns/rxn_troe.c 
   rxns/rxn_troe.F90
+  rxns/rxn_wennberg_no_ro2.c 
   rxns/rxn_wennberg_no_ro2.F90
+  rxns/rxn_wennberg_tunneling.c 
   rxns/rxn_wennberg_tunneling.F90
+  rxns/rxn_wet_deposition.c 
   rxns/rxn_wet_deposition.F90
+  sub_models/sub_model_PDFiTE.c
   sub_models/sub_model_PDFiTE.F90
+  sub_models/sub_model_UNIFAC.c 
   sub_models/sub_model_UNIFAC.F90
   sub_models/sub_model_ZSR_aerosol_water.F90
+  sub_models/sub_model_ZSR_aerosol_water.c
 )
-add_prefix(gitmodules/camp/src/ camp_F_SOURCES)
+add_prefix(gitmodules/camp/src/ camp_SOURCES)
 
 set(hdf5_GENERATED_HEADERS H5Edefin.h H5Einit.h H5Epubgen.h H5Eterm.h H5version.h H5overflow.h)
 add_prefix(gitmodules/hdf5/src/ hdf5_GENERATED_HEADERS)
@@ -331,7 +327,7 @@ add_prefix(sundials_ SUNDIALS_items)
 
 ### CAMP ###########################################################################################
 
-add_library(camplib STATIC ${camp_C_SOURCES} ${camp_F_SOURCES} ${json_fortran_SOURCES})
+add_library(camplib STATIC ${camp_SOURCES} ${json_fortran_SOURCES})
 target_compile_options(camplib PRIVATE $<$<COMPILE_LANGUAGE:C>:-std=c99>)
 target_compile_definitions(camplib PRIVATE $<$<COMPILE_LANGUAGE:C>:__bool_true_false_are_defined>)
 target_compile_definitions(camplib PRIVATE CAMP_USE_JSON="1")
