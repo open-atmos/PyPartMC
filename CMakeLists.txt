@@ -450,8 +450,19 @@ target_compile_definitions(netcdf_clib PRIVATE
   USE_HDF5
 )
 if (MINGW)
-  target_compile_definitions(netcdf_clib PRIVATE __MINGW_USE_VC2005_COMPAT)
+  file(WRITE "${CMAKE_BINARY_DIR}/fix_mingw_wstat64.h" "
+#pragma once
+#include <sys/stat.h>
+#ifdef _WIN64
+#  undef _wstat64
+#  define _wstat64(path, buf) _wstat64((path), (struct _stat64*)(buf))
+#endif
+")
+  target_compile_options(netcdf_clib PRIVATE
+    -include${CMAKE_BINARY_DIR}/fix_mingw_wstat64.h
+  )
 endif()
+
 target_compile_options(netcdf_clib PRIVATE
     $<$<C_COMPILER_ID:GNU>:-Wno-unused-result -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast>
     $<$<C_COMPILER_ID:AppleClang>:-Wno-pointer-to-int-cast -Wno-int-to-void-pointer-cast>
