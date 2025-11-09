@@ -283,6 +283,11 @@ NB_MODULE(_PyPartMC, m) {
             "Reset an aero_particle to be zero.")
         .def("set_vols", AeroParticle::set_vols,
             "Set the aerosol particle volumes.")
+        .def_prop_rw("weight_group", AeroParticle::get_weight_group, AeroParticle::set_weight_group,
+            "Weighting function group number.")
+        .def_prop_rw("weight_class", AeroParticle::get_weight_class, AeroParticle::set_weight_class,
+            "Weighting function class number.")
+        .def("new_id", AeroParticle::new_id, "Assigns a new unique particle ID")
     ;
 
     nb::class_<AeroState>(m, "AeroState",

@@ -416,6 +416,26 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         assert sut.volumes == [3, 2, 1]
 
     @staticmethod
+    def test_set_weighting():
+        # arrange
+        aero_data = ppmc.AeroData(aero_data_arg)
+        volumes = [1, 2, 3]
+        sut = ppmc.AeroParticle(aero_data, volumes)
+        aero_data = None
+        volumes = None
+        gc.collect()
+
+        # act
+        weight_class = 1
+        weight_group = 2
+        sut.weight_class = weight_class
+        sut.weight_group = weight_group
+
+        # assert
+        assert sut.weight_class == weight_class
+        assert sut.weight_group == weight_group
+
+    @staticmethod
     def test_absorb_cross_sect():
         # arrange
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
@@ -491,6 +511,22 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         assert isinstance(sources[0], int)
 
     @staticmethod
+    def test_get_weighting():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
+        sut = aero_state.particle(0)
+        # act
+        weight_class = sut.weight_class
+        weight_group = sut.weight_group
+
+        # assert
+        assert weight_class > 0
+        assert weight_group > 0
+
+    @staticmethod
     def test_least_create_time():
         # arrange
         create_time = 44.0
@@ -543,6 +579,19 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         assert isinstance(ids[0], int)
         assert min(ids) > 0
         assert len(np.unique(ids)) == len(aero_state)
+
+    @staticmethod
+    def test_new_id():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroParticle(aero_data, [123])
+
+        # act
+        id_orig = sut.id
+        sut.new_id()
+
+        # assert
+        assert sut.id != id_orig
 
     @staticmethod
     def test_is_frozen():
