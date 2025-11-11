@@ -171,4 +171,70 @@ module PyPartMC_env_state
 
     end subroutine
 
+    subroutine f_env_state_get_latitude(ptr_c, latitude) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: latitude 
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        latitude = ptr_f%latitude
+ 
+    end subroutine
+
+    subroutine f_env_state_set_latitude(ptr_c, latitude) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(inout) :: ptr_c
+        real(c_double), intent(in) :: latitude
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ptr_f%latitude = latitude
+
+    end subroutine
+
+    subroutine f_env_state_get_longitude(ptr_c, longitude) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: longitude
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        longitude = ptr_f%longitude
+
+    end subroutine
+
+    subroutine f_env_state_set_longitude(ptr_c, longitude) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(inout) :: ptr_c
+        real(c_double), intent(in) :: longitude
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ptr_f%longitude = longitude
+
+    end subroutine
+
+    subroutine f_env_state_get_altitude(ptr_c, altitude) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: altitude
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        altitude = ptr_f%altitude
+
+    end subroutine
+
+    subroutine f_env_state_set_altitude(ptr_c, altitude) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(inout) :: ptr_c
+        real(c_double), intent(in) :: altitude 
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ptr_f%altitude = altitude 
+
+    end subroutine
+
 end module

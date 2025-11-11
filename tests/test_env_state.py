@@ -73,6 +73,42 @@ class TestEnvState:
         assert value == sut.pressure
 
     @staticmethod
+    def test_latitude():
+        # arrange
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        value = 40.0
+
+        # act
+        sut.latitude = value
+
+        # assert
+        assert value == sut.latitude
+
+    @staticmethod
+    def test_longitude():
+        # arrange
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        value = 180.0
+
+        # act
+        sut.longitude = value
+
+        # assert
+        assert value == sut.longitude
+
+    @staticmethod
+    def test_altitude():
+        # arrange
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        value = 200.0
+
+        # act
+        sut.altitude = value
+
+        # assert
+        assert value == sut.altitude
+
+    @staticmethod
     def test_additive_kernel_coefficient():
         # arrange
         sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
