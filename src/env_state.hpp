@@ -24,6 +24,7 @@ extern "C" void f_env_state_get_pressure(const void *ptr, double *pressure) noex
 extern "C" void f_env_state_get_elapsed_time(const void *ptr, double *elapsed_time) noexcept;
 extern "C" void f_env_state_get_start_time(const void *ptr, double *start_time) noexcept;
 extern "C" void f_env_state_air_dens(const void *ptr, double *air_density) noexcept;
+extern "C" void f_env_state_air_molar_dens(const void *ptr, double *air_molar_density) noexcept;
 extern "C" void f_env_state_set_latitude(const void *ptr, const double *latitude) noexcept;
 extern "C" void f_env_state_get_latitude(const void *ptr, double *latitude) noexcept;
 extern "C" void f_env_state_set_longitude(const void *ptr, const double *longitude) noexcept;
@@ -154,6 +155,16 @@ struct EnvState {
             &air_density
         );
         return air_density;
+    }
+
+    static auto air_molar_density(const EnvState &self) {
+        double air_molar_density;
+
+        f_env_state_air_molar_dens(
+            self.ptr.f_arg(),
+            &air_molar_density
+        );
+        return air_molar_density;
     }
 
     static void set_latitude(const EnvState &self, const double latitude) {

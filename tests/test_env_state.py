@@ -158,6 +158,20 @@ class TestEnvState:
         assert 1 * si.kg / si.m**3 < env_state.air_density < 1.5 * si.kg / si.m**3
 
     @staticmethod
+    def test_air_molar_density():
+        # arrange
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        scenario.init_env_state(env_state, 0.0)
+
+        # assert
+        assert (
+            1 * si.mol / si.m**3 < env_state.air_molar_density < 100 * si.mol / si.m**3
+        )
+
+    @staticmethod
     def test_conc_ppb_conversions():
         # arrange
         gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)

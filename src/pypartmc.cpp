@@ -432,6 +432,8 @@ NB_MODULE(_PyPartMC, m) {
             "Altitude (m).")
         .def_prop_ro("air_density", &EnvState::air_density,
             "Air density (kg m^{-3}).")
+        .def_prop_ro("air_molar_density", &EnvState::air_molar_density,
+            "Air molar density (mol m^{-3}).")
         .def_prop_rw("additive_kernel_coefficient", &EnvState::get_additive_kernel_coefficient, &EnvState::set_additive_kernel_coefficient,
             "Scaling coefficient for additive coagulation kernel.")
         .def("ppb_to_conc", &EnvState::ppb_to_conc, "Convert (ppb) to (molecules m^{-3}).")

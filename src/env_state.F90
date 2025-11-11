@@ -171,6 +171,17 @@ module PyPartMC_env_state
 
     end subroutine
 
+    subroutine f_env_state_air_molar_dens(ptr_c, air_molar_density) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: air_molar_density
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        air_molar_density = env_state_air_molar_den(ptr_f)
+
+    end subroutine
+
     subroutine f_env_state_get_latitude(ptr_c, latitude) bind(C)
         type(env_state_t), pointer :: ptr_f => null()
         type(c_ptr), intent(in) :: ptr_c
