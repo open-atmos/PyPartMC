@@ -6,6 +6,7 @@
 
 import gc
 
+import numpy as np
 import pytest
 
 import PyPartMC as ppmc
@@ -155,3 +156,24 @@ class TestEnvState:
 
         # assert
         assert 1 * si.kg / si.m**3 < env_state.air_density < 1.5 * si.kg / si.m**3
+
+    @staticmethod
+    def test_conc_ppb_conversions():
+        # arrange
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        scenario.init_env_state(env_state, 0.0)
+
+        # act
+        conc_orig = 1.0
+        ppb = env_state.conc_to_ppb(conc_orig)
+        ppb_orig = 1.0
+        conc = env_state.ppb_to_conc(ppb_orig)
+
+        # assert
+        assert ppb < conc_orig
+        assert ppb_orig < conc
+        np.testing.assert_almost_equal(env_state.ppb_to_conc(ppb), conc_orig)
+        np.testing.assert_almost_equal(env_state.conc_to_ppb(conc), ppb_orig)

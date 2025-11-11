@@ -434,6 +434,8 @@ NB_MODULE(_PyPartMC, m) {
             "Air density (kg m^{-3}).")
         .def_prop_rw("additive_kernel_coefficient", &EnvState::get_additive_kernel_coefficient, &EnvState::set_additive_kernel_coefficient,
             "Scaling coefficient for additive coagulation kernel.")
+        .def("ppb_to_conc", &EnvState::ppb_to_conc, "Convert (ppb) to (molecules m^{-3}).")
+        .def("conc_to_ppb", &EnvState::conc_to_ppb, "Convert (molecules m^{-3}) to (ppb).")
     ;
 
     nb::class_<Photolysis>(m,

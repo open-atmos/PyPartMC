@@ -30,6 +30,8 @@ extern "C" void f_env_state_set_longitude(const void *ptr, const double *longitu
 extern "C" void f_env_state_get_longitude(const void *ptr, double *longitude) noexcept;
 extern "C" void f_env_state_set_altitude(const void *ptr, const double *altitude) noexcept;
 extern "C" void f_env_state_get_altitude(const void *ptr, double *altitude) noexcept;
+extern "C" void f_env_state_ppb_to_conc(const void *ptr, const double *ppb, double *conc) noexcept;
+extern "C" void f_env_state_conc_to_ppb(const void *ptr, const double *conc, double *ppb) noexcept;
 
 struct EnvState {
     PMCResource ptr;
@@ -203,6 +205,28 @@ struct EnvState {
             &altitude
         );
         return altitude;
+    }
+
+    static auto ppb_to_conc(const EnvState &self, const double ppb) {
+        double conc;
+
+        f_env_state_ppb_to_conc(
+            self.ptr.f_arg(),
+            &ppb,
+            &conc
+        );
+        return conc;
+    }
+
+    static auto conc_to_ppb(const EnvState &self, const double conc) {
+        double ppb;
+
+        f_env_state_conc_to_ppb(
+            self.ptr.f_arg(),
+            &conc,
+            &ppb
+        );
+        return ppb;
     }
 
 };

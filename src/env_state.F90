@@ -237,4 +237,28 @@ module PyPartMC_env_state
 
     end subroutine
 
+    subroutine f_env_state_ppb_to_conc(ptr_c, ppb, conc) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(in) :: ppb
+        real(c_double), intent(out) :: conc 
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        conc = env_state_ppb_to_conc(ptr_f, ppb)
+
+    end subroutine
+
+    subroutine f_env_state_conc_to_ppb(ptr_c, conc, ppb) bind(C)
+        type(env_state_t), pointer :: ptr_f => null()
+        type(c_ptr), intent(in) :: ptr_c
+        real(c_double), intent(out) :: ppb
+        real(c_double), intent(in) :: conc
+
+        call c_f_pointer(ptr_c, ptr_f)
+
+        ppb = env_state_conc_to_ppb(ptr_f, conc)
+
+    end subroutine
+
 end module
