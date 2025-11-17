@@ -10,6 +10,7 @@
 #include "json_resource.hpp"
 #include "pmc_resource.hpp"
 #include "gas_data.hpp"
+#include "env_state.hpp"
 
 extern "C" void f_gas_state_ctor(void *ptr) noexcept;
 extern "C" void f_gas_state_dtor(void *ptr) noexcept;
@@ -19,7 +20,9 @@ extern "C" void f_gas_state_len(const void *ptr, int *len) noexcept;
 extern "C" void f_gas_state_to_json(const void *ptr) noexcept;
 extern "C" void f_gas_state_from_json(const void *ptr, const void *gasdata_ptr) noexcept;
 extern "C" void f_gas_state_set_size(const void *ptr, const void *gasdata_ptr) noexcept;
-extern "C" void f_gas_state_mix_rats(const void *ptr, const double *data, const int *len);
+extern "C" void f_gas_state_mix_rats(const void *ptr, const double *data, const int *len) noexcept;
+extern "C" void f_gas_state_molar_conc_to_ppb(const void *ptr, const void *envstate_ptr) noexcept;
+extern "C" void f_gas_state_scale(const void *ptr_c, const double *alpha) noexcept;
 
 struct GasState {
     PMCResource ptr;
@@ -125,5 +128,15 @@ struct GasState {
             self.gas_data->ptr.f_arg()
         );
         guard.check_parameters();
+    }
+
+    static void molar_conc_to_ppb(const GasState &self, const EnvState &env_state) {
+
+        f_gas_state_molar_conc_to_ppb(self.ptr.f_arg(), env_state.ptr.f_arg());
+    }
+
+    static void scale(const GasState &self, const double &alpha) {
+
+        f_gas_state_scale(self.ptr.f_arg(), &alpha);
     }
 };

@@ -524,6 +524,9 @@ NB_MODULE(_PyPartMC, m) {
             "Return the mixing ratio of a gas species.")
         .def_prop_rw("mix_rats", &GasState::mix_rats, &GasState::set_mix_rats,
             "Provide access (read or write) to the array of mixing ratios.")
+        .def("molar_conc_to_ppb", &GasState::molar_conc_to_ppb,
+            "Convert (mol m^{-3}) to (ppb).")
+        .def("scale", &GasState::scale, "Scale a gas state.")
     ;
 
     nb::class_<RunPartOpt>(m,
