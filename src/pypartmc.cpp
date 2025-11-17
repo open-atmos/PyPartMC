@@ -438,6 +438,8 @@ NB_MODULE(_PyPartMC, m) {
             "Scaling coefficient for additive coagulation kernel.")
         .def("ppb_to_conc", &EnvState::ppb_to_conc, "Convert (ppb) to (molecules m^{-3}).")
         .def("conc_to_ppb", &EnvState::conc_to_ppb, "Convert (molecules m^{-3}) to (ppb).")
+        .def_prop_ro("sat_vapor_pressure", &EnvState::sat_vapor_pressure,
+            "Returns the current saturation vapor pressure (Pa).")
     ;
 
     nb::class_<Photolysis>(m,

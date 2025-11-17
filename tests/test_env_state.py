@@ -191,3 +191,15 @@ class TestEnvState:
         assert ppb_orig < conc
         np.testing.assert_almost_equal(env_state.ppb_to_conc(ppb), conc_orig)
         np.testing.assert_almost_equal(env_state.conc_to_ppb(conc), ppb_orig)
+
+    @staticmethod
+    def test_sat_vapor_pressure():
+        # arrange
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        scenario.init_env_state(env_state, 0.0)
+
+        # assert
+        assert env_state.sat_vapor_pressure > 0.0

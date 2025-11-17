@@ -33,6 +33,7 @@ extern "C" void f_env_state_set_altitude(const void *ptr, const double *altitude
 extern "C" void f_env_state_get_altitude(const void *ptr, double *altitude) noexcept;
 extern "C" void f_env_state_ppb_to_conc(const void *ptr, const double *ppb, double *conc) noexcept;
 extern "C" void f_env_state_conc_to_ppb(const void *ptr, const double *conc, double *ppb) noexcept;
+extern "C" void f_env_state_sat_vapor_pressure(const void *ptr, double *sat_vapor_pressure) noexcept;
 
 struct EnvState {
     PMCResource ptr;
@@ -238,6 +239,16 @@ struct EnvState {
             &ppb
         );
         return ppb;
+    }
+
+    static auto sat_vapor_pressure(const EnvState &self) {
+        double sat_vapor_pressure;
+
+        f_env_state_sat_vapor_pressure(
+            self.ptr.f_arg(),
+            &sat_vapor_pressure
+        );
+        return sat_vapor_pressure;
     }
 
 };
