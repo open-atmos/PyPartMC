@@ -131,4 +131,18 @@ module PyPartMC_gas_state
 
   end subroutine
 
+  subroutine f_gas_state_add_scaled(ptr_c, delta_gas_state_ptr_c, alpha) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(c_ptr), intent(in) :: delta_gas_state_ptr_c
+    type(gas_state_t), pointer :: ptr_f => null()
+    type(gas_state_t), pointer :: delta_gas_state_ptr_f => null()
+    real(kind=c_double), intent(in) :: alpha
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(delta_gas_state_ptr_c, delta_gas_state_ptr_f)
+
+    call gas_state_add_scaled(ptr_f, delta_gas_state_ptr_f, alpha)
+
+  end subroutine
+
 end module

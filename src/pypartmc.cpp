@@ -528,6 +528,8 @@ NB_MODULE(_PyPartMC, m) {
             "Convert (mol m^{-3}) to (ppb).")
         .def("scale", &GasState::scale, "Scale a gas state.")
         .def("add", &GasState::add, "Adds the given gas_state_delta.")
+        .def("add_scaled", &GasState::add_scaled,
+            "Adds the given gas_state_delta scaled by alpha to an existing gas_state.")
     ;
 
     nb::class_<RunPartOpt>(m,

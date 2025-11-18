@@ -23,7 +23,12 @@ extern "C" void f_gas_state_set_size(const void *ptr, const void *gasdata_ptr) n
 extern "C" void f_gas_state_mix_rats(const void *ptr, const double *data, const int *len) noexcept;
 extern "C" void f_gas_state_molar_conc_to_ppb(const void *ptr, const void *envstate_ptr) noexcept;
 extern "C" void f_gas_state_scale(const void *ptr_c, const double *alpha) noexcept;
-extern "C" void f_gas_state_add(const void *ptr_c, const void *delta_gas_state_ptr_c) noexcept;
+extern "C" void f_gas_state_add(const void *ptr_c, const void *delta_ptr) noexcept;
+extern "C" void f_gas_state_add_scaled(
+    const void *ptr_c,
+    const void *delta_ptr,
+    const double *alpha
+) noexcept;
 
 struct GasState {
     PMCResource ptr;
@@ -145,4 +150,11 @@ struct GasState {
 
         f_gas_state_add(self.ptr.f_arg(), delta_gas_state.ptr.f_arg());
     }
+
+    static void add_scaled(const GasState &self, const GasState &delta_gas_state,
+        const double &alpha) {
+
+        f_gas_state_add_scaled(self.ptr.f_arg(), delta_gas_state.ptr.f_arg(), &alpha);
+    }
+
 };

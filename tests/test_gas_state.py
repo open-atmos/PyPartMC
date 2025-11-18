@@ -149,21 +149,34 @@ class TestGasState:
         sut.molar_conc_to_ppb(env_state)
 
         # assert
-        assert sut.mix_rats[0] > GAS_STATE_MINIMAL[0][gas_data.species[0]][0]
+        assert sut.mix_rats[0] > GAS_STATE_MINIMAL[0][list(gas_data.species)[0]][0]
 
     @staticmethod
     def test_add():
-        gas_data = GAS_DATA_MINIMAL
-        A = ppmc.GasState(GAS_DATA_MINIMAL)
-        A.mix_rats = GAS_STATE_MINIMAL
-        B = ppmc.GasState(GAS_DATA_MINIMAL)
-        B.mix_rats = GAS_STATE_MINIMAL
-        tot_mix_rats = np.add(A.mix_rats, B.mix_rats)
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
+        sut.mix_rats = GAS_STATE_MINIMAL
+        gas_state_delta = ppmc.GasState(GAS_DATA_MINIMAL)
+        gas_state_delta.mix_rats = GAS_STATE_MINIMAL
+        tot_mix_rats = np.add(sut.mix_rats, gas_state_delta.mix_rats)
 
         # act
-        A.add(B)
+        sut.add(gas_state_delta)
 
-        assert A.mix_rats == tot_mix_rats
+        assert sut.mix_rats == tot_mix_rats
+
+    @staticmethod
+    def test_add_scaled():
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
+        sut.mix_rats = GAS_STATE_MINIMAL
+        gas_state_delta = ppmc.GasState(GAS_DATA_MINIMAL)
+        gas_state_delta.mix_rats = GAS_STATE_MINIMAL
+        alpha = 2.5
+        tot_mix_rats = np.add(sut.mix_rats, np.array(gas_state_delta.mix_rats) * alpha)
+
+        # act
+        sut.add_scaled(gas_state_delta, alpha)
+
+        assert sut.mix_rats == tot_mix_rats
 
     @staticmethod
     def test_set_mix_rats_from_json():
