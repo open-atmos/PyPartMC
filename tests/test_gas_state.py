@@ -7,13 +7,14 @@
 import gc
 import platform
 
+import numpy as np
 import pytest
 
 import PyPartMC as ppmc
 
 from .common import ENV_STATE_CTOR_ARG_MINIMAL
-from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
+from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
 from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
 GAS_DATA_MINIMAL = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
@@ -149,6 +150,20 @@ class TestGasState:
 
         # assert
         assert sut.mix_rats[0] > GAS_STATE_MINIMAL[0][gas_data.species[0]][0]
+
+    @staticmethod
+    def test_add():
+        gas_data = GAS_DATA_MINIMAL
+        A = ppmc.GasState(GAS_DATA_MINIMAL)
+        A.mix_rats = GAS_STATE_MINIMAL
+        B = ppmc.GasState(GAS_DATA_MINIMAL)
+        B.mix_rats = GAS_STATE_MINIMAL
+        tot_mix_rats = np.add(A.mix_rats, B.mix_rats)
+
+        # act
+        A.add(B)
+
+        assert A.mix_rats == tot_mix_rats
 
     @staticmethod
     def test_set_mix_rats_from_json():
