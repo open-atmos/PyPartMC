@@ -420,10 +420,31 @@
                                 <a class="variable" href="#EnvState.pressure">pressure</a>
                         </li>
                         <li>
+                                <a class="variable" href="#EnvState.latitude">latitude</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.longitude">longitude</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.altitude">altitude</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#EnvState.air_density">air_density</a>
                         </li>
                         <li>
+                                <a class="variable" href="#EnvState.air_molar_density">air_molar_density</a>
+                        </li>
+                        <li>
                                 <a class="variable" href="#EnvState.additive_kernel_coefficient">additive_kernel_coefficient</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#EnvState.ppb_to_conc">ppb_to_conc</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#EnvState.conc_to_ppb">conc_to_ppb</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#EnvState.sat_vapor_pressure">sat_vapor_pressure</a>
                         </li>
                 </ul>
 
@@ -3075,6 +3096,51 @@ scenario_t.</p>
 
 
                             </div>
+                            <div id="EnvState.latitude" class="classattr">
+                                <div class="attr variable">
+            <span class="name">latitude</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.latitude"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Latitude (degrees).</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.longitude" class="classattr">
+                                <div class="attr variable">
+            <span class="name">longitude</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.longitude"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Longitude (degrees).</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.altitude" class="classattr">
+                                <div class="attr variable">
+            <span class="name">altitude</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.altitude"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Altitude (m).</p>
+</div>
+
+
+                            </div>
                             <div id="EnvState.air_density" class="classattr">
                                 <div class="attr variable">
             <span class="name">air_density</span>
@@ -3090,6 +3156,21 @@ scenario_t.</p>
 
 
                             </div>
+                            <div id="EnvState.air_molar_density" class="classattr">
+                                <div class="attr variable">
+            <span class="name">air_molar_density</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.air_molar_density"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Air molar density (mol m^{-3}).</p>
+</div>
+
+
+                            </div>
                             <div id="EnvState.additive_kernel_coefficient" class="classattr">
                                 <div class="attr variable">
             <span class="name">additive_kernel_coefficient</span>
@@ -3101,6 +3182,55 @@ scenario_t.</p>
             <div class="docstring"><p>(self) -> float</p>
 
 <p>Scaling coefficient for additive coagulation kernel.</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.ppb_to_conc" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">ppb_to_conc</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.ppb_to_conc"></a>
+    
+            <div class="docstring"><p>ppb_to_conc(self, arg: float, /) -> float</p>
+
+<p>Convert (ppb) to (molecules m^{-3}).</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.conc_to_ppb" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">conc_to_ppb</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.conc_to_ppb"></a>
+    
+            <div class="docstring"><p>conc_to_ppb(self, arg: float, /) -> float</p>
+
+<p>Convert (molecules m^{-3}) to (ppb).</p>
+</div>
+
+
+                            </div>
+                            <div id="EnvState.sat_vapor_pressure" class="classattr">
+                                <div class="attr variable">
+            <span class="name">sat_vapor_pressure</span>
+
+        
+    </div>
+    <a class="headerlink" href="#EnvState.sat_vapor_pressure"></a>
+    
+            <div class="docstring"><p>(self) -> float</p>
+
+<p>Returns the current saturation vapor pressure (Pa).</p>
 </div>
 
 
