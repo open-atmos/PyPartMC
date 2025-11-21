@@ -24,7 +24,16 @@ extern "C" void f_env_state_get_pressure(const void *ptr, double *pressure) noex
 extern "C" void f_env_state_get_elapsed_time(const void *ptr, double *elapsed_time) noexcept;
 extern "C" void f_env_state_get_start_time(const void *ptr, double *start_time) noexcept;
 extern "C" void f_env_state_air_dens(const void *ptr, double *air_density) noexcept;
-
+extern "C" void f_env_state_air_molar_dens(const void *ptr, double *air_molar_density) noexcept;
+extern "C" void f_env_state_set_latitude(const void *ptr, const double *latitude) noexcept;
+extern "C" void f_env_state_get_latitude(const void *ptr, double *latitude) noexcept;
+extern "C" void f_env_state_set_longitude(const void *ptr, const double *longitude) noexcept;
+extern "C" void f_env_state_get_longitude(const void *ptr, double *longitude) noexcept;
+extern "C" void f_env_state_set_altitude(const void *ptr, const double *altitude) noexcept;
+extern "C" void f_env_state_get_altitude(const void *ptr, double *altitude) noexcept;
+extern "C" void f_env_state_ppb_to_conc(const void *ptr, const double *ppb, double *conc) noexcept;
+extern "C" void f_env_state_conc_to_ppb(const void *ptr, const double *conc, double *ppb) noexcept;
+extern "C" void f_env_state_sat_vapor_pressure(const void *ptr, double *sat_vapor_pressure) noexcept;
 
 struct EnvState {
     PMCResource ptr;
@@ -148,4 +157,98 @@ struct EnvState {
         );
         return air_density;
     }
+
+    static auto air_molar_density(const EnvState &self) {
+        double air_molar_density;
+
+        f_env_state_air_molar_dens(
+            self.ptr.f_arg(),
+            &air_molar_density
+        );
+        return air_molar_density;
+    }
+
+    static void set_latitude(const EnvState &self, const double latitude) {
+        f_env_state_set_latitude(
+            self.ptr.f_arg(),
+            &latitude
+        );
+    }
+
+    static auto get_latitude(const EnvState &self) {
+        double latitude;
+
+        f_env_state_get_latitude(
+            self.ptr.f_arg(),
+            &latitude
+        );
+        return latitude;
+    }
+
+    static void set_longitude(const EnvState &self, const double longitude) {
+        f_env_state_set_longitude(
+            self.ptr.f_arg(),
+            &longitude
+        );
+    }
+
+    static auto get_longitude(const EnvState &self) {
+        double longitude;
+
+        f_env_state_get_longitude(
+            self.ptr.f_arg(),
+            &longitude
+        );
+        return longitude;
+    }
+
+    static void set_altitude(const EnvState &self, const double altitude) {
+        f_env_state_set_altitude(
+            self.ptr.f_arg(),
+            &altitude
+        );
+    }
+
+    static auto get_altitude(const EnvState &self) {
+        double altitude;
+
+        f_env_state_get_altitude(
+            self.ptr.f_arg(),
+            &altitude
+        );
+        return altitude;
+    }
+
+    static auto ppb_to_conc(const EnvState &self, const double ppb) {
+        double conc;
+
+        f_env_state_ppb_to_conc(
+            self.ptr.f_arg(),
+            &ppb,
+            &conc
+        );
+        return conc;
+    }
+
+    static auto conc_to_ppb(const EnvState &self, const double conc) {
+        double ppb;
+
+        f_env_state_conc_to_ppb(
+            self.ptr.f_arg(),
+            &conc,
+            &ppb
+        );
+        return ppb;
+    }
+
+    static auto sat_vapor_pressure(const EnvState &self) {
+        double sat_vapor_pressure;
+
+        f_env_state_sat_vapor_pressure(
+            self.ptr.f_arg(),
+            &sat_vapor_pressure
+        );
+        return sat_vapor_pressure;
+    }
+
 };

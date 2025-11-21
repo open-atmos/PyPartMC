@@ -87,7 +87,7 @@ module PyPartMC_env_state
         type(env_state_t), pointer :: ptr_f => null()
         type(c_ptr), intent(in) :: ptr_c
         real(c_double), intent(out) :: height
-        
+
         call c_f_pointer(ptr_c, ptr_f)
 
         height = ptr_f%height
@@ -109,7 +109,7 @@ module PyPartMC_env_state
         type(env_state_t), pointer :: ptr_f => null()
         type(c_ptr), intent(in) :: ptr_c
         real(c_double), intent(out) :: target
-        
+
         call c_f_pointer(ptr_c, ptr_f)
 
         target = ptr_f%additive_kernel_coefficient
@@ -141,7 +141,7 @@ module PyPartMC_env_state
     subroutine f_env_state_get_elapsed_time(ptr_c, elapsed_time) bind(C)
         type(env_state_t), pointer :: ptr_f => null()
         type(c_ptr), intent(in) :: ptr_c
-        real(c_double), intent(out) :: elapsed_time 
+        real(c_double), intent(out) :: elapsed_time
 
         call c_f_pointer(ptr_c, ptr_f)
 
@@ -168,6 +168,118 @@ module PyPartMC_env_state
         call c_f_pointer(ptr_c, ptr_f)
 
         air_density = env_state_air_den(ptr_f)
+
+    end subroutine
+
+    subroutine f_env_state_air_molar_dens(ptr_c, air_molar_density) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(in) :: ptr_c
+      real(c_double), intent(out) :: air_molar_density
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      air_molar_density = env_state_air_molar_den(ptr_f)
+
+    end subroutine
+
+    subroutine f_env_state_get_latitude(ptr_c, latitude) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(in) :: ptr_c
+      real(c_double), intent(out) :: latitude
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      latitude = ptr_f%latitude
+
+    end subroutine
+
+    subroutine f_env_state_set_latitude(ptr_c, latitude) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(inout) :: ptr_c
+      real(c_double), intent(in) :: latitude
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      ptr_f%latitude = latitude
+
+    end subroutine
+
+    subroutine f_env_state_get_longitude(ptr_c, longitude) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(in) :: ptr_c
+      real(c_double), intent(out) :: longitude
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      longitude = ptr_f%longitude
+
+    end subroutine
+
+    subroutine f_env_state_set_longitude(ptr_c, longitude) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(inout) :: ptr_c
+      real(c_double), intent(in) :: longitude
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      ptr_f%longitude = longitude
+
+    end subroutine
+
+    subroutine f_env_state_get_altitude(ptr_c, altitude) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(in) :: ptr_c
+      real(c_double), intent(out) :: altitude
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      altitude = ptr_f%altitude
+
+    end subroutine
+
+    subroutine f_env_state_set_altitude(ptr_c, altitude) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(inout) :: ptr_c
+      real(c_double), intent(in) :: altitude
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      ptr_f%altitude = altitude
+
+    end subroutine
+
+    subroutine f_env_state_ppb_to_conc(ptr_c, ppb, conc) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(in) :: ptr_c
+      real(c_double), intent(in) :: ppb
+      real(c_double), intent(out) :: conc
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      conc = env_state_ppb_to_conc(ptr_f, ppb)
+
+    end subroutine
+
+    subroutine f_env_state_conc_to_ppb(ptr_c, conc, ppb) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(in) :: ptr_c
+      real(c_double), intent(out) :: ppb
+      real(c_double), intent(in) :: conc
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      ppb = env_state_conc_to_ppb(ptr_f, conc)
+
+    end subroutine
+
+    subroutine f_env_state_sat_vapor_pressure(ptr_c, sat_vapor_pressure) bind(C)
+      type(env_state_t), pointer :: ptr_f => null()
+      type(c_ptr), intent(in) :: ptr_c
+      real(c_double), intent(out) :: sat_vapor_pressure
+
+      call c_f_pointer(ptr_c, ptr_f)
+
+      sat_vapor_pressure = env_state_sat_vapor_pressure(ptr_f)
 
     end subroutine
 
