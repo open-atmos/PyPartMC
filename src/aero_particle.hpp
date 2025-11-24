@@ -68,19 +68,19 @@ struct AeroParticle {
             throw std::runtime_error("AeroData size mistmatch");
     }
 
-    template <typename T, typename Func>
+    template <typename T  = double, typename Func>
     static T get_value(const AeroParticle &self, Func func) {
         T value{};
         func(self.ptr.f_arg(), &value);
         return value;
     }
 
-    template <typename T, typename Func>
+    template <typename T  = double, typename Func>
     static void set_value(AeroParticle &self, Func func, T value) {
         func(self.ptr.f_arg_non_const(), &value);
     }
 
-    template <typename T, typename Func>
+    template <typename T  = double, typename Func>
     static T get_derived_value(const AeroParticle &self, Func func)
     {
         T value{};
@@ -88,7 +88,7 @@ struct AeroParticle {
         return value;
     }
 
-    template <typename T, typename Func>
+    template <typename T  = double, typename Func>
     static T get_derived_value_env_state(
         const AeroParticle &self,
         const EnvState &env_state,
@@ -138,27 +138,27 @@ struct AeroParticle {
     }
 
     static auto dry_volume(const AeroParticle &self) {
-        return get_derived_value<double>(self, f_aero_particle_dry_volume);
+        return get_derived_value(self, f_aero_particle_dry_volume);
     }
 
     static auto radius(const AeroParticle &self) {
-        return get_derived_value<double>(self, f_aero_particle_radius);
+        return get_derived_value(self, f_aero_particle_radius);
     }
 
     static auto dry_radius(const AeroParticle &self) {
-        return get_derived_value<double>(self, f_aero_particle_dry_radius);
+        return get_derived_value(self, f_aero_particle_dry_radius);
     }
 
     static auto diameter(const AeroParticle &self) {
-        return get_derived_value<double>(self, f_aero_particle_diameter);
+        return get_derived_value(self, f_aero_particle_diameter);
     }
 
     static auto dry_diameter(const AeroParticle &self) {
-        return get_derived_value<double>(self, f_aero_particle_dry_diameter);
+        return get_derived_value(self, f_aero_particle_dry_diameter);
     }
 
     static auto mass(const AeroParticle &self) {
-        return get_derived_value<double>(self, f_aero_particle_mass);
+        return get_derived_value(self, f_aero_particle_mass);
     }
 
     static auto species_mass(const AeroParticle &self, const int &i_spec) {
@@ -197,40 +197,40 @@ struct AeroParticle {
     }
 
     static auto solute_kappa(const AeroParticle &self) {
-        return get_derived_value<double>(self, f_aero_particle_solute_kappa);
+        return get_derived_value(self, f_aero_particle_solute_kappa);
     }
 
     static auto moles(const AeroParticle &self) {
-        return get_derived_value<double>(self, f_aero_particle_moles);
+        return get_derived_value(self, f_aero_particle_moles);
     }
 
     static auto mobility_diameter(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value_env_state<double>(
+        return get_derived_value_env_state(
              self,
              env_state,
              f_aero_particle_mobility_diameter);
     }
 
     static auto density(const AeroParticle &self) {
-        return get_derived_value<double>(self, f_aero_particle_density);
+        return get_derived_value(self, f_aero_particle_density);
     }
 
     static auto approx_crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value_env_state<double>(
+        return get_derived_value_env_state(
              self,
              env_state,
              f_aero_particle_approx_crit_rel_humid);
     }
 
     static auto crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value_env_state<double>(
+        return get_derived_value_env_state(
              self,
              env_state,
              f_aero_particle_crit_rel_humid);
     }
 
     static auto crit_diameter(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value_env_state<double>(
+        return get_derived_value_env_state(
              self,
              env_state,
              f_aero_particle_crit_diameter);
@@ -313,11 +313,11 @@ struct AeroParticle {
     }
 
     static auto least_create_time(const AeroParticle &self) {
-        return get_value<double>(self, f_aero_particle_least_create_time);
+        return get_value(self, f_aero_particle_least_create_time);
     }
 
     static auto greatest_create_time(const AeroParticle &self) {
-        return get_value<double>(self, f_aero_particle_greatest_create_time);
+        return get_value(self, f_aero_particle_greatest_create_time);
     }
 
     static auto id(const AeroParticle &self) {
