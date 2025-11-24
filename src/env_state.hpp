@@ -58,15 +58,15 @@ struct EnvState {
     }
 
     template <typename T = double, typename Func>
-    static void set_value(const EnvState &self, Func func, T value) {
-        func(self.ptr.f_arg(), &value);
+    static void set_value(EnvState &self, Func func, T value) {
+        func(self.ptr.f_arg_non_const(), &value);
     }
 
     static double temp(const EnvState &self) {
         return get_value(self, f_env_state_get_temperature);
     }
 
-    static void set_temperature(const EnvState &self, double temperature) {
+    static void set_temperature(EnvState &self, double temperature) {
         set_value(self, f_env_state_set_temperature, temperature);
     }
 
@@ -74,7 +74,7 @@ struct EnvState {
         return get_value(self, f_env_state_get_rel_humid);
     }
 
-    static void set_height(const EnvState &self, const double height) {
+    static void set_height(EnvState &self, const double height) {
         set_value(self, f_env_state_set_height, height);
     }
 
@@ -83,7 +83,7 @@ struct EnvState {
     }
 
     static void set_additive_kernel_coefficient(
-        const EnvState &self,
+        EnvState &self,
         const double additive_kernel_coefficient)
     {
         set_value(
@@ -95,7 +95,7 @@ struct EnvState {
         return get_value(self, f_env_state_get_additive_kernel_coefficient);
     }
 
-    static void set_pressure(const EnvState &self, const double pressure) {
+    static void set_pressure(EnvState &self, const double pressure) {
         set_value(self, f_env_state_set_pressure, pressure);
     }
 
@@ -123,7 +123,7 @@ struct EnvState {
         return get_value(self, f_env_state_get_latitude);
     }
 
-    static void set_latitude(const EnvState &self, const double latitude) {
+    static void set_latitude(EnvState &self, const double latitude) {
         set_value(self, f_env_state_set_latitude, latitude);
     }
 
@@ -131,7 +131,7 @@ struct EnvState {
         return get_value(self, f_env_state_get_longitude);
     }
 
-    static void set_longitude(const EnvState &self, const double longitude) {
+    static void set_longitude(EnvState &self, const double longitude) {
         set_value(self, f_env_state_set_longitude, longitude);
     }
 
@@ -139,7 +139,7 @@ struct EnvState {
         return get_value(self, f_env_state_get_altitude);
     }
 
-    static void set_altitude(const EnvState &self, const double altitude) {
+    static void set_altitude(EnvState &self, const double altitude) {
         set_value(self, f_env_state_set_altitude, altitude);
     }
 
