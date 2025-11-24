@@ -68,6 +68,37 @@ struct AeroParticle {
             throw std::runtime_error("AeroData size mistmatch");
     }
 
+    template <typename T, typename Func>
+    static T get_value(const AeroParticle &self, Func func) {
+        T value{};
+        func(self.ptr.f_arg(), &value);
+        return value;
+    }
+
+    template <typename T, typename Func>
+    static void set_value(AeroParticle &self, Func func, T value) {
+        func(self.ptr.f_arg_non_const(), &value);
+    }
+
+    template <typename T, typename Func>
+    static T get_derived_value(const AeroParticle &self, Func func)
+    {
+        T value{};
+        func(self.ptr.f_arg(), self.aero_data.get(), &value);
+        return value;
+    }
+
+    template <typename T, typename Func>
+    static T get_derived_value_env_state(
+        const AeroParticle &self,
+        const EnvState &env_state,
+        Func func)
+    {
+        T value{};
+        func(self.ptr.f_arg(), self.aero_data.get(), env_state.ptr.f_arg(), &value);
+        return value;
+    }
+
     static auto volumes(const AeroParticle &self)
     {
         int len = AeroData::__len__(*self.aero_data);
@@ -81,12 +112,7 @@ struct AeroParticle {
     }
 
     static auto volume(const AeroParticle &self) {
-        double vol;
-        f_aero_particle_volume(
-            self.ptr.f_arg(),
-            &vol
-        );
-        return vol;
+        return get_value<double>(self, f_aero_particle_volume);
     }
 
     static auto species_volume(const AeroParticle &self, const int &i_spec) {
@@ -112,63 +138,27 @@ struct AeroParticle {
     }
 
     static auto dry_volume(const AeroParticle &self) {
-        double vol;
-        f_aero_particle_dry_volume(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &vol
-        );
-        return vol;
+        return get_derived_value<double>(self, f_aero_particle_dry_volume);
     }
 
     static auto radius(const AeroParticle &self) {
-        double radius;
-        f_aero_particle_radius(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &radius
-        );
-        return radius;
+        return get_derived_value<double>(self, f_aero_particle_radius);
     }
 
     static auto dry_radius(const AeroParticle &self) {
-        double radius;
-        f_aero_particle_dry_radius(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &radius
-        );
-        return radius;
+        return get_derived_value<double>(self, f_aero_particle_dry_radius);
     }
 
     static auto diameter(const AeroParticle &self) {
-        double diameter;
-        f_aero_particle_diameter(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &diameter
-        );
-        return diameter;
+        return get_derived_value<double>(self, f_aero_particle_diameter);
     }
 
     static auto dry_diameter(const AeroParticle &self) {
-        double diameter;
-        f_aero_particle_dry_diameter(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &diameter
-        );
-        return diameter;
+        return get_derived_value<double>(self, f_aero_particle_dry_diameter);
     }
 
     static auto mass(const AeroParticle &self) {
-        double mass;
-        f_aero_particle_mass(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &mass
-        );
-        return mass;
+        return get_derived_value<double>(self, f_aero_particle_mass);
     }
 
     static auto species_mass(const AeroParticle &self, const int &i_spec) {
@@ -207,77 +197,43 @@ struct AeroParticle {
     }
 
     static auto solute_kappa(const AeroParticle &self) {
-        double kappa;
-        f_aero_particle_solute_kappa(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &kappa
-        );
-        return kappa;
+        return get_derived_value<double>(self, f_aero_particle_solute_kappa);
     }
 
     static auto moles(const AeroParticle &self) {
-        double moles;
-        f_aero_particle_moles(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &moles
-        );
-        return moles;
+        return get_derived_value<double>(self, f_aero_particle_moles);
     }
 
     static auto mobility_diameter(const AeroParticle &self, const EnvState &env_state) {
-        double mobility_diameter;
-        f_aero_particle_mobility_diameter(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            env_state.ptr.f_arg(),
-            &mobility_diameter
-        );
-        return mobility_diameter;
+        return get_derived_value_env_state<double>(
+             self,
+             env_state,
+             f_aero_particle_mobility_diameter);
     }
 
     static auto density(const AeroParticle &self) {
-        double density;
-        f_aero_particle_density(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &density
-        );
-        return density;
+        return get_derived_value<double>(self, f_aero_particle_density);
     }
 
     static auto approx_crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
-        double approx_crit_rel_humid;
-        f_aero_particle_approx_crit_rel_humid(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            env_state.ptr.f_arg(),
-            &approx_crit_rel_humid
-        );
-        return approx_crit_rel_humid;
+        return get_derived_value_env_state<double>(
+             self,
+             env_state,
+             f_aero_particle_approx_crit_rel_humid);
     }
 
     static auto crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
-        double crit_rel_humid;
-        f_aero_particle_crit_rel_humid(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            env_state.ptr.f_arg(),
-            &crit_rel_humid
-        );
-        return crit_rel_humid;
+        return get_derived_value_env_state<double>(
+             self,
+             env_state,
+             f_aero_particle_crit_rel_humid);
     }
 
     static auto crit_diameter(const AeroParticle &self, const EnvState &env_state) {
-        double crit_diameter;
-        f_aero_particle_crit_diameter(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            env_state.ptr.f_arg(),
-            &crit_diameter
-        );
-        return crit_diameter;
+        return get_derived_value_env_state<double>(
+             self,
+             env_state,
+             f_aero_particle_crit_diameter);
     }
 
     static auto coagulate(const AeroParticle &self, const AeroParticle &two) {
@@ -357,39 +313,19 @@ struct AeroParticle {
     }
 
     static auto least_create_time(const AeroParticle &self) {
-        double val;
-        f_aero_particle_least_create_time(
-            self.ptr.f_arg(),
-            &val
-        );
-        return val;
+        return get_value<double>(self, f_aero_particle_least_create_time);
     }
 
     static auto greatest_create_time(const AeroParticle &self) {
-        double val;
-        f_aero_particle_greatest_create_time(
-            self.ptr.f_arg(),
-            &val
-        );
-        return val;
+        return get_value<double>(self, f_aero_particle_greatest_create_time);
     }
 
     static auto id(const AeroParticle &self) {
-        int64_t val;
-        f_aero_particle_id(
-            self.ptr.f_arg(),
-            &val
-        );
-        return val;
+        return get_value<int64_t>(self, f_aero_particle_id);
     }
 
     static auto is_frozen(const AeroParticle &self) {
-        int val;
-        f_aero_particle_frozen(
-            self.ptr.f_arg(),
-            &val
-        );
-        return val;
+        return get_value<int>(self, f_aero_particle_frozen);
     }
 
     static auto refract_shell(const AeroParticle &self) {
@@ -414,42 +350,23 @@ struct AeroParticle {
         return refract_core;
     }
 
-    static void set_weight_class(AeroParticle &self, const int weight_class) {
-        f_aero_particle_set_weight_class(
-            self.ptr.f_arg_non_const(),
-            &weight_class
-        );
-    }
-
     static auto get_weight_class(const AeroParticle &self) {
-        int weight_class;
-
-        f_aero_particle_get_weight_class(
-            self.ptr.f_arg(),
-            &weight_class
-        );
-        return weight_class;
+        return get_value<int>(self, f_aero_particle_get_weight_class);
     }
 
-    static void set_weight_group(AeroParticle &self, const int weight_group) {
-        f_aero_particle_set_weight_group(
-            self.ptr.f_arg_non_const(),
-            &weight_group
-        );
+    static void set_weight_class(AeroParticle &self, const int weight_class) {
+        set_value<int>(self, f_aero_particle_set_weight_class, weight_class);
     }
 
     static auto get_weight_group(const AeroParticle &self) {
-        int weight_group;
+        return get_value<int>(self, f_aero_particle_get_weight_group);
+    }
 
-        f_aero_particle_get_weight_group(
-            self.ptr.f_arg(),
-            &weight_group
-        );
-        return weight_group;
+    static void set_weight_group(AeroParticle &self, const int weight_group) {
+        set_value<int>(self, f_aero_particle_set_weight_group, weight_group);
     }
 
     static void new_id(AeroParticle &self) {
-
         f_aero_particle_new_id(self.ptr.f_arg_non_const());
     }
 };
