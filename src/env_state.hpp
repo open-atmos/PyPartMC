@@ -50,173 +50,97 @@ struct EnvState {
         ptr(f_env_state_ctor, f_env_state_dtor)
     {}
 
-    static void set_temperature(const EnvState &self, double &temperature) {
-        f_env_state_set_temperature(
-            self.ptr.f_arg(),
-            &temperature
-        );
+    template <typename T = double, typename Func>
+    static T get_value(const EnvState &self, Func func) {
+        T value{};
+        func(self.ptr.f_arg(), &value);
+        return value;
     }
 
-    static auto temp(const EnvState &self) {
-        double temperature;
+    template <typename T = double, typename Func>
+    static void set_value(const EnvState &self, Func func, T value) {
+        func(self.ptr.f_arg(), &value);
+    }
 
-        f_env_state_get_temperature(
-            self.ptr.f_arg(),
-            &temperature
-        );
-        return temperature;
+    static double temp(const EnvState &self) {
+        return get_value(self, f_env_state_get_temperature);
+    }
+
+    static void set_temperature(const EnvState &self, double temperature) {
+        set_value(self, f_env_state_set_temperature, temperature);
     }
 
     static auto rh(const EnvState &self) {
-        double rel_humid;
-
-        f_env_state_get_rel_humid(
-            self.ptr.f_arg(),
-            &rel_humid
-        );
-        return rel_humid;
+        return get_value(self, f_env_state_get_rel_humid);
     }
-    
+
     static void set_height(const EnvState &self, const double height) {
-        f_env_state_set_height(
-            self.ptr.f_arg(),
-            &height
-        );
+        set_value(self, f_env_state_set_height, height);
     }
 
-    static auto get_height(const EnvState &self) {
-        double height;
-
-        f_env_state_get_height(
-            self.ptr.f_arg(),
-            &height
-        );
-        return height;
+    static double get_height(const EnvState &self) {
+        return get_value(self, f_env_state_get_height);
     }
 
-    static void set_additive_kernel_coefficient(const EnvState &self, const double additive_kernel_coefficient) {
-        f_env_state_set_additive_kernel_coefficient(
-            self.ptr.f_arg(),
-            &additive_kernel_coefficient
-        );
+    static void set_additive_kernel_coefficient(
+        const EnvState &self,
+        const double additive_kernel_coefficient)
+    {
+        set_value(
+            self,
+            f_env_state_set_additive_kernel_coefficient,
+            additive_kernel_coefficient);
     }
-
-    static auto get_additive_kernel_coefficient(const EnvState &self) {
-        double additive_kernel_coefficient;
-
-        f_env_state_get_additive_kernel_coefficient(
-            self.ptr.f_arg(),
-            &additive_kernel_coefficient
-        );
-        return additive_kernel_coefficient;
+    static double get_additive_kernel_coefficient(const EnvState &self) {
+        return get_value(self, f_env_state_get_additive_kernel_coefficient);
     }
 
     static void set_pressure(const EnvState &self, const double pressure) {
-        f_env_state_set_pressure(
-            self.ptr.f_arg(),
-            &pressure
-        );
+        set_value(self, f_env_state_set_pressure, pressure);
     }
 
-    static auto get_pressure(const EnvState &self) {
-        double pressure;
-
-        f_env_state_get_pressure(
-            self.ptr.f_arg(),
-            &pressure
-        );
-        return pressure;
+    static double get_pressure(const EnvState &self) {
+        return get_value(self, f_env_state_get_pressure);
     }
 
     static auto get_elapsed_time(const EnvState &self) {
-        double elapsed_time;
-
-        f_env_state_get_elapsed_time(
-            self.ptr.f_arg(),
-            &elapsed_time
-        );
-        return elapsed_time;
+        return get_value(self, f_env_state_get_elapsed_time);
     }
 
     static auto get_start_time(const EnvState &self) {
-        double start_time;
-
-        f_env_state_get_start_time(
-            self.ptr.f_arg(),
-            &start_time
-        );
-        return start_time;
+        return get_value(self, f_env_state_get_start_time);
     }
 
     static auto air_density(const EnvState &self) {
-        double air_density;
-
-        f_env_state_air_dens(
-            self.ptr.f_arg(),
-            &air_density
-        );
-        return air_density;
+        return get_value(self, f_env_state_air_dens);
     }
 
     static auto air_molar_density(const EnvState &self) {
-        double air_molar_density;
-
-        f_env_state_air_molar_dens(
-            self.ptr.f_arg(),
-            &air_molar_density
-        );
-        return air_molar_density;
-    }
-
-    static void set_latitude(const EnvState &self, const double latitude) {
-        f_env_state_set_latitude(
-            self.ptr.f_arg(),
-            &latitude
-        );
+        return get_value(self, f_env_state_air_molar_dens);
     }
 
     static auto get_latitude(const EnvState &self) {
-        double latitude;
-
-        f_env_state_get_latitude(
-            self.ptr.f_arg(),
-            &latitude
-        );
-        return latitude;
+        return get_value(self, f_env_state_get_latitude);
     }
 
-    static void set_longitude(const EnvState &self, const double longitude) {
-        f_env_state_set_longitude(
-            self.ptr.f_arg(),
-            &longitude
-        );
+    static void set_latitude(const EnvState &self, const double latitude) {
+        set_value(self, f_env_state_set_latitude, latitude);
     }
 
     static auto get_longitude(const EnvState &self) {
-        double longitude;
-
-        f_env_state_get_longitude(
-            self.ptr.f_arg(),
-            &longitude
-        );
-        return longitude;
+        return get_value(self, f_env_state_get_longitude);
     }
 
-    static void set_altitude(const EnvState &self, const double altitude) {
-        f_env_state_set_altitude(
-            self.ptr.f_arg(),
-            &altitude
-        );
+    static void set_longitude(const EnvState &self, const double longitude) {
+        set_value(self, f_env_state_set_longitude, longitude);
     }
 
     static auto get_altitude(const EnvState &self) {
-        double altitude;
+        return get_value(self, f_env_state_get_altitude);
+    }
 
-        f_env_state_get_altitude(
-            self.ptr.f_arg(),
-            &altitude
-        );
-        return altitude;
+    static void set_altitude(const EnvState &self, const double altitude) {
+        set_value(self, f_env_state_set_altitude, altitude);
     }
 
     static auto ppb_to_conc(const EnvState &self, const double ppb) {
@@ -242,13 +166,7 @@ struct EnvState {
     }
 
     static auto sat_vapor_pressure(const EnvState &self) {
-        double sat_vapor_pressure;
-
-        f_env_state_sat_vapor_pressure(
-            self.ptr.f_arg(),
-            &sat_vapor_pressure
-        );
-        return sat_vapor_pressure;
+        return get_value(self, f_env_state_sat_vapor_pressure);
     }
 
 };
