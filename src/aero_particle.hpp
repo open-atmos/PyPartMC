@@ -68,34 +68,10 @@ struct AeroParticle {
             throw std::runtime_error("AeroData size mistmatch");
     }
 
-    template <typename T  = double, typename Func>
-    static T get_value(const AeroParticle &self, Func func) {
+    template <typename T = double, typename SelfType, typename Func, typename... Args>
+    static T get_derived_value(const SelfType &self, Func func, Args&&... args) {
         T value{};
-        func(self.ptr.f_arg(), &value);
-        return value;
-    }
-
-    template <typename T  = double, typename Func>
-    static void set_value(AeroParticle &self, Func func, T value) {
-        func(self.ptr.f_arg_non_const(), &value);
-    }
-
-    template <typename T  = double, typename Func>
-    static T get_derived_value(const AeroParticle &self, Func func)
-    {
-        T value{};
-        func(self.ptr.f_arg(), self.aero_data.get(), &value);
-        return value;
-    }
-
-    template <typename T  = double, typename Func>
-    static T get_derived_value_env_state(
-        const AeroParticle &self,
-        const EnvState &env_state,
-        Func func)
-    {
-        T value{};
-        func(self.ptr.f_arg(), self.aero_data.get(), env_state.ptr.f_arg(), &value);
+        func(self.ptr.f_arg(), self.aero_data.get(), std::forward<Args>(args)..., &value);
         return value;
     }
 
@@ -112,7 +88,7 @@ struct AeroParticle {
     }
 
     static auto volume(const AeroParticle &self) {
-        return get_value<double>(self, f_aero_particle_volume);
+        return pypartmc::get_value<double>(self, f_aero_particle_volume);
     }
 
     static auto species_volume(const AeroParticle &self, const int &i_spec) {
@@ -205,10 +181,10 @@ struct AeroParticle {
     }
 
     static auto mobility_diameter(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value_env_state(
+        return get_derived_value(
              self,
-             env_state,
-             f_aero_particle_mobility_diameter);
+             f_aero_particle_mobility_diameter,
+             env_state.ptr.f_arg());
     }
 
     static auto density(const AeroParticle &self) {
@@ -216,24 +192,24 @@ struct AeroParticle {
     }
 
     static auto approx_crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value_env_state(
+        return get_derived_value(
              self,
-             env_state,
-             f_aero_particle_approx_crit_rel_humid);
+             f_aero_particle_approx_crit_rel_humid,
+             env_state.ptr.f_arg());
     }
 
     static auto crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value_env_state(
+        return get_derived_value(
              self,
-             env_state,
-             f_aero_particle_crit_rel_humid);
+             f_aero_particle_crit_rel_humid,
+             env_state.ptr.f_arg());
     }
 
     static auto crit_diameter(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value_env_state(
+        return get_derived_value(
              self,
-             env_state,
-             f_aero_particle_crit_diameter);
+             f_aero_particle_crit_diameter,
+             env_state.ptr.f_arg());
     }
 
     static auto coagulate(const AeroParticle &self, const AeroParticle &two) {
@@ -313,19 +289,19 @@ struct AeroParticle {
     }
 
     static auto least_create_time(const AeroParticle &self) {
-        return get_value(self, f_aero_particle_least_create_time);
+        return pypartmc::get_value(self, f_aero_particle_least_create_time);
     }
 
     static auto greatest_create_time(const AeroParticle &self) {
-        return get_value(self, f_aero_particle_greatest_create_time);
+        return pypartmc::get_value(self, f_aero_particle_greatest_create_time);
     }
 
     static auto id(const AeroParticle &self) {
-        return get_value<int64_t>(self, f_aero_particle_id);
+        return pypartmc::get_value<int64_t>(self, f_aero_particle_id);
     }
 
     static auto is_frozen(const AeroParticle &self) {
-        return get_value<int>(self, f_aero_particle_frozen);
+        return pypartmc::get_value<int>(self, f_aero_particle_frozen);
     }
 
     static auto refract_shell(const AeroParticle &self) {
@@ -351,19 +327,19 @@ struct AeroParticle {
     }
 
     static auto get_weight_class(const AeroParticle &self) {
-        return get_value<int>(self, f_aero_particle_get_weight_class);
+        return pypartmc::get_value<int>(self, f_aero_particle_get_weight_class);
     }
 
     static void set_weight_class(AeroParticle &self, const int weight_class) {
-        set_value<int>(self, f_aero_particle_set_weight_class, weight_class);
+        pypartmc::set_value<int>(self, f_aero_particle_set_weight_class, weight_class);
     }
 
     static auto get_weight_group(const AeroParticle &self) {
-        return get_value<int>(self, f_aero_particle_get_weight_group);
+        return pypartmc::get_value<int>(self, f_aero_particle_get_weight_group);
     }
 
     static void set_weight_group(AeroParticle &self, const int weight_group) {
-        set_value<int>(self, f_aero_particle_set_weight_group, weight_group);
+        pypartmc::set_value<int>(self, f_aero_particle_set_weight_group, weight_group);
     }
 
     static void new_id(AeroParticle &self) {
