@@ -305,6 +305,15 @@ struct AeroState {
            camp_core.ptr.f_arg());
     }
 
+    template<typename T, typename Func, typename... ExtraArgs>
+    static auto get_particle_array_values(const AeroState &self, Func f, ExtraArgs&&... extra) {
+        int len;
+        f_aero_state_len(self.ptr.f_arg(), &len);
+        std::valarray<T> arr(len);
+        f(self.ptr.f_arg(), std::forward<ExtraArgs>(extra)..., std::begin(arr), &len);
+        return arr;
+    }
+
     static std::size_t __len__(const AeroState &self) {
         int len;
         f_aero_state_len(
@@ -335,21 +344,9 @@ struct AeroState {
     }
 
     static auto num_concs(const AeroState &self) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> num_concs(len);
-
-        f_aero_state_num_concs(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            begin(num_concs),
-            &len
-        );
-
-        return num_concs;
+        auto fn = f_aero_state_num_concs;
+        auto aero_data_ptr = self.aero_data->ptr.f_arg();
+        return get_particle_array_values<double>(self, fn, aero_data_ptr);
     }
 
     static auto masses(
@@ -396,40 +393,16 @@ struct AeroState {
     }
 
     static auto dry_diameters(const AeroState &self) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> dry_diameters(len);
-
-        f_aero_state_dry_diameters(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            begin(dry_diameters),
-            &len
-        );
-
-        return dry_diameters;
+        auto fn = f_aero_state_dry_diameters;
+        auto aero_data_ptr = self.aero_data->ptr.f_arg();
+        return get_particle_array_values<double>(self, fn, aero_data_ptr);
     }
 
     static auto mobility_diameters(const AeroState &self, const EnvState &env_state) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> mobility_diameters(len);
-
-        f_aero_state_mobility_diameters(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            env_state.ptr.f_arg(),
-            begin(mobility_diameters),
-            &len
-        );
-
-        return mobility_diameters;
+        auto fn = f_aero_state_mobility_diameters;
+        auto aero_data_ptr = self.aero_data->ptr.f_arg();
+        auto env_state_ptr = env_state.ptr.f_arg();
+        return get_particle_array_values<double>(self, fn, aero_data_ptr, env_state_ptr);
     }
 
     static auto diameters(
@@ -502,22 +475,10 @@ struct AeroState {
         const AeroState &self,
         const EnvState &env_state
     ) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> crit_rel_humids(len);
-
-        f_aero_state_crit_rel_humids(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            env_state.ptr.f_arg(), 
-            begin(crit_rel_humids),
-            &len
-        );
-
-        return crit_rel_humids;
+        auto fn = f_aero_state_crit_rel_humids;
+        auto aero_data_ptr = self.aero_data->ptr.f_arg();
+        auto env_state_ptr = env_state.ptr.f_arg();
+        return get_particle_array_values<double>(self, fn, aero_data_ptr, env_state_ptr);
     }
 
     static void make_dry(
@@ -530,20 +491,8 @@ struct AeroState {
     }
 
     static auto ids(const AeroState &self) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<int64_t> ids(len);
-
-        f_aero_state_ids(
-            self.ptr.f_arg(),
-            begin(ids),
-            &len
-        );
-
-        return ids;
+        auto fn = f_aero_state_ids;
+        return get_particle_array_values<int64_t>(self, fn);
     }
 
     static auto mixing_state(
