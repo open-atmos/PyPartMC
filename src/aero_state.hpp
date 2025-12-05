@@ -310,7 +310,7 @@ struct AeroState {
         int len;
         f_aero_state_len(self.ptr.f_arg(), &len);
         std::valarray<T> arr(len);
-        f(self.ptr.f_arg(), std::forward<ExtraArgs>(extra)..., std::begin(arr), &len);
+        f(self.ptr.f_arg(), std::forward<ExtraArgs>(extra)..., begin(arr), &len);
         return arr;
     }
 
