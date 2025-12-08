@@ -8,6 +8,7 @@
 
 #include "pmc_resource.hpp"
 #include "json_resource.hpp"
+#include "getters.hpp"
 #include "camp_core.hpp"
 #include "aero_data_parameters.hpp"
 #include "nanobind/nanobind.h"
@@ -78,44 +79,23 @@ struct AeroData {
     }
 
     static std::size_t __len__(const AeroData &self) {
-        int len;
-        f_aero_data_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        return len;
+        return pypartmc::get_value<int>(self, f_aero_data_len);
     }
 
     static void set_frac_dim(AeroData &self, const double value) {
-        f_aero_data_set_frac_dim( 
-            self.ptr.f_arg_non_const(),
-            &value
-        );
+        pypartmc::set_value(self, f_aero_data_set_frac_dim, value);
     }
 
     static auto get_frac_dim(const AeroData &self) {
-        double value;
-        f_aero_data_get_frac_dim(
-            self.ptr.f_arg(),
-            &value
-        );
-        return value;
+        return pypartmc::get_value(self, f_aero_data_get_frac_dim);
     }
 
     static void set_vol_fill_factor(AeroData &self, const double value) {
-        f_aero_data_set_vol_fill_factor(
-            self.ptr.f_arg_non_const(),
-            &value
-        );
+        pypartmc::set_value(self, f_aero_data_set_vol_fill_factor, value);
     }
 
     static auto get_prime_radius(AeroData &self) {
-        double value;
-        f_aero_data_get_prime_radius(
-            self.ptr.f_arg(),
-            &value
-        );
-        return value;
+        return pypartmc::get_value(self, f_aero_data_get_prime_radius);
     }
 
     static void set_prime_radius(AeroData &self, const double value) {
@@ -126,12 +106,7 @@ struct AeroData {
     }
 
     static auto get_vol_fill_factor(const AeroData &self) {
-        double value;
-        f_aero_data_get_vol_fill_factor(
-            self.ptr.f_arg(),
-            &value
-        );
-        return value;
+        return pypartmc::get_value(self, f_aero_data_get_vol_fill_factor);
     }
 
     static auto rad2vol(const AeroData &self, const double radius) {
@@ -219,11 +194,7 @@ struct AeroData {
     }
 
     static std::size_t n_source(const AeroData &self) {
-        int len;
-        f_aero_data_n_source(
-            self.ptr.f_arg(),
-            &len
-        );
+        int len = pypartmc::get_value<int>(self, f_aero_data_n_source);
         if (len == -1)
             throw std::runtime_error("No sources defined.");
         return len;
