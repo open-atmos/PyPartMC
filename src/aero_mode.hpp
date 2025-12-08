@@ -9,6 +9,7 @@
 #include "pmc_resource.hpp"
 #include "aero_data.hpp"
 #include "bin_grid.hpp"
+#include "getters.hpp"
 
 extern "C" void f_aero_mode_ctor(
     void *ptr
@@ -204,7 +205,7 @@ struct AeroMode {
            &len
        );
 
-       return data; 
+       return data;
     }
 
     static void set_vol_frac(AeroMode &self, const std::valarray<double>&data)
@@ -223,11 +224,9 @@ struct AeroMode {
 
     static auto get_vol_frac(const AeroMode &self)
     {
-       int len;
-       f_aero_mode_get_n_spec(self.ptr.f_arg(), &len); 
-       std::valarray<double> data(len);
-       f_aero_mode_get_vol_frac(self.ptr.f_arg(), begin(data), &len);
-       return data;
+        auto fn = f_aero_mode_get_vol_frac;
+        auto len_fn = f_aero_mode_get_n_spec;
+        return pypartmc::get_array_values(self, fn, len_fn);
     }
 
     static void set_vol_frac_std(AeroMode &self, const std::valarray<double>&data)
@@ -246,17 +245,13 @@ struct AeroMode {
 
     static auto get_vol_frac_std(const AeroMode &self)
     {
-       int len;
-       f_aero_mode_get_n_spec(self.ptr.f_arg(), &len);
-       std::valarray<double> data(len);
-       f_aero_mode_get_vol_frac_std(self.ptr.f_arg(), begin(data), &len);
-       return data;
+        auto fn = f_aero_mode_get_vol_frac_std;
+        auto len_fn = f_aero_mode_get_n_spec;
+        return pypartmc::get_array_values(self, fn, len_fn);
     }
 
     static auto get_char_radius(const AeroMode &self){
-       double val;
-       f_aero_mode_get_char_radius(self.ptr.f_arg(), &val);
-       return val;
+       return pypartmc::get_value(self, f_aero_mode_get_char_radius);
     }
 
     static void set_char_radius(AeroMode &self, const double &val){
@@ -264,9 +259,7 @@ struct AeroMode {
     }
 
     static auto get_gsd(const AeroMode &self){
-       double val;
-       f_aero_mode_get_gsd(self.ptr.f_arg(), &val);
-       return val;
+       return pypartmc::get_value(self, f_aero_mode_get_gsd);
     }
 
     static void set_gsd(AeroMode &self, const double &val) {
@@ -359,14 +352,8 @@ struct AeroMode {
     }
 
     static auto get_sample_num_conc(const AeroMode &self) {
-       int len;
-       f_aero_mode_get_sample_bins(self.ptr.f_arg(), &len);
-       std::valarray<double> sample_num_conc(len);
-       f_aero_mode_get_sample_num_conc(
-           self.ptr.f_arg(),
-           begin(sample_num_conc),
-           &len
-       );
-       return sample_num_conc;
+        auto fn = f_aero_mode_get_sample_num_conc;
+        auto len_fn = f_aero_mode_get_sample_bins;
+        return pypartmc::get_array_values(self, fn, len_fn);
     }
 };
