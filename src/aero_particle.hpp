@@ -68,13 +68,6 @@ struct AeroParticle {
             throw std::runtime_error("AeroData size mistmatch");
     }
 
-    template <typename T = double, typename SelfType, typename Func, typename... Args>
-    static T get_derived_value(const SelfType &self, Func func, Args&&... args) {
-        T value{};
-        func(self.ptr.f_arg(), self.aero_data.get(), std::forward<Args>(args)..., &value);
-        return value;
-    }
-
     static auto volumes(const AeroParticle &self)
     {
         int len = AeroData::__len__(*self.aero_data);
@@ -114,27 +107,27 @@ struct AeroParticle {
     }
 
     static auto dry_volume(const AeroParticle &self) {
-        return get_derived_value(self, f_aero_particle_dry_volume);
+        return pypartmc::get_derived_value(self, f_aero_particle_dry_volume, self.aero_data.get());
     }
 
     static auto radius(const AeroParticle &self) {
-        return get_derived_value(self, f_aero_particle_radius);
+        return pypartmc::get_derived_value(self, f_aero_particle_radius, self.aero_data.get());
     }
 
     static auto dry_radius(const AeroParticle &self) {
-        return get_derived_value(self, f_aero_particle_dry_radius);
+        return pypartmc::get_derived_value(self, f_aero_particle_dry_radius, self.aero_data.get());
     }
 
     static auto diameter(const AeroParticle &self) {
-        return get_derived_value(self, f_aero_particle_diameter);
+        return pypartmc::get_derived_value(self, f_aero_particle_diameter, self.aero_data.get());
     }
 
     static auto dry_diameter(const AeroParticle &self) {
-        return get_derived_value(self, f_aero_particle_dry_diameter);
+        return pypartmc::get_derived_value(self, f_aero_particle_dry_diameter, self.aero_data.get());
     }
 
     static auto mass(const AeroParticle &self) {
-        return get_derived_value(self, f_aero_particle_mass);
+        return pypartmc::get_derived_value(self, f_aero_particle_mass, self.aero_data.get());
     }
 
     static auto species_mass(const AeroParticle &self, const int &i_spec) {
@@ -173,42 +166,46 @@ struct AeroParticle {
     }
 
     static auto solute_kappa(const AeroParticle &self) {
-        return get_derived_value(self, f_aero_particle_solute_kappa);
+        return pypartmc::get_derived_value(self, f_aero_particle_solute_kappa, self.aero_data.get());
     }
 
     static auto moles(const AeroParticle &self) {
-        return get_derived_value(self, f_aero_particle_moles);
+        return pypartmc::get_derived_value(self, f_aero_particle_moles, self.aero_data.get());
     }
 
     static auto mobility_diameter(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value(
+        return pypartmc::get_derived_value(
              self,
              f_aero_particle_mobility_diameter,
+             self.aero_data.get(),
              env_state.ptr.f_arg());
     }
 
     static auto density(const AeroParticle &self) {
-        return get_derived_value(self, f_aero_particle_density);
+        return pypartmc::get_derived_value(self, f_aero_particle_density, self.aero_data.get());
     }
 
     static auto approx_crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value(
+        return pypartmc::get_derived_value(
              self,
              f_aero_particle_approx_crit_rel_humid,
+             self.aero_data.get(),
              env_state.ptr.f_arg());
     }
 
     static auto crit_rel_humid(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value(
+        return pypartmc::get_derived_value(
              self,
              f_aero_particle_crit_rel_humid,
+             self.aero_data.get(),
              env_state.ptr.f_arg());
     }
 
     static auto crit_diameter(const AeroParticle &self, const EnvState &env_state) {
-        return get_derived_value(
+        return pypartmc::get_derived_value(
              self,
              f_aero_particle_crit_diameter,
+             self.aero_data.get(),
              env_state.ptr.f_arg());
     }
 

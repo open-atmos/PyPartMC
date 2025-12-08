@@ -305,15 +305,6 @@ struct AeroState {
            camp_core.ptr.f_arg());
     }
 
-    template<typename T = double, typename Func, typename... ExtraArgs>
-    static auto get_particle_array_values(const AeroState &self, Func f, ExtraArgs&&... extra) {
-        int len;
-        f_aero_state_len(self.ptr.f_arg(), &len);
-        std::valarray<T> arr(len);
-        f(self.ptr.f_arg(), std::forward<ExtraArgs>(extra)..., begin(arr), &len);
-        return arr;
-    }
-
     static std::size_t __len__(const AeroState &self) {
         int len;
         f_aero_state_len(
@@ -345,8 +336,9 @@ struct AeroState {
 
     static auto num_concs(const AeroState &self) {
         auto fn = f_aero_state_num_concs;
+        auto len_fn =  f_aero_state_len;
         auto aero_data_ptr = self.aero_data->ptr.f_arg();
-        return get_particle_array_values(self, fn, aero_data_ptr);
+        return pypartmc::get_array_values(self, fn, len_fn, aero_data_ptr);
     }
 
     static auto masses(
@@ -394,15 +386,17 @@ struct AeroState {
 
     static auto dry_diameters(const AeroState &self) {
         auto fn = f_aero_state_dry_diameters;
+        auto len_fn = f_aero_state_len;
         auto aero_data_ptr = self.aero_data->ptr.f_arg();
-        return get_particle_array_values(self, fn, aero_data_ptr);
+        return pypartmc::get_array_values(self, fn, len_fn, aero_data_ptr);
     }
 
     static auto mobility_diameters(const AeroState &self, const EnvState &env_state) {
         auto fn = f_aero_state_mobility_diameters;
+        auto len_fn = f_aero_state_len;
         auto aero_data_ptr = self.aero_data->ptr.f_arg();
         auto env_state_ptr = env_state.ptr.f_arg();
-        return get_particle_array_values(self, fn, aero_data_ptr, env_state_ptr);
+        return pypartmc::get_array_values(self, fn, len_fn, aero_data_ptr, env_state_ptr);
     }
 
     static auto diameters(
@@ -476,9 +470,10 @@ struct AeroState {
         const EnvState &env_state
     ) {
         auto fn = f_aero_state_crit_rel_humids;
+        auto len_fn = f_aero_state_len;
         auto aero_data_ptr = self.aero_data->ptr.f_arg();
         auto env_state_ptr = env_state.ptr.f_arg();
-        return get_particle_array_values(self, fn, aero_data_ptr, env_state_ptr);
+        return pypartmc::get_array_values(self, fn, len_fn, aero_data_ptr, env_state_ptr);
     }
 
     static void make_dry(
@@ -492,7 +487,8 @@ struct AeroState {
 
     static auto ids(const AeroState &self) {
         auto fn = f_aero_state_ids;
-        return get_particle_array_values<int64_t>(self, fn);
+        auto len_fn = f_aero_state_len;
+        return pypartmc::get_array_values<int64_t>(self, fn, len_fn);
     }
 
     static auto mixing_state(
