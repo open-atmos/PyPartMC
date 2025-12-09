@@ -39,4 +39,12 @@ static auto get_array_values(const SelfType &self, Func f, LenF len_fn,
         f(self.ptr.f_arg(), std::forward<ExtraArgs>(extra)..., begin(arr), &len);
         return arr;
     }
+
+template<typename T = double, typename SelfType, typename Func, typename... ExtraArgs>
+static auto get_array_values_set_len(const SelfType &self, Func f, int len,
+    ExtraArgs&&... extra) {
+        std::valarray<T> arr(len);
+        f(self.ptr.f_arg(), std::forward<ExtraArgs>(extra)..., begin(arr), &len);
+        return arr;
+    }
 }

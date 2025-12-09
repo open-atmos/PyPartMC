@@ -24,7 +24,7 @@ extern "C" void f_aero_particle_diameter(const void *aero_particle_ptr, const vo
 extern "C" void f_aero_particle_dry_diameter(const void *aero_particle_ptr, const void * aero_data_ptr, double *diameter) noexcept;
 extern "C" void f_aero_particle_mass(const void *aero_particle_ptr, const void *aero_data_ptr, double *mass) noexcept;
 extern "C" void f_aero_particle_species_mass(const void *aero_particle_ptr, const int *i_spec, const void *aero_data_ptr, double *mass) noexcept;
-extern "C" void f_aero_particle_species_masses(const void *aero_particle_ptr, const void *aero_data_ptr, const int *size_masses, void *masses) noexcept;
+extern "C" void f_aero_particle_species_masses(const void *aero_particle_ptr, const void *aero_data_ptr, void *masses, const int *size_masses) noexcept;
 extern "C" void f_aero_particle_solute_kappa(const void *aero_particle_ptr, const void *aero_data_ptr, void *kappa) noexcept;
 extern "C" void f_aero_particle_moles(const void *aero_particle_ptr, const void *aero_data_ptr, void *moles) noexcept;
 extern "C" void f_aero_particle_mobility_diameter(const void *aero_particle_ptr, const void *aero_data_ptr, const void *env_state_ptr, void *mobility_diameter) noexcept;
@@ -71,13 +71,9 @@ struct AeroParticle {
     static auto volumes(const AeroParticle &self)
     {
         int len = AeroData::__len__(*self.aero_data);
-        std::valarray<double> data(len);
-        f_aero_particle_volumes(
-            self.ptr.f_arg(),
-            begin(data),
-            &len
-        );
-        return data;
+        auto fn = f_aero_particle_volumes;
+        auto aero_data_ptr = self.aero_data->ptr.f_arg();
+        return pypartmc::get_array_values_set_len(self, fn, len);
     }
 
     static auto volume(const AeroParticle &self) {
@@ -85,25 +81,14 @@ struct AeroParticle {
     }
 
     static auto species_volume(const AeroParticle &self, const int &i_spec) {
-        double vol;
-        f_aero_particle_species_volume(
-            self.ptr.f_arg(),
-            &i_spec,
-            &vol
-        );
-        return vol;
+        auto fn = f_aero_particle_species_volume;
+        return pypartmc::get_derived_value(self, fn, &i_spec);
     }
 
     static auto species_volume_by_name(const AeroParticle &self, const std::string &name) {
-        double vol;
         const int i_spec = AeroData::spec_by_name(*self.aero_data, name);
-
-        f_aero_particle_species_volume(
-            self.ptr.f_arg(),
-            &i_spec,
-            &vol
-        );
-        return vol;
+        auto fn = f_aero_particle_species_volume;
+        return pypartmc::get_derived_value(self, fn, &i_spec);
     }
 
     static auto dry_volume(const AeroParticle &self) {
@@ -131,38 +116,20 @@ struct AeroParticle {
     }
 
     static auto species_mass(const AeroParticle &self, const int &i_spec) {
-        double mass;
-        f_aero_particle_species_mass(
-            self.ptr.f_arg(),
-            &i_spec,
-            self.aero_data.get(),
-            &mass
-        );
-        return mass;
+        auto fn = f_aero_particle_species_mass;
+        return pypartmc::get_derived_value(self, fn, &i_spec, self.aero_data.get());
     }
 
     static auto species_mass_by_name(const AeroParticle &self, const std::string &name) {
-        double mass;
-        const int i_spec = AeroData::spec_by_name(*self.aero_data, name);
-        f_aero_particle_species_mass(
-            self.ptr.f_arg(),
-            &i_spec,
-            self.aero_data.get(),
-            &mass
-        );
-        return mass;
+        auto fn = f_aero_particle_species_mass;
+        int i_spec = AeroData::spec_by_name(*self.aero_data, name);
+        return pypartmc::get_derived_value(self, fn, &i_spec, self.aero_data.get());
     }
 
     static auto species_masses(const AeroParticle &self) {
         int len = AeroData::__len__(*self.aero_data);
-        std::valarray<double> masses(len);
-        f_aero_particle_species_masses(
-            self.ptr.f_arg(),
-            self.aero_data.get(),
-            &len,
-            begin(masses)
-        );
-        return masses;
+        auto fn = f_aero_particle_species_masses;
+        return pypartmc::get_array_values_set_len(self, fn, len, self.aero_data.get());
     }
 
     static auto solute_kappa(const AeroParticle &self) {
@@ -274,15 +241,9 @@ struct AeroParticle {
     }
 
     static auto sources(const AeroParticle &self) {
-        int len = AeroData::n_source(*self.aero_data);
-        std::valarray<int> data(len);
-
-        f_aero_particle_get_component_sources(
-            self.ptr.f_arg(),
-            begin(data),
-            &len
-        );
-        return data;
+        int len = AeroData::__len__(*self.aero_data);
+        auto fn = f_aero_particle_get_component_sources;
+        return pypartmc::get_array_values_set_len<int>(self, fn, len);
     }
 
     static auto least_create_time(const AeroParticle &self) {
