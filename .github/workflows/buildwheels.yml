@@ -4,6 +4,9 @@ defaults:
   run:
     shell: bash
 
+env:
+  PIP_INSTALL_OPTS: "--only-binary=:all: --verbose"
+
 on:
   push:
     branches: [ main ]
@@ -22,7 +25,7 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0  # https://github.com/pypa/setuptools_scm/issues/480
-      - run: DEBUG=1 VERBOSE=1 pip install --verbose -e .[tests]
+      - run: DEBUG=1 VERBOSE=1 pip install $PIP_INSTALL_OPTS -e .[tests]
       - run: pytest -v -s -We -p no:unraisableexception tests
 
   zenodo_json:
@@ -65,16 +68,16 @@ jobs:
           python-version: "3.11"
 
       - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel
+        run: python -m pip install $PIP_INSTALL_OPTS cibuildwheel
 
       - name: Build and test wheels
         env:
           # skip 32-bit, musllinux, and free-threaded builds
           CIBW_SKIP: "*-win32 *-manylinux_i686 *musllinux* cp3??t-*"
-          CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel
+          CIBW_BEFORE_BUILD_WINDOWS: pip install $PIP_INSTALL_OPTS delvewheel
           CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: delvewheel repair -w {dest_dir} {wheel}
-          CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc; pip install --only-binary=llvmlite llvmlite
+          CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc; pip install $PIP_INSTALL_OPTS llvmlite
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` SYSTEM_VERSION_COMPAT=0
           CIBW_TEST_REQUIRES: pytest pytest-order
           CIBW_TEST_COMMAND: pytest -v -s -We -p no:unraisableexception {package}/tests
@@ -113,7 +116,6 @@ jobs:
       - if: startsWith(matrix.os, 'macos-')
         run: |
           brew reinstall gcc
-          pip install --only-binary=llvmlite llvmlite
 
       # TODO #440
       - if: startsWith(matrix.os, 'windows-')
@@ -121,7 +123,7 @@ jobs:
 
       - run: | 
           temp=`find dist/ -name "*cp313*.whl"`
-          python -m pip install $temp[examples]
+          python -m pip install $PIP_INSTALL_OPTS $temp[examples]
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
           python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
@@ -138,7 +140,7 @@ jobs:
             fetch-depth: 0
 
         - run: |
-            python -m pip install pytest
+            python -m pip install $PIP_INSTALL_OPTS pytest
             python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_todos_annotated.py
 
@@ -152,7 +154,7 @@ jobs:
     - uses: actions/setup-python@v5.0.0
       with:
         python-version: "3.11"
-    - run: pip install twine auditwheel
+    - run: pip install $PIP_INSTALL_OPTS twine auditwheel
     - uses: actions/download-artifact@v4
       with:
         name: dist-${{matrix.os}}-${{matrix.manylinux}}
