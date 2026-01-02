@@ -112,7 +112,7 @@ jobs:
           name: dist-${{matrix.os}}-${{matrix.manylinux}}
           path: dist
 
-      # install fortran compiler needed by dustpy and force binary-packaged llvmlite
+      # install fortran compiler needed by dustpy
       - if: startsWith(matrix.os, 'macos-')
         run: |
           brew reinstall gcc
