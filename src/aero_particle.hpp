@@ -42,7 +42,7 @@ extern "C" void f_aero_particle_greatest_create_time(const void *aero_particle_p
 extern "C" void f_aero_particle_least_create_time(const void *aero_particle_ptr, double *val) noexcept;
 extern "C" void f_aero_particle_get_component_sources(const void *aero_particle_ptr, void *arr_data, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_id(const void *aero_particle_ptr, int64_t *val) noexcept;
-extern "C" void f_aero_particle_frozen(const void *aero_particle_ptr, int *val) noexcept;
+extern "C" void f_aero_particle_frozen(const void *aero_particle_ptr, bool *val) noexcept;
 extern "C" void f_aero_particle_refract_shell(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_refract_core(const void *aero_particle_ptr, std::complex<double> *val, const int *arr_size) noexcept;
 extern "C" void f_aero_particle_set_weight_class(void *ptr, const int *weight_class) noexcept;
@@ -384,7 +384,7 @@ struct AeroParticle {
     }
 
     static auto is_frozen(const AeroParticle &self) {
-        int val;
+        bool val;
         f_aero_particle_frozen(
             self.ptr.f_arg(),
             &val
