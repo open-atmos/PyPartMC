@@ -120,7 +120,7 @@ jobs:
         run: echo 'PYTEST_SKIP_ARGS=-k "not camp"' >> $GITHUB_ENV
 
       - run: | 
-          temp=`find dist/ -name "*cp313*.whl"`
+          temp=`find dist/ -name "*cp312*.whl"`
           python -m pip install $temp[examples]
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
