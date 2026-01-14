@@ -113,6 +113,7 @@ jobs:
       - if: startsWith(matrix.os, 'macos-')
         run: |
           brew reinstall gcc
+          pip install --only-binary=llvmlite llvmlite
 
       # TODO #440
       - if: startsWith(matrix.os, 'windows-')
