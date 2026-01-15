@@ -465,3 +465,15 @@ class TestAeroMode:
         assert sut.sample_num_conc == num_concs
         assert (np.array(sut.sample_radius) * 2 == diams).all()
         assert sut.num_conc == num_conc_orig * 2
+
+    @staticmethod
+    def test_num_dist():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_CTOR_SAMPLED)
+
+        grid = ppmc.BinGrid(20, "linear", 0, 10)
+        assert (
+            np.sum(np.array(sut.num_dist(grid, aero_data)) * grid.widths)
+            == sut.num_conc
+        )
