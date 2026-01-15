@@ -110,6 +110,19 @@ class TestAeroMode:
         assert sut.vol_frac == vals
 
     @staticmethod
+    def test_set_vol_frac_std():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        sut = ppmc.AeroMode(aero_data, AERO_MODE_CTOR_LOG_NORMAL)
+        vals = [0.1]
+
+        # act
+        sut.vol_frac_std = vals
+
+        # assert
+        assert sut.vol_frac_std == vals
+
+    @staticmethod
     def test_set_num_conc():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
