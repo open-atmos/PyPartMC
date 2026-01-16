@@ -22,7 +22,7 @@ jobs:
 
       - uses: actions/setup-python@v1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
       - uses: jwlawson/actions-setup-cmake@v1.13
         with:
@@ -50,7 +50,7 @@ jobs:
 
       - uses: actions/setup-python@v1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
       - uses: jwlawson/actions-setup-cmake@v1.13
         with:
@@ -118,11 +118,11 @@ jobs:
 
       - uses: actions/setup-python@v1
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
       - uses: RalfG/python-wheels-manylinux-build@v0.7.1-manylinux2010_x86_64
         with:
-          python-versions: cp310-cp310
+          python-versions: cp312-cp312
           build-requirements: 'setuptools_scm'
           pre-build-command: 'git config --global --add safe.directory "*"'
 
@@ -134,7 +134,7 @@ jobs:
 
       - uses: matlab-actions/setup-matlab@v0
         with:
-          release: R2022a
+          release: R2024b
           cache: true
 
       - run: mkdir readme_output
