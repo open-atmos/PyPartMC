@@ -528,7 +528,7 @@ module PyPartMC_aero_particle
 
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
     type(c_ptr), intent(in) :: aero_particle_ptr_c
-    integer(c_int), intent(out) :: is_frozen 
+    logical(c_bool), intent(out) :: is_frozen 
 
     call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
 
