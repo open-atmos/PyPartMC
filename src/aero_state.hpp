@@ -234,6 +234,39 @@ auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
     return pointer_vec;
 }
 
+// Retrieves an array from a Fortran routine with include/exclude species filters.
+template <typename Func, typename LenF>
+auto get_array_values_filtered(
+    const void *self_ptr,
+    const void *aero_data_ptr,
+    Func f,
+    LenF len_fn,
+    const tl::optional<std::vector<std::string>> &include,
+    const tl::optional<std::vector<std::string>> &exclude
+) {
+    int len;
+    len_fn(self_ptr, &len);
+    std::valarray<double> arr(len);
+
+    const int include_size = include.has_value() ? include.value().size() : 0;
+    const int exclude_size = exclude.has_value() ? exclude.value().size() : 0;
+
+    std::vector<std::array<char, AERO_NAME_LEN>>
+        include_arr(include_size),
+        exclude_arr(exclude_size);
+
+    f(self_ptr,
+      aero_data_ptr,
+      begin(arr),
+      &len,
+      &include_size,
+      &exclude_size,
+      pointer_vec_magic(include_arr, include).data(),
+      pointer_vec_magic(exclude_arr, exclude).data());
+
+    return arr;
+}
+
 static const std::map<bpstd::string_view, char> weight_c{
     //{"none", '-'},
     {"flat", 'f'},
@@ -346,32 +379,14 @@ struct AeroState {
         const tl::optional<std::vector<std::string>> &include,
         const tl::optional<std::vector<std::string>> &exclude
     ) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> masses(len);
-
-        const int include_size = (include.has_value()) ? include.value().size() : 0;
-        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
-
-        std::vector<std::array<char, AERO_NAME_LEN>>
-            include_arr(include_size),
-            exclude_arr(exclude_size);
-
-        f_aero_state_masses(
+        return get_array_values_filtered(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
-            begin(masses),
-            &len,
-            &include_size,
-            &exclude_size,
-            pointer_vec_magic(include_arr, include).data(),
-            pointer_vec_magic(exclude_arr, exclude).data()
+            f_aero_state_masses,
+            f_aero_state_len,
+            include,
+            exclude
         );
-
-        return masses;
     }
 
     static auto frozen_fraction(const AeroState &self) {
@@ -404,32 +419,14 @@ struct AeroState {
         const tl::optional<std::vector<std::string>> &include,
         const tl::optional<std::vector<std::string>> &exclude
     ) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> diameters(len);
-
-        const int include_size = (include.has_value()) ? include.value().size() : 0;
-        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
-
-        std::vector<std::array<char, AERO_NAME_LEN>>
-            include_arr(include_size),
-            exclude_arr(exclude_size);
-
-        f_aero_state_diameters(
+        return get_array_values_filtered(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
-            begin(diameters),
-            &len,
-            &include_size,
-            &exclude_size,
-            pointer_vec_magic(include_arr, include).data(),
-            pointer_vec_magic(exclude_arr, exclude).data()
+            f_aero_state_diameters,
+            f_aero_state_len,
+            include,
+            exclude
         );
-
-        return diameters;
     }
 
     static auto volumes(
@@ -437,32 +434,14 @@ struct AeroState {
         const tl::optional<std::vector<std::string>> &include,
         const tl::optional<std::vector<std::string>> &exclude
     ) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> volumes(len);
-
-        const int include_size = (include.has_value()) ? include.value().size() : 0;
-        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
-
-        std::vector<std::array<char, AERO_NAME_LEN>>
-            include_arr(include_size),
-            exclude_arr(exclude_size);
-
-        f_aero_state_volumes(
+        return get_array_values_filtered(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
-            begin(volumes),
-            &len,
-            &include_size,
-            &exclude_size,
-            pointer_vec_magic(include_arr, include).data(),
-            pointer_vec_magic(exclude_arr, exclude).data()
+            f_aero_state_volumes,
+            f_aero_state_len,
+            include,
+            exclude
         );
-
-        return volumes;
     }
 
     static auto crit_rel_humids(
