@@ -14,6 +14,11 @@ jobs:
       - name: Linting
         run: |
           pip install pre-commit
+          
+          # avoiding failures unrelated to PR contents 
+          if [ "${{ github.event_name }}" = "schedule" ]; then
           pre-commit clean
           pre-commit autoupdate
-          pre-commit run --all-files
+          fi
+          
+          pre-commit run --all-files --show-diff-on-failure
