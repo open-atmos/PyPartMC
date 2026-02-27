@@ -165,8 +165,8 @@ module PyPartMC_aero_particle
   subroutine f_aero_particle_species_masses( &
       aero_particle_ptr_c, &
       aero_data_ptr_c, &
-      size_masses, &
-      masses &
+      masses, &
+      size_masses &
     ) bind(C)
 
     type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
