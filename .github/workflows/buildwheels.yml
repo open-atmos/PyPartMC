@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -61,18 +61,20 @@ jobs:
             m4
       
       - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
       - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel==2.23.2
+        run: python -m pip install cibuildwheel
 
       - name: Build and test wheels
         env:
-          # skip 32-bit, PyPy, and musllinux builds
-          CIBW_SKIP: "*-win32 *-manylinux_i686 pp* *musllinux*"
+          # skip 32-bit, musllinux, and free-threaded builds
+          CIBW_SKIP: "*-win32 *-manylinux_i686 *musllinux* cp3??t-*"
           CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel
           CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: delvewheel repair -w {dest_dir} {wheel}
-          CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc
+          CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc; pip install --only-binary=llvmlite llvmlite
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` SYSTEM_VERSION_COMPAT=0
           CIBW_TEST_REQUIRES: pytest pytest-order
           CIBW_TEST_COMMAND: pytest -v -s -We -p no:unraisableexception {package}/tests
@@ -90,7 +92,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-13, macos-latest, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -100,7 +102,7 @@ jobs:
 
       - uses: actions/setup-python@v5.0.0
         with:
-          python-version: "3.13"
+          python-version: "3.12"
       
       - uses: actions/download-artifact@v4
         with:
@@ -111,13 +113,14 @@ jobs:
       - if: startsWith(matrix.os, 'macos-')
         run: |
           brew reinstall gcc
+          pip install --only-binary=llvmlite numba llvmlite!=0.46.0b1
 
       # TODO #440
       - if: startsWith(matrix.os, 'windows-')
         run: echo 'PYTEST_SKIP_ARGS=-k "not camp"' >> $GITHUB_ENV
 
       - run: | 
-          temp=`find dist/ -name "*cp313*.whl"`
+          temp=`find dist/ -name "*cp312*.whl"`
           python -m pip install $temp[examples]
           ex -sc 'g/^PyPartMC/d' -cx .binder/requirements.txt
           python -m pip install --force-reinstall --no-deps $PIP_INSTALL_OPTS -r .binder/requirements.txt
@@ -183,3 +186,36 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1.12
       with:
         attestations: false
+
+  make_sdist:
+    name: Make source distribution
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Build source distribution
+      run: pipx run build --sdist
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: cibw-sdist
+        path: dist/*.tar.gz
+
+  upload_sdist:
+    needs: [build_wheels, make_sdist]
+    environment: pypi
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+    - uses: actions/download-artifact@v5
+      with:
+        pattern: cibw-*
+        path: dist
+        merge-multiple: true
+
+    - uses: pypa/gh-action-pypi-publish@release/v1

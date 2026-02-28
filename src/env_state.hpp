@@ -8,6 +8,7 @@
 
 #include "json_resource.hpp"
 #include "pmc_resource.hpp"
+#include "getters.hpp"
 
 extern "C" void f_env_state_ctor(void *ptr) noexcept;
 extern "C" void f_env_state_dtor(void *ptr) noexcept;
@@ -24,7 +25,16 @@ extern "C" void f_env_state_get_pressure(const void *ptr, double *pressure) noex
 extern "C" void f_env_state_get_elapsed_time(const void *ptr, double *elapsed_time) noexcept;
 extern "C" void f_env_state_get_start_time(const void *ptr, double *start_time) noexcept;
 extern "C" void f_env_state_air_dens(const void *ptr, double *air_density) noexcept;
-
+extern "C" void f_env_state_air_molar_dens(const void *ptr, double *air_molar_density) noexcept;
+extern "C" void f_env_state_set_latitude(const void *ptr, const double *latitude) noexcept;
+extern "C" void f_env_state_get_latitude(const void *ptr, double *latitude) noexcept;
+extern "C" void f_env_state_set_longitude(const void *ptr, const double *longitude) noexcept;
+extern "C" void f_env_state_get_longitude(const void *ptr, double *longitude) noexcept;
+extern "C" void f_env_state_set_altitude(const void *ptr, const double *altitude) noexcept;
+extern "C" void f_env_state_get_altitude(const void *ptr, double *altitude) noexcept;
+extern "C" void f_env_state_ppb_to_conc(const void *ptr, const double *ppb, double *conc) noexcept;
+extern "C" void f_env_state_conc_to_ppb(const void *ptr, const double *conc, double *ppb) noexcept;
+extern "C" void f_env_state_sat_vapor_pressure(const void *ptr, double *sat_vapor_pressure) noexcept;
 
 struct EnvState {
     PMCResource ptr;
@@ -41,111 +51,111 @@ struct EnvState {
         ptr(f_env_state_ctor, f_env_state_dtor)
     {}
 
-    static void set_temperature(const EnvState &self, double &temperature) {
-        f_env_state_set_temperature(
-            self.ptr.f_arg(),
-            &temperature
-        );
+    static double temp(const EnvState &self) {
+        return pypartmc::get_value(self, f_env_state_get_temperature);
     }
 
-    static auto temp(const EnvState &self) {
-        double temperature;
-
-        f_env_state_get_temperature(
-            self.ptr.f_arg(),
-            &temperature
-        );
-        return temperature;
+    static void set_temperature(EnvState &self, double temperature) {
+        pypartmc::set_value(self, f_env_state_set_temperature, temperature);
     }
 
     static auto rh(const EnvState &self) {
-        double rel_humid;
-
-        f_env_state_get_rel_humid(
-            self.ptr.f_arg(),
-            &rel_humid
-        );
-        return rel_humid;
-    }
-    
-    static void set_height(const EnvState &self, const double height) {
-        f_env_state_set_height(
-            self.ptr.f_arg(),
-            &height
-        );
+        return pypartmc::get_value(self, f_env_state_get_rel_humid);
     }
 
-    static auto get_height(const EnvState &self) {
-        double height;
-
-        f_env_state_get_height(
-            self.ptr.f_arg(),
-            &height
-        );
-        return height;
+    static void set_height(EnvState &self, const double height) {
+        pypartmc::set_value(self, f_env_state_set_height, height);
     }
 
-    static void set_additive_kernel_coefficient(const EnvState &self, const double additive_kernel_coefficient) {
-        f_env_state_set_additive_kernel_coefficient(
-            self.ptr.f_arg(),
-            &additive_kernel_coefficient
-        );
+    static double get_height(const EnvState &self) {
+        return pypartmc::get_value(self, f_env_state_get_height);
     }
 
-    static auto get_additive_kernel_coefficient(const EnvState &self) {
-        double additive_kernel_coefficient;
-
-        f_env_state_get_additive_kernel_coefficient(
-            self.ptr.f_arg(),
-            &additive_kernel_coefficient
-        );
-        return additive_kernel_coefficient;
+    static void set_additive_kernel_coefficient(
+        EnvState &self,
+        const double additive_kernel_coefficient)
+    {
+        pypartmc::set_value(
+            self,
+            f_env_state_set_additive_kernel_coefficient,
+            additive_kernel_coefficient);
+    }
+    static double get_additive_kernel_coefficient(const EnvState &self) {
+        return pypartmc::get_value(self, f_env_state_get_additive_kernel_coefficient);
     }
 
-    static void set_pressure(const EnvState &self, const double pressure) {
-        f_env_state_set_pressure(
-            self.ptr.f_arg(),
-            &pressure
-        );
+    static void set_pressure(EnvState &self, const double pressure) {
+        pypartmc::set_value(self, f_env_state_set_pressure, pressure);
     }
 
-    static auto get_pressure(const EnvState &self) {
-        double pressure;
-
-        f_env_state_get_pressure(
-            self.ptr.f_arg(),
-            &pressure
-        );
-        return pressure;
+    static double get_pressure(const EnvState &self) {
+        return pypartmc::get_value(self, f_env_state_get_pressure);
     }
 
     static auto get_elapsed_time(const EnvState &self) {
-        double elapsed_time;
-
-        f_env_state_get_elapsed_time(
-            self.ptr.f_arg(),
-            &elapsed_time
-        );
-        return elapsed_time;
+        return pypartmc::get_value(self, f_env_state_get_elapsed_time);
     }
 
     static auto get_start_time(const EnvState &self) {
-        double start_time;
-
-        f_env_state_get_start_time(
-            self.ptr.f_arg(),
-            &start_time
-        );
-        return start_time;
+        return pypartmc::get_value(self, f_env_state_get_start_time);
     }
 
     static auto air_density(const EnvState &self) {
-        double air_density;
-
-        f_env_state_air_dens(
-            self.ptr.f_arg(),
-            &air_density
-        );
-        return air_density;
+        return pypartmc::get_value(self, f_env_state_air_dens);
     }
+
+    static auto air_molar_density(const EnvState &self) {
+        return pypartmc::get_value(self, f_env_state_air_molar_dens);
+    }
+
+    static auto get_latitude(const EnvState &self) {
+        return pypartmc::get_value(self, f_env_state_get_latitude);
+    }
+
+    static void set_latitude(EnvState &self, const double latitude) {
+        pypartmc::set_value(self, f_env_state_set_latitude, latitude);
+    }
+
+    static auto get_longitude(const EnvState &self) {
+        return pypartmc::get_value(self, f_env_state_get_longitude);
+    }
+
+    static void set_longitude(EnvState &self, const double longitude) {
+        pypartmc::set_value(self, f_env_state_set_longitude, longitude);
+    }
+
+    static auto get_altitude(const EnvState &self) {
+        return pypartmc::get_value(self, f_env_state_get_altitude);
+    }
+
+    static void set_altitude(EnvState &self, const double altitude) {
+        pypartmc::set_value(self, f_env_state_set_altitude, altitude);
+    }
+
+    static auto ppb_to_conc(const EnvState &self, const double ppb) {
+        double conc;
+
+        f_env_state_ppb_to_conc(
+            self.ptr.f_arg(),
+            &ppb,
+            &conc
+        );
+        return conc;
+    }
+
+    static auto conc_to_ppb(const EnvState &self, const double conc) {
+        double ppb;
+
+        f_env_state_conc_to_ppb(
+            self.ptr.f_arg(),
+            &conc,
+            &ppb
+        );
+        return ppb;
+    }
+
+    static auto sat_vapor_pressure(const EnvState &self) {
+        return pypartmc::get_value(self, f_env_state_sat_vapor_pressure);
+    }
+
 };

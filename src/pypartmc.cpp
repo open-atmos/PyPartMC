@@ -424,10 +424,22 @@ NB_MODULE(_PyPartMC, m) {
             "Box height (m).")
         .def_prop_rw("pressure", &EnvState::get_pressure, &EnvState::set_pressure,
             "Ambient pressure (Pa).")
+        .def_prop_rw("latitude", &EnvState::get_latitude, &EnvState::set_latitude,
+            "Latitude (degrees).")
+        .def_prop_rw("longitude", &EnvState::get_longitude, &EnvState::set_longitude,
+            "Longitude (degrees).")
+        .def_prop_rw("altitude", &EnvState::get_altitude, &EnvState::set_altitude,
+            "Altitude (m).")
         .def_prop_ro("air_density", &EnvState::air_density,
             "Air density (kg m^{-3}).")
+        .def_prop_ro("air_molar_density", &EnvState::air_molar_density,
+            "Air molar density (mol m^{-3}).")
         .def_prop_rw("additive_kernel_coefficient", &EnvState::get_additive_kernel_coefficient, &EnvState::set_additive_kernel_coefficient,
             "Scaling coefficient for additive coagulation kernel.")
+        .def("ppb_to_conc", &EnvState::ppb_to_conc, "Convert (ppb) to (molecules m^{-3}).")
+        .def("conc_to_ppb", &EnvState::conc_to_ppb, "Convert (molecules m^{-3}) to (ppb).")
+        .def_prop_ro("sat_vapor_pressure", &EnvState::sat_vapor_pressure,
+            "Returns the current saturation vapor pressure (Pa).")
     ;
 
     nb::class_<Photolysis>(m,

@@ -234,6 +234,39 @@ auto pointer_vec_magic(arr_t &data_vec, const arg_t &arg) {
     return pointer_vec;
 }
 
+// Retrieves an array from a Fortran routine with include/exclude species filters.
+template <typename Func, typename LenF>
+auto get_array_values_filtered(
+    const void *self_ptr,
+    const void *aero_data_ptr,
+    Func f,
+    LenF len_fn,
+    const tl::optional<std::vector<std::string>> &include,
+    const tl::optional<std::vector<std::string>> &exclude
+) {
+    int len;
+    len_fn(self_ptr, &len);
+    std::valarray<double> arr(len);
+
+    const int include_size = include.has_value() ? include.value().size() : 0;
+    const int exclude_size = exclude.has_value() ? exclude.value().size() : 0;
+
+    std::vector<std::array<char, AERO_NAME_LEN>>
+        include_arr(include_size),
+        exclude_arr(exclude_size);
+
+    f(self_ptr,
+      aero_data_ptr,
+      begin(arr),
+      &len,
+      &include_size,
+      &exclude_size,
+      pointer_vec_magic(include_arr, include).data(),
+      pointer_vec_magic(exclude_arr, exclude).data());
+
+    return arr;
+}
+
 static const std::map<bpstd::string_view, char> weight_c{
     //{"none", '-'},
     {"flat", 'f'},
@@ -335,21 +368,10 @@ struct AeroState {
     }
 
     static auto num_concs(const AeroState &self) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> num_concs(len);
-
-        f_aero_state_num_concs(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            begin(num_concs),
-            &len
-        );
-
-        return num_concs;
+        auto fn = f_aero_state_num_concs;
+        auto len_fn =  f_aero_state_len;
+        auto aero_data_ptr = self.aero_data->ptr.f_arg();
+        return pypartmc::get_array_values(self, fn, len_fn, aero_data_ptr);
     }
 
     static auto masses(
@@ -357,32 +379,14 @@ struct AeroState {
         const tl::optional<std::vector<std::string>> &include,
         const tl::optional<std::vector<std::string>> &exclude
     ) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> masses(len);
-
-        const int include_size = (include.has_value()) ? include.value().size() : 0;
-        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
-
-        std::vector<std::array<char, AERO_NAME_LEN>>
-            include_arr(include_size),
-            exclude_arr(exclude_size);
-
-        f_aero_state_masses(
+        return get_array_values_filtered(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
-            begin(masses),
-            &len,
-            &include_size,
-            &exclude_size,
-            pointer_vec_magic(include_arr, include).data(),
-            pointer_vec_magic(exclude_arr, exclude).data()
+            f_aero_state_masses,
+            f_aero_state_len,
+            include,
+            exclude
         );
-
-        return masses;
     }
 
     static auto frozen_fraction(const AeroState &self) {
@@ -396,40 +400,18 @@ struct AeroState {
     }
 
     static auto dry_diameters(const AeroState &self) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> dry_diameters(len);
-
-        f_aero_state_dry_diameters(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            begin(dry_diameters),
-            &len
-        );
-
-        return dry_diameters;
+        auto fn = f_aero_state_dry_diameters;
+        auto len_fn = f_aero_state_len;
+        auto aero_data_ptr = self.aero_data->ptr.f_arg();
+        return pypartmc::get_array_values(self, fn, len_fn, aero_data_ptr);
     }
 
     static auto mobility_diameters(const AeroState &self, const EnvState &env_state) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> mobility_diameters(len);
-
-        f_aero_state_mobility_diameters(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            env_state.ptr.f_arg(),
-            begin(mobility_diameters),
-            &len
-        );
-
-        return mobility_diameters;
+        auto fn = f_aero_state_mobility_diameters;
+        auto len_fn = f_aero_state_len;
+        auto aero_data_ptr = self.aero_data->ptr.f_arg();
+        auto env_state_ptr = env_state.ptr.f_arg();
+        return pypartmc::get_array_values(self, fn, len_fn, aero_data_ptr, env_state_ptr);
     }
 
     static auto diameters(
@@ -437,32 +419,14 @@ struct AeroState {
         const tl::optional<std::vector<std::string>> &include,
         const tl::optional<std::vector<std::string>> &exclude
     ) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> diameters(len);
-
-        const int include_size = (include.has_value()) ? include.value().size() : 0;
-        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
-
-        std::vector<std::array<char, AERO_NAME_LEN>>
-            include_arr(include_size),
-            exclude_arr(exclude_size);
-
-        f_aero_state_diameters(
+        return get_array_values_filtered(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
-            begin(diameters),
-            &len,
-            &include_size,
-            &exclude_size,
-            pointer_vec_magic(include_arr, include).data(),
-            pointer_vec_magic(exclude_arr, exclude).data()
+            f_aero_state_diameters,
+            f_aero_state_len,
+            include,
+            exclude
         );
-
-        return diameters;
     }
 
     static auto volumes(
@@ -470,54 +434,25 @@ struct AeroState {
         const tl::optional<std::vector<std::string>> &include,
         const tl::optional<std::vector<std::string>> &exclude
     ) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> volumes(len);
-
-        const int include_size = (include.has_value()) ? include.value().size() : 0;
-        const int exclude_size = (exclude.has_value()) ? exclude.value().size() : 0;
-
-        std::vector<std::array<char, AERO_NAME_LEN>>
-            include_arr(include_size),
-            exclude_arr(exclude_size);
-
-        f_aero_state_volumes(
+        return get_array_values_filtered(
             self.ptr.f_arg(),
             self.aero_data->ptr.f_arg(),
-            begin(volumes),
-            &len,
-            &include_size,
-            &exclude_size,
-            pointer_vec_magic(include_arr, include).data(),
-            pointer_vec_magic(exclude_arr, exclude).data()
+            f_aero_state_volumes,
+            f_aero_state_len,
+            include,
+            exclude
         );
-
-        return volumes;
     }
 
     static auto crit_rel_humids(
         const AeroState &self,
         const EnvState &env_state
     ) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> crit_rel_humids(len);
-
-        f_aero_state_crit_rel_humids(
-            self.ptr.f_arg(),
-            self.aero_data->ptr.f_arg(),
-            env_state.ptr.f_arg(), 
-            begin(crit_rel_humids),
-            &len
-        );
-
-        return crit_rel_humids;
+        auto fn = f_aero_state_crit_rel_humids;
+        auto len_fn = f_aero_state_len;
+        auto aero_data_ptr = self.aero_data->ptr.f_arg();
+        auto env_state_ptr = env_state.ptr.f_arg();
+        return pypartmc::get_array_values(self, fn, len_fn, aero_data_ptr, env_state_ptr);
     }
 
     static void make_dry(
@@ -530,20 +465,9 @@ struct AeroState {
     }
 
     static auto ids(const AeroState &self) {
-        int len;
-        f_aero_state_len(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<int64_t> ids(len);
-
-        f_aero_state_ids(
-            self.ptr.f_arg(),
-            begin(ids),
-            &len
-        );
-
-        return ids;
+        auto fn = f_aero_state_ids;
+        auto len_fn = f_aero_state_len;
+        return pypartmc::get_array_values<int64_t>(self, fn, len_fn);
     }
 
     static auto mixing_state(
