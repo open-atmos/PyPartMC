@@ -130,6 +130,18 @@ class TestEnvState:
         assert ENV_STATE_CTOR_ARG_MINIMAL["rel_humidity"] == sut.rh
 
     @staticmethod
+    def test_temp():
+        # arrange
+        gas_data = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        scenario.init_env_state(sut, 0.0)
+
+        # assert
+        assert sut.temp == SCENARIO_CTOR_ARG_MINIMAL["temp_profile"][1]["temp"][0]
+
+    @staticmethod
     def test_elapsed_time():
         # arrange and act
         sut = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
