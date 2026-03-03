@@ -72,7 +72,6 @@ struct AeroParticle {
     {
         int len = AeroData::__len__(*self.aero_data);
         auto fn = f_aero_particle_volumes;
-        auto aero_data_ptr = self.aero_data->ptr.f_arg();
         return pypartmc::get_array_values_set_len(self, fn, len);
     }
 
