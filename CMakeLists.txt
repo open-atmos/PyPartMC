@@ -581,6 +581,16 @@ foreach(target _PyPartMC)
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror -Wno-unused-parameter>
   )
 endforeach()
+
+set_source_files_properties(
+  src/run_part_opt.F90
+  PROPERTIES COMPILE_OPTIONS "-Wno-error"
+)
+set_source_files_properties(
+  src/run_part.F90
+  PROPERTIES COMPILE_OPTIONS "-Wno-error"
+)
+
 target_compile_definitions(_PyPartMC PRIVATE PMC_USE_SUNDIALS="1")
 include(CheckCXXSourceCompiles)
 file(GLOB PyPartMC_headers ${CMAKE_SOURCE_DIR}/src/*.hpp)
