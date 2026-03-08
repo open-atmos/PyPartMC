@@ -582,6 +582,7 @@ foreach(target _PyPartMC)
   )
 endforeach()
 
+# TODO #482
 set_source_files_properties(
   src/run_part_opt.F90
   PROPERTIES COMPILE_OPTIONS "-Wno-error"
