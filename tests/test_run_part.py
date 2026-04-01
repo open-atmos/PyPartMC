@@ -252,7 +252,7 @@ class TestRunPart:
                     "t_max": 3600,
                     "do_immersion_freezing": True,
                     "immersion_freezing_scheme": scheme,
-                    "freezing_rate": -1e-4,
+                    "freezing_rate": 1e-4,
                 }
             )
         else:
