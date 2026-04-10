@@ -188,7 +188,7 @@ jobs:
         merge-multiple: true
         path: dist
     - run: ls -R 
-    - run: pip install --no-binary PyPartMC dist/PyPartMC*tar.gz
+    - run: pip install --no-binary PyPartMC dist/pypartmc-*.tar.gz
 
   dist_upload:
     runs-on: ubuntu-latest
