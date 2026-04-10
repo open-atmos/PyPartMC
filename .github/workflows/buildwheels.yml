@@ -177,9 +177,21 @@ jobs:
         name: cibw-sdist
         path: dist/*.tar.gz
 
+  check_sdist:
+    name: Check if source wheels are compilable
+    runs-on: ubuntu-latest
+    needs: [make_sdist]
+    steps:
+    - uses: actions/download-artifact@v5
+      with:
+        pattern: dist-*
+        merge-multiple: true
+        path: dist
+    - run: pip install --no-binary PyPartMC dist/PyPartMC*tar.gz
+
   dist_upload:
     runs-on: ubuntu-latest
-    needs: [build_wheels, make_sdist]
+    needs: [build_wheels, check_sdist]
     environment: pypi
     permissions:
       id-token: write
