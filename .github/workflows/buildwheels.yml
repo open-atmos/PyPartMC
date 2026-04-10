@@ -187,6 +187,7 @@ jobs:
         pattern: cibw-sdist
         merge-multiple: true
         path: dist
+    - run: ls -R 
     - run: pip install --no-binary PyPartMC dist/PyPartMC*tar.gz
 
   dist_upload:
