@@ -441,11 +441,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.absorb_cross_sect
+        value = list(sut.absorb_cross_sect)
 
         # assert
-        assert value == 0
-        assert isinstance(value, float)
+        assert len(value) >= 1
+        assert all(v == 0 for v in value)
+        assert isinstance(value[0], float)
 
     @staticmethod
     def test_scatter_cross_sect():
@@ -453,11 +454,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.scatter_cross_sect
+        value = list(sut.scatter_cross_sect)
 
         # assert
-        assert value == 0
-        assert isinstance(value, float)
+        assert len(value) >= 1
+        assert all(v == 0 for v in value)
+        assert isinstance(value[0], float)
 
     @staticmethod
     def test_asymmetry():
@@ -465,11 +467,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.asymmetry
+        value = list(sut.asymmetry)
 
         # assert
-        assert value == 0
-        assert isinstance(value, float)
+        assert len(value) >= 1
+        assert all(v == 0 for v in value)
+        assert isinstance(value[0], float)
 
     @staticmethod
     def test_refract_shell():
@@ -477,11 +480,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.refract_shell
+        value = list(sut.refract_shell)
 
         # assert
-        assert value == 0 + 0j
-        assert isinstance(value, complex)
+        assert len(value) >= 1
+        assert all(v == 0 + 0j for v in value)
+        assert isinstance(value[0], complex)
 
     @staticmethod
     def test_refract_core():
@@ -489,11 +493,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.refract_core
+        value = list(sut.refract_core)
 
         # assert
-        assert value == 0 + 0j
-        assert isinstance(value, complex)
+        assert len(value) >= 1
+        assert all(v == 0 + 0j for v in value)
+        assert isinstance(value[0], complex)
 
     @staticmethod
     def test_sources():

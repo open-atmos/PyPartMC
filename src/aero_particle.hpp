@@ -207,36 +207,18 @@ struct AeroParticle {
     }
 
     static auto scatter_cross_sect(const AeroParticle &self) {
-        int len = n_swbands;
-        double val;
-        f_aero_particle_scatter_cross_sect(
-            self.ptr.f_arg(),
-            &val,
-            &len
-        );
-        return val;
+        auto fn = f_aero_particle_scatter_cross_sect;
+        return pypartmc::get_array_values_set_len(self, fn, n_swbands);
     }
 
     static auto absorb_cross_sect(const AeroParticle &self) {
-        int len = n_swbands;
-        double val;
-        f_aero_particle_absorb_cross_sect(
-            self.ptr.f_arg(),
-            &val,
-            &len
-        );
-        return val;
+        auto fn = f_aero_particle_absorb_cross_sect;
+        return pypartmc::get_array_values_set_len(self, fn, n_swbands);
     }
 
     static auto asymmetry(const AeroParticle &self) {
-        int len = n_swbands;
-        double val;
-        f_aero_particle_asymmetry(
-            self.ptr.f_arg(),
-            &val,
-            &len
-        );
-        return val;
+        auto fn = f_aero_particle_asymmetry;
+        return pypartmc::get_array_values_set_len(self, fn, n_swbands);
     }
 
     static auto sources(const AeroParticle &self) {
@@ -262,25 +244,13 @@ struct AeroParticle {
     }
 
     static auto refract_shell(const AeroParticle &self) {
-        int len = n_swbands;
-        std::complex<double> refract_shell;
-        f_aero_particle_refract_shell(
-            self.ptr.f_arg(),
-            &refract_shell,
-            &len
-        );
-        return refract_shell;
+        auto fn = f_aero_particle_refract_shell;
+        return pypartmc::get_array_values_set_len<std::complex<double>>(self, fn, n_swbands);
     }
 
     static auto refract_core(const AeroParticle &self) {
-        int len = n_swbands;
-        std::complex<double> refract_core;
-        f_aero_particle_refract_core(
-            self.ptr.f_arg(),
-            &refract_core,
-            &len
-        );
-        return refract_core;
+        auto fn = f_aero_particle_refract_core;
+        return pypartmc::get_array_values_set_len<std::complex<double>>(self, fn, n_swbands);
     }
 
     static auto get_weight_class(const AeroParticle &self) {
