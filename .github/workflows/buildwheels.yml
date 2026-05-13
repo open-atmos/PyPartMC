@@ -214,12 +214,12 @@ jobs:
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF }}
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF_NAME }}
     - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: pypa/gh-action-pypi-publish@release/v1.13
+      uses: pypa/gh-action-pypi-publish@release/v1.14
       with:
         repository_url: https://test.pypi.org/legacy/
         attestations: false
         verbose: true
     - if: github.event_name == 'release' && github.event.prerelease == false
-      uses: pypa/gh-action-pypi-publish@release/v1.13
+      uses: pypa/gh-action-pypi-publish@release/v1.14
       with:
         attestations: false
