@@ -126,7 +126,10 @@ jobs:
       - uses: jwlawson/actions-setup-cmake@v1.13
         with:
           cmake-version: '3.26.x'
-
+      
+      - if: matrix.os == 'windows-latest'
+        run: echo "CMAKE_PROGRAM_PATH=D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
+        
       - if: matrix.os == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
