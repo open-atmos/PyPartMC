@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-14, macos-15, macos-15-intel, windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -92,7 +92,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-14, macos-15, macos-15-intel, windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -214,12 +214,12 @@ jobs:
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF }}
         echo "env.GITHUB_REF:" ${{ env.GITHUB_REF_NAME }}
     - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: pypa/gh-action-pypi-publish@release/v1.13
+      uses: pypa/gh-action-pypi-publish@release/v1.14
       with:
         repository_url: https://test.pypi.org/legacy/
         attestations: false
         verbose: true
     - if: github.event_name == 'release' && github.event.prerelease == false
-      uses: pypa/gh-action-pypi-publish@release/v1.13
+      uses: pypa/gh-action-pypi-publish@release/v1.14
       with:
         attestations: false

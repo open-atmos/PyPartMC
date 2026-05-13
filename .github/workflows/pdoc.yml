@@ -31,7 +31,7 @@ jobs:
           PDOC_ALLOW_EXEC=1 PDOC_GENERATE_PYPARTMC_DOCS=1 python -We -m pdoc -o html PyPartMC
       - name: Deploy
         if: ${{ github.ref == 'refs/heads/main' && matrix.platform == 'ubuntu-latest' }}
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@v4.8.0
         with:
           BRANCH: pdoc
           FOLDER: html
