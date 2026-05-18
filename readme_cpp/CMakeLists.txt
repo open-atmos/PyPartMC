@@ -50,7 +50,7 @@ target_include_directories(my_test PUBLIC
     ${Python_INCLUDE_DIRS}
 )
 
-add_library(PyPartMC_ext SHARED IMPORTED)
+add_library(PyPartMC_ext UNKNOWN IMPORTED)
 set_target_properties(PyPartMC_ext PROPERTIES IMPORTED_LOCATION "${PYPARTMC_LIB}")
 
 # Link against the imported target, NOT the raw variable
