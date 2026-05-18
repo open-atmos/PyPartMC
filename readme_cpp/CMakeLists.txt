@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
 project(PyPartMC_CXX LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED YES)
+
 find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development)
 message(STATUS "Python_EXECUTABLE= ${Python_EXECUTABLE}")
 
@@ -27,7 +30,6 @@ if(res_nano)
 endif()
 message(STATUS "NANOBIND_INCLUDE_DIR= ${NANOBIND_INCLUDE_DIR}")
 
-# 2. Get the Library File
 execute_process(
     COMMAND ${Python_EXECUTABLE} -c "from PyPartMC import _PyPartMC; print(f'{_PyPartMC.__file__}')"
     OUTPUT_VARIABLE PYPARTMC_LIB
@@ -48,7 +50,14 @@ target_include_directories(my_test PUBLIC
     ${Python_INCLUDE_DIRS}
 )
 
-target_link_libraries(my_test PRIVATE ${PYPARTMC_LIB})
+add_library(PyPartMC_ext SHARED IMPORTED)
+set_target_properties(PyPartMC_ext PROPERTIES IMPORTED_LOCATION "${PYPARTMC_LIB}")
+
+# Link against the imported target, NOT the raw variable
+target_link_libraries(my_test PRIVATE 
+    PyPartMC_ext 
+    ${Python_LIBRARIES}
+)
 
 add_custom_command(TARGET my_test POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
