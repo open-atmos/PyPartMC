@@ -629,6 +629,14 @@ endforeach()
 _install(TARGETS _PyPartMC LIBRARY DESTINATION PyPartMC)
 
 # for C++ users who wish to link against the PyPartMC shared library
+set_target_properties(_PyPartMC PROPERTIES CXX_VISIBILITY_PRESET default C_VISIBILITY_PRESET default)
+
+set_target_properties(_PyPartMC PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_options(_PyPartMC PRIVATE -Wl,--export-all-symbols)
+endif()
+
 _install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/
     DESTINATION PyPartMC/include
