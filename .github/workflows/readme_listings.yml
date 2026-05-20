@@ -123,7 +123,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - uses: jwlawson/actions-setup-cmake@v2.20
+      - uses: jwlawson/actions-setup-cmake@v2.2.0
         with:
           cmake-version: '3.26.x'
       
@@ -165,6 +165,7 @@ jobs:
          cd build
          cmake ..
          cmake --build .
+      - run: ctest --output-on-failure
 
   matlab:
     runs-on: ubuntu-22.04

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(PyPartMC_CXX LANGUAGES CXX)
 
+enable_testing()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
@@ -59,8 +61,12 @@ target_link_libraries(my_test PRIVATE
     ${Python_LIBRARIES}
 )
 
+# Copying .pyd file 
 add_custom_command(TARGET my_test POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${PYPARTMC_LIB}
         $<TARGET_FILE_DIR:my_test>
 )
+
+add_test(NAME maketest
+        COMMAND my_test)
