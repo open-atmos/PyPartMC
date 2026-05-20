@@ -165,7 +165,10 @@ jobs:
          cd build
          cmake ..
          cmake --build .
-      - run: ctest --output-on-failure
+      - run: |
+         cd readme_cpp
+         cd build 
+         ctest --output-on-failure
 
   matlab:
     runs-on: ubuntu-22.04
