@@ -24,7 +24,7 @@ jobs:
           pytest -We tests
           lcov --capture --directory ./build/CMakeFiles/_PyPartMC.dir/ --output-file coverage.info --no-external
       - run: find -name \*.gcno | grep -v pypartmc.cpp | grep -v _PyPartMC.dir | xargs rm
-      - uses: codecov/codecov-action@v6.0.0
+      - uses: codecov/codecov-action@v6.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
