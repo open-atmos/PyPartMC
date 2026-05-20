@@ -10,16 +10,16 @@ find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development)
 message(STATUS "Python_EXECUTABLE= ${Python_EXECUTABLE}")
 
 execute_process(
-    COMMAND ${Python_EXECUTABLE} -c "from pathlib import Path; import PyPartMC; print(f'{Path(PyPartMC.__file__).parent}/include')"
-    OUTPUT_VARIABLE PYPARTMC_INCLUDE_DIRS
+    COMMAND ${Python_EXECUTABLE} -c "from pathlib import Path; import PyPartMC; print(f'{Path(PyPartMC.__file__).parent}')"
+    OUTPUT_VARIABLE PYPARTMC_DIR
     OUTPUT_STRIP_TRAILING_WHITESPACE
-    RESULT_VARIABLE res_inc
+    RESULT_VARIABLE res
 )
-if(res_inc)
-    message(FATAL_ERROR "Failed to find PyPartMC include directory. Exit code: ${res_inc}")
+if(res)
+    message(FATAL_ERROR "Failed to find PyPartMC directory. Exit code: ${res}")
 endif()
 
-message(STATUS "PYPARTMC_INCLUDE_DIRS= ${PYPARTMC_INCLUDE_DIRS}")
+message(STATUS "PYPARTMC_DIR= ${PYPARTMC_DIR}")
 
 execute_process(
     COMMAND ${Python_EXECUTABLE} -c "import nanobind; print(nanobind.include_dir())"
@@ -47,7 +47,7 @@ message(STATUS "PYPARTMC_LIB= ${PYPARTMC_LIB}")
 add_executable(my_test test.cpp)
 
 target_include_directories(my_test PUBLIC 
-    ${PYPARTMC_INCLUDE_DIRS}
+    ${PYPARTMC_DIR}/include
     ${NANOBIND_INCLUDE_DIR}
     ${Python_INCLUDE_DIRS}
 )
@@ -57,7 +57,8 @@ set_target_properties(PyPartMC_ext PROPERTIES IMPORTED_LOCATION "${PYPARTMC_LIB}
 
 # Link against the imported target, NOT the raw variable
 target_link_libraries(my_test PRIVATE 
-    PyPartMC_ext 
+    PyPartMC_ext
+    ${PYPARTMC_DIR}/lib/libpartmclib.a
     ${Python_LIBRARIES}
 )
 

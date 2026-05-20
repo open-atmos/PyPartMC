@@ -546,7 +546,13 @@ endif()
 find_package(nanobind CONFIG REQUIRED)
 
 add_subdirectory(gitmodules/nanobind)
-nanobind_add_module(_PyPartMC STABLE_ABI ${PyPartMC_sources})
+if(APPLE)
+    set(PYPARTMC_MODULE_TYPE SHARED)
+else()
+    set(PYPARTMC_MODULE_TYPE MODULE)
+endif()
+
+nanobind_add_module(_PyPartMC ${PYPARTMC_MODULE_TYPE} STABLE_ABI ${PyPartMC_sources})
 add_dependencies(_PyPartMC partmclib)
 set(PYPARTMC_INCLUDE_DIRS 
   "${CMAKE_BINARY_DIR}/include;"
@@ -642,3 +648,8 @@ _install(
     DESTINATION PyPartMC/include
     FILES_MATCHING PATTERN "*.hpp"
 )
+
+_install(TARGETS partmclib
+      ARCHIVE DESTINATION PyPartMC/lib
+)
+
