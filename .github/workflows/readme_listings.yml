@@ -126,16 +126,6 @@ jobs:
       - uses: jwlawson/actions-setup-cmake@v2.2.0
         with:
           cmake-version: '3.26.x'
-      
-      # - if: matrix.os != 'ubuntu-24.04-arm'
-      #   uses: jwlawson/actions-setup-cmake@v1.13
-      #   with:
-      #     cmake-version: '3.26.x'
-
-      # - if: matrix.os == 'ubuntu-24.04-arm'
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y cmake
         
       - if: matrix.os == 'windows-latest'
         run: |
@@ -159,13 +149,15 @@ jobs:
           brew reinstall gcc
 
       - run: pip install .
-      - run: |
+      - name: build
+        run: |
          cd readme_cpp
          mkdir build
          cd build
          cmake ..
          cmake --build .
-      - run: |
+      - name: Execute tests
+        run: |
          cd readme_cpp
          cd build 
          ctest --output-on-failure
