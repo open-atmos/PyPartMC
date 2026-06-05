@@ -336,6 +336,7 @@ target_include_directories(camplib PRIVATE
   ${KLU_INCLUDE_DIRS}
   ${SUNDIALS_SOURCE_DIR}/include
   ${CMAKE_BINARY_DIR}/include
+  ${CMAKE_SOURCE_DIR}/gitmodules/camp/include
 )
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/include/camp)
 execute_process(
