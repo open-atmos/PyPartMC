@@ -14,7 +14,11 @@ on:
 
 jobs:
   julia:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -35,14 +39,18 @@ jobs:
 
       - uses: julia-actions/setup-julia@v3
       - run: mkdir readme_output
-      - run: julia readme.jl > readme_output/julia.txt
+      - run: julia readme.jl > readme_output/julia_${{ matrix.os }}.txt
       - uses: actions/upload-artifact@v4
         with:
           name: readme_output-julia
           path: readme_output
 
   python:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -62,14 +70,18 @@ jobs:
       - run: cat -n readme.py
 
       - run: mkdir readme_output
-      - run: python -We readme.py > readme_output/python.txt
+      - run: python -We readme.py > readme_output/python_${{ matrix.os }}.txt
       - uses: actions/upload-artifact@v4
         with:
           name: readme_output-python
           path: readme_output
       
   fortran:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -88,7 +100,7 @@ jobs:
       - run: |
           mkdir readme_output
           cd readme_fortran
-          ./build/main > ../readme_output/fortran.txt
+          ./build/main > ../readme_output/fortran_${{matrix.os}}.txt
 
       - uses: actions/upload-artifact@v4
         with:
@@ -174,7 +186,11 @@ jobs:
           path: readme_output
 
   matlab:
-    runs-on: ubuntu-22.04
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -207,7 +223,7 @@ jobs:
       - uses: matlab-actions/run-command@v2.4.0
         with:
           startup-options: -nojvm
-          command: diary('readme_output/matlab.txt'), readme
+          command: diary('readme_output/matlab_${{matrix.os}}.txt'), readme
 
       - uses: actions/upload-artifact@v4
         with:
