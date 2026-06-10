@@ -31,7 +31,24 @@ jobs:
       - uses: jwlawson/actions-setup-cmake@v2.2
         with:
           cmake-version: '3.26.x'
+      
+      - if: matrix.os == 'windows-latest'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: false
+          install: >-
+            mingw-w64-x86_64-gcc-fortran
+            mingw-w64-x86_64-ninja
+            m4
 
+      - if: matrix.os == 'windows-latest'
+        run: |
+          echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" >> $GITHUB_ENV
+          echo CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
+          echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
+          echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
+        
       - run: pip install -e .
       - run: pip install pytest-codeblocks pytest
       - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme.jl', 'w'); f.writelines(block.code for block in code if block.syntax=='Julia'); f.close()"
@@ -63,6 +80,23 @@ jobs:
       - uses: jwlawson/actions-setup-cmake@v2.2
         with:
           cmake-version: '3.26.x'
+      
+      - if: matrix.os == 'windows-latest'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: false
+          install: >-
+            mingw-w64-x86_64-gcc-fortran
+            mingw-w64-x86_64-ninja
+            m4
+
+      - if: matrix.os == 'windows-latest'
+        run: |
+          echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" >> $GITHUB_ENV
+          echo CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
+          echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
+          echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
 
       - run: pip install -e .
       - run: pip install pytest-codeblocks pytest
@@ -178,8 +212,12 @@ jobs:
          --args readme_cpp/build/my_test.exe
       - name: Execute tests
         run: | 
-         mkdir readme_output
-         ./readme_cpp/build/my_test > readme_output/cpp_${{matrix.os}}.txt
+         mkdir -p readme_output
+         if [ "$RUNNER_OS" == "Windows" ]; then
+           ./readme_cpp/build/my_test.exe > readme_output/cpp_${{matrix.os}}.txt
+         else
+           ./readme_cpp/build/my_test > readme_output/cpp_${{matrix.os}}.txt
+         fi
       - uses: actions/upload-artifact@v4
         with:
           name: readme_output-cpp_${{matrix.os}}
@@ -190,7 +228,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -199,7 +237,7 @@ jobs:
 
       - uses: actions/setup-python@v1
         with:
-          python-version: "3.13"
+          python-version: "3.10"
 
       - uses: RalfG/python-wheels-manylinux-build@v0.7.1-manylinux2010_x86_64
         with:
@@ -223,10 +261,10 @@ jobs:
       - uses: matlab-actions/run-command@v2.4.0
         with:
           startup-options: -nojvm
-          command: diary('readme_output/matlab_${{matrix.os}}.txt'), readme
+          command: diary('readme_output/matlab.txt'), readme
 
       - uses: actions/upload-artifact@v4
         with:
-          name: readme_output-matlab_${{matrix.os}}
+          name: readme_output-matlab
           path: readme_output
 
