@@ -143,6 +143,7 @@ jobs:
             mingw-w64-x86_64-gcc-fortran
             mingw-w64-x86_64-ninja
             m4
+        
             
       - if: startsWith(matrix.os, 'macos-')
         run: |
@@ -156,11 +157,20 @@ jobs:
          cd build
          cmake ..
          cmake --build .
-      - name: Execute tests
+      - if: matrix.os == 'windows-latest'
         run: |
-         cd readme_cpp
-         cd build 
-         ctest --output-on-failure
+         gdb -batch \
+         -ex "run" \
+         -ex "bt full" \
+         -ex "quit $_exitcode" \
+         --args readme_cpp/build/my_test.exe
+      - name: Execute tests
+        run: | 
+         ./readme_cpp/build/my_test > readme_output/cpp_${{matrix.os}}.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: readme_output-cpp_${{matrix.os}}
+          path: readme_output
 
   matlab:
     runs-on: ubuntu-22.04
