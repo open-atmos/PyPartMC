@@ -1,5 +1,6 @@
 from collections import namedtuple
 
+
 def __generate_si():
     prefixes = {
         "T": 1e12,

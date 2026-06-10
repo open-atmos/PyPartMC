@@ -32,7 +32,9 @@ def __build_extension_env():
         for cookie in cookies:
             cookie.close()
 
+
 from .__generate_si import __generate_si
+
 si = __generate_si()
 """ a utility namedtuple aimed at clrifying physics-related code by providing
     SI-prefix-aware unit multipliers, resulting in e.g.: `p = 1000 * si.hPa`
