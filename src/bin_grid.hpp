@@ -7,6 +7,7 @@
 #pragma once
 
 #include "pmc_resource.hpp"
+#include "getters.hpp"
 #include <valarray>
 #include <vector>
 #include "nanobind/stl/string.h"
@@ -107,49 +108,22 @@ struct BinGrid {
             self.ptr.f_arg(),
             &len
         );
-        len++;
-        std::valarray<double> data(len);
-        f_bin_grid_edges(
-            self.ptr.f_arg(),
-            begin(data),
-            &len
-        );
-
-        return data;
+        auto fn = f_bin_grid_edges;
+        return pypartmc::get_array_values_set_len(self, fn, len + 1);
     }
 
     static auto centers(const BinGrid &self) 
     {
-        int len;
-        f_bin_grid_size(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> data(len);
-
-        f_bin_grid_centers(
-            self.ptr.f_arg(),
-            begin(data),
-            &len
-        );
-        
-        return data;
+        auto len_fn = f_bin_grid_size;
+        auto fn = f_bin_grid_centers;
+        return pypartmc::get_array_values(self, fn, len_fn);
     }
 
     static auto widths(const BinGrid &self)
     {
-        int len;
-        f_bin_grid_size(
-            self.ptr.f_arg(),
-            &len
-        );
-        std::valarray<double> data(len);
-        f_bin_grid_widths(
-            self.ptr.f_arg(),
-            begin(data),
-            &len
-        );
-        return data;
+        auto len_fn = f_bin_grid_size;
+        auto fn = f_bin_grid_widths;
+        return pypartmc::get_array_values(self, fn, len_fn);
     }
 
 };

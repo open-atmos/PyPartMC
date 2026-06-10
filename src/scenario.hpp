@@ -165,31 +165,15 @@ struct Scenario {
     }
 
     static auto emission_rate_scale(const Scenario &self) {
-        int len;
-
-        f_scenario_aero_emission_n_times(self.ptr.f_arg(), &len);
-        std::valarray<double> rates(len);
-        f_scenario_emission_rates(
-            self.ptr.f_arg(),
-            begin(rates),
-            &len
-        );
-
-        return rates;
+        auto fn = f_scenario_emission_rates;
+        auto len_fn = f_scenario_aero_emission_n_times;
+        return pypartmc::get_array_values(self, fn, len_fn);
     }
 
     static auto emission_time(const Scenario &self) {
-        int len;
-
-        f_scenario_aero_emission_n_times(self.ptr.f_arg(), &len);
-        std::valarray<double> times(len);
-        f_scenario_emission_time(
-            self.ptr.f_arg(),
-            begin(times),
-            &len
-        );
-
-        return times;
+        auto fn = f_scenario_emission_time;
+        auto len_fn = f_scenario_aero_emission_n_times;
+        return pypartmc::get_array_values(self, fn, len_fn);
     }
 
     static AeroDist* get_aero_background_dist(const Scenario &self, const AeroData &aero_data, const int &idx) {
@@ -207,31 +191,15 @@ struct Scenario {
     }
 
     static auto aero_dilution_rate(const Scenario &self) {
-        int len;
-
-        f_scenario_aero_background_n_times(self.ptr.f_arg(), &len);
-        std::valarray<double> rates(len);
-        f_scenario_aero_background_rate_scale(
-            self.ptr.f_arg(),
-            begin(rates),
-            &len
-        );
-
-        return rates;
+        auto fn = f_scenario_aero_background_rate_scale;
+        auto len_fn = f_scenario_aero_background_n_times;
+        return pypartmc::get_array_values(self, fn, len_fn);
     }
 
     static auto aero_dilution_time(const Scenario &self) {
-        int len;
-
-        f_scenario_aero_background_n_times(self.ptr.f_arg(), &len);
-        std::valarray<double> times(len);
-        f_scenario_aero_background_time(
-            self.ptr.f_arg(),
-            begin(times),
-            &len
-        );
-
-        return times;
+        auto fn = f_scenario_aero_background_time;
+        auto len_fn = f_scenario_aero_background_n_times;
+        return pypartmc::get_array_values(self, fn, len_fn);
     }
 
 };
