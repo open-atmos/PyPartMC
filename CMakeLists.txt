@@ -336,10 +336,11 @@ target_include_directories(camplib PRIVATE
   ${KLU_INCLUDE_DIRS}
   ${SUNDIALS_SOURCE_DIR}/include
   ${CMAKE_BINARY_DIR}/include
+  ${CMAKE_SOURCE_DIR}/gitmodules/camp/include
 )
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/include/camp)
 execute_process(
-  COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line.replace(')','').replace('set(','#define ').replace('PACKAGE_', 'CAMP_') for line in sys.stdin if line.startswith('set(PACKAGE_VERSION')]))"
+  COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line.replace(')','').replace('set(','#define ').replace('PROJECT_', 'CAMP_') for line in sys.stdin if line.startswith('set(PROJECT_VERSION')]))"
   INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/camp/CMakeLists.txt
   OUTPUT_FILE ${CMAKE_BINARY_DIR}/include/camp/version.h
 )

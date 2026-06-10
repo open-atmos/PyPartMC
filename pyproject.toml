@@ -13,6 +13,7 @@ include = [
     "gitmodules/camp/COPYING",
     "gitmodules/camp/CMakeLists.txt",
     "gitmodules/camp/src",
+    "gitmodules/camp/include/camp",
     "gitmodules/json-fortran/LICENSE",
     "gitmodules/json-fortran/src",
     "gitmodules/SuiteSparse/LICENSE.txt",
