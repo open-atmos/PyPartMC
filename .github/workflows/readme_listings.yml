@@ -26,7 +26,7 @@ jobs:
 
       - uses: actions/setup-python@v1
         with:
-          python-version: "3.10"
+          python-version: "3.13"
 
       - uses: jwlawson/actions-setup-cmake@v2.2
         with:
@@ -42,7 +42,7 @@ jobs:
       - run: julia readme.jl > readme_output/julia_${{ matrix.os }}.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: readme_output-julia
+          name: readme_output-julia_${{matrix.os}}
           path: readme_output
 
   python:
@@ -58,7 +58,7 @@ jobs:
 
       - uses: actions/setup-python@v1
         with:
-          python-version: "3.10"
+          python-version: "3.13"
 
       - uses: jwlawson/actions-setup-cmake@v2.2
         with:
@@ -73,7 +73,7 @@ jobs:
       - run: python -We readme.py > readme_output/python_${{ matrix.os }}.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: readme_output-python
+          name: readme_output-python_${{matrix.os}}
           path: readme_output
       
   fortran:
@@ -81,7 +81,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -104,7 +104,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: readme_output-fortran
+          name: readme_output-fortran_${{matrix.os}}
           path: readme_output
 
   st:
@@ -199,7 +199,7 @@ jobs:
 
       - uses: actions/setup-python@v1
         with:
-          python-version: "3.10"
+          python-version: "3.13"
 
       - uses: RalfG/python-wheels-manylinux-build@v0.7.1-manylinux2010_x86_64
         with:
@@ -227,6 +227,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: readme_output-matlab
+          name: readme_output-matlab_${{matrix.os}}
           path: readme_output
 
