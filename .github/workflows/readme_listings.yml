@@ -80,16 +80,15 @@ jobs:
           msystem: UCRT64
           update: false
           install: >-
+            mingw-w64-ucrt-x86_64-gcc
             mingw-w64-ucrt-x86_64-gcc-fortran
             mingw-w64-ucrt-x86_64-ninja
             m4
 
       - if: matrix.os == 'windows-latest'
         run: |
-          echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/ucrt64/bin/ninja.exe" >> $GITHUB_ENV
-          echo CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
-          echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
-          echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
+          echo "C:/msys64/ucrt64/bin" >> $GITHUB_PATH
+          echo "C:/msys64/usr/bin" >> $GITHUB_PATH
 
       - if: startsWith(matrix.os, 'macos-')
         run: |
@@ -169,13 +168,6 @@ jobs:
       - uses: jwlawson/actions-setup-cmake@v2.2.0
         with:
           cmake-version: '3.26.x'
-        
-      - if: matrix.os == 'windows-latest'
-        run: |
-          echo CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/ucrt64/bin/ninja.exe" >> $GITHUB_ENV
-          echo CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" >> $GITHUB_ENV
-          echo CMAKE_GENERATOR="Ninja" >> $GITHUB_ENV
-          echo TEMP="D:/a/_temp/" >> $GITHUB_ENV
 
       - if: matrix.os == 'windows-latest'
         uses: msys2/setup-msys2@v2
@@ -183,10 +175,15 @@ jobs:
           msystem: UCRT64
           update: false
           install: >-
+            mingw-w64-ucrt-x86_64-gcc
             mingw-w64-ucrt-x86_64-gcc-fortran
             mingw-w64-ucrt-x86_64-ninja
             m4
-        
+
+      - if: matrix.os == 'windows-latest'
+        run: |
+          echo "C:/msys64/ucrt64/bin" >> $GITHUB_PATH
+          echo "C:/msys64/usr/bin" >> $GITHUB_PATH
             
       - if: startsWith(matrix.os, 'macos-')
         run: |
