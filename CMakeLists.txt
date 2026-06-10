@@ -520,6 +520,11 @@ foreach(file aero_data;gas_data;output)
     INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/partmc/src/${file}.F90
     OUTPUT_FILE ${CMAKE_BINARY_DIR}/include/${file}_parameters.hpp
   )
+
+  _install(
+    FILES ${CMAKE_BINARY_DIR}/include/${file}_parameters.hpp
+    DESTINATION PyPartMC/include/
+  )
 endforeach()
 
 target_include_directories(partmclib PRIVATE 
@@ -645,11 +650,68 @@ endif()
 
 _install(
     DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/
-    DESTINATION PyPartMC/include
+    DESTINATION PyPartMC/include/PyPartMC
     FILES_MATCHING PATTERN "*.hpp"
+)
+
+_install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/
+    DESTINATION PyPartMC/include/PyPartMC
+    FILES_MATCHING PATTERN "*.hpp"
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/json/include/nlohmann
+  DESTINATION PyPartMC/include
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/span/include/tcb
+  DESTINATION PyPartMC/include
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/string_view-standalone/include/bpstd
+  DESTINATION PyPartMC/include
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/optional/include/tl
+  DESTINATION PyPartMC/include
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/nanobind_json/include/nanobind_json
+  DESTINATION PyPartMC/include
 )
 
 _install(TARGETS partmclib
       ARCHIVE DESTINATION PyPartMC/lib
 )
 
+ execute_process(
+    WORKING_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR}/src/PyPartMC
+    COMMAND ${Python_EXECUTABLE} 
+    "-c" 
+    "from __generate_si import __generate_si;\nsi=__generate_si(); print('#pragma once\\nstruct si {' + '\\n'.join([f'static constexpr auto {unit}={getattr(si, unit)};' for unit in dir(si) if type(getattr(si, unit)) == float]) + '};')"
+    OUTPUT_FILE ${CMAKE_BINARY_DIR}/si.hpp
+  )
+
+_install(
+  FILES ${CMAKE_BINARY_DIR}/si.hpp
+  DESTINATION PyPartMC/include/PyPartMC
+)
+
+file(GLOB ALL_HPP_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp")
+
+file(WRITE ${CMAKE_BINARY_DIR}/PyPartMC.hpp "#pragma once\n")
+
+foreach(HPP_FILE IN LISTS ALL_HPP_FILES)
+    get_filename_component(FILENAME ${HPP_FILE} NAME)
+    file(APPEND ${CMAKE_BINARY_DIR}/PyPartMC.hpp "#include <PyPartMC/${FILENAME}>\n")
+endforeach()
+
+_install(
+  FILES ${CMAKE_BINARY_DIR}/PyPartMC.hpp
+  DESTINATION PyPartMC/include/
+)
