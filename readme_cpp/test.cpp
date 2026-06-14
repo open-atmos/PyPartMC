@@ -1,8 +1,12 @@
+#include <iostream>
+#include <memory>
+#include <numeric>
+
 #include "PyPartMC.hpp"
 #include "PyPartMC/si.hpp"
 
 int main() {
-    auto aero_data = std::shared_ptr<AeroData>(new AeroData({
+    auto aero_data = std::make_shared<AeroData>(nlohmann::json({
         { {"OC", {1000.0 * si::kg / (si::m * si::m * si::m), 0.0, 1e-3 * si::kg / si::mol, 0.001, 0.0, 0.0}} },
         { {"BC", {1800.0 * si::kg / (si::m * si::m * si::m), 0.0, 1e-3 * si::kg / si::mol, 0.0,   0.0, 0.0}} }
     }));
@@ -19,14 +23,14 @@ int main() {
                     {"geom_mean_diam", 8.64 * si::nm},
                     {"log10_geom_std_dev", 0.28}
                 }},
-                // {"diesel", {
-                //     {"mass_frac", nlohmann::ordered_json::array({ nlohmann::ordered_json::object({{"OC", {0.3}}}), nlohmann::ordered_json::object({{"BC", {0.7}}}) }) }, 
-                //     {"diam_type", "geometric"},
-                //     {"mode_type", "log_normal"},
-                //     {"num_conc", 2900.0 / (si::cm * si::cm * si::cm)},
-                //     {"geom_mean_diam", 50.0 * si::nm},
-                //     {"log10_geom_std_dev", 0.24}
-                // }}
+                {"diesel", {
+                    {"mass_frac", nlohmann::ordered_json::array({ nlohmann::ordered_json::object({{"OC", {0.3}}}), nlohmann::ordered_json::object({{"BC", {0.7}}}) }) }, 
+                    {"diam_type", "geometric"},
+                    {"mode_type", "log_normal"},
+                    {"num_conc", 2900.0 / (si::cm * si::cm * si::cm)},
+                    {"geom_mean_diam", 50.0 * si::nm},
+                    {"log10_geom_std_dev", 0.24}
+                }}
             })
         })
     );
@@ -45,7 +49,6 @@ int main() {
         0.0
     );
     
-    std::cout.precision(15);
     std::cout << std::scientific << total_mass << " # kg/m3\n";
 
     return 0;

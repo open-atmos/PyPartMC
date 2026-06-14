@@ -71,3 +71,8 @@ __version__ = importlib.metadata.version(__package__)
 # workaround for MATLAB bindings
 # pylint: disable=undefined-variable
 setattr(nanobind, "nb_type_0", type(_PyPartMC.AeroData))
+
+
+#Function that returns cmakes config file location
+def cmake_dir() -> str:
+    return os.path.join(os.path.dirname(__file__), "cmake")

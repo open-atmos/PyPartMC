@@ -716,3 +716,8 @@ _install(
   FILES ${CMAKE_BINARY_DIR}/PyPartMC.hpp
   DESTINATION PyPartMC/include/
 )
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/PyPartMC/cmake
+  DESTINATION PyPartMC
+)
