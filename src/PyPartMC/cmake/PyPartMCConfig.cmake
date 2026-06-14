@@ -25,6 +25,9 @@ get_filename_component(VENV_PYPARTMC_DIR "${PYPARTMC_LIB_FILE}" DIRECTORY)
 
 add_library(PyPartMC::PyPartMC INTERFACE IMPORTED)
 
+add_library(PyPartMC::RuntimeCore UNKNOWN IMPORTED)
+set_target_properties(PyPartMC::RuntimeCore PROPERTIES IMPORTED_LOCATION "${PYPARTMC_LIB_FILE}")
+
 set(POTENTIAL_INCLUDE_DIRS 
     "${PYPARTMC_DIR}/include"
     "${VENV_PYPARTMC_DIR}/include"
@@ -45,7 +48,7 @@ target_include_directories(PyPartMC::PyPartMC INTERFACE
 
 target_link_libraries(PyPartMC::PyPartMC INTERFACE 
     "${VENV_PYPARTMC_DIR}/lib/libpartmclib.a"
-    "${PYPARTMC_LIB_FILE}"
+    PyPartMC::RuntimeCore
     ${Python_LIBRARIES}
 )
 
