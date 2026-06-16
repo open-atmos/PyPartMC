@@ -177,7 +177,6 @@ include = [
     "gitmodules/netcdf-c/libsrc/memio.c",
     "gitmodules/netcdf-c/libsrc/posixio.c",
     "gitmodules/netcdf-c/libsrc4/nc4internal.c",
-    "gitmodules/netcdf-c/libsrc4/ncindex.c",
     "gitmodules/netcdf-c/libsrc4/nc4cache.c",
     "gitmodules/netcdf-c/libsrc4/nc4dispatch.c",
     "gitmodules/netcdf-c/libsrc4/nc4type.c",
