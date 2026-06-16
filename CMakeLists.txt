@@ -165,7 +165,7 @@ add_prefix(gitmodules/netcdf-c/liblib/ netcdf_c_lib_SOURCES)
 set(netcdf_c_src_SOURCES nc3dispatch.c nc3internal.c dim.c var.c ncio.c v1hpg.c memio.c posixio.c)
 add_prefix(gitmodules/netcdf-c/libsrc/ netcdf_c_src_SOURCES)
 
-set(netcdf_c_src4_SOURCES nc4internal.c ncindex.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c
+set(netcdf_c_src4_SOURCES nc4internal.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c
   ncfunc.c nc4dim.c nc4filters.c nc4attr.c
 )
 add_prefix(gitmodules/netcdf-c/libsrc4/ netcdf_c_src4_SOURCES)
