@@ -73,6 +73,6 @@ __version__ = importlib.metadata.version(__package__)
 setattr(nanobind, "nb_type_0", type(_PyPartMC.AeroData))
 
 
-#Function that returns cmakes config file location
+# Function that returns cmakes config file location
 def cmake_dir() -> str:
     return os.path.join(os.path.dirname(__file__), "cmake")
