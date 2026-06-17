@@ -60,7 +60,7 @@ jobs:
             mingw-w64-x86_64-ninja
             m4
       
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
@@ -100,7 +100,7 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5.0.0
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       
@@ -149,7 +149,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
     steps:
-    - uses: actions/setup-python@v5.0.0
+    - uses: actions/setup-python@v6
       with:
         python-version: "3.11"
     - run: pip install twine auditwheel
