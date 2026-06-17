@@ -149,7 +149,7 @@ set(netcdf_c_dispatch_SOURCES dvar.c ddim.c dvarput.c dvarget.c ddispatch.c dcom
   dvlen.c nc.c dfile.c dnotnc4.c dstring.c nclist.c nchashmap.c dinstance_intern.c dtype.c dgroup.c
   nclistmgr.c dattget.c dattinq.c dvarinq.c dfilter.c derror.c doffsets.c datt.c dattput.c dcopy.c drc.c
   dpathmgr.c dmissing.c nclog.c dutf8.c utf8proc.c ncbytes.c dopaque.c ncuri.c dcrc64.c dinstance.c
-  ds3util.c dutil.c dauth.c dinfermodel.c ncindex.c dudfplugins.c
+  ds3util.c dutil.c dauth.c dinfermodel.c ncindex.c dudfplugins.c dglobal.c
 )
 add_prefix(gitmodules/netcdf-c/libdispatch/ netcdf_c_dispatch_SOURCES)
 
