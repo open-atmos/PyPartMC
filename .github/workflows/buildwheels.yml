@@ -232,14 +232,19 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
-
+      
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-${{matrix.os}}
+          path: dist
+       
       - run: | 
           temp=`find dist/ -name "*cp313*.whl"`
           python -m pip install $temp[examples]
@@ -263,14 +268,19 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, windows-latest]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
-
+      
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-${{matrix.os}}
+          path: dist
+        
       - run: | 
           temp=`find dist/ -name "*cp313*.whl"`
           python -m pip install $temp[examples]
@@ -293,7 +303,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -321,7 +331,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [readme_julia, readme_python, readme_matlab, readme_fortran, readme_cpp]
     steps:
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v6
     - run: pip install numpy
     - uses: actions/download-artifact@v4
       with:
@@ -338,7 +348,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -371,6 +381,7 @@ jobs:
       - if: startsWith(matrix.os, 'macos-')
         run: |
           brew reinstall gcc
+          pip install --only-binary=llvmlite numba llvmlite!=0.46.0b1
 
       - uses: actions/download-artifact@v4
         with:
@@ -425,11 +436,11 @@ jobs:
         os: [ubuntu-latest]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.10"
 
@@ -438,7 +449,7 @@ jobs:
           name: dist-${{matrix.os}}
           path: dist
 
-      - run: pip install --verbose dist/*manylinux*.whl
+      - run: pip install --verbose dist/*cp310*manylinux*.whl
 
       - run: pip install pytest-codeblocks pytest
       - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme.m', 'w'); f.writelines(block.code for block in code if block.syntax=='Matlab'); f.close()"
