@@ -378,13 +378,13 @@ endforeach()
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/netcdf)
 string(CONCAT cmd
   "import sys; print(''.join([line for line in sys.stdin"
-  " if ('VERSION' in line and line.strip().startswith('SET'))"
+  " if ('VERSION' in line and line.strip().upper().startswith('SET'))"
   " or 'CHUNK_' in line"
   " or '_CHUNKS_' in line"
   " or '_CACHE_SIZE' in line"
-  " or line.strip().startswith('CHECK_INCLUDE_FILE')"
-  " or line.strip().startswith('CHECK_TYPE_SIZE')"
-  " or line.strip().startswith('CHECK_FUNCTION_EXISTS')"
+  " or line.strip().upper().startswith('CHECK_INCLUDE_FILE')"
+  " or line.strip().upper().startswith('CHECK_TYPE_SIZE')"
+  " or line.strip().upper().startswith('CHECK_FUNCTION_EXISTS')"
   " or 'IF(SIZEOF_' in line"
   " or '_T TRUE)' in line"
   "]))"
