@@ -387,6 +387,7 @@ string(CONCAT cmd
   " or line.strip().upper().startswith('CHECK_FUNCTION_EXISTS')"
   " or 'IF(SIZEOF_' in line"
   " or '_T TRUE)' in line"
+  " or 'PLUGIN_SEARCH_PATH' in line"
   "]))"
 )
 include(CheckFunctionExists)
