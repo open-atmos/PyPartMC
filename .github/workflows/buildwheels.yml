@@ -381,6 +381,14 @@ jobs:
           temp=`find dist/ -name "*cp312*.whl"`
           python -m pip install $temp[examples]
 
+      - run: pip install pytest-codeblocks pytest
+      - run: mkdir readme_cpp
+      - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme_cpp/test.cpp', 'w'); f.writelines(block.code for block in code if block.syntax=='cpp'); f.close()"
+      - run: cat -n readme_cpp/test.cpp
+      
+      - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme_cpp/CMakeLists.txt', 'w'); f.writelines(block.code for block in code if block.syntax=='cmake'); f.close()"
+      - run: cat -n readme_cpp/CMakeLists.txt
+
       - name: build
         run: |
          cd readme_cpp
