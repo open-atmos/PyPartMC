@@ -614,3 +614,56 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         # assert
         assert isinstance(frozen[0], int)
         assert all(x == 0 for x in frozen)
+
+    @staticmethod
+    def test_imf_temperature():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
+
+        # act
+        imf_temperature = []
+        for i_part in range(len(aero_state)):
+            imf_temperature.append(aero_state.particle(i_part).imf_temperature)
+
+        # assert
+        assert isinstance(imf_temperature[0], float)
+        assert all(x == 0.0 for x in imf_temperature)
+
+    @staticmethod
+    def test_den_ice():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
+
+        # act
+        den_ice = []
+        for i_part in range(len(aero_state)):
+            den_ice.append(aero_state.particle(i_part).den_ice)
+
+        # assert
+        assert isinstance(den_ice[0], float)
+        # unfrozen particles have an undefined ice density
+        assert all(x == -9999.0 for x in den_ice)
+
+    @staticmethod
+    def test_ice_shape_phi():
+        # arrange
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
+        _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
+
+        # act
+        ice_shape_phi = []
+        for i_part in range(len(aero_state)):
+            ice_shape_phi.append(aero_state.particle(i_part).ice_shape_phi)
+
+        # assert
+        assert isinstance(ice_shape_phi[0], float)
+        # unfrozen particles have an undefined ice shape
+        assert all(x == -9999.0 for x in ice_shape_phi)
