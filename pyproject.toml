@@ -118,6 +118,7 @@ include = [
     "gitmodules/netcdf-c/include/hdf5dispatch.h",
     "gitmodules/netcdf-c/include/ncdimscale.h",
     "gitmodules/netcdf-c/include/ncglobal.h",
+    "gitmodules/netcdf-c/include/ncutil.h",
     "gitmodules/netcdf-c/libdispatch/utf8proc_data.c",
     "gitmodules/netcdf-c/libdispatch/utf8proc.h",
     "gitmodules/netcdf-c/libdispatch/dvar.c",
