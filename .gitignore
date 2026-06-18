@@ -2,3 +2,5 @@ examples/tmp*.pdf
 examples/tmp*.svg
 examples/tmp*.gif
 **/__pycache__/
+build/*
+readme_cpp/build/*

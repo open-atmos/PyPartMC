@@ -12,7 +12,7 @@ Additionally, the ability to easily package examples, simple simulations, and re
   instructors, and students, with nominal software and hardware requirements.
 
 Documentation of PyPartMC is hosted at https://open-atmos.github.io/PyPartMC.
-PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals.
+PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals (C++ example below).
 The Python API can facilitate using PartMC from other environments - see, e.g., Julia and Matlab examples below.
 
 For an outline of the project, rationale, architecture, and features, refer to: [D'Aquino et al., 2024 (SoftwareX)](https://doi.org/10.1016/j.softx.2023.101613) (please cite if PyPartMC is used in your research).
@@ -176,7 +176,94 @@ aero_state.dist_sample(aero_dist)
 print(np.dot(aero_state.masses(), aero_state.num_concs), "# kg/m3")
 ```
 
+#### C++
+
+```cpp
+#include <iostream>
+#include <memory>
+#include <numeric>
+
+#include "PyPartMC.hpp"
+#include "PyPartMC/si.hpp"
+
+int main() {
+    auto aero_data = std::make_shared<AeroData>(nlohmann::json({
+        { {"OC", {1000.0 * si::kg / (si::m * si::m * si::m), 0.0, 1e-3 * si::kg / si::mol, 0.001, 0.0, 0.0}} },
+        { {"BC", {1800.0 * si::kg / (si::m * si::m * si::m), 0.0, 1e-3 * si::kg / si::mol, 0.0,   0.0, 0.0}} }
+    }));
+
+    auto aero_dist = AeroDist(
+        aero_data, 
+        nlohmann::ordered_json::array({
+            nlohmann::ordered_json::object({
+                {"cooking", {
+                    {"mass_frac", nlohmann::ordered_json::array({ nlohmann::ordered_json::object({{"OC", {1.0}}}) }) }, 
+                    {"diam_type", "geometric"},
+                    {"mode_type", "log_normal"},
+                    {"num_conc", 3200.0 / (si::cm * si::cm * si::cm)},
+                    {"geom_mean_diam", 8.64 * si::nm},
+                    {"log10_geom_std_dev", 0.28}
+                }},
+                {"diesel", {
+                    {"mass_frac", nlohmann::ordered_json::array({ nlohmann::ordered_json::object({{"OC", {0.3}}}), nlohmann::ordered_json::object({{"BC", {0.7}}}) }) }, 
+                    {"diam_type", "geometric"},
+                    {"mode_type", "log_normal"},
+                    {"num_conc", 2900.0 / (si::cm * si::cm * si::cm)},
+                    {"geom_mean_diam", 50.0 * si::nm},
+                    {"log10_geom_std_dev", 0.24}
+                }}
+            })
+        })
+    );
+
+    int n_part = 100;
+    auto aero_state = AeroState(aero_data, n_part, "nummass_source");
+    
+    AeroState::dist_sample(aero_state, aero_dist, 1.0, 0.0, true, true);
+
+    auto masses = AeroState::masses(aero_state, {}, {});
+    auto num_concs = AeroState::num_concs(aero_state);
+
+    double total_mass = std::inner_product(
+        std::begin(num_concs), std::end(num_concs), 
+        std::begin(masses), 
+        0.0
+    );
+    
+    std::cout << std::scientific << total_mass << " # kg/m3\n";
+
+    return 0;
+}
+```
+
+What can be compiled using CMake with following CMakeLists.txt:
+
+```cmake
+cmake_minimum_required(VERSION 3.22)
+project(AeroSimulation LANGUAGES CXX)
+
+enable_testing()
+set(CMAKE_CXX_STANDARD 17)
+
+find_package(Python 3.8 REQUIRED COMPONENTS Interpreter)
+execute_process(
+    COMMAND ${Python_EXECUTABLE} -c "import PyPartMC, pathlib; print(pathlib.Path(PyPartMC.cmake_dir()).as_posix())"
+    OUTPUT_VARIABLE PYPARTMC_CMAKE_DIR
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+set(PyPartMC_DIR "${PYPARTMC_CMAKE_DIR}")
+
+find_package(PyPartMC REQUIRED)
+
+add_executable(my_test test.cpp)
+target_link_libraries(my_test PRIVATE PyPartMC::PyPartMC)
+pypartmc_setup_runtime(my_test)
+
+add_test(NAME maketest COMMAND my_test)
+```
+
 #### Julia (using [PyCall.jl](https://github.com/JuliaPy/PyCall.jl))
+
 ```Julia
 using Pkg
 Pkg.add("PyCall")
