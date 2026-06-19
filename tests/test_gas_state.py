@@ -7,11 +7,15 @@
 import gc
 import platform
 
+import numpy as np
 import pytest
 
 import PyPartMC as ppmc
 
+from .common import ENV_STATE_CTOR_ARG_MINIMAL
+from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_gas_data import GAS_DATA_CTOR_ARG_MINIMAL
+from .test_scenario import SCENARIO_CTOR_ARG_MINIMAL
 
 GAS_DATA_MINIMAL = ppmc.GasData(GAS_DATA_CTOR_ARG_MINIMAL)
 
@@ -102,6 +106,77 @@ class TestGasState:
 
         # assert
         assert len(sut.mix_rats) == len(sut)
+
+    @staticmethod
+    def test_scale():
+        # arrange
+        gas_data = ppmc.GasData(
+            (
+                "SO2",
+                "CO",
+            )
+        )
+        sut = ppmc.GasState(gas_data)
+        gas_state_init_values = ({"SO2": [0.1]}, {"CO": [0.5]})
+        sut.mix_rats = gas_state_init_values
+
+        # act
+        alpha = 5.0
+        sut.scale(alpha)
+
+        # assert
+        idx_set = []
+        for item in gas_state_init_values:
+            keys = item.keys()
+            assert len(keys) == 1
+            key = tuple(keys)[0]
+            val = tuple(item.values())[0][0]
+            idx_set.append(gas_data.spec_by_name(key))
+            assert sut[gas_data.spec_by_name(key)] == val * alpha
+
+    @staticmethod
+    def test_molar_conc_to_ppb():
+        # arrange
+        gas_data = GAS_DATA_MINIMAL
+        aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
+        scenario = ppmc.Scenario(gas_data, aero_data, SCENARIO_CTOR_ARG_MINIMAL)
+        env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
+        scenario.init_env_state(env_state, 0.0)
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
+        sut.mix_rats = GAS_STATE_MINIMAL
+
+        # act
+        sut.molar_conc_to_ppb(env_state)
+
+        # assert
+        assert sut.mix_rats[0] > GAS_STATE_MINIMAL[0][list(gas_data.species)[0]][0]
+
+    @staticmethod
+    def test_add():
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
+        sut.mix_rats = GAS_STATE_MINIMAL
+        gas_state_delta = ppmc.GasState(GAS_DATA_MINIMAL)
+        gas_state_delta.mix_rats = GAS_STATE_MINIMAL
+        tot_mix_rats = np.add(sut.mix_rats, gas_state_delta.mix_rats)
+
+        # act
+        sut.add(gas_state_delta)
+
+        assert sut.mix_rats == tot_mix_rats
+
+    @staticmethod
+    def test_add_scaled():
+        sut = ppmc.GasState(GAS_DATA_MINIMAL)
+        sut.mix_rats = GAS_STATE_MINIMAL
+        gas_state_delta = ppmc.GasState(GAS_DATA_MINIMAL)
+        gas_state_delta.mix_rats = GAS_STATE_MINIMAL
+        alpha = 2.5
+        tot_mix_rats = np.add(sut.mix_rats, np.array(gas_state_delta.mix_rats) * alpha)
+
+        # act
+        sut.add_scaled(gas_state_delta, alpha)
+
+        assert sut.mix_rats == tot_mix_rats
 
     @staticmethod
     def test_set_mix_rats_from_json():
