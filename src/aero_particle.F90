@@ -536,6 +536,51 @@ module PyPartMC_aero_particle
 
   end subroutine
 
+  subroutine f_aero_particle_imf_temperature( &
+      aero_particle_ptr_c, &
+      imf_temperature &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    real(c_double), intent(out) :: imf_temperature
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    imf_temperature = aero_particle_ptr_f%imf_temperature
+
+  end subroutine
+
+  subroutine f_aero_particle_den_ice( &
+      aero_particle_ptr_c, &
+      den_ice &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    real(c_double), intent(out) :: den_ice
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    den_ice = aero_particle_ptr_f%den_ice
+
+  end subroutine
+
+  subroutine f_aero_particle_ice_shape_phi( &
+      aero_particle_ptr_c, &
+      ice_shape_phi &
+    ) bind(C)
+
+    type(aero_particle_t), pointer :: aero_particle_ptr_f => null()
+    type(c_ptr), intent(in) :: aero_particle_ptr_c
+    real(c_double), intent(out) :: ice_shape_phi
+
+    call c_f_pointer(aero_particle_ptr_c, aero_particle_ptr_f)
+
+    ice_shape_phi = aero_particle_ptr_f%ice_shape_phi
+
+  end subroutine
+
   subroutine f_aero_particle_refract_shell( &
       aero_particle_ptr_c, &
       refract_shell, &
