@@ -983,7 +983,7 @@ done in different programming languages.</p>
 
 <h4 id="matlab-using-matlabs-built-in-python-interfacehttpswwwmathworkscomhelpmatlabpython-languagehtml">Matlab (using <a href="https://www.mathworks.com/help/matlab/python-language.html">Matlab's built-in Python interface</a>)</h4>
 
-<p>notes (see the <a href="https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/readme_listings.yml">PyPartMC Matlab CI workflow</a> for an example on how to achieve it on Ubuntu 20):</p>
+<p>notes (see the <code>readme_matlab</code> job definition in <a href="https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/buildwheels.yml">PyPartMC CI workflow</a> for an example on how to achieve it on Ubuntu):</p>
 
 <ul>
 <li>Matlab ships with convenience copies of C, C++ and Fortran runtime libraries which are <code>dlopened()</code> by default; one way to make PyPartMC OK with it is to [pip-]install by compiling from source using the very same version of GCC that Matlab borrowed these libraries from (e.g., <a href="https://www.mathworks.com/support/requirements/supported-compilers-linux.html">GCC 9 for Matlab R2022a, etc</a>);</li>
