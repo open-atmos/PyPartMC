@@ -149,7 +149,7 @@ set(netcdf_c_dispatch_SOURCES dvar.c ddim.c dvarput.c dvarget.c ddispatch.c dcom
   dvlen.c nc.c dfile.c dnotnc4.c dstring.c nclist.c nchashmap.c dinstance_intern.c dtype.c dgroup.c
   nclistmgr.c dattget.c dattinq.c dvarinq.c dfilter.c derror.c doffsets.c datt.c dattput.c dcopy.c drc.c
   dpathmgr.c dmissing.c nclog.c dutf8.c utf8proc.c ncbytes.c dopaque.c ncuri.c dcrc64.c dinstance.c
-  ds3util.c dutil.c dauth.c dinfermodel.c
+  ds3util.c dutil.c dauth.c dinfermodel.c ncindex.c dudfplugins.c dglobal.c dplugins.c
 )
 add_prefix(gitmodules/netcdf-c/libdispatch/ netcdf_c_dispatch_SOURCES)
 
@@ -165,7 +165,7 @@ add_prefix(gitmodules/netcdf-c/liblib/ netcdf_c_lib_SOURCES)
 set(netcdf_c_src_SOURCES nc3dispatch.c nc3internal.c dim.c var.c ncio.c v1hpg.c memio.c posixio.c)
 add_prefix(gitmodules/netcdf-c/libsrc/ netcdf_c_src_SOURCES)
 
-set(netcdf_c_src4_SOURCES nc4internal.c ncindex.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c
+set(netcdf_c_src4_SOURCES nc4internal.c nc4cache.c nc4dispatch.c nc4type.c nc4grp.c nc4var.c
   ncfunc.c nc4dim.c nc4filters.c nc4attr.c
 )
 add_prefix(gitmodules/netcdf-c/libsrc4/ netcdf_c_src4_SOURCES)
@@ -378,15 +378,16 @@ endforeach()
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/netcdf)
 string(CONCAT cmd
   "import sys; print(''.join([line for line in sys.stdin"
-  " if ('VERSION' in line and line.strip().startswith('SET'))"
+  " if ('VERSION' in line and line.strip().upper().startswith('SET'))"
   " or 'CHUNK_' in line"
   " or '_CHUNKS_' in line"
   " or '_CACHE_SIZE' in line"
-  " or line.strip().startswith('CHECK_INCLUDE_FILE')"
-  " or line.strip().startswith('CHECK_TYPE_SIZE')"
-  " or line.strip().startswith('CHECK_FUNCTION_EXISTS')"
+  " or line.strip().upper().startswith('CHECK_INCLUDE_FILE')"
+  " or line.strip().upper().startswith('CHECK_TYPE_SIZE')"
+  " or line.strip().upper().startswith('CHECK_FUNCTION_EXISTS')"
   " or 'IF(SIZEOF_' in line"
   " or '_T TRUE)' in line"
+  " or 'PLUGIN_SEARCH_PATH' in line"
   "]))"
 )
 include(CheckFunctionExists)
