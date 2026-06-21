@@ -307,7 +307,7 @@ print(aero_state.masses()'aero_state.num_concs, "# kg/m3")
 
 #### Matlab (using [Matlab's built-in Python interface](https://www.mathworks.com/help/matlab/python-language.html))
 
-notes (see the [PyPartMC Matlab CI workflow](https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/readme_listings.yml) for an example on how to achieve it on Ubuntu 20):
+notes (see the `readme_matlab` job definition in [PyPartMC CI workflow](https://github.com/open-atmos/PyPartMC/blob/main/.github/workflows/buildwheels.yml) for an example on how to achieve it on Ubuntu):
 - Matlab ships with convenience copies of C, C++ and Fortran runtime libraries which are `dlopened()` by default; one way to make PyPartMC OK with it is to [pip-]install by compiling from source using the very same version of GCC that Matlab borrowed these libraries from (e.g., [GCC 9 for Matlab R2022a, etc](https://www.mathworks.com/support/requirements/supported-compilers-linux.html));
 - Matlab needs to [use the same Python interpretter/venv](https://www.mathworks.com/support/requirements/python-compatibility.html) as the pip invocation used to install PyPartMC;
 
