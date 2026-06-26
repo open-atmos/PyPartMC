@@ -674,8 +674,8 @@ Additionally, the ability to easily package examples, simple simulations, and re
   instructors, and students, with nominal software and hardware requirements.</p>
 
 <p>Documentation of PyPartMC is hosted at <a href="https://open-atmos.github.io/PyPartMC">https://open-atmos.github.io/PyPartMC</a>.
-PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals (C++ example below).
-The Python API can facilitate using PartMC from other environments - see, e.g., Julia and Matlab examples below.</p>
+PyPartMC is implemented in C++ and it also constitutes a C++ API to the PartMC Fortran internals (see the C++ example below).
+The Python API can facilitate using PartMC from other environments than Python and C++ - see, e.g., Julia and Matlab examples below.</p>
 
 <p>For an outline of the project, rationale, architecture, and features, refer to: <a href="https://doi.org/10.1016/j.softx.2023.101613">D'Aquino et al., 2024 (SoftwareX)</a> (please cite if PyPartMC is used in your research).
 For a list of talks and other relevant resources, please see <a href="https://github.com/open-atmos/PyPartMC/wiki/">project Wiki</a>.
@@ -791,7 +791,7 @@ In both cases, all Python dependencies will be resolved by pip.</p>
 <li>ships with <a href="https://github.com/open-atmos/PyPartMC/tree/main/examples">a set of examples</a> maintained in a form of Jupyter notebooks</li>
 <li>Pythonic API (but retaining PartMC jargon) incl. Python GC deallocation of Fortran objects</li>
 <li>specification of parameters using native Python datatypes (lists, dicts) in place of PartMC spec files</li>
-<li>code snippets in README depicting how to use PyPartMC from Julia and Matlab (also executed on CI)</li>
+<li>code snippets in README depicting how to use PyPartMC from Python, C++, Julia and Matlab (also executed on CI)</li>
 <li>auto-generated <a href="https://open-atmos.github.io/PyPartMC/">API docs on the web</a></li>
 <li>support for [de]serialization of selected wrapped structures using JSON </li>
 <li>based on <a href="https://github.com/open-atmos/PyPartMC/tree/main/gitmodules">unmodified PartMC code</a></li>
@@ -804,7 +804,7 @@ In both cases, all Python dependencies will be resolved by pip.</p>
 <p>The listings below depict how the identical task of randomly sampling particles from an aerosol size distribution in PartMC can be
 done in different programming languages.</p>
 
-<p>For a Fortran equivalent of the Python, Julia and Matlab programs below, see the <a href="https://github.com/open-atmos/PyPartMC/tree/main/readme_fortran"><code>readme_fortran</code> folder</a>.</p>
+<p>For a Fortran equivalent of the Python, C++, Julia and Matlab programs below, see the <a href="https://github.com/open-atmos/PyPartMC/tree/main/readme_fortran"><code>readme_fortran</code> folder</a>.</p>
 
 <h4 id="python">Python</h4>
 
@@ -850,6 +850,10 @@ done in different programming languages.</p>
 </div>
 
 <h4 id="c">C++</h4>
+
+<p>Note that <code>pip install PyPartMC</code> also installs C++ header files as well as CMake package configuration file for PyPartMC.
+No other dependencies are needed to use PyPartMC from C++, and using it in the way exemplified below works by
+linking against the PyPartMC binary library file, but without involving the Python interpretter at runtime.</p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
@@ -910,7 +914,7 @@ done in different programming languages.</p>
 </code></pre>
 </div>
 
-<p>What can be compiled using CMake with following CMakeLists.txt:</p>
+<p>What can be compiled using CMake with the following CMakeLists.txt:</p>
 
 <div class="pdoc-code codehilite">
 <pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.22</span><span class="p">)</span>
