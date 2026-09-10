@@ -512,7 +512,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sources = sut.sources
 
         # assert
-        assert len(sources) == aero_dist.n_mode
+        assert len(sources) == aero_data.n_source
         assert isinstance(sources[0], int)
 
     @staticmethod
