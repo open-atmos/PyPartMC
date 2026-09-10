@@ -506,7 +506,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
     def test_sources():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        # two log-normal modes differing only in name (i.e. source) and size
+        # two log-normal modes differing only in name (i.e. source)
         modes = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
         modes["test_mode_2"] = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL["test_mode"])
         aero_dist = ppmc.AeroDist(aero_data, [modes])
@@ -519,7 +519,7 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         ]
 
         # assert
-        assert aero_data.n_source == len(modes)
+        assert aero_data.n_source == aero_dist.n_mode
         assert all(len(src) == aero_data.n_source for src in sources)
         assert isinstance(sources[0][0], int)
         assert all(sum(src) == 1 for src in sources)
