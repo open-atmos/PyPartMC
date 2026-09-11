@@ -2,7 +2,7 @@
 
 # PyPartMC
 
-PyPartMC is a Python interface to [PartMC](https://lagrange.mechse.illinois.edu/partmc/), 
+PyPartMC is a Python interface to [PartMC](https://compdyn.github.io/partmc/), 
   a particle-resolved Monte-Carlo code for atmospheric aerosol simulation.
 Development of PyPartMC has been intended to remove limitations to the use of Fortran-implemented PartMC.
 PyPartMC facilitates the dissemination of computational research results by streamlining independent execution 
