@@ -10,7 +10,6 @@
 #include "aero_data.hpp"
 #include "bin_grid.hpp"
 #include "aero_dist.hpp"
-#include "aero_data.hpp"
 
 extern "C" void f_aero_binned_ctor(void *ptr) noexcept;
 extern "C" void f_aero_binned_dtor(void *ptr) noexcept;
