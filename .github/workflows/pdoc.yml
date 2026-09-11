@@ -17,11 +17,11 @@ jobs:
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
         with:
           submodules: recursive
           persist-credentials: false
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v6
         with:
           python-version: 3.12
       - name: Build
