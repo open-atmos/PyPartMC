@@ -139,6 +139,7 @@ jobs:
 
         - run: |
             python -m pip install pytest
+            python -m pip install "ghapi<2.0.0" "fastcore<2"  # workaround for devops_tests
             python -m pip install $PIP_INSTALL_OPTS -r gitmodules/devops_tests/requirements.txt
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} python -m pytest --durations=10 -v -s -We -p no:unraisableexception gitmodules/devops_tests/test_todos_annotated.py
 
