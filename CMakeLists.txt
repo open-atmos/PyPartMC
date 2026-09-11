@@ -20,6 +20,7 @@ find_package(Python 3.8
   REQUIRED COMPONENTS Interpreter Development.Module
   OPTIONAL_COMPONENTS Development.SABIModule)
 message(STATUS "Python_EXECUTABLE= ${Python_EXECUTABLE}")
+message(STATUS "Python_INCLUDE_DIRS= ${Python_INCLUDE_DIRS}")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
