@@ -185,7 +185,7 @@ jobs:
     steps:
     - uses: actions/setup-python@v6
       with:
-        python-version: "3.15"
+        python-version: "3.15.0-rc2"
     - uses: actions/download-artifact@v5
       with:
         pattern: cibw-sdist
