@@ -194,7 +194,8 @@ jobs:
         merge-multiple: true
         path: dist
     - run: ls -R 
-    - uses: mxschmitt/action-tmate@v3
+    - name: Setup upterm session
+      uses: owenthereal/action-upterm@v1
     - run: pip install --no-binary PyPartMC dist/pypartmc-*.tar.gz
     
   dist_upload:
