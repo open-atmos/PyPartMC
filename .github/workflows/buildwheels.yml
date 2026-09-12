@@ -195,6 +195,8 @@ jobs:
         path: dist
     - run: ls -R 
     - run: pip install --no-binary PyPartMC dist/pypartmc-*.tar.gz
+    - if: ${{ failure() }}
+      uses: mxschmitt/action-tmate@v3
 
   dist_upload:
     runs-on: ubuntu-latest
