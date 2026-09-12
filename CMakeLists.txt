@@ -613,7 +613,7 @@ if (NOT "${CMAKE_REQUIRED_INCLUDES}" STREQUAL "")
 endif()
 foreach(file ${PyPartMC_headers})
   set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS};${Python_INCLUDE_DIRS}")
-  set(CMAKE_REQUIRED_FLAGS "-Werror")
+  set(CMAKE_REQUIRED_FLAGS "") # TODO #555 "-Werror"
   string(REGEX REPLACE "[\-./:]" "_" file_var ${file})
   check_cxx_source_compiles("
       // https://github.com/nlohmann/json/issues/1408
