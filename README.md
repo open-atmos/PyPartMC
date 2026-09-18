@@ -259,17 +259,8 @@ set(PyPartMC_DIR "${PYPARTMC_CMAKE_DIR}")
 
 find_package(PyPartMC REQUIRED)
 
-execute_process(
-    COMMAND ${Python_EXECUTABLE} -m nanobind --cmake_dir
-    OUTPUT_VARIABLE nanobind_ROOT
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-list(APPEND CMAKE_PREFIX_PATH "${nanobind_ROOT}")
-find_package(nanobind CONFIG REQUIRED)
-nanobind_build_library(nanobind-static)
-
 add_executable(my_test test.cpp)
-target_link_libraries(my_test PRIVATE PyPartMC::PyPartMC nanobind-static)
+target_link_libraries(my_test PRIVATE PyPartMC::PyPartMC)
 pypartmc_setup_runtime(my_test)
 
 add_test(NAME maketest COMMAND my_test)
