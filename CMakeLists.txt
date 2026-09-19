@@ -559,7 +559,7 @@ else()
     set(PYPARTMC_MODULE_TYPE MODULE)
 endif()
 
-nanobind_add_module(_PyPartMC ${PYPARTMC_MODULE_TYPE} STABLE_ABI NOSTRIP ${PyPartMC_sources})
+nanobind_add_module(_PyPartMC ${PYPARTMC_MODULE_TYPE} STABLE_ABI ${PyPartMC_sources})
 add_dependencies(_PyPartMC partmclib)
 set(PYPARTMC_INCLUDE_DIRS 
   "${CMAKE_BINARY_DIR}/include;"
@@ -583,7 +583,9 @@ if (WIN32)
   target_link_libraries(_PyPartMC PRIVATE -static gcc stdc++ winpthread quadmath -dynamic)
 endif()
 if(CMAKE_CXX_COMPILER_ID STREQUAL GNU)
-  target_link_options(_PyPartMC PRIVATE -flto=auto)
+    if(NOT WIN32)
+        target_link_options(_PyPartMC PRIVATE -flto=auto)
+    endif()
 endif()
 
 ### pedantics ######################################################################################
