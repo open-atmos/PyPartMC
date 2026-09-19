@@ -559,7 +559,7 @@ else()
     set(PYPARTMC_MODULE_TYPE MODULE)
 endif()
 
-nanobind_add_module(_PyPartMC ${PYPARTMC_MODULE_TYPE} STABLE_ABI ${PyPartMC_sources})
+nanobind_add_module(_PyPartMC ${PYPARTMC_MODULE_TYPE} STABLE_ABI NOSTRIP ${PyPartMC_sources})
 add_dependencies(_PyPartMC partmclib)
 set(PYPARTMC_INCLUDE_DIRS 
   "${CMAKE_BINARY_DIR}/include;"
