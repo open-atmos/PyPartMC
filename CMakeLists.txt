@@ -581,11 +581,10 @@ if (APPLE)
 endif()
 if (WIN32)
   target_link_libraries(_PyPartMC PRIVATE -static gcc stdc++ winpthread quadmath -dynamic)
+  target_link_options(_PyPartMC PRIVATE --whole-archive)
 endif()
 if(CMAKE_CXX_COMPILER_ID STREQUAL GNU)
-    if(NOT WIN32)
-        target_link_options(_PyPartMC PRIVATE -flto=auto)
-    endif()
+    target_link_options(_PyPartMC PRIVATE -flto=auto)
 endif()
 
 ### pedantics ######################################################################################
