@@ -214,6 +214,7 @@ double loss_rate(
 );
 
 double loss_rate_drydep(
+    const Scenario &scenario,
     const double vol,
     const double density,
     const AeroData &aero_data,
