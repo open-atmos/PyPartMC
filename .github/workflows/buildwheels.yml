@@ -347,7 +347,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel] # TODO #558  windows-latest]
     steps:
       - uses: actions/checkout@v7
         with:
