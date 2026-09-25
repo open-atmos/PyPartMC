@@ -68,7 +68,7 @@ module PyPartMC_scenario
   end subroutine
 
   subroutine f_scenario_loss_rate_drydep( &
-    scenario_ptr_c &,
+    scenario_ptr_c, &
     vol, &
     density, &
     aero_data_ptr_c, &
@@ -80,7 +80,7 @@ module PyPartMC_scenario
     type(aero_data_t), pointer :: aero_data_ptr_f => null()
     type(env_state_t), pointer :: env_state_ptr_f => null()
     real(c_double), intent(in) :: vol, density
-    type(c_ptr), intent(in) :: aero_data_ptr_c, env_state_ptr_c
+    type(c_ptr), intent(in) :: scenario_ptr_c, aero_data_ptr_c, env_state_ptr_c
     real(c_double), intent(out) :: rate
 
     call c_f_pointer(scenario_ptr_c, scenario_ptr_f)
