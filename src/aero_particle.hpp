@@ -222,7 +222,7 @@ struct AeroParticle {
     }
 
     static auto sources(const AeroParticle &self) {
-        int len = AeroData::__len__(*self.aero_data);
+        int len = AeroData::n_source(*self.aero_data);
         auto fn = f_aero_particle_get_component_sources;
         return pypartmc::get_array_values_set_len<int>(self, fn, len);
     }

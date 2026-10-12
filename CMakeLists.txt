@@ -20,6 +20,7 @@ find_package(Python 3.8
   REQUIRED COMPONENTS Interpreter Development.Module
   OPTIONAL_COMPONENTS Development.SABIModule)
 message(STATUS "Python_EXECUTABLE= ${Python_EXECUTABLE}")
+message(STATUS "Python_INCLUDE_DIRS= ${Python_INCLUDE_DIRS}")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -293,7 +294,7 @@ function(scoped_sundials_setup_config)
 
   file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/sundials)
   execute_process(
-    COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if line.startswith('set(PACKAGE_VERSION_')]))"
+    COMMAND ${Python_EXECUTABLE} "-c" "import sys; print(''.join([line for line in sys.stdin if line.startswith('set(PACKAGE_VERSION_')]))"
     INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/sundials/CMakeLists.txt
     OUTPUT_FILE ${CMAKE_BINARY_DIR}/sundials/CMakeLists.txt
   )
@@ -339,7 +340,7 @@ target_include_directories(camplib PRIVATE
 )
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/include/camp)
 execute_process(
-  COMMAND ${PYTHON_EXECUTABLE} "-c" "import sys; print(''.join([line.replace(')','').replace('set(','#define ').replace('PACKAGE_', 'CAMP_') for line in sys.stdin if line.startswith('set(PACKAGE_VERSION')]))"
+  COMMAND ${Python_EXECUTABLE} "-c" "import sys; print(''.join([line.replace(')','').replace('set(','#define ').replace('PACKAGE_', 'CAMP_') for line in sys.stdin if line.startswith('set(PACKAGE_VERSION')]))"
   INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/camp/CMakeLists.txt
   OUTPUT_FILE ${CMAKE_BINARY_DIR}/include/camp/version.h
 )
@@ -366,7 +367,7 @@ endif()
 
 foreach(file ${hdf5_GENERATED_HEADERS})
   execute_process(
-    COMMAND ${PYTHON_EXECUTABLE} "-c" "import re;open(1,'wb').write(re.sub(b'\\r',b'',open(0,'rb').read()))"
+    COMMAND ${Python_EXECUTABLE} "-c" "import re;open(1,'wb').write(re.sub(b'\\r',b'',open(0,'rb').read()))"
     INPUT_FILE ${CMAKE_SOURCE_DIR}/${file}
     OUTPUT_FILE ${CMAKE_BINARY_DIR}/${file}
   )
@@ -391,7 +392,7 @@ string(CONCAT cmd
 )
 include(CheckFunctionExists)
 execute_process(
-  COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
+  COMMAND ${Python_EXECUTABLE} "-c" "${cmd}"
   INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/netcdf-c/CMakeLists.txt
   OUTPUT_FILE ${CMAKE_BINARY_DIR}/netcdf/CMakeLists.txt
 )
@@ -511,14 +512,20 @@ add_dependencies(partmclib ${SUNDIALS_items})
 string(CONCAT 
   cmd
   "import sys;"
+  "print('#pragma once');"
   "print(''.join([line if line.startswith('#') else f'#define {line.split()[3]} {line.split()[5]}\\n' for line in sys.stdin if 'parameter ::' in line or line.startswith('#')]))"
 )
 include(CheckFunctionExists)
 foreach(file aero_data;gas_data;output)
   execute_process(
-    COMMAND ${PYTHON_EXECUTABLE} "-c" "${cmd}"
+    COMMAND ${Python_EXECUTABLE} "-c" "${cmd}"
     INPUT_FILE ${CMAKE_SOURCE_DIR}/gitmodules/partmc/src/${file}.F90
     OUTPUT_FILE ${CMAKE_BINARY_DIR}/include/${file}_parameters.hpp
+  )
+
+  _install(
+    FILES ${CMAKE_BINARY_DIR}/include/${file}_parameters.hpp
+    DESTINATION PyPartMC/include/
   )
 endforeach()
 
@@ -546,7 +553,13 @@ endif()
 find_package(nanobind CONFIG REQUIRED)
 
 add_subdirectory(gitmodules/nanobind)
-nanobind_add_module(_PyPartMC STABLE_ABI ${PyPartMC_sources})
+if(APPLE)
+    set(PYPARTMC_MODULE_TYPE SHARED)
+else()
+    set(PYPARTMC_MODULE_TYPE MODULE)
+endif()
+
+nanobind_add_module(_PyPartMC ${PYPARTMC_MODULE_TYPE} STABLE_ABI ${PyPartMC_sources})
 add_dependencies(_PyPartMC partmclib)
 set(PYPARTMC_INCLUDE_DIRS 
   "${CMAKE_BINARY_DIR}/include;"
@@ -575,10 +588,16 @@ endif()
 
 ### pedantics ######################################################################################
 
+# temporarily disable -Werror specifically for Linux + Python 3.15 TODO #555
+set(PYPARTMC_WERROR "-Werror")
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND Python_VERSION VERSION_EQUAL "3.15")
+  set(PYPARTMC_WERROR "")
+endif()
+
 foreach(target _PyPartMC)
   target_compile_options(${target} PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror -Wno-unused-parameter>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic ${PYPARTMC_WERROR} -Wno-unused-parameter>
   )
 endforeach()
 
@@ -600,7 +619,7 @@ if (NOT "${CMAKE_REQUIRED_INCLUDES}" STREQUAL "")
 endif()
 foreach(file ${PyPartMC_headers})
   set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS};${Python_INCLUDE_DIRS}")
-  set(CMAKE_REQUIRED_FLAGS "-Werror")
+  set(CMAKE_REQUIRED_FLAGS "${PYPARTMC_WERROR}")
   string(REGEX REPLACE "[\-./:]" "_" file_var ${file})
   check_cxx_source_compiles("
       // https://github.com/nlohmann/json/issues/1408
@@ -627,3 +646,85 @@ foreach(file ${PyPartMC_headers})
 endforeach()
 
 _install(TARGETS _PyPartMC LIBRARY DESTINATION PyPartMC)
+
+# for C++ users who wish to link against the PyPartMC shared library
+set_target_properties(_PyPartMC PROPERTIES CXX_VISIBILITY_PRESET default C_VISIBILITY_PRESET default)
+
+set_target_properties(_PyPartMC PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+if(WIN32 AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_link_options(_PyPartMC PRIVATE -Wl,--export-all-symbols)
+endif()
+
+_install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/
+    DESTINATION PyPartMC/include/PyPartMC
+    FILES_MATCHING PATTERN "*.hpp"
+)
+
+_install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/
+    DESTINATION PyPartMC/include/PyPartMC
+    FILES_MATCHING PATTERN "*.hpp"
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/json/include/nlohmann
+  DESTINATION PyPartMC/include
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/span/include/tcb
+  DESTINATION PyPartMC/include
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/string_view-standalone/include/bpstd
+  DESTINATION PyPartMC/include
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/optional/include/tl
+  DESTINATION PyPartMC/include
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/gitmodules/nanobind_json/include/nanobind_json
+  DESTINATION PyPartMC/include
+)
+
+_install(TARGETS partmclib
+      ARCHIVE DESTINATION PyPartMC/lib
+)
+
+ execute_process(
+    WORKING_DIRECTORY  ${CMAKE_CURRENT_SOURCE_DIR}/src/PyPartMC
+    COMMAND ${Python_EXECUTABLE} 
+    "-c" 
+    "from __generate_si import __generate_si;\nsi=__generate_si(); print('#pragma once\\nstruct si {' + '\\n'.join([f'static constexpr auto {unit}={getattr(si, unit)};' for unit in dir(si) if type(getattr(si, unit)) == float]) + '};')"
+    OUTPUT_FILE ${CMAKE_BINARY_DIR}/si.hpp
+  )
+
+_install(
+  FILES ${CMAKE_BINARY_DIR}/si.hpp
+  DESTINATION PyPartMC/include/PyPartMC
+)
+
+file(GLOB ALL_HPP_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp")
+
+file(WRITE ${CMAKE_BINARY_DIR}/PyPartMC.hpp "#pragma once\n")
+
+foreach(HPP_FILE IN LISTS ALL_HPP_FILES)
+    get_filename_component(FILENAME ${HPP_FILE} NAME)
+    file(APPEND ${CMAKE_BINARY_DIR}/PyPartMC.hpp "#include <PyPartMC/${FILENAME}>\n")
+endforeach()
+
+_install(
+  FILES ${CMAKE_BINARY_DIR}/PyPartMC.hpp
+  DESTINATION PyPartMC/include/
+)
+
+_install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/PyPartMC/cmake
+  DESTINATION PyPartMC
+)
