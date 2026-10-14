@@ -172,8 +172,7 @@ class TestGasState:
         gas_state_delta.mix_rats = GAS_STATE_MINIMAL
         alpha = 2.5
         tot_mix_rats = np.add(
-            np.asarray(sut.mix_rats),
-            np.asarray(gas_state_delta.mix_rats) * alpha
+            np.asarray(sut.mix_rats), np.asarray(gas_state_delta.mix_rats) * alpha
         )
 
         # act
