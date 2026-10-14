@@ -20,6 +20,7 @@ find_package(Python 3.8
   REQUIRED COMPONENTS Interpreter Development.Module
   OPTIONAL_COMPONENTS Development.SABIModule)
 message(STATUS "Python_EXECUTABLE= ${Python_EXECUTABLE}")
+message(STATUS "Python_INCLUDE_DIRS= ${Python_INCLUDE_DIRS}")
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
@@ -587,10 +588,16 @@ endif()
 
 ### pedantics ######################################################################################
 
+# temporarily disable -Werror specifically for Linux + Python 3.15 TODO #555
+set(PYPARTMC_WERROR "-Werror")
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND Python_VERSION VERSION_EQUAL "3.15")
+  set(PYPARTMC_WERROR "")
+endif()
+
 foreach(target _PyPartMC)
   target_compile_options(${target} PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
-    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror -Wno-unused-parameter>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic ${PYPARTMC_WERROR} -Wno-unused-parameter>
   )
 endforeach()
 
@@ -612,7 +619,7 @@ if (NOT "${CMAKE_REQUIRED_INCLUDES}" STREQUAL "")
 endif()
 foreach(file ${PyPartMC_headers})
   set(CMAKE_REQUIRED_INCLUDES "${PYPARTMC_INCLUDE_DIRS};${Python_INCLUDE_DIRS}")
-  set(CMAKE_REQUIRED_FLAGS "-Werror")
+  set(CMAKE_REQUIRED_FLAGS "${PYPARTMC_WERROR}")
   string(REGEX REPLACE "[\-./:]" "_" file_var ${file})
   check_cxx_source_compiles("
       // https://github.com/nlohmann/json/issues/1408
