@@ -178,7 +178,7 @@ class TestGasState:
         # act
         sut.add_scaled(gas_state_delta, alpha)
 
-        assert np.asarray(sut.mix_rats) == tot_mix_rats
+        np.testing.assert_array_equal(np.asarray(sut.mix_rats), tot_mix_rats)
 
     @staticmethod
     def test_set_mix_rats_from_json():
