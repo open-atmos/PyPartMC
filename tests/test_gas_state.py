@@ -171,12 +171,15 @@ class TestGasState:
         gas_state_delta = ppmc.GasState(GAS_DATA_MINIMAL)
         gas_state_delta.mix_rats = GAS_STATE_MINIMAL
         alpha = 2.5
-        tot_mix_rats = np.add(sut.mix_rats, np.array(gas_state_delta.mix_rats) * alpha)
+        tot_mix_rats = np.add(
+            np.asarray(sut.mix_rats),
+            np.asarray(gas_state_delta.mix_rats) * alpha
+        )
 
         # act
         sut.add_scaled(gas_state_delta, alpha)
 
-        assert sut.mix_rats == tot_mix_rats
+        assert np.asarray(sut.mix_rats) == tot_mix_rats
 
     @staticmethod
     def test_set_mix_rats_from_json():
