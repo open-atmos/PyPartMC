@@ -4,6 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
+import copy
 import gc
 
 import numpy as np
@@ -14,6 +15,7 @@ from PyPartMC import si
 
 from .test_aero_data import AERO_DATA_CTOR_ARG_MINIMAL
 from .test_aero_dist import AERO_DIST_CTOR_ARG_MINIMAL
+from .test_aero_mode import AERO_MODE_CTOR_LOG_NORMAL
 from .test_aero_state import AERO_STATE_CTOR_ARG_MINIMAL
 from .test_env_state import ENV_STATE_CTOR_ARG_MINIMAL
 
@@ -441,11 +443,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.absorb_cross_sect
+        value = list(sut.absorb_cross_sect)
 
         # assert
-        assert value == 0
-        assert isinstance(value, float)
+        assert len(value) >= 1
+        assert all(v == 0 for v in value)
+        assert isinstance(value[0], float)
 
     @staticmethod
     def test_scatter_cross_sect():
@@ -453,11 +456,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.scatter_cross_sect
+        value = list(sut.scatter_cross_sect)
 
         # assert
-        assert value == 0
-        assert isinstance(value, float)
+        assert len(value) >= 1
+        assert all(v == 0 for v in value)
+        assert isinstance(value[0], float)
 
     @staticmethod
     def test_asymmetry():
@@ -465,11 +469,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.asymmetry
+        value = list(sut.asymmetry)
 
         # assert
-        assert value == 0
-        assert isinstance(value, float)
+        assert len(value) >= 1
+        assert all(v == 0 for v in value)
+        assert isinstance(value[0], float)
 
     @staticmethod
     def test_refract_shell():
@@ -477,11 +482,12 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.refract_shell
+        value = list(sut.refract_shell)
 
         # assert
-        assert value == 0 + 0j
-        assert isinstance(value, complex)
+        assert len(value) >= 1
+        assert all(v == 0 + 0j for v in value)
+        assert isinstance(value[0], complex)
 
     @staticmethod
     def test_refract_core():
@@ -489,26 +495,34 @@ class TestAeroParticle:  # pylint: disable=too-many-public-methods
         sut = ppmc.AeroParticle(ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL), [44])
 
         # act
-        value = sut.refract_core
+        value = list(sut.refract_core)
 
         # assert
-        assert value == 0 + 0j
-        assert isinstance(value, complex)
+        assert len(value) >= 1
+        assert all(v == 0 + 0j for v in value)
+        assert isinstance(value[0], complex)
 
     @staticmethod
     def test_sources():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
-        aero_dist = ppmc.AeroDist(aero_data, AERO_DIST_CTOR_ARG_MINIMAL)
+        # two log-normal modes differing only in name (i.e. source)
+        modes = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL)
+        modes["test_mode_2"] = copy.deepcopy(AERO_MODE_CTOR_LOG_NORMAL["test_mode"])
+        aero_dist = ppmc.AeroDist(aero_data, [modes])
         aero_state = ppmc.AeroState(aero_data, *AERO_STATE_CTOR_ARG_MINIMAL)
         _ = aero_state.dist_sample(aero_dist, 1.0, 0.0)
-        sut = aero_state.particle(0)
+
         # act
-        sources = sut.sources
+        sources = [
+            aero_state.particle(i_part).sources for i_part in range(len(aero_state))
+        ]
 
         # assert
-        assert len(sources) == aero_dist.n_mode
-        assert isinstance(sources[0], int)
+        assert aero_data.n_source == aero_dist.n_mode
+        assert all(len(src) == aero_data.n_source for src in sources)
+        assert isinstance(sources[0][0], int)
+        assert all(sum(src) == 1 for src in sources)
 
     @staticmethod
     def test_get_weighting():
