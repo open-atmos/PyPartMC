@@ -4,7 +4,7 @@
 # Authors: https://github.com/open-atmos/PyPartMC/graphs/contributors                              #
 ####################################################################################################
 
-from cmath import nan
+import math
 
 import numpy as np
 import pytest
@@ -57,7 +57,7 @@ class TestLossRate:
         rate = ppmc.loss_rate(scenario, vol, density, aero_data, env_state)
 
         # assert
-        assert rate is not nan
+        assert not math.isnan(rate)
 
     @staticmethod
     def test_loss_rate_dry_dep():
@@ -77,4 +77,4 @@ class TestLossRate:
         rate = ppmc.loss_rate_dry_dep(vol, density, aero_data, env_state)
 
         # assert
-        assert rate is not nan
+        assert not math.isnan(rate)
