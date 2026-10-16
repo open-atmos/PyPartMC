@@ -54,7 +54,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
-          update: false
+          update: true
           install: >-
             mingw-w64-x86_64-gcc-fortran
             mingw-w64-x86_64-ninja
@@ -365,10 +365,10 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
-          update: false
+          update: true
           install: >-
-            mingw-w64-ucrt-x86_64-gcc
-            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-ninja
             m4
 
       - if: matrix.os == 'windows-latest'
