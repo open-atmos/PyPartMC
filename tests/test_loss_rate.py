@@ -60,7 +60,7 @@ class TestLossRate:
         assert rate is not nan
 
     @staticmethod
-    def test_loss_rate_dry_dep():
+    def test_loss_rate_drydep():
         # arrange
         aero_data = ppmc.AeroData(AERO_DATA_CTOR_ARG_MINIMAL)
         env_state = ppmc.EnvState(ENV_STATE_CTOR_ARG_MINIMAL)
@@ -74,7 +74,7 @@ class TestLossRate:
         aero_data.vol_fill_factor = 1
 
         # act
-        rate = ppmc.loss_rate_dry_dep(vol, density, aero_data, env_state)
+        rate = ppmc.loss_rate_drydep(vol, density, aero_data, env_state)
 
         # assert
         assert rate is not nan

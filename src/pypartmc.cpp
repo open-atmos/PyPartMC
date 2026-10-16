@@ -646,7 +646,7 @@ NB_MODULE(_PyPartMC, m) {
     );
 
     m.def(
-        "loss_rate_dry_dep", &loss_rate_dry_dep, nb::rv_policy::copy,
+        "loss_rate_drydep", &loss_rate_drydep, nb::rv_policy::copy,
         "Compute and return the dry deposition rate for a given particle."
     );
 

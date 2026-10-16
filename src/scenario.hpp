@@ -32,7 +32,8 @@ extern "C" void f_scenario_loss_rate(
     const void *env_state,
     double *rate
 ) noexcept;
-extern "C" void f_scenario_loss_rate_dry_dep(
+extern "C" void f_scenario_loss_rate_drydep(
+    const void *scenario,
     const double *vol,
     const double *density,
     const void *aero_data,
@@ -212,7 +213,8 @@ double loss_rate(
     const EnvState &env_state
 );
 
-double loss_rate_dry_dep(
+double loss_rate_drydep(
+    const Scenario &scenario,
     const double vol,
     const double density,
     const AeroData &aero_data,

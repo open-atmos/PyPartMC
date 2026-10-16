@@ -25,14 +25,16 @@ double loss_rate(
     return rate;
 }
 
-double loss_rate_dry_dep(
+double loss_rate_drydep(
+    const Scenario &scenario,
     const double vol,
     const double density,
     const AeroData &aero_data,
     const EnvState &env_state
 ) {
     double rate;
-    f_scenario_loss_rate_dry_dep(
+    f_scenario_loss_rate_drydep(
+        &scenario.ptr,
         &vol,
         &density,
         &aero_data.ptr,
