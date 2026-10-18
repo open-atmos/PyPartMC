@@ -280,7 +280,7 @@ examples = [
     "ipywidgets",
     "voila",
     "open-atmos-jupyter-utils",
-    "PySDM",
+    "PySDM >= 3.0.0",
     "PyMieScatt",
     "SciPy",
     "dustpy; platform_system != 'Windows'"
