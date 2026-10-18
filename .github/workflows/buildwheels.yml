@@ -92,7 +92,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-14, macos-15, macos-15-intel, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-14, macos-15, windows-latest]
 
     steps:
       - uses: actions/checkout@v7
@@ -391,7 +391,7 @@ jobs:
       
       - run: | 
           temp=`find dist/ -name "*cp312*.whl"`
-          python -m pip install $temp[examples]
+          python -m pip install $temp
 
       - run: pip install pytest-codeblocks pytest
       - run: mkdir readme_cpp

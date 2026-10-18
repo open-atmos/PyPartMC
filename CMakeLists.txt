@@ -561,6 +561,12 @@ endif()
 
 nanobind_add_module(_PyPartMC ${PYPARTMC_MODULE_TYPE} STABLE_ABI ${PyPartMC_sources})
 add_dependencies(_PyPartMC partmclib)
+
+# Prevent an executable-stack requirement on Linux
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  target_link_options(_PyPartMC PRIVATE "LINKER:-z,noexecstack")
+endif()
+
 set(PYPARTMC_INCLUDE_DIRS 
   "${CMAKE_BINARY_DIR}/include;"
   "${CMAKE_SOURCE_DIR}/gitmodules/json/include;"
