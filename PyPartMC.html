@@ -485,6 +485,18 @@
                         <li>
                                 <a class="variable" href="#GasState.mix_rats">mix_rats</a>
                         </li>
+                        <li>
+                                <a class="function" href="#GasState.molar_conc_to_ppb">molar_conc_to_ppb</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#GasState.scale">scale</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#GasState.add">add</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#GasState.add_scaled">add_scaled</a>
+                        </li>
                 </ul>
 
             </li>
@@ -3477,6 +3489,74 @@ it. This will be the case for new \c gas_state_t structures.</p>
             <div class="docstring"><p>(self) -> [std::valarray]</p>
 
 <p>Provide access (read or write) to the array of mixing ratios.</p>
+</div>
+
+
+                            </div>
+                            <div id="GasState.molar_conc_to_ppb" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">molar_conc_to_ppb</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasState.molar_conc_to_ppb"></a>
+    
+            <div class="docstring"><p>molar_conc_to_ppb(self, arg: <a href="#EnvState">PyPartMC._PyPartMC.EnvState</a>, /) -> None</p>
+
+<p>Convert (mol m^{-3}) to (ppb).</p>
+</div>
+
+
+                            </div>
+                            <div id="GasState.scale" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">scale</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasState.scale"></a>
+    
+            <div class="docstring"><p>scale(self, arg: float, /) -> None</p>
+
+<p>Scale a gas state.</p>
+</div>
+
+
+                            </div>
+                            <div id="GasState.add" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">add</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasState.add"></a>
+    
+            <div class="docstring"><p>add(self, arg: <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, /) -> None</p>
+
+<p>Adds the given gas_state_delta.</p>
+</div>
+
+
+                            </div>
+                            <div id="GasState.add_scaled" class="classattr">
+                                <div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">add_scaled</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">unknown</span></span><span class="return-annotation">):</span></span>
+
+        
+    </div>
+    <a class="headerlink" href="#GasState.add_scaled"></a>
+    
+            <div class="docstring"><p>add_scaled(self, arg0: <a href="#GasState">PyPartMC._PyPartMC.GasState</a>, arg1: float, /) -> None</p>
+
+<p>Adds the given gas_state_delta scaled by alpha to an existing gas_state.</p>
 </div>
 
 
