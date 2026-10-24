@@ -267,7 +267,8 @@ authors = [
 license = "GPL-3.0"
 dependencies = [
     "numpy",
-    "nanobind"
+    "nanobind >=1.3.2,<3.0.1; sys_platform == 'win32'",
+    "nanobind >=1.3.2; sys_platform != 'win32'",
 ]
 
 [project.optional-dependencies]
