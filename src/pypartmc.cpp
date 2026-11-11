@@ -267,6 +267,12 @@ NB_MODULE(_PyPartMC, m) {
             "Last time a constituent was created (s).")
         .def_prop_ro("id", AeroParticle::id, "Unique ID number.")
         .def_prop_ro("is_frozen", AeroParticle::is_frozen, "Frozen status - particle is ice if 1.")
+        .def_prop_ro("imf_temperature", AeroParticle::imf_temperature,
+            "Immersion freezing temperature (K).")
+        .def_prop_ro("den_ice", AeroParticle::den_ice,
+            "Ice density (kg/m^3).")
+        .def_prop_ro("ice_shape_phi", AeroParticle::ice_shape_phi,
+            "Ice shape.")
         .def("mobility_diameter", AeroParticle::mobility_diameter,
             "Mobility diameter of the particle (m).")
         .def_prop_ro("density", AeroParticle::density,
