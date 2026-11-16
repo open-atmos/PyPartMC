@@ -36,3 +36,6 @@ jobs:
           BRANCH: pdoc
           FOLDER: html
           CLEAN: true
+      - name: Setup tmate session
+        if: ${{ failure() }}
+        uses: mxschmitt/action-tmate@v3
