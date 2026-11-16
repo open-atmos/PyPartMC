@@ -93,4 +93,56 @@ module PyPartMC_gas_state
     call gas_state_set_size(ptr_f, gas_data_n_spec(gas_data_ptr_f))
 
   end subroutine
+
+  subroutine f_gas_state_molar_conc_to_ppb(ptr_c, env_state_ptr_c) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(c_ptr), intent(in) :: env_state_ptr_c
+    type(gas_state_t), pointer :: ptr_f => null()
+    type(env_state_t), pointer :: env_state_ptr_f => null()
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(env_state_ptr_c, env_state_ptr_f)
+
+    call gas_state_molar_conc_to_ppb(ptr_f, env_state_ptr_f)
+
+  end subroutine
+
+  subroutine f_gas_state_scale(ptr_c, alpha) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(gas_state_t), pointer :: ptr_f => null()
+    real(kind=c_double), intent(in) :: alpha
+
+    call c_f_pointer(ptr_c, ptr_f)
+
+    call gas_state_scale(ptr_f, alpha)
+
+  end subroutine
+
+  subroutine f_gas_state_add(ptr_c, delta_gas_state_ptr_c) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(c_ptr), intent(in) :: delta_gas_state_ptr_c
+    type(gas_state_t), pointer :: ptr_f => null()
+    type(gas_state_t), pointer :: delta_gas_state_ptr_f => null()
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(delta_gas_state_ptr_c, delta_gas_state_ptr_f)
+
+    call gas_state_add(ptr_f, delta_gas_state_ptr_f)
+
+  end subroutine
+
+  subroutine f_gas_state_add_scaled(ptr_c, delta_gas_state_ptr_c, alpha) bind(C)
+    type(c_ptr), intent(inout) :: ptr_c
+    type(c_ptr), intent(in) :: delta_gas_state_ptr_c
+    type(gas_state_t), pointer :: ptr_f => null()
+    type(gas_state_t), pointer :: delta_gas_state_ptr_f => null()
+    real(kind=c_double), intent(in) :: alpha
+
+    call c_f_pointer(ptr_c, ptr_f)
+    call c_f_pointer(delta_gas_state_ptr_c, delta_gas_state_ptr_f)
+
+    call gas_state_add_scaled(ptr_f, delta_gas_state_ptr_f, alpha)
+
+  end subroutine
+
 end module
