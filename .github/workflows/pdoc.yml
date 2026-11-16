@@ -36,6 +36,6 @@ jobs:
           BRANCH: pdoc
           FOLDER: html
           CLEAN: true
-      - name: Setup tmate session
+      - name: Setup upterm session
         if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
+        uses: owenthereal/action-upterm@v2
