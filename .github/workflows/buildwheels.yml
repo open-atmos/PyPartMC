@@ -16,7 +16,7 @@ on:
 
 jobs:
   debug_build_ok:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
         with:
@@ -347,7 +347,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel] # TODO #567  windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel] # TODO #572  windows-latest]
     steps:
       - uses: actions/checkout@v7
         with:

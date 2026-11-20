@@ -12,10 +12,7 @@ on:
 
 jobs:
   deploy:
-    strategy:
-      matrix:
-        platform: [ubuntu-latest]
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
         with:
@@ -30,7 +27,7 @@ jobs:
           pip install -e .
           PDOC_ALLOW_EXEC=1 PDOC_GENERATE_PYPARTMC_DOCS=1 python -We -m pdoc -o html PyPartMC
       - name: Deploy
-        if: ${{ github.ref == 'refs/heads/main' && matrix.platform == 'ubuntu-latest' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: JamesIves/github-pages-deploy-action@v4.9.0
         with:
           BRANCH: pdoc
