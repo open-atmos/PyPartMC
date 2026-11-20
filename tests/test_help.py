@@ -31,7 +31,7 @@ import PyPartMC as ppmc
         ppmc.input_sectional,
         ppmc.input_state,
         ppmc.loss_rate,
-        ppmc.loss_rate_dry_dep,
+        ppmc.loss_rate_drydep,
         ppmc.output_state,
         ppmc.pow2_above,
         ppmc.rad2diam,
