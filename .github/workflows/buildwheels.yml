@@ -59,13 +59,14 @@ jobs:
             mingw-w64-ucrt-x86_64-gcc-fortran
             mingw-w64-ucrt-x86_64-ninja
             m4
+      
       - if: matrix.os == 'windows-latest'
         shell: msys2 {0}
         run: |
           echo "$(cygpath -m /ucrt64/bin)" >> $GITHUB_PATH
           echo "$(cygpath -m /usr/bin)" >> $GITHUB_PATH
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
 
@@ -105,7 +106,7 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       
@@ -155,7 +156,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
     steps:
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
       with:
         python-version: "3.11"
     - run: pip install twine auditwheel
@@ -242,7 +243,7 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
       
@@ -278,7 +279,7 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
       
@@ -337,7 +338,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [readme_julia, readme_python, readme_matlab, readme_fortran, readme_cpp]
     steps:
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
     - run: pip install numpy
     - uses: actions/download-artifact@v8
       with:
@@ -358,7 +359,7 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -446,7 +447,7 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.10"
 
