@@ -33,6 +33,3 @@ jobs:
           BRANCH: pdoc
           FOLDER: html
           CLEAN: true
-      - name: Setup upterm session
-        if: ${{ failure() }}
-        uses: owenthereal/action-upterm@v2
