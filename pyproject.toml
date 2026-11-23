@@ -237,7 +237,6 @@ include = [
     "gitmodules/hdf5/config",
     "gitmodules/hdf5/hl/CMakeLists.txt",
     "gitmodules/hdf5/hl/src",
-    "gitmodules/nanobind/",
     "gitmodules/nanobind_json/"
 ]
 exclude = [
