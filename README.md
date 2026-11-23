@@ -70,6 +70,10 @@ pip install PyPartMC[examples]
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/particle_simulation.ipynb) 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/particle_simulation.ipynb)
 [![ARM JupyterHub](https://img.shields.io/static/v1?label=launch%20in&logo=jupyter&color=lightblue&message=ARM+JupyterHub)](https://jupyterhub.arm.gov/hub/user-redirect/git-pull?repo=https%3A//github.com/open-atmos/PyPartMC&branch=main&urlPath=)   
+- C++ version of the above Urban plume example:   
+[![View notebook](https://img.shields.io/static/v1?label=render%20on&logo=github&color=87ce3e&message=GitHub)](https://github.com/open-atmos/PyPartMC/blob/main/examples/particle_simulation_cpp.ipynb) 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/open-atmos/PyPartMC.git/main?urlpath=lab/tree/examples/particle_simulation_cpp.ipynb)
+[![ARM JupyterHub](https://img.shields.io/static/v1?label=launch%20in&logo=jupyter&color=lightblue&message=ARM+JupyterHub)](https://jupyterhub.arm.gov/hub/user-redirect/git-pull?repo=https%3A//github.com/open-atmos/PyPartMC&branch=main&urlPath=)   
 - Chamber simulation example from Barrel Study ([Tian el al., 2017](https://doi.org/10.1080/02786826.2017.1311988)):    
 [![View notebook](https://img.shields.io/static/v1?label=render%20on&logo=github&color=87ce3e&message=GitHub)](https://github.com/open-atmos/PyPartMC/blob/main/examples/chamber.ipynb) 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/open-atmos/PyPartMC/blob/main/examples/chamber.ipynb) 
@@ -308,6 +312,8 @@ aero_state = ppmc.AeroState(aero_data, n_part, "nummass_source")
 aero_state.dist_sample(aero_dist)
 print(aero_state.masses()'aero_state.num_concs, "# kg/m3")
 ```
+
+For a complete simulation example in C++, see [example notebook](https://github.com/open-atmos/PyPartMC/blob/main/examples/particle_simulation_cpp.ipynb).
 
 #### Matlab (using [Matlab's built-in Python interface](https://www.mathworks.com/help/matlab/python-language.html))
 
