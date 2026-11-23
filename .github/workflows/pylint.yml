@@ -9,14 +9,14 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v7
       with:
         submodules: recursive
         fetch-depth: 0
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
       with:
         python-version: 3.14
     - run: |

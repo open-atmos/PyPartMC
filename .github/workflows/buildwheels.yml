@@ -16,7 +16,7 @@ on:
 
 jobs:
   debug_build_ok:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
         with:
@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-14, macos-15, macos-15-intel, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
 
     steps:
       - uses: actions/checkout@v7
@@ -53,26 +53,32 @@ jobs:
       - if: matrix.os == 'windows-latest'
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: UCRT64
           update: false
           install: >-
-            mingw-w64-x86_64-gcc-fortran
-            mingw-w64-x86_64-ninja
+            mingw-w64-ucrt-x86_64-gcc-fortran
+            mingw-w64-ucrt-x86_64-ninja
             m4
       
-      - uses: actions/setup-python@v6
+      - if: matrix.os == 'windows-latest'
+        shell: msys2 {0}
+        run: |
+          echo "$(cygpath -m /ucrt64/bin)" >> $GITHUB_PATH
+          echo "$(cygpath -m /usr/bin)" >> $GITHUB_PATH
+
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
 
       - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel
+        run: python -m pip install cibuildwheel==4.3.2
 
       - name: Build and test wheels
         env:
           # skip 32-bit, musllinux, and free-threaded builds
           CIBW_SKIP: "*-win32 *-manylinux_i686 *musllinux* cp3??t-* cp314-macosx_x86_64 cp315-macosx_x86_64"
           CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel
-          CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/mingw64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
+          CIBW_ENVIRONMENT_WINDOWS: CMAKE_ARGS="-DCMAKE_MAKE_PROGRAM=D:/a/_temp/msys64/ucrt64/bin/ninja.exe" CMAKE_PROGRAM_PATH="D:/a/_temp/msys64/usr/bin" CMAKE_GENERATOR="Ninja" TEMP="D:/a/_temp/"
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: delvewheel repair -w {dest_dir} {wheel}
           CIBW_BEFORE_BUILD_MACOS: brew reinstall gcc; pip install --only-binary=llvmlite llvmlite
           CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=`sw_vers -productVersion` SYSTEM_VERSION_COMPAT=0
@@ -92,7 +98,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-14, macos-15, windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, windows-latest]
 
     steps:
       - uses: actions/checkout@v7
@@ -100,11 +106,11 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: dist-${{matrix.os}}
           path: dist
@@ -150,11 +156,11 @@ jobs:
       matrix:
         os: [ubuntu-latest, ubuntu-24.04-arm]
     steps:
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
       with:
         python-version: "3.11"
     - run: pip install twine auditwheel
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         name: dist-${{matrix.os}}
         path: dist
@@ -183,7 +189,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [make_sdist]
     steps:
-    - uses: actions/download-artifact@v5
+    - uses: actions/download-artifact@v8
       with:
         pattern: cibw-sdist
         merge-multiple: true
@@ -198,12 +204,12 @@ jobs:
     permissions:
       id-token: write
     steps:
-    - uses: actions/download-artifact@v5
+    - uses: actions/download-artifact@v8
       with:
         pattern: dist-*
         merge-multiple: true
         path: dist
-    - uses: actions/download-artifact@v5
+    - uses: actions/download-artifact@v8
       with:
         pattern: cibw-*
         merge-multiple: true
@@ -237,11 +243,11 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
       
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: dist-${{matrix.os}}
           path: dist
@@ -273,11 +279,11 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.13"
       
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: dist-${{matrix.os}}
           path: dist
@@ -332,9 +338,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [readme_julia, readme_python, readme_matlab, readme_fortran, readme_cpp]
     steps:
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@v7
     - run: pip install numpy
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
           pattern: readme_output-*
           merge-multiple: true
@@ -347,13 +353,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel] # TODO #558  windows-latest]
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-15, macos-15-intel, windows-latest]
     steps:
       - uses: actions/checkout@v7
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -365,7 +371,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
-          update: false
+          update: true
           install: >-
             mingw-w64-ucrt-x86_64-gcc
             mingw-w64-ucrt-x86_64-ninja
@@ -384,7 +390,7 @@ jobs:
           brew reinstall gcc
           pip install --only-binary=llvmlite numba llvmlite!=0.46.0b1
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: dist-${{matrix.os}}
           path: dist
@@ -441,11 +447,11 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.10"
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: dist-${{matrix.os}}
           path: dist
@@ -456,7 +462,7 @@ jobs:
       - run: python -c "import pytest_codeblocks; code=pytest_codeblocks.extract_from_file('README.md'); f=open('readme.m', 'w'); f.writelines(block.code for block in code if block.syntax=='Matlab'); f.close()"
       - run: cat -n readme.m
 
-      - uses: matlab-actions/setup-matlab@v2.6.1
+      - uses: matlab-actions/setup-matlab@v3.1.0
         with:
           release: R2024b
           cache: true
